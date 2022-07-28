@@ -1,0 +1,125 @@
+.topBanner{
+    background: url("/css/img/techBGX.jpg");
+    background-size:cover;
+    background-position: 50% 40%;
+    background-repeat: no-repeat;
+    height: 325px;
+}
+
+.bannerTitle{margin-top: 3%;margin-left: 3%; width:75%;}
+.txtHide{visibility: hidden; margin-left: -10%; opacity: .3;}
+.ln1{opacity:1.0; margin-left: 0%; transition:margin-left 800ms, opacity 800ms;} 
+.ln2{opacity:1.0; margin-left: 7%; transition:margin-left 800ms, opacity 800ms;} 
+.ln3{opacity:1.0; margin-left: 12%; transition:margin-left 800ms, opacity 800ms;}
+
+.intro_txt{color:white; font-size: 65px;font-weight: 700;}
+
+.newsFeed,.newPost{
+    padding: 10px;
+    border: 2px solid rgb(252, 249, 244);
+    background-color: white;
+    position: relative;
+    min-height: 150px;
+    width:95%;
+    margin: 20px 0px;
+}
+.cardTitle{color: gray; border-bottom:1px solid  gray;}
+
+.commentPoster{padding: 5px; margin-top: 3%; background-color:rgb(240, 240, 240);}
+.posterName{font-size: 17px;}
+.posterDate{font-size: 11px;}
+
+.postContainer{width:75%; margin: 10px 0px 10px 20px;}
+.postArea{min-height: 40px; border-radius: 8px;width: 100%;padding: 5px;background-color: rgb(250, 250, 255); border: 1px solid rgb(240, 240, 240); text-align: left;}
+
+.postArea:hover{background-color: rgb(240, 240, 245);}
+
+.postActual{
+    width: 100%;
+    min-height: 200px;
+    margin-top: 10px;
+}
+.spacer_xxs_down{margin-bottom:10px;}
+.padder10_all{padding: 10px;}
+
+
+.MVContainer{
+    padding: 10px;
+    border: 2px solid rgb(252, 249, 244);
+    background-color: white;
+    position: relative;
+    min-height: 150px;
+    width:95%;
+    margin: 20px 0px;
+}
+.MVContainer p{font-size: 15px; margin: 10px 0px;text-align: center;}
+
+.E_Loop_container{
+    padding: 10px;
+    position: relative;
+    min-height: 150px;
+    max-height: 200px;
+    width:8%;
+}
+.iconEvent{
+    position: absolute;
+    left: -22px;
+    top: -5px;
+    font-size: 45px;
+    color:cornflowerblue;
+   
+}
+.EventContainer{
+    margin-top: 30px;
+    margin-left: 10px;
+    width:95%;
+}
+.EVtxtcontainer{
+    background-color: white;
+    border-radius: 10px;
+    min-height: 150px;
+    max-height: 200px;
+    width:92%;
+}
+.EVtxtcontainer:hover{
+    transform: scale(1.03);
+    cursor: pointer;
+    transition: transform .5s ease-in-out;
+    box-shadow: 0 4px 8px 0 rgba(55, 69, 218, 0.308), 0 6px 20px 0 rgba(132, 141, 221, 0.486);
+}
+#borderLeft {
+    border-left: 4px solid rgb(252, 249, 244);
+    position: absolute;
+    top: 151px;
+    bottom: 0px;
+    left: 20px;
+  }
+.EVtitle{
+    padding: 2px 10px 2px 10px;
+}
+.EVtext p{
+    font-size: 15px; margin: 10px; 
+    display: -webkit-box;
+    max-width: 400px;
+    height: 75px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.625;
+}
+.btnMV_edit_container{
+    text-align: right;
+}
+.editThis p{font-size: 18px; font-weight: 700; margin:5px 0px; padding: 5px 0px;}
+.editThis textarea{min-height: 250px;width: 100%;}
+
+.btnAnn_new_container{
+    text-align: right;
+    padding: 10px 10px 0px 10px;
+}
+.postTitle{width:100%; margin-top: 10px;}
+
+.AnnouncementBody{
+padding: 10px;
+}
