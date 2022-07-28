@@ -14,10 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
+//Public
+Route::get('/', 'Public_LandingController@index')->name('*');
+Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
 
 Route::group(['middleware' => 'auth'], function() {
+    //Home
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/', 'HomeController@index')->name('*');
+
+    //NewsFeed Posts
+    Route::post('/createPost', 'postsController@createPost')->name('createPost');
+
+    //Events Announcements
+    Route::post('/createAnnouncement', 'postsController@createAnnouncement')->name('createAnnouncement');
 
 });
 

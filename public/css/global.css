@@ -12,6 +12,10 @@
 .side-marg3{margin: 0px 3px;}
 .side-marg5{margin: 0px 5px;}
 
+body{
+    background-color: rgb(231, 232, 238);
+}
+
 
 footer {
     position: fixed;
@@ -94,6 +98,14 @@ footer {
     padding: 5px;
     width:45px;
     opacity: .45;
+    z-index: 999;
 
 }
 .siebar_toggle:hover{transform: scale(1.25);}
+
+.text_hoverable{
+    color: white !important;
+}
+.text_hoverable:hover{
+    color: cornflowerblue !important;
+}

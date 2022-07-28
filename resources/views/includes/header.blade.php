@@ -1,4 +1,4 @@
-<div id="daHeader" class="flexer justifer">
+<div id="daHeader" class="flexer justifer" style="display: none">
     
 </div>
   

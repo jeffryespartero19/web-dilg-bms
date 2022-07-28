@@ -1,0 +1,227 @@
+body {
+    font-family: "Nunito Sans", sans-serif;
+    background-color: rgb(231, 232, 238);
+}
+
+html {
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+html::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
+}
+
+#daHeader {
+    top: 0px;
+    padding: 7px 5px;
+    height: 69px;
+    position: fixed;
+    width: 100%;
+    z-index: +500;
+    background-color: white;
+    color: black;
+    box-shadow: 2px 2px 8px #b4b4b4;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(48, 65, 156);
+    color: white;
+    text-align: center;
+    transition: width 500ms;
+    z-index: +999;
+}
+
+.logoPic {
+    width: 65%;
+}
+
+.flexer {display: flex;}
+.flexEND{justify-content: flex-end}
+.justifier {justify-content: center;}
+.alignItemC {align-items: center;}
+.txtCtr {text-align: center;}
+.padder5{padding:5px;}
+/* .a-btns{width:25px;} */
+
+.hdrItem {
+    padding: 0.95%;
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 45px;
+    cursor: pointer;
+}
+
+.iconNav3{padding: 10px;font-size: 20px;}
+
+.hdrItem p {
+    color: black;
+}
+.underline {
+    width: 1%;
+    height: 3px;
+}
+a:hover {
+    text-decoration: none;
+}
+
+.underColor {
+    width: 100%;
+    background-color: cornflowerblue;
+    transition: width 800ms;
+}
+.hdrItem:hover p {
+    color: cornflowerblue;
+}
+
+.profilePic {
+    width: 45px;
+    border-radius: 50%;
+}
+.currentUser {
+    font-size: 20px;
+    color: gray;
+    text-transform: uppercase;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.Absolute-Center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.modal-title {
+    font-size: 26px;
+}
+
+.close {
+    font-size: 30px;
+}
+.close:hover {
+    color: crimson;
+}
+.postThis , .postThis2{
+    width: 80%;
+    background-color: transparent;
+}
+.btn:hover,
+.close:hover {
+    transform: scale(1.05);
+}
+
+.postThis, .postThis2 {
+    border-color: rgb(118, 166, 206);
+    background-color: rgb(118, 166, 206);
+    color: white;
+    border-width: 2px;
+    font-size: 16px;
+}
+.postThis:hover, .postThis2:hover {
+    border-color: rgb(85, 117, 206);
+    background-color: rgb(85, 117, 206);
+    color: white;
+}
+
+input[type="file"] {
+    position: absolute;
+    left: -99999rem;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 10px 12px;
+    cursor: pointer;
+    margin-bottom: 0px;
+    border-radius: 50%;
+}
+
+.custom-file-upload:hover {
+    transform: scale(1.1);
+    color: cornflowerblue;
+}
+
+.attBTNs {
+    text-align: right;
+    align-items: flex-end;
+    width: 40%;
+}
+.add2Post {
+    width: 60%;
+    font-size: 20px;
+}
+.att_inner {width: 100%;}
+
+.modal-footer {text-align: center;}
+
+.custom-file-upload .tooltipX {
+    visibility: hidden;
+    width: 35px;
+    background-color: gray;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 40%;
+    margin-left: -15px;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+.custom-file-upload .tooltipX::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent gray transparent;
+}
+.custom-file-upload:hover .tooltipX {
+    visibility: visible;
+    opacity: 1;
+}
+
+.vizero {
+    visibility: hidden;
+    width: 0px;
+    height: 3px;
+}
+.borderSmoothen {
+    border-radius: 5px;
+}
+.maxDimensions {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.min_height {
+    min-height: 100vh;
+}
+
+.hr-line-dashed {
+    border-top: 1px dashed #e7eaec;
+    color: #ffffff;
+    background-color: #ffffff;
+    height: 1px;
+    margin: 20px 0;
+  }
+
+.width100{width:100%}

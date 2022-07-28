@@ -9,14 +9,21 @@
         </div>
     </div>  
 </div>
-
+@if(Auth::user()->email != Null)
 <div class="user_details"> 
     <div class="flexer up_marg5 pad5">
         <div class="twenty_split side-marg3"> 
             <img src="{{ asset('css/profile_photos/'.Auth::user()->name.'_'.Auth::user()->id.'.jpg') }}" width="50" style="border-radius: 50%;">
         </div>
         <div class="eighty_split side-marg5"> 
-            <span>{{Auth::user()->name}}</span><br>
+            <span>{{Auth::user()->name}} &nbsp;&nbsp;</span> 
+            <a href="{{route('home')}}" ><i class="fa fa-home" aria-hidden="true"></i></a>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form><br>
             <span style="font-size:11px;">{{Auth::user()->email}}</span>
         </div>
     </div>
@@ -328,3 +335,4 @@
 
     </div>
 </div>
+@endif
