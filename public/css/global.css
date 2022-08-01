@@ -11,6 +11,7 @@
 .pad5{padding:5px;}
 .side-marg3{margin: 0px 3px;}
 .side-marg5{margin: 0px 5px;}
+.txtRight{text-align: right;}
 
 body{
     background-color: rgb(231, 232, 238);
@@ -109,3 +110,58 @@ footer {
 .text_hoverable:hover{
     color: cornflowerblue !important;
 }
+.table_gen{
+    width: 100%;
+    border-spacing: 0px;
+}
+.table_gen th{
+    background-color: cornflowerblue;
+    color: white;
+    padding: 3px;
+    text-align: center;
+    font-weight: 700;
+    border: 1px solid cornflowerblue;
+}
+.table_gen td{
+    padding: 3px;
+}
+.breadcrumb
+{
+    background-color: transparent !important; 
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+    float: right;
+}
+
+.breadcrumb li
+{
+    float: left;
+    text-align: right;
+}
+
+.page_title_row{
+    margin-top: 20px;
+    border-bottom: 1px solid black;
+    padding: 5px;
+}
+.titleXZ{
+    font-size: 20px;
+    font-weight: 700;
+}
+.breadcrumbXZ{margin-top: 15px; font-size: 12px;}
+.breadcrumbXZ a{color: cornflowerblue; border-bottom: 1px solid cornflowerblue;}
+
+.breadcrumbXZ a:hover{color: blue; border-bottom: 1px solid blue;}
+
+.modal_input1{
+    padding: 5px;
+    width: 100%;
+}
+.modal_input_container{
+    width: 80%;
+}
+.sm_data_col{width: 10%;}
+.md_data_col{width: 15%;}

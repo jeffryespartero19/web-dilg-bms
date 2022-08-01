@@ -5,7 +5,7 @@
 <script src="{{ asset('/js/homeX.js') }}" defer></script>
 <link href="{{ asset('/css/homeX.css') }}" rel="stylesheet">
 <div class="theContent">
-    <div class=" justify-content-center">
+    <div class="justify-content-center">
         <div class="col-md-9 middlePane">
             <div class="flexer justifier">
                 @auth 
@@ -52,7 +52,7 @@
                                 </div>
                                 @if(Auth::user()->id == $p->Encoder_ID)
                                 <div class="Absolute-Center padder5"> 
-                                    <button class="a-btns" value="{{$p->News_ID}}"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                    <button class="a-btns editZ" data-toggle="modal" data-target="#editPost" value="{{$p->News_ID}}"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                                     &nbsp;
                                     <button class="a-btns" value="{{$p->News_ID}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                 </div>
@@ -297,5 +297,109 @@
 </div>
 
 <!-- Create E/A Announcement Modal END -->
+
+<!-- Edit NF Post Modal -->
+<div class="modal fade" id="editPost" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title flexer justifier">Edit Post</h4>
+        </div>
+        <div class="modal-body">
+            <form id="editPost_form" method="POST" action="{{ route('updatePost') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="flexer">
+                    <div class="Absolute-Center">
+                        <img src="{{ asset('/assets/img/profileDefault_xs.jpg') }}" class="profilePic">
+                    </div>
+                    <div class="">
+                        
+                        <div>
+                            <div id="posterName_edit" class="posterName_edit"></div>
+                            <div class="who_seePost" style="font-size: 12px">
+                                <div class="who_seePost">
+                                    <select id="postType_edit" name="postType_edit">
+                                        <option id="this_postType" value="" hidden selected>News Type</option>
+                                        <option value="">Type 1</option>
+                                        <option value="">Type 2</option>
+                                        <option value="">Type 3</option>
+                                    </select>
+                                    <select id="postStatus_edit" name="postStatus_edit">
+                                        <option id="this_postStatus" value="" hidden selected>Status Type</option>
+                                        <option value="">Status 1</option>
+                                        <option value="">Status 2</option>
+                                        <option value="">Status 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div>
+                    <input id="this_postTitle" name="postTitle_edit" placeholder="Title" class="postTitle">
+                    <input id="this_postID" name="postID_edit" hidden>
+                </div>
+                <div>
+                    <textarea id="this_postActual" name="postActual_edit" class="postActual"></textarea>
+                </div>
+                <input id="up1_only_edit" name="up1_only_edit" type="text" hidden>
+
+                <div class="att_table"> 
+                    <table class="table-bordered table_gen" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attached_items">
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flexer edit_hidden" hidden>
+                    <div class="add2Post edit_hidden" hidden>Add to your Post</div>
+                    
+                    <div class="attBTNs edit_hidden" hidden> 
+                        <div class="att_inner">
+                            <label class="custom-file-upload">
+                                <input id="FUpload_edit" type="file"  name="FUpload_edit">
+                                <i class="fa fa-folder" aria-hidden="true"></i>
+                                <span class="tooltipX">File</span>
+                            </label>
+                            <label class="custom-file-upload">
+                                <input id="imgUpload_edit" type="file"  name="imgUpload_edit">
+                                <i class="fa fa-camera" aria-hidden="true"></i>
+                                <span class="tooltipX">Image</span>
+                            </label>
+                            <label class="custom-file-upload">
+                                <input id="vidUpload_edit" type="file"  name="vidUpload_edit">
+                                <i class="fa fa-video-camera" aria-hidden="true"></i>
+                                <span class="tooltipX">Video</span>
+                            </label>
+                            <label class="custom-file-upload">
+                                <input id="gifUpload_edit" type="file" name="gifUpload_edit">
+                                <i class="fa fa-window-restore" aria-hidden="true"></i>
+                                <span class="tooltipX">GIF</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn postThis_edit">Save</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- Edit NF Post Modal END -->
 
 @endsection
