@@ -326,10 +326,9 @@
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
                 <a href="{{route('bweb_ann_status_maint')}}"><li role="presentation">Announcement Status</li></a>
-                <a href=""><li role="presentation">News Status</li></a> 
-                <a href=""><li role="presentation">News Type</li></a>
-                <a href=""><li role="presentation">Announcement Type</li></a>
-                <a href=""><li role="presentation">Transaction</li></a>
+                <a href="{{route('bweb_ann_type_maint')}}"><li role="presentation">Announcement Type</li></a>
+                <a href="{{route('bweb_news_status_maint')}}"><li role="presentation">News Status</li></a> 
+                <a href="{{route('bweb_news_type_maint')}}"><li role="presentation">News Type</li></a>
             </ul>
         </div>
 
