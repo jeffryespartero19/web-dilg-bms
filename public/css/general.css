@@ -102,7 +102,7 @@ button:focus {
 .close:hover {
     color: crimson;
 }
-.postThis , .postThis2, .postThisAnn{
+.postThis , .postThis2, .postThisAnn,.postThis_edit,.modal_sb_button{
     width: 80%;
     background-color: transparent;
 }
@@ -111,14 +111,14 @@ button:focus {
     transform: scale(1.05);
 }
 
-.postThis, .postThis2, .postThisAnn {
+.postThis, .postThis2, .postThisAnn,.postThis_edit , .modal_sb_button{
     border-color: rgb(118, 166, 206);
     background-color: rgb(118, 166, 206);
     color: white;
     border-width: 2px;
     font-size: 16px;
 }
-.postThis:hover, .postThis2:hover, .postThisAnn:hover {
+.postThis:hover, .postThis2:hover, .postThisAnn:hover,.postThis_edit:hover ,.modal_sb_button:hover{
     border-color: rgb(85, 117, 206);
     background-color: rgb(85, 117, 206);
     color: white;
