@@ -243,9 +243,9 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">Alert Level</li></a>
-                <a href=""><li role="presentation">Level of Damage</li></a> 
-                <a href=""><li role="presentation">Casualty Status</li></a> 
+                <a href="{{route('alert_level_maint')}}"><li role="presentation">Alert Level</li></a>
+                <a href="{{route('level_of_damage_maint')}}"><li role="presentation">Level of Damage</li></a> 
+                <a href="{{route('casualty_status_maint')}}"><li role="presentation">Casualty Status</li></a> 
             </ul>
         </div>
         <div class="module">

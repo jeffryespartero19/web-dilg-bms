@@ -723,3 +723,117 @@ $(document).on('click',('.edit_status_of_ordinance'),function(e) {
 $(document).on('click','.updateThis_Status_of_Ordinance',function(e) {
     $('#updateBRGY_Status_of_Ordinance').submit(); 
 });
+
+// Alert Level
+//post buttons
+$(document).on('click','.postThis_Alert_Level',function(e) {
+    $('#newBRGY_Alert_Level').submit(); 
+});
+
+$(document).on('click',('.edit_alert_level'),function(e) {
+    
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_alert_level_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function(){
+            alert('request failed');
+         },
+        success: function (data) { 
+            $('#this_alert_level_idX').val(data['theEntry'][0]['Alert_Level_ID']);
+            $('#this_alert_levelX').val(data['theEntry'][0]['Alert_Level']);
+            
+            $('#this_alert_level_active').empty();
+            $('#this_alert_level_active').val(data['theEntry'][0]['Active']);
+            if(data['theEntry'][0]['Active']==1){
+                $('#this_alert_level_active').append('Yes');
+            }else{
+                $('#this_alert_level_active').append('No');
+            }
+
+        }
+    });
+
+    
+ });
+
+$(document).on('click','.updateThis_Alert_Level',function(e) {
+    $('#updateBRGY_Alert_Level').submit(); 
+});
+
+// Level of Damage
+//post buttons
+$(document).on('click','.postThis_Level_of_Damage',function(e) {
+    $('#newBRGY_Level_of_Damage').submit(); 
+});
+
+$(document).on('click',('.edit_level_of_damage'),function(e) {
+    
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_level_of_damage_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function(){
+            alert('request failed');
+         },
+        success: function (data) { 
+            $('#this_level_of_damage_idX').val(data['theEntry'][0]['Level_of_Damage_ID']);
+            $('#this_level_of_damageX').val(data['theEntry'][0]['Level_of_Damage']);
+            
+            $('#this_level_of_damage_active').empty();
+            $('#this_level_of_damage_active').val(data['theEntry'][0]['Active']);
+            if(data['theEntry'][0]['Active']==1){
+                $('#this_level_of_damage_active').append('Yes');
+            }else{
+                $('#this_level_of_damage_active').append('No');
+            }
+
+        }
+    });
+
+    
+ });
+
+$(document).on('click','.updateThis_Level_of_Damage',function(e) {
+    $('#updateBRGY_Level_of_Damage').submit(); 
+});
+
+// Casualties Status
+//post buttons
+$(document).on('click','.postThis_Casualty_Status',function(e) {
+    $('#newBRGY_Casualty_Status').submit(); 
+});
+
+$(document).on('click',('.edit_casualty_status'),function(e) {
+    
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_casualty_status_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function(){
+            alert('request failed');
+         },
+        success: function (data) { 
+            $('#this_casualty_status_idX').val(data['theEntry'][0]['Casualty_Status_ID']);
+            $('#this_casualty_statusX').val(data['theEntry'][0]['Casualty_Status']);
+            
+            $('#this_casualty_status_active').empty();
+            $('#this_casualty_status_active').val(data['theEntry'][0]['Active']);
+            if(data['theEntry'][0]['Active']==1){
+                $('#this_casualty_status_active').append('Yes');
+            }else{
+                $('#this_casualty_status_active').append('No');
+            }
+
+        }
+    });
+
+    
+ });
+
+$(document).on('click','.updateThis_Casualty_Status',function(e) {
+    $('#updateBRGY_Casualty_Status').submit(); 
+});

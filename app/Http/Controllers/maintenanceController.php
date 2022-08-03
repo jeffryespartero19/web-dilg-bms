@@ -961,4 +961,154 @@ class maintenanceController extends Controller
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
+
+    //Alert Level
+    public function alert_level_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bdris_alert_level')->paginate(20,['*'], 'db_entries');
+
+        return view('maintenance.bdris_alert_level',compact('db_entries','currDATE'));
+    }
+
+    public function create_alert_level_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bdris_alert_level')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Alert_Level'  => $data['Alert_LevelX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_alert_level_maint(Request $request)
+    {
+        $id=$_GET['id'];
+
+        $theEntry=DB::table('maintenance_bdris_alert_level')->where('Alert_Level_ID',$id)->get();
+
+        return(compact('theEntry'));
+    }
+    public function update_alert_level_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bdris_alert_level')->where('Alert_Level_ID',$data['Alert_Level_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Alert_Level'  => $data['Alert_LevelX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Level of Damage
+    public function level_of_damage_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bdris_level_of_damage')->paginate(20,['*'], 'db_entries');
+
+        return view('maintenance.bdris_level_of_damage',compact('db_entries','currDATE'));
+    }
+
+    public function create_level_of_damage_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bdris_level_of_damage')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Level_of_Damage'  => $data['Level_of_DamageX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_level_of_damage_maint(Request $request)
+    {
+        $id=$_GET['id'];
+
+        $theEntry=DB::table('maintenance_bdris_level_of_damage')->where('Level_of_Damage_ID',$id)->get();
+
+        return(compact('theEntry'));
+    }
+    public function update_level_of_damage_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bdris_level_of_damage')->where('Level_of_Damage_ID',$data['Level_of_Damage_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Level_of_Damage'  => $data['Level_of_DamageX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Casualty Status
+    public function casualty_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bdris_casualty_status')->paginate(20,['*'], 'db_entries');
+
+        return view('maintenance.bdris_casualty_status',compact('db_entries','currDATE'));
+    }
+
+    public function create_casualty_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bdris_casualty_status')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Casualty_Status'  => $data['Casualty_StatusX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_casualty_status_maint(Request $request)
+    {
+        $id=$_GET['id'];
+
+        $theEntry=DB::table('maintenance_bdris_casualty_status')->where('Casualty_Status_ID',$id)->get();
+
+        return(compact('theEntry'));
+    }
+    public function update_casualty_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bdris_casualty_status')->where('Casualty_Status_ID',$data['Casualty_Status_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Casualty_Status'  => $data['Casualty_StatusX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
 }
