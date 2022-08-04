@@ -57,7 +57,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/get_bweb_news_type_maint', 'maintenanceController@get_bweb_news_type_maint')->name('get_bweb_news_type_maint');
         Route::post('/update_bweb_news_type_maint', 'maintenanceController@update_bweb_news_type_maint')->name('update_bweb_news_type_maint');
 
-<<<<<<< HEAD
         //BINS UOM Unit of Measure
         Route::get('/bins_uom_maint', 'BINSController@bins_uom_maint')->name('bins_uom_maint');
         Route::post('/create_bins_uom_maint', 'BINSController@create_bins_uom_maint')->name('create_bins_uom_maint');
@@ -88,7 +87,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/get_bins_item_category_maint', 'BINSController@get_bins_item_category_maint')->name('get_bins_item_category_maint');
         Route::post('/update_bins_item_category_maint', 'BINSController@update_bins_item_category_maint')->name('update_bins_item_category_maint');
         
-=======
     //Blood Type
     Route::get('/blood_type_maint', 'maintenanceController@blood_type_maint')->name('blood_type_maint');
     Route::post('/create_blood_type_maint', 'maintenanceController@create_blood_type_maint')->name('create_blood_type_maint');
@@ -224,6 +222,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
     Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
     Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
->>>>>>> e8d6c648664ce1fb09770009648c4befdc63a13b
 
 });

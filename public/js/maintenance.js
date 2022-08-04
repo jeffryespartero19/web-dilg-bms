@@ -264,11 +264,9 @@ $(document).on('click', ('.edit_news_type'), function (e) {
         }
     });
 
-<<<<<<< HEAD
     
 });
-=======
-});
+
 
 $(document).on('click', '.updateThis_Civil_Status', function (e) {
     $('#updateBRGY_Civil_Status').submit();
@@ -963,4 +961,3 @@ $(document).on('click', '.updateThis_Casualty_Status', function (e) {
 });
 
 
->>>>>>> e8d6c648664ce1fb09770009648c4befdc63a13b
