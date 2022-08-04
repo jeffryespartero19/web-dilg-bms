@@ -8,20 +8,20 @@ use Illuminate\Support\Carbon;
 class GlobalController extends Controller
 {
     // Get Province
-    public function getProvince($REGION_ID)
+    public function getProvince($Region_ID)
     {
         $data = DB::table('maintenance_province')
-            ->where(['REGION_ID' => $REGION_ID])
+            ->where(['Region_ID' => $Region_ID])
             ->get();
 
         return json_encode($data);
     }
 
     // Get City
-    public function getCity($PROVINCE_ID)
+    public function getCity($Province_ID)
     {
         $data = DB::table('maintenance_city_municipality')
-            ->where(['PROVINCE_ID' => $PROVINCE_ID])
+            ->where(['Province_ID' => $Province_ID])
             ->get();
 
         return json_encode($data);
