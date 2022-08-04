@@ -38,7 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update_bweb_ann_status_maint', 'maintenanceController@update_bweb_ann_status_maint')->name('update_bweb_ann_status_maint');
 
     //BIPS Transaction
-    Route::get('/inhabitants_information_list.blade', 'bipsController@inhabitants_information_list')->name('inhabitants_information_list');
+    Route::get('/inhabitants_information_list', 'bipsController@inhabitants_information_list')->name('inhabitants_information_list');
+    Route::post('/create_inhabitants_information', 'bipsController@create_inhabitants_information')->name('create_inhabitants_information');
+    Route::get('/get_inhabitants_info', 'bipsController@get_inhabitants_info')->name('get_inhabitants_info');
 
     // Global Controller
     Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
