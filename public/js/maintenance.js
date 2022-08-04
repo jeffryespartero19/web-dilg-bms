@@ -141,4 +141,4 @@ $(document).on('click',('.edit_news_type'),function(e) {
     });
 
     
- });
+});
