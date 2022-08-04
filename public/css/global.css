@@ -15,6 +15,7 @@
 
 body{
     background-color: rgb(231, 232, 238);
+    min-height: 100vh;
 }
 
 
@@ -165,3 +166,11 @@ footer {
 }
 .sm_data_col{width: 10%;}
 .md_data_col{width: 15%;}
+
+.middlePane,.rightPane{
+    background-color: rgb(231, 232, 238);
+}
+.justify-content-center {
+    background-color: rgb(231, 232, 238);
+    display: table;
+}
