@@ -12,13 +12,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes();
 
 //Public
 Route::get('/', 'Public_LandingController@index')->name('*');
 Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
     //Home
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -29,7 +30,6 @@ Route::group(['middleware' => 'auth'], function() {
 
     //Events Announcements 
     Route::post('/createAnnouncement', 'postsController@createAnnouncement')->name('createAnnouncement');
-
 
     //Maintenance ETC
         //Announcement Status
@@ -56,7 +56,11 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/get_bweb_news_type_maint', 'maintenanceController@get_bweb_news_type_maint')->name('get_bweb_news_type_maint');
         Route::post('/update_bweb_news_type_maint', 'maintenanceController@update_bweb_news_type_maint')->name('update_bweb_news_type_maint');
 
+    //BIPS Transaction
+    Route::get('/inhabitants_information_list.blade', 'bipsController@inhabitants_information_list')->name('inhabitants_information_list');
+
+    // Global Controller
+    Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
+    Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
+    Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 });
-
-
-
