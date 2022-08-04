@@ -108,7 +108,7 @@
             @foreach($EV_AN as $ex)
             <div class="flexer justifier EventContainer">
                 <div class="E_Loop_container"> 
-                    <i class="fa fa-caret-square-o-right iconEvent" aria-hidden="true"></i>
+                    <img src="{{ asset('/css/img/MegaPhone_PNG.png') }}" width="45" style="margin-left: -30px;">
                 </div>
                 <div class="EVtxtcontainer">
                     <form method="GET" action="{{ route('viewAnnouncement') }}" autocomplete="off">
@@ -120,6 +120,7 @@
                             </div>
                         </button>
                     </form>
+                    <div class="moreInfo width100 txtCtr" style="margin-top:3px;"> Click for More Info</div>
                 </div>
             </div>
             @endforeach
