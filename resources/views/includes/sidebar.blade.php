@@ -53,7 +53,7 @@
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
                 <a href=""><li role="presentation">List of Transactions</li></a>
-                <a href=""><li role="presentation">Inhabitants Information List</li></a> 
+                <a href="{{route('inhabitants_information_list')}}"><li role="presentation">Inhabitants Information List</li></a> 
             </ul>
         </div>
         <div class="module">
