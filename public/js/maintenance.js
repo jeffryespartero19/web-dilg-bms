@@ -264,7 +264,9 @@ $(document).on('click', ('.edit_news_type'), function (e) {
         }
     });
 
+    
 });
+
 
 $(document).on('click', '.updateThis_Civil_Status', function (e) {
     $('#updateBRGY_Civil_Status').submit();
