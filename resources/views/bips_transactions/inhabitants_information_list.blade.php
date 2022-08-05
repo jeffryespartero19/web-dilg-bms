@@ -233,7 +233,7 @@
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Province</label>
                                 <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                    <option value='' selected>Select Option</option>
+                                    <option value='' disabled selected>Select Option</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -325,7 +325,7 @@
 
 
                 var option1 =
-                    " <option value='' disabled selected>Select Option</option>";
+                    "<option value='' disabled selected>Select Option</option>";
                 $('#Province_ID').append(option1);
                 $('#City_Municipality_ID').append(option1);
                 $('#Barangay_ID').append(option1);

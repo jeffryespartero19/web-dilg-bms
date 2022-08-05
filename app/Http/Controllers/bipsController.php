@@ -222,7 +222,7 @@ class bipsController extends Controller
                 'c.City_Municipality_Name',
                 'd.Province_Name'
             )
-            ->where('Resident_ID', $id)
+            ->where('a.Resident_ID', $id)
             ->get();
 
         return (compact('theEntry'));
@@ -342,7 +342,7 @@ class bipsController extends Controller
                 'a.Household_Name',
 
             )
-            ->where('Household_Profile_ID', $id)
+            ->where('a.Household_Profile_ID', $id)
             ->get();
 
         return (compact('theEntry'));
@@ -352,9 +352,26 @@ class bipsController extends Controller
     public function inhabitants_resident_profile(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_resident_profile')->paginate(20, ['*'], 'db_entries');
-        $resident = DB::table('bips_brgy_inhabitants_information')->get();
-        
+        $db_entries = DB::table('bips_resident_profile as a')
+            ->join('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->select(
+                'a.Resident_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'c.Name_Suffix',
+                'a.Resident_Status',
+                'a.Voter_Status',
+                'a.Resident_Voter',
+            )
+            ->paginate(20, ['*'], 'db_entries');
+        $resident = DB::table('bips_brgy_inhabitants_information')
+            ->whereNotIn('Resident_ID', function ($q) {
+                $q->select('Resident_ID')->from('bips_resident_profile');
+            })
+            ->get();
+
         return view('bips_transactions.inhabitants_resident_profile', compact(
             'db_entries',
             'currDATE',
@@ -372,42 +389,21 @@ class bipsController extends Controller
             'Resident_ID' => 'required',
         ]);
 
-
         // dd($data);
 
-        if ($data['Resident_ID'] == null || $data['Resident_ID'] == 0) {
-            DB::table('bips_resident_profile')->insert(
-                array(
-                    'Resident_ID' => $data['Resident_ID'],
-                    'Household_Monthly_Income' => $data['Household_Monthly_Income'],
-                    'Family_Position_ID' => $data['Family_Position_ID'],
-                    'Tenure_of_Lot_ID' => $data['Tenure_of_Lot_ID'],
-                    'Housing_Unit_ID' => $data['Housing_Unit_ID'],
-                    'Family_Type_ID' => $data['Family_Type_ID'],
-                    'Household_Name' => $data['Household_Name'],
-                    'Encoder_ID'       => Auth::user()->id,
-                    'Date_Stamp'       => Carbon::now()
-                )
-            );
+        $resident = [
+            'Resident_ID' => $data['Resident_ID'],
+            'Resident_Status' => (int)$data['Resident_Status'],
+            'Voter_Status' => (int)$data['Voter_Status'],
+            'Election_Year_Last_Voted' => $data['Election_Year_Last_Voted'],
+            'Resident_Voter' => (int)$data['Resident_Voter'],
+            'Encoder_ID'       => Auth::user()->id,
+            'Date_Stamp'       => Carbon::now()
+        ];
 
-            return redirect()->back()->with('message', 'New Household Created');
-        } else {
-            DB::table('bips_resident_profile')->where('Resident_ID', $data['Resident_ID'])->update(
-                array(
-                    'Resident_ID' => $data['Resident_ID'],
-                    'Household_Monthly_Income' => $data['Household_Monthly_Income'],
-                    'Family_Position_ID' => $data['Family_Position_ID'],
-                    'Tenure_of_Lot_ID' => $data['Tenure_of_Lot_ID'],
-                    'Housing_Unit_ID' => $data['Housing_Unit_ID'],
-                    'Family_Type_ID' => $data['Family_Type_ID'],
-                    'Household_Name' => $data['Household_Name'],
-                    'Encoder_ID'       => Auth::user()->id,
-                    'Date_Stamp'       => Carbon::now()
-                )
-            );
+        DB::table('bips_resident_profile')->updateOrInsert(['Resident_ID' => $data['Resident_ID']], $resident);
 
-            return redirect()->back()->with('message', 'Household Info Updated');
-        }
+        return redirect()->back()->with('message', 'Resident Saved');
     }
 
     // Display Resident Details
@@ -417,22 +413,19 @@ class bipsController extends Controller
 
         $theEntry = DB::table('bips_resident_profile as a')
             ->join('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
             ->select(
-                'a.Household_Profile_ID',
                 'a.Resident_ID',
                 'b.Last_Name',
                 'b.First_Name',
                 'b.Middle_Name',
-                'b.Name_Suffix_ID',
-                'a.Family_Type_ID',
-                'a.Family_Position_ID',
-                'a.Tenure_of_Lot_ID',
-                'a.Housing_Unit_ID',
-                'a.Household_Monthly_Income',
-                'a.Household_Name',
-
+                'c.Name_Suffix',
+                'a.Resident_Status',
+                'a.Voter_Status',
+                'a.Election_Year_Last_Voted',
+                'a.Resident_Voter',
             )
-            ->where('Household_Profile_ID', $id)
+            ->where('a.Resident_ID', $id)
             ->get();
 
         return (compact('theEntry'));

@@ -43,7 +43,9 @@
                 <tr>
                     <th hidden>Resident_ID</th>
                     <th>Name</th>
-                    <th>Resident Name</th>
+                    <th>Resident Status</th>
+                    <th>Voter Status</th>
+                    <th>Resident Voter</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -52,9 +54,11 @@
                 <tr>
                     <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
                     <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
+                    <td class="sm_data_col txtCtr">@if($x->Resident_Status == 1) Yes @else No @endif</td>
+                    <td class="sm_data_col txtCtr">@if($x->Voter_Status == 1) Yes @else No @endif</td>
+                    <td class="sm_data_col txtCtr">@if($x->Resident_Voter == 1) Yes @else No @endif</td>
                     <td class="sm_data_col txtCtr">
-                        <button class="edit_household" value="{{$x->Resident_Profile_ID}}" data-toggle="modal" data-target="#createResident_Info">Edit</button>
+                        <button class="edit_resident" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createResident_Info">Edit</button>
                     </td>
                 </tr>
                 @endforeach
@@ -73,14 +77,14 @@
                 <h4 class="modal-title flexer justifier" id="Modal_Title">Create Resident Profile</h4>
             </div>
             <div class="modal-body">
-                <form id="newResident" method="POST" action="{{ route('create_household_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <form id="newResident" method="POST" action="{{ route('create_resident_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
                     <div class="modal-body">
                         <h3>Resident Information</h3>
                         <br>
                         <div class="row">
                             <input type="number" class="form-control" id="Resident_Profile_ID" name="Resident_Profile_ID" hidden>
                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                <label for="Resident_ID">Inhabitant Name</label>
+                                <label for="Resident_ID">Name</label>
                                 <select class="form-control" id="Resident_ID" name="Resident_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($resident as $rs)
@@ -89,48 +93,32 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_Monthly_Income">Resident Monthly Income</label>
-                                <input type="number" class="form-control" id="Resident_Monthly_Income" name="Resident_Monthly_Income" required>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Family Position</label>
-                                <select class="form-control" id="Family_Position_ID" name="Family_Position_ID" required>
+                                <label for="Resident_Status">Resident Status</label>
+                                <select class="form-control" id="Resident_Status" name="Resident_Status" required>
                                     <option value='' disabled selected>Select Option</option>
-                                    @foreach($family_position as $fp)
-                                    <option value="{{ $fp->Family_Position_ID }}">{{ $fp->Family_Position }}</option>
-                                    @endforeach
+                                    <option value=1>Yes</option>
+                                    <option value=0>No</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Tenure of Lot</label>
-                                <select class="form-control" id="Tenure_of_Lot_ID" name="Tenure_of_Lot_ID" required>
+                                <label for="Voter_Status">Voter Status</label>
+                                <select class="form-control" id="Voter_Status" name="Voter_Status" required>
                                     <option value='' disabled selected>Select Option</option>
-                                    @foreach($tenure_of_lot as $tol)
-                                    <option value="{{ $tol->Tenure_of_Lot_ID }}">{{ $tol->Tenure_of_Lot }}</option>
-                                    @endforeach
+                                    <option value=1>Yes</option>
+                                    <option value=0>No</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Housing_Unit_ID">Housing Unit</label>
-                                <select class="form-control" id="Housing_Unit_ID" name="Housing_Unit_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($housing_unit as $hu)
-                                    <option value="{{ $hu->Housing_Unit_ID }}">{{ $hu->Housing_Unit }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="Election_Year_Last_Voted">Election Year Last Voted</label>
+                                <input type="date" class="form-control" id="Election_Year_Last_Voted" name="Election_Year_Last_Voted" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Family_Type_ID">Family Type</label>
-                                <select class="form-control" id="Family_Type_ID" name="Family_Type_ID" required>
+                                <label for="Resident_Voter">Resident Voter</label>
+                                <select class="form-control" id="Resident_Voter" name="Resident_Voter" required>
                                     <option value='' disabled selected>Select Option</option>
-                                    @foreach($family_type as $fm)
-                                    <option value="{{ $fm->Family_Type_ID }}">{{ $fm->Family_Type_Name }}</option>
-                                    @endforeach
+                                    <option value=1>Yes</option>
+                                    <option value=0>No</option>
                                 </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_Name">Resident Name</label>
-                                <input type="text" class="form-control" id="Resident_Name" name="Resident_Name" required>
                             </div>
 
                         </div>
@@ -163,18 +151,20 @@
     $(document).on('click', '.modal-close', function(e) {
         $('#newResident').trigger("reset");
         $('#Modal_Title').text('Create Resident Profile');
+        $('#Resident_ID').empty();
+        var resident =
+            '<option value="" disabled selected>Select Option</option>@foreach($resident as $rs)<option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>@endforeach';
+        $('#Resident_ID').append(resident);
     });
 
     // Edit Button Display Modal
-    $(document).on('click', ('.edit_household'), function(e) {
+    $(document).on('click', ('.edit_resident'), function(e) {
 
         var disID = $(this).val();
         $('#Modal_Title').text('Edit Resident Profile');
 
-
-
         $.ajax({
-            url: "/get_household_info",
+            url: "/get_resident_info",
             type: 'GET',
             data: {
                 id: disID
@@ -183,14 +173,15 @@
                 alert('request failed');
             },
             success: function(data) {
-                $('#Resident_Profile_ID').val(data['theEntry'][0]['Resident_Profile_ID']);
-                $('#Resident_ID').val(data['theEntry'][0]['Resident_ID']);
-                $('#Resident_Monthly_Income').val(data['theEntry'][0]['Resident_Monthly_Income']);
-                $('#Resident_Name').val(data['theEntry'][0]['Resident_Name']);
-                $('#Family_Position_ID').val(data['theEntry'][0]['Family_Position_ID']);
-                $('#Tenure_of_Lot_ID').val(data['theEntry'][0]['Tenure_of_Lot_ID']);
-                $('#Housing_Unit_ID').val(data['theEntry'][0]['Housing_Unit_ID']);
-                $('#Family_Type_ID').val(data['theEntry'][0]['Family_Type_ID']);
+                $('#Resident_Status').val(data['theEntry'][0]['Resident_Status']);
+                $('#Voter_Status').val(data['theEntry'][0]['Voter_Status']);
+                $('#Resident_Voter').val(data['theEntry'][0]['Resident_Voter']);
+                $('#Election_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#Resident_ID').empty();
+                var resident =
+                    " <option value='" + data['theEntry'][0]['Resident_ID'] + "' selected>" + data['theEntry'][0]['Last_Name'] + ", " + data['theEntry'][0]['First_Name'] + " " + data['theEntry'][0]['Middle_Name'] + " " + data['theEntry'][0]['Name_Suffix'] + "</option>";
+                $('#Resident_ID').append(resident);
+
             }
         });
 
