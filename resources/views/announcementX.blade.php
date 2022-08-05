@@ -5,35 +5,152 @@
 @section('content')
 <script src="{{ asset('/js/homeX.js') }}" defer></script>
 <link href="{{ asset('/css/homeX.css') }}" rel="stylesheet">
-<div>
-    <h3 style="text-align: center"><u>{{$announcement[0]->Announcement_Title}}</u></h3>
-    <br>
-    <div class="AnnouncementBody"> 
-        {{$announcement[0]->Announcement_Description}}
-    </div>
-    <div class="Absolute-Center ">
-        @if($uploads !=[])
-        @foreach($uploads as $up)
-            @if($up->File_Type == 'File' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-            <a href="{{ asset('/assets/uploads/FileX').'/'.$up->File_Name }}"> {{$up->File_Name}} </a>
+<div class="Absolute-Center">
+    <div class="AnnouncementContainer">
+        <div style="text-align: center"><u style="font-size: 24px;">{{$announcement[0]->Announcement_Title}}</u>&nbsp; <button class="editZ2" data-toggle="modal" data-target="#editAnn">Edit</button></div>
+        <br>
+        <div class="AnnouncementBody"> 
+            {{$announcement[0]->Announcement_Description}}
+        </div>
+        <div class="Absolute-Center">
+            @if($uploads !=[])
+            @foreach($uploads as $up)
+                @if($up->File_Type == 'File' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                <a href="{{ asset('/assets/uploads/FileX').'/'.$up->File_Name }}"> {{$up->File_Name}} </a>
+                @endif
+                @if($up->File_Type == 'Image' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                <img src="{{ asset('/assets/uploads/imgX').'/'.$up->File_Name }}" class="maxDimensions">
+                @endif
+                @if($up->File_Type == 'Video' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                <video width="70%" height="70%" controls class="Absolute-Center ">
+                    <source src="{{ asset('/assets/uploads/videoX').'/'.$up->File_Name }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                @endif
+                @if($up->File_Type == 'GIF' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                <img width="70%" height="70%" src="{{ asset('/assets/uploads/gifX').'/'.$up->File_Name }}">
+                @endif
+            @endforeach
             @endif
-            @if($up->File_Type == 'Image' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-            <img src="{{ asset('/assets/uploads/imgX').'/'.$up->File_Name }}" class="maxDimensions">
-            @endif
-            @if($up->File_Type == 'Video' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-            <video width="70%" height="70%" controls class="Absolute-Center ">
-                <source src="{{ asset('/assets/uploads/videoX').'/'.$up->File_Name }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            @endif
-            @if($up->File_Type == 'GIF' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-            <img width="70%" height="70%" src="{{ asset('/assets/uploads/gifX').'/'.$up->File_Name }}">
-            @endif
-        @endforeach
-        @endif
 
+        </div>
     </div>
 </div>
+
+<!-- Edit E/A Announcement Modal  -->
+<div class="modal fade" id="editAnn" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title flexer justifier">Edit Announcement</h4>
+        </div>
+        <div class="modal-body">
+            <form id="editAnn_form" method="POST" action="{{ route('updateAnnouncement') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="flexer">
+                    <div class="Absolute-Center">
+                        <img src="{{ asset('/assets/img/profileDefault_xs.jpg') }}" class="profilePic">
+                    </div>
+                    <div class="">
+                        <div>
+                            <div class="posterName">{{Auth::user()->name}}</div>
+                            <div class="who_seePost" style="font-size: 12px">
+                                <div class="who_seePost">
+                                    <select id="annType_edit2" name="annType_edit2">
+                                        <option value="{{$announcement[0]->Announcement_Type}}" hidden selected>
+                                            @if(!$thisAnnType->isEmpty()){{$thisAnnType[0]->Announcement_Type_Name}}@endif
+                                        </option>
+                                        @foreach($AnnouncementType_list as $atl)
+                                            <option value="{{$atl->Announcement_Type_ID}}">{{$atl->Announcement_Type_Name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <select id="annStatus_edit2" name="annStatus_edit2">
+                                        <option value="{{$announcement[0]->Announcement_Status_ID}}" hidden selected>
+                                            @if(!$thisAnnStatus->isEmpty()){{$thisAnnStatus[0]->Announcement_Status}}@endif
+                                        </option>
+                                        @foreach($AnnouncementStatus_list as $asl)
+                                            <option value="{{$asl->Announcement_Status_ID}}">{{$asl->Announcement_Status}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <input id="annTitle_edit2" name="annTitle_edit2" placeholder="Title" class="postTitle" value="{{$announcement[0]->Announcement_Title}}">
+                    <input id="this_annID" name="annID_edit" value="{{$announcement[0]->Announcement_ID}}" hidden>
+                </div>
+                <div>
+                    <textarea id="annActual_edit2" name="annActual_edit2" class="postActual">{{$announcement[0]->Announcement_Description}}</textarea>
+                </div>
+                <input id="up1_only_edit2" name="up1_only_edit2" type="text" hidden>
+            
+                <div class="att_table"> 
+                    <table class="table-bordered table_gen" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attached_items">
+                            @foreach($uploads as $u)
+                                <tr>
+                                    <td>{{$u->File_Name}}</td>
+                                    <td style="text-align: center">
+                                        <button class="change_att">Change</button>
+                                        <button class="remove_att" value="{{$announcement[0]->Announcement_Status_ID}}">Remove</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flexer edit_hidden" hidden>
+                    <div class="add2Post edit_hidden" hidden>Add to your Post</div>
+                    
+                    <div class="attBTNs edit_hidden" hidden> 
+                        <div class="att_inner">
+                            <label class="custom-file-upload">
+                                <input id="FUpload_edit" type="file"  name="FUpload_edit2">
+                                <i class="fa fa-folder" aria-hidden="true"></i>
+                                <span class="tooltipX">File</span>
+                            </label>
+                            <label class="custom-file-upload">
+                                <input id="imgUpload_edit" type="file"  name="imgUpload_edit2">
+                                <i class="fa fa-camera" aria-hidden="true"></i>
+                                <span class="tooltipX">Image</span>
+                            </label>
+                            <label class="custom-file-upload">
+                                <input id="vidUpload_edit" type="file"  name="vidUpload_edit2">
+                                <i class="fa fa-video-camera" aria-hidden="true"></i>
+                                <span class="tooltipX">Video</span>
+                            </label>
+                            <label class="custom-file-upload">
+                                <input id="gifUpload_edit" type="file" name="gifUpload_edit2">
+                                <i class="fa fa-window-restore" aria-hidden="true"></i>
+                                <span class="tooltipX">GIF</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn updateThisAnn modal_sb_button">Save</button>
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<!-- Edit E/A Announcement Modal END -->
+
 @endsection
 
 @else 
@@ -148,33 +265,37 @@
                 @endif
                 
             </div>
-            <div class="theContent">
-                <div style="text-align: center; font-size:24px"><u>{{$announcement[0]->Announcement_Title}}</u></div>
-                <br>
-                <div class="AnnouncementBody"> 
-                    {{$announcement[0]->Announcement_Description}}
-                </div>
-                <div class="Absolute-Center ">
-                    @if($uploads !=[])
-                    @foreach($uploads as $up)
-                        @if($up->File_Type == 'File' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-                        <a href="{{ asset('/assets/uploads/FileX').'/'.$up->File_Name }}"> {{$up->File_Name}} </a>
-                        @endif
-                        @if($up->File_Type == 'Image' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-                        <img src="{{ asset('/assets/uploads/imgX').'/'.$up->File_Name }}" class="maxDimensions">
-                        @endif
-                        @if($up->File_Type == 'Video' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-                        <video width="70%" height="70%" controls class="Absolute-Center ">
-                            <source src="{{ asset('/assets/uploads/videoX').'/'.$up->File_Name }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        @endif
-                        @if($up->File_Type == 'GIF' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
-                        <img width="70%" height="70%" src="{{ asset('/assets/uploads/gifX').'/'.$up->File_Name }}">
-                        @endif
-                    @endforeach
-                    @endif
+            <div class="Absolute-Center">
+                <div class="AnnouncementContainer2">
+                    <div class="theContent">
+                        <div style="text-align: center; font-size:24px"><u>{{$announcement[0]->Announcement_Title}}</u></div>
+                        <br>
+                        <div class="AnnouncementBody"> 
+                            {{$announcement[0]->Announcement_Description}}
+                        </div>
+                        <div class="Absolute-Center ">
+                            @if($uploads !=[])
+                            @foreach($uploads as $up)
+                                @if($up->File_Type == 'File' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                                <a href="{{ asset('/assets/uploads/FileX').'/'.$up->File_Name }}"> {{$up->File_Name}} </a>
+                                @endif
+                                @if($up->File_Type == 'Image' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                                <img src="{{ asset('/assets/uploads/imgX').'/'.$up->File_Name }}" class="maxDimensions">
+                                @endif
+                                @if($up->File_Type == 'Video' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                                <video width="70%" height="70%" controls class="Absolute-Center ">
+                                    <source src="{{ asset('/assets/uploads/videoX').'/'.$up->File_Name }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                @endif
+                                @if($up->File_Type == 'GIF' && $up->Announcement_ID == $announcement[0]->Announcement_ID)
+                                <img width="70%" height="70%" src="{{ asset('/assets/uploads/gifX').'/'.$up->File_Name }}">
+                                @endif
+                            @endforeach
+                            @endif
 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

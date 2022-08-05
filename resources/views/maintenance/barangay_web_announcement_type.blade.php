@@ -56,7 +56,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title flexer justifier">Create Post</h4>
+          <h4 class="modal-title flexer justifier">Create Entry</h4>
         </div>
         <form id="newBRGY_Ann_Type" method="POST" action="{{ route('create_bweb_ann_type_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
             <div class="modal-body Absolute-Center">
@@ -96,7 +96,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title flexer justifier">Create Entry</h4>
+          <h4 class="modal-title flexer justifier">Update Entry</h4>
         </div>
         <form id="updateBRGY_Ann_Type" method="POST" action="{{ route('update_bweb_ann_type_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
             <div class="modal-body Absolute-Center">

@@ -178,9 +178,10 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu1">
-                <a href=""><li role="presentation">Type of Ordinance</li></a>
-                <a href=""><li role="presentation">Status of Ordinance</li></a> 
-                <a href=""><li role="presentation">Ordinance Category</li></a> 
+                <a href="{{route('type_of_ordinance_maint')}}"><li role="presentation">Type of Ordinance</li></a> 
+                <a href="{{route('status_of_ordinance_maint')}}"><li role="presentation">Status of Ordinance</li></a> 
+                <a href="{{route('ordinance_category_maint')}}"><li role="presentation">Ordinance Category</li></a> 
+               
             </ul>
         </div>
         <div class="module">
@@ -190,18 +191,18 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">Blood Type</li></a>
-                <a href=""><li role="presentation">Deceased Type</li></a> 
-                <a href=""><li role="presentation">Civil Status</li></a>
-                <a href=""><li role="presentation">Name Prefix</li></a>
-                <a href=""><li role="presentation">Family Position</li></a>
-                <a href=""><li role="presentation">Academic Level</li></a>
-                <a href=""><li role="presentation">Housing Unit</li></a>
-                <a href=""><li role="presentation">Religion</li></a>
-                <a href=""><li role="presentation">Family Type</li></a>
-                <a href=""><li role="presentation">Employment Type</li></a>
-                <a href=""><li role="presentation">Tenure of Lot</li></a>
-                <a href=""><li role="presentation">Name Suffix</li></a>
+                <a href="{{route('blood_type_maint')}}"><li role="presentation">Blood Type</li></a>
+                <a href="{{route('deceased_type_maint')}}"><li role="presentation">Deceased Type</li></a> 
+                <a href="{{route('civil_status_maint')}}"><li role="presentation">Civil Status</li></a>
+                <a href="{{route('name_prefix_maint')}}"><li role="presentation">Name Prefix</li></a>
+                <a href="{{route('family_position_maint')}}"><li role="presentation">Family Position</li></a>
+                <a href="{{route('academic_level_maint')}}"><li role="presentation">Academic Level</li></a>
+                <a href="{{route('housing_unit_maint')}}"><li role="presentation">Housing Unit</li></a>
+                <a href="{{route('religion_maint')}}"><li role="presentation">Religion</li></a>
+                <a href="{{route('family_type_maint')}}"><li role="presentation">Family Type</li></a>
+                <a href="{{route('employment_type_maint')}}"><li role="presentation">Employment Type</li></a>
+                <a href="{{route('tenure_of_lot_maint')}}"><li role="presentation">Tenure of Lot</li></a>
+                <a href="{{route('name_suffix_maint')}}"><li role="presentation">Name Suffix</li></a>
             </ul>
         </div>
         <div class="module">
@@ -244,9 +245,9 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">Alert Level</li></a>
-                <a href=""><li role="presentation">Level of Damage</li></a> 
-                <a href=""><li role="presentation">Casualty Status</li></a> 
+                <a href="{{route('alert_level_maint')}}"><li role="presentation">Alert Level</li></a>
+                <a href="{{route('level_of_damage_maint')}}"><li role="presentation">Level of Damage</li></a> 
+                <a href="{{route('casualty_status_maint')}}"><li role="presentation">Casualty Status</li></a> 
             </ul>
         </div>
         <div class="module">
@@ -301,11 +302,11 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">Unit of Measure</li></a>
-                <a href=""><li role="presentation">Borrowed Equipment Status</li></a> 
-                <a href=""><li role="presentation">Item Category</li></a> 
-                <a href=""><li role="presentation">Item Classificiation</li></a> 
-                <a href=""><li role="presentation">Item Status</li></a> 
+                <a href="{{route('bins_uom_maint')}}"><li role="presentation">Unit of Measure</li></a>
+                <a href="{{route('bins_bes_maint')}}"><li role="presentation">Borrowed Equipment Status</li></a> 
+                <a href="{{route('bins_item_category_maint')}}"><li role="presentation">Item Category</li></a> 
+                <a href="{{route('bins_item_class_maint')}}"><li role="presentation">Item Classificiation</li></a> 
+                <a href="{{route('bins_item_status_maint')}}"><li role="presentation">Item Status</li></a> 
             </ul>
         </div>
         <div class="module">
@@ -315,9 +316,9 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">Project Type</li></a>
-                <a href=""><li role="presentation">Accomplishment Status</li></a> 
-                <a href=""><li role="presentation">Project Status</li></a>
+                <a href="{{route('project_type_maint')}}"><li role="presentation">Project Type</li></a>
+                <a href="{{route('accomplishment_status_maint')}}"><li role="presentation">Accomplishment Status</li></a> 
+                <a href="{{route('project_status_maint')}}"><li role="presentation">Project Status</li></a>
             </ul>
         </div>
         <div class="module">
