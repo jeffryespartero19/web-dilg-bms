@@ -15,6 +15,20 @@
         </ol>
     </div>
 </div>
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+@if(session()->has('message'))
+<div class="alert alert-success">
+    {{ session()->get('message') }}
+</div>
+@endif
 <div class="tableX_row col-md-12 up_marg5">
     <br>
     <div class="flexer">
@@ -27,13 +41,12 @@
             <thead>
                 <tr>
                     <th hidden>Resident_ID</th>
-                    <th>Name Prefix</th>
+                    <th>Name</th>
                     <th>Last Name</th>
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Name Suffix</th>
                     <th>Birthdate</th>
-                    <th>Age</th>
                     <th>Resident Status</th>
                     <th>Voter Status</th>
                     <th>Resident Voter</th>
@@ -47,13 +60,12 @@
                 @foreach($db_entries as $x)
                 <tr>
                     <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Name_Prefix_ID}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Name_Prefix}}</td>
                     <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
                     <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
                     <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Name_Suffix_ID}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
                     <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
-                    <td class="sm_data_col txtCtr"></td>
                     <td class="sm_data_col txtCtr"></td>
                     <td class="sm_data_col txtCtr"></td>
                     <td class="sm_data_col txtCtr"></td>
@@ -77,7 +89,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier">Create Inhabitant</h4>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Create Inhabitant</h4>
             </div>
             <div class="modal-body">
                 <form id="newInhabitant" method="POST" action="{{ route('create_inhabitants_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -85,10 +97,10 @@
                         <h3>Name</h3>
                         <br>
                         <div class="row">
-                            <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" hidden>
+                            <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" value="0" hidden>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Prefix</label>
-                                <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID">
+                                <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($prefix as $bt)
                                     <option value="{{ $bt->Name_Prefix_ID }}">{{ $bt->Name_Prefix }}</option>
@@ -109,7 +121,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Name_Suffix_ID">Suffix</label>
-                                <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID">
+                                <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($suffix as $bt)
                                     <option value="{{ $bt->Name_Suffix_ID }}">{{ $bt->Name_Suffix }}</option>
@@ -135,7 +147,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Religion_ID">Religion</label>
-                                <select class="form-control" id="Religion_ID" name="Religion_ID">
+                                <select class="form-control" id="Religion_ID" name="Religion_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($religion as $religions)
                                     <option value="{{ $religions->Religion_ID }}">{{ $religions->Religion }}</option>
@@ -144,7 +156,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Blood Type</label>
-                                <select class="form-control" id="Blood_Type_ID" name="Blood_Type_ID">
+                                <select class="form-control" id="Blood_Type_ID" name="Blood_Type_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($blood_type as $bt)
                                     <option value="{{ $bt->Blood_Type_ID }}">{{ $bt->Blood_Type }}</option>
@@ -170,7 +182,7 @@
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Civil Status</label>
                                 <select class="form-control" id="Civil_Status_ID" name="Civil_Status_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='0' selected>Select Option</option>
                                     @foreach($civil_status as $cs)
                                     <option value="{{ $cs->Civil_Status_ID }}">{{ $cs->Civil_Status }}</option>
                                     @endforeach
@@ -202,8 +214,8 @@
                         <div class="row">
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Country</label>
-                                <select class="form-control" id="Country_ID" name="Country_ID">
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Country_ID" name="Country_ID" required>
+                                    <option value='' selected>Select Option</option>
                                     @foreach($country as $countrys)
                                     <option value="{{ $countrys->Country_ID }}">{{ $countrys->Country }}</option>
                                     @endforeach
@@ -211,7 +223,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Region</label>
-                                <select class="form-control" id="Region_ID" name="Region_ID">
+                                <select class="form-control" id="Region_ID" name="Region_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($region as $region)
                                     <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
@@ -220,19 +232,19 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Province</label>
-                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Province_ID" name="Province_ID" required>
+                                    <option value='' selected>Select Option</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="City_Municipality_ID">City/Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
+                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Barangay_ID">Barangay</label>
-                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
+                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                 </select>
                             </div>
@@ -242,7 +254,7 @@
                         <div class="row">
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Solo Parent</label>
-                                <select class="form-control" id="Solo_Parent" name="Solo_Parent">
+                                <select class="form-control" id="Solo_Parent" name="Solo_Parent" required>
                                     <option value='' disabled selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -250,7 +262,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">OFW</label>
-                                <select class="form-control" id="OFW" name="OFW">
+                                <select class="form-control" id="OFW" name="OFW" required>
                                     <option value='' disabled selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -258,7 +270,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Indigent</label>
-                                <select class="form-control" id="Indigent" name="Indigent">
+                                <select class="form-control" id="Indigent" name="Indigent" required>
                                     <option value='' disabled selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -266,7 +278,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">4Ps Beneficiary</label>
-                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary">
+                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary" required>
                                     <option value='' disabled selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -275,12 +287,13 @@
                         </div>
 
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary postThis_Inhabitant_Info" style="width: 200px;">Create</button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary postThis_Inhabitant_Info" style="width: 200px;">Create</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -295,7 +308,7 @@
 <script>
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
-        alert('test');
+        // alert('test');
         var Region_ID = $(this).val();
 
         $.ajax({
@@ -307,10 +320,15 @@
             success: function(data) {
                 var data = JSON.parse(data);
                 $('#Province_ID').empty();
+                $('#City_Municipality_ID').empty();
+                $('#Barangay_ID').empty();
+
 
                 var option1 =
                     " <option value='' disabled selected>Select Option</option>";
                 $('#Province_ID').append(option1);
+                $('#City_Municipality_ID').append(option1);
+                $('#Barangay_ID').append(option1);
 
                 data.forEach(element => {
                     var option = " <option value='" +
@@ -337,10 +355,12 @@
             success: function(data) {
                 var data = JSON.parse(data);
                 $('#City_Municipality_ID').empty();
+                $('#Barangay_ID').empty();
 
                 var option1 =
                     " <option value='' disabled selected>Select Option</option>";
                 $('#City_Municipality_ID').append(option1);
+                $('#Barangay_ID').append(option1);
 
                 data.forEach(element => {
                     var option = " <option value='" +
@@ -392,18 +412,27 @@
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
+        $('#Barangay_ID').empty();
+        $('#City_Municipality_ID').empty();
+        $('#Province_ID').empty();
+        var option1 ="<option value='' disabled selected>Select Option</option>";
+        $('#Barangay_ID').append(option1);
+        $('#City_Municipality_ID').append(option1);
+        $('#Province_ID').append(option1);
+        $('#Modal_Title').text('Create Inhabitant');
     });
 
     //post buttons
-    $(document).on('click', '.postThis_Inhabitant_Info', function(e) {
-        $('#newInhabitant').submit();
-    });
+    // $(document).on('click', '.postThis_Inhabitant_Info', function(e) {
+    //     $('#newInhabitant').submit();
+    // });
 
 
     // Edit Button Display Modal
     $(document).on('click', ('.edit_inhabitants'), function(e) {
 
         var disID = $(this).val();
+        $('#Modal_Title').text('Edit Inhabitant Information');
         $.ajax({
             url: "/get_inhabitants_info",
             type: 'GET',
@@ -414,10 +443,12 @@
                 alert('request failed');
             },
             success: function(data) {
-                $('#Prefix_ID').val(data['theEntry'][0]['Prefix_ID']);
+                $('#Resident_ID').val(data['theEntry'][0]['Resident_ID']);
+                $('#Name_Prefix_ID').val(data['theEntry'][0]['Name_Prefix_ID']);
                 $('#Last_Name').val(data['theEntry'][0]['Last_Name']);
                 $('#First_Name').val(data['theEntry'][0]['First_Name']);
                 $('#Middle_Name').val(data['theEntry'][0]['Middle_Name']);
+                $('#Name_Suffix_ID').val(data['theEntry'][0]['Name_Suffix_ID']);
                 $('#Birthdate').val(data['theEntry'][0]['Birthdate']);
                 $('#Birthplace').val(data['theEntry'][0]['Birthplace']);
                 $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
@@ -433,23 +464,56 @@
                 $('#PhilSys_Card_No').val(data['theEntry'][0]['PhilSys_Card_No']);
                 $('#Country_ID').val(data['theEntry'][0]['Country_ID']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
-                $('#Province_ID').val(data['theEntry'][0]['Province_ID']);
-                $('#City_Municipality_ID').val(data['theEntry'][0]['City_Municipality_ID']);
-                $('#Barangay_ID').val(data['theEntry'][0]['Barangay_ID']);
+
+                var barangay =
+                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
+                $('#Barangay_ID').append(barangay);
+
+                var city =
+                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
+                $('#City_Municipality_ID').append(city);
+
+                var province =
+                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
+                $('#Province_ID').append(province);
                 $('#Solo_Parent').val(data['theEntry'][0]['Solo_Parent']);
                 $('#OFW').val(data['theEntry'][0]['OFW']);
                 $('#Indigent').val(data['theEntry'][0]['Indigent']);
                 $('#4Ps_Beneficiary').val(data['theEntry'][0]['4Ps_Beneficiary']);
-                if (data['theEntry'][0]['Active'] == 1) {
-                    $('#this_ann_status_active').append('Yes');
-                } else {
-                    $('#this_ann_status_active').append('No');
-                }
+
 
             }
         });
 
 
+    });
+
+
+    //Birth Date On change Event
+    $(document).ready(function() {
+        $('#Birthdate').on('change', function() {
+
+            // alert('test');
+
+            if (new Date($(this).val()) > new Date()) {
+                alert('Invalid Birthdate')
+            } else {
+                var today = new Date();
+                var birthDate = new Date($(this).val());
+                var age = today.getFullYear() - birthDate.getFullYear();
+                var m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                if (age < 0) {
+                    alert('Please select Invalid Birthdate')
+                } else {
+                    $('#Age').val(age);
+                }
+            }
+
+        });
     });
 </script>
 
