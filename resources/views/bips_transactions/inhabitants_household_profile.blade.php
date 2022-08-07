@@ -5,13 +5,13 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Inhabitants Information List </div>
+    <div class="col-md-6 titleXZ"> Inhabitants Household List </div>
     <div class="col-md-6 breadcrumbXZ">
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
                 <li>DILG_BMS / </li>
             </a>
-            <li> &nbsp;Inhabitants Information List</li>
+            <li> &nbsp;Inhabitants Household List</li>
         </ol>
     </div>
 </div>

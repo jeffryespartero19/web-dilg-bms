@@ -224,7 +224,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/create_household_information', 'bipsController@create_household_information')->name('create_household_information');
     Route::get('/get_household_info', 'bipsController@get_household_info')->name('get_household_info');
 
-    //BIPS Household
+    //BIPS Resident
     Route::get('/inhabitants_resident_profile', 'bipsController@inhabitants_resident_profile')->name('inhabitants_resident_profile');
     Route::post('/create_resident_information', 'bipsController@create_resident_information')->name('create_resident_information');
     Route::get('/get_resident_info', 'bipsController@get_resident_info')->name('get_resident_info');
