@@ -266,13 +266,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/inhabitants_information_list', 'bipsController@inhabitants_information_list')->name('inhabitants_information_list');
     Route::post('/create_inhabitants_information', 'bipsController@create_inhabitants_information')->name('create_inhabitants_information');
     Route::get('/get_inhabitants_info', 'bipsController@get_inhabitants_info')->name('get_inhabitants_info');
+    Route::get('/get_inhabitants_edu_info', 'bipsController@get_inhabitants_edu_info')->name('get_inhabitants_edu_info');
+    Route::get('/get_inhabitants_epm_info', 'bipsController@get_inhabitants_epm_info')->name('get_inhabitants_epm_info');
     
     //BIPS Household
     Route::get('/inhabitants_household_profile', 'bipsController@inhabitants_household_profile')->name('inhabitants_household_profile');
     Route::post('/create_household_information', 'bipsController@create_household_information')->name('create_household_information');
     Route::get('/get_household_info', 'bipsController@get_household_info')->name('get_household_info');
 
-    //BIPS Household
+    //BIPS Resident
     Route::get('/inhabitants_resident_profile', 'bipsController@inhabitants_resident_profile')->name('inhabitants_resident_profile');
     Route::post('/create_resident_information', 'bipsController@create_resident_information')->name('create_resident_information');
     Route::get('/get_resident_info', 'bipsController@get_resident_info')->name('get_resident_info');
