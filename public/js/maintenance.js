@@ -77,7 +77,7 @@ $(document).on('click', '.postThis_Ann_Type', function (e) {
     $('#newBRGY_Ann_Type').submit();
 });
 
-$(document).on('click', ('.edit_news_type'), function (e) {
+$(document).on('click', ('.edit_ann_type'), function (e) {
 
     var disID = $(this).val();
     $.ajax({
