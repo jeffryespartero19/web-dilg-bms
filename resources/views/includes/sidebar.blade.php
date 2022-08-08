@@ -54,6 +54,8 @@
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
                 <a href=""><li role="presentation">List of Transactions</li></a>
                 <a href="{{route('inhabitants_information_list')}}"><li role="presentation">Inhabitants Information List</li></a> 
+                <a href="{{route('deceased_profile_list')}}"><li role="presentation">Deceased Profile</li></a>
+                <a href="{{route('inhabitants_transfer_list')}}"><li role="presentation">Inhabitants Transfer</li></a>
             </ul>
         </div>
         <div class="module">

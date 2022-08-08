@@ -192,4 +192,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
     Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 
+     //Deceased Profile
+     Route::get('/deceased_profile_list', 'bipsController@deceased_profile_list')->name('deceased_profile_list');
+     Route::post('/create_deceased_profile', 'bipsController@create_deceased_profile')->name('create_deceased_profile');
+     Route::get('/get_deceased_profile', 'bipsController@get_deceased_profile')->name('get_deceased_profile');
+     Route::post('/update_deceased_profile', 'bipsController@update_deceased_profile')->name('update_deceased_profile');
+
+     //Inhabitants ransfer
+     Route::get('/inhabitants_transfer_list', 'bipsController@inhabitants_transfer_list')->name('inhabitants_transfer_list');
+     Route::post('/create_inhabitants_transfer', 'bipsController@create_inhabitants_transfer')->name('create_inhabitants_transfer');
+     Route::get('/get_inhabitants_transfer', 'bipsController@get_inhabitants_transfer')->name('get_inhabitants_transfer');
+     Route::post('/update_inhabitants_transfer', 'bipsController@update_inhabitants_transfer')->name('update_inhabitants_transfer');
+
+     // Global Controller
+    Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
+    Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
+    Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+  
 });

@@ -1169,8 +1169,7 @@ class maintenanceController extends Controller
     public function casualty_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bdris_casualty_status')->paginate(20,['*'], 'db_entries');
-
+       $db_entries = DB::table('maintenance_bdris_casualty_status')->paginate(20,['*'], 'db_entries');
         return view('maintenance.bdris_casualty_status',compact('db_entries','currDATE'));
     }
 
