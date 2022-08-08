@@ -34,6 +34,13 @@ class HomeController extends Controller
 
         $usersX=DB::table('users')->whereIn('id',$posts_encoder_IDs)->get();
 
-        return view('home',compact('posts','uploads','currDATE','EV_AN','usersX'));
+        $NewsType_list=DB::table('maintenance_brgy_web_news_type')->get();
+        $NewsStatus_list=DB::table('maintenance_brgy_web_news_status')->get();
+
+        $AnnouncementType_list=DB::table('maintenance_brgy_web_announcement_type')->get();
+        $AnnouncementStatus_list=DB::table('maintenance_brgy_web_announcement_status')->get();
+
+        return view('home',compact('posts','uploads','currDATE','EV_AN','usersX','NewsType_list','NewsStatus_list',
+                                    'AnnouncementType_list','AnnouncementStatus_list'));
     }
 }

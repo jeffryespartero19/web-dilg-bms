@@ -16,7 +16,44 @@ class bipsController extends Controller
     public function inhabitants_information_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_brgy_inhabitants_information')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Name_Prefix_ID',
+                'a.Last_Name',
+                'a.First_Name',
+                'a.Middle_Name',
+                'a.Name_Suffix_ID',
+                'a.Birthplace',
+                'a.Weight',
+                'a.Height',
+                'a.Civil_Status_ID',
+                'a.Birthdate',
+                'a.Country_ID',
+                'a.Religion_ID',
+                'a.Blood_Type_ID',
+                'a.Sex',
+                'a.Mobile_No',
+                'a.Telephone_No',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Province_ID',
+                'a.Region_ID',
+                'a.Salary',
+                'a.Email_Address',
+                'a.PhilSys_Card_No',
+                'a.Solo_Parent',
+                'a.OFW',
+                'a.Indigent',
+                'a.4Ps_Beneficiary',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Name_Prefix',
+                'c.Name_Suffix'
+            )
+            ->paginate(20, ['*'], 'db_entries');
         $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
         $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
         $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
@@ -27,6 +64,8 @@ class bipsController extends Controller
         $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
         $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
         $country = DB::table('maintenance_country')->where('Active', 1)->get();
+        $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
+        $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
 
         return view('bips_transactions.inhabitants_information_list', compact(
             'db_entries',
@@ -41,6 +80,8 @@ class bipsController extends Controller
             'city',
             'barangay',
             'country',
+            'academic_level',
+            'employment_type'
         ));
     }
 
@@ -81,8 +122,122 @@ class bipsController extends Controller
                 '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now()
-            )
-        );
+            ];
+
+            DB::table('bips_resident_profile')->insert($resident);
+
+            DB::table('bips_education')->where('Resident_ID', $Resident_ID)->delete();
+
+            if (isset($data['Academic_Level_ID'])) {
+                $education = [];
+
+                for ($i = 0; $i < count($data['Academic_Level_ID']); $i++) {
+                    if ($data['Academic_Level_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bips_education')->max('Education_ID');
+                        $id += 1;
+
+                        if ($data['Academic_Level_ID'][$i] != null) {
+                            $education = [
+                                'Resident_ID' => $Resident_ID,
+                                'Academic_Level_ID' => $data['Academic_Level_ID'][$i],
+                                'School_Name' => $data['School_Name'][$i],
+                                'School_Year_Start' => $data['School_Year_Start'][$i],
+                                'School_Year_End' => $data['School_Year_End'][$i],
+                                'Course' => $data['Course'][$i],
+                                'Year_Graduated' => $data['Year_Graduated'][$i],
+                                'Encoder_ID'       => Auth::user()->id,
+                                'Date_Stamp'       => Carbon::now()
+                            ];
+                        }
+
+                        DB::table('bips_education')->updateOrInsert(['Education_ID' => $id], $education);
+                    }
+                }
+            }
+
+            DB::table('bips_employment_history')->where('Resident_ID', $Resident_ID)->delete();
+
+            if (isset($data['Employment_Type_ID'])) {
+                $employment = [];
+
+                for ($i = 0; $i < count($data['Employment_Type_ID']); $i++) {
+                    if ($data['Employment_Type_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bips_employment_history')->max('Employment_ID');
+                        $id += 1;
+
+                        if ($data['Employment_Type_ID'][$i] != null) {
+                            $employment = [
+                                'Resident_ID' => $Resident_ID,
+                                'Employment_Type_ID' => $data['Employment_Type_ID'][$i],
+                                'Company_Name' => $data['Company_Name'][$i],
+                                'Employer_Name' => $data['Employer_Name'][$i],
+                                'Employer_Address' => $data['Employer_Address'][$i],
+                                'Position' => $data['Position'][$i],
+                                'Start_Date' => $data['Start_Date'][$i],
+                                'End_Date' => $data['End_Date'][$i],
+                                'Monthly_Salary' => $data['Monthly_Salary'][$i],
+                                'Brief_Description' => $data['Brief_Description'][$i],
+                                'Encoder_ID'       => Auth::user()->id,
+                                'Date_Stamp'       => Carbon::now()
+                            ];
+                        }
+
+                        DB::table('bips_employment_history')->updateOrInsert(['Employment_ID' => $id], $employment);
+                    }
+                }
+            }
+
+            return redirect()->back()->with('message', 'New Entry Created');
+        } else {
+            DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
+                array(
+                    'Name_Prefix_ID' => $data['Name_Prefix_ID'],
+                    'Last_Name' => $data['Last_Name'],
+                    'First_Name' => $data['First_Name'],
+                    'Middle_Name' => $data['Middle_Name'],
+                    'Name_Suffix_ID' => $data['Name_Suffix_ID'],
+                    'Birthplace' => $data['Birthplace'],
+                    'Weight' => $data['Weight'],
+                    'Height' => $data['Height'],
+                    'Civil_Status_ID' => $data['Civil_Status_ID'],
+                    'Birthdate' => $data['Birthdate'],
+                    'Country_ID' => $data['Country_ID'],
+                    'Religion_ID' => $data['Religion_ID'],
+                    'Blood_Type_ID' => $data['Blood_Type_ID'],
+                    'Sex' => $data['Sex'],
+                    'Mobile_No' => $data['Mobile_No'],
+                    'Telephone_No' => $data['Telephone_No'],
+                    'Barangay_ID' => $data['Barangay_ID'],
+                    'City_Municipality_ID' => $data['City_Municipality_ID'],
+                    'Province_ID' => $data['Province_ID'],
+                    'Region_ID' => $data['Region_ID'],
+                    'Salary' => $data['Salary'],
+                    'Email_Address' => $data['Email_Address'],
+                    'PhilSys_Card_No' => $data['PhilSys_Card_No'],
+                    'Solo_Parent' => (int)$data['Solo_Parent'],
+                    'OFW' => (int)$data['OFW'],
+                    'Indigent' => (int)$data['Indigent'],
+                    '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now()
+                )
+            );
+
+            $resident = [
+                'Resident_ID' => $data['Resident_ID'],
+                'Resident_Status' => (int)$data['Resident_Status'],
+                'Voter_Status' => (int)$data['Voter_Status'],
+                'Election_Year_Last_Voted' => $data['Election_Year_Last_Voted'],
+                'Resident_Voter' => (int)$data['Resident_Voter'],
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now()
+            ];
+
+            DB::table('bips_resident_profile')->updateOrInsert(['Resident_ID' => $data['Resident_ID']], $resident);
+
+            DB::table('bips_education')->where('Resident_ID', $data['Resident_ID'])->delete();
 
         return redirect()->back()->with('alert', 'New Entry Created');
     }

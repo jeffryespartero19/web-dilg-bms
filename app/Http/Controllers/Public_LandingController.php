@@ -27,8 +27,18 @@ class Public_LandingController extends Controller
         $announcement = DB::table('brgy_website_announcement')->where('Announcement_ID',$data['thisAnnouncement'])->get();
         $uploads = DB::table('brgy_website_file_attachement')->where('Announcement_ID',$data['thisAnnouncement'])->get();
 
+        $thisAnnType=DB::table('maintenance_brgy_web_announcement_type')->where('Announcement_Type_ID',$announcement[0]->Announcement_Type)->get();
+        $thisAnnStatus=DB::table('maintenance_brgy_web_announcement_status')->where('Announcement_Status_ID',$announcement[0]->Announcement_Status_ID)->get();
+
         $created_by=DB::table('users')->where('id',$announcement[0]->Encoder_ID)->get();
+
+        $AnnouncementType_list=DB::table('maintenance_brgy_web_announcement_type')->get();
+        $AnnouncementStatus_list=DB::table('maintenance_brgy_web_announcement_status')->get();
+
+
+        //dd($announcement,$thisAnnType,$thisAnnStatus);
         
-        return view('announcementX',compact('announcement','uploads','currDATE','created_by'));
+        return view('announcementX',compact('announcement','uploads','currDATE','created_by','AnnouncementType_list',
+                    'AnnouncementStatus_list','thisAnnType','thisAnnStatus'));
     }
 }

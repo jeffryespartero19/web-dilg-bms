@@ -315,4 +315,102 @@ class postsController extends Controller
 
     }
 
+    public function updateAnnouncement(Request $request)
+    {
+        $data = request()->all();
+        $ann_id = $data['annID_edit'];
+
+        DB::table('brgy_website_announcement')->where('Announcement_ID', $ann_id)->update(
+            array(
+                'Encoder_ID'              => Auth::user()->id,
+                'Date_Stamp'              => Carbon::now(),
+                'Announcement_Title'       => $request['annTitle_edit2'],
+                'Announcement_Description'     => $request['annActual_edit2'],
+                'Announcement_Type'            => $request['annType_edit2'],
+                'Announcement_Status_ID'       => $request['annStatus_edit2']
+
+            )
+       );
+
+        $file_valid = $this->validate($request, [
+            'FUpload_edit2' => 'mimes:doc,docx,odf,pdf,xlxs,txt,odt,ppt',
+            'imgUpload_edit2'  => 'mimes:jpeg,png,jpg,svg',
+            'vidUpload_edit2'  => 'mimes:avi,flv,mp4,wmv,mkv,3gp,mov,webm',
+            'gifUpload_edit2'  => 'mimes:gif',
+        ]);
+
+        if ($file_valid) {
+            if ($request['up1_only_edit2'] == 'file') {
+                $image = $request->file('FUpload2');
+                $name = 'file' . time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('assets/uploads/fileX');
+                $image->move($destinationPath, $name);
+
+                $att_data=array(
+                    'Announcement_ID'=> $ann_id,
+                    'File_Name'      => $name,
+                    'File_Location'  => $destinationPath,
+                    'File_Type'      => 'File',
+                    'Date_Stamp'     => Carbon::now(),
+                    'Encoder_ID'     => Auth::user()->id
+                );
+
+                DB::table('brgy_website_file_attachement')->insert($att_data);
+
+            }
+            if ($request['up1_only_edit2'] == 'image') {
+                $image = $request->file('imgUpload2');
+                $name = 'image' . time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('assets/uploads/imgX');
+                $image->move($destinationPath, $name);
+
+                $att_data=array(
+                    'Announcement_ID'=> $ann_id,
+                    'File_Name'      => $name,
+                    'File_Location'  => $destinationPath,
+                    'File_Type'      => 'Image',
+                    'Date_Stamp'     => Carbon::now(),
+                    'Encoder_ID'     => Auth::user()->id
+                );
+
+                DB::table('brgy_website_file_attachement')->insert($att_data);
+            }
+            if ($request['up1_only_edit2'] == 'video') {
+                $image = $request->file('vidUpload2');
+                $name = 'video' . time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('assets/uploads/videoX');
+                $image->move($destinationPath, $name);
+
+                $att_data=array(
+                    'Announcement_ID'=> $ann_id,
+                    'File_Name'      => $name,
+                    'File_Location'  => $destinationPath,
+                    'File_Type'      => 'Video',
+                    'Date_Stamp'     => Carbon::now(),
+                    'Encoder_ID'     => Auth::user()->id
+                );
+
+                DB::table('brgy_website_file_attachement')->insert($att_data);
+            }
+            if ($request['up1_only_edit2'] == 'gif') {
+                $image = $request->file('gifUpload2');
+                $name = 'image' . time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('assets/uploads/gifX');
+                $image->move($destinationPath, $name);
+
+                $att_data=array(
+                    'Announcement_ID'=> $ann_id,
+                    'File_Name'      => $name,
+                    'File_Location'  => $destinationPath,
+                    'File_Type'      => 'GIF',
+                    'Date_Stamp'     => Carbon::now(),
+                    'Encoder_ID'     => Auth::user()->id
+                );
+
+                DB::table('brgy_website_file_attachement')->insert($att_data);
+            }
+        }
+        return redirect()->back()->with('alert', 'Updated Announcement');
+    }
+
 }

@@ -152,8 +152,14 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">Transaction</li></a>
-                <a href=""><li role="presentation">Transaction</li></a> 
+                <a href="{{route('bins_begbal')}}"><li role="presentation">Inventory Beginning Balance</li></a>
+                <a href="{{route('bins_inventroy')}}"><li role="presentation">Barangay Inventory</li></a> 
+                <a href="{{route('bins_item_inspection')}}"><li role="presentation">Item for Inspection</li></a> 
+                <a href="{{route('bins_received_item')}}"><li role="presentation">Received Item</li></a> 
+                <a href="{{route('bins_physical_count')}}"><li role="presentation">Physical Count</li></a> 
+                <a href="{{route('bins_inv_disposal')}}"><li role="presentation">Inventory for Disposal</li></a> 
+                <a href="{{route('bins_borrow')}}"><li role="presentation">Equipment Borrow Request</li></a> 
+                <a href="{{route('bins_supply_issuance')}}"><li role="presentation">Supplies Issuance</li></a> 
             </ul>
         </div>
         <div class="module">
@@ -302,11 +308,11 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">Unit of Measure</li></a>
-                <a href=""><li role="presentation">Borrowed Equipment Status</li></a> 
-                <a href=""><li role="presentation">Item Category</li></a> 
-                <a href=""><li role="presentation">Item Classificiation</li></a> 
-                <a href=""><li role="presentation">Item Status</li></a> 
+                <a href="{{route('bins_uom_maint')}}"><li role="presentation">Unit of Measure</li></a>
+                <a href="{{route('bins_bes_maint')}}"><li role="presentation">Borrowed Equipment Status</li></a> 
+                <a href="{{route('bins_item_category_maint')}}"><li role="presentation">Item Category</li></a> 
+                <a href="{{route('bins_item_class_maint')}}"><li role="presentation">Item Classificiation</li></a> 
+                <a href="{{route('bins_item_status_maint')}}"><li role="presentation">Item Status</li></a> 
             </ul>
         </div>
         <div class="module">

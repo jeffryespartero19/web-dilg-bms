@@ -30,32 +30,111 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Events Announcements 
     Route::post('/createAnnouncement', 'postsController@createAnnouncement')->name('createAnnouncement');
+    Route::post('/updateAnnouncement', 'postsController@updateAnnouncement')->name('updateAnnouncement');
 
     //Maintenance ETC
-        //Announcement Status
-        Route::get('/bweb_ann_status_maint', 'maintenanceController@bweb_ann_status_maint')->name('bweb_ann_status_maint');
-        Route::post('/create_bweb_ann_status_maint', 'maintenanceController@create_bweb_ann_status_maint')->name('create_bweb_ann_status_maint');
-        Route::get('/get_bweb_ann_status_maint', 'maintenanceController@get_bweb_ann_status_maint')->name('get_bweb_ann_status_maint');
-        Route::post('/update_bweb_ann_status_maint', 'maintenanceController@update_bweb_ann_status_maint')->name('update_bweb_ann_status_maint');
+    //Announcement Status
+    Route::get('/bweb_ann_status_maint', 'maintenanceController@bweb_ann_status_maint')->name('bweb_ann_status_maint');
+    Route::post('/create_bweb_ann_status_maint', 'maintenanceController@create_bweb_ann_status_maint')->name('create_bweb_ann_status_maint');
+    Route::get('/get_bweb_ann_status_maint', 'maintenanceController@get_bweb_ann_status_maint')->name('get_bweb_ann_status_maint');
+    Route::post('/update_bweb_ann_status_maint', 'maintenanceController@update_bweb_ann_status_maint')->name('update_bweb_ann_status_maint');
 
-        //Announcement Type
-        Route::get('/bweb_ann_type_maint', 'maintenanceController@bweb_ann_type_maint')->name('bweb_ann_type_maint');
-        Route::post('/create_bweb_ann_type_maint', 'maintenanceController@create_bweb_ann_type_maint')->name('create_bweb_ann_type_maint');
-        Route::get('/get_bweb_ann_type_maint', 'maintenanceController@get_bweb_ann_type_maint')->name('get_bweb_ann_type_maint');
-        Route::post('/update_bweb_ann_type_maint', 'maintenanceController@update_bweb_ann_type_maint')->name('update_bweb_ann_type_maint');
+    //Announcement Type
+    Route::get('/bweb_ann_type_maint', 'maintenanceController@bweb_ann_type_maint')->name('bweb_ann_type_maint');
+    Route::post('/create_bweb_ann_type_maint', 'maintenanceController@create_bweb_ann_type_maint')->name('create_bweb_ann_type_maint');
+    Route::get('/get_bweb_ann_type_maint', 'maintenanceController@get_bweb_ann_type_maint')->name('get_bweb_ann_type_maint');
+    Route::post('/update_bweb_ann_type_maint', 'maintenanceController@update_bweb_ann_type_maint')->name('update_bweb_ann_type_maint');
 
-        //News Status
-        Route::get('/bweb_news_status_maint', 'maintenanceController@bweb_news_status_maint')->name('bweb_news_status_maint');
-        Route::post('/create_bweb_news_status_maint', 'maintenanceController@create_bweb_news_status_maint')->name('create_bweb_news_status_maint');
-        Route::get('/get_bweb_news_status_maint', 'maintenanceController@get_bweb_news_status_maint')->name('get_bweb_news_status_maint');
-        Route::post('/update_bweb_news_status_maint', 'maintenanceController@update_bweb_news_status_maint')->name('update_bweb_news_status_maint');
+    //News Status
+    Route::get('/bweb_news_status_maint', 'maintenanceController@bweb_news_status_maint')->name('bweb_news_status_maint');
+    Route::post('/create_bweb_news_status_maint', 'maintenanceController@create_bweb_news_status_maint')->name('create_bweb_news_status_maint');
+    Route::get('/get_bweb_news_status_maint', 'maintenanceController@get_bweb_news_status_maint')->name('get_bweb_news_status_maint');
+    Route::post('/update_bweb_news_status_maint', 'maintenanceController@update_bweb_news_status_maint')->name('update_bweb_news_status_maint');
 
-        //News Type
-        Route::get('/bweb_news_type_maint', 'maintenanceController@bweb_news_type_maint')->name('bweb_news_type_maint');
-        Route::post('/create_bweb_news_type_maint', 'maintenanceController@create_bweb_news_type_maint')->name('create_bweb_news_type_maint');
-        Route::get('/get_bweb_news_type_maint', 'maintenanceController@get_bweb_news_type_maint')->name('get_bweb_news_type_maint');
-        Route::post('/update_bweb_news_type_maint', 'maintenanceController@update_bweb_news_type_maint')->name('update_bweb_news_type_maint');
+    //News Type
+    Route::get('/bweb_news_type_maint', 'maintenanceController@bweb_news_type_maint')->name('bweb_news_type_maint');
+    Route::post('/create_bweb_news_type_maint', 'maintenanceController@create_bweb_news_type_maint')->name('create_bweb_news_type_maint');
+    Route::get('/get_bweb_news_type_maint', 'maintenanceController@get_bweb_news_type_maint')->name('get_bweb_news_type_maint');
+    Route::post('/update_bweb_news_type_maint', 'maintenanceController@update_bweb_news_type_maint')->name('update_bweb_news_type_maint');
 
+    //BINS UOM Unit of Measure
+    Route::get('/bins_uom_maint', 'BINSController@bins_uom_maint')->name('bins_uom_maint');
+    Route::post('/create_bins_uom_maint', 'BINSController@create_bins_uom_maint')->name('create_bins_uom_maint');
+    Route::get('/get_bins_uom_maint', 'BINSController@get_bins_uom_maint')->name('get_bins_uom_maint');
+    Route::post('/update_bins_uom_maint', 'BINSController@update_bins_uom_maint')->name('update_bins_uom_maint');
+
+    //BINS BES Borrowed Equipment Status
+    Route::get('/bins_bes_maint', 'BINSController@bins_bes_maint')->name('bins_bes_maint');
+    Route::post('/create_bins_bes_maint', 'BINSController@create_bins_bes_maint')->name('create_bins_bes_maint');
+    Route::get('/get_bins_bes_maint', 'BINSController@get_bins_bes_maint')->name('get_bins_bes_maint');
+    Route::post('/update_bins_bes_maint', 'BINSController@update_bins_bes_maint')->name('update_bins_bes_maint');
+
+    //BINS Item Classification
+    Route::get('/bins_item_class_maint', 'BINSController@bins_item_class_maint')->name('bins_item_class_maint');
+    Route::post('/create_bins_item_class_maint', 'BINSController@create_bins_item_class_maint')->name('create_bins_item_class_maint');
+    Route::get('/get_bins_item_class_maint', 'BINSController@get_bins_item_class_maint')->name('get_bins_item_class_maint');
+    Route::post('/update_bins_item_class_maint', 'BINSController@update_bins_item_class_maint')->name('update_bins_item_class_maint');
+
+    //BINS Item Status
+    Route::get('/bins_item_status_maint', 'BINSController@bins_item_status_maint')->name('bins_item_status_maint');
+    Route::post('/create_bins_item_status_maint', 'BINSController@create_bins_item_status_maint')->name('create_bins_item_status_maint');
+    Route::get('/get_bins_item_status_maint', 'BINSController@get_bins_item_status_maint')->name('get_bins_item_status_maint');
+    Route::post('/update_bins_item_status_maint', 'BINSController@update_bins_item_status_maint')->name('update_bins_item_status_maint');
+
+    //BINS Item Category
+    Route::get('/bins_item_category_maint', 'BINSController@bins_item_category_maint')->name('bins_item_category_maint');
+    Route::post('/create_bins_item_category_maint', 'BINSController@create_bins_item_category_maint')->name('create_bins_item_category_maint');
+    Route::get('/get_bins_item_category_maint', 'BINSController@get_bins_item_category_maint')->name('get_bins_item_category_maint');
+    Route::post('/update_bins_item_category_maint', 'BINSController@update_bins_item_category_maint')->name('update_bins_item_category_maint');
+
+    //BINS Begining Balance
+    Route::get('/bins_begbal', 'BINSController@bins_begbal')->name('bins_begbal');
+    Route::post('/create_bins_begbal', 'BINSController@create_bins_begbal')->name('create_bins_begbal');
+    Route::get('/get_bins_begbal', 'BINSController@get_bins_begbal')->name('get_bins_begbal');
+    Route::post('/update_bins_begbal', 'BINSController@update_bins_begbal')->name('update_bins_begbal');
+
+    //BINS Barangay Inventory
+    Route::get('/bins_inventroy', 'BINSController@bins_inventroy')->name('bins_inventroy');
+    Route::post('/create_bins_inventroy', 'BINSController@create_bins_inventroy')->name('create_bins_inventroy');
+    Route::get('/get_bins_inventroy', 'BINSController@get_bins_inventroy')->name('get_bins_inventroy');
+    Route::post('/update_bins_inventroy', 'BINSController@update_bins_inventroy')->name('update_bins_inventroy');
+
+    //BINS Item Inspection
+    Route::get('/bins_item_inspection', 'BINSController@bins_item_inspection')->name('bins_item_inspection');
+    Route::post('/create_bins_item_inspection', 'BINSController@create_bins_item_inspection')->name('create_bins_item_inspection');
+    Route::get('/get_bins_item_inspection', 'BINSController@get_bins_item_inspection')->name('get_bins_item_inspection');
+    Route::post('/update_bins_item_inspection', 'BINSController@update_bins_item_inspection')->name('update_bins_item_inspection');
+
+    //BINS Received Item
+    Route::get('/bins_received_item', 'BINSController@bins_received_item')->name('bins_received_item');
+    Route::post('/create_bins_received_item', 'BINSController@create_bins_received_item')->name('create_bins_received_item');
+    Route::get('/get_bins_received_item', 'BINSController@get_bins_received_item')->name('get_bins_received_item');
+    Route::post('/update_bins_received_item', 'BINSController@update_bins_received_item')->name('update_bins_received_item');
+
+    //BINS Physical Count
+    Route::get('/bins_physical_count', 'BINSController@bins_physical_count')->name('bins_physical_count');
+    Route::post('/create_bins_physical_count', 'BINSController@create_bins_physical_count')->name('create_bins_physical_count');
+    Route::get('/get_bins_physical_count', 'BINSController@get_bins_physical_count')->name('get_bins_physical_count');
+    Route::post('/update_bins_physical_count', 'BINSController@update_bins_physical_count')->name('update_bins_physical_count');
+
+    //BINS Inventory Disposal
+    Route::get('/bins_inv_disposal', 'BINSController@bins_inv_disposal')->name('bins_inv_disposal');
+    Route::post('/create_bins_inv_disposal', 'BINSController@create_bins_inv_disposal')->name('create_bins_inv_disposal');
+    Route::get('/get_bins_inv_disposal', 'BINSController@get_bins_inv_disposal')->name('get_bins_inv_disposal');
+    Route::post('/update_bins_inv_disposal', 'BINSController@update_bins_inv_disposal')->name('update_bins_inv_disposal');
+
+    //BINS Borrow Request
+    Route::get('/bins_borrow', 'BINSController@bins_borrow')->name('bins_borrow');
+    Route::post('/create_bins_borrow', 'BINSController@create_bins_borrow')->name('create_bins_borrow');
+    Route::get('/get_bins_borrow', 'BINSController@get_bins_borrow')->name('get_bins_borrow');
+    Route::post('/update_bins_borrow', 'BINSController@update_bins_borrow')->name('update_bins_borrow');
+
+    //BINS Supply Issuance
+    Route::get('/bins_supply_issuance', 'BINSController@bins_supply_issuance')->name('bins_supply_issuance');
+    Route::post('/create_bins_supply_issuance', 'BINSController@create_bins_supply_issuance')->name('create_bins_supply_issuance');
+    Route::get('/get_bins_supply_issuance', 'BINSController@get_bins_supply_issuance')->name('get_bins_supply_issuance');
+    Route::post('/update_bins_supply_issuance', 'BINSController@update_bins_supply_issuance')->name('update_bins_supply_issuance');
+        
     //Blood Type
     Route::get('/blood_type_maint', 'maintenanceController@blood_type_maint')->name('blood_type_maint');
     Route::post('/create_blood_type_maint', 'maintenanceController@create_blood_type_maint')->name('create_blood_type_maint');
@@ -183,9 +262,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update_casualty_status_maint', 'maintenanceController@update_casualty_status_maint')->name('update_casualty_status_maint');
 
     //BIPS Transaction
+    //BIPS Inhabitants
     Route::get('/inhabitants_information_list', 'bipsController@inhabitants_information_list')->name('inhabitants_information_list');
     Route::post('/create_inhabitants_information', 'bipsController@create_inhabitants_information')->name('create_inhabitants_information');
     Route::get('/get_inhabitants_info', 'bipsController@get_inhabitants_info')->name('get_inhabitants_info');
+    Route::get('/get_inhabitants_edu_info', 'bipsController@get_inhabitants_edu_info')->name('get_inhabitants_edu_info');
+    Route::get('/get_inhabitants_epm_info', 'bipsController@get_inhabitants_epm_info')->name('get_inhabitants_epm_info');
+    
+    //BIPS Household
+    Route::get('/inhabitants_household_profile', 'bipsController@inhabitants_household_profile')->name('inhabitants_household_profile');
+    Route::post('/create_household_information', 'bipsController@create_household_information')->name('create_household_information');
+    Route::get('/get_household_info', 'bipsController@get_household_info')->name('get_household_info');
+
+    //BIPS Resident
+    Route::get('/inhabitants_resident_profile', 'bipsController@inhabitants_resident_profile')->name('inhabitants_resident_profile');
+    Route::post('/create_resident_information', 'bipsController@create_resident_information')->name('create_resident_information');
+    Route::get('/get_resident_info', 'bipsController@get_resident_info')->name('get_resident_info');
 
     // Global Controller
     Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
