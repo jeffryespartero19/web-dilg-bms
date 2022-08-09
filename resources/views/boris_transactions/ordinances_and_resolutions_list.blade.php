@@ -1,8 +1,6 @@
 @extends('layouts.default')
 
 @section('content')
-<script src="{{ asset('/js/maintenance.js') }}" defer></script>
-<link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
     <div class="col-md-6 titleXZ"> Ordinances and Resolutions List </div>
@@ -70,14 +68,16 @@
     </div>
 </div>
 
+
 <!-- Create Announcement_Status Modal -->
 
 <div class="modal fade" id="createOrdinance_Info" tabindex="-1" role="dialog" aria-labelledby="Create_Ordinance" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title flexer justifier" id="Modal_Title">Create Ordinance and Resolution</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+
             </div>
             <div class="modal-body">
                 <form id="newOrdinance" method="POST" action="{{ route('create_ordinance_and_resolution') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -158,11 +158,16 @@
                                     <option value='' disabled selected>Select Option</option>
                                 </select>
                             </div>
-
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <label for="fileattach">File Attach</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                    <label class="custom-file-label" for="fileattach">Choose file</label>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
@@ -344,12 +349,47 @@
 
 
     });
+
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+        var files = Array.from(this.files)
+        var fileName = files.map(f => {
+            return f.name
+        }).join(", ")
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
 </script>
 
 <style>
-    table {
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
         display: inline-block;
-        overflow-x: scroll;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 
