@@ -54,10 +54,10 @@ class borisController extends Controller
     public function create_ordinance_and_resolution(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         if ($data['Ordinance_Resolution_ID'] == null || $data['Ordinance_Resolution_ID'] == 0) {
-            DB::table('boris_brgy_ordinances_and_resolutions_information')->insert(
+            $Ordinance_Resolution_ID =  DB::table('boris_brgy_ordinances_and_resolutions_information')->insertGetID(
                 array(
                     'Ordinance_or_Resolution' => (int)$data['Ordinance_or_Resolution'],
                     'Ordinance_Resolution_No' => $data['Ordinance_Resolution_No'],
@@ -75,6 +75,24 @@ class borisController extends Controller
                     'Date_Stamp'       => Carbon::now()
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/ordinance_and_resolution/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Ordinance_Resolution_ID' => $Ordinance_Resolution_ID,
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('boris_file_attachment')->insert($file_data);
+                }
+            }
 
             return redirect()->back()->with('message', 'New Record Created');
         } else {
@@ -96,6 +114,24 @@ class borisController extends Controller
                     'Date_Stamp'       => Carbon::now()
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/ordinance_and_resolution/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Ordinance_Resolution_ID' => $data['Ordinance_Resolution_ID'],
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('boris_file_attachment')->insert($file_data);
+                }
+            }
 
             return redirect()->back()->with('message', 'Record Updated');
         }
