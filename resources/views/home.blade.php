@@ -153,15 +153,15 @@
                                 <div class="who_seePost">
                                     <select id="postType" name="postType">
                                         <option value="" hidden selected>News Type</option>
-                                        <option value="">Type 1</option>
-                                        <option value="">Type 2</option>
-                                        <option value="">Type 3</option>
+                                        @foreach($NewsType_list as $ntl)
+                                            <option value="{{$ntl->News_Type_ID}}">{{$ntl->News_Type_Name}}</option>
+                                        @endforeach
                                     </select>
                                     <select id="postStatus" name="postStatus">
                                         <option value="" hidden selected>Status Type</option>
-                                        <option value="">Status 1</option>
-                                        <option value="">Status 2</option>
-                                        <option value="">Status 3</option>
+                                        @foreach($NewsStatus_list as $nsl)
+                                            <option value="{{$nsl->News_Status_ID}}">{{$nsl->News_Status}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -238,15 +238,15 @@
                                 <div class="who_seePost">
                                     <select id="annType" name="annType">
                                         <option value="" hidden selected>Announcement Type</option>
-                                        <option value="">Type 1</option>
-                                        <option value="">Type 2</option>
-                                        <option value="">Type 3</option>
+                                        @foreach($AnnouncementType_list as $atl)
+                                            <option value="{{$atl->Announcement_Type_ID}}">{{$atl->Announcement_Type_Name}}</option>
+                                        @endforeach
                                     </select>
-                                    <select id="annType" name="annStatus">
+                                    <select id="annStatus" name="annStatus">
                                         <option value="" hidden selected>Status Type</option>
-                                        <option value="">Status 1</option>
-                                        <option value="">Status 2</option>
-                                        <option value="">Status 3</option>
+                                        @foreach($AnnouncementStatus_list as $asl)
+                                            <option value="{{$asl->Announcement_Status_ID}}">{{$asl->Announcement_Status}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -324,15 +324,15 @@
                                 <div class="who_seePost">
                                     <select id="postType_edit" name="postType_edit">
                                         <option id="this_postType" value="" hidden selected>News Type</option>
-                                        <option value="">Type 1</option>
-                                        <option value="">Type 2</option>
-                                        <option value="">Type 3</option>
+                                        @foreach($NewsType_list as $ntl)
+                                            <option value="{{$ntl->News_Type_ID}}">{{$ntl->News_Type_Name}}</option>
+                                        @endforeach
                                     </select>
                                     <select id="postStatus_edit" name="postStatus_edit">
                                         <option id="this_postStatus" value="" hidden selected>Status Type</option>
-                                        <option value="">Status 1</option>
-                                        <option value="">Status 2</option>
-                                        <option value="">Status 3</option>
+                                        @foreach($NewsStatus_list as $nsl)
+                                            <option value="{{$nsl->News_Status_ID}}">{{$nsl->News_Status}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

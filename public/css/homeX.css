@@ -122,4 +122,17 @@
 
 .AnnouncementBody{
 padding: 10px;
+text-align: left;
+}
+.AnnouncementContainer{
+    width: 70%;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 25px;
+}
+.AnnouncementContainer2{
+    width: 60%;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 45px;
 }

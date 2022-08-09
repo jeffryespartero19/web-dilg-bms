@@ -34,6 +34,39 @@ $(document).on('click','#gifUpload2',function(e) {
     $('#up1_only2').val('gif');
 });
 
+//////////////////
+
+
+$(document).on('click','#FUpload_edit',function(e) {
+    $('#up1_only_edit').val('file'); 
+});
+$(document).on('click','#imgUpload_edit',function(e) {
+    $('#up1_only_edit').val('image'); 
+});
+$(document).on('click','#vidUpload_edit',function(e) {
+    $('#up1_only_edit').val('video');
+});
+$(document).on('click','#gifUpload_edit',function(e) {
+    $('#up1_only_edit').val('gif');
+});
+
+$(document).on('click','#FUpload_edit2',function(e) {
+    $('#up1_only_edit2').val('file'); 
+});
+$(document).on('click','#imgUpload_edit2',function(e) {
+    $('#up1_only_edit2').val('image'); 
+});
+$(document).on('click','#vidUpload_edit2',function(e) {
+    $('#up1_only_edit2').val('video');
+});
+$(document).on('click','#gifUpload_edit2',function(e) {
+    $('#up1_only_edit2').val('gif');
+});
+
+
+////////////////
+
+
 //post buttons
 $(document).on('click','.postThis',function(e) {
     $('#userPost').submit(); 
@@ -58,8 +91,8 @@ $(document).on('click',('.editZ'),function(e) {
          },
         success: function (data) { 
             
-            // $('#this_postType').val(data['Announcement_Type'][0]['News_Type_ID']);
-            // $('#this_postStatus').val(data['Announcement_Type'][0]['News_Status_ID']);
+            $('#this_postType').val(data['Announcement_Type'][0]['News_Type_ID']);
+            $('#this_postStatus').val(data['Announcement_Type'][0]['News_Status_ID']);
 
             $('#posterName_edit').empty();
             $('#posterName_edit').append(data['the_Post_User'][0]['name']);
@@ -78,14 +111,37 @@ $(document).on('click',('.editZ'),function(e) {
                  );
             });
 
+            if ($('#attached_items').is(':empty')){
+                $('.edit_hidden').removeAttr('hidden');
+                $('.edit_hidden').show();
+                $('.att_table').hide();
+            }else{
+                $('.att_table').show();
+                $('.edit_hidden').hide();
+            }
+
         }
     });
-
-    
+ 
  });
+
+ $(document).on('click',('.editZ2'),function(e) {
+    if ($.trim($("#attached_items").html())==''){
+        $('.edit_hidden').removeAttr('hidden');
+        $('.edit_hidden').show();
+        $('.att_table').hide();
+    }else{
+        $('.att_table').show();
+        $('.edit_hidden').hide();
+    }
+});
 
 $(document).on('click','.change_att',function(e) {
     $('#editPost_form').on('submit', function(e){
+        e.preventDefault();
+        $(this).unbind(e);
+    });
+    $('#editAnn_form').on('submit', function(e){
         e.preventDefault();
         $(this).unbind(e);
     });
@@ -96,6 +152,10 @@ $(document).on('click','.change_att',function(e) {
 
 $(document).on('click','.postThis_edit',function(e) {
     $('#editPost_form').submit(); 
+});
+
+$(document).on('click','.updateThisAnn',function(e) {
+    $('#editAnn_form').submit(); 
 });
 
 $('#editPost').on('hidden.bs.modal', function () {
