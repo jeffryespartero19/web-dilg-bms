@@ -169,7 +169,8 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href=""><li role="presentation">List of Projects</li></a>
+                <a href="{{route('contractor_list')}}"><li role="presentation">Contractor</li></a>
+                <a href="{{route('brgy_projects_monitoring_list')}}"><li role="presentation">Brgy Projects Monitoring</li></a>
             </ul>
         </div>
         

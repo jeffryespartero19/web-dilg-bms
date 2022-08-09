@@ -279,18 +279,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/create_resident_information', 'bipsController@create_resident_information')->name('create_resident_information');
     Route::get('/get_resident_info', 'bipsController@get_resident_info')->name('get_resident_info');
 
-    // Global Controller
-    Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
-    Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
-    Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
-
      //Deceased Profile
      Route::get('/deceased_profile_list', 'bipsController@deceased_profile_list')->name('deceased_profile_list');
      Route::post('/create_deceased_profile', 'bipsController@create_deceased_profile')->name('create_deceased_profile');
      Route::get('/get_deceased_profile', 'bipsController@get_deceased_profile')->name('get_deceased_profile');
      Route::post('/update_deceased_profile', 'bipsController@update_deceased_profile')->name('update_deceased_profile');
 
-     //Inhabitants ransfer
+     //Inhabitants transfer
      Route::get('/inhabitants_transfer_list', 'bipsController@inhabitants_transfer_list')->name('inhabitants_transfer_list');
      Route::post('/create_inhabitants_transfer', 'bipsController@create_inhabitants_transfer')->name('create_inhabitants_transfer');
      Route::get('/get_inhabitants_transfer', 'bipsController@get_inhabitants_transfer')->name('get_inhabitants_transfer');
@@ -300,5 +295,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
     Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
     Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+
+     //contractor
+     Route::get('/contractor_list', 'bpmsController@contractor_list')->name('contractor_list');
+     Route::post('/create_contractor', 'bpmsController@create_contractor')->name('create_contractor');
+     Route::get('/get_contractor', 'bpmsController@get_contractor')->name('get_contractor');
+     Route::post('/update_contractor', 'bpmsController@update_contractor')->name('update_contractor');
+
+      //Brgy Projects Monitoring
+      Route::get('/brgy_projects_monitoring_list', 'bpmsController@brgy_projects_monitoring_list')->name('brgy_projects_monitoring_list');
+      Route::post('/create_brgy_projects_monitoring', 'bpmsController@create_brgy_projects_monitoring')->name('create_brgy_projects_monitoring');
+      Route::get('/get_brgy_projects_monitoring', 'bpmsController@get_brgy_projects_monitoring')->name('get_brgy_projects_monitoring');
+      Route::post('/update_brgy_projects_monitoring', 'bpmsController@update_brgy_projects_monitoring')->name('update_brgy_projects_monitoring');
   
 });
