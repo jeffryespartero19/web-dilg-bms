@@ -34,9 +34,9 @@
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
         <!-- <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div> -->
     </div>
-    <br>
-    <div class="col-md-12">
+    <div>
         <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <caption style="text-align:left; background-color:#e7ad52; color:white">&nbsp;&nbsp;Pending</caption>
             <thead>
                 <tr>
                     <th hidden>Resident_ID</th>
@@ -64,6 +64,60 @@
             </tbody>
         </table>
     </div>
+    <hr>
+    <div>
+        <table id="example2" class="table table-striped table-bordered" style="width:100%">
+            <caption style="text-align:left; background-color:#198754; color:white">&nbsp;&nbsp;Approved</caption>
+            <thead>
+                <tr>
+                    <th hidden>Resident_ID</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Name Suffix</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($db_entries2 as $x)
+                <tr>
+                    <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
+
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div>
+        <table id="example3" class="table table-striped table-bordered" style="width:100%">
+            <caption style="text-align:left; background-color:#ed5170; color:white">&nbsp;&nbsp;Disapproved</caption>
+            <thead>
+                <tr>
+                    <th hidden>Resident_ID</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Name Suffix</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($db_entries3 as $x)
+                <tr>
+                    <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
+
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <div hidden>
         <form id="Approved_Inhabitant" method="POST" action="{{ route('approve_disapprove_inhabitants') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -82,6 +136,8 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+        $('#example2').DataTable();
+        $('#example3').DataTable();
     });
 
     // Approve Inhabitants

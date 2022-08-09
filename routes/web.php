@@ -87,6 +87,54 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_bins_item_category_maint', 'BINSController@get_bins_item_category_maint')->name('get_bins_item_category_maint');
     Route::post('/update_bins_item_category_maint', 'BINSController@update_bins_item_category_maint')->name('update_bins_item_category_maint');
 
+    //BINS Begining Balance
+    Route::get('/bins_begbal', 'BINSController@bins_begbal')->name('bins_begbal');
+    Route::post('/create_bins_begbal', 'BINSController@create_bins_begbal')->name('create_bins_begbal');
+    Route::get('/get_bins_begbal', 'BINSController@get_bins_begbal')->name('get_bins_begbal');
+    Route::post('/update_bins_begbal', 'BINSController@update_bins_begbal')->name('update_bins_begbal');
+
+    //BINS Barangay Inventory
+    Route::get('/bins_inventroy', 'BINSController@bins_inventroy')->name('bins_inventroy');
+    Route::post('/create_bins_inventroy', 'BINSController@create_bins_inventroy')->name('create_bins_inventroy');
+    Route::get('/get_bins_inventroy', 'BINSController@get_bins_inventroy')->name('get_bins_inventroy');
+    Route::post('/update_bins_inventroy', 'BINSController@update_bins_inventroy')->name('update_bins_inventroy');
+
+    //BINS Item Inspection
+    Route::get('/bins_item_inspection', 'BINSController@bins_item_inspection')->name('bins_item_inspection');
+    Route::post('/create_bins_item_inspection', 'BINSController@create_bins_item_inspection')->name('create_bins_item_inspection');
+    Route::get('/get_bins_item_inspection', 'BINSController@get_bins_item_inspection')->name('get_bins_item_inspection');
+    Route::post('/update_bins_item_inspection', 'BINSController@update_bins_item_inspection')->name('update_bins_item_inspection');
+
+    //BINS Received Item
+    Route::get('/bins_received_item', 'BINSController@bins_received_item')->name('bins_received_item');
+    Route::post('/create_bins_received_item', 'BINSController@create_bins_received_item')->name('create_bins_received_item');
+    Route::get('/get_bins_received_item', 'BINSController@get_bins_received_item')->name('get_bins_received_item');
+    Route::post('/update_bins_received_item', 'BINSController@update_bins_received_item')->name('update_bins_received_item');
+
+    //BINS Physical Count
+    Route::get('/bins_physical_count', 'BINSController@bins_physical_count')->name('bins_physical_count');
+    Route::post('/create_bins_physical_count', 'BINSController@create_bins_physical_count')->name('create_bins_physical_count');
+    Route::get('/get_bins_physical_count', 'BINSController@get_bins_physical_count')->name('get_bins_physical_count');
+    Route::post('/update_bins_physical_count', 'BINSController@update_bins_physical_count')->name('update_bins_physical_count');
+
+    //BINS Inventory Disposal
+    Route::get('/bins_inv_disposal', 'BINSController@bins_inv_disposal')->name('bins_inv_disposal');
+    Route::post('/create_bins_inv_disposal', 'BINSController@create_bins_inv_disposal')->name('create_bins_inv_disposal');
+    Route::get('/get_bins_inv_disposal', 'BINSController@get_bins_inv_disposal')->name('get_bins_inv_disposal');
+    Route::post('/update_bins_inv_disposal', 'BINSController@update_bins_inv_disposal')->name('update_bins_inv_disposal');
+
+    //BINS Borrow Request
+    Route::get('/bins_borrow', 'BINSController@bins_borrow')->name('bins_borrow');
+    Route::post('/create_bins_borrow', 'BINSController@create_bins_borrow')->name('create_bins_borrow');
+    Route::get('/get_bins_borrow', 'BINSController@get_bins_borrow')->name('get_bins_borrow');
+    Route::post('/update_bins_borrow', 'BINSController@update_bins_borrow')->name('update_bins_borrow');
+
+    //BINS Supply Issuance
+    Route::get('/bins_supply_issuance', 'BINSController@bins_supply_issuance')->name('bins_supply_issuance');
+    Route::post('/create_bins_supply_issuance', 'BINSController@create_bins_supply_issuance')->name('create_bins_supply_issuance');
+    Route::get('/get_bins_supply_issuance', 'BINSController@get_bins_supply_issuance')->name('get_bins_supply_issuance');
+    Route::post('/update_bins_supply_issuance', 'BINSController@update_bins_supply_issuance')->name('update_bins_supply_issuance');
+
     //Blood Type
     Route::get('/blood_type_maint', 'maintenanceController@blood_type_maint')->name('blood_type_maint');
     Route::post('/create_blood_type_maint', 'maintenanceController@create_blood_type_maint')->name('create_blood_type_maint');
@@ -234,7 +282,25 @@ Route::group(['middleware' => 'auth'], function () {
     //BIPS Inhabitants Incoming List
     Route::get('/inhabitants_incoming_list', 'bipsController@inhabitants_incoming_list')->name('inhabitants_incoming_list');
     Route::post('/approve_disapprove_inhabitants', 'bipsController@approve_disapprove_inhabitants')->name('approve_disapprove_inhabitants');
-   
+
+    //contractor
+    Route::get('/contractor_list', 'bpmsController@contractor_list')->name('contractor_list');
+    Route::post('/create_contractor', 'bpmsController@create_contractor')->name('create_contractor');
+    Route::get('/get_contractor', 'bpmsController@get_contractor')->name('get_contractor');
+    Route::post('/update_contractor', 'bpmsController@update_contractor')->name('update_contractor');
+
+    //Brgy Projects Monitoring
+    Route::get('/brgy_projects_monitoring_list', 'bpmsController@brgy_projects_monitoring_list')->name('brgy_projects_monitoring_list');
+    Route::post('/create_brgy_projects_monitoring', 'bpmsController@create_brgy_projects_monitoring')->name('create_brgy_projects_monitoring');
+    Route::get('/get_brgy_projects_monitoring', 'bpmsController@get_brgy_projects_monitoring')->name('get_brgy_projects_monitoring');
+    Route::post('/update_brgy_projects_monitoring', 'bpmsController@update_brgy_projects_monitoring')->name('update_brgy_projects_monitoring');
+
+    // BORIS TRANSATIONS
+    //BORIS Ordinance & Resolutions
+    Route::get('/ordinances_and_resolutions_list', 'borisController@ordinances_and_resolutions_list')->name('ordinances_and_resolutions_list');
+    Route::post('/create_ordinance_and_resolution', 'borisController@create_ordinance_and_resolution')->name('create_ordinance_and_resolution');
+    Route::get('/get_ordinance_and_resolution_info', 'borisController@get_ordinance_and_resolution_info')->name('get_ordinance_and_resolution_info');
+
     // Global Controller
     Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
     Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
