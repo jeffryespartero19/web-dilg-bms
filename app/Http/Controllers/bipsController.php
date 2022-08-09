@@ -122,7 +122,8 @@ class bipsController extends Controller
                 '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now()
-            ];
+            )
+        );
 
             DB::table('bips_resident_profile')->insert($resident);
 
@@ -187,7 +188,6 @@ class bipsController extends Controller
                         DB::table('bips_employment_history')->updateOrInsert(['Employment_ID' => $id], $employment);
                     }
                 }
-            }
 
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -240,6 +240,7 @@ class bipsController extends Controller
             DB::table('bips_education')->where('Resident_ID', $data['Resident_ID'])->delete();
 
         return redirect()->back()->with('alert', 'New Entry Created');
+        }
     }
 
     // Display Inhabitants Details
