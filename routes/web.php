@@ -234,6 +234,10 @@ Route::group(['middleware' => 'auth'], function () {
     //BIPS Inhabitants Incoming List
     Route::get('/inhabitants_incoming_list', 'bipsController@inhabitants_incoming_list')->name('inhabitants_incoming_list');
     Route::post('/approve_disapprove_inhabitants', 'bipsController@approve_disapprove_inhabitants')->name('approve_disapprove_inhabitants');
+
+    // BORIS TRANSATIONS
+    //BORIS Ordinance & Resolutions
+    Route::get('/ordinances_and_resolutions_list', 'bipsController@ordinances_and_resolutions_list')->name('ordinances_and_resolutions_list');
    
     // Global Controller
     Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');

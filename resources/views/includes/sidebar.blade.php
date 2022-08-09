@@ -42,7 +42,7 @@
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu1">
                 <a href=""><li role="presentation">List of Ordinances</li></a>
-                <a href=""><li role="presentation">Ordinance Information</li></a> 
+                <a href="{{route('ordinances_and_resolutions_list')}}"><li role="presentation">Ordinance Information</li></a> 
             </ul>
         </div>
         <div class="module">

@@ -465,6 +465,38 @@ class bipsController extends Controller
             )
             ->where('a.Status_ID', 0)
             ->paginate(20, ['*'], 'db_entries');
+        $db_entries2 = DB::table('Inhabitants_Transfer as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.City_Municipality_ID',
+                'a.Barangay_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'c.Name_Suffix'
+            )
+            ->where('a.Status_ID', 1)
+            ->paginate(20, ['*'], 'db_entries');
+        $db_entries3 = DB::table('Inhabitants_Transfer as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.City_Municipality_ID',
+                'a.Barangay_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'c.Name_Suffix'
+            )
+            ->where('a.Status_ID', 2)
+            ->paginate(20, ['*'], 'db_entries');
         $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
         $region = DB::table('maintenance_region')->where('Active', 1)->get();
         $province = DB::table('maintenance_province')->where('Active', 1)->get();
@@ -474,6 +506,8 @@ class bipsController extends Controller
 
         return view('bips_transactions.inhabitants_incoming_list', compact(
             'db_entries',
+            'db_entries2',
+            'db_entries3',
             'currDATE',
             'suffix',
             'region',
