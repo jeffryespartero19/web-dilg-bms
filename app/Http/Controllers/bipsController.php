@@ -444,28 +444,79 @@ class bipsController extends Controller
 
         return (compact('theEntry'));
     }
-   
-    //updating Inhabitants Transfer
-    public function update_inhabitants_transfer(Request $request)
 
+    //Inhabitants Incoming List
+    public function inhabitants_incoming_list(Request $request)
     {
         $currDATE = Carbon::now();
+        $db_entries = DB::table('Inhabitants_Transfer as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.City_Municipality_ID',
+                'a.Barangay_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'c.Name_Suffix'
+            )
+            ->where('a.Status_ID', 0)
+            ->paginate(20, ['*'], 'db_entries');
+        $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Active', 1)->get();
+        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
+        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
+
+
+        return view('bips_transactions.inhabitants_incoming_list', compact(
+            'db_entries',
+            'currDATE',
+            'suffix',
+            'region',
+            'province',
+            'city',
+            'barangay'
+        ));
+    }
+
+    // Approve Disapprove Inhabitants Transfer
+    public function approve_disapprove_inhabitants(Request $request)
+    {
         $data = $data = request()->all();
 
-        DB::table('bips_inhabitants_transfer')->where('Inhabitants_Transfer_ID',$data['Inhabitants_Transfer_ID1'])->update(
-            array(
-                'Encoder_ID'           => Auth::user()->id,
-                'Date_Stamp'           => Carbon::now(),
-                'Resident_ID'          => $data['Resident_ID1'],
-                'Region_ID'            => $data['Region_ID1'],
-                'Province_ID'          => $data['Province_ID1'],
-                'City_Municipality_ID' => $data['City_Municipality_ID1'],
-                'Barangay_ID'          => $data['Barangay_ID1'],
-                
-                
-            )
-        );
+        if ($data['Status_ID'] == 1) {
+            $message = 'Approved';
 
-        return redirect()->back()->with('alert', 'Updated Entry');
+            $resident = DB::table('inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->get();
+
+            DB::table('inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->update(
+                array(
+                    'Status_ID' => $data['Status_ID'],
+                )
+            );
+
+            DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
+                array(
+                    'Barangay_ID' => $resident[0]->Barangay_ID,
+                    'City_Municipality_ID' => $resident[0]->City_Municipality_ID,
+                    'Province_ID' => $resident[0]->Province_ID,
+                    'Region_ID' => $resident[0]->Region_ID,
+                )
+            );
+        } else {
+            $message = 'Disapprove';
+
+            DB::table('inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->update(
+                array(
+                    'Status_ID' => $data['Status_ID'],
+                )
+            );
+        }
+
+        return redirect()->back()->with('message', 'Resident ' . $message);
     }
 }
