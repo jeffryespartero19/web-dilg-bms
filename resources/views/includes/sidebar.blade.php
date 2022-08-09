@@ -42,7 +42,7 @@
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu1">
                 <a href=""><li role="presentation">List of Ordinances</li></a>
-                <a href=""><li role="presentation">Ordinance Information</li></a> 
+                <a href="{{route('ordinances_and_resolutions_list')}}"><li role="presentation">Ordinance Information</li></a> 
             </ul>
         </div>
         <div class="module">
@@ -53,9 +53,9 @@
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
                 <a href=""><li role="presentation">List of Transactions</li></a>
-                <a href="{{route('inhabitants_information_list')}}"><li role="presentation">Inhabitants Information List</li></a> 
-                <a href="{{route('deceased_profile_list')}}"><li role="presentation">Deceased Profile</li></a>
-                <a href="{{route('inhabitants_transfer_list')}}"><li role="presentation">Inhabitants Transfer</li></a>
+                <a href="{{route('inhabitants_information_list')}}"><li role="presentation">Inhabitants List</li></a>
+                <a href="{{route('inhabitants_household_profile')}}"><li role="presentation">Household Profile</li></a>
+                <a href="{{route('inhabitants_incoming_list')}}"><li role="presentation">Incoming List</li></a> 
             </ul>
         </div>
         <div class="module">

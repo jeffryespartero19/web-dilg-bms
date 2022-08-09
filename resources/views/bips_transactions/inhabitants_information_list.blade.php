@@ -599,7 +599,7 @@
             '</tr>';
         $('#EducTBLD').append(option);
 
-        // Reset Education Table
+        // Reset Employment Table
         $('#EmpTBLD').empty();
         var option_emp = '<tr>' +
             '<tr>' +
