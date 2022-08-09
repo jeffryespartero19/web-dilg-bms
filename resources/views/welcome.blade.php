@@ -96,7 +96,7 @@
          <link href="{{ asset('/css/homeX.css') }}" rel="stylesheet">
          <link href="{{ asset('/css/general.css') }}" rel="stylesheet">
     </head>
-    <body>
+    <body class="">
         <div id="main_public">
             <div class="top-right links" style="z-index: 999">
 
@@ -130,12 +130,12 @@
                                         </div>
                                         <div class="Absolute-Center">
                                             <div>
-                                                <div class="posterName">{{Auth::user()->name}}</div>
+                                                <div class="posterName"></div>
                                                 <div class="posterDate"> {{ ($currDATE)->format('M. d, Y') }} </div>
                                             </div>
                                         </div>
                                         <div class="postContainer">
-                                            <button class="postArea" data-toggle="modal" data-target="#createPost">What's on your mind, {{Auth::user()->name}} ?</button>
+                                            <button class="postArea" data-toggle="modal" data-target="#createPost">What's on your mind, ?</button>
                                         </div>
                                     </div>
                                 </div>
@@ -149,16 +149,8 @@
                                 @foreach ($posts as $p)
                                     <div class="commentPoster borderSmoothen">
                                         <div class="flexer spacer_xxs_down padder10_all">
-                                            <div class="Absolute-Center">
-                                                <img src="{{ asset('/css/img/profileDefault_xs.jpg') }}" class="profilePic">
-                                            </div>
                                             <div>
                                                 <div>
-                                                    <div class="posterName">
-                                                        @foreach($usersX as $urx)
-                                                            @if($p->Encoder_ID == $urx->id){{ $urx->name }}@endif
-                                                        @endforeach
-                                                    </div>
                                                     <div class="posterDate"> {{ ($p->Date_Stamp) }} </div>
                                                 </div>
                                             </div>
@@ -203,13 +195,14 @@
                     <div class="col-md-3 rightPane">
                         <div class="flexer justifier ">
                             <div class="cardTitle width100 txtCtr"><h3>Events / Announcements</h3></div>
+                            
                         </div>
                         
                         @isset($EV_AN)
                         @foreach($EV_AN as $ex)
                         <div class="flexer justifier EventContainer">
                             <div class="E_Loop_container"> 
-                                <i class="fa fa-caret-square-o-right iconEvent" aria-hidden="true"></i>
+                                <img src="{{ asset('/css/img/MegaPhone_PNG.png') }}" width="45" style="margin-left: -30px;">
                             </div>
                             <div class="EVtxtcontainer">
                                 <form method="GET" action="{{ route('viewAnnouncement') }}" autocomplete="off">
@@ -221,6 +214,7 @@
                                         </div>
                                     </button>
                                 </form>
+                                <div class="moreInfo width100 txtCtr" style="margin-top:3px;"> Click for More Info</div>
                             </div>
                         </div>
                         @endforeach
@@ -229,5 +223,10 @@
                 </div>
             </div>
         </div>
+        {{-- <footer class="">
+            <div>
+                <span style="font-size: 11px;"> Wizzard Technologies, Inc. DILG-BIS</span>
+            </div>
+        </footer> --}}
     </body>
 </html>
