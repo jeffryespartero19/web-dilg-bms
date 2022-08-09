@@ -307,5 +307,6 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_brgy_projects_monitoring', 'bpmsController@create_brgy_projects_monitoring')->name('create_brgy_projects_monitoring');
       Route::get('/get_brgy_projects_monitoring', 'bpmsController@get_brgy_projects_monitoring')->name('get_brgy_projects_monitoring');
       Route::post('/update_brgy_projects_monitoring', 'bpmsController@update_brgy_projects_monitoring')->name('update_brgy_projects_monitoring');
+      Route::get('/get_milestone', 'bpmsController@get_milestone')->name('get_milestone');
   
 });
