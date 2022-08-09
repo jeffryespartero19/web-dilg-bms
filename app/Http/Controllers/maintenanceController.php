@@ -144,7 +144,7 @@ class maintenanceController extends Controller
     {
         $id=$_GET['id'];
 
-        $theEntry=DB::table('maintenance_brgy_web_announcement_type')->where('News_Type_ID',$id)->get();
+        $theEntry=DB::table('maintenance_brgy_web_announcement_type')->where('Announcement_Type_ID',$id)->get();
 
         return(compact('theEntry'));
     }
@@ -153,11 +153,11 @@ class maintenanceController extends Controller
         $currDATE = Carbon::now();
         $data = $data = request()->all();
 
-        DB::table('maintenance_brgy_web_announcement_type')->where('News_Type_ID',$data['News_Type_idX'])->update(
+        DB::table('maintenance_brgy_web_announcement_type')->where('Announcement_Type_ID',$data['Announcement_Type_idX'])->update(
             array(
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now(),
-                'News_Type_Name'  => $data['News_Type_NameX2'],
+                'Announcement_Type_Name'  => $data['Announcement_Type_NameX2'],
                 'Active'               => (int)$data['ActiveX2']
             )
         );
@@ -1169,8 +1169,7 @@ class maintenanceController extends Controller
     public function casualty_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bdris_casualty_status')->paginate(20,['*'], 'db_entries');
-
+       $db_entries = DB::table('maintenance_bdris_casualty_status')->paginate(20,['*'], 'db_entries');
         return view('maintenance.bdris_casualty_status',compact('db_entries','currDATE'));
     }
 

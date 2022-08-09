@@ -141,6 +141,48 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+    if(ident == 6){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bins_begbal",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#Inventory_BegBal_ID').val(data['theEntry'][0]['Item_Category_ID']);
+                $('#this_item_unit_cost').val(data['theEntry'][0]['Unit_Cost']);
+                $('#this_item_qty').val(data['theEntry'][0]['Quantity']);
+           
+            }
+        });
+    }
+
+    if(ident == 7){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bins_item_inspection",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_rci_idX').empty();
+                $('#this_rci_idX').val(data['theRC_item'][0]['Received_Item_ID']);
+
+                $('#this_markingsX').val(data['theEntry'][0]['Markings']);
+                $('#this_serial_noX').val(data['theEntry'][0]['Serial_No']);
+
+                $('#this_item_statusX').empty();
+                $('#this_item_statusX').val(data['theitem_status'][0]['Item_Status_ID']);
+                $('#this_item_statusX').append(data['theitem_status'][0]['Item_Status']);
+           
+            }
+        });
+    }
+
     
 });
 
