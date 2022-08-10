@@ -141,11 +141,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_blood_type_maint', 'maintenanceController@get_blood_type_maint')->name('get_blood_type_maint');
     Route::post('/update_blood_type_maint', 'maintenanceController@update_blood_type_maint')->name('update_blood_type_maint');
 
-    //Deceased Type
-    Route::get('/deceased_type_maint', 'maintenanceController@deceased_type_maint')->name('deceased_type_maint');
-    Route::post('/create_deceased_type_maint', 'maintenanceController@create_deceased_type_maint')->name('create_deceased_type_maint');
-    Route::get('/get_deceased_type_maint', 'maintenanceController@get_deceased_type_maint')->name('get_deceased_type_maint');
-    Route::post('/update_deceased_type_maint', 'maintenanceController@update_deceased_type_maint')->name('update_deceased_type_maint');
+    //Deceased Profile
+    Route::get('/deceased_profile_list', 'bipsController@deceased_profile_list')->name('deceased_profile_list');
+    Route::post('/create_deceased_profile', 'bipsController@create_deceased_profile')->name('create_deceased_profile');
+    Route::get('/get_deceased_profile', 'bipsController@get_deceased_profile')->name('get_deceased_profile');
+    Route::post('/update_deceased_profile', 'bipsController@update_deceased_profile')->name('update_deceased_profile');
 
     //Civil Status
     Route::get('/civil_status_maint', 'maintenanceController@civil_status_maint')->name('civil_status_maint');
@@ -261,6 +261,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_casualty_status_maint', 'maintenanceController@get_casualty_status_maint')->name('get_casualty_status_maint');
     Route::post('/update_casualty_status_maint', 'maintenanceController@update_casualty_status_maint')->name('update_casualty_status_maint');
 
+    //Deceased Type
+    Route::get('/deceased_type_maint', 'maintenanceController@deceased_type_maint')->name('deceased_type_maint');
+    Route::post('/create_deceased_type_maint', 'maintenanceController@create_deceased_type_maint')->name('create_deceased_type_maint');
+    Route::get('/get_deceased_type_maint', 'maintenanceController@get_deceased_type_maint')->name('get_deceased_type_maint');
+    Route::post('/update_deceased_type_maint', 'maintenanceController@update_deceased_type_maint')->name('update_deceased_type_maint');
+
     //BIPS Transaction
     //BIPS Inhabitants
     Route::get('/inhabitants_information_list', 'bipsController@inhabitants_information_list')->name('inhabitants_information_list');
@@ -278,6 +284,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/inhabitants_resident_profile', 'bipsController@inhabitants_resident_profile')->name('inhabitants_resident_profile');
     Route::post('/create_resident_information', 'bipsController@create_resident_information')->name('create_resident_information');
     Route::get('/get_resident_info', 'bipsController@get_resident_info')->name('get_resident_info');
+
+    //Inhabitants Transfer
+    Route::get('/inhabitants_transfer_list', 'bipsController@inhabitants_transfer_list')->name('inhabitants_transfer_list');
+    Route::post('/create_inhabitants_transfer', 'bipsController@create_inhabitants_transfer')->name('create_inhabitants_transfer');
+    Route::get('/get_inhabitants_transfer', 'bipsController@get_inhabitants_transfer')->name('get_inhabitants_transfer');
+    Route::post('/update_inhabitants_transfer', 'bipsController@update_inhabitants_transfer')->name('update_inhabitants_transfer');
+
 
     //BIPS Inhabitants Incoming List
     Route::get('/inhabitants_incoming_list', 'bipsController@inhabitants_incoming_list')->name('inhabitants_incoming_list');
