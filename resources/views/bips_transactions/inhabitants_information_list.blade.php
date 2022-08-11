@@ -101,7 +101,7 @@
                                 <label for="exampleInputEmail1">Prefix</label>
                                 <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID" required>
                                     <option value='' disabled selected>Select Option</option>
-                                    @foreach($prefix as $bt)
+                                    @foreach($name_prefix as $bt)
                                     <option value="{{ $bt->Name_Prefix_ID }}">{{ $bt->Name_Prefix }}</option>
                                     @endforeach
                                 </select>
@@ -266,9 +266,11 @@
                                     <option value=0>No</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="Election_Year_Last_Voted">Election Year Last Voted</label>
-                                <input type="date" class="form-control" id="Election_Year_Last_Voted" name="Election_Year_Last_Voted" required>
+                            <div class="form-group col-lg-3" style="padding:0 10px"> 
+                                <label for="City_Municipality_ID">City/Municipality</label>
+                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
+                                    <option value='' disabled selected>Select Option</option>
+                                </select>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Resident_Voter">Resident Voter</label>
@@ -597,7 +599,7 @@
             '</tr>';
         $('#EducTBLD').append(option);
 
-        // Reset Education Table
+        // Reset Employment Table
         $('#EmpTBLD').empty();
         var option_emp = '<tr>' +
             '<tr>' +
