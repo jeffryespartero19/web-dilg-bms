@@ -183,6 +183,139 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+    if(ident == 8){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bins_received_item",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_received_item_IdX').val(data['theEntry'][0]['Received_Item_ID']);
+
+                $('#this_item_idX').empty();
+                $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
+
+                $('#this_item_status_idX').empty();
+                $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
+                $('#this_item_status_idX').append(data['theitem_status'][0]['Item_Status']);
+
+                $('#this_donationX').empty();
+                $('#this_donationX').val(data['theEntry'][0]['Donation']);
+                if(data['theEntry'][0]['Donation']==1){
+                    $('#this_donationX').append('Yes');
+
+                }else{
+                    $('#this_donationX').append('No');
+                }
+
+                $('#this_rc_byX').empty();
+                $('#this_rc_byX').val(data['thestaff'][0]['Brgy_Officials_and_Staff_ID']);
+
+                $('#this_received_qtyX').val(data['theEntry'][0]['Received_Quantity']);
+           
+            }
+        });
+    }
+
+    if(ident == 9){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bins_physical_count",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_physical_count_IdX').val(data['theEntry'][0]['Physical_Count_ID']);
+
+                $('#this_p_inv').empty();
+                $('#this_p_inv').val(data['theP_inventory'][0]['Physical_Count_Inventory_ID']);
+
+                $('#this_item_category').empty();
+                $('#this_item_category').val(data['theitem_category'][0]['Item_Category_ID']);
+                $('#this_item_category').append(data['theitem_category'][0]['Item_Category_Name']);
+
+                $('#this_particulars').empty();
+                $('#this_particulars').append(data['theEntry'][0]['Particulars']);
+                
+
+                $('#this_oic').empty();
+                $('#this_oic').val(data['thestaff'][0]['Brgy_Officials_and_Staff_ID']);
+           
+            }
+        });
+    }
+
+    if(ident == 10){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bins_inv_disposal",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_inv_disposal_IdX').val(data['theEntry'][0]['Disposal_Inventory_ID']);
+
+                $('#this_item_idX').empty();
+                $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
+
+                $('#this_item_status_idX').empty();
+                $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
+                $('#this_item_status_idX').append(data['theitem_status'][0]['Item_Status']);
+
+                $('#this_remarks').empty();
+                $('#this_remarks').append(data['theEntry'][0]['Remarks']);
+                
+
+                $('#this_oic').empty();
+                $('#this_oic').val(data['thestaff'][0]['Brgy_Officials_and_Staff_ID']);
+           
+            }
+        });
+    }
+
+    if(ident == 11){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bins_borrow",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_inv_disposal_IdX').val(data['theEntry'][0]['Borrowed_Equipment_ID ']);
+
+                $('#this_item_idX').empty();
+                $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
+
+                $('#this_item_status_idX').empty();
+                $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
+                $('#this_item_status_idX').append(data['theitem_status'][0]['Item_Status']);
+
+                $('#this_remarks').empty();
+                $('#this_remarks').append(data['theRequest'][0]['Remarks']);
+
+                $('#this_pupose').empty();
+                $('#this_pupose').append(data['theRequest'][0]['Purpose']);
+                
+                $('#thisBorrowDate').val(data['theRequest'][0]['Date_Borrowed']);
+                $('#thisEstReturnDate').val(data['theRequest'][0]['Expected_Return_Date']);
+
+                $('#this_qty_borrowed').val(data['theEntry'][0]['Quantity_Borrowed']);
+                
+           
+            }
+        });
+    }
+
     
 });
+
 
