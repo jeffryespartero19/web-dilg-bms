@@ -41,7 +41,7 @@
             <thead>
                 <tr>
                     <th hidden>Resident_ID</th>
-                    <th>Name</th>
+                    <th>Name</th> 
                     <th>Last Name</th>
                     <th>First Name</th>
                     <th>Middle Name</th>
