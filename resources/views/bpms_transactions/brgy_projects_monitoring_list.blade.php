@@ -269,59 +269,14 @@
                                                 <input type="number" class="form-control" name="Female_Employed[]" style="width: 200px;">
                                             </td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="removeRow btn btn-danger">Remove</button>
+                                                <button type="button" class="removeRow btn btn-danger">Remove</button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <hr>
-                        <h3>File Attachment</h3>
-                        <button type="button" class="btn btn-info" style="width: 100px;" id="btnAddFile_Attachment">Add</button>
-                        <div class="tableX_row row up_marg5">
-                            <div class="col-md-12">
-                                <table id="File_Attachment" class="table table-striped table-bordered" style="width:100%">
-                                <thead>
-                                        <tr>
-                                            <th>Milestone Status</th>
-                                            <th>File Name</th>
-                                            <th>File Size</th>
-                                            <th>File Location</th>
-                                            <th>File Type</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="MilestoneTBLD">
-                                        <tr>
-                                            <td class="sm_data_col txtCtr">
-                                                <select class="form-control" name="Milestone_Status_ID[]" style="width: 200px;">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($milestone as $it)
-                                                    <option value="{{ $it->Milestone_Status_ID }}">{{ $it->Milestone_Title }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td class="sm_data_col txtCtr">
-                                                <input type="file" class="form-control" name="File_Name[]" style="width: 200px;" multiple>
-                                            </td>
-                                            <td class="sm_data_col txtCtr">
-                                                <input type="text" class="form-control" name="File_Size[]" style="width: 200px;">
-                                            </td>
-                                            <td class="sm_data_col txtCtr">
-                                                <input type="text" class="form-control" name="File_Location[]" style="width: 250px;">
-                                            </td>
-                                            <td class="sm_data_col txtCtr">
-                                                <input type="text" class="form-control" name="File_Type[]" style="width: 200px;">
-                                            </td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="removeRow btn btn-danger">Remove</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
@@ -331,6 +286,38 @@
             </div>
 
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createFile_Attachment" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content--> 
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title flexer justifier">Add File Attachment</h4>
+        </div>
+        <form id="newFile_Attachment" method="POST" action="{{ route('create_file_attachment') }}"  autocomplete="off" enctype="multipart/form-data">@csrf
+            <div class="modal-body Absolute-Center">
+                <div class="modal_input_container">
+                    <div class="form-group col-lg-12" style="padding:0 10px">
+                        <label for="fileattach">File Attach</label>
+                            <div class="custom-file">
+                                <input type="text" class="form-control" id="Milestone_Status_ID" name="Milestone_Status_ID" hidden>
+                                <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                <label class="custom-file-label" for="fileattach">Choose file</label>
+                            </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn postThis_File_Attachment modal_sb_button">Submit</button>
+            </div>
+        </form>
+      </div>
+      
     </div>
 </div>
 
@@ -351,7 +338,9 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+        
     });
+   
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
@@ -558,7 +547,8 @@
                     '<input type="number" class="form-control" name="Female_Employed[]" style="width: 250px;"  value="' + element['Female_Employed'] + '">' +
                     '</td>' +
                     '<td class="sm_data_col txtCtr">' +
-                    '<button class="removeRow btn btn-danger">Remove</button>' +
+                    '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#createFile_Attachment"  value="' + element['Milestone_Status_ID'] + '">File Attachment</button>' +
+                    '<button type="button" class="removeRow btn btn-danger" >Remove</button>' +
                     '</td>' +
                     '</tr>' ;
                     $('#MilestoneTBLD').append(option);
@@ -620,7 +610,7 @@
         '<input type="number" class="form-control" name="Female_Employed[]" style="width: 200px;">' +
         '</td>' +
         '<td class="sm_data_col txtCtr">' +
-        '<button class="removeRow btn btn-danger">Remove</button>' +
+        '<button type="button" class="removeRow btn btn-danger">Remove</button>' +
         '</td>' +
         '</tr>' ;
         $('#MilestoneTBLD').append(option);
@@ -645,7 +635,20 @@
 
         $trLast.after($trNew);
     });
+
+     // Remove Milestone TR
+     $("#Milestone").on("click", ".removeRow", function() {
+        $(this).closest("tr").remove();
+    });
     
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+        var files = Array.from(this.files)
+        var fileName = files.map(f => {
+            return f.name
+        }).join(", ")
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
 
 
 </script>

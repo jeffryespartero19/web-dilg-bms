@@ -350,7 +350,7 @@ class bipsController extends Controller
     public function inhabitants_transfer_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('Inhabitants_Transfer as a')
+        $db_entries = DB::table('bips_inhabitants_transfer as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
             ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
@@ -399,7 +399,7 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
         $data = $data = request()->all();
 
-        DB::table('Inhabitants_Transfer')->insert(
+        DB::table('bips_inhabitants_transfer')->insert(
             array(
                 'Resident_ID'           => $data['Resident_ID'],
                 'Region_ID'             => $data['Region_ID'],
@@ -427,7 +427,7 @@ class bipsController extends Controller
             ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
             ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
             ->select(
-                'a.bips_Inhabitants_Transfer_ID',
+                'a.Inhabitants_Transfer_ID',
                 'a.Resident_ID',
                 'b.Last_Name',
                 'b.First_Name',
@@ -441,7 +441,7 @@ class bipsController extends Controller
                 'a.Barangay_ID',
                 'f.Barangay_Name',
             )
-            ->where('bips_Inhabitants_Transfer_ID', $id)->get();
+            ->where('Inhabitants_Transfer_ID', $id)->get();
 
         return (compact('theEntry'));
     }

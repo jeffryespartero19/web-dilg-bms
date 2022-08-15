@@ -55,7 +55,7 @@ class borisController extends Controller
     {
         $currDATE = Carbon::now();
         $data = request()->all();
-
+ 
         if ($data['Ordinance_Resolution_ID'] == null || $data['Ordinance_Resolution_ID'] == 0) {
             $Ordinance_Resolution_ID =  DB::table('boris_brgy_ordinances_and_resolutions_information')->insertGetID(
                 array(

@@ -344,9 +344,37 @@ class BPMSController extends Controller
                 'a.Male_Employed',
                 'a.Female_Employed',
             )
-            ->where('a.Milestone_Status_ID', $id)
+            ->where('a.Brgy_Projects_ID', $id)
             ->get();
         return json_encode($Milestone);
+    }
+
+
+    public function create_file_attachment(Request $request)
+
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        if ($request->hasfile('fileattach')) {
+            foreach ($request->file('fileattach') as $file) {
+                $filename = $file->getClientOriginalName();
+                // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                $filePath = public_path() . '/files/uploads/brgy_projects_monitoring_milestone/';
+                $file->move($filePath, $filename);
+
+                $file_data = array(
+                    'Milestone_Status_ID' => $data['Milestone_Status_ID'],
+                    'File_Name' => $filename,
+                    'File_Location' => $filePath,
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now()
+                );
+                DB::table('bpms_file_attachment')->insert($file_data);
+            }
+        }
+
+        return redirect()->back()->with('alert', 'Updated Entry');
     }
 
 
