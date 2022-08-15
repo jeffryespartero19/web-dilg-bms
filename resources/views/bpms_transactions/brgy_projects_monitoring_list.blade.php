@@ -76,6 +76,7 @@
 
 <!-- Create Announcement_Status Modal  -->
 
+
 <div class="modal fade" id="createBrgy_Projects_Monitoring" tabindex="-1" role="dialog" aria-labelledby="Create_Brgy_Projects_Monitoring" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -345,6 +346,7 @@
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
     });
+   
 
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
@@ -555,6 +557,7 @@
                 });
             }
         });
+      
 
 
     });
@@ -568,6 +571,7 @@
         $('#Barangay_ID').append(option1);
         $('#City_Municipality_ID').append(option1);
         $('#Province_ID').append(option1);
+       
         $('#Modal_Title').text('Create Brgy Projects Monitoring');
 
         // Reset Education Table

@@ -37,8 +37,8 @@ class BPMSController extends Controller
                 'Contact_Person'        => $data['Contact_Person'],
                 'Contact_No'            => $data['Contact_No'],
                 'Contractor_Address'    => $data['Contractor_Address'],
-                'Contractor_TIN'       => $data['Contractor_TIN'],
-                'Remarks'           => $data['Remarks'],
+                'Contractor_TIN'        => $data['Contractor_TIN'],
+                'Remarks'               => $data['Remarks'],
                 'Encoder_ID'            => Auth::user()->id,
                 'Date_Stamp'            => Carbon::now()
             )
@@ -122,6 +122,7 @@ class BPMSController extends Controller
         $project_status = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'project_status');
         $accomplishment = DB::table('maintenance_bpms_accomplishment_status')->paginate(20, ['*'], 'accomplishment');
         $milestone = DB::table('bpms_milestone_status')->paginate(20, ['*'], 'milestone');
+       
 
         return view('bpms_transactions.brgy_projects_monitoring_list', compact(
             'db_entries',
@@ -135,6 +136,7 @@ class BPMSController extends Controller
             'project_status',
             'accomplishment',
             'milestone',
+            
 
         ));
     }
