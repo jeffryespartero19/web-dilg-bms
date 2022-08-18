@@ -315,7 +315,6 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_contractor', 'bpmsController@get_contractor')->name('get_contractor');
       Route::post('/update_contractor', 'bpmsController@update_contractor')->name('update_contractor');
 
-
       //Brgy Projects Monitoring
       Route::get('/brgy_projects_monitoring_list', 'bpmsController@brgy_projects_monitoring_list')->name('brgy_projects_monitoring_list');
       Route::post('/create_brgy_projects_monitoring', 'bpmsController@create_brgy_projects_monitoring')->name('create_brgy_projects_monitoring');
