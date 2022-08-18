@@ -322,22 +322,32 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_brgy_projects_monitoring', 'bpmsController@get_brgy_projects_monitoring')->name('get_brgy_projects_monitoring');
       Route::post('/update_brgy_projects_monitoring', 'bpmsController@update_brgy_projects_monitoring')->name('update_brgy_projects_monitoring');
       Route::get('/get_milestone', 'bpmsController@get_milestone')->name('get_milestone');
-<<<<<<< Updated upstream
       Route::post('/create_file_attachment', 'bpmsController@create_file_attachment')->name('create_file_attachment');
-=======
 
-       //Deceased Profile
-    Route::get('/deceased_profile_list', 'bipsController@deceased_profile_list')->name('deceased_profile_list');
-    Route::post('/create_deceased_profile', 'bipsController@create_deceased_profile')->name('create_deceased_profile');
-    Route::get('/get_deceased_profile', 'bipsController@get_deceased_profile')->name('get_deceased_profile');
-    Route::post('/update_deceased_profile', 'bipsController@update_deceased_profile')->name('update_deceased_profile');
+      //Emergency Evacuation Site
+     Route::get('/emergency_evacuation_site_list', 'BDRISALController@emergency_evacuation_site_list')->name('emergency_evacuation_site_list');
+     Route::post('/create_emergency_evacuation_site', 'BDRISALController@create_emergency_evacuation_site')->name('create_emergency_evacuation_site');
+     Route::get('/get_emergency_evacuation_site', 'BDRISALController@get_emergency_evacuation_site')->name('get_emergency_evacuation_site');
 
 
-       //Inhabitants Transfer
-       Route::get('/inhabitants_transfer_list', 'bipsController@inhabitants_transfer_list')->name('inhabitants_transfer_list');
-       Route::post('/create_inhabitants_transfer', 'bipsController@create_inhabitants_transfer')->name('create_inhabitants_transfer');
-       Route::get('/get_inhabitants_transfer', 'bipsController@get_inhabitants_transfer')->name('get_inhabitants_transfer');
-       Route::post('/update_inhabitants_transfer', 'bipsController@update_inhabitants_transfer')->name('update_inhabitants_transfer');
->>>>>>> Stashed changes
-  
+     //Allocated Fund Source
+     Route::get('/allocated_fund_source_list', 'BDRISALController@allocated_fund_source_list')->name('allocated_fund_source_list');
+     Route::post('/create_allocated_fund_source', 'BDRISALController@create_allocated_fund_source')->name('create_allocated_fund_source');
+     Route::get('/get_allocated_fund_source', 'BDRISALController@get_allocated_fund_source')->name('get_allocated_fund_source');
+
+
+     //Emergency Equipment
+     Route::get('/emergency_equipment_list', 'BDRISALController@emergency_equipment_list')->name('emergency_equipment_list');
+     Route::post('/create_emergency_equipment', 'BDRISALController@create_emergency_equipment')->name('create_emergency_equipment');
+     Route::get('/get_emergency_equipment', 'BDRISALController@get_emergency_equipment')->name('get_emergency_equipment');
+
+     //Emergency Team
+     Route::get('/emergency_team_list', 'BDRISALController@emergency_team_list')->name('emergency_team_list');
+     Route::post('/create_emergency_team', 'BDRISALController@create_emergency_team')->name('create_emergency_team');
+     Route::get('/get_emergency_team', 'BDRISALController@get_emergency_team')->name('get_emergency_team');
+
+     //Disaster Type
+     Route::get('/disaster_type_list', 'BDRISALController@disaster_type_list')->name('disaster_type_list');
+     Route::post('/create_disaster_type', 'BDRISALController@create_disaster_type')->name('create_disaster_type');
+     Route::get('/get_disaster_type', 'BDRISALController@get_disaster_type')->name('get_disaster_type');
 });

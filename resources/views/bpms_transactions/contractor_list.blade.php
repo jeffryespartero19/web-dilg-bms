@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
                 <li>DILG_BPMS / </li>
-            </a>
+            </a> 
             <li> &nbsp;Contractor List</li>
         </ol> 
     </div>
