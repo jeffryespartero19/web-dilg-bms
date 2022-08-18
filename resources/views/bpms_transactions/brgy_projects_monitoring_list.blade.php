@@ -12,7 +12,7 @@
                 <li>DILG_BPMS / </li>
             </a>
             <li> &nbsp;Barangay Projects Monitoring List</li>
-        </ol> 
+        </ol>
     </div>
 </div>
 @if ($errors->any())
@@ -41,14 +41,14 @@
             <thead>
                 <tr>
                     <th hidden>BrgyProjects_ID</th>
-                    <th >Project Number</th>
-                    <th >Project Name</th>
-                    <th >Total Project Cost</th>
-                    <th >Exact Location</th>
-                    <th >Actual Project Start</th>
-                    <th >Contractor Name</th>
-                    <th >Project Type</th>
-                    <th >Project Status</th>
+                    <th>Project Number</th>
+                    <th>Project Name</th>
+                    <th>Total Project Cost</th>
+                    <th>Exact Location</th>
+                    <th>Actual Project Start</th>
+                    <th>Contractor Name</th>
+                    <th>Project Type</th>
+                    <th>Project Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -56,15 +56,15 @@
                 @foreach($db_entries as $x)
                 <tr>
                     <td class="sm_data_col txtCtr" hidden>{{$x->Brgy_Projects_ID}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Project_Number}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Project_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Total_Project_Cost}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Exact_Location}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Actual_Project_Start}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Contractor_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Project_Type_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Project_Status_Name}}</td>
-                    <td class="sm_data_col txtCtr"> 
+                    <td class="sm_data_col txtCtr">{{$x->Project_Number}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Project_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Total_Project_Cost}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Exact_Location}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Actual_Project_Start}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Contractor_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Project_Type_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Project_Status_Name}}</td>
+                    <td class="sm_data_col txtCtr">
                         <button class="edit_brgy_projects_monitoring" value="{{$x->Brgy_Projects_ID}}" data-toggle="modal" data-target="#createBrgy_Projects_Monitoring">Edit</button>
                     </td>
                 </tr>
@@ -117,12 +117,12 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Total_Project_Cost">Total Project Cost</label>
-                                <input type="number" class="form-control" id="Total_Project_Cost" name="Total_Project_Cost" >
+                                <input type="number" class="form-control" id="Total_Project_Cost" name="Total_Project_Cost">
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Funding_Year">Funding Year</label>
-                                <input type="text" class="form-control" id="Funding_Year" name="Funding_Year" >
-                            </div>                        
+                                <input type="text" class="form-control" id="Funding_Year" name="Funding_Year">
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-lg-12" style="padding:0 10px">
@@ -137,7 +137,7 @@
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Number_of_Beneficiaries">Number of Beneficiaries</label>
-                                <input type="number" class="form-control" id="Number_of_Beneficiaries" name="Number_of_Beneficiaries" >
+                                <input type="number" class="form-control" id="Number_of_Beneficiaries" name="Number_of_Beneficiaries">
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Actual_Project_Start">Actual Project Start</label>
@@ -153,27 +153,27 @@
                                 <label for="Contractor_ID">Contractor</label>
                                 <select class="form-control" id="Contractor_ID" name="Contractor_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                        @foreach($contractor as $bt1)
-                                        <option value="{{ $bt1->Contractor_ID }}">{{ $bt1->Contractor_Name }}</option>
-                                        @endforeach
+                                    @foreach($contractor as $bt1)
+                                    <option value="{{ $bt1->Contractor_ID }}">{{ $bt1->Contractor_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
                                 <label for="Project_Type_ID">Project Type</label>
                                 <select class="form-control" id="Project_Type_ID" name="Project_Type_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                        @foreach($project_type as $bt1)
-                                        <option value="{{ $bt1->Project_Type_ID }}">{{ $bt1->Project_Type_Name }}</option>
-                                        @endforeach
+                                    @foreach($project_type as $bt1)
+                                    <option value="{{ $bt1->Project_Type_ID }}">{{ $bt1->Project_Type_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
                                 <label for="Project_Status_ID">Project Status</label>
                                 <select class="form-control" id="Project_Status_ID" name="Project_Status_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                        @foreach($project_status as $bt1)
-                                        <option value="{{ $bt1->Project_Status_ID }}">{{ $bt1->Project_Status_Name }}</option>
-                                        @endforeach
+                                    @foreach($project_status as $bt1)
+                                    <option value="{{ $bt1->Project_Status_ID }}">{{ $bt1->Project_Status_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -182,16 +182,16 @@
                                 <label for="Region_ID">Region</label>
                                 <select class="form-control" id="Region_ID" name="Region_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                        @foreach($region as $bt1)
-                                        <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                        @endforeach
+                                    @foreach($region as $bt1)
+                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Province_ID">Province</label>
                                 <select class="form-control" id="Province_ID" name="Province_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                    
+
 
                                 </select>
                             </div>
@@ -199,7 +199,7 @@
                                 <label for="City_Municipality_ID">City_Municipality</label>
                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                  
+
 
                                 </select>
                             </div>
@@ -207,7 +207,7 @@
                                 <label for="Barangay_ID">Barangay</label>
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                   
+
                                 </select>
                             </div>
                         </div>
@@ -217,7 +217,7 @@
                         <div class="tableX_row row up_marg5">
                             <div class="col-md-12">
                                 <table id="Milestone" class="table table-striped table-bordered" style="width:100%">
-                                <thead>
+                                    <thead>
                                         <tr>
                                             <th>Accomplishment Status</th>
                                             <th>Milestone Title</th>
@@ -277,7 +277,7 @@
                                 </table>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
@@ -290,35 +290,39 @@
     </div>
 </div>
 
+
 <div class="modal fade" id="createFile_Attachment" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content--> 
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title flexer justifier">Add File Attachment</h4>
-        </div>
-        <form id="newFile_Attachment" method="POST" action="{{ route('create_file_attachment') }}"  autocomplete="off" enctype="multipart/form-data">@csrf
-            <div class="modal-body Absolute-Center">
-                <div class="modal_input_container">
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <label for="fileattach">File Attach</label>
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close createFile_Attachment_Close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title flexer justifier">File Attachments</h4>
+            </div>
+            <form id="newFile_Attachment" method="POST" action="{{ route('create_file_attachment') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <div class="modal-body Absolute-Center">
+                    <div class="modal_input_container">
+                        <div class="form-group col-lg-12" style="padding:0 10px">
+                            <ul class="list-group list-group-flush" id="milestone_files">
+
+                            </ul>
+                            <hr>
                             <div class="custom-file">
                                 <input type="text" class="form-control" id="Milestone_Status_ID" name="Milestone_Status_ID" hidden>
                                 <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
-                                <label class="custom-file-label" for="fileattach">Choose file</label>
+                                <label class="custom-file-label btn btn-info" for="fileattach">Add file</label>
                             </div>
+                        </div>
                     </div>
+
                 </div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn postThis_File_Attachment modal_sb_button">Submit</button>
-            </div>
-        </form>
-      </div>
-      
+                <div class="modal-footer">
+                    <button type="submit" class="btn postThis_File_Attachment modal_sb_button">Submit</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 
@@ -339,14 +343,14 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
-        
+
     });
-   
+
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
     });
-   
+
 
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
@@ -493,8 +497,8 @@
                 var province =
                     " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
                 $('#Province_ID').append(province);
-              
-               
+
+
             }
         });
 
@@ -511,56 +515,139 @@
                 var data = JSON.parse(data);
                 $('#MilestoneTBLD').empty();
                 data.forEach(element => {
-                    var option = 
-                    '<tr>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<select class="form-control" name="Accomplishment_Status_ID[]" style="width: 200px;">' +
-                    '<option value="" disabled selected>Select Option</option>' +
-                    '@foreach($accomplishment as $et)' +
-                    '<option value="{{ $et->Accomplishment_Status_ID}}" {{ $et->Accomplishment_Status_ID  = "' + element['Accomplishment_Status_ID'] + '" ? "selected" : "" }}>{{ $et->Accomplishment_Status_Name}}</option>' +
-                    '@endforeach' +                      
-                    '</select>' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<input type="text" class="form-control" name="Milestone_Title[]" style="width: 250px;"  value="' + element['Milestone_Title'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<input type="text" class="form-control" name="Milestone_Description[]" style="width: 250px;"  value="' + element['Milestone_Description'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<input type="date" class="form-control" name="Milestone_Date[]" style="width: 250px;"  value="' + element['Milestone_Date'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<input type="text" class="form-control" name="Milestone_Status[]" style="width: 250px;"  value="' + element['Milestone_Status'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<input type="text" class="form-control" name="Milestone_Percentage[]" style="width: 250px;"  value="' + element['Milestone_Percentage'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<input type="number" class="form-control" name="Obligation_Amount[]" style="width: 250px;"  value="' + element['Obligation_Amount'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr" >' +
-                    '<input type="number" class="form-control" name="Disbursement_Amount[]" style="width: 250px;"  value="' + element['Disbursement_Amount'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr" >' +
-                    '<input type="number" class="form-control" name="Male_Employed[]" style="width: 250px;"  value="' + element['Male_Employed'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr" >' +
-                    '<input type="number" class="form-control" name="Female_Employed[]" style="width: 250px;"  value="' + element['Female_Employed'] + '">' +
-                    '</td>' +
-                    '<td class="sm_data_col txtCtr">' +
-                    '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#createFile_Attachment"  value="' + element['Milestone_Status_ID'] + '">File Attachment</button>' +
-                    '<button type="button" class="removeRow btn btn-danger" >Remove</button>' +
-                    '</td>' +
-                    '</tr>' ;
+                    var option =
+                        '<tr>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<select class="form-control" name="Accomplishment_Status_ID[]" style="width: 200px;">' +
+                        '<option value="" disabled selected>Select Option</option>' +
+                        '@foreach($accomplishment as $et)' +
+                        '<option value="{{ $et->Accomplishment_Status_ID}}" {{ $et->Accomplishment_Status_ID  = "' + element['Accomplishment_Status_ID'] + '" ? "selected" : "" }}>{{ $et->Accomplishment_Status_Name}}</option>' +
+                        '@endforeach' +
+                        '</select>' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Milestone_Title[]" style="width: 250px;"  value="' + element['Milestone_Title'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Milestone_Description[]" style="width: 250px;"  value="' + element['Milestone_Description'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="date" class="form-control" name="Milestone_Date[]" style="width: 250px;"  value="' + element['Milestone_Date'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Milestone_Status[]" style="width: 250px;"  value="' + element['Milestone_Status'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Milestone_Percentage[]" style="width: 250px;"  value="' + element['Milestone_Percentage'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="number" class="form-control" name="Obligation_Amount[]" style="width: 250px;"  value="' + element['Obligation_Amount'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr" >' +
+                        '<input type="number" class="form-control" name="Disbursement_Amount[]" style="width: 250px;"  value="' + element['Disbursement_Amount'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr" >' +
+                        '<input type="number" class="form-control" name="Male_Employed[]" style="width: 250px;"  value="' + element['Male_Employed'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr" >' +
+                        '<input type="number" class="form-control" name="Female_Employed[]" style="width: 250px;"  value="' + element['Female_Employed'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<button type="button" class="btn btn-success fileAttBTN" data-toggle="modal" data-target="#createFile_Attachment"  value="' + element['Milestone_Status_ID'] + '">File Attachment</button>' +
+                        '<button type="button" class="removeRow btn btn-danger" >Remove</button>' +
+                        '</td>' +
+                        '</tr>';
                     $('#MilestoneTBLD').append(option);
                 });
             }
         });
-      
+
 
 
     });
+
+    // File Submit Form
+    // $("#newFile_Attachment").submit(function() {
+    //     var fd = new FormData(this);
+    //     $.ajax({
+    //         url: "/create_file_attachment",
+    //         type: "POST", // required
+    //         processData: false, // required
+    //         contentType: false, // required
+    //         data: fd,
+    //         success: function(data) {
+    //             console.log("Uploaded.", arguments)
+    //             $("#result").html(data) // do whatever you want
+    //         },
+    //         error: function() {
+    //             console.log("Error Uploading.", arguments)
+    //         }
+    //     })
+    //     return false
+    // });
+
+    // File Attachments Modal
+    $(document).on('click', ('.fileAttBTN'), function(e) {
+        var disID = $(this).val();
+        $('#Milestone_Status_ID').val(disID);
+        $('#milestone_files').empty();
+        $.ajax({
+            url: "/get_milestone_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                data.forEach(element => {
+                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/brgy_projects_monitoring_milestone/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                    $('#milestone_files').append(file);
+                });
+            }
+        });
+    });
+
+    // File Attachments Modal
+    $(document).on('click', ('.att_del'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_milestone_attachments",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        $('.createFile_Attachment_Close').click();
+                    }
+                });
+
+            }
+        });
+
+    });
+
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newBrgy_Projects_Monitoring').trigger("reset");
@@ -571,52 +658,52 @@
         $('#Barangay_ID').append(option1);
         $('#City_Municipality_ID').append(option1);
         $('#Province_ID').append(option1);
-       
+
         $('#Modal_Title').text('Create Brgy Projects Monitoring');
 
         // Reset Education Table
         $('#MilestoneTBLD').empty();
-        var option = 
-        '<tr>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<select class="form-control" name="Accomplishment_Status_ID[]" style="width: 200px;">' +
-        '<option value="" disabled selected>Select Option</option>' +
-        '@foreach($accomplishment as $et)' +
-        '<option value="{{ $et->Accomplishment_Status_ID }}">{{ $et->Accomplishment_Status_Name }}</option>'+
-        '@endforeach' +                      
-        '</select>' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="text" class="form-control" name="Milestone_Title[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="text" class="form-control" name="Milestone_Description[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="date" class="form-control" name="Milestone_Date[]" style="width: 250px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="text" class="form-control" name="Milestone_Status[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="text" class="form-control" name="Milestone_Percentage[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="number" class="form-control" name="Obligation_Amount[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="number" class="form-control" name="Disbursement_Amount[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="number" class="form-control" name="Male_Employed[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<input type="number" class="form-control" name="Female_Employed[]" style="width: 200px;">' +
-        '</td>' +
-        '<td class="sm_data_col txtCtr">' +
-        '<button type="button" class="removeRow btn btn-danger">Remove</button>' +
-        '</td>' +
-        '</tr>' ;
+        var option =
+            '<tr>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<select class="form-control" name="Accomplishment_Status_ID[]" style="width: 200px;">' +
+            '<option value="" disabled selected>Select Option</option>' +
+            '@foreach($accomplishment as $et)' +
+            '<option value="{{ $et->Accomplishment_Status_ID }}">{{ $et->Accomplishment_Status_Name }}</option>' +
+            '@endforeach' +
+            '</select>' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="text" class="form-control" name="Milestone_Title[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="text" class="form-control" name="Milestone_Description[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="date" class="form-control" name="Milestone_Date[]" style="width: 250px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="text" class="form-control" name="Milestone_Status[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="text" class="form-control" name="Milestone_Percentage[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="number" class="form-control" name="Obligation_Amount[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="number" class="form-control" name="Disbursement_Amount[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="number" class="form-control" name="Male_Employed[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<input type="number" class="form-control" name="Female_Employed[]" style="width: 200px;">' +
+            '</td>' +
+            '<td class="sm_data_col txtCtr">' +
+            '<button type="button" class="removeRow btn btn-danger">Remove</button>' +
+            '</td>' +
+            '</tr>';
         $('#MilestoneTBLD').append(option);
     });
 
@@ -640,11 +727,11 @@
         $trLast.after($trNew);
     });
 
-     // Remove Milestone TR
-     $("#Milestone").on("click", ".removeRow", function() {
+    // Remove Milestone TR
+    $("#Milestone").on("click", ".removeRow", function() {
         $(this).closest("tr").remove();
     });
-    
+
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
         var files = Array.from(this.files)
@@ -653,8 +740,6 @@
         }).join(", ")
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
-
-
 </script>
 
 <style>

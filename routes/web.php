@@ -315,7 +315,6 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/get_contractor', 'bpmsController@get_contractor')->name('get_contractor');
      Route::post('/update_contractor', 'bpmsController@update_contractor')->name('update_contractor');
 
-
       //Brgy Projects Monitoring
       Route::get('/brgy_projects_monitoring_list', 'bpmsController@brgy_projects_monitoring_list')->name('brgy_projects_monitoring_list');
       Route::post('/create_brgy_projects_monitoring', 'bpmsController@create_brgy_projects_monitoring')->name('create_brgy_projects_monitoring');
@@ -323,6 +322,9 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/update_brgy_projects_monitoring', 'bpmsController@update_brgy_projects_monitoring')->name('update_brgy_projects_monitoring');
       Route::get('/get_milestone', 'bpmsController@get_milestone')->name('get_milestone');
       Route::post('/create_file_attachment', 'bpmsController@create_file_attachment')->name('create_file_attachment');
+      Route::get('/get_milestone_attachments', 'bpmsController@get_milestone_attachments')->name('get_milestone_attachments');
+      Route::get('/delete_milestone_attachments', 'bpmsController@delete_milestone_attachments')->name('delete_milestone_attachments');
+
 
       //Emergency Evacuation Site
      Route::get('/emergency_evacuation_site_list', 'BDRISALController@emergency_evacuation_site_list')->name('emergency_evacuation_site_list');
