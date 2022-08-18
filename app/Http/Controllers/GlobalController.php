@@ -36,4 +36,5 @@ class GlobalController extends Controller
 
         return json_encode($data);
     }
+
 }

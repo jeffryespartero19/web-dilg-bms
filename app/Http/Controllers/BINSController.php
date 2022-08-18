@@ -25,7 +25,7 @@ class BINSController extends Controller
     public function create_bins_uom_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_unit_of_measure')->insert(
             array(
@@ -50,7 +50,7 @@ class BINSController extends Controller
     public function update_bins_uom_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_unit_of_measure')->where('Unit_of_Measure_ID',$data['UOM_ID'])->update(
             array(
@@ -77,7 +77,7 @@ class BINSController extends Controller
     public function create_bins_bes_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_borrowed_equipment_status')->insert(
             array(
@@ -102,7 +102,7 @@ class BINSController extends Controller
     public function update_bins_bes_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_borrowed_equipment_status')->where('Borrowed_Equipment_Status_ID',$data['BES_ID'])->update(
             array(
@@ -129,7 +129,7 @@ class BINSController extends Controller
     public function create_bins_item_class_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_item_classification')->insert(
             array(
@@ -153,7 +153,7 @@ class BINSController extends Controller
     public function update_bins_item_class_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_item_classification')->where('Item_Classification_ID',$data['item_class_ID'])->update(
             array(
@@ -180,7 +180,7 @@ class BINSController extends Controller
     public function create_bins_item_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_item_status')->insert(
             array(
@@ -204,7 +204,7 @@ class BINSController extends Controller
     public function update_bins_item_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$data['item_status_ID'])->update(
             array(
@@ -233,7 +233,7 @@ class BINSController extends Controller
     public function create_bins_item_category_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_item_category')->insert(
             array(
@@ -260,7 +260,7 @@ class BINSController extends Controller
     public function update_bins_item_category_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_bins_item_category')->where('Item_Category_ID',$data['item_category_ID'])->update(
             array(
@@ -294,7 +294,7 @@ class BINSController extends Controller
     public function create_bins_begbal(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('bins_inventory_begbal')->insert(
             array(
@@ -322,7 +322,7 @@ class BINSController extends Controller
     public function update_bins_begbal(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('bins_inventory_begbal')->where('Item_Category_ID',$data['item_category_ID'])->update(
             array(
@@ -353,7 +353,7 @@ class BINSController extends Controller
     public function create_bins_item_inspection(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('bins_item_inspection')->insert(
             array(
@@ -387,7 +387,7 @@ class BINSController extends Controller
     public function update_bins_item_inspection(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('bins_item_inspection')->where('Item_Inspection_ID',$data['Item_Inspection_ID'])->update(
             array(
@@ -398,6 +398,378 @@ class BINSController extends Controller
                 'Markings'           => $data['markingsX2'],
                 'Serial_No'          => $data['serialNoX2'],
                 'Item_Status_ID'     => $data['item_status_ID2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Received Item
+
+    public function bins_received_item(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bins_received_item')->paginate(20,['*'], 'db_entries');
+
+        $inventory_list=DB::table('bins_brgy_inventory')->get();
+        $item_status_list=DB::table('maintenance_bins_item_status')->get();
+        $staff_list=DB::table('bips_brgy_officials_and_staff')->get();
+
+        return view('bins.received_item',compact('db_entries','currDATE','inventory_list','item_status_list','staff_list'));
+    }
+
+    public function create_bins_received_item(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_received_item')->insert(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Inventory_ID'       => $data['item_ID'],
+                'Item_Status_ID'     => $data['item_status_ID'],
+                'Donation'           => (int)$data['donationX'],
+                'Brgy_Officials_and_Staff_ID' => $data['rc_by'],
+                'Received_Quantity'  => $data['received_qty'],
+                'Date_Received'      => Carbon::now()
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bins_received_item(Request $request)
+    {
+        $id=$_GET['id']; 
+        //$id=1; 
+
+        $theEntry=DB::table('bins_received_item')->where('Received_Item_ID',$id)->get();
+
+        $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theEntry[0]->Inventory_ID)->get();
+        $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Item_Status_ID)->get();
+        $thestaff=DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
+
+        //dd($theEntry,$the_item,$theitem_status);
+
+        return(compact('theEntry','the_item','theitem_status','thestaff'));
+    }
+    public function update_bins_received_item(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_received_item')->where('Received_Item_ID',$data['Received_Item_ID'])->update(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Inventory_ID'       => $data['item_ID2'],
+                'Item_Status_ID'     => $data['item_status_ID2'],
+                'Donation'           => (int)$data['donationX2'],
+                'Brgy_Officials_and_Staff_ID' => $data['rc_by2'],
+                'Received_Quantity'  => $data['received_qty2'],
+                'Date_Received'      => Carbon::now()
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Physical Count
+
+    public function bins_physical_count(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bins_physical_count')->paginate(20,['*'], 'db_entries');
+
+        $P_inventory_list=DB::table('bins_physical_count_inventory')->get();
+        $item_category_list=DB::table('maintenance_bins_item_category')->get();
+        $staff_list=DB::table('bips_brgy_officials_and_staff')->get();
+
+        return view('bins.physical_count',compact('db_entries','currDATE','P_inventory_list','item_category_list','staff_list'));
+    }
+
+    public function create_bins_physical_count(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_physical_count')->insert(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Item_Category_ID'   => $data['item_category_ID'],
+                'Physical_Count_Inventory_ID' => $data['P_item_ID'],
+                'Particulars'                    => $data['particulars'],
+                'Brgy_Officials_and_Staff_ID'    => $data['oic']
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bins_physical_count(Request $request)
+    {
+        $id=$_GET['id']; 
+        //$id=1; 
+
+        $theEntry=DB::table('bins_physical_count')->where('Physical_Count_ID',$id)->get();
+
+        $theP_inventory=DB::table('bins_physical_count_inventory')->where('Physical_Count_Inventory_ID',$theEntry[0]->Physical_Count_Inventory_ID)->get();
+        $theitem_category=DB::table('maintenance_bins_item_category')->where('Item_Category_ID',$theEntry[0]->Item_Category_ID)->get();
+        $thestaff=DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
+
+        //dd($theEntry,$theP_inventory,$theitem_category,$thestaff);
+
+        return(compact('theEntry','theP_inventory','theitem_category','thestaff'));
+    }
+    public function update_bins_physical_count(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_physical_count')->where('Physical_Count_ID',$data['Physical_Count_ID'])->update(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Item_Category_ID'   => $data['item_category_ID2'],
+                'Physical_Count_Inventory_ID' => $data['P_item_ID2'],
+                'Particulars'                    => $data['particulars2'],
+                'Brgy_Officials_and_Staff_ID'    => $data['oic2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Inventory Disposal
+
+    public function bins_inv_disposal(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bins_inventory_for_disposal')->paginate(20,['*'], 'db_entries');
+
+        $inventory_list=DB::table('bins_brgy_inventory')->get();
+        $item_status_list=DB::table('maintenance_bins_item_status')->get();
+        $staff_list=DB::table('bips_brgy_officials_and_staff')->get();
+
+        return view('bins.inventory_disposal',compact('db_entries','currDATE','inventory_list','item_status_list','staff_list'));
+    }
+
+    public function create_bins_inv_disposal(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_inventory_for_disposal')->insert(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Date_Disposed'         => Carbon::now(),
+                'Inventory_ID'       => $data['item_ID'],
+                'Item_Status_ID'     => $data['item_status_ID'],
+                'Remarks'            => $data['remarks'],
+                'Brgy_Officials_and_Staff_ID' => $data['oic']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bins_inv_disposal(Request $request)
+    {
+        $id=$_GET['id']; 
+        //$id=1; 
+
+        $theEntry=DB::table('bins_inventory_for_disposal')->where('Disposal_Inventory_ID',$id)->get();
+
+        $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theEntry[0]->Inventory_ID)->get();
+        $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Item_Status_ID)->get();
+        $thestaff=DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
+
+        //dd($theEntry,$the_item,$theitem_status);
+
+        return(compact('theEntry','the_item','theitem_status','thestaff'));
+    }
+    public function update_bins_inv_disposal(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_inventory_for_disposal')->where('Disposal_Inventory_ID',$data['Disposal_ID'])->update(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Date_Disposed'         => Carbon::now(),
+                'Inventory_ID'       => $data['item_ID2'],
+                'Item_Status_ID'     => $data['item_status_ID2'],
+                'Remarks'            => $data['remarks2'],
+                'Brgy_Officials_and_Staff_ID' => $data['oic2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Borrow Request
+
+    public function bins_borrow(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bins_equipment_borrowed')->paginate(20,['*'], 'db_entries');
+
+        $request_list = DB::table('bins_inhabitants_equipment_borrow_request')->get();
+
+        $inventory_list=DB::table('bins_brgy_inventory')->get();
+        $item_status_list=DB::table('maintenance_bins_item_status')->get();
+        $resident_list=DB::table('bips_brgy_inhabitants_information')->get();
+
+        return view('bins.borrow_request',compact('db_entries','currDATE','inventory_list','item_status_list','request_list','resident_list'));
+    }
+
+    public function create_bins_borrow(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        $new_requestID=DB::table('bins_inhabitants_equipment_borrow_request')->insertGetId(
+            array(
+                'Resident_ID'        => $data['Resident_ID'],
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Purpose'            => $data['Purpose'],
+                'Remarks'            => $data['Remarks'],
+                'Date_Borrowed'      => $data['Date_Borrowed'],
+                'Expected_Return_Date' => $data['Expected_Return_Date']  
+            )
+        );
+
+        DB::table('bins_equipment_borrowed')->insert(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Equipment_Request_ID'   => $new_requestID,
+                'Inventory_ID'           => $data['item_ID'],
+                'Quantity_Borrowed'      => $data['Quantity_Borrowed'],
+                'Borrowed_Equipmnet_Status_ID' => $data['item_Status_ID'],
+                
+            )
+        );
+
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bins_borrow(Request $request)
+    {
+        $id=$_GET['id']; 
+        //$id=2; 
+
+        $theEntry=DB::table('bins_equipment_borrowed')->where('Borrowed_Equipment_ID',$id)->get();
+        $theRequest=DB::table('bins_inhabitants_equipment_borrow_request')->where('Equipment_Request_ID',$theEntry[0]->Equipment_Request_ID)->get();
+
+        $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theEntry[0]->Inventory_ID)->get();
+        $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Borrowed_Equipmnet_Status_ID)->get();
+
+        $theResident=DB::table('bips_brgy_inhabitants_information')->where('Resident_ID',$theRequest[0]->Resident_ID)->get();
+
+        //dd($theEntry,$the_item,$theRequest,$theitem_status,$theResident);
+
+        return(compact('theEntry','the_item','theitem_status','theRequest'));
+    }
+    public function update_bins_borrow(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_inhabitants_equipment_borrow_request')->update(
+            array(
+                'Resident_ID'        => $data['Resident_ID2'],
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Purpose'            => $data['Purpose2'],
+                'Remarks'            => $data['Remarks2'],
+                'Date_Borrowed'      => $data['Date_Borrowed2'],
+                'Expected_Return_Date' => $data['Expected_Return_Date2']  
+            )
+        );
+
+        DB::table('bins_equipment_borrowed')->update(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Inventory_ID'           => $data['item_ID2'],
+                'Quantity_Borrowed'      => $data['Quantity_Borrowed2'],
+                'Borrowed_Equipmnet_Status_ID' => $data['item_Status_ID2'],
+                
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Supply Issuance
+
+    public function bins_supply_issuance(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bins_received_item')->paginate(20,['*'], 'db_entries');
+
+        $inventory_list=DB::table('bins_brgy_inventory')->get();
+        $item_status_list=DB::table('maintenance_bins_item_status')->get();
+        $staff_list=DB::table('bips_brgy_officials_and_staff')->get();
+
+        return view('bins.received_item',compact('db_entries','currDATE','inventory_list','item_status_list','staff_list'));
+    }
+
+    public function create_bins_supply_issuance(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_received_item')->insert(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Inventory_ID'       => $data['item_ID'],
+                'Item_Status_ID'     => $data['item_status_ID'],
+                'Donation'           => (int)$data['donationX'],
+                'Brgy_Officials_and_Staff_ID' => $data['rc_by'],
+                'Received_Quantity'  => $data['received_qty'],
+                'Date_Received'      => Carbon::now()
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bins_supply_issuance(Request $request)
+    {
+        $id=$_GET['id']; 
+        //$id=1; 
+
+        $theEntry=DB::table('bins_received_item')->where('Received_Item_ID',$id)->get();
+
+        $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theEntry[0]->Inventory_ID)->get();
+        $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Item_Status_ID)->get();
+
+        //dd($theEntry,$the_item,$theitem_status);
+
+        return(compact('theEntry','the_item','theitem_status'));
+    }
+    public function update_bins_supply_issuance(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_received_item')->where('Received_Item_ID',$data['Received_Item_ID'])->update(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Inventory_ID'       => $data['item_ID2'],
+                'Item_Status_ID'     => $data['item_status_ID2'],
+                'Donation'           => (int)$data['donationX2'],
+                'Brgy_Officials_and_Staff_ID' => $data['rc_by2'],
+                'Received_Quantity'  => $data['received_qty2'],
+                'Date_Received'      => Carbon::now()
             )
         );
 
