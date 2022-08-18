@@ -325,4 +325,31 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_file_attachment', 'bpmsController@create_file_attachment')->name('create_file_attachment');
       Route::get('/get_milestone_attachments', 'bpmsController@get_milestone_attachments')->name('get_milestone_attachments');
       Route::get('/delete_milestone_attachments', 'bpmsController@delete_milestone_attachments')->name('delete_milestone_attachments');
+
+      //Emergency Evacuation Site
+      Route::get('/emergency_evacuation_site_list', 'BDRISALController@emergency_evacuation_site_list')->name('emergency_evacuation_site_list');
+      Route::post('/create_emergency_evacuation_site', 'BDRISALController@create_emergency_evacuation_site')->name('create_emergency_evacuation_site');
+      Route::get('/get_emergency_evacuation_site', 'BDRISALController@get_emergency_evacuation_site')->name('get_emergency_evacuation_site');
+
+
+      //Allocated Fund Source
+      Route::get('/allocated_fund_source_list', 'BDRISALController@allocated_fund_source_list')->name('allocated_fund_source_list');
+      Route::post('/create_allocated_fund_source', 'BDRISALController@create_allocated_fund_source')->name('create_allocated_fund_source');
+      Route::get('/get_allocated_fund_source', 'BDRISALController@get_allocated_fund_source')->name('get_allocated_fund_source');
+
+
+      //Emergency Equipment
+      Route::get('/emergency_equipment_list', 'BDRISALController@emergency_equipment_list')->name('emergency_equipment_list');
+      Route::post('/create_emergency_equipment', 'BDRISALController@create_emergency_equipment')->name('create_emergency_equipment');
+      Route::get('/get_emergency_equipment', 'BDRISALController@get_emergency_equipment')->name('get_emergency_equipment');
+
+      //Emergency Team
+      Route::get('/emergency_team_list', 'BDRISALController@emergency_team_list')->name('emergency_team_list');
+      Route::post('/create_emergency_team', 'BDRISALController@create_emergency_team')->name('create_emergency_team');
+      Route::get('/get_emergency_team', 'BDRISALController@get_emergency_team')->name('get_emergency_team');
+
+      //Disaster Type
+      Route::get('/disaster_type_list', 'BDRISALController@disaster_type_list')->name('disaster_type_list');
+      Route::post('/create_disaster_type', 'BDRISALController@create_disaster_type')->name('create_disaster_type');
+      Route::get('/get_disaster_type', 'BDRISALController@get_disaster_type')->name('get_disaster_type');
 });
