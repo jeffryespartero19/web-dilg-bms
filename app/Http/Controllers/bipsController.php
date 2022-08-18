@@ -125,7 +125,6 @@ class bipsController extends Controller
             )
         );
 
-
         DB::table('bips_resident_profile')->insert($resident);
 
         DB::table('bips_education')->where('Resident_ID', $Resident_ID)->delete();
@@ -189,7 +188,6 @@ class bipsController extends Controller
                     DB::table('bips_employment_history')->updateOrInsert(['Employment_ID' => $id], $employment);
                 }
             }
-
 
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -324,7 +322,6 @@ class bipsController extends Controller
             )
             ->where('Resident_ID', $id)->get();
 
-
         return (compact('theEntry'));
     }
     //updating Deceased Profile
@@ -334,9 +331,7 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
         $data = $data = request()->all();
 
-
         DB::table('bips_deceased_profile')->where('Resident_ID', $data['Resident_ID2'])->update(
-
             array(
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now(),
@@ -350,20 +345,18 @@ class bipsController extends Controller
         return redirect()->back()->with('alert', 'Updated Entry');
     }
 
-
+    //Inhabitants Transfer
     ///Inhabitants Transfer List
     public function inhabitants_transfer_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_inhabitants_transfer as a')
-
+        $db_entries = DB::table('Inhabitants_Transfer as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
             ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
             ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
             ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
             ->select(
-
                 'a.Inhabitants_Transfer_ID',
                 'a.Resident_ID',
                 'b.Last_Name',
@@ -386,6 +379,8 @@ class bipsController extends Controller
         $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
         $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
 
+
+
         return view('bips_transactions.inhabitants_transfer_list', compact(
             'db_entries',
             'currDATE',
@@ -404,7 +399,7 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
         $data = $data = request()->all();
 
-        DB::table('bips_inhabitants_transfer')->insert(
+        DB::table('Inhabitants_Transfer')->insert(
             array(
                 'Resident_ID'           => $data['Resident_ID'],
                 'Region_ID'             => $data['Region_ID'],
@@ -420,20 +415,18 @@ class bipsController extends Controller
     }
 
 
-
     // Display Inhabitants Transfer
     public function get_inhabitants_transfer(Request $request)
     {
         $id = $_GET['id'];
 
-        $theEntry = DB::table('bips_inhabitants_transfer as a')
+        $theEntry = DB::table('Inhabitants_Transfer as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
             ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
             ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
             ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
             ->select(
-
                 'a.Inhabitants_Transfer_ID',
                 'a.Resident_ID',
                 'b.Last_Name',
@@ -457,7 +450,7 @@ class bipsController extends Controller
     public function inhabitants_incoming_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_inhabitants_transfer as a')
+        $db_entries = DB::table('Inhabitants_Transfer as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
             ->select(
@@ -473,7 +466,7 @@ class bipsController extends Controller
             )
             ->where('a.Status_ID', 0)
             ->paginate(20, ['*'], 'db_entries');
-        $db_entries2 = DB::table('bips_inhabitants_transfer as a')
+        $db_entries2 = DB::table('Inhabitants_Transfer as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
             ->select(
@@ -489,7 +482,7 @@ class bipsController extends Controller
             )
             ->where('a.Status_ID', 1)
             ->paginate(20, ['*'], 'db_entries');
-        $db_entries3 = DB::table('bips_inhabitants_transfer as a')
+        $db_entries3 = DB::table('Inhabitants_Transfer as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
             ->select(
@@ -533,9 +526,9 @@ class bipsController extends Controller
         if ($data['Status_ID'] == 1) {
             $message = 'Approved';
 
-            $resident = DB::table('bips_inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->get();
+            $resident = DB::table('inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->get();
 
-            DB::table('bips_inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->update(
+            DB::table('inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->update(
                 array(
                     'Status_ID' => $data['Status_ID'],
                 )
@@ -552,7 +545,7 @@ class bipsController extends Controller
         } else {
             $message = 'Disapprove';
 
-            DB::table('bips_inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->update(
+            DB::table('inhabitants_transfer')->where('Resident_ID', $data['Resident_ID'])->update(
                 array(
                     'Status_ID' => $data['Status_ID'],
                 )
@@ -653,5 +646,4 @@ class bipsController extends Controller
             return redirect()->back()->with('message', 'Household Info Updated');
         }
     }
-
 }
