@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\File;
 
 class borisController extends Controller
 {
@@ -55,7 +56,7 @@ class borisController extends Controller
     {
         $currDATE = Carbon::now();
         $data = request()->all();
- 
+
         if ($data['Ordinance_Resolution_ID'] == null || $data['Ordinance_Resolution_ID'] == 0) {
             $Ordinance_Resolution_ID =  DB::table('boris_brgy_ordinances_and_resolutions_information')->insertGetID(
                 array(
@@ -168,5 +169,27 @@ class borisController extends Controller
             ->get();
 
         return (compact('theEntry'));
+    }
+
+    public function get_ordinance_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Ordinance_Attach = DB::table('boris_file_attachment')
+            ->where('Ordinance_Resolution_ID', $id)
+            ->get();
+        return json_encode($Ordinance_Attach);
+    }
+
+    public function delete_ordinance_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('boris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/ordinance_and_resolution/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/ordinance_and_resolution/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('boris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 }
