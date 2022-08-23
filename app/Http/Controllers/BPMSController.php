@@ -383,7 +383,7 @@ class BPMSController extends Controller
                     'Date_Stamp'       => Carbon::now()
                 );
                 DB::table('bpms_file_attachment')->insert($file_data);
-            }
+            } 
         }
 
         return redirect()->back()->with('alert', 'Updated Entry');

@@ -164,7 +164,7 @@
                 <a href="{{route('allocated_fund_source_list')}}">
                     <li role="presentation">Allocated Fund Source</li>
                 </a>
-                <a href="">
+                <a href="{{route('disaster_supplies_list')}}">
                     <li role="presentation">Disaster Supplies</li>
                 </a>
                 <a href="{{route('emergency_team_list')}}">
@@ -173,16 +173,16 @@
                 <a href="{{route('emergency_equipment_list')}}">
                     <li role="presentation">Emergency Equipment</li>
                 </a>
-                <a href="">
+                <a href="{{route('disaster_related_activities_list')}}">
                     <li role="presentation">Disaster Related Activities</li>
                 </a>
-                <a href="">
+                <a href="{{route('response_information_list')}}">
                     <li role="presentation">Response Information</li>
                 </a>
                 <a href="">
                     <li role="presentation">Evacuee Information</li>
                 </a>
-                <a href="">
+                <a href="{{route('recovery_information_list')}}">
                     <li role="presentation">Recovery Information</li>
                 </a>
                 <a href="">

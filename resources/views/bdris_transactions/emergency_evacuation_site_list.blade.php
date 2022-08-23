@@ -9,7 +9,7 @@
     <div class="col-md-6 breadcrumbXZ">
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
-                <li>DILG_BPMS / </li>
+                <li>DILG_BDRIS / </li>
             </a> 
             <li> &nbsp;Emergency Evacuation Site List</li>
         </ol> 

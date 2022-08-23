@@ -5,13 +5,13 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Emergency Equipment List </div>
+    <div class="col-md-6 titleXZ"> Disaster Related Activities List </div>
     <div class="col-md-6 breadcrumbXZ">
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
                 <li>DILG_BDRIS / </li>
             </a> 
-            <li> &nbsp;Emergency Equipment List</li>
+            <li> &nbsp;Disaster Related Activities List</li>
         </ol> 
     </div>
 </div>
@@ -33,16 +33,20 @@
     <br>
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createEmergency_Equipment" style="width: 100px;">New</button></div>
+        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createDisaster_Related_Activities" style="width: 100px;">New</button></div>
     </div>
     <br>
     <div class="col-md-12">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th hidden>Emergency_Equipment_ID </th>
-                    <th >Emergency Equipment Name </th>
-                    <th >Location </th>
+                    <th hidden>Disaster_Related_Activities_ID </th>
+                    <th >Activity_Name </th>
+                    <th >Purpose </th>
+                    <th >Date_Start </th>
+                    <th >Date_End </th>
+                    <th >Number_of_Participants </th>
+                    <th >Brgy Official Name </th>
                     <th >Region </th>
                     <th >Province </th>
                     <th >City/Municipality </th>
@@ -53,15 +57,19 @@
             <tbody>
                 @foreach($db_entries as $x)
                 <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Emergency_Equipment_ID}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Emergency_Equipment_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Location}}</td>
+                    <td class="sm_data_col txtCtr" hidden>{{$x->Disaster_Related_Activities_ID}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Activity_Name}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Purpose}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Date_Start}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Date_End}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Number_of_Participants}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->Region_Name}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->Province_Name}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->City_Municipality_Name}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->Barangay_Name}}</td>
                     <td class="sm_data_col txtCtr"> 
-                        <button class="edit_emergency_equipment" value="{{$x->Emergency_Equipment_ID}}" data-toggle="modal" data-target="#createEmergency_Equipment">Edit</button>
+                        <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">Edit</button>
                     </td>
                 </tr>
                 @endforeach
@@ -72,41 +80,54 @@
 
 <!-- Create Announcement_Status Modal  -->
 
-<div class="modal fade" id="createEmergency_Equipment" tabindex="-1" role="dialog" aria-labelledby="Create_Emergency_Equipment" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="createDisaster_Related_Activities" tabindex="-1" role="dialog" aria-labelledby="Create_Disaster_Related_Activities" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier">Emergency Equipment Profile</h4>
+                <h4 class="modal-title flexer justifier">Disaster Related Activities Profile</h4>
             </div>
             <div class="modal-body">
-                <form id="newEmergency_Equipment" method="POST" action="{{ route('create_emergency_equipment') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <form id="newDisaster_Related_Activities" method="POST" action="{{ route('create_disaster_related_activities') }}" autocomplete="off" enctype="multipart/form-data">@csrf
                 <div class="modal-body">
-                        <h3>Emergency Equipment Information</h3>
+                        <h3>Disaster Related Activities Information</h3>
                         <br>
                         <div class="row">
-                            <input type="text" class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" hidden>
-                            <div class="form-group col-lg-9" style="padding:0 10px">
-                                <label for="Emergency_Equipment_Name">Emergency Equipment Name</label>
-                                <input type="text" class="form-control" id="Emergency_Equipment_Name" name="Emergency_Equipment_Name">
+                            <input type="text" class="form-control" id="Disaster_Related_Activities_ID" name="Disaster_Related_Activities_ID" hidden>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Activity_Name">Activity Name</label>
+                                <input type="text" class="form-control" id="Activity_Name" name="Activity_Name">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <span><b>Active:</b></span><br>
-                                <select class="modal_input1" name="Active" id="Active">
-                                <option hidden selected>Is Active?</option>
-                                <option value=1>Yes</option>
-                                <option value=0>No</option>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Purpose">Purpose</label>
+                                <input type="text" class="form-control" id="Purpose" name="Purpose">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <label for="Date_Start">Date Start</label>
+                                <input type="date" class="form-control" id="Date_Start" name="Date_Start" required>
+                            </div>
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <label for="Date_End">Date End</label>
+                                <input type="date" class="form-control" id="Date_End" name="Date_End" required>
+                            </div>
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <label for="Number_of_Participants">Number of Participants</label>
+                                <input type="number" class="form-control" id="Number_of_Participants" name="Number_of_Participants">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <label for="Brgy_Officials_and_Staff_ID">Brgy Official Name</label>
+                                <select class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID">
+                                    <option value='' disabled selected>Select Option</option>
+                                        @foreach($brgy_officials_and_staff as $bt1)
+                                        <option value="{{ $bt1->Resident_ID }}">{{ $bt1->Last_Name }} {{ $bt1->First_Name }}, {{ $bt1->Middle_Name }}</option>
+                                        @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                <label for="Location">Location</label>
-                                <input type="text" class="form-control" id="Location" name="Location">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
                                 <label for="Region_ID">Region</label>
                                 <select class="form-control" id="Region_ID" name="Region_ID">
                                     <option value='' disabled selected>Select Option</option>
@@ -115,7 +136,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
                                 <label for="Province_ID">Province</label>
                                 <select class="form-control" id="Province_ID" name="Province_ID">
                                     <option value='' disabled selected>Select Option</option>
@@ -123,7 +144,9 @@
 
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
                                 <label for="City_Municipality_ID">City_Municipality</label>
                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
                                     <option value='' disabled selected>Select Option</option>
@@ -131,7 +154,7 @@
 
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
                                 <label for="Barangay_ID">Barangay</label>
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID">
                                     <option value='' disabled selected>Select Option</option>
@@ -171,7 +194,7 @@
     });
 
     $(document).on('click', '.modal-close', function(e) {
-        $('#newEmergency_Equipment').trigger("reset");
+        $('#newDisaster_Related_Activities').trigger("reset");
     });
 
      // Populate Province
@@ -279,11 +302,11 @@
 
 
     // Edit Button Display Modal
-    $(document).on('click', ('.edit_emergency_equipment'), function(e) {
-        $('#Modal_Title').text('Edit Emergency Equipment');
+    $(document).on('click', ('.edit_disaster_related_activities'), function(e) {
+        $('#Modal_Title').text('Edit Disaster Related Activities');
         var disID = $(this).val();
         $.ajax({
-            url: "/get_emergency_equipment",
+            url: "/get_disaster_related_activities",
             type: 'GET',
             data: {
                 id: disID
@@ -292,11 +315,13 @@
                 alert('request failed');
             },
             success: function(data) {
-                $('#Emergency_Equipment_ID').val(data['theEntry'][0]['Emergency_Equipment_ID']);
-                $('#Emergency_Equipment_Name').val(data['theEntry'][0]['Emergency_Equipment_Name']);
-                $('#Location').val(data['theEntry'][0]['Location']);           
+                $('#Disaster_Related_Activities_ID').val(data['theEntry'][0]['Disaster_Related_Activities_ID']);
+                $('#Activity_Name').val(data['theEntry'][0]['Activity_Name']);
+                $('#Purpose').val(data['theEntry'][0]['Purpose']);
+                $('#Date_Start').val(data['theEntry'][0]['Date_Start']); 
+                $('#Date_End').val(data['theEntry'][0]['Date_End']);
+                $('#Number_of_Participants').val(data['theEntry'][0]['Number_of_Participants']);       
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
-                $('#Active').val(data['theEntry'][0]['Active']);
 
                 var barangay =
                     " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
@@ -317,7 +342,6 @@
     });
 
 
-
     $(document).on('click', '.modal-close', function(e) {
         $('#newBrgy_Projects_Monitoring').trigger("reset");
         $('#Barangay_ID').empty();
@@ -328,7 +352,7 @@
         $('#City_Municipality_ID').append(option1);
         $('#Province_ID').append(option1);
        
-        $('#Modal_Title').text('Create Emergency Equipment');
+        $('#Modal_Title').text('Create Disaster Related Activities');
 
         
     });

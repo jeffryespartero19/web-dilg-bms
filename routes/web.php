@@ -352,4 +352,25 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/disaster_type_list', 'BDRISALController@disaster_type_list')->name('disaster_type_list');
       Route::post('/create_disaster_type', 'BDRISALController@create_disaster_type')->name('create_disaster_type');
       Route::get('/get_disaster_type', 'BDRISALController@get_disaster_type')->name('get_disaster_type');
-});
+
+      //Response Information
+      Route::get('/response_information_list', 'BDRISALController@response_information_list')->name('response_information_list');
+      Route::post('/create_response_information', 'BDRISALController@create_response_information')->name('create_response_information');
+      Route::get('/get_response_information', 'BDRISALController@get_response_information')->name('get_response_information');
+
+      //Recovery Information
+      Route::get('/recovery_information_list', 'BDRISALController@recovery_information_list')->name('recovery_information_list');
+      Route::post('/create_recovery_information', 'BDRISALController@create_recovery_information')->name('create_recovery_information');
+      Route::get('/get_recovery_information', 'BDRISALController@get_recovery_information')->name('get_recovery_information');
+      Route::get('/get_affected_household', 'BDRISALController@get_affected_household')->name('get_affected_household');
+
+      //Disaster Related Activities
+      Route::get('/disaster_related_activities_list', 'BDRISALController@disaster_related_activities_list')->name('disaster_related_activities_list');
+      Route::post('/create_disaster_related_activities', 'BDRISALController@create_disaster_related_activities')->name('create_disaster_related_activities');
+      Route::get('/get_disaster_related_activities', 'BDRISALController@get_disaster_related_activities')->name('get_disaster_related_activities');
+
+      //Disaster Supplies
+      Route::get('/disaster_supplies_list', 'BDRISALController@disaster_supplies_list')->name('disaster_supplies_list');
+      Route::post('/create_disaster_supplies', 'BDRISALController@create_disaster_supplies')->name('create_disaster_supplies');
+      Route::get('/get_disaster_supplies', 'BDRISALController@get_disaster_supplies')->name('get_disaster_supplies');
+});   

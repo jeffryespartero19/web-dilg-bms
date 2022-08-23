@@ -106,7 +106,7 @@
                                 <input type="text" class="form-control" id="Description" name="Description">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row"> 
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Estimated_Start_Date">Estimated Start Date</label>
                                 <input type="date" class="form-control" id="Estimated_Start_Date" name="Estimated_Start_Date" required>
