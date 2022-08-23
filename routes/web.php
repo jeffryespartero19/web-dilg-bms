@@ -325,7 +325,6 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_milestone_attachments', 'bpmsController@get_milestone_attachments')->name('get_milestone_attachments');
       Route::get('/delete_milestone_attachments', 'bpmsController@delete_milestone_attachments')->name('delete_milestone_attachments');
 
-
       //Emergency Evacuation Site
       Route::get('/emergency_evacuation_site_list', 'BDRISALController@emergency_evacuation_site_list')->name('emergency_evacuation_site_list');
       Route::post('/create_emergency_evacuation_site', 'BDRISALController@create_emergency_evacuation_site')->name('create_emergency_evacuation_site');
