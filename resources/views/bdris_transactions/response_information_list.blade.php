@@ -5,13 +5,13 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Emergency Equipment List </div>
+    <div class="col-md-6 titleXZ"> Response Information List </div>
     <div class="col-md-6 breadcrumbXZ">
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
                 <li>DILG_BDRIS / </li>
             </a> 
-            <li> &nbsp;Emergency Equipment List</li>
+            <li> &nbsp;Response Information List</li>
         </ol> 
     </div>
 </div>
@@ -33,16 +33,23 @@
     <br>
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createEmergency_Equipment" style="width: 100px;">New</button></div>
+        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createResponse_Information" style="width: 100px;">New</button></div>
     </div>
     <br>
     <div class="col-md-12">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th hidden>Emergency_Equipment_ID </th>
-                    <th >Emergency Equipment Name </th>
-                    <th >Location </th>
+                    <th hidden>Disaster_Response_ID</th>
+                    <th >Disaster_Name</th>
+                    <th >Disaster_Type</th>
+                    <th >Alert_Level</th>
+                    <th >Damaged_Location</th>
+                    <th >Disaster_Date_Start</th>
+                    <th >Disaster_Date_End</th>
+                    <th >GPS_Coordinates</th>
+                    <th >Risk_Assesment</th>
+                    <th >Action_Taken</th>
                     <th >Region </th>
                     <th >Province </th>
                     <th >City/Municipality </th>
@@ -53,15 +60,22 @@
             <tbody>
                 @foreach($db_entries as $x)
                 <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Emergency_Equipment_ID}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Emergency_Equipment_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Location}}</td>
+                    <td class="sm_data_col txtCtr" hidden>{{$x->Disaster_Response_ID}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Disaster_Name}}</td>  
+                    <td class="sm_data_col txtCtr" >{{$x->Disaster_Type}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Alert_Level}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Damaged_Location}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Disaster_Date_Start}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Disaster_Date_End}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->GPS_Coordinates}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Risk_Assesment}}</td>
+                    <td class="sm_data_col txtCtr" >{{$x->Action_Taken}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->Region_Name}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->Province_Name}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->City_Municipality_Name}}</td>
                     <td class="sm_data_col txtCtr" >{{$x->Barangay_Name}}</td>
                     <td class="sm_data_col txtCtr"> 
-                        <button class="edit_emergency_equipment" value="{{$x->Emergency_Equipment_ID}}" data-toggle="modal" data-target="#createEmergency_Equipment">Edit</button>
+                        <button class="edit_response_information" value="{{$x->Disaster_Response_ID}}" data-toggle="modal" data-target="#createResponse_Information">Edit</button>
                     </td>
                 </tr>
                 @endforeach
@@ -72,37 +86,73 @@
 
 <!-- Create Announcement_Status Modal  -->
 
-<div class="modal fade" id="createEmergency_Equipment" tabindex="-1" role="dialog" aria-labelledby="Create_Emergency_Equipment" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="createResponse_Information" tabindex="-1" role="dialog" aria-labelledby="Create_Response_Information" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier">Emergency Equipment Profile</h4>
+                <h4 class="modal-title flexer justifier">Response Information Profile</h4>
             </div>
             <div class="modal-body">
-                <form id="newEmergency_Equipment" method="POST" action="{{ route('create_emergency_equipment') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-                <div class="modal-body">
-                        <h3>Emergency Equipment Information</h3>
+                <form id="newResponse_Information" method="POST" action="{{ route('create_response_information') }}"  autocomplete="off" enctype="multipart/form-data">@csrf
+                    <div class="modal-body">
+                        <h3>Response Information</h3>
                         <br>
                         <div class="row">
-                            <input type="text" class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" hidden>
-                            <div class="form-group col-lg-9" style="padding:0 10px">
-                                <label for="Emergency_Equipment_Name">Emergency Equipment Name</label>
-                                <input type="text" class="form-control" id="Emergency_Equipment_Name" name="Emergency_Equipment_Name">
+                            <input type="text" class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID" hidden>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Disaster_Name">Disaster Name</label>
+                                <input type="text" class="form-control" id="Disaster_Name" name="Disaster_Name">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <span><b>Active:</b></span><br>
-                                <select class="modal_input1" name="Active" id="Active">
-                                <option hidden selected>Is Active?</option>
-                                <option value=1>Yes</option>
-                                <option value=0>No</option>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Disaster_Type_ID">Disaster Type</label>
+                                <select class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID">
+                                    <option value='' disabled selected>Select Option</option>
+                                        @foreach($disaster_type as $bt1)
+                                        <option value="{{ $bt1->Disaster_Type_ID }}">{{ $bt1->Disaster_Type }}</option>
+                                        @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Alert_Level_ID">Alert Level</label>
+                                <select class="form-control" id="Alert_Level_ID" name="Alert_Level_ID">
+                                    <option value='' disabled selected>Select Option</option>
+                                        @foreach($alert_level as $bt1)
+                                        <option value="{{ $bt1->Alert_Level_ID }}">{{ $bt1->Alert_Level }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Disaster_Date_Start">Disaster Date Start</label>
+                                <input type="datetime-local" class="form-control" id="Disaster_Date_Start" name="Disaster_Date_Start" required>
+                            </div>
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Disaster_Date_End">Disaster Date End</label>
+                                <input type="datetime-local" class="form-control" id="Disaster_Date_End" name="Disaster_Date_End" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-9" style="padding:0 10px">
+                                <label for="Damaged_Location">Damaged Location</label>
+                                <input type="text" class="form-control" id="Damaged_Location" name="Damaged_Location">
+                            </div>
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="GPS_Coordinates">GPS Coordinates</label>
+                                <input type="text" class="form-control" id="GPS_Coordinates" name="GPS_Coordinates">
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                <label for="Location">Location</label>
-                                <input type="text" class="form-control" id="Location" name="Location">
+                                <label for="Risk_Assesment">Risk Assesment</label>
+                                <input type="text" class="form-control" id="Risk_Assesment" name="Risk_Assesment">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <label for="Action_Taken">Action Taken</label>
+                                <input type="text" class="form-control" id="Action_Taken" name="Action_Taken">
                             </div>
                         </div>
                         <div class="row">
@@ -171,11 +221,12 @@
     });
 
     $(document).on('click', '.modal-close', function(e) {
-        $('#newEmergency_Equipment').trigger("reset");
+        $('#newResponse_Information').trigger("reset");
+        $('#Modal_Title').text('Create Response Information');
     });
 
-     // Populate Province
-     $(document).on("change", "#Region_ID", function() {
+    // Populate Province
+    $(document).on("change", "#Region_ID", function() {
         // alert('test');
         var Region_ID = $(this).val();
 
@@ -273,17 +324,12 @@
     });
 
 
-
-
-
-
-
     // Edit Button Display Modal
-    $(document).on('click', ('.edit_emergency_equipment'), function(e) {
-        $('#Modal_Title').text('Edit Emergency Equipment');
+    $(document).on('click', ('.edit_response_information'), function(e) {
+        $('#Modal_Title').text('Edit Response Information');
         var disID = $(this).val();
         $.ajax({
-            url: "/get_emergency_equipment",
+            url: "/get_response_information",
             type: 'GET',
             data: {
                 id: disID
@@ -292,11 +338,18 @@
                 alert('request failed');
             },
             success: function(data) {
-                $('#Emergency_Equipment_ID').val(data['theEntry'][0]['Emergency_Equipment_ID']);
-                $('#Emergency_Equipment_Name').val(data['theEntry'][0]['Emergency_Equipment_Name']);
-                $('#Location').val(data['theEntry'][0]['Location']);           
+                $('#Disaster_Response_ID').val(data['theEntry'][0]['Disaster_Response_ID']);
+                $('#Disaster_Name').val(data['theEntry'][0]['Disaster_Name']);
+                $('#Disaster_Type_ID').val(data['theEntry'][0]['Disaster_Type_ID']);   
+                $('#Alert_Level_ID').val(data['theEntry'][0]['Alert_Level_ID']); 
+                $('#Damaged_Location').val(data['theEntry'][0]['Damaged_Location']); 
+                $('#Disaster_Date_Start').val(data['theEntry'][0]['Disaster_Date_Start']); 
+                $('#Disaster_Date_End').val(data['theEntry'][0]['Disaster_Date_End']); 
+                $('#GPS_Coordinates').val(data['theEntry'][0]['GPS_Coordinates']); 
+                $('#Risk_Assesment').val(data['theEntry'][0]['Risk_Assesment']); 
+                $('#Action_Taken').val(data['theEntry'][0]['Action_Taken']);                 
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
-                $('#Active').val(data['theEntry'][0]['Active']);
+                
 
                 var barangay =
                     " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
@@ -314,23 +367,6 @@
                
             }
         });
-    });
-
-
-
-    $(document).on('click', '.modal-close', function(e) {
-        $('#newBrgy_Projects_Monitoring').trigger("reset");
-        $('#Barangay_ID').empty();
-        $('#City_Municipality_ID').empty();
-        $('#Province_ID').empty();
-        var option1 = "<option value='' disabled selected>Select Option</option>";
-        $('#Barangay_ID').append(option1);
-        $('#City_Municipality_ID').append(option1);
-        $('#Province_ID').append(option1);
-       
-        $('#Modal_Title').text('Create Emergency Equipment');
-
-        
     });
 </script>
 
