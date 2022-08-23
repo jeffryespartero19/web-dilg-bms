@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\File;
+use PDF;
 
 class BPMSController extends Controller
 {
@@ -383,7 +384,7 @@ class BPMSController extends Controller
                     'Date_Stamp'       => Carbon::now()
                 );
                 DB::table('bpms_file_attachment')->insert($file_data);
-            } 
+            }
         }
 
         return redirect()->back()->with('alert', 'Updated Entry');
@@ -400,5 +401,54 @@ class BPMSController extends Controller
         DB::table('bpms_file_attachment')->where('Attachment_ID', $id)->delete();
 
         return response()->json(array('success' => true));
+    }
+
+    public function downloadPDF(Request $request)
+    {
+        $details = DB::table('bpms_brgy_projects_monitoring as a')
+            ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+            ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+            ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+            ->select(
+                'a.Brgy_Projects_ID',
+                'a.Project_Number',
+                'a.Project_Name',
+                'a.Total_Project_Cost',
+                'a.Exact_Location',
+                'a.Actual_Project_Start',
+                'b.Contractor_Name',
+                'c.Project_Type_Name',
+                'd.Project_Status_Name',
+
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bpms_transactions.bpmsPDF', compact('details'));
+        $daFileNeym = "Brgy_Projects.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+    public function viewPDF(Request $request)
+    {
+        $details = DB::table('bpms_brgy_projects_monitoring as a')
+            ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+            ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+            ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+            ->select(
+                'a.Brgy_Projects_ID',
+                'a.Project_Number',
+                'a.Project_Name',
+                'a.Total_Project_Cost',
+                'a.Exact_Location',
+                'a.Actual_Project_Start',
+                'b.Contractor_Name',
+                'c.Project_Type_Name',
+                'd.Project_Status_Name',
+
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bpms_transactions.bpmsPDF', compact('details'));
+        return $pdf->stream();
     }
 }
