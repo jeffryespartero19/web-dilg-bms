@@ -297,14 +297,15 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/approve_disapprove_inhabitants', 'bipsController@approve_disapprove_inhabitants')->name('approve_disapprove_inhabitants');
 
 
-
-      // BORIS TRANSATIONS
+      // BORIS TRANSACTIONS
       //BORIS Ordinance & Resolutions
       Route::get('/ordinances_and_resolutions_list', 'borisController@ordinances_and_resolutions_list')->name('ordinances_and_resolutions_list');
       Route::post('/create_ordinance_and_resolution', 'borisController@create_ordinance_and_resolution')->name('create_ordinance_and_resolution');
       Route::get('/get_ordinance_and_resolution_info', 'borisController@get_ordinance_and_resolution_info')->name('get_ordinance_and_resolution_info');
       Route::get('/get_ordinance_attachments', 'borisController@get_ordinance_attachments')->name('get_ordinance_attachments');
       Route::get('/delete_ordinance_attachments', 'borisController@delete_ordinance_attachments')->name('delete_ordinance_attachments');
+      Route::get('/print_Ordinance', 'borisController@downloadPDF')->name('print_Ordinance');
+      Route::get('/view_Ordinance', 'borisController@viewPDF')->name('view_Ordinance');
 
       // Global Controller
       Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
@@ -326,6 +327,8 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_file_attachment', 'bpmsController@create_file_attachment')->name('create_file_attachment');
       Route::get('/get_milestone_attachments', 'bpmsController@get_milestone_attachments')->name('get_milestone_attachments');
       Route::get('/delete_milestone_attachments', 'bpmsController@delete_milestone_attachments')->name('delete_milestone_attachments');
+      Route::get('/print_Project', 'bpmsController@downloadPDF')->name('print_Project');
+      Route::get('/view_Project', 'bpmsController@viewPDF')->name('view_Project');
 
       //Emergency Evacuation Site
       Route::get('/emergency_evacuation_site_list', 'BDRISALController@emergency_evacuation_site_list')->name('emergency_evacuation_site_list');
@@ -375,4 +378,4 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/disaster_supplies_list', 'BDRISALController@disaster_supplies_list')->name('disaster_supplies_list');
       Route::post('/create_disaster_supplies', 'BDRISALController@create_disaster_supplies')->name('create_disaster_supplies');
       Route::get('/get_disaster_supplies', 'BDRISALController@get_disaster_supplies')->name('get_disaster_supplies');
-});   
+});
