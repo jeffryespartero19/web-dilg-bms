@@ -364,6 +364,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_recovery_information', 'BDRISALController@create_recovery_information')->name('create_recovery_information');
       Route::get('/get_recovery_information', 'BDRISALController@get_recovery_information')->name('get_recovery_information');
       Route::get('/get_affected_household', 'BDRISALController@get_affected_household')->name('get_affected_household');
+      Route::get('/get_recovery_damage_loss', 'BDRISALController@get_recovery_damage_loss')->name('get_recovery_damage_loss');
 
       //Disaster Related Activities
       Route::get('/disaster_related_activities_list', 'BDRISALController@disaster_related_activities_list')->name('disaster_related_activities_list');
