@@ -478,7 +478,7 @@
                 <a href="">
                     <li role="presentation">Case</li>
                 </a>
-                <a href="">
+                <a href="{{route('case_type_maint')}}">
                     <li role="presentation">Case Type</li>
                 </a>
                 <a href="">

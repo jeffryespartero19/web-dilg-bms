@@ -36,7 +36,7 @@
         <tbody>
             @foreach($details as $dtl)
             <tr>
-            <td style="border:1px solid black; text-align:center">{{ $dtl->{"Project_Number"} }}</td>
+                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Project_Number"} }}</td>
                 <td style="border:1px solid black; text-align:center">{{ $dtl->{"Project_Name"} }}</td>
             </tr>
             @endforeach

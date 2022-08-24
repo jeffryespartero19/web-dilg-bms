@@ -264,7 +264,7 @@ $(document).on('click', ('.edit_news_type'), function (e) {
         }
     });
 
-    
+
 });
 
 
@@ -749,8 +749,8 @@ $(document).on('click', ('.edit_type_of_ordinance'), function (e) {
             alert('request failed');
         },
         success: function (data) {
-            $('#this_type_of_ordinance_idX').val(data['theEntry'][0]['Type_of_Ordinance_ID']);
-            $('#this_type_of_ordinanceX').val(data['theEntry'][0]['Type_of_Ordinance']);
+            $('#this_type_of_ordinance_idX').val(data['theEntry'][0]['Type_of_Ordinance_or_Resolution_ID']);
+            $('#this_type_of_ordinanceX').val(data['theEntry'][0]['Name_of_Type']);
 
             $('#this_type_of_ordinance_active').empty();
             $('#this_type_of_ordinance_active').val(data['theEntry'][0]['Active']);
@@ -958,6 +958,50 @@ $(document).on('click', ('.edit_casualty_status'), function (e) {
 
 $(document).on('click', '.updateThis_Casualty_Status', function (e) {
     $('#updateBRGY_Casualty_Status').submit();
+});
+
+
+
+
+
+
+
+
+
+// Case Type
+//post buttons
+$(document).on('click', '.postThis_Case_Type', function (e) {
+    $('#newBRGY_Case_Type').submit();
+});
+
+$(document).on('click', ('.edit_case_type'), function (e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_case_type_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function () {
+            alert('request failed');
+        },
+        success: function (data) {
+            $('#this_case_type_idX').val(data['theEntry'][0]['Case_Type_ID']);
+            $('#this_case_typeX').val(data['theEntry'][0]['Case_Type_Name']);
+
+            $('#this_case_type_active').empty();
+            $('#this_case_type_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_case_type_active').append('Yes');
+            } else {
+                $('#this_case_type_active').append('No');
+            }
+
+        }
+    });
+});
+
+$(document).on('click', '.updateThis_Case_Type', function (e) {
+    $('#updateBRGY_Case_Type').submit();
 });
 
 
