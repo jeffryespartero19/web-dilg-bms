@@ -475,34 +475,34 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('case_maint')}}">
                     <li role="presentation">Case</li>
                 </a>
                 <a href="{{route('case_type_maint')}}">
                     <li role="presentation">Case Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('type_of_involved_party_maint')}}">
                     <li role="presentation">Type of Involved Party</li>
                 </a>
-                <a href="">
+                <a href="{{route('violation_status_maint')}}">
                     <li role="presentation">Violation Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('summons_status_maint')}}">
                     <li role="presentation">Summons Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('service_rate_maint')}}">
                     <li role="presentation">Service Rate</li>
                 </a>
-                <a href="">
+                <a href="{{route('proceedings_status_maint')}}">
                     <li role="presentation">Proceedings Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('type_of_action_maint')}}">
                     <li role="presentation">Type of Action </li>
                 </a>
-                <a href="">
+                <a href="{{route('type_of_penalties_maint')}}">
                     <li role="presentation">Type of Penalties</li>
                 </a>
-                <a href="">
+                <a href="{{route('blotter_status_maint')}}">
                     <li role="presentation">Blotter Status</li>
                 </a>
             </ul>

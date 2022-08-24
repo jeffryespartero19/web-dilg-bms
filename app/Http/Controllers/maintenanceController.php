@@ -1333,8 +1333,9 @@ class maintenanceController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('maintenance_bjisbh_case')->paginate(20, ['*'], 'db_entries');
+        $case_type = DB::table('maintenance_bjisbh_case_type')->get();
 
-        return view('maintenance.bips_case', compact('db_entries', 'currDATE'));
+        return view('maintenance.bjisbh_case', compact('db_entries', 'currDATE', 'case_type'));
     }
 
     public function create_case_maint(Request $request)
@@ -1346,6 +1347,7 @@ class maintenanceController extends Controller
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now(),
                 'Case_Name'  => $data['Case_NameX'],
+                'Case_Type_ID' => $data['case_type_idX'],
                 'Active'               => (int)$data['ActiveX']
             )
         );
@@ -1370,6 +1372,399 @@ class maintenanceController extends Controller
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now(),
                 'Case_Name'  => $data['Case_NameX2'],
+                'Case_Type_ID' => $data['case_type_idX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Type of Involved Party
+    public function type_of_involved_party_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_type_of_involved_party')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_type_of_involved_party', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_type_of_involved_party_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_type_of_involved_party')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Involved_Party'  => $data['Type_of_Involved_PartyX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_type_of_involved_party_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_type_of_involved_party')->where('Type_of_Involved_Party_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_type_of_involved_party_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_type_of_involved_party')->where('Type_of_Involved_Party_ID', $data['Type_of_Involved_Party_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Involved_Party'  => $data['Type_of_Involved_PartyX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Violation Status
+    public function violation_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_violation_status')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_violation_status', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_violation_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_violation_status')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Violation_Status'  => $data['Violation_StatusX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_violation_status_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_violation_status')->where('Violation_Status_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_violation_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_violation_status')->where('Violation_Status_ID', $data['Violation_Status_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Violation_Status'  => $data['Violation_StatusX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Summons Status
+    public function summons_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_summons_status')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_summons_status', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_summons_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_summons_status')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Action'  => $data['Type_of_ActionX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_summons_status_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_summons_status')->where('Summons_Status_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_summons_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_summons_status')->where('Summons_Status_ID', $data['Summons_Status_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Action'  => $data['Type_of_ActionX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Service Rate
+    public function service_rate_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_service_rating')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_service_rate', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_service_rate_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_service_rating')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Service_Rate'  => $data['Service_RateX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_service_rate_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_service_rating')->where('Service_Rate_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_service_rate_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_service_rating')->where('Service_Rate_ID', $data['Service_Rate_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Service_Rate'  => $data['Service_RateX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Proceedings Status
+    public function proceedings_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_proceedings_status')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_proceedings_status', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_proceedings_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_proceedings_status')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Action'  => $data['Type_of_ActionX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_proceedings_status_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_proceedings_status')->where('Proceedings_Status_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_proceedings_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_proceedings_status')->where('Proceedings_Status_ID', $data['Proceedings_Status_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Action'  => $data['Type_of_ActionX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Type of Action
+    public function type_of_action_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_type_of_action')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_type_of_action', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_type_of_action_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_type_of_action')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Action'  => $data['Type_of_ActionX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_type_of_action_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_type_of_action')->where('Type_of_Action_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_type_of_action_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_type_of_action')->where('Type_of_Action_ID', $data['Type_of_Action_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Action'  => $data['Type_of_ActionX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Type of Penalties
+    public function type_of_penalties_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_types_of_penalties')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_type_of_penalties', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_type_of_penalties_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_types_of_penalties')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Penalties'  => $data['Type_of_PenaltiesX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_type_of_penalties_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_types_of_penalties')->where('Types_of_Penalties_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_type_of_penalties_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_types_of_penalties')->where('Types_of_Penalties_ID', $data['Types_of_Penalties_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Type_of_Penalties'  => $data['Type_of_PenaltiesX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Blotter Status
+    public function blotter_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bjisbh_blotter_status')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bjisbh_blotter_status', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_blotter_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_blotter_status')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Blotter_Status_Name'  => $data['Blotter_Status_NameX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+
+    public function get_blotter_status_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bjisbh_blotter_status')->where('Blotter_Status_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_blotter_status_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+        DB::table('maintenance_bjisbh_blotter_status')->where('Blotter_Status_ID', $data['Blotter_Status_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Blotter_Status_Name'  => $data['Blotter_Status_NameX2'],
                 'Active'               => (int)$data['ActiveX2']
             )
         );
