@@ -183,6 +183,43 @@
                                 </table>
                             </div>
                         </div>
+                        <hr>
+                        <h3>Recovery Damage Loss</h3>
+                        <button type="button" class="btn btn-info" style="width: 100px;" id="btnAddRecovery_Damage_Loss">Add</button>
+                        <div class="tableX_row row up_marg5">
+                            <div class="col-md-12">
+                                <table id="Recovery_Damage_Loss" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Livestock Loss Estimated Value</th>
+                                            <th>Poultry Loss Estimated Value</th>
+                                            <th>Fisheries Loss Estimated Value</th>
+                                            <th>Crops Loss Estimated Value</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="Recovery_Damage_LossTBLD">
+                                        <tr>
+                                            <td class="sm_data_col txtCtr">
+                                                <input type="number" class="form-control" name="Livestock_Loss_Estimated_Value[]" style="width: 100px;">
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <input type="number" class="form-control" name="Poultry_Loss_Estimated_Value[]" style="width: 100px;">
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <input type="number" class="form-control" name="Fisheries_Loss_Estimated_Value[]" style="width: 100px;">
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <input type="number" class="form-control" name="Crops_Loss_Estimated_Value[]" style="width: 100px;">
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <button type="button" class="removeRowRec btn btn-danger">Remove</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -355,6 +392,7 @@
             }
         });
 
+        //Load Data Affected Household
         $.ajax({
             url: "/get_affected_household",
             type: 'GET',
@@ -403,6 +441,43 @@
                     '</td>' +
                     '</tr>';
                     $('#Affected_HouseholdTBLD').append(option);
+                });
+            }
+        });
+
+        //Load Data Recovery Damage Loss
+        $.ajax({
+            url: "/get_recovery_damage_loss",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('#Recovery_Damage_LossTBLD').empty();
+                data.forEach(element => {
+                    var option =
+                    '<tr>' +
+                    '<td class="sm_data_col txtCtr">' +
+                    '<input type="number" class="form-control" name="Livestock_Loss_Estimated_Value[]" style="width: 100px;"  value="' + element['Livestock_Loss_Estimated_Value'] + '">' +
+                    '</td>' +
+                    '<td class="sm_data_col txtCtr">' +
+                    '<input type="number" class="form-control" name="Poultry_Loss_Estimated_Value[]" style="width: 100px;"  value="' + element['Poultry_Loss_Estimated_Value'] + '">' +
+                    '</td>' +
+                    '<td class="sm_data_col txtCtr">' +
+                    '<input type="number" class="form-control" name="Fisheries_Loss_Estimated_Value[]" style="width: 100px;"  value="' + element['Fisheries_Loss_Estimated_Value'] + '">' +
+                    '</td>' +
+                    '<td class="sm_data_col txtCtr">' +
+                    '<input type="number" class="form-control" name="Crops_Loss_Estimated_Value[]" style="width: 100px;"  value="' + element['Crops_Loss_Estimated_Value'] + '">' +
+                    '</td>' +
+                    '<td class="sm_data_col txtCtr">' +
+                    '<button type="button" class="removeRowRec btn btn-danger">Remove</button>' +
+                    '</td>' +
+                    '</tr>';
+                    $('#Recovery_Damage_LossTBLD').append(option);
                 });
             }
         });
@@ -458,10 +533,34 @@
         '</td>' +
         '</tr>';
         $('#Affected_HouseholdTBLD').append(option);
+
+
+        // Reset Recovery Damage Loss Table
+        $('#Recovery_Damage_LossTBLD').empty();
+        var option =
+        '<tr>' +
+        '<td class="sm_data_col txtCtr">' +
+        '<input type="number" class="form-control" name="Livestock_Loss_Estimated_Value[]" style="width: 100px;">' +
+        '</td>' +
+        '<td class="sm_data_col txtCtr">' +
+        '<input type="number" class="form-control" name="Poultry_Loss_Estimated_Value[]" style="width: 100px;">' +
+        '</td>' +
+        '<td class="sm_data_col txtCtr">' +
+        '<input type="number" class="form-control" name="Fisheries_Loss_Estimated_Value[]" style="width: 100px;">' +
+        '</td>' +
+        '<td class="sm_data_col txtCtr">' +
+        '<input type="number" class="form-control" name="Crops_Loss_Estimated_Value[]" style="width: 100px;">' +
+        '</td>' +
+        '<td class="sm_data_col txtCtr">' +
+        '<button type="button" class="removeRowRec btn btn-danger">Remove</button>' +
+        '</td>' +
+        '</tr>';
+        $('#Recovery_Damage_LossTBLD').append(option);
+       
         
     });
 
-     // Clone Education TR
+     // Clone Affected Household TR
      $("#btnAddAffected_Household").on("click", function() {
 
         var $tableBody = $('#Affected_Household').find("tbody"),
@@ -471,9 +570,31 @@
         $trLast.after($trNew);
     });
 
-    // Remove Milestone TR
+    // Clone Recovery Damage Loss TR
+    $("#btnAddRecovery_Damage_Loss").on("click", function() {
+
+        var $tableBody = $('#Recovery_Damage_Loss').find("tbody"),
+        $trLast = $tableBody.find("tr:last"),
+        $trNew = $trLast.clone().find("input, select").val("").removeAttr('selected').end();
+
+        $trLast.after($trNew);
+    });
+
+
+    // Remove Affected Household TR
     $("#Affected_Household").on("click", ".removeRow", function() {
         $(this).closest("tr").remove();
+    });
+
+    // Remove Recovery Damage Loss TR
+    $("#Recovery_Damage_Loss").on("click", ".removeRowRec", function() {
+        $(this).closest("tr").remove();
+        
+        var $tableBody = $('#Recovery_Damage_Loss').find("tbody"),
+        $trLast = $tableBody.find("tr:last"),
+        $trNew = $trLast.clone().find("input, select").val("").removeAttr('selected').end();
+
+        $trLast.after($trNew);
     });
 </script>
 

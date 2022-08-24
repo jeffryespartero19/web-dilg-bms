@@ -741,6 +741,7 @@ class BDRISALController extends Controller
             );
 
             DB::table('bdris_affected_household_and_infra')->where('Disaster_Recovery_ID', $Disaster_Recovery_ID)->delete();
+            DB::table('bdris_recovery_damage_loss')->where('Disaster_Recovery_ID', $Disaster_Recovery_ID)->delete();
 
             if (isset($data['Household_Profile_ID'])) {
                 $affected_household = [];
@@ -769,6 +770,34 @@ class BDRISALController extends Controller
                     }
                 }
             }
+
+            
+            if (isset($data['Livestock_Loss_Estimated_Value'])) {
+                $recovery_damage_loss = [];
+
+                for ($i = 0; $i < count($data['Livestock_Loss_Estimated_Value']); $i++) {
+                    if ($data['Livestock_Loss_Estimated_Value'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_recovery_damage_loss')->max('Recovery_Damage_Loss_ID');
+                        $id += 1;
+
+                        if ($data['Livestock_Loss_Estimated_Value'][$i] != null) {
+                            $recovery_damage_loss = [
+                                'Disaster_Recovery_ID'          => $Disaster_Recovery_ID,
+                                'Livestock_Loss_Estimated_Value'=> $data['Livestock_Loss_Estimated_Value'][$i],
+                                'Poultry_Loss_Estimated_Value'  => $data['Poultry_Loss_Estimated_Value'][$i],
+                                'Fisheries_Loss_Estimated_Value'=> $data['Fisheries_Loss_Estimated_Value'][$i],
+                                'Crops_Loss_Estimated_Value'    => $data['Crops_Loss_Estimated_Value'][$i],
+                                'Encoder_ID'                    => Auth::user()->id,
+                                'Date_Stamp'                    => Carbon::now()
+                            ];
+                        }
+
+                        DB::table('bdris_recovery_damage_loss')->updateOrInsert(['Recovery_Damage_Loss_ID' => $id], $recovery_damage_loss);
+                    }
+                }
+            }
+
  
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -785,6 +814,7 @@ class BDRISALController extends Controller
             );
 
             DB::table('bdris_affected_household_and_infra')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->delete();
+            DB::table('bdris_recovery_damage_loss')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->delete();
 
             if (isset($data['Household_Profile_ID'])) {
                 $affected_household = [];
@@ -810,6 +840,32 @@ class BDRISALController extends Controller
                         }
 
                         DB::table('bdris_affected_household_and_infra')->updateOrInsert(['Affected_Household_ID' => $id], $affected_household);
+                    }
+                }
+            }
+
+            if (isset($data['Livestock_Loss_Estimated_Value'])) {
+                $recovery_damage_loss = [];
+
+                for ($i = 0; $i < count($data['Livestock_Loss_Estimated_Value']); $i++) {
+                    if ($data['Livestock_Loss_Estimated_Value'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_recovery_damage_loss')->max('Recovery_Damage_Loss_ID');
+                        $id += 1;
+
+                        if ($data['Livestock_Loss_Estimated_Value'][$i] != null) {
+                            $recovery_damage_loss = [
+                                'Disaster_Recovery_ID'          => $data['Disaster_Recovery_ID'],
+                                'Livestock_Loss_Estimated_Value'=> $data['Livestock_Loss_Estimated_Value'][$i],
+                                'Poultry_Loss_Estimated_Value'  => $data['Poultry_Loss_Estimated_Value'][$i],
+                                'Fisheries_Loss_Estimated_Value'=> $data['Fisheries_Loss_Estimated_Value'][$i],
+                                'Crops_Loss_Estimated_Value'    => $data['Crops_Loss_Estimated_Value'][$i],
+                                'Encoder_ID'                    => Auth::user()->id,
+                                'Date_Stamp'                    => Carbon::now()
+                            ];
+                        }
+
+                        DB::table('bdris_recovery_damage_loss')->updateOrInsert(['Recovery_Damage_Loss_ID' => $id], $recovery_damage_loss);
                     }
                 }
             }
@@ -869,6 +925,23 @@ class BDRISALController extends Controller
             ->where('a.Disaster_Recovery_ID', $id)
             ->get();
         return json_encode($Affected_Household);
+    }
+
+    public function get_recovery_damage_loss(Request $request)
+    {
+        $id = $_GET['id'];
+        $Recovery_Damage_Loss = DB::table('bdris_recovery_damage_loss as a')
+            ->select(
+                'a.Recovery_Damage_Loss_ID',
+                'a.Disaster_Recovery_ID',
+                'a.Livestock_Loss_Estimated_Value',
+                'a.Poultry_Loss_Estimated_Value',
+                'a.Fisheries_Loss_Estimated_Value',
+                'a.Crops_Loss_Estimated_Value',
+            )
+            ->where('a.Disaster_Recovery_ID', $id)
+            ->get();
+        return json_encode($Recovery_Damage_Loss);
     }
 
     //Disaster Related Activities List

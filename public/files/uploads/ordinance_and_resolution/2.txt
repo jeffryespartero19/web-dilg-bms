@@ -1,0 +1,31 @@
+Borrowing Properties/Facilities
+ Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_PropertiesFacilities_Request, 22)
+
+Properties/Facilites Pending Request
+Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_Barangay_Properties_Request, 22)
+
+Releasing of Properties
+  Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_ReleasingofProperties, 22)
+
+Returning of Properties
+Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_ReturningofProperties, 22)
+
+Donate/Purchase Property
+ Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_DonatePurchase_Properties, 22)
+
+Properties Disposal
+ Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_Properties_Disposal, 22)
+
+Properties Missing
+Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_Properties_Missing, 22)
+
+Properties Retired
+ Access = 0
+        ShowForm(New WTI.Forms.Barangay.frmTRX_Brgy_Properties_Retired, 22)
