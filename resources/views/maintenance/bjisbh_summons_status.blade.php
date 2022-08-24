@@ -22,11 +22,11 @@
         <table class="table-bordered table_gen up_marg5">
             <thead>
                 <tr>
-                    <th>Summons_Status_ID </th>
-                    <th>Type_of_Action</th>
+                    <th>Summons Status ID </th>
+                    <th>Type of Action</th>
                     <th>Active</th>
-                    <th>Encoder_ID</th>
-                    <th>Date_Stamp</th>
+                    <th>Encoder ID</th>
+                    <th>Date Stamp</th>
                     <th>Actions</th>
                 </tr>
             </thead>
