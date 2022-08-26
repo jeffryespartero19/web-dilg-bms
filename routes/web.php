@@ -376,14 +376,6 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_disaster_supplies', 'BDRISALController@create_disaster_supplies')->name('create_disaster_supplies');
       Route::get('/get_disaster_supplies', 'BDRISALController@get_disaster_supplies')->name('get_disaster_supplies');
 
-
-
-
-
-
-
-
-
       //Case Type
       Route::get('/case_type_maint', 'maintenanceController@case_type_maint')->name('case_type_maint');
       Route::post('/create_case_type_maint', 'maintenanceController@create_case_type_maint')->name('create_case_type_maint');
