@@ -314,6 +314,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_contractor', 'bpmsController@create_contractor')->name('create_contractor');
       Route::get('/get_contractor', 'bpmsController@get_contractor')->name('get_contractor');
       Route::post('/update_contractor', 'bpmsController@update_contractor')->name('update_contractor');
+      Route::get('/view_Project', 'bpmsController@viewPDF')->name('view_Project');
 
       //Brgy Projects Monitoring
       Route::get('/brgy_projects_monitoring_list', 'bpmsController@brgy_projects_monitoring_list')->name('brgy_projects_monitoring_list');
@@ -325,7 +326,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_milestone_attachments', 'bpmsController@get_milestone_attachments')->name('get_milestone_attachments');
       Route::get('/delete_milestone_attachments', 'bpmsController@delete_milestone_attachments')->name('delete_milestone_attachments');
       Route::get('/print_Project', 'bpmsController@downloadPDF')->name('print_Project');
-      Route::get('/view_Project', 'bpmsController@viewPDF')->name('view_Project');
+      Route::get('/viewContractorPDF', 'bpmsController@viewContractorPDF')->name('viewContractorPDF');
 
       //Emergency Evacuation Site
       Route::get('/emergency_evacuation_site_list', 'BDRISALController@emergency_evacuation_site_list')->name('emergency_evacuation_site_list');
@@ -353,11 +354,14 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/disaster_type_list', 'BDRISALController@disaster_type_list')->name('disaster_type_list');
       Route::post('/create_disaster_type', 'BDRISALController@create_disaster_type')->name('create_disaster_type');
       Route::get('/get_disaster_type', 'BDRISALController@get_disaster_type')->name('get_disaster_type');
+      Route::get('/viewDisaster_TypePDF', 'BDRISALController@viewDisaster_TypePDF')->name('viewDisaster_TypePDF');
 
       //Response Information
       Route::get('/response_information_list', 'BDRISALController@response_information_list')->name('response_information_list');
       Route::post('/create_response_information', 'BDRISALController@create_response_information')->name('create_response_information');
       Route::get('/get_response_information', 'BDRISALController@get_response_information')->name('get_response_information');
+      Route::get('/get_response_information_attachments', 'BDRISALController@get_response_information_attachments')->name('get_response_information_attachments');
+      Route::get('/delete_response_information_attachments', 'BDRISALController@delete_response_information_attachments')->name('delete_response_information_attachments');
 
       //Recovery Information
       Route::get('/recovery_information_list', 'BDRISALController@recovery_information_list')->name('recovery_information_list');
@@ -365,11 +369,15 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_recovery_information', 'BDRISALController@get_recovery_information')->name('get_recovery_information');
       Route::get('/get_affected_household', 'BDRISALController@get_affected_household')->name('get_affected_household');
       Route::get('/get_recovery_damage_loss', 'BDRISALController@get_recovery_damage_loss')->name('get_recovery_damage_loss');
+      Route::get('/get_recovery_information_attachments', 'BDRISALController@get_recovery_information_attachments')->name('get_recovery_information_attachments');
+      Route::get('/delete_recovery_information_attachments', 'BDRISALController@delete_recovery_information_attachments')->name('delete_recovery_information_attachments');
 
       //Disaster Related Activities
       Route::get('/disaster_related_activities_list', 'BDRISALController@disaster_related_activities_list')->name('disaster_related_activities_list');
       Route::post('/create_disaster_related_activities', 'BDRISALController@create_disaster_related_activities')->name('create_disaster_related_activities');
       Route::get('/get_disaster_related_activities', 'BDRISALController@get_disaster_related_activities')->name('get_disaster_related_activities');
+      Route::get('/get_disaster_related_activities_attachments', 'BDRISALController@get_disaster_related_activities_attachments')->name('get_disaster_related_activities_attachments');
+      Route::get('/delete_disaster_related_activities_attachments', 'BDRISALController@delete_disaster_related_activities_attachments')->name('delete_disaster_related_activities_attachments');
 
       //Disaster Supplies
       Route::get('/disaster_supplies_list', 'BDRISALController@disaster_supplies_list')->name('disaster_supplies_list');

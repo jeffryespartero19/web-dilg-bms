@@ -451,4 +451,23 @@ class BPMSController extends Controller
         $pdf = PDF::loadView('bpms_transactions.bpmsPDF', compact('details'));
         return $pdf->stream();
     }
+
+    public function viewContractorPDF(Request $request)
+    {
+        $details = DB::table('bpms_contractor as a')
+            ->select(
+                'a.Contractor_ID',
+                'a.Contractor_Name',
+                'a.Contact_No',
+                'a.Contact_Person',
+                'a.Contractor_Address',
+                'a.Contractor_TIN',
+                'a.Remarks',
+                
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bpms_transactions.contractorPDF', compact('details'));
+        return $pdf->stream();
+    }
 }

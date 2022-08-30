@@ -7,6 +7,8 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\File;
+use PDF;
 
 
 class BDRISALController extends Controller
@@ -493,7 +495,34 @@ class BDRISALController extends Controller
         }
     }
 
-    // Display Emergency Team
+    //Disaster Type PDF
+    public function viewDisaster_TypePDF(Request $request)
+    {
+        $details = DB::table('maintenance_bdris_disaster_type as a')
+        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->select(
+                'a.Disaster_Type_ID',
+                'a.Disaster_Type',
+                'a.Emergency_Evacuation_Site_ID',
+                'b.Emergency_Evacuation_Site_Name',
+                'a.Allocated_Fund_ID',
+                'c.Allocated_Fund_Name',
+                'a.Emergency_Team_ID',
+                'e.Emergency_Team_Name',
+                'a.Emergency_Equipment_ID',
+                'd.Emergency_Equipment_Name',      
+
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.disaster_typePDF', compact('details'))->setPaper('a4','landscape');
+        return $pdf->stream();
+    }
+
+    // Display Disaster Type
     public function get_disaster_type(Request $request)
     {
         $id = $_GET['id'];
@@ -606,6 +635,24 @@ class BDRISALController extends Controller
 
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/response_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Response_ID' => $Disaster_Response_ID,
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
  
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -628,6 +675,24 @@ class BDRISALController extends Controller
                     'Date_Stamp'            => Carbon::now(),
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/response_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Response_ID' => $data['Disaster_Response_ID'],
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
          
             return redirect()->back()->with('message', 'Response Information Updated');
         }
@@ -671,6 +736,30 @@ class BDRISALController extends Controller
             ->where('Disaster_Response_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Display Response Information Attachment
+    public function get_response_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Disaster_Response = DB::table('bdris_file_attachment')
+            ->where('Disaster_Response_ID', $id)
+            ->get();
+        return json_encode($Disaster_Response);
+    }
+
+    //Delete Response Information Attachment
+    public function delete_response_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/response_information/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/response_information/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 
     //Recovery Information List
@@ -798,6 +887,25 @@ class BDRISALController extends Controller
                 }
             }
 
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/recovery_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Recovery_ID'  => $Disaster_Recovery_ID,
+                        'File_Name'             => $filename,
+                        'File_Location'         => $filePath,
+                        'Encoder_ID'            => Auth::user()->id,
+                        'Date_Stamp'            => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
+
+
  
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -869,6 +977,25 @@ class BDRISALController extends Controller
                     }
                 }
             }
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/recovery_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Recovery_ID'  => $data['Disaster_Recovery_ID'],
+                        'File_Name'             => $filename,
+                        'File_Location'         => $filePath,
+                        'Encoder_ID'            => Auth::user()->id,
+                        'Date_Stamp'            => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
+
          
             return redirect()->back()->with('message', 'Recovery Information Info Updated');
         }
@@ -942,6 +1069,30 @@ class BDRISALController extends Controller
             ->where('a.Disaster_Recovery_ID', $id)
             ->get();
         return json_encode($Recovery_Damage_Loss);
+    }
+
+    //Display Response Information Attachment
+    public function get_recovery_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Disaster_Recovery = DB::table('bdris_file_attachment')
+            ->where('Disaster_Recovery_ID', $id)
+            ->get();
+        return json_encode($Disaster_Recovery);
+    }
+
+    //Delete Response Information Attachment
+    public function delete_recovery_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 
     //Disaster Related Activities List
@@ -1026,6 +1177,24 @@ class BDRISALController extends Controller
                     'Date_Stamp'                        => Carbon::now(),
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/disaster_related_activities/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Related_Activities_ID' => $Disaster_Related_Activities_ID,
+                        'File_Name'                     => $filename,
+                        'File_Location'                 => $filePath,
+                        'Encoder_ID'                    => Auth::user()->id,
+                        'Date_Stamp'                    => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
  
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -1045,6 +1214,24 @@ class BDRISALController extends Controller
                     'Date_Stamp'                        => Carbon::now(),
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/disaster_related_activities/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Related_Activities_ID'    => $data['Disaster_Related_Activities_ID'],
+                        'File_Name'                         => $filename,
+                        'File_Location'                     => $filePath,
+                        'Encoder_ID'                        => Auth::user()->id,
+                        'Date_Stamp'                        => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
          
             return redirect()->back()->with('message', 'Disaster Related Activities Info Updated');
         }
@@ -1085,6 +1272,30 @@ class BDRISALController extends Controller
             ->where('Disaster_Related_Activities_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Display Disaster Related Activities Attachment
+    public function get_disaster_related_activities_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Disaster_Related_Activties = DB::table('bdris_file_attachment')
+            ->where('Disaster_Related_Activities_ID', $id)
+            ->get();
+        return json_encode($Disaster_Related_Activties);
+    }
+
+    //Delete Disaster Related Activities Attachment
+    public function delete_disaster_related_activities_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/disaster_related_activities/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/disaster_related_activities/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 
     //Disaster Supplies List

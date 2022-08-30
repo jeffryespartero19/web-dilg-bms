@@ -161,10 +161,20 @@
                                    
                                 </select>
                             </div>
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <label for="fileattach">File Attachments</label>
+                                <ul class="list-group list-group-flush" id="disaster_related_activities_files">
+
+                                </ul>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
+                        <button type="button" id="CloseDisaster_Related_Activities" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
                     </div>
                 </form>
@@ -195,6 +205,7 @@
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newDisaster_Related_Activities').trigger("reset");
+        $('#disaster_related_activities_files').empty();
     });
 
      // Populate Province
@@ -296,11 +307,6 @@
     });
 
 
-
-
-
-
-
     // Edit Button Display Modal
     $(document).on('click', ('.edit_disaster_related_activities'), function(e) {
         $('#Modal_Title').text('Edit Disaster Related Activities');
@@ -339,6 +345,24 @@
                
             }
         });
+
+        $.ajax({
+            url: "/get_disaster_related_activities_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                data.forEach(element => {
+                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/disaster_related_activities/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                    $('#disaster_related_activities_files').append(file);
+                });
+            }
+        });
     });
 
 
@@ -353,8 +377,54 @@
         $('#Province_ID').append(option1);
        
         $('#Modal_Title').text('Create Disaster Related Activities');
+        $('#disaster_related_activities_files').empty();
+    });
 
-        
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+        var files = Array.from(this.files)
+        var fileName = files.map(f => {
+            return f.name
+        }).join(", ")
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
+    // File Attachments Modal
+    $(document).on('click', ('.ord_del'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_disaster_related_activities_attachments",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        $('#CloseDisaster_Related_Activities').click();
+                    }
+                });
+
+            }
+        });
+
     });
 </script>
 
@@ -362,6 +432,37 @@
     table {
         display: block;
         overflow-x: scroll;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 
