@@ -7,6 +7,8 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\File;
+use PDF;
 
 
 class BDRISALController extends Controller
@@ -128,6 +130,35 @@ class BDRISALController extends Controller
         return (compact('theEntry'));
     }
 
+    //Emergency Evacuation Site PDF
+    public function viewEmergency_Evacuation_SitePDF(Request $request)
+    {
+        $details = DB::table('bdris_emergency_evacuation_site as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+                'a.Emergency_Evacuation_Site_ID',
+                'a.Emergency_Evacuation_Site_Name',
+                'a.Address',
+                'a.Capacity',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',  
+                'a.Active',     
+        )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.emergency_evacuation_sitePDF', compact('details'))->setPaper('a4','landscape');
+        return $pdf->stream();
+    }
+
     //Allocated Fund Source List
     public function allocated_fund_source_list(Request $request)
     {
@@ -186,6 +217,17 @@ class BDRISALController extends Controller
             ->where('Allocated_Fund_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Allocated Fund Source PDF
+    public function viewAllocated_FundPDF(Request $request)
+    {
+        $details = DB::table('bdris_allocated_fund_source as a')
+     
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.allocated_fundPDF', compact('details'));
+        return $pdf->stream();
     }
 
     //Emergency Evacuation equipment
@@ -298,6 +340,34 @@ class BDRISALController extends Controller
             ->where('Emergency_Equipment_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Emergency Equipment PDF
+    public function viewEmergency_EquipmentPDF(Request $request)
+    {
+        $details = DB::table('bdris_emergency_equipment as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+            'a.Emergency_Equipment_ID',
+            'a.Emergency_Equipment_Name',
+            'a.Location',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',      
+            'a.Active',     
+        )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.emergency_equipmentPDF', compact('details'));
+        return $pdf->stream();
     }
 
     //Emergency Team
@@ -413,6 +483,34 @@ class BDRISALController extends Controller
         return (compact('theEntry'));
     }
 
+    //Emergency Team PDF
+    public function viewEmergency_TeamPDF(Request $request)
+    {
+        $details = DB::table('bdris_emergency_team as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+                'a.Emergency_Team_ID',
+                'a.Emergency_Team_Name',
+                'a.Emergency_Team_Hotline',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',  
+                'a.Active',     
+        )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.emergency_teamPDF', compact('details'));
+        return $pdf->stream();
+    }
+
     //Disaster Type
     public function disaster_type_list(Request $request)
     {
@@ -493,7 +591,34 @@ class BDRISALController extends Controller
         }
     }
 
-    // Display Emergency Team
+    //Disaster Type PDF
+    public function viewDisaster_TypePDF(Request $request)
+    {
+        $details = DB::table('maintenance_bdris_disaster_type as a')
+        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->select(
+                'a.Disaster_Type_ID',
+                'a.Disaster_Type',
+                'a.Emergency_Evacuation_Site_ID',
+                'b.Emergency_Evacuation_Site_Name',
+                'a.Allocated_Fund_ID',
+                'c.Allocated_Fund_Name',
+                'a.Emergency_Team_ID',
+                'e.Emergency_Team_Name',
+                'a.Emergency_Equipment_ID',
+                'd.Emergency_Equipment_Name',      
+
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.disaster_typePDF', compact('details'))->setPaper('a4','landscape');
+        return $pdf->stream();
+    }
+
+    // Display Disaster Type
     public function get_disaster_type(Request $request)
     {
         $id = $_GET['id'];
@@ -522,7 +647,7 @@ class BDRISALController extends Controller
         return (compact('theEntry'));
     }
 
-    //Response Information
+    //Response Information List
     public function response_information_list(Request $request)
     {
         $currDATE = Carbon::now();
@@ -606,6 +731,24 @@ class BDRISALController extends Controller
 
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/response_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Response_ID' => $Disaster_Response_ID,
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
  
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -628,6 +771,24 @@ class BDRISALController extends Controller
                     'Date_Stamp'            => Carbon::now(),
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/response_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Response_ID' => $data['Disaster_Response_ID'],
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
          
             return redirect()->back()->with('message', 'Response Information Updated');
         }
@@ -671,6 +832,69 @@ class BDRISALController extends Controller
             ->where('Disaster_Response_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Response Information PDF
+    public function viewResponse_InformationPDF(Request $request)
+    {
+        $details = DB::table('bdris_response_information as a')
+        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+        ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
+        ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
+            ->select(
+                'a.Disaster_Response_ID',
+                'a.Disaster_Name',
+                'a.Disaster_Type_ID',
+                'a.Alert_Level_ID',
+                'a.Damaged_Location',
+                'a.Disaster_Date_Start',
+                'a.Disaster_Date_End',
+                'a.GPS_Coordinates',
+                'a.Risk_Assesment',
+                'a.Action_Taken',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Province_ID',
+                'a.Region_ID',
+                'b.Disaster_Type',
+                'c.Alert_Level',
+                'd.Region_Name',
+                'e.Province_Name',
+                'f.City_Municipality_Name',
+                'g.Barangay_Name',
+
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.response_informationPDF', compact('details'))->setPaper('a4','landscape');
+        return $pdf->stream();
+    }
+
+    //Display Response Information Attachment
+    public function get_response_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Disaster_Response = DB::table('bdris_file_attachment')
+            ->where('Disaster_Response_ID', $id)
+            ->get();
+        return json_encode($Disaster_Response);
+    }
+
+    //Delete Response Information Attachment
+    public function delete_response_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/response_information/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/response_information/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 
     //Recovery Information List
@@ -798,6 +1022,25 @@ class BDRISALController extends Controller
                 }
             }
 
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/recovery_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Recovery_ID'  => $Disaster_Recovery_ID,
+                        'File_Name'             => $filename,
+                        'File_Location'         => $filePath,
+                        'Encoder_ID'            => Auth::user()->id,
+                        'Date_Stamp'            => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
+
+
  
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -869,6 +1112,25 @@ class BDRISALController extends Controller
                     }
                 }
             }
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/recovery_information/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Recovery_ID'  => $data['Disaster_Recovery_ID'],
+                        'File_Name'             => $filename,
+                        'File_Location'         => $filePath,
+                        'Encoder_ID'            => Auth::user()->id,
+                        'Date_Stamp'            => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
+
          
             return redirect()->back()->with('message', 'Recovery Information Info Updated');
         }
@@ -942,6 +1204,30 @@ class BDRISALController extends Controller
             ->where('a.Disaster_Recovery_ID', $id)
             ->get();
         return json_encode($Recovery_Damage_Loss);
+    }
+
+    //Display Response Information Attachment
+    public function get_recovery_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Disaster_Recovery = DB::table('bdris_file_attachment')
+            ->where('Disaster_Recovery_ID', $id)
+            ->get();
+        return json_encode($Disaster_Recovery);
+    }
+
+    //Delete Response Information Attachment
+    public function delete_recovery_information_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 
     //Disaster Related Activities List
@@ -1026,6 +1312,24 @@ class BDRISALController extends Controller
                     'Date_Stamp'                        => Carbon::now(),
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/disaster_related_activities/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Related_Activities_ID' => $Disaster_Related_Activities_ID,
+                        'File_Name'                     => $filename,
+                        'File_Location'                 => $filePath,
+                        'Encoder_ID'                    => Auth::user()->id,
+                        'Date_Stamp'                    => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
  
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -1045,6 +1349,24 @@ class BDRISALController extends Controller
                     'Date_Stamp'                        => Carbon::now(),
                 )
             );
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/disaster_related_activities/';
+                    $file->move($filePath, $filename);
+
+                    $file_data = array(
+                        'Disaster_Related_Activities_ID'    => $data['Disaster_Related_Activities_ID'],
+                        'File_Name'                         => $filename,
+                        'File_Location'                     => $filePath,
+                        'Encoder_ID'                        => Auth::user()->id,
+                        'Date_Stamp'                        => Carbon::now()
+                    );
+                    DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
          
             return redirect()->back()->with('message', 'Disaster Related Activities Info Updated');
         }
@@ -1085,6 +1407,66 @@ class BDRISALController extends Controller
             ->where('Disaster_Related_Activities_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Display Disaster Related Activities Attachment
+    public function get_disaster_related_activities_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Disaster_Related_Activties = DB::table('bdris_file_attachment')
+            ->where('Disaster_Related_Activities_ID', $id)
+            ->get();
+        return json_encode($Disaster_Related_Activties);
+    }
+
+    //Delete Disaster Related Activities Attachment
+    public function delete_disaster_related_activities_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/disaster_related_activities/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/disaster_related_activities/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    //Disaster Related Activities PDF
+    public function viewDisaster_Related_ActivitiesPDF(Request $request)
+    {
+        $details = DB::table('bdris_disaster_related_activities as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->select(
+                'a.Disaster_Related_Activities_ID',
+                'a.Activity_Name',
+                'a.Purpose',
+                'a.Date_Start',
+                'a.Date_End',
+                'a.Number_of_Participants',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',    
+                'g.Last_Name',
+                'g.First_Name',
+                'g.Middle_Name',
+                  
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.disaster_related_activitiesPDF', compact('details'))->setPaper('a4','landscape');
+        return $pdf->stream();
     }
 
     //Disaster Supplies List
@@ -1237,6 +1619,45 @@ class BDRISALController extends Controller
             ->where('Disaster_Supplies_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Disaster Supplies PDF
+    public function viewDisaster_SuppliesPDF(Request $request)
+    {
+        $details = DB::table('bdris_disaster_supplies as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->select(
+                'a.Disaster_Supplies_ID',
+                'a.Disaster_Response_ID',
+                'a.Disaster_Supplies_Name',
+                'a.Disaster_Supplies_Quantity',
+                'a.Location',
+                'a.Remarks',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'a.Active',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',    
+                'g.Last_Name',
+                'g.First_Name',
+                'g.Middle_Name',
+                'h.Disaster_Name',
+                 
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.disaster_suppliesPDF', compact('details'))->setPaper('a4','landscape');
+        return $pdf->stream();
     }
     
 }
