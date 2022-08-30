@@ -267,10 +267,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px"> 
-                                <label for="City_Municipality_ID">City/Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
+                                <label for="Election_Year_Last_Voted">Election Year Last Voted</label>
+                                <input type="date" class="form-control" id="Election_Year_Last_Voted" name="Election_Year_Last_Voted">
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Resident_Voter">Resident Voter</label>

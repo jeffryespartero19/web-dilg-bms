@@ -206,7 +206,7 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('blotter_list')}}">
                     <li role="presentation">Blotter</li>
                 </a>
                 <a href="">
