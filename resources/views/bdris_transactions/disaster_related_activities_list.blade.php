@@ -34,6 +34,7 @@
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
         <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createDisaster_Related_Activities" style="width: 100px;">New</button></div>
+        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewDisaster_Related_ActivitiesPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
     </div>
     <br>
     <div class="col-md-12">

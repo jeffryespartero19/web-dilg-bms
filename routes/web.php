@@ -332,23 +332,27 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/emergency_evacuation_site_list', 'BDRISALController@emergency_evacuation_site_list')->name('emergency_evacuation_site_list');
       Route::post('/create_emergency_evacuation_site', 'BDRISALController@create_emergency_evacuation_site')->name('create_emergency_evacuation_site');
       Route::get('/get_emergency_evacuation_site', 'BDRISALController@get_emergency_evacuation_site')->name('get_emergency_evacuation_site');
+      Route::get('/viewEmergency_Evacuation_SitePDF', 'BDRISALController@viewEmergency_Evacuation_SitePDF')->name('viewEmergency_Evacuation_SitePDF');
 
 
       //Allocated Fund Source
       Route::get('/allocated_fund_source_list', 'BDRISALController@allocated_fund_source_list')->name('allocated_fund_source_list');
       Route::post('/create_allocated_fund_source', 'BDRISALController@create_allocated_fund_source')->name('create_allocated_fund_source');
       Route::get('/get_allocated_fund_source', 'BDRISALController@get_allocated_fund_source')->name('get_allocated_fund_source');
+      Route::get('/viewAllocated_FundPDF', 'BDRISALController@viewAllocated_FundPDF')->name('viewAllocated_FundPDF');
 
 
       //Emergency Equipment
       Route::get('/emergency_equipment_list', 'BDRISALController@emergency_equipment_list')->name('emergency_equipment_list');
       Route::post('/create_emergency_equipment', 'BDRISALController@create_emergency_equipment')->name('create_emergency_equipment');
       Route::get('/get_emergency_equipment', 'BDRISALController@get_emergency_equipment')->name('get_emergency_equipment');
+      Route::get('/viewEmergency_EquipmentPDF', 'BDRISALController@viewEmergency_EquipmentPDF')->name('viewEmergency_EquipmentPDF');
 
       //Emergency Team
       Route::get('/emergency_team_list', 'BDRISALController@emergency_team_list')->name('emergency_team_list');
       Route::post('/create_emergency_team', 'BDRISALController@create_emergency_team')->name('create_emergency_team');
       Route::get('/get_emergency_team', 'BDRISALController@get_emergency_team')->name('get_emergency_team');
+      Route::get('/viewEmergency_TeamPDF', 'BDRISALController@viewEmergency_TeamPDF')->name('viewEmergency_TeamPDF');
 
       //Disaster Type
       Route::get('/disaster_type_list', 'BDRISALController@disaster_type_list')->name('disaster_type_list');
@@ -362,6 +366,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_response_information', 'BDRISALController@get_response_information')->name('get_response_information');
       Route::get('/get_response_information_attachments', 'BDRISALController@get_response_information_attachments')->name('get_response_information_attachments');
       Route::get('/delete_response_information_attachments', 'BDRISALController@delete_response_information_attachments')->name('delete_response_information_attachments');
+      Route::get('/viewResponse_InformationPDF', 'BDRISALController@viewResponse_InformationPDF')->name('viewResponse_InformationPDF');
 
       //Recovery Information
       Route::get('/recovery_information_list', 'BDRISALController@recovery_information_list')->name('recovery_information_list');
@@ -378,11 +383,14 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_disaster_related_activities', 'BDRISALController@get_disaster_related_activities')->name('get_disaster_related_activities');
       Route::get('/get_disaster_related_activities_attachments', 'BDRISALController@get_disaster_related_activities_attachments')->name('get_disaster_related_activities_attachments');
       Route::get('/delete_disaster_related_activities_attachments', 'BDRISALController@delete_disaster_related_activities_attachments')->name('delete_disaster_related_activities_attachments');
+      Route::get('/viewDisaster_Related_ActivitiesPDF', 'BDRISALController@viewDisaster_Related_ActivitiesPDF')->name('viewDisaster_Related_ActivitiesPDF');
 
       //Disaster Supplies
       Route::get('/disaster_supplies_list', 'BDRISALController@disaster_supplies_list')->name('disaster_supplies_list');
       Route::post('/create_disaster_supplies', 'BDRISALController@create_disaster_supplies')->name('create_disaster_supplies');
       Route::get('/get_disaster_supplies', 'BDRISALController@get_disaster_supplies')->name('get_disaster_supplies');
+      Route::get('/viewDisaster_SuppliesPDF', 'BDRISALController@viewDisaster_SuppliesPDF')->name('viewDisaster_SuppliesPDF');
+
 
       //Case Type
       Route::get('/case_type_maint', 'maintenanceController@case_type_maint')->name('case_type_maint');
@@ -450,9 +458,11 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_blotter', 'BJISBHController@create_blotter')->name('create_blotter');
       Route::get('/get_blotter', 'BJISBHController@get_blotter')->name('get_blotter');
       Route::get('/get_case_details', 'BJISBHController@get_case_details')->name('get_case_details');
+
 });
 
 // Global Controller
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+
