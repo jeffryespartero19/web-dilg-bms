@@ -5,41 +5,41 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Type of Ordinance Maintenance/Setup </div>
+    <div class="col-md-6 titleXZ"> Summons Status Maintenance/Setup </div>
     <div class="col-md-6 breadcrumbXZ"> 
         <ol class="breadcrumb">
             <a href="{{route('home')}}"><li>DILG_BMS / </li></a>
-            <li> &nbsp;type of ordinance</li>
+            <li> &nbsp;Summons Status</li>
         </ol> 
     </div>
 </div>
 <div class="tableX_row col-md-12 up_marg5">
     <div class="flexer"> 
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" data-target="#createType_of_Ordinance">New</button></div>
+        <div class="twenty_split txtRight"><button data-toggle="modal" data-target="#createSummons_Status">New</button></div>
     </div>
     <div class="col-md-12">
         <table class="table-bordered table_gen up_marg5">
             <thead>
                 <tr>
-                    <th>Type_of_Ordinance_ID </th>
-                    <th>Type_of_Ordinance</th>
+                    <th>Summons Status ID </th>
+                    <th>Type of Action</th>
                     <th>Active</th>
-                    <th>Encoder_ID</th>
-                    <th>Date_Stamp</th>
+                    <th>Encoder ID</th>
+                    <th>Date Stamp</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($db_entries as $x)
                     <tr>
-                        <td class="sm_data_col txtCtr">{{$x->Type_of_Ordinance_or_Resolution_ID}}</td>
-                        <td>{{$x->Name_of_Type}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Summons_Status_ID}}</td>
+                        <td>{{$x->Type_of_Action}}</td>
                         <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                         <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                         <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                         <td class="sm_data_col txtCtr">
-                            <button class="edit_type_of_ordinance" value="{{$x->Type_of_Ordinance_or_Resolution_ID}}" data-toggle="modal" data-target="#updateType_of_Ordinance">Edit</button>
+                            <button class="edit_summons_status" value="{{$x->Summons_Status_ID}}" data-toggle="modal" data-target="#updateSummons_Status">Edit</button>
                         </td>
                     </tr>
                 @endforeach
@@ -48,8 +48,8 @@
     </div>
 </div>
 
-<!-- Create Type_of_Ordinance Modal -->
-<div class="modal fade" id="createType_of_Ordinance" role="dialog">
+<!-- Create Summons_Status Modal -->
+<div class="modal fade" id="createSummons_Status" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -58,12 +58,12 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title flexer justifier">Create Post</h4>
         </div>
-        <form id="newBRGY_Type_of_Ordinance" method="POST" action="{{ route('create_type_of_ordinance_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+        <form id="newBRGY_Summons_Status" method="POST" action="{{ route('create_summons_status_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
             <div class="modal-body Absolute-Center">
                 <div class="modal_input_container">
                     <div class="up_marg5">
-                        <span><b>Type_of_Ordinance:</b></span><br>
-                        <input class="modal_input1" name="Type_of_OrdinanceX">
+                        <span><b>Summons_Status:</b></span><br>
+                        <input class="modal_input1" name="Type_of_ActionX">
                     </div>
 
                     <div class="up_marg5">
@@ -78,7 +78,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn postThis_Type_of_Ordinance modal_sb_button">Create</button>
+                <button type="button" class="btn postThis_Summons_Status modal_sb_button">Create</button>
             </div>
         </form>
       </div>
@@ -86,10 +86,10 @@
     </div>
 </div>
 
-<!-- Create Type_of_Ordinance END -->
+<!-- Create Summons_Status END -->
 
-<!-- Edit/Update Type_of_Ordinance Modal -->
-<div class="modal fade" id="updateType_of_Ordinance" role="dialog">
+<!-- Edit/Update Summons_Status Modal -->
+<div class="modal fade" id="updateSummons_Status" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -98,19 +98,19 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title flexer justifier">Create Post</h4>
         </div>
-        <form id="updateBRGY_Type_of_Ordinance" method="POST" action="{{ route('update_type_of_ordinance_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+        <form id="updateBRGY_Summons_Status" method="POST" action="{{ route('update_summons_status_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
             <div class="modal-body Absolute-Center">
                 <div class="modal_input_container">
                     <div class="up_marg5">
-                        <span><b>Type_of_Ordinance:</b></span><br>
-                        <input id="this_type_of_ordinance_idX" class="modal_input1" name="Type_of_Ordinance_or_Resolution_idX" hidden>
-                        <input id="this_type_of_ordinanceX" class="modal_input1" name="Type_of_OrdinanceX2">
+                        <span><b>Summons_Status:</b></span><br>
+                        <input id="this_summons_status_idX" class="modal_input1" name="Summons_Status_idX" hidden>
+                        <input id="this_summons_statusX" class="modal_input1" name="Type_of_ActionX2">
                     </div>
 
                     <div class="up_marg5">
                         <span><b>Active:</b></span><br>
                         <select class="modal_input1" name="ActiveX2">
-                            <option id="this_type_of_ordinance_active" value=1 hidden selected>Is Active?</option>
+                            <option id="this_summons_status_active" value=1 hidden selected>Is Active?</option>
                             <option value=1>Yes</option>
                             <option value=0>No</option>
                         </select>
@@ -119,7 +119,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn updateThis_Type_of_Ordinance modal_sb_button">Save</button>
+                <button type="button" class="btn updateThis_Summons_Status modal_sb_button">Save</button>
             </div>
         </form>
       </div>
@@ -127,6 +127,6 @@
     </div>
 </div>
 
-<!-- Edit/Update Type_of_Ordinance END -->
+<!-- Edit/Update Summons_Status END -->
 
 @endsection

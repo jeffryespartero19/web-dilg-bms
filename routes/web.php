@@ -17,7 +17,9 @@ Auth::routes();
 
 //Public
 Route::get('/', 'Public_LandingController@index')->name('*');
+Route::get('/main', 'Public_LandingController@main')->name('main');
 Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
+Route::get('/logins/{b_id}', 'BRGYLoginController@index');
 
 Route::group(['middleware' => 'auth'], function () {
       //Home
@@ -307,11 +309,6 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/print_Ordinance', 'borisController@downloadPDF')->name('print_Ordinance');
       Route::get('/view_Ordinance', 'borisController@viewPDF')->name('view_Ordinance');
 
-      // Global Controller
-      Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
-      Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
-      Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
-
       //contractor
       Route::get('/contractor_list', 'bpmsController@contractor_list')->name('contractor_list');
       Route::post('/create_contractor', 'bpmsController@create_contractor')->name('create_contractor');
@@ -391,4 +388,71 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_disaster_supplies', 'BDRISALController@create_disaster_supplies')->name('create_disaster_supplies');
       Route::get('/get_disaster_supplies', 'BDRISALController@get_disaster_supplies')->name('get_disaster_supplies');
       Route::get('/viewDisaster_SuppliesPDF', 'BDRISALController@viewDisaster_SuppliesPDF')->name('viewDisaster_SuppliesPDF');
-});
+
+      //Case Type
+      Route::get('/case_type_maint', 'maintenanceController@case_type_maint')->name('case_type_maint');
+      Route::post('/create_case_type_maint', 'maintenanceController@create_case_type_maint')->name('create_case_type_maint');
+      Route::get('/get_case_type_maint', 'maintenanceController@get_case_type_maint')->name('get_case_type_maint');
+      Route::post('/update_case_type_maint', 'maintenanceController@update_case_type_maint')->name('update_case_type_maint');
+
+      //Case
+      Route::get('/case_maint', 'maintenanceController@case_maint')->name('case_maint');
+      Route::post('/create_case_maint', 'maintenanceController@create_case_maint')->name('create_case_maint');
+      Route::get('/get_case_maint', 'maintenanceController@get_case_maint')->name('get_case_maint');
+      Route::post('/update_case_maint', 'maintenanceController@update_case_maint')->name('update_case_maint');
+
+      //Type of Involved Party
+      Route::get('/type_of_involved_party_maint', 'maintenanceController@type_of_involved_party_maint')->name('type_of_involved_party_maint');
+      Route::post('/create_type_of_involved_party_maint', 'maintenanceController@create_type_of_involved_party_maint')->name('create_type_of_involved_party_maint');
+      Route::get('/get_type_of_involved_party_maint', 'maintenanceController@get_type_of_involved_party_maint')->name('get_type_of_involved_party_maint');
+      Route::post('/update_type_of_involved_party_maint', 'maintenanceController@update_type_of_involved_party_maint')->name('update_type_of_involved_party_maint');
+
+      //Violation Status
+      Route::get('/violation_status_maint', 'maintenanceController@violation_status_maint')->name('violation_status_maint');
+      Route::post('/create_violation_status_maint', 'maintenanceController@create_violation_status_maint')->name('create_violation_status_maint');
+      Route::get('/get_violation_status_maint', 'maintenanceController@get_violation_status_maint')->name('get_violation_status_maint');
+      Route::post('/update_violation_status_maint', 'maintenanceController@update_violation_status_maint')->name('update_violation_status_maint');
+
+      //Summons Status
+      Route::get('/summons_status_maint', 'maintenanceController@summons_status_maint')->name('summons_status_maint');
+      Route::post('/create_summons_status_maint', 'maintenanceController@create_summons_status_maint')->name('create_summons_status_maint');
+      Route::get('/get_summons_status_maint', 'maintenanceController@get_summons_status_maint')->name('get_summons_status_maint');
+      Route::post('/update_summons_status_maint', 'maintenanceController@update_summons_status_maint')->name('update_summons_status_maint');
+
+      //Service Rate
+      Route::get('/service_rate_maint', 'maintenanceController@service_rate_maint')->name('service_rate_maint');
+      Route::post('/create_service_rate_maint', 'maintenanceController@create_service_rate_maint')->name('create_service_rate_maint');
+      Route::get('/get_service_rate_maint', 'maintenanceController@get_service_rate_maint')->name('get_service_rate_maint');
+      Route::post('/update_service_rate_maint', 'maintenanceController@update_service_rate_maint')->name('update_service_rate_maint');
+
+      //Proceedings Status
+      Route::get('/proceedings_status_maint', 'maintenanceController@proceedings_status_maint')->name('proceedings_status_maint');
+      Route::post('/create_proceedings_status_maint', 'maintenanceController@create_proceedings_status_maint')->name('create_proceedings_status_maint');
+      Route::get('/get_proceedings_status_maint', 'maintenanceController@get_proceedings_status_maint')->name('get_proceedings_status_maint');
+      Route::post('/update_proceedings_status_maint', 'maintenanceController@update_proceedings_status_maint')->name('update_proceedings_status_maint');
+
+      //Type of Action
+      Route::get('/type_of_action_maint', 'maintenanceController@type_of_action_maint')->name('type_of_action_maint');
+      Route::post('/create_type_of_action_maint', 'maintenanceController@create_type_of_action_maint')->name('create_type_of_action_maint');
+      Route::get('/get_type_of_action_maint', 'maintenanceController@get_type_of_action_maint')->name('get_type_of_action_maint');
+      Route::post('/update_type_of_action_maint', 'maintenanceController@update_type_of_action_maint')->name('update_type_of_action_maint');
+
+      //Type of Penalties
+      Route::get('/type_of_penalties_maint', 'maintenanceController@type_of_penalties_maint')->name('type_of_penalties_maint');
+      Route::post('/create_type_of_penalties_maint', 'maintenanceController@create_type_of_penalties_maint')->name('create_type_of_penalties_maint');
+      Route::get('/get_type_of_penalties_maint', 'maintenanceController@get_type_of_penalties_maint')->name('get_type_of_penalties_maint');
+      Route::post('/update_type_of_penalties_maint', 'maintenanceController@update_type_of_penalties_maint')->name('update_type_of_penalties_maint');
+
+      //Blotter Status
+      Route::get('/blotter_status_maint', 'maintenanceController@blotter_status_maint')->name('blotter_status_maint');
+      Route::post('/create_blotter_status_maint', 'maintenanceController@create_blotter_status_maint')->name('create_blotter_status_maint');
+      Route::get('/get_blotter_status_maint', 'maintenanceController@get_blotter_status_maint')->name('get_blotter_status_maint');
+      Route::post('/update_blotter_status_maint', 'maintenanceController@update_blotter_status_maint')->name('update_blotter_status_maint');
+
+      // Global Controller
+      Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
+      Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
+      Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+
+
+
