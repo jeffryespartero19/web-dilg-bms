@@ -19,29 +19,31 @@
 <div class="page-border">
     <table style="width:100%;">
         <tr style="text-align: center;">
-            <td style="font-size: 24px; font-weight:700;">List of Disaster Type</td>
+            <td style="font-size: 24px; font-weight:700;">List of Evacuation Site</td>
         </tr>
-        
     </table>
     <br>
     <table style="width:100%; border-top:1px solid black; border-bottom:1px solid black;border-collapse: collapse;">
         <thead>
             <tr>
-                <th style="border:1px solid black;">Disaster Type</th>
                 <th style="border:1px solid black;">Emergency Evacuation Site</th>
-                <th style="border:1px solid black;">Allocated Fund</th>
-                <th style="border:1px solid black;">Emergency Team</th>
-                <th style="border:1px solid black;">Emergency Equipment</th>
+                <th style="border:1px solid black;">Address</th>
+                <th style="border:1px solid black;">Capacity</th>
+                <th style="border:1px solid black;">Active</th>
             </tr>
         </thead>
         <tbody>
             @foreach($details as $dtl)
             <tr>
-                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Disaster_Type"} }}</td>
                 <td style="border:1px solid black; text-align:center">{{ $dtl->{"Emergency_Evacuation_Site_Name"} }}</td>
-                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Allocated_Fund_Name"} }}</td>
-                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Emergency_Team_Name"} }}</td>
-                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Emergency_Equipment_Name"} }}</td>
+                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Address"} }}</td>
+                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Capacity"} }}</td>
+                <td style="border:1px solid black; text-align:center">@if($dtl->{"Active"} == 0)
+                    False
+                    @else
+                    True
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>
