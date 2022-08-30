@@ -342,6 +342,34 @@ class BDRISALController extends Controller
         return (compact('theEntry'));
     }
 
+    //Emergency Equipment PDF
+    public function viewEmergency_EquipmentPDF(Request $request)
+    {
+        $details = DB::table('bdris_emergency_equipment as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+            'a.Emergency_Equipment_ID',
+            'a.Emergency_Equipment_Name',
+            'a.Location',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',      
+            'a.Active',     
+        )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.emergency_equipmentPDF', compact('details'));
+        return $pdf->stream();
+    }
+
     //Emergency Team
     public function emergency_team_list(Request $request)
     {
@@ -453,6 +481,34 @@ class BDRISALController extends Controller
             ->where('Emergency_Team_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    //Emergency Team PDF
+    public function viewEmergency_TeamPDF(Request $request)
+    {
+        $details = DB::table('bdris_emergency_team as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+                'a.Emergency_Team_ID',
+                'a.Emergency_Team_Name',
+                'a.Emergency_Team_Hotline',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',  
+                'a.Active',     
+        )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bdris_transactions.emergency_teamPDF', compact('details'));
+        return $pdf->stream();
     }
 
     //Disaster Type

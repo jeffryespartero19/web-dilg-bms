@@ -346,11 +346,13 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/emergency_equipment_list', 'BDRISALController@emergency_equipment_list')->name('emergency_equipment_list');
       Route::post('/create_emergency_equipment', 'BDRISALController@create_emergency_equipment')->name('create_emergency_equipment');
       Route::get('/get_emergency_equipment', 'BDRISALController@get_emergency_equipment')->name('get_emergency_equipment');
+      Route::get('/viewEmergency_EquipmentPDF', 'BDRISALController@viewEmergency_EquipmentPDF')->name('viewEmergency_EquipmentPDF');
 
       //Emergency Team
       Route::get('/emergency_team_list', 'BDRISALController@emergency_team_list')->name('emergency_team_list');
       Route::post('/create_emergency_team', 'BDRISALController@create_emergency_team')->name('create_emergency_team');
       Route::get('/get_emergency_team', 'BDRISALController@get_emergency_team')->name('get_emergency_team');
+      Route::get('/viewEmergency_TeamPDF', 'BDRISALController@viewEmergency_TeamPDF')->name('viewEmergency_TeamPDF');
 
       //Disaster Type
       Route::get('/disaster_type_list', 'BDRISALController@disaster_type_list')->name('disaster_type_list');
@@ -449,10 +451,10 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_blotter_status_maint', 'maintenanceController@get_blotter_status_maint')->name('get_blotter_status_maint');
       Route::post('/update_blotter_status_maint', 'maintenanceController@update_blotter_status_maint')->name('update_blotter_status_maint');
 
-      // Global Controller
-      Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
-      Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
-      Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+      
+});
 
-
-
+// Global Controller
+Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
+Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
+Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
