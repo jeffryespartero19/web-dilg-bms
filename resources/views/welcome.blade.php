@@ -109,7 +109,7 @@
                 
             </div>
             <div class="theContent">
-                <div class=" justify-content-center">
+                <div class=" justify-content-center" style="width: 100%;">
                     <div class="col-md-12 topBanner">
                         <div class="bannerTitle">
                             <span class="intro_txt txtHide firstln">Barangay</span><br>

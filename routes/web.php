@@ -435,12 +435,16 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_blotter_status_maint', 'maintenanceController@create_blotter_status_maint')->name('create_blotter_status_maint');
       Route::get('/get_blotter_status_maint', 'maintenanceController@get_blotter_status_maint')->name('get_blotter_status_maint');
       Route::post('/update_blotter_status_maint', 'maintenanceController@update_blotter_status_maint')->name('update_blotter_status_maint');
+
+      //BJISBH Transaction
+      //Blotter
+      Route::get('/blotter_list', 'BJISBHController@blotter_list')->name('blotter_list');
+      Route::post('/create_blotter', 'BJISBHController@create_blotter')->name('create_blotter');
+      Route::get('/get_blotter', 'BJISBHController@get_blotter')->name('get_blotter');
+      Route::get('/get_case_details', 'BJISBHController@get_case_details')->name('get_case_details');
 });
 
 // Global Controller
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
-
-
-
