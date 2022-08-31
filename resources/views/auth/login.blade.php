@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <div class="col-md-12">
+            <center>
+                <h3>Barangay {{$barangay[0]->Barangay_Name}}</h1>
+            </center>
+        </div>
+
+        <br>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
@@ -71,4 +78,16 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+
+<script>
+    $(document).ready(function() {
+        $('#login_btn').attr('hidden', true);
+    });
+
+    
+</script>
+
 @endsection
