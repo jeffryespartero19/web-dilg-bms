@@ -34,15 +34,14 @@
     <br>
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createHousehold_Info" style="width: 100px;">New</button></div>
+        <div class="twenty_split txtRight"><a class="btn btn-success" href="{{ url('inhabitants_household_details/0') }}" style="width: 100px;">New</a></div>
     </div>
     <br>
     <div class="col-md-12">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th hidden>Resident_ID</th>
-                    <th>Name</th>
+                    <th hidden>Household_Profile_ID</th>
                     <th>Household Name</th>
                     <th>Actions</th>
                 </tr>
@@ -50,11 +49,10 @@
             <tbody>
                 @foreach($db_entries as $x)
                 <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
+                    <td class="sm_data_col txtCtr" hidden>{{$x->Household_Profile_ID}}</td>
                     <td class="sm_data_col txtCtr">{{$x->Household_Name}}</td>
                     <td class="sm_data_col txtCtr">
-                        <button class="edit_household" value="{{$x->Household_Profile_ID}}" data-toggle="modal" data-target="#createHousehold_Info">Edit</button>
+                        <a class="btn btn-success" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach
