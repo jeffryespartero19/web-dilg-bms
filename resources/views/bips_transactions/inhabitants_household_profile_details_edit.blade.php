@@ -69,6 +69,7 @@
                             </tr>
                         </thead>
                         <tbody class="HSBody">
+                            @if($household_members->count() > 0)
                             @foreach ($household_members as $hm)
                             <tr class="HRDetails">
                                 <td hidden></td>
@@ -99,6 +100,36 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @else
+                            <tr class="HRDetails">
+                                <td hidden></td>
+                                <td>
+                                    <select class="form-control js-example-basic-single mySelect2" name="Resident_ID[]" style="width: 100%;">
+                                        <option value='' disabled selected>Select Option</option>
+                                        @foreach($resident as $rs)
+                                        <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control Family_Position_ID" name="Family_Position_ID[]">
+                                        <option value='' disabled selected>Select Option</option>
+                                        @foreach($family_position as $fp)
+                                        <option value="{{ $fp->Family_Position_ID }}">{{ $fp->Family_Position }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" name="Family_Head[]">
+                                        <option value=0>No</option>
+                                        <option value=1>Yes</option>
+                                    </select>
+                                </td>
+                                <td style="text-align: center;">
+                                    <button type="button" class="btn btn-danger HRRemove">Remove</button>
+                                </td>
+                            </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
