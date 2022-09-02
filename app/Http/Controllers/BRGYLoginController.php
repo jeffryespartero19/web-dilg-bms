@@ -16,3 +16,4 @@ class BRGYLoginController extends Controller
         return view('auth.login', compact('Barangay_ID', 'barangay'));
     }
 }
+

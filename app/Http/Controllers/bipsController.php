@@ -85,6 +85,7 @@ class bipsController extends Controller
         ));
     }
 
+
     // Save Inhabitants Info
     public function create_inhabitants_information(Request $request)
     {
@@ -694,24 +695,6 @@ class bipsController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('bips_household_profile as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_bips_name_prefix as c', 'b.Name_Prefix_ID', '=', 'c.Name_Prefix_ID')
-            ->leftjoin('maintenance_bips_name_suffix as d', 'b.Name_Suffix_ID', '=', 'd.Name_Suffix_ID')
-            ->select(
-                'a.Household_Profile_ID',
-                'a.Resident_ID',
-                'a.Family_Position_ID',
-                'a.Tenure_of_Lot_ID',
-                'a.Housing_Unit_ID',
-                'a.Household_Monthly_Income',
-                'a.Household_Name',
-                'a.Family_Type_ID',
-                'c.Name_Prefix',
-                'b.Last_Name',
-                'b.First_Name',
-                'b.Middle_Name',
-                'd.Name_Suffix',
-            )
             ->paginate(20, ['*'], 'db_entries');
         $resident = DB::table('bips_brgy_inhabitants_information')->get();
         $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
@@ -733,25 +716,69 @@ class bipsController extends Controller
         ));
     }
 
+    //Inhabitants Information List
+    public function inhabitants_household_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
+            $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
+            $housing_unit = DB::table('maintenance_bips_housing_unit')->where('Active', 1)->get();
+            $family_type = DB::table('maintenance_bips_family_type')->where('Active', 1)->get();
+
+            return view('bips_transactions.inhabitants_household_profile_details', compact(
+                'currDATE',
+                'family_position',
+                'tenure_of_lot',
+                'housing_unit',
+                'family_type',
+                'resident',
+            ));
+        } else {
+            $household = DB::table('bips_household_profile')->where('Household_Profile_ID', $id)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
+            $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
+            $housing_unit = DB::table('maintenance_bips_housing_unit')->where('Active', 1)->get();
+            $family_type = DB::table('maintenance_bips_family_type')->where('Active', 1)->get();
+            $household_members = DB::table('bips_household_profile_members as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'b.Resident_ID', '=', 'a.Resident_ID')
+                ->where('a.Household_Profile_ID', $id)
+                ->get();
+
+            return view('bips_transactions.inhabitants_household_profile_details_edit', compact(
+                'currDATE',
+                'family_position',
+                'tenure_of_lot',
+                'housing_unit',
+                'family_type',
+                'resident',
+                'household',
+                'household_members',
+            ));
+        }
+    }
+
+
     // Save Inhabitants Household Info
     public function create_household_information(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
+
+        // dd($data);
 
         $validated = $request->validate([
             'Resident_ID' => 'required',
         ]);
 
 
-        // dd($data);
-
         if ($data['Household_Profile_ID'] == null || $data['Household_Profile_ID'] == 0) {
-            DB::table('bips_household_profile')->insert(
+            $Household_Profile_ID = DB::table('bips_household_profile')->insertGetId(
                 array(
-                    'Resident_ID' => $data['Resident_ID'],
                     'Household_Monthly_Income' => $data['Household_Monthly_Income'],
-                    'Family_Position_ID' => $data['Family_Position_ID'],
                     'Tenure_of_Lot_ID' => $data['Tenure_of_Lot_ID'],
                     'Housing_Unit_ID' => $data['Housing_Unit_ID'],
                     'Family_Type_ID' => $data['Family_Type_ID'],
@@ -761,13 +788,38 @@ class bipsController extends Controller
                 )
             );
 
-            return redirect()->back()->with('message', 'New Household Created');
+            DB::table('bips_household_profile_members')->where('Household_Profile_ID', $Household_Profile_ID)->delete();
+
+            if (isset($data['Resident_ID'])) {
+                $members_details = [];
+
+                for ($i = 0; $i < count($data['Resident_ID']); $i++) {
+                    if ($data['Resident_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bips_household_profile_members')->max('Household_Profile_Members_ID');
+                        $id += 1;
+
+                        if ($data['Resident_ID'][$i] != null) {
+                            $members_details = [
+                                'Household_Profile_ID'           => $Household_Profile_ID,
+                                'Resident_ID'   => $data['Resident_ID'][$i],
+                                'Family_Position_ID'   => $data['Family_Position_ID'][$i],
+                                'Family_Head'   => (int)$data['Family_Head'][$i],
+                                'Encoder_ID'                 => Auth::user()->id,
+                                'Date_Stamp'                 => Carbon::now()
+                            ];
+                        }
+
+                        DB::table('bips_household_profile_members')->updateOrInsert(['Household_Profile_Members_ID' => $id], $members_details);
+                    }
+                }
+            }
+
+            return redirect()->to('inhabitants_household_details/' . $Household_Profile_ID)->with('message', 'New Household Created');
         } else {
-            DB::table('bips_household_profile')->where('Resident_ID', $data['Resident_ID'])->update(
+            DB::table('bips_household_profile')->where('Household_Profile_ID', $data['Household_Profile_ID'])->update(
                 array(
-                    'Resident_ID' => $data['Resident_ID'],
                     'Household_Monthly_Income' => $data['Household_Monthly_Income'],
-                    'Family_Position_ID' => $data['Family_Position_ID'],
                     'Tenure_of_Lot_ID' => $data['Tenure_of_Lot_ID'],
                     'Housing_Unit_ID' => $data['Housing_Unit_ID'],
                     'Family_Type_ID' => $data['Family_Type_ID'],
@@ -777,7 +829,34 @@ class bipsController extends Controller
                 )
             );
 
-            return redirect()->back()->with('message', 'Household Info Updated');
+            DB::table('bips_household_profile_members')->where('Household_Profile_ID', $data['Household_Profile_ID'])->delete();
+
+            if (isset($data['Resident_ID'])) {
+                $members_details = [];
+
+                for ($i = 0; $i < count($data['Resident_ID']); $i++) {
+                    if ($data['Resident_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bips_household_profile_members')->max('Household_Profile_Members_ID');
+                        $id += 1;
+
+                        if ($data['Resident_ID'][$i] != null) {
+                            $members_details = [
+                                'Household_Profile_ID'           => $data['Household_Profile_ID'],
+                                'Resident_ID'   => $data['Resident_ID'][$i],
+                                'Family_Position_ID'   => $data['Family_Position_ID'][$i],
+                                'Family_Head'   => (int)$data['Family_Head'][$i],
+                                'Encoder_ID'                 => Auth::user()->id,
+                                'Date_Stamp'                 => Carbon::now()
+                            ];
+                        }
+
+                        DB::table('bips_household_profile_members')->updateOrInsert(['Household_Profile_Members_ID' => $id], $members_details);
+                    }
+                }
+            }
+
+            return redirect()->to('inhabitants_household_details/' . $data['Household_Profile_ID'])->with('message', 'Household Info Updated');
         }
     }
 }
