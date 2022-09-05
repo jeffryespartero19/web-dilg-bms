@@ -33,7 +33,7 @@
     <br>
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createBlotter" style="width: 100px;">New</button></div>
+        <div class="twenty_split txtRight"><a href="{{ url('blotter_details/0') }}"  class="btn btn-success" style="width: 100px;">New</a></div>
     </div>
     <br>
     <div class="col-md-12">

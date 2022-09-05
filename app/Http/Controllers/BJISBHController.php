@@ -70,6 +70,68 @@ class BJISBHController extends Controller
         ));
     }
 
+    //Blotter Details
+    public function blotter_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
+            $case = DB::table('maintenance_bjisbh_case')->where('Active', 1)->get();
+            $blotter_status = DB::table('maintenance_bjisbh_blotter_status')->where('Active', 1)->get();
+            $proceedings_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
+            $service_rating = DB::table('maintenance_bjisbh_service_rating')->where('Active', 1)->get();
+            $summons_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
+            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+            $action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
+            $involved_party = DB::table('maintenance_bjisbh_type_of_involved_party')->where('Active', 1)->get();
+            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+
+            return view('bjisbh_transactions.blotter_details', compact(
+                'currDATE',
+                'case',
+                'blotter_status',
+                'proceedings_status',
+                'service_rating',
+                'summons_status',
+                'penalties',
+                'action',
+                'involved_party',
+                'violation_status',
+                'resident',
+                'region'
+            ));
+        } else {
+            $case = DB::table('maintenance_bjisbh_case')->where('Active', 1)->get();
+            $blotter_status = DB::table('maintenance_bjisbh_blotter_status')->where('Active', 1)->get();
+            $proceedings_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
+            $service_rating = DB::table('maintenance_bjisbh_service_rating')->where('Active', 1)->get();
+            $summons_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
+            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+            $action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
+            $involved_party = DB::table('maintenance_bjisbh_type_of_involved_party')->where('Active', 1)->get();
+            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+
+            return view('bjisbh_transactions.blotter_details', compact(
+                'currDATE',
+                'case',
+                'blotter_status',
+                'proceedings_status',
+                'service_rating',
+                'summons_status',
+                'penalties',
+                'action',
+                'involved_party',
+                'violation_status',
+                'resident',
+                'region'
+            ));
+        }
+    }
+
     // Save Inhabitants Info
     public function create_blotter(Request $request)
     {

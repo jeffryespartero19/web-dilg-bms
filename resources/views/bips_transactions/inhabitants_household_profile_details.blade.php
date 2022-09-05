@@ -123,8 +123,12 @@
                 </div>
             </div>
 
-            <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
+            <div class="col-lg-12" style="margin-bottom: 100px;">
+                <center>
+                    <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                    <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
+                </center>
+            </div>
 
         </form>
 
