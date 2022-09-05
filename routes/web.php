@@ -455,6 +455,7 @@ Route::group(['middleware' => 'auth'], function () {
       //BJISBH Transaction
       //Blotter
       Route::get('/blotter_list', 'BJISBHController@blotter_list')->name('blotter_list');
+      Route::get('/blotter_details/{id}', 'BJISBHController@blotter_details');
       Route::post('/create_blotter', 'BJISBHController@create_blotter')->name('create_blotter');
       Route::get('/get_blotter', 'BJISBHController@get_blotter')->name('get_blotter');
       Route::get('/get_case_details', 'BJISBHController@get_case_details')->name('get_case_details');
