@@ -277,7 +277,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_inhabitants_edu_info', 'bipsController@get_inhabitants_edu_info')->name('get_inhabitants_edu_info');
       Route::get('/get_inhabitants_epm_info', 'bipsController@get_inhabitants_epm_info')->name('get_inhabitants_epm_info');
 
-      //BIPS Household
+      //BIPS Households
       Route::get('/inhabitants_household_profile', 'bipsController@inhabitants_household_profile')->name('inhabitants_household_profile');
       Route::post('/create_household_information', 'bipsController@create_household_information')->name('create_household_information');
       Route::get('/get_household_info', 'bipsController@get_household_info')->name('get_household_info');

@@ -153,6 +153,7 @@
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
     });
+    
 
     function addrow() {
         var row = $("#ResidentTBL tr:last");
