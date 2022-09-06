@@ -37,11 +37,11 @@
         <form id="newHousehold" method="POST" action="{{ route('create_blotter') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="row">
-                <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" value="0" hidden>
+                <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" hidden value="{{$blotter[0]->Blotter_ID}}">
                 <div class="row">
                     <div class="form-group col-lg-6" style="padding:0 10px">
                         <label for="exampleInputEmail1">Blotter Number</label>
-                        <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required>
+                        <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required value="{{$blotter[0]->Blotter_Number}}">
                     </div>
                 </div>
                 <div class="row">
@@ -51,14 +51,14 @@
                         <select id="Blotter_Status_ID" class="form-control" name="Blotter_Status_ID" style="width: 100%;">
                             <option value='' disabled selected>Select Option</option>
                             @foreach($blotter_status as $bs)
-                            <option value="{{ $bs->Blotter_Status_ID }}">{{ $bs->Blotter_Status_Name }}</option>
+                            <option value="{{ $bs->Blotter_Status_ID }}" {{ $bs->Blotter_Status_ID  == $blotter[0]->Blotter_Status_ID  ? "selected" : "" }}>{{ $bs->Blotter_Status_Name }}</option>
                             @endforeach
                         </select>
 
                     </div>
                     <div class="form-group col-lg-6" style="padding:0 10px">
                         <label for="exampleInputEmail1">Incident Date</label>
-                        <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required>
+                        <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required value="{{$blotter[0]->Incident_Date_Time}}">
                     </div>
                 </div>
                 <div class="row">
@@ -67,7 +67,7 @@
                         <select class="form-control" id="Region_ID" name="Region_ID" required>
                             <option value='' disabled selected>Select Option</option>
                             @foreach($region as $region)
-                            <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
+                            <option value="{{ $region->Region_ID }}" {{ $region->Region_ID  == $blotter[0]->Region_ID  ? "selected" : "" }}>{{ $region->Region_Name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -75,18 +75,27 @@
                         <label for="exampleInputEmail1">Province</label>
                         <select class="form-control" id="Province_ID" name="Province_ID" required>
                             <option value='' disabled selected>Select Option</option>
+                            @foreach($province as $province)
+                            <option value="{{ $province->Province_ID }}" {{ $province->Province_ID  == $blotter[0]->Province_ID  ? "selected" : "" }}>{{ $province->Province_Name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group col-lg-6" style="padding:0 10px">
                         <label for="City_Municipality_ID">City/Municipality</label>
                         <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
                             <option value='' disabled selected>Select Option</option>
+                            @foreach($city_municipality as $city)
+                            <option value="{{ $city->City_Municipality_ID }}" {{ $city->City_Municipality_ID  == $blotter[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $city->City_Municipality_Name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group col-lg-6" style="padding:0 10px">
                         <label for="Barangay_ID">Barangay</label>
                         <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
                             <option value='' disabled selected>Select Option</option>
+                            @foreach($barangay as $barangay)
+                            <option value="{{ $barangay->Barangay_ID }}" {{ $barangay->Barangay_ID  == $blotter[0]->Barangay_ID  ? "selected" : "" }}>{{ $barangay->Barangay_Name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -103,6 +112,24 @@
                                 </tr>
                             </thead>
                             <tbody class="CSBody">
+                                @if($case_details->count() > 0)
+                                @foreach ($case_details as $cd)
+                                <tr class="CSDetails">
+                                    <td hidden></td>
+                                    <td>
+                                        <select class="form-control js-example-basic-single mySelect2" name="Case_ID[]" style="width: 100%;">
+                                            <option value='' disabled selected>Select Option</option>
+                                            @foreach($case as $cs)
+                                            <option value="{{ $cs->Case_ID }}" {{ $cs->Case_ID == $cd->Case_ID  ? "selected" : "" }}>{{ $cs->Case_Name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td style="text-align: center; width:10%">
+                                        <button type="button" class="btn btn-danger CSRemove">Remove</button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @else
                                 <tr class="CSDetails">
                                     <td hidden></td>
                                     <td>
@@ -117,6 +144,7 @@
                                         <button type="button" class="btn btn-danger CSRemove">Remove</button>
                                     </td>
                                 </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -141,6 +169,55 @@
                                     </tr>
                                 </thead>
                                 <tbody class="HSBody">
+                                    @if($involved_details->count() > 0)
+                                    @foreach ($involved_details as $id)
+                                    <tr class="HRDetails">
+                                        <td hidden></td>
+                                        <td>
+                                            <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                <option value='' disabled selected>Select Option</option>
+                                                @if($id->Resident_ID == 0)
+                                                <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
+                                                @foreach($resident as $rs)
+                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                @endforeach
+                                                @else
+                                                @foreach($resident as $rs)
+                                                <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID == $id->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                @endforeach
+                                                @endif
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control Type_of_Involved_Party_ID" name="Type_of_Involved_Party_ID[]" style="width: 200px;">
+                                                <option value='' disabled selected>Select Option</option>
+                                                @foreach($involved_party as $ip)
+                                                <option value="{{ $ip->Type_of_Involved_Party_ID  }}" {{ $ip->Type_of_Involved_Party_ID == $id->Type_of_Involved_Party_ID  ? "selected" : "" }}>{{ $ip->Type_of_Involved_Party }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
+                                                <option value='' disabled selected>Select Option</option>
+                                                <option value=0 {{ 0 == $id->Residency_Status  ? "selected" : "" }}>Non-Resident</option>
+                                                <option value=1 {{ 1 == $id->Residency_Status  ? "selected" : "" }}>Resident</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]" value="{{$id->Non_Resident_Address}}">
+                                        </td>
+                                        <td>
+                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]" value="{{$id->Non_Resident_Birthdate}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" style="width: 200px;" name="Phone_No[]" value="{{$id->Phone_No}}">
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" class="btn btn-danger HRRemove">Remove</button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @else
                                     <tr class="HRDetails">
                                         <td hidden></td>
                                         <td>
@@ -154,8 +231,8 @@
                                         <td>
                                             <select class="form-control Type_of_Involved_Party_ID" name="Type_of_Involved_Party_ID[]" style="width: 200px;">
                                                 <option value='' disabled selected>Select Option</option>
-                                                @foreach($involved_party as $rs)
-                                                <option value="{{ $rs->Type_of_Involved_Party_ID  }}">{{ $rs->Type_of_Involved_Party }}</option>
+                                                @foreach($involved_party as $ip)
+                                                <option value="{{ $ip->Type_of_Involved_Party_ID  }}">{{ $ip->Type_of_Involved_Party }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -170,7 +247,7 @@
                                             <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
                                         </td>
                                         <td>
-                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]"> 
+                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" style="width: 200px;" name="Phone_No[]">
@@ -179,6 +256,7 @@
                                             <button type="button" class="btn btn-danger HRRemove">Remove</button>
                                         </td>
                                     </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -186,7 +264,7 @@
                     </div>
                     <div class="form-group col-lg-12" style="padding:0 10px">
                         <label for="exampleInputEmail1">Complaint Details</label>
-                        <textarea class="form-control" id="Complaint_Details" name="Complaint_Details" rows="5"></textarea>
+                        <textarea class="form-control" id="Complaint_Details" name="Complaint_Details" rows="5">{{$blotter[0]->Complaint_Details}}</textarea>
                     </div>
                 </div>
 
@@ -392,7 +470,7 @@
 
             $.ajax({
                 url: "/get_inhabitants_info",
-                type: 'GET',  
+                type: 'GET',
                 data: {
                     id: disID
                 },

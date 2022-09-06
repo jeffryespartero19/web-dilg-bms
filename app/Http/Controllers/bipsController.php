@@ -324,6 +324,7 @@ class bipsController extends Controller
             ->leftjoin('maintenance_city_municipality as c', 'a.City_Municipality_ID', '=', 'c.City_Municipality_ID')
             ->leftjoin('maintenance_barangay as d', 'a.Barangay_ID', '=', 'd.Barangay_ID')
             ->leftjoin('bips_resident_profile as e', 'a.Resident_ID', '=', 'e.Resident_ID')
+            ->leftjoin('maintenance_region as f', 'a.Region_ID', '=', 'f.Region_ID')
             ->select(
                 'a.Resident_ID',
                 'a.Name_Prefix_ID',
@@ -361,7 +362,8 @@ class bipsController extends Controller
                 'e.Resident_Status',
                 'e.Voter_Status',
                 'e.Election_Year_Last_Voted',
-                'e.Resident_Voter'
+                'e.Resident_Voter',
+                'f.Region_Name'
             )
             ->where('a.Resident_ID', $id)->get();
         return (compact('theEntry'));

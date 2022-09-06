@@ -33,7 +33,7 @@
     <br>
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><a href="{{ url('blotter_details/0') }}"  class="btn btn-success" style="width: 100px;">New</a></div>
+        <div class="twenty_split txtRight"><a href="{{ url('blotter_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
     </div>
     <br>
     <div class="col-md-12">
@@ -55,7 +55,7 @@
                     <td class="sm_data_col txtCtr">{{$x->Blotter_Status_Name}}</td>
                     <td class="sm_data_col txtCtr">{{$x->Incident_Date_Time}}</td>
                     <td class="sm_data_col txtCtr">
-                        <button class="edit_blotter" value="{{$x->Blotter_ID}}" data-toggle="modal" data-target="#createBlotter">Edit</button>
+                        <a class="btn btn-success" href="{{ url('blotter_details/'.$x->Blotter_ID) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach
@@ -64,138 +64,6 @@
     </div>
 </div>
 
-<!-- Create Announcement_Status Modal -->
-
-<div class="modal fade" id="createBlotter" role="dialog" aria-labelledby="Create_Blotter" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Create Blotter</h4>
-            </div>
-            <div class="modal-body">
-                <form id="newBlotter" method="POST" action="{{ route('create_blotter') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-                    <div class="modal-body">
-                        <!-- <div class="row">
-                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Suspect Name</label>
-                                <br>
-                                <select id="Resident_ID" class="form-control js-example-basic-single mySelect2" name="state" style="width: 100%;">
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($resident as $rs)
-                                    <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div> -->
-                        <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" value="0" hidden>
-                        <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Blotter Number</label>
-                                <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Blotter Status</label>
-                                <br>
-                                <select id="Blotter_Status_ID" class="form-control" name="Blotter_Status_ID" style="width: 100%;">
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($blotter_status as $bs)
-                                    <option value="{{ $bs->Blotter_Status_ID }}">{{ $bs->Blotter_Status_Name }}</option>
-                                    @endforeach
-                                </select>
-
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Incident Date</label>
-                                <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div id="CasesList" class="form-group col-lg-6 CasesList" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Case</label>
-                                <a id="AddCase" style="float: right; cursor:pointer">+ Add</a>
-                                <br>
-                                <div class="row CaseOption">
-                                    <div class="col-sm-9">
-                                        <select class="form-control" name="Case_ID[]">
-                                            <option value='' disabled selected>Select Option</option>
-                                            @foreach($case as $cs)
-                                            <option value="{{ $cs->Case_ID }}">{{ $cs->Case_Name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <button type="button" class="btn btn-danger caseRemove">Remove</button>
-                                    </div>
-                                </div>
-                                <div class="row CaseOptionHide" hidden>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" name="Case_ID[]">
-                                            <option value='' disabled selected>Select Option</option>
-                                            @foreach($case as $cs)
-                                            <option value="{{ $cs->Case_ID }}">{{ $cs->Case_Name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <button type="button" class="btn btn-danger caseRemove">Remove</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Complaint Details</label>
-                                <textarea class="form-control" id="Complaint_Details" name="Complaint_Details" rows="5"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Region</label>
-                                <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($region as $region)
-                                    <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Province</label>
-                                <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="City_Municipality_ID">City/Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Barangay_ID">Barangay</label>
-                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <hr>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary postThis_Blotter_Info" style="width: 200px;">Create</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<!-- Create Announcement_Status END -->
 
 @endsection
 
