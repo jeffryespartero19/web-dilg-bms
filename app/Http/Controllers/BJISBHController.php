@@ -85,7 +85,7 @@ class BJISBHController extends Controller
             $action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
             $involved_party = DB::table('maintenance_bjisbh_type_of_involved_party')->where('Active', 1)->get();
             $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
             $region = DB::table('maintenance_region')->where('Active', 1)->get();
 
             return view('bjisbh_transactions.blotter_details', compact(
@@ -103,31 +103,38 @@ class BJISBHController extends Controller
                 'region'
             ));
         } else {
+            $blotter = DB::table('bjisbh_blotter')->where('Blotter_ID', $id)->get();
+            $case_details = DB::table('bjisbh_case_details')->where('Blotter_ID', $id)->get();
+            $involved_details = DB::table('bjisbh_blotter_involved_parties')->where('Blotter_ID', $id)->get();
+            
             $case = DB::table('maintenance_bjisbh_case')->where('Active', 1)->get();
             $blotter_status = DB::table('maintenance_bjisbh_blotter_status')->where('Active', 1)->get();
-            $proceedings_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
-            $service_rating = DB::table('maintenance_bjisbh_service_rating')->where('Active', 1)->get();
-            $summons_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
-            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
-            $action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
+            // $proceedings_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
+            // $service_rating = DB::table('maintenance_bjisbh_service_rating')->where('Active', 1)->get();
+            // $summons_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
+            // $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+            // $action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
             $involved_party = DB::table('maintenance_bjisbh_type_of_involved_party')->where('Active', 1)->get();
-            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+            // $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
             $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $blotter[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $blotter[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $blotter[0]->City_Municipality_ID)->get();
 
-            return view('bjisbh_transactions.blotter_details', compact(
+            return view('bjisbh_transactions.blotter_details_edit', compact(
                 'currDATE',
+                'blotter',
+                'case_details',
+                'involved_details',
                 'case',
                 'blotter_status',
-                'proceedings_status',
-                'service_rating',
-                'summons_status',
-                'penalties',
-                'action',
                 'involved_party',
-                'violation_status',
                 'resident',
-                'region'
+                'region',
+                'province',
+                'city_municipality',
+                'barangay',
             ));
         }
     }
@@ -141,16 +148,16 @@ class BJISBHController extends Controller
         if ($data['Blotter_ID'] == 0) {
             $Blotter_ID = DB::table('bjisbh_blotter')->insertGetId(
                 array(
-                    'Blotter_Number'            => $data['Blotter_Number'],
-                    'Blotter_Status_ID'              => $data['Blotter_Status_ID'],
-                    'Incident_Date_Time'               => $data['Incident_Date_Time'],
-                    'Complaint_Details'      => $data['Complaint_Details'],
-                    'Barangay_ID'        => $data['Barangay_ID'],
-                    'City_Municipality_ID'        => $data['City_Municipality_ID'],
-                    'Province_ID'              => $data['Province_ID'],
-                    'Region_ID'            => $data['Region_ID'],
-                    'Encoder_ID'                => Auth::user()->id,
-                    'Date_Stamp'                => Carbon::now()
+                    'Blotter_Number' => $data['Blotter_Number'],
+                    'Blotter_Status_ID' => $data['Blotter_Status_ID'],
+                    'Incident_Date_Time' => $data['Incident_Date_Time'],
+                    'Complaint_Details' => $data['Complaint_Details'],
+                    'Barangay_ID' => $data['Barangay_ID'],
+                    'City_Municipality_ID' => $data['City_Municipality_ID'],
+                    'Province_ID' => $data['Province_ID'],
+                    'Region_ID' => $data['Region_ID'],
+                    'Encoder_ID' => Auth::user()->id,
+                    'Date_Stamp' => Carbon::now()
                 )
             );
 
@@ -175,6 +182,47 @@ class BJISBHController extends Controller
                         }
 
                         DB::table('bjisbh_case_details')->updateOrInsert(['Case_Details_ID' => $id], $case_details);
+                    }
+                }
+            }
+
+            DB::table('bjisbh_blotter_involved_parties')->where('Blotter_ID', $Blotter_ID)->delete();
+
+            if (isset($data['Resident_ID'])) {
+                $resident_details = [];
+
+                for ($i = 0; $i < count($data['Resident_ID']); $i++) {
+                    if ($data['Resident_ID'][$i] != NULL) {
+                        if (is_int($data['Resident_ID'][$i]) || ctype_digit($data['Resident_ID'][$i])) {
+                            $id = 0 + DB::table('bjisbh_blotter_involved_parties')->max('Blotter_Involved_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Blotter_ID' => $Blotter_ID,
+                                'Resident_ID' => $data['Resident_ID'][$i],
+                                'Type_of_Involved_Party_ID' => $data['Type_of_Involved_Party_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        } else {
+                            $id = 0 + DB::table('bjisbh_blotter_involved_parties')->max('Blotter_Involved_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Blotter_ID' => $Blotter_ID,
+                                'Resident_ID' => 0,
+                                'Type_of_Involved_Party_ID' => $data['Type_of_Involved_Party_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Non_Resident_Name' => $data['Resident_ID'][$i],
+                                'Non_Resident_Address' => $data['Non_Resident_Address'][$i],
+                                'Non_Resident_Birthdate' => $data['Non_Resident_Birthdate'][$i],
+                                'Phone_No' => $data['Phone_No'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        }
+                        DB::table('bjisbh_blotter_involved_parties')->insert($resident_details);
                     }
                 }
             }
@@ -218,9 +266,49 @@ class BJISBHController extends Controller
                 }
             }
 
-            return redirect()->back()->with('message', 'Brgy Projects Monitoring Info Updated');
+            DB::table('bjisbh_blotter_involved_parties')->where('Blotter_ID', $data['Blotter_ID'])->delete();
+
+            if (isset($data['Resident_ID'])) {
+                $resident_details = [];
+
+                for ($i = 0; $i < count($data['Resident_ID']); $i++) {
+                    if ($data['Resident_ID'][$i] != NULL) {
+                        if (is_int($data['Resident_ID'][$i]) || ctype_digit($data['Resident_ID'][$i])) {
+                            $id = 0 + DB::table('bjisbh_blotter_involved_parties')->max('Blotter_Involved_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Blotter_ID' => $data['Blotter_ID'],
+                                'Resident_ID' => $data['Resident_ID'][$i],
+                                'Type_of_Involved_Party_ID' => $data['Type_of_Involved_Party_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        } else {
+                            $id = 0 + DB::table('bjisbh_blotter_involved_parties')->max('Blotter_Involved_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Blotter_ID' => $data['Blotter_ID'],
+                                'Resident_ID' => 0,
+                                'Type_of_Involved_Party_ID' => $data['Type_of_Involved_Party_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Non_Resident_Name' => $data['Resident_ID'][$i],
+                                'Non_Resident_Address' => $data['Non_Resident_Address'][$i],
+                                'Non_Resident_Birthdate' => $data['Non_Resident_Birthdate'][$i],
+                                'Phone_No' => $data['Phone_No'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        }
+                        DB::table('bjisbh_blotter_involved_parties')->insert($resident_details);
+                    }
+                }
+            }
+
+            return redirect()->back()->with('message', 'Entry Updated');
         }
-        return redirect()->back()->with('alert', 'New Entry Created');
     }
 
     // Display Inhabitants Details

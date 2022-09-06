@@ -195,7 +195,7 @@
         row.find(".js-example-basic-single").each(function(index) {
             $(this).select2('destroy');
         });
-        
+
 
         var newrow = row.clone();
 
@@ -210,6 +210,8 @@
     $(".HSBody").on("click", ".HRRemove", function() {
         $(this).closest(".HRDetails").remove();
     });
+
+    
 </script>
 
 <style>
