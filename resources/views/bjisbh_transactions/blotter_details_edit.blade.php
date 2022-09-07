@@ -269,12 +269,13 @@
                     <div class="form-group col-lg-12" style="padding:0 10px">
                         <label for="fileattach">File Attachments</label>
                         <ul class="list-group list-group-flush" id="ordinance_files">
-                            <li class="list-group-item">Sample Name<a href="./files/uploads/bjisbh_transaction/blotter_file_attachments/" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>
+                            @foreach($file_attachment as $fa)
+                            <li class="list-group-item">{{$fa->File_Name}}<a href="../files/uploads/bjisbh_transaction/blotter_file_attachments/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
+                            @endforeach
+                            <br>
                             <div class="input-group my-3">
                                 <div class="custom-file">
                                     <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                    <br />Selected files:
-                                    <div id="fileList"></div>
                                 </div>
                             </div>
                     </div>
@@ -498,6 +499,44 @@
         } else {
             $($row.find('td:eq(3) select')).val(0);
         }
+    });
+
+    // File Attachments Modal
+    $(document).on('click', ('.att_del'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_blotter_attachments",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+
     });
 </script>
 

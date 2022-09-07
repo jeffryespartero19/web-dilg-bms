@@ -459,6 +459,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_blotter', 'BJISBHController@create_blotter')->name('create_blotter');
       Route::get('/get_blotter', 'BJISBHController@get_blotter')->name('get_blotter');
       Route::get('/get_case_details', 'BJISBHController@get_case_details')->name('get_case_details');
+      Route::get('/delete_blotter_attachments', 'BJISBHController@delete_blotter_attachments')->name('delete_blotter_attachments');
 
 });
 
