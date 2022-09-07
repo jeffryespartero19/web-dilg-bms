@@ -7,6 +7,8 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\File;
+use PDF;
 
 class BJISBHController extends Controller
 {
@@ -106,6 +108,7 @@ class BJISBHController extends Controller
             $blotter = DB::table('bjisbh_blotter')->where('Blotter_ID', $id)->get();
             $case_details = DB::table('bjisbh_case_details')->where('Blotter_ID', $id)->get();
             $involved_details = DB::table('bjisbh_blotter_involved_parties')->where('Blotter_ID', $id)->get();
+            $file_attachment = DB::table('bjisbh_blotter_file_attachment')->where('Blotter_ID', $id)->get();
 
             $case = DB::table('maintenance_bjisbh_case')->where('Active', 1)->get();
             $blotter_status = DB::table('maintenance_bjisbh_blotter_status')->where('Active', 1)->get();
@@ -135,6 +138,7 @@ class BJISBHController extends Controller
                 'province',
                 'city_municipality',
                 'barangay',
+                'file_attachment'
             ));
         }
     }
@@ -247,7 +251,7 @@ class BJISBHController extends Controller
             }
 
 
-            return redirect()->back()->with('message', 'New Entry Created');
+            return redirect()->to('blotter_details/' . $Blotter_ID)->with('message', 'New Blotter Created');
         } else {
             DB::table('bjisbh_blotter')->where('Blotter_ID', $data['Blotter_ID'])->update(
                 array(
@@ -345,7 +349,7 @@ class BJISBHController extends Controller
                 }
             }
 
-            return redirect()->back()->with('message', 'Entry Updated');
+            return redirect()->to('blotter_details/' . $data['Blotter_ID'])->with('message', 'Blotter Updated');
         }
     }
 
@@ -386,5 +390,18 @@ class BJISBHController extends Controller
 
         $data = DB::table('bjisbh_case_details')->where('Blotter_ID', $id)->get();
         return json_encode($data);
+    }
+
+    public function delete_blotter_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bjisbh_blotter_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/bjisbh_transaction/blotter_file_attachments/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/bjisbh_transaction/blotter_file_attachments/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bjisbh_blotter_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 }
