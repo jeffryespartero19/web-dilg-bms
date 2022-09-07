@@ -106,7 +106,7 @@ class BJISBHController extends Controller
             $blotter = DB::table('bjisbh_blotter')->where('Blotter_ID', $id)->get();
             $case_details = DB::table('bjisbh_case_details')->where('Blotter_ID', $id)->get();
             $involved_details = DB::table('bjisbh_blotter_involved_parties')->where('Blotter_ID', $id)->get();
-            
+
             $case = DB::table('maintenance_bjisbh_case')->where('Active', 1)->get();
             $blotter_status = DB::table('maintenance_bjisbh_blotter_status')->where('Active', 1)->get();
             // $proceedings_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
@@ -227,6 +227,25 @@ class BJISBHController extends Controller
                 }
             }
 
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/bjisbh_transaction/blotter_file_attachments/';
+                    $file->move($filePath, $filename);
+
+
+                    $file_data = array(
+                        'Blotter_ID' => $Blotter_ID,
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('bjisbh_blotter_file_attachment')->insert($file_data);
+                }
+            }
+
 
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
@@ -304,6 +323,25 @@ class BJISBHController extends Controller
                         }
                         DB::table('bjisbh_blotter_involved_parties')->insert($resident_details);
                     }
+                }
+            }
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/bjisbh_transaction/blotter_file_attachments/';
+                    $file->move($filePath, $filename);
+
+
+                    $file_data = array(
+                        'Blotter_ID' => $data['Blotter_ID'],
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('bjisbh_blotter_file_attachment')->insert($file_data);
                 }
             }
 
