@@ -266,6 +266,18 @@
                         <label for="exampleInputEmail1">Complaint Details</label>
                         <textarea class="form-control" id="Complaint_Details" name="Complaint_Details" rows="5">{{$blotter[0]->Complaint_Details}}</textarea>
                     </div>
+                    <div class="form-group col-lg-12" style="padding:0 10px">
+                        <label for="fileattach">File Attachments</label>
+                        <ul class="list-group list-group-flush" id="ordinance_files">
+                            <li class="list-group-item">Sample Name<a href="./files/uploads/bjisbh_transaction/blotter_file_attachments/" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>
+                            <div class="input-group my-3">
+                                <div class="custom-file">
+                                    <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
+                                    <br />Selected files:
+                                    <div id="fileList"></div>
+                                </div>
+                            </div>
+                    </div>
                 </div>
 
             </div>

@@ -170,7 +170,7 @@
                                             <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
                                         </td>
                                         <td>
-                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]"> 
+                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" style="width: 200px;" name="Phone_No[]">
@@ -188,6 +188,17 @@
                         <label for="exampleInputEmail1">Complaint Details</label>
                         <textarea class="form-control" id="Complaint_Details" name="Complaint_Details" rows="5"></textarea>
                     </div>
+                    <hr>
+                    <div class="form-group col-lg-12" style="padding:0 10px">
+                        <div class="input-group my-3">
+                            <div class="custom-file">
+                                <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
+                                <br />Selected files:
+                                <div id="fileList"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -392,7 +403,7 @@
 
             $.ajax({
                 url: "/get_inhabitants_info",
-                type: 'GET',  
+                type: 'GET',
                 data: {
                     id: disID
                 },
@@ -409,6 +420,18 @@
             $($row.find('td:eq(3) select')).val(0);
         }
     });
+
+    // Show File Name
+    updateList = function() {
+        var input = document.getElementById('file');
+        var output = document.getElementById('fileList');
+
+        output.innerHTML = '<ul>';
+        for (var i = 0; i < input.files.length; ++i) {
+            output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
+        }
+        output.innerHTML += '</ul>';
+    }
 </script>
 
 <style>

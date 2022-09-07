@@ -60,4 +60,3 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <link href="{{ asset('css/global.css') }}" rel="stylesheet">
-<link href="{{ asset('/css/general.css') }}" rel="stylesheet">
