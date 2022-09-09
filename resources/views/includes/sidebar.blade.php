@@ -209,13 +209,13 @@
                 <a href="{{route('blotter_list')}}">
                     <li role="presentation">Blotter</li>
                 </a>
-                <a href="">
+                <a href="{{route('summon_list')}}">
                     <li role="presentation">Summons</li>
                 </a>
-                <a href="">
+                <a href="{{route('proceeding_list')}}">
                     <li role="presentation">Proceedings</li>
                 </a>
-                <a href="">
+                <a href="{{route('ordinance_violator_list')}}">
                     <li role="presentation">Ordinance Violators</li>
                 </a>
                 <a href="">
