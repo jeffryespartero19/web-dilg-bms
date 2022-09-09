@@ -461,10 +461,23 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_case_details', 'BJISBHController@get_case_details')->name('get_case_details');
       Route::get('/delete_blotter_attachments', 'BJISBHController@delete_blotter_attachments')->name('delete_blotter_attachments');
 
+      //Summon
+      Route::get('/summon_list', 'BJISBHController@summon_list')->name('summon_list');
+      Route::get('/summon_details/{id}', 'BJISBHController@summon_details');
+      Route::post('/create_summon', 'BJISBHController@create_summon')->name('create_summon');
+
+      //Proceeding
+      Route::get('/proceeding_list', 'BJISBHController@proceeding_list')->name('proceeding_list');
+      Route::get('/proceeding_details/{id}', 'BJISBHController@proceeding_details');
+      Route::post('/create_proceeding', 'BJISBHController@create_proceeding')->name('create_proceeding');
+
+      //Ordinance Violator
+      Route::get('/ordinance_violator_list', 'BJISBHController@ordinance_violator_list')->name('ordinance_violator_list');
+      Route::get('/ordinance_violator_details/{id}', 'BJISBHController@ordinance_violator_details');
+      Route::post('/create_ordinance_violator', 'BJISBHController@create_ordinance_violator')->name('create_ordinance_violator');
 });
 
 // Global Controller
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
-
