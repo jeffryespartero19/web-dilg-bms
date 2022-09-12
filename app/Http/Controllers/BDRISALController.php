@@ -922,27 +922,60 @@ class BDRISALController extends Controller
             )
             ->paginate(20, ['*'], 'db_entries');
 
-            $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-            $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-            $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-            $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
-            $response_information = DB::table('bdris_response_information')->paginate(20, ['*'], 'response_information');
-            $household_profile = DB::table('bips_household_profile')->paginate(20, ['*'], 'household_profile');
-            $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->paginate(20, ['*'], 'level_of_damage');
-
 
         return view('bdris_transactions.recovery_information_list', compact(
             'db_entries',
             'currDATE',
-            'region',
-            'province',
-            'barangay',
-            'city',
-            'response_information',
-            'household_profile',
-            'level_of_damage',
-
+            
         ));
+    }
+
+    //Recovery Infomation Details
+    public function recovery_information_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $response_information = DB::table('bdris_response_information')->paginate(20, ['*'], 'response_information');
+            $household_profile = DB::table('bips_household_profile')->paginate(20, ['*'], 'household_profile');
+            $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->where('Active', 1)->get();
+
+            return view('bdris_transactions.recovery_information', compact(
+                'currDATE',
+                'level_of_damage',
+                'household_profile',
+                'response_information',
+                'region'
+            ));
+        } else {
+            $recovery = DB::table('bdris_recovery_information')->where('Disaster_Recovery_ID', $id)->get();
+            $attachment = DB::table('bdris_file_attachment')->where('Disaster_Recovery_ID', $id)->get();
+            $affected = DB::table('bdris_affected_household_and_infra')->where('Disaster_Recovery_ID', $id)->get();
+            $damage = DB::table('bdris_recovery_damage_loss')->where('Disaster_Recovery_ID', $id)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $recovery[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $recovery[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $recovery[0]->City_Municipality_ID)->get();
+            $response_information = DB::table('bdris_response_information')->paginate(20, ['*'], 'response_information');
+            $household_profile = DB::table('bips_household_profile')->paginate(20, ['*'], 'household_profile');
+            $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->where('Active', 1)->get();
+
+            return view('bdris_transactions.recovery_information_edit', compact(
+                'currDATE',
+                'recovery',
+                'attachment',
+                'affected',
+                'damage',
+                'level_of_damage',
+                'household_profile',
+                'response_information',
+                'region',
+                'province',
+                'city_municipality',
+                'barangay'
+            ));
+        }
     }
 
     //Save Recovery Information
@@ -1042,7 +1075,7 @@ class BDRISALController extends Controller
 
 
  
-            return redirect()->back()->with('message', 'New Entry Created');
+            return redirect()->to('recovery_information_details/' . $Disaster_Recovery_ID)->with('message', 'New Recovery Information Created');
         } else {
             DB::table('bdris_recovery_information')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->update(
                 array(
@@ -1226,7 +1259,7 @@ class BDRISALController extends Controller
             unlink(public_path('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name));
         }
         DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
-
+        
         return response()->json(array('success' => true));
     }
 
