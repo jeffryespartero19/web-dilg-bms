@@ -57,7 +57,7 @@ class InhabitantApplicationController extends Controller
             $province = DB::table('maintenance_province')->where('Active', 1)->get();
             $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
             $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
-            $religion = DB::table('maintenance_bips_religion')->where('Encoder_ID', Auth::user()->id)->get();
+            $religion = DB::table('maintenance_bips_religion')->get();
             $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
             $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
             $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
@@ -87,7 +87,7 @@ class InhabitantApplicationController extends Controller
             $province = DB::table('maintenance_province')->where('Active', 1)->where('Region_ID', $db_entries[0]->Region_ID)->get();
             $city = DB::table('maintenance_city_municipality')->where('Active', 1)->where('Province_ID', $db_entries[0]->Province_ID)->get();
             $barangay = DB::table('maintenance_barangay')->where('Active', 1)->where('City_Municipality_ID', $db_entries[0]->City_Municipality_ID)->get();
-            $religion = DB::table('maintenance_bips_religion')->where('Encoder_ID', Auth::user()->id)->get();
+            $religion = DB::table('maintenance_bips_religion')->get();
             $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
             $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
             $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
