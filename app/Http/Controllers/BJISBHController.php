@@ -12,7 +12,7 @@ use PDF;
 
 class BJISBHController extends Controller
 {
-    //Inhabitants Information List
+    //Blotter List
     public function blotter_list(Request $request)
     {
         $currDATE = Carbon::now();
@@ -143,11 +143,11 @@ class BJISBHController extends Controller
         }
     }
 
-    // Save Inhabitants Info
+    // Save Blotter Info
     public function create_blotter(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         if ($data['Blotter_ID'] == 0) {
             $Blotter_ID = DB::table('bjisbh_blotter')->insertGetId(
@@ -403,5 +403,289 @@ class BJISBHController extends Controller
         DB::table('bjisbh_blotter_file_attachment')->where('Attachment_ID', $id)->delete();
 
         return response()->json(array('success' => true));
+    }
+
+
+    //Summon List
+    public function summon_list(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bjisbh_summons as a')
+            ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+            ->select(
+                'b.Blotter_Number',
+                'b.Blotter_ID'
+            )
+            ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
+            ->paginate(20, ['*'], 'db_entries');
+
+        return view('bjisbh_transactions.summon_list', compact(
+            'db_entries',
+            'currDATE',
+        ));
+    }
+
+    //Summon Details
+    public function summon_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
+            $blotter = DB::table('bjisbh_blotter')->get();
+            $summon_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
+
+            return view('bjisbh_transactions.summon_details', compact(
+                'currDATE',
+                'blotter',
+                'summon_status'
+            ));
+        } else {
+            $Blotter_ID = $id;
+            $summon = DB::table('bjisbh_summons')->where('Blotter_ID', $id)->get();
+            $blotter = DB::table('bjisbh_blotter')->get();
+            $summon_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
+
+            return view('bjisbh_transactions.summon_details_edit', compact(
+                'currDATE',
+                'blotter',
+                'summon_status',
+                'Blotter_ID',
+                'summon'
+            ));
+        }
+    }
+
+    // Save Summon Info
+    public function create_summon(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bjisbh_summons')->where('Blotter_ID', $data['Blotter_ID'])->delete();
+
+        if (isset($data['Summons_Status_ID'])) {
+            $summon_details = [];
+
+            for ($i = 0; $i < count($data['Summons_Status_ID']); $i++) {
+                if ($data['Summons_Status_ID'][$i] != NULL) {
+
+                    $id = 0 + DB::table('bjisbh_summons')->max('Summons_ID');
+                    $id += 1;
+
+                    if ($data['Summons_Status_ID'][$i] != null) {
+                        $summon_details = [
+                            'Blotter_ID'           => $data['Blotter_ID'],
+                            'Summons_Status_ID'   => $data['Summons_Status_ID'][$i],
+                            'Summons_Request_Date'   => $data['Summons_Request_Date'][$i],
+                            'Summons_Date'   => $data['Summons_Date'][$i],
+                            'Settlement'   => $data['Settlement'][$i],
+                            'Encoder_ID'  => Auth::user()->id,
+                            'Date_Stamp'  => Carbon::now()
+                        ];
+                    }
+
+                    DB::table('bjisbh_summons')->insert($summon_details);
+                }
+            }
+        }
+
+        return redirect()->to('summon_details/' . $data['Blotter_ID'])->with('message', 'Record Saved');
+    }
+
+    //Proceeding List
+    public function proceeding_list(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bjisbh_proceedings as a')
+            ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+            ->select(
+                'b.Blotter_Number',
+                'b.Blotter_ID'
+            )
+            ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
+            ->paginate(20, ['*'], 'db_entries');
+
+        return view('bjisbh_transactions.proceeding_list', compact(
+            'db_entries',
+            'currDATE',
+        ));
+    }
+
+    //Proceeding Details
+    public function proceeding_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
+            $blotter = DB::table('bjisbh_blotter')->get();
+            $proceeding_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
+            $type_of_action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
+
+            return view('bjisbh_transactions.proceeding_details', compact(
+                'currDATE',
+                'blotter',
+                'proceeding_status',
+                'type_of_action'
+            ));
+        } else {
+            $Blotter_ID = $id;
+            $proceeding = DB::table('bjisbh_proceedings')->where('Blotter_ID', $id)->get();
+            $blotter = DB::table('bjisbh_blotter')->get();
+            $proceeding_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
+            $type_of_action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
+
+            return view('bjisbh_transactions.proceeding_details_edit', compact(
+                'currDATE',
+                'blotter',
+                'proceeding_status',
+                'Blotter_ID',
+                'proceeding',
+                'type_of_action'
+            ));
+        }
+    }
+
+    // Save Proceeding Info
+    public function create_proceeding(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bjisbh_proceedings')->where('Blotter_ID', $data['Blotter_ID'])->delete();
+
+        if (isset($data['Proceedings_Status_ID'])) {
+            $proceeding_details = [];
+
+            for ($i = 0; $i < count($data['Proceedings_Status_ID']); $i++) {
+                if ($data['Proceedings_Status_ID'][$i] != NULL) {
+
+                    $id = 0 + DB::table('bjisbh_proceedings')->max('Proceedings_ID');
+                    $id += 1;
+
+                    if ($data['Proceedings_Status_ID'][$i] != null) {
+                        $proceeding_details = [
+                            'Blotter_ID'           => $data['Blotter_ID'],
+                            'Type_of_Action_ID'   => $data['Type_of_Action_ID'][$i],
+                            'Proceedings_Status_ID'   => $data['Proceedings_Status_ID'][$i],
+                            'Proceedings_Date'   => $data['Proceedings_Date'][$i],
+                            'Settlement'   => $data['Settlement'][$i],
+                            'Encoder_ID'  => Auth::user()->id,
+                            'Date_Stamp'  => Carbon::now()
+                        ];
+                    }
+
+                    DB::table('bjisbh_proceedings')->insert($proceeding_details);
+                }
+            }
+        }
+
+        return redirect()->to('proceeding_details/' . $data['Blotter_ID'])->with('message', 'Record Saved');
+    }
+
+    //Ordinance Violator List
+    public function ordinance_violator_list(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bjisbh_ordinance_violators as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('boris_brgy_ordinances_and_resolutions_information as c', 'a.Ordinance_ID', '=', 'c.Ordinance_Resolution_ID')
+            ->leftjoin('maintenance_bjisbh_types_of_penalties as d', 'a.Types_of_Penalties_ID', '=', 'd.Types_of_Penalties_ID')
+            ->leftjoin('maintenance_bjisbh_violation_status as e', 'a.Violation_Status_ID', '=', 'e.Violation_Status_ID')
+            ->select(
+                'a.Ordinance_Violators_ID',
+                'a.Vilotation_Date',
+                'c.Ordinance_Resolution_Title',
+                'c.Ordinance_Resolution_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'd.Types_of_Penalties_ID',
+                'd.Type_of_Penalties',
+                'e.Violation_Status_ID',
+                'e.Violation_Status',
+            )
+            ->paginate(20, ['*'], 'db_entries');
+
+        return view('bjisbh_transactions.ordinance_violator_list', compact(
+            'db_entries',
+            'currDATE',
+        ));
+    }
+
+    //Ordinance Violator Details
+    public function ordinance_violator_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
+            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+            $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
+            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+
+            return view('bjisbh_transactions.ordinance_violator_details', compact(
+                'currDATE',
+                'penalties',
+                'ordinance',
+                'violation_status',
+                'resident',
+            ));
+        } else {
+            $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
+            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+            $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
+            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+
+            return view('bjisbh_transactions.ordinance_violator_details_edit', compact(
+                'currDATE',
+                'penalties',
+                'ordinance',
+                'violation_status',
+                'resident',
+                'violator'
+            ));
+        }
+    }
+
+    // Save Blotter Info
+    public function create_ordinance_violator(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        // dd($data);
+
+        if ($data['Ordinance_Violators_ID'] == 0) {
+            $Ordinance_Violators_ID = DB::table('bjisbh_ordinance_violators')->insertGetId(
+                array(
+                    'Resident_ID' => $data['Resident_ID'],
+                    'Ordinance_ID' => $data['Ordinance_ID'],
+                    'Types_of_Penalties_ID' => $data['Types_of_Penalties_ID'],
+                    'Violation_Status_ID' => $data['Violation_Status_ID'],
+                    'Vilotation_Date' => $data['Vilotation_Date'],
+                    'Complied_Date' => $data['Complied_Date'],
+                    'Encoder_ID' => Auth::user()->id,
+                    'Date_Stamp' => Carbon::now()
+                )
+            );
+
+            return redirect()->to('ordinance_violator_details/' . $Ordinance_Violators_ID)->with('message', 'New Ordinance Violator Created');
+        } else {
+            DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $data['Ordinance_Violators_ID'])->update(
+                array(
+                    'Resident_ID' => $data['Resident_ID'],
+                    'Ordinance_ID' => $data['Ordinance_ID'],
+                    'Types_of_Penalties_ID' => $data['Types_of_Penalties_ID'],
+                    'Violation_Status_ID' => $data['Violation_Status_ID'],
+                    'Vilotation_Date' => $data['Vilotation_Date'],
+                    'Complied_Date' => $data['Complied_Date'],
+                    'Encoder_ID' => Auth::user()->id,
+                    'Date_Stamp' => Carbon::now()
+                )
+            );
+
+            return redirect()->to('ordinance_violator_details/' . $data['Ordinance_Violators_ID'])->with('message', 'Ordinance Violator Updated');
+        }
     }
 }

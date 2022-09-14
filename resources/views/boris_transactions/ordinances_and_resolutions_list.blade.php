@@ -91,7 +91,7 @@
                                 <label for="exampleInputEmail1">Type</label>
                                 <select class="form-control" id="Ordinance_or_Resolution" name="Ordinance_or_Resolution" required>
                                     <option value='' disabled selected>Select Option</option>
-                                    <option value=0>Ordinace</option>
+                                    <option value=0>Ordinance</option>
                                     <option value=1>Resolution</option>
                                 </select>
                             </div>
