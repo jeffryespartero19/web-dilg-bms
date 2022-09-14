@@ -8,82 +8,112 @@ use App\User;
 use Carbon\Carbon;
 use DB;
 
-class bipsController extends Controller
+class InhabitantApplicationController extends Controller
 {
     //BIPS TRANSACTIONS
 
     //Inhabitants Information List
-    public function inhabitants_information_list(Request $request)
+    public function inhabitant_application(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_brgy_inhabitants_information as a')
-            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
-            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+        $db_entries = DB::table('bips_brgy_inhabitants_information')
             ->select(
-                'a.Resident_ID',
-                'a.Name_Prefix_ID',
-                'a.Last_Name',
-                'a.First_Name',
-                'a.Middle_Name',
-                'a.Name_Suffix_ID',
-                'a.Birthplace',
-                'a.Weight',
-                'a.Height',
-                'a.Civil_Status_ID',
-                'a.Birthdate',
-                'a.Country_ID',
-                'a.Religion_ID',
-                'a.Blood_Type_ID',
-                'a.Sex',
-                'a.Mobile_No',
-                'a.Telephone_No',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Province_ID',
-                'a.Region_ID',
-                'a.Salary',
-                'a.Email_Address',
-                'a.PhilSys_Card_No',
-                'a.Solo_Parent',
-                'a.OFW',
-                'a.Indigent',
-                'a.4Ps_Beneficiary',
-                'a.Encoder_ID',
-                'a.Date_Stamp',
-                'b.Name_Prefix',
-                'c.Name_Suffix'
+                'Resident_ID',
+                'Name_Prefix_ID',
+                'Last_Name',
+                'First_Name',
+                'Middle_Name',
+                'Name_Suffix_ID',
+                'Birthplace',
+                'Weight',
+                'Height',
+                'Civil_Status_ID',
+                'Birthdate',
+                'Country_ID',
+                'Religion_ID',
+                'Blood_Type_ID',
+                'Sex',
+                'Mobile_No',
+                'Telephone_No',
+                'Barangay_ID',
+                'City_Municipality_ID',
+                'Province_ID',
+                'Region_ID',
+                'Salary',
+                'Email_Address',
+                'PhilSys_Card_No',
+                'Solo_Parent',
+                'OFW',
+                'Indigent',
+                '4Ps_Beneficiary as Beneficiary',
+                'Encoder_ID',
+                'Date_Stamp',
+                'Application_Status',
             )
-            ->where('a.Application_Status', 1)
-            ->paginate(20, ['*'], 'db_entries');
-        $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
-        $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
-        $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
-        $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
-        $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
-        $region = DB::table('maintenance_region')->where('Active', 1)->get();
-        $province = DB::table('maintenance_province')->where('Active', 1)->get();
-        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
-        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
-        $country = DB::table('maintenance_country')->where('Active', 1)->get();
-        $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
-        $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+            ->where('Encoder_ID', Auth::user()->id)
+            ->get();
 
-        return view('bips_transactions.inhabitants_information_list', compact(
-            'db_entries',
-            'currDATE',
-            'religion',
-            'blood_type',
-            'civil_status',
-            'name_prefix',
-            'suffix',
-            'region',
-            'province',
-            'city',
-            'barangay',
-            'country',
-            'academic_level',
-            'employment_type'
-        ));
+        if ($db_entries->isEmpty()) {
+            $province = DB::table('maintenance_province')->where('Active', 1)->get();
+            $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
+            $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
+            $religion = DB::table('maintenance_bips_religion')->where('Encoder_ID', Auth::user()->id)->get();
+            $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
+            $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
+            $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
+            $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $country = DB::table('maintenance_country')->where('Active', 1)->get();
+            $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
+            $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+
+            return view('bips_transactions.inhabitant_application', compact(
+                'currDATE',
+                'religion',
+                'blood_type',
+                'civil_status',
+                'name_prefix',
+                'suffix',
+                'region',
+                'province',
+                'city',
+                'barangay',
+                'country',
+                'academic_level',
+                'employment_type',
+                'db_entries'
+            ));
+        } else {
+            $province = DB::table('maintenance_province')->where('Active', 1)->where('Region_ID', $db_entries[0]->Region_ID)->get();
+            $city = DB::table('maintenance_city_municipality')->where('Active', 1)->where('Province_ID', $db_entries[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('Active', 1)->where('City_Municipality_ID', $db_entries[0]->City_Municipality_ID)->get();
+            $religion = DB::table('maintenance_bips_religion')->where('Encoder_ID', Auth::user()->id)->get();
+            $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
+            $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
+            $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
+            $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $country = DB::table('maintenance_country')->where('Active', 1)->get();
+            $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
+            $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+
+            return view('bips_transactions.inhabitant_application_edit', compact(
+                'currDATE',
+                'religion',
+                'blood_type',
+                'civil_status',
+                'name_prefix',
+                'suffix',
+                'region',
+                'province',
+                'city',
+                'barangay',
+                'country',
+                'academic_level',
+                'employment_type',
+                'db_entries'
+            ));
+        }
     }
 
 
@@ -91,9 +121,11 @@ class bipsController extends Controller
     public function create_inhabitants_information(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
-        if ($data['Resident_ID'] != 0 || $data['Resident_ID'] != null) {
+        // dd($data);
+
+        if ($data['Resident_ID'] == "applicant") {
             $Resident_ID = DB::table('bips_brgy_inhabitants_information')->insertGetId(
                 array(
                     'Name_Prefix_ID' => $data['Name_Prefix_ID'],
@@ -127,18 +159,6 @@ class bipsController extends Controller
                     'Date_Stamp'       => Carbon::now()
                 )
             );
-
-            $resident = [
-                'Resident_ID' => $Resident_ID,
-                'Resident_Status' => (int)$data['Resident_Status'],
-                'Voter_Status' => (int)$data['Voter_Status'],
-                'Election_Year_Last_Voted' => $data['Election_Year_Last_Voted'],
-                'Resident_Voter' => (int)$data['Resident_Voter'],
-                'Encoder_ID'       => Auth::user()->id,
-                'Date_Stamp'       => Carbon::now()
-            ];
-
-            DB::table('bips_resident_profile')->insert($resident);
 
             DB::table('bips_education')->where('Resident_ID', $Resident_ID)->delete();
 
@@ -236,18 +256,6 @@ class bipsController extends Controller
                     'Date_Stamp'       => Carbon::now()
                 )
             );
-
-            $resident = [
-                'Resident_ID' => $data['Resident_ID'],
-                'Resident_Status' => (int)$data['Resident_Status'],
-                'Voter_Status' => (int)$data['Voter_Status'],
-                'Election_Year_Last_Voted' => $data['Election_Year_Last_Voted'],
-                'Resident_Voter' => (int)$data['Resident_Voter'],
-                'Encoder_ID'       => Auth::user()->id,
-                'Date_Stamp'       => Carbon::now()
-            ];
-
-            DB::table('bips_resident_profile')->updateOrInsert(['Resident_ID' => $data['Resident_ID']], $resident);
 
             DB::table('bips_education')->where('Resident_ID', $data['Resident_ID'])->delete();
 
@@ -410,7 +418,6 @@ class bipsController extends Controller
                 'a.Cause_of_Death',
                 'a.Date_of_Death',
             )
-            ->where('b.Application_Status', 1)
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -510,10 +517,9 @@ class bipsController extends Controller
                 'a.Barangay_ID',
                 'f.Barangay_Name',
             )
-            ->where('b.Application_Status', 1)
             ->paginate(20, ['*'], 'db_entries');
 
-        $name = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->paginate(20, ['*'], 'name');
+        $name = DB::table('bips_brgy_inhabitants_information')->paginate(20, ['*'], 'name');
         $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
         $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
         $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
@@ -581,8 +587,7 @@ class bipsController extends Controller
                 'a.Barangay_ID',
                 'f.Barangay_Name',
             )
-            ->where('b.Application_Status', 1)
-            ->where('a.Inhabitants_Transfer_ID', $id)->get();
+            ->where('Inhabitants_Transfer_ID', $id)->get();
 
         return (compact('theEntry'));
     }
@@ -662,7 +667,7 @@ class bipsController extends Controller
     // Approve Disapprove Inhabitants Transfer
     public function approve_disapprove_inhabitants(Request $request)
     {
-        $data = request()->all();
+        $data = $data = request()->all();
 
         if ($data['Status_ID'] == 1) {
             $message = 'Approved';
@@ -702,7 +707,7 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
         $db_entries = DB::table('bips_household_profile as a')
             ->paginate(20, ['*'], 'db_entries');
-        $resident = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->get();
         $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
         $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
         $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
@@ -728,7 +733,7 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
 
         if ($id == 0) {
-            $resident = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
             $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
             $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
             $housing_unit = DB::table('maintenance_bips_housing_unit')->where('Active', 1)->get();
@@ -744,7 +749,7 @@ class bipsController extends Controller
             ));
         } else {
             $household = DB::table('bips_household_profile')->where('Household_Profile_ID', $id)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
             $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
             $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
             $housing_unit = DB::table('maintenance_bips_housing_unit')->where('Active', 1)->get();
@@ -864,114 +869,5 @@ class bipsController extends Controller
 
             return redirect()->to('inhabitants_household_details/' . $data['Household_Profile_ID'])->with('message', 'Household Info Updated');
         }
-    }
-
-    //Inhabitants Apllication
-    ///Inhabitants Transfer List
-    public function application_list(Request $request)
-    {
-        $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_brgy_inhabitants_information as a')
-            ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
-            ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
-            ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
-            ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
-            ->leftjoin('maintenance_bips_name_suffix as g', 'a.Name_Suffix_ID', '=', 'g.Name_Suffix_ID')
-            ->select(
-                'a.Resident_ID',
-                'a.Last_Name',
-                'a.First_Name',
-                'a.Middle_Name',
-                'a.Region_ID',
-                'c.Region_Name',
-                'a.Province_ID',
-                'd.Province_Name',
-                'a.City_Municipality_ID',
-                'e.City_Municipality_Name',
-                'a.Barangay_ID',
-                'f.Barangay_Name',
-                'g.Name_Suffix'
-            )
-            ->where('a.Application_Status', 0)
-            ->paginate(20, ['*'], 'db_entries');
-
-        // $db_entries2 = DB::table('bips_brgy_inhabitants_information as a')
-        //     ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
-        //     ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
-        //     ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
-        //     ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
-        //     ->leftjoin('maintenance_bips_name_suffix as g', 'a.Name_Suffix_ID', '=', 'g.Name_Suffix_ID')
-        //     ->select(
-        //         'a.Resident_ID',
-        //         'a.Last_Name',
-        //         'a.First_Name',
-        //         'a.Middle_Name',
-        //         'a.Region_ID',
-        //         'c.Region_Name',
-        //         'a.Province_ID',
-        //         'd.Province_Name',
-        //         'a.City_Municipality_ID',
-        //         'e.City_Municipality_Name',
-        //         'a.Barangay_ID',
-        //         'f.Barangay_Name',
-        //         'g.Name_Suffix'
-        //     )
-        //     ->where('a.Application_Status', 1)
-        //     ->paginate(20, ['*'], 'db_entries2');
-
-        // $db_entries3 = DB::table('bips_brgy_inhabitants_information as a')
-        //     ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
-        //     ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
-        //     ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
-        //     ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
-        //     ->leftjoin('maintenance_bips_name_suffix as g', 'a.Name_Suffix_ID', '=', 'g.Name_Suffix_ID')
-        //     ->select(
-        //         'a.Resident_ID',
-        //         'a.Last_Name',
-        //         'a.First_Name',
-        //         'a.Middle_Name',
-        //         'a.Region_ID',
-        //         'c.Region_Name',
-        //         'a.Province_ID',
-        //         'd.Province_Name',
-        //         'a.City_Municipality_ID',
-        //         'e.City_Municipality_Name',
-        //         'a.Barangay_ID',
-        //         'f.Barangay_Name',
-        //         'g.Name_Suffix'
-        //     )
-        //     ->where('a.Application_Status', 2)
-        //     ->paginate(20, ['*'], 'db_entries3');
-
-        return view('bips_transactions.application_list', compact(
-            'db_entries',
-            'currDATE'
-        ));
-    }
-
-    // Approve Disapprove Inhabitants Transfer
-    public function approve_disapprove_application(Request $request)
-    {
-        $data = request()->all();
-
-        if ($data['Status_ID'] == 1) {
-            $message = 'Approved';
-
-            DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
-                array(
-                    'Application_Status' => 1
-                )
-            );
-        } else {
-            $message = 'Disapprove';
-
-            DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
-                array(
-                    'Application_Status' => 2
-                )
-            );
-        }
-
-        return redirect()->back()->with('message', 'Resident ' . $message);
     }
 }

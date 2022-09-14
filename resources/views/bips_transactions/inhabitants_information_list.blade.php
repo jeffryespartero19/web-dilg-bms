@@ -97,6 +97,7 @@
                         <h3>Name</h3>
                         <div class="row">
                             <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" value="0" hidden>
+                            <input type="text" class="form-control" id="Application_Status" name="Application_Status" value="1" hidden>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Prefix</label>
                                 <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID" required>
