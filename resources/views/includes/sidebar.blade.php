@@ -31,7 +31,7 @@
 
 
 <div class="modules">
-    @if (Auth::user()->User_Type_ID != 2 && Auth::user()->Login_Status != 0)
+    @if (Auth::user()->User_Type_ID != 2)
     <div class="col-sm-12">
         {{-- Transactions / Reports --}}
 
