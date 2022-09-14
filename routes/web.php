@@ -20,6 +20,7 @@ Route::get('/', 'Public_LandingController@index')->name('*');
 Route::get('/main', 'Public_LandingController@main')->name('main');
 Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
 Route::get('/logins/{b_id}', 'BRGYLoginController@index');
+Route::get('/registers/{b_id}', 'BRGYLoginController@registers');
 
 Route::group(['middleware' => 'auth'], function () {
       //Home
