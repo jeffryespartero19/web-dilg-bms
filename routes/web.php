@@ -475,6 +475,12 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/ordinance_violator_list', 'BJISBHController@ordinance_violator_list')->name('ordinance_violator_list');
       Route::get('/ordinance_violator_details/{id}', 'BJISBHController@ordinance_violator_details');
       Route::post('/create_ordinance_violator', 'BJISBHController@create_ordinance_violator')->name('create_ordinance_violator');
+
+      //Inhabitant Application
+      Route::get('/inhabitant_application', 'InhabitantApplicationController@inhabitant_application')->name('inhabitant_application');
+      Route::post('/create_inhabitants_application_information', 'InhabitantApplicationController@create_inhabitants_information')->name('create_inhabitants_application_information');
+      Route::get('/application_list', 'bipsController@application_list')->name('application_list');
+      Route::post('/approve_disapprove_application', 'bipsController@approve_disapprove_application')->name('approve_disapprove_application');
 });
 
 // Global Controller
