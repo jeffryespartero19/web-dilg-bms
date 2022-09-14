@@ -258,6 +258,115 @@
                             </tbody>
                         </table>
                     </div>
+                    <hr>
+
+
+                    <div class="form-group col-lg-12" style="padding:0 10px;">
+                        <h3>Casualties and Injured</h3>
+                        <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                        <br>
+                        <div style="overflow-x:auto;" id="CasualtiesDetails">
+
+                            <table id="ResidentTBL" class="table table-striped table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th hidden>Resident_ID</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Resident Status</th>
+                                        <th>Address</th>
+                                        <th>Birthdate</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="HSBody">
+                                    @if($injured->count() > 0)
+                                    @foreach ($injured as $id)
+                                    <tr class="HRDetails">
+                                        <td hidden></td>
+                                        <td>
+                                            <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                <option value='' disabled selected>Select Option</option>
+                                                @if($id->Resident_ID == 0)
+                                                <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
+                                                @foreach($resident as $rs)
+                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                @endforeach
+                                                @else
+                                                @foreach($resident as $rs)
+                                                <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID == $id->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                @endforeach
+                                                @endif
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control Casualty_Status_ID" name="Casualty_Status_ID[]" style="width: 200px;">
+                                                <option value='' disabled selected>Select Option</option>
+                                                @foreach($casualty as $ip)
+                                                <option value="{{ $ip->Casualty_Status_ID  }}" {{ $ip->Casualty_Status_ID == $id->Casualty_Status_ID  ? "selected" : "" }}>{{ $ip->Casualty_Status }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
+                                                <option value='' disabled selected>Select Option</option>
+                                                <option value=0 {{ 0 == $id->Residency_Status  ? "selected" : "" }}>Non-Resident</option>
+                                                <option value=1 {{ 1 == $id->Residency_Status  ? "selected" : "" }}>Resident</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]" value="{{$id->Non_Resident_Address}}">
+                                        </td>
+                                        <td>
+                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]" value="{{$id->Non_Resident_Birthdate}}">
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" class="btn btn-danger HRRemove">Remove</button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                    <tr class="HRDetails">
+                                        <td hidden></td>
+                                        <td>
+                                            <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                <option value='' disabled selected>Select Option</option>
+                                                @foreach($resident as $rs)
+                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control Casualty_Status_ID" name="Casualty_Status_ID[]" style="width: 200px;">
+                                                <option value='' disabled selected>Select Option</option>
+                                                @foreach($casualty as $ip)
+                                                <option value="{{ $ip->Casualty_Status_ID  }}">{{ $ip->Casualty_Status }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
+                                                <option value='' disabled selected>Select Option</option>
+                                                <option value=0>Non-Resident</option>
+                                                <option value=1>Resident</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
+                                        </td>
+                                        <td>
+                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" class="btn btn-danger HRRemove">Remove</button>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+
+
             </div>
 
             <div class="col-lg-12" style="margin-bottom: 100px;">
@@ -278,6 +387,30 @@
 @section('scripts')
 
 <script>
+
+    function addResident() {
+        var row = $("#ResidentTBL tr:last");
+
+        row.find(".js-example-basic-single").each(function(index) {
+            $(this).select2('destroy');
+        });
+
+
+
+        var newrow = row.clone();
+
+        $("#ResidentTBL").append(newrow);
+
+        $(newrow.find("td:eq(4) input")).val('');
+        $(newrow.find("td:eq(5) input")).val('');
+
+        $("select.js-example-basic-single").select2();
+
+        $(".Resident_Select2").select2({
+            tags: true
+        });
+    }
+
     function addrow() {
         var row = $("#AffectedTBL tr:last");
 
@@ -304,6 +437,12 @@
         var newrow = row.clone();
 
         $("#RecoveryTBL").append(newrow);
+
+        $(newrow.find("td:eq(1) input")).val('');
+        $(newrow.find("td:eq(2) input")).val('');
+        $(newrow.find("td:eq(3) input")).val('');
+        $(newrow.find("td:eq(4) input")).val('');
+
 
         $("select.js-example-basic-single").select2();
 
@@ -582,6 +721,11 @@
       // Option Recovery Damage loss Remove
       $(".RecoveryBody").on("click", ".RecoveryRemove", function() {
         $(this).closest(".RecoveryDetails").remove();
+    });
+
+    // Option Resident Remove
+    $(".HSBody").on("click", ".HRRemove", function() {
+        $(this).closest(".HRDetails").remove();
     });
 </script>
 
