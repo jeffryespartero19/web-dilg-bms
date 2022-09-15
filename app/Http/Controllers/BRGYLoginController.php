@@ -15,5 +15,14 @@ class BRGYLoginController extends Controller
 
         return view('auth.login', compact('Barangay_ID', 'barangay'));
     }
+
+    public function registers($b_id)
+    {
+        $Barangay_ID = $b_id;
+        $barangay = DB::table('maintenance_barangay')->where('Barangay_ID', $Barangay_ID)->get();
+
+
+        return view('auth.register', compact('Barangay_ID', 'barangay'));
+    }
 }
 

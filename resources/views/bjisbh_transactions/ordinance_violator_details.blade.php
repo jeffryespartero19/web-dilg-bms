@@ -87,7 +87,7 @@
                     </div>
                     <div class="form-group col-lg-6" style="padding:0 10px">
                         <label for="exampleInputEmail1">Compiled Date</label>
-                        <input type="datetime-local" class="form-control" id="Complied_Date" name="Complied_Date" required>
+                        <input type="date" class="form-control" id="Complied_Date" name="Complied_Date" required>
                     </div>
                 </div>
             </div>

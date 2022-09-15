@@ -31,8 +31,10 @@
 
 
 <div class="modules">
+    @if (Auth::user()->User_Type_ID != 2)
     <div class="col-sm-12">
         {{-- Transactions / Reports --}}
+
         <h4 style="text-align:center; border-bottom:1px solid rgb(165, 165, 145);">Transactions/Reports</h4>
         <div class="module">
             <div class="moduleX" data-toggle="dropdown">
@@ -73,6 +75,9 @@
                 </a>
                 <a href="{{route('inhabitants_incoming_list')}}">
                     <li role="presentation">Incoming List</li>
+                </a>
+                <a href="{{route('application_list')}}">
+                    <li role="presentation">Application List</li>
                 </a>
             </ul>
         </div>
@@ -588,6 +593,26 @@
                 </a>
             </ul>
         </div>
+
+        @else
+        <div class="col-sm-12">
+            {{-- Transactions / Reports --}}
+
+            <h4 style="text-align:center; border-bottom:1px solid rgb(165, 165, 145);">Transactions/Reports</h4>
+            <div class="module">
+                <div class="moduleX" data-toggle="dropdown">
+                    BIPS
+                    <i class="fa fa-chevron-down sb_down" aria-hidden="true"></i>
+                    <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
+                </div>
+                <ul class="sub_module" role="menu" aria-labelledby="menu2">
+                    <a href="{{route('inhabitant_application')}}">
+                        <li role="presentation">Inhabitants Info</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        @endif
 
     </div>
 </div>

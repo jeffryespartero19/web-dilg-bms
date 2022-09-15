@@ -104,7 +104,7 @@
                 <a href="{{ url('logins/'.$b_id) }}" class="text_hoverable">Login</a>
 
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="text_hoverable">Register</a>
+                    <a href="{{ url('registers/'.$b_id) }}" class="text_hoverable">Register</a>
                 @endif
                 
             </div>
