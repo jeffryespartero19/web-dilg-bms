@@ -848,7 +848,7 @@
                             'Your file has been deleted.',
                             'success'
                         )
-                        $('#CloseRecovery_Information').click();
+                        location.reload();
                     }
                 });
 

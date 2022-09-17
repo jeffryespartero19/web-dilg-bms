@@ -683,25 +683,51 @@ class BDRISALController extends Controller
             )
             ->paginate(20, ['*'], 'db_entries');
 
+        return view('bdris_transactions.response_information_list', compact(
+            'db_entries',
+            'currDATE'
+
+        ));
+    }
+
+    //Response Infomation Details
+    public function response_information_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
             $disaster_type = DB::table('maintenance_bdris_disaster_type')->paginate(20, ['*'], 'disaster_type');
             $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
             $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-            $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-            $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-            $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
 
-
-        return view('bdris_transactions.response_information_list', compact(
-            'db_entries',
-            'currDATE',
-            'region',
-            'province',
-            'barangay',
-            'city',
-            'disaster_type',
-            'alert_level',
-
-        ));
+            return view('bdris_transactions.response_information', compact(
+                'currDATE',
+                'disaster_type',
+                'alert_level',
+                'region',
+               
+            ));
+        } else {
+            $response = DB::table('bdris_response_information')->where('Disaster_Response_ID', $id)->get();
+            $disaster_type = DB::table('maintenance_bdris_disaster_type')->paginate(20, ['*'], 'disaster_type');
+            $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $response[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $response[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $response[0]->City_Municipality_ID)->get();
+            $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
+            return view('bdris_transactions.response_information_edit', compact(
+                'currDATE',
+                'disaster_type',
+                'alert_level',
+                'region',
+                'province',
+                'barangay',
+                'response',
+                'attachment',
+                'city_municipality'
+            ));
+        }
     }
 
     // Save Emergency Evacuation Site
@@ -750,7 +776,7 @@ class BDRISALController extends Controller
                 }
             }
  
-            return redirect()->back()->with('message', 'New Entry Created');
+            return redirect()->to('response_information_details/' . $Disaster_Response_ID)->with('message', 'New Recovery Information Created');
         } else {
             DB::table('bdris_response_information')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->update(
                 array(

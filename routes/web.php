@@ -368,6 +368,8 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_response_information_attachments', 'BDRISALController@get_response_information_attachments')->name('get_response_information_attachments');
       Route::get('/delete_response_information_attachments', 'BDRISALController@delete_response_information_attachments')->name('delete_response_information_attachments');
       Route::get('/viewResponse_InformationPDF', 'BDRISALController@viewResponse_InformationPDF')->name('viewResponse_InformationPDF');
+      //NEW
+      Route::get('/response_information_details/{id}', 'BDRISALController@response_information_details');
 
       //Recovery Information
       Route::get('/recovery_information_list', 'BDRISALController@recovery_information_list')->name('recovery_information_list');
