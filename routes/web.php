@@ -369,6 +369,8 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_response_information_attachments', 'BDRISALController@get_response_information_attachments')->name('get_response_information_attachments');
       Route::get('/delete_response_information_attachments', 'BDRISALController@delete_response_information_attachments')->name('delete_response_information_attachments');
       Route::get('/viewResponse_InformationPDF', 'BDRISALController@viewResponse_InformationPDF')->name('viewResponse_InformationPDF');
+      //NEW
+      Route::get('/response_information_details/{id}', 'BDRISALController@response_information_details');
 
       //Recovery Information
       Route::get('/recovery_information_list', 'BDRISALController@recovery_information_list')->name('recovery_information_list');
@@ -378,6 +380,8 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_recovery_damage_loss', 'BDRISALController@get_recovery_damage_loss')->name('get_recovery_damage_loss');
       Route::get('/get_recovery_information_attachments', 'BDRISALController@get_recovery_information_attachments')->name('get_recovery_information_attachments');
       Route::get('/delete_recovery_information_attachments', 'BDRISALController@delete_recovery_information_attachments')->name('delete_recovery_information_attachments');
+      //NEW
+      Route::get('/recovery_information_details/{id}', 'BDRISALController@recovery_information_details');
 
       //Disaster Related Activities
       Route::get('/disaster_related_activities_list', 'BDRISALController@disaster_related_activities_list')->name('disaster_related_activities_list');
