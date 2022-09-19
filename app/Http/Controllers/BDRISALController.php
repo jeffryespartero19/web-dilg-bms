@@ -683,25 +683,51 @@ class BDRISALController extends Controller
             )
             ->paginate(20, ['*'], 'db_entries');
 
+        return view('bdris_transactions.response_information_list', compact(
+            'db_entries',
+            'currDATE'
+
+        ));
+    }
+
+    //Response Infomation Details
+    public function response_information_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
             $disaster_type = DB::table('maintenance_bdris_disaster_type')->paginate(20, ['*'], 'disaster_type');
             $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
             $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-            $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-            $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-            $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
 
-
-        return view('bdris_transactions.response_information_list', compact(
-            'db_entries',
-            'currDATE',
-            'region',
-            'province',
-            'barangay',
-            'city',
-            'disaster_type',
-            'alert_level',
-
-        ));
+            return view('bdris_transactions.response_information', compact(
+                'currDATE',
+                'disaster_type',
+                'alert_level',
+                'region',
+               
+            ));
+        } else {
+            $response = DB::table('bdris_response_information')->where('Disaster_Response_ID', $id)->get();
+            $disaster_type = DB::table('maintenance_bdris_disaster_type')->paginate(20, ['*'], 'disaster_type');
+            $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $response[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $response[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $response[0]->City_Municipality_ID)->get();
+            $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
+            return view('bdris_transactions.response_information_edit', compact(
+                'currDATE',
+                'disaster_type',
+                'alert_level',
+                'region',
+                'province',
+                'barangay',
+                'response',
+                'attachment',
+                'city_municipality'
+            ));
+        }
     }
 
     // Save Emergency Evacuation Site
@@ -750,7 +776,7 @@ class BDRISALController extends Controller
                 }
             }
  
-            return redirect()->back()->with('message', 'New Entry Created');
+            return redirect()->to('response_information_details/' . $Disaster_Response_ID)->with('message', 'New Recovery Information Created');
         } else {
             DB::table('bdris_response_information')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->update(
                 array(
@@ -941,6 +967,7 @@ class BDRISALController extends Controller
             $household_profile = DB::table('bips_household_profile')->paginate(20, ['*'], 'household_profile');
             $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->where('Active', 1)->get();
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $resident2 = DB::table('bips_brgy_inhabitants_information')->get();
             $casualty = DB::table('maintenance_bdris_casualty_status')->where('Active', 1)->get();
 
             return view('bdris_transactions.recovery_information', compact(
@@ -950,6 +977,7 @@ class BDRISALController extends Controller
                 'response_information',
                 'resident',
                 'casualty',
+                'resident2',
                 'region'
             ));
         } else {
@@ -965,8 +993,44 @@ class BDRISALController extends Controller
             $household_profile = DB::table('bips_household_profile')->paginate(20, ['*'], 'household_profile');
             $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->where('Active', 1)->get();
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
-            $injured = DB::table('bdris_casualties_and_injured')->where('Disaster_Recovery_ID', $id)->get();
+            $resident2 = DB::table('bips_brgy_inhabitants_information')->get();
+            // $missing = DB::table('bdris_missing')->where('Disaster_Recovery_ID', $id)->get();
             $casualty = DB::table('maintenance_bdris_casualty_status')->where('Active', 1)->get();
+            $injured = DB::table('bdris_casualties_and_injured as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
+            ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
+            ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
+            ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
+            ->select(
+                        'a.Casualties_ID'
+                        ,'a.Resident_ID'
+                        ,'a.Residency_Status'
+                        ,'a.Casualty_Status_ID'
+                        ,'a.Disaster_Recovery_ID'
+                        ,'a.Non_Resident_Name'
+                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
+                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+                        )
+            ->where('a.Disaster_Recovery_ID', $id)->get();
+            $missing = DB::table('bdris_missing as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
+            ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
+            ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
+            ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
+            ->select(
+                        'a.Missing_ID'
+                        ,'a.Resident_ID'
+                        ,'a.Residency_Status'
+                        ,'a.Disaster_Recovery_ID'
+                        ,'a.Individual_Found'
+                        ,'a.Date_Found'
+                        ,'a.Non_Resident_Name'
+                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
+                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+                        )
+            ->where('a.Disaster_Recovery_ID', $id)->get();
 
             return view('bdris_transactions.recovery_information_edit', compact(
                 'currDATE',
@@ -983,6 +1047,8 @@ class BDRISALController extends Controller
                 'resident',
                 'casualty',
                 'injured',
+                'resident2',
+                'missing',
                 'barangay'
             ));
         }
@@ -992,7 +1058,9 @@ class BDRISALController extends Controller
     public function create_recovery_information(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
+
+        // dd($data);
 
         if ($data['Disaster_Recovery_ID'] == null || $data['Disaster_Recovery_ID'] == 0) {
             $Disaster_Recovery_ID = DB::table('bdris_recovery_information')->insertGetId(
@@ -1010,6 +1078,7 @@ class BDRISALController extends Controller
             DB::table('bdris_affected_household_and_infra')->where('Disaster_Recovery_ID', $Disaster_Recovery_ID)->delete();
             DB::table('bdris_recovery_damage_loss')->where('Disaster_Recovery_ID', $Disaster_Recovery_ID)->delete();
             DB::table('bdris_casualties_and_injured')->where('Disaster_Recovery_ID', $Disaster_Recovery_ID)->delete();
+            DB::table('bdris_missing')->where('Disaster_Recovery_ID', $Disaster_Recovery_ID)->delete();
 
             if (isset($data['Household_Profile_ID'])) {
                 $affected_household = [];
@@ -1066,7 +1135,6 @@ class BDRISALController extends Controller
                 }
             }
 
-           
 
             if (isset($data['Resident_ID'])) {
                 $resident_details = [];
@@ -1102,6 +1170,47 @@ class BDRISALController extends Controller
                             ];
                         }
                         DB::table('bdris_casualties_and_injured')->insert($resident_details);
+                    }
+                }
+            }
+
+            
+            if (isset($data['Resident_Missing_ID'])) {
+                $resident_details2 = [];
+
+                for ($i = 0; $i < count($data['Resident_Missing_ID']); $i++) {
+                    if ($data['Resident_Missing_ID'][$i] != NULL) {
+                        if (is_int($data['Resident_Missing_ID'][$i]) || ctype_digit($data['Resident_Missing_ID'][$i])) {
+                            $id = 0 + DB::table('bdris_missing')->max('Missing_ID');
+                            $id += 1;
+
+                            $resident_details2 = [
+                                'Disaster_Recovery_ID' => $Disaster_Recovery_ID,
+                                'Resident_ID' => $data['Resident_Missing_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Missing_Status'][$i],
+                                'Individual_Found' => (int)$data['Individual_Found'][$i],
+                                'Date_Found' => $data['Date_Found'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        } else {
+                            $id = 0 + DB::table('bdris_missing')->max('Missing_ID');
+                            $id += 1;
+
+                            $resident_details2 = [
+                                'Disaster_Recovery_ID' => $Disaster_Recovery_ID,
+                                'Resident_ID' => 0,
+                                'Residency_Status' => (int)$data['Residency_Missing_Status'][$i],
+                                'Non_Resident_Name' => $data['Resident_Missing_ID'][$i],
+                                'Non_Resident_Address' => $data['Non_Resident_Missing_Address'][$i],
+                                'Non_Resident_Birthdate' => $data['Non_Resident_Missing_Birthdate'][$i],
+                                'Individual_Found' => (int)$data['Individual_Found'][$i],
+                                'Date_Found' => $data['Date_Found'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        }
+                        DB::table('bdris_missing')->insert($resident_details2);
                     }
                 }
             }
@@ -1143,6 +1252,7 @@ class BDRISALController extends Controller
             DB::table('bdris_affected_household_and_infra')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->delete();
             DB::table('bdris_recovery_damage_loss')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->delete();
             DB::table('bdris_casualties_and_injured')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->delete();
+            DB::table('bdris_missing')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->delete();
 
             if (isset($data['Household_Profile_ID'])) {
                 $affected_household = [];
@@ -1234,6 +1344,46 @@ class BDRISALController extends Controller
                             ];
                         }
                         DB::table('bdris_casualties_and_injured')->insert($resident_details);
+                    }
+                }
+            }
+
+            if (isset($data['Resident_Missing_ID'])) {
+                $resident_details2 = [];
+
+                for ($i = 0; $i < count($data['Resident_Missing_ID']); $i++) {
+                    if ($data['Resident_Missing_ID'][$i] != NULL) {
+                        if (is_int($data['Resident_Missing_ID'][$i]) || ctype_digit($data['Resident_Missing_ID'][$i])) {
+                            $id = 0 + DB::table('bdris_missing')->max('Missing_ID');
+                            $id += 1;
+
+                            $resident_details2 = [
+                                'Disaster_Recovery_ID' => $data['Disaster_Recovery_ID'],
+                                'Resident_ID' => $data['Resident_Missing_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Missing_Status'][$i],
+                                'Individual_Found' => (int)$data['Individual_Found'][$i],
+                                'Date_Found' => $data['Date_Found'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        } else {
+                            $id = 0 + DB::table('bdris_missing')->max('Missing_ID');
+                            $id += 1;
+
+                            $resident_details2 = [
+                                'Disaster_Recovery_ID' => $data['Disaster_Recovery_ID'],
+                                'Resident_ID' => 0,
+                                'Residency_Status' => (int)$data['Residency_Missing_Status'][$i],
+                                'Non_Resident_Name' => $data['Resident_Missing_ID'][$i],
+                                'Non_Resident_Address' => $data['Non_Resident_Missing_Address'][$i],
+                                'Non_Resident_Birthdate' => $data['Non_Resident_Missing_Birthdate'][$i],
+                                'Individual_Found' => (int)$data['Individual_Found'][$i],
+                                'Date_Found' => $data['Date_Found'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        }
+                        DB::table('bdris_missing')->insert($resident_details2);
                     }
                 }
             }

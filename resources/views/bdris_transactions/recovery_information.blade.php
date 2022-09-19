@@ -224,7 +224,7 @@
                                             <select class="form-control Casualty_Status_ID" name="Casualty_Status_ID[]" style="width: 200px;">
                                                 <option value='' disabled selected>Select Option</option>
                                                 @foreach($casualty as $rs)
-                                                <option value="{{ $rs->Casualty_Status_ID  }}">{{ $rs->Casualty_Status }}</option>
+                                                <option value="{{ $rs->Casualty_Status_ID }}">{{ $rs->Casualty_Status }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -252,6 +252,69 @@
                     </div>
 
 
+
+                    <div class="form-group col-lg-12" style="padding:0 10px;">
+                        <h3>Missing</h3>
+                        <a onclick="addResident2();" style="float: right; cursor:pointer">+ Add</a>
+                        <br>
+                        <div style="overflow-x:auto;" id="MissingDetails">
+
+                            <table id="Resident2TBL" class="table table-striped table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th hidden>Resident_ID</th>
+                                        <th>Name</th>
+                                        <th>Resident Status</th>
+                                        <th>Address</th>
+                                        <th>Birthdate</th>
+                                        <th>Individual Found</th>
+                                        <th>Date Found</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="HS2Body">
+                                    <tr class="HR2Details">
+                                        <td hidden></td>
+                                        <td>
+                                            <select class="form-control js-example-basic-single Resident_Select3 mySelect3" name="Resident_Missing_ID[]" style="width: 350px;">
+                                                <option value='' disabled selected>Select Option</option>
+                                                @foreach($resident2 as $rs)
+                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Missing_Status[]">
+                                                <option value='' disabled selected>Select Option</option>
+                                                <option value=0>Non-Resident</option>
+                                                <option value=1>Resident</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Missing_Address[]">
+                                        </td>
+                                        <td>
+                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Missing_Birthdate[]">
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width: 200px;" name="Individual_Found[]">
+                                                <option value=1>Yes</option>
+                                                <option value=0>No</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="date" class="form-control" style="width: 200px;" name="Date_Found[]">
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" class="btn btn-danger HR2Remove">Remove</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
             </div>
 
             <div class="col-lg-12" style="margin-bottom: 100px;">
@@ -273,6 +336,30 @@
 @section('scripts')
 
 <script>
+     function addResident2() {
+        var row = $("#Resident2TBL tr:last");
+
+        row.find(".js-example-basic-single").each(function(index) {
+            $(this).select2('destroy');
+        });
+
+        var newrow = row.clone();
+
+        $("#Resident2TBL").append(newrow);
+
+        $(newrow.find("td:eq(3) input")).val('');
+        $(newrow.find("td:eq(4) input")).val('');
+        $(newrow.find("td:eq(5) input")).val('');
+        $(newrow.find("td:eq(6) input")).val('');
+
+        $("select.js-example-basic-single").select2();
+
+        $(".Resident_Select3").select2({
+            tags: true
+        });
+    }   
+
+
     function addrow() {
         var row = $("#AffectedTBL tr:last");
 
@@ -283,7 +370,7 @@
         var newrow = row.clone();
 
         $("#AffectedTBL").append(newrow);
-
+       
         $(newrow.find("td:eq(1) input")).val(0);
         $(newrow.find("td:eq(2) input")).val(0);
         $(newrow.find("td:eq(3) input")).val('');
@@ -303,8 +390,6 @@
             $(this).select2('destroy');
         });
 
-
-
         var newrow = row.clone();
 
         $("#ResidentTBL").append(newrow);
@@ -318,6 +403,9 @@
             tags: true
         });
     }
+
+    
+
 
     function addrow2() {
         var row = $("#RecoveryTBL tr:last");
@@ -347,11 +435,13 @@
         $(".Resident_Select2").select2({
             tags: true
         });
+
+        $(".Resident_Select3").select2({
+            tags: true
+        });
     });
 
-    $(document).on('click', '.modal-close', function(e) {
-        $('#newRecovery_Information').trigger("reset");
-    });
+
 
      // Populate Province
      $(document).on("change", "#Region_ID", function() {
@@ -449,50 +539,7 @@
                 });
             }
         });
-    });
-
-
-    // Edit Button Display Modal
-    $(document).on('click', ('.edit_recovery_information'), function(e) {
-        $('#Modal_Title').text('Edit Recovery Information');
-        var disID = $(this).val();
-        $.ajax({
-            url: "/get_recovery_information",
-            type: 'GET',
-            data: {
-                id: disID
-            },
-            fail: function() {
-                alert('request failed');
-            },
-            success: function(data) {
-                $('#Disaster_Recovery_ID').val(data['theEntry'][0]['Disaster_Recovery_ID']);
-                $('#Disaster_Response_ID').val(data['theEntry'][0]['Disaster_Response_ID']);            
-                $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
-
-
-                var barangay =
-                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
-                $('#Barangay_ID').append(barangay);
-
-                var city =
-                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
-                $('#City_Municipality_ID').append(city);
-
-                var province =
-                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
-                $('#Province_ID').append(province);
-            
-              
-               
-            }
-        });
-
-    
-    });
-
-
-   
+    });   
     
     // Clone Recovery Damage Loss TR
     $("#btnAddRecovery_Damage_Loss").on("click", function() {
@@ -503,7 +550,6 @@
 
         $trLast.after($trNew);
     });
-
 
     
     // Remove Recovery Damage Loss TR
@@ -586,7 +632,7 @@
         $(this).closest(".RecoveryDetails").remove();
     });
 
-    // Resident Change
+    // Resident Casualties Change 
     $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
         var Resident_Select2 = $(this).val();
         var Type = $.isNumeric(Resident_Select2);
@@ -596,7 +642,6 @@
         $row = $(this).closest(".HRDetails");
         $($row.find('td:eq(5) input')).val('');
         $($row.find('td:eq(4) input')).val('');
-        $($row.find('td:eq(6) input')).val('');
         $($row.find('td:eq(3) select')).val('');
         if (Type == true) {
             $($row.find('td:eq(3) select')).val(1);
@@ -613,7 +658,6 @@
                 success: function(data) {
                     $($row.find('td:eq(5) input')).val(data['theEntry'][0]['Birthdate']);
                     $($row.find('td:eq(4) input')).val(data['theEntry'][0]['Barangay_Name'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name'] + ', ' + data['theEntry'][0]['Region_Name']);
-                    $($row.find('td:eq(6) input')).val(data['theEntry'][0]['Mobile_No']);
                 }
             });
         } else {
@@ -621,9 +665,49 @@
         }
     });
 
+    // Resident Missing Change
+    $('#MissingDetails').on("change", ".Resident_Select3", function() {
+        var Resident_Select3 = $(this).val();
+        var Type = $.isNumeric(Resident_Select3);
+        var disID = Resident_Select3;
+
+        // alert(Type);
+        $row = $(this).closest(".HR2Details");
+        $($row.find('td:eq(5) input')).val('');
+        $($row.find('td:eq(3) input')).val('');
+        $($row.find('td:eq(4) input')).val('');
+        $($row.find('td:eq(6) input')).val('');
+        $($row.find('td:eq(2) select')).val('');
+        if (Type == true) {
+            $($row.find('td:eq(2) select')).val(1);
+
+            $.ajax({
+                url: "/get_inhabitants_info",
+                type: 'GET',
+                data: {
+                    id: disID
+                },
+                fail: function() {
+                    alert('request failed');
+                },
+                success: function(data) {
+                    $($row.find('td:eq(4) input')).val(data['theEntry'][0]['Birthdate']);
+                    $($row.find('td:eq(3) input')).val(data['theEntry'][0]['Barangay_Name'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name'] + ', ' + data['theEntry'][0]['Region_Name']);
+                }
+            });
+        } else {
+            $($row.find('td:eq(2) select')).val(0);
+        }
+    });
+
+    
     // Option Resident Remove
     $(".HSBody").on("click", ".HRRemove", function() {
         $(this).closest(".HRDetails").remove();
+    });
+     // Option Resident Missing Remove
+     $(".HS2Body").on("click", ".HR2Remove", function() {
+        $(this).closest(".HR2Details").remove();
     });
 </script>
 
@@ -634,6 +718,12 @@
     }
 
     .select2-selection {
+        height: 32px !important;
+        padding: 3px 3px;
+        font: 13px;
+    }
+
+    .select3-selection {
         height: 32px !important;
         padding: 3px 3px;
         font: 13px;
