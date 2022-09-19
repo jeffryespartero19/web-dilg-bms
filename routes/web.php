@@ -21,6 +21,7 @@ Route::get('/main', 'Public_LandingController@main')->name('main');
 Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
 Route::get('/logins/{b_id}', 'BRGYLoginController@index');
 Route::get('/registers/{b_id}', 'BRGYLoginController@registers');
+Route::post('/create_inhabitants_application_information', 'InhabitantApplicationController@create_inhabitants_information')->name('create_inhabitants_application_information');
 
 Route::group(['middleware' => 'auth'], function () {
       //Home
@@ -479,10 +480,11 @@ Route::group(['middleware' => 'auth'], function () {
 
       //Inhabitant Application
       Route::get('/inhabitant_application', 'InhabitantApplicationController@inhabitant_application')->name('inhabitant_application');
-      Route::post('/create_inhabitants_application_information', 'InhabitantApplicationController@create_inhabitants_information')->name('create_inhabitants_application_information');
+      
       Route::get('/application_list', 'bipsController@application_list')->name('application_list');
       Route::post('/approve_disapprove_application', 'bipsController@approve_disapprove_application')->name('approve_disapprove_application');
 });
+
 
 // Global Controller
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
