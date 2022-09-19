@@ -17,10 +17,22 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/global.js') }}" defer></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('css/logos/DILG_logo.png') }}">
     
+
 </head>
 
 <body>
@@ -44,14 +56,17 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+                        <!-- <li id="LoginBTN" class="nav-item ">
+                            <a class="nav-link" class="navLgBTN" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li> -->
                         <li id="LoginBTN" class="nav-item ">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" class="navLgBTN" href="javascript:history.back()">Back</a>
                         </li>
-                        @if (Route::has('register'))
+                        <!-- @if (Route::has('register'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
-                        @endif
+                        @endif -->
                         @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -83,9 +98,7 @@
     @yield('scripts')
 
     <script type="text/javascript">
-
-            document.getElementsById('LoginBTN').attr('hidden', true)
-
+        document.getElementsById('LoginBTN').attr('hidden', true)
     </script>
 
 </body>
