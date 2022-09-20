@@ -7,6 +7,8 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\File;
+use PDF;
 
 class bipsController extends Controller
 {
@@ -19,6 +21,7 @@ class bipsController extends Controller
         $db_entries = DB::table('bips_brgy_inhabitants_information as a')
             ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
             ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
             ->select(
                 'a.Resident_ID',
                 'a.Name_Prefix_ID',
@@ -41,17 +44,19 @@ class bipsController extends Controller
                 'a.City_Municipality_ID',
                 'a.Province_ID',
                 'a.Region_ID',
+                'a.Street',
                 'a.Salary',
                 'a.Email_Address',
                 'a.PhilSys_Card_No',
                 'a.Solo_Parent',
                 'a.OFW',
                 'a.Indigent',
-                'a.4Ps_Beneficiary',
+                'a.4Ps_Beneficiary as Beneficiary',
                 'a.Encoder_ID',
                 'a.Date_Stamp',
                 'b.Name_Prefix',
-                'c.Name_Suffix'
+                'c.Name_Suffix',
+                'd.Civil_Status'
             )
             ->where('a.Application_Status', 1)
             ->paginate(20, ['*'], 'db_entries');
@@ -91,9 +96,9 @@ class bipsController extends Controller
     public function create_inhabitants_information(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
-        if ($data['Resident_ID'] != 0 || $data['Resident_ID'] != null) {
+        if ($data['Resident_ID'] == 0 || $data['Resident_ID'] == null) {
             $Resident_ID = DB::table('bips_brgy_inhabitants_information')->insertGetId(
                 array(
                     'Name_Prefix_ID' => $data['Name_Prefix_ID'],
@@ -116,6 +121,7 @@ class bipsController extends Controller
                     'City_Municipality_ID' => $data['City_Municipality_ID'],
                     'Province_ID' => $data['Province_ID'],
                     'Region_ID' => $data['Region_ID'],
+                    'Street' => $data['Street'],
                     'Salary' => $data['Salary'],
                     'Email_Address' => $data['Email_Address'],
                     'PhilSys_Card_No' => $data['PhilSys_Card_No'],
@@ -225,6 +231,7 @@ class bipsController extends Controller
                     'City_Municipality_ID' => $data['City_Municipality_ID'],
                     'Province_ID' => $data['Province_ID'],
                     'Region_ID' => $data['Region_ID'],
+                    'Street' => $data['Street'],
                     'Salary' => $data['Salary'],
                     'Email_Address' => $data['Email_Address'],
                     'PhilSys_Card_No' => $data['PhilSys_Card_No'],
@@ -364,7 +371,8 @@ class bipsController extends Controller
                 'e.Voter_Status',
                 'e.Election_Year_Last_Voted',
                 'e.Resident_Voter',
-                'f.Region_Name'
+                'f.Region_Name',
+                'a.Street'
             )
             ->where('a.Resident_ID', $id)->get();
         return (compact('theEntry'));
@@ -702,7 +710,7 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
         $db_entries = DB::table('bips_household_profile as a')
             ->paginate(20, ['*'], 'db_entries');
-        $resident = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->get();
         $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
         $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
         $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
@@ -925,5 +933,169 @@ class bipsController extends Controller
         }
 
         return redirect()->back()->with('message', 'Resident ' . $message);
+    }
+
+    public function downloadPDF(Request $request)
+    {
+        $data = request()->all();
+
+
+        $chk_Name = isset($data['chk_Name']) ? 1 : 0;
+        $chk_Birthplace = isset($data['chk_Birthplace']) ? 1 : 0;
+        $chk_Birthdate = isset($data['chk_Birthdate']) ? 1 : 0;
+        $chk_Age = isset($data['chk_Age']) ? 1 : 0;
+        $chk_Street = isset($data['chk_Street']) ? 1 : 0;
+        $chk_Civil_Status = isset($data['chk_Civil_Status']) ? 1 : 0;
+        $chk_Mobile = isset($data['chk_Mobile']) ? 1 : 0;
+        $chk_Landline = isset($data['chk_Landline']) ? 1 : 0;
+        $chk_Resident_Status = isset($data['chk_Resident_Status']) ? 1 : 0;
+        $chk_Solo_Parent = isset($data['chk_Solo_Parent']) ? 1 : 0;
+        $chk_Indigent = isset($data['chk_Indigent']) ? 1 : 0;
+        $chk_Beneficiary = isset($data['chk_Beneficiary']) ? 1 : 0;
+
+        $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Name_Prefix_ID',
+                'a.Last_Name',
+                'a.First_Name',
+                'a.Middle_Name',
+                'a.Name_Suffix_ID',
+                'a.Birthplace',
+                'a.Weight',
+                'a.Height',
+                'a.Civil_Status_ID',
+                'a.Birthdate',
+                'a.Country_ID',
+                'a.Religion_ID',
+                'a.Blood_Type_ID',
+                'a.Sex',
+                'a.Mobile_No',
+                'a.Telephone_No',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Province_ID',
+                'a.Region_ID',
+                'a.Street',
+                'a.Salary',
+                'a.Email_Address',
+                'a.PhilSys_Card_No',
+                'a.Solo_Parent',
+                'a.OFW',
+                'a.Indigent',
+                'a.4Ps_Beneficiary as Beneficiary',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Name_Prefix',
+                'c.Name_Suffix',
+                'd.Civil_Status',
+                
+            )
+            ->where('a.Application_Status', 1)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bips_transactions.Inhabitants_List_PDF', compact(
+            'chk_Name',
+            'chk_Birthplace',
+            'chk_Birthdate',
+            'chk_Age',
+            'chk_Street',
+            'chk_Civil_Status',
+            'chk_Mobile',
+            'chk_Landline',
+            'chk_Resident_Status',
+            'chk_Solo_Parent',
+            'chk_Indigent',
+            'chk_Beneficiary',
+            'db_entries'
+        ));
+        $daFileNeym = "Inhabitants_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+    public function viewPDF(Request $request)
+    {
+        $data = request()->all();
+
+
+        $chk_Name = isset($data['chk_Name']) ? 1 : 0;
+        $chk_Birthplace = isset($data['chk_Birthplace']) ? 1 : 0;
+        $chk_Birthdate = isset($data['chk_Birthdate']) ? 1 : 0;
+        $chk_Age = isset($data['chk_Age']) ? 1 : 0;
+        $chk_Street = isset($data['chk_Street']) ? 1 : 0;
+        $chk_Civil_Status = isset($data['chk_Civil_Status']) ? 1 : 0;
+        $chk_Mobile = isset($data['chk_Mobile']) ? 1 : 0;
+        $chk_Landline = isset($data['chk_Landline']) ? 1 : 0;
+        $chk_Resident_Status = isset($data['chk_Resident_Status']) ? 1 : 0;
+        $chk_Solo_Parent = isset($data['chk_Solo_Parent']) ? 1 : 0;
+        $chk_Indigent = isset($data['chk_Indigent']) ? 1 : 0;
+        $chk_Beneficiary = isset($data['chk_Beneficiary']) ? 1 : 0;
+
+        $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Name_Prefix_ID',
+                'a.Last_Name',
+                'a.First_Name',
+                'a.Middle_Name',
+                'a.Name_Suffix_ID',
+                'a.Birthplace',
+                'a.Weight',
+                'a.Height',
+                'a.Civil_Status_ID',
+                'a.Birthdate',
+                'a.Country_ID',
+                'a.Religion_ID',
+                'a.Blood_Type_ID',
+                'a.Sex',
+                'a.Mobile_No',
+                'a.Telephone_No',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Province_ID',
+                'a.Region_ID',
+                'a.Street',
+                'a.Salary',
+                'a.Email_Address',
+                'a.PhilSys_Card_No',
+                'a.Solo_Parent',
+                'a.OFW',
+                'a.Indigent',
+                'a.4Ps_Beneficiary as Beneficiary',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Name_Prefix',
+                'c.Name_Suffix',
+                'd.Civil_Status'
+            )
+            ->where('a.Application_Status', 1)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bips_transactions.Inhabitants_List_PDF', compact(
+            'chk_Name',
+            'chk_Birthplace',
+            'chk_Birthdate',
+            'chk_Age',
+            'chk_Street',
+            'chk_Civil_Status',
+            'chk_Mobile',
+            'chk_Landline',
+            'chk_Resident_Status',
+            'chk_Solo_Parent',
+            'chk_Indigent',
+            'chk_Beneficiary',
+            'db_entries'
+        ));
+        return $pdf->stream();
     }
 }

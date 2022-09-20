@@ -159,6 +159,6 @@ class InhabitantApplicationController extends Controller
             )
         );
 
-        return redirect()->back()->with('success', 'Apllication Submitted');
+        return redirect()->back()->with('success', 'Record Saved');
     }
 }

@@ -484,9 +484,11 @@ Route::group(['middleware' => 'auth'], function () {
 
       //Inhabitant Application
       Route::get('/inhabitant_application', 'InhabitantApplicationController@inhabitant_application')->name('inhabitant_application');
-      
       Route::get('/application_list', 'bipsController@application_list')->name('application_list');
       Route::post('/approve_disapprove_application', 'bipsController@approve_disapprove_application')->name('approve_disapprove_application');
+
+      Route::post('/download_Inhabitants', 'bipsController@downloadPDF')->name('download_Inhabitants');
+      Route::post('/view_Inhabitants', 'bipsController@viewPDF')->name('view_Inhabitants');
 });
 
 
