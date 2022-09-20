@@ -32,8 +32,8 @@
                             <input type="text" class="form-control" id="Application_Status" name="Application_Status" value="0" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Prefix</label>
-                                <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID">
+                                    <option value='' selected>Select Option</option>
                                     @foreach($name_prefix as $bt)
                                     <option value="{{ $bt->Name_Prefix_ID }}">{{ $bt->Name_Prefix }}</option>
                                     @endforeach
@@ -53,8 +53,8 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Name_Suffix_ID">Suffix</label>
-                                <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID">
+                                    <option value='' selected>Select Option</option>
                                     @foreach($suffix as $bt)
                                     <option value="{{ $bt->Name_Suffix_ID }}">{{ $bt->Name_Suffix }}</option>
                                     @endforeach
@@ -76,7 +76,7 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Region</label>
                                 <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='' selected>Select Option</option>
                                     @foreach($region as $region)
                                     <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
                                     @endforeach
@@ -85,19 +85,19 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Province</label>
                                 <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='' selected>Select Option</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="City_Municipality_ID">City/Municipality</label>
                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='' selected>Select Option</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Barangay_ID">Barangay</label>
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='' selected>Select Option</option>
                                 </select>
                             </div>
                         </div>
@@ -109,17 +109,13 @@
                                 <input type="date" class="form-control" id="Birthdate" name="Birthdate" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Age</label>
-                                <input type="number" class="form-control" id="Age" name="Age">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Birthplace">Birthplace</label>
                                 <input type="text" class="form-control" id="Birthplace" name="Birthplace">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Religion_ID">Religion</label>
                                 <select class="form-control" id="Religion_ID" name="Religion_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='' selected>Select Option</option>
                                     @foreach($religion as $religions)
                                     <option value="{{ $religions->Religion_ID }}">{{ $religions->Religion }}</option>
                                     @endforeach
@@ -128,7 +124,7 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Blood Type</label>
                                 <select class="form-control" id="Blood_Type_ID" name="Blood_Type_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='' selected>Select Option</option>
                                     @foreach($blood_type as $bt)
                                     <option value="{{ $bt->Blood_Type_ID }}">{{ $bt->Blood_Type }}</option>
                                     @endforeach
@@ -137,7 +133,7 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Sex</label>
                                 <select class="form-control" id="Sex" name="Sex" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    <option value='' selected>Select Option</option>
                                     <option value='1'>Male</option>
                                     <option value='2'>Female</option>
                                 </select>
@@ -185,32 +181,32 @@
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Solo Parent</label>
-                                <select class="form-control" id="Solo_Parent" name="Solo_Parent" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Solo_Parent" name="Solo_Parent">
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">OFW</label>
-                                <select class="form-control" id="OFW" name="OFW" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="OFW" name="OFW">
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Indigent</label>
-                                <select class="form-control" id="Indigent" name="Indigent" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Indigent" name="Indigent">
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">4Ps Beneficiary</label>
-                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary">
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
