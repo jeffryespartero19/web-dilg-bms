@@ -709,6 +709,17 @@ class bipsController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('bips_household_profile as a')
+            ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+            ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+            ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+            ->select(
+                'a.Household_Profile_ID',
+                'a.Household_Name',
+                'a.Household_Monthly_Income',
+                'b.Family_Type_Name',
+                'c.Tenure_of_Lot',
+                'd.Housing_Unit',
+            )
             ->paginate(20, ['*'], 'db_entries');
         $resident = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->get();
         $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
@@ -736,7 +747,7 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
 
         if ($id == 0) {
-            $resident = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->get();
             $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
             $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
             $housing_unit = DB::table('maintenance_bips_housing_unit')->where('Active', 1)->get();
@@ -752,7 +763,7 @@ class bipsController extends Controller
             ));
         } else {
             $household = DB::table('bips_household_profile')->where('Household_Profile_ID', $id)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->get();
             $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
             $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
             $housing_unit = DB::table('maintenance_bips_housing_unit')->where('Active', 1)->get();
@@ -992,7 +1003,7 @@ class bipsController extends Controller
                 'b.Name_Prefix',
                 'c.Name_Suffix',
                 'd.Civil_Status',
-                
+
             )
             ->where('a.Application_Status', 1)
             ->paginate(20, ['*'], 'details');
@@ -1094,6 +1105,80 @@ class bipsController extends Controller
             'chk_Solo_Parent',
             'chk_Indigent',
             'chk_Beneficiary',
+            'db_entries'
+        ));
+        return $pdf->stream();
+    }
+
+    public function download_householdPDF(Request $request)
+    {
+        $data = request()->all();
+
+        $chk_Household_Name = isset($data['chk_Household_Name']) ? 1 : 0;
+        $chk_Household_Monthly_Income = isset($data['chk_Household_Monthly_Income']) ? 1 : 0;
+        $chk_Family_Type_Name = isset($data['chk_Family_Type_Name']) ? 1 : 0;
+        $chk_Tenure_of_Lot = isset($data['chk_Tenure_of_Lot']) ? 1 : 0;
+        $chk_Housing_Unit = isset($data['chk_Housing_Unit']) ? 1 : 0;
+
+        $db_entries = DB::table('bips_household_profile as a')
+            ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+            ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+            ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+            ->select(
+                'a.Household_Profile_ID',
+                'a.Household_Name',
+                'a.Household_Monthly_Income',
+                'b.Family_Type_Name',
+                'c.Tenure_of_Lot',
+                'd.Housing_Unit',
+            )
+            ->paginate(20, ['*'], 'db_entries');
+        //dd($detail);
+
+        $pdf = PDF::loadView('bips_transactions.Household_List_PDF', compact(
+            'chk_Household_Name',
+            'chk_Household_Monthly_Income',
+            'chk_Family_Type_Name',
+            'chk_Tenure_of_Lot',
+            'chk_Housing_Unit',
+            'db_entries'
+        ));
+        $daFileNeym = "Inhabitants_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+    public function view_householdPDF(Request $request)
+    {
+        $data = request()->all();
+
+        $chk_Household_Name = isset($data['chk_Household_Name']) ? 1 : 0;
+        $chk_Household_Monthly_Income = isset($data['chk_Household_Monthly_Income']) ? 1 : 0;
+        $chk_Family_Type_Name = isset($data['chk_Family_Type_Name']) ? 1 : 0;
+        $chk_Tenure_of_Lot = isset($data['chk_Tenure_of_Lot']) ? 1 : 0;
+        $chk_Housing_Unit = isset($data['chk_Housing_Unit']) ? 1 : 0;
+
+        $db_entries = DB::table('bips_household_profile as a')
+            ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+            ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+            ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+            ->select(
+                'a.Household_Profile_ID',
+                'a.Household_Name',
+                'a.Household_Monthly_Income',
+                'b.Family_Type_Name',
+                'c.Tenure_of_Lot',
+                'd.Housing_Unit',
+            )
+            ->paginate(20, ['*'], 'db_entries');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bips_transactions.Household_List_PDF', compact(
+            'chk_Household_Name',
+            'chk_Household_Monthly_Income',
+            'chk_Family_Type_Name',
+            'chk_Tenure_of_Lot',
+            'chk_Housing_Unit',
             'db_entries'
         ));
         return $pdf->stream();
