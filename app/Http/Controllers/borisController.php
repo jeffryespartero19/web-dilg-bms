@@ -7,6 +7,8 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\File;
+use PDF;
 
 class borisController extends Controller
 {
@@ -168,5 +170,72 @@ class borisController extends Controller
             ->get();
 
         return (compact('theEntry'));
+    }
+
+    public function get_ordinance_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+        $Ordinance_Attach = DB::table('boris_file_attachment')
+            ->where('Ordinance_Resolution_ID', $id)
+            ->get();
+        return json_encode($Ordinance_Attach);
+    }
+
+    public function delete_ordinance_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('boris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/ordinance_and_resolution/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/ordinance_and_resolution/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('boris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function downloadPDF(Request $request)
+    {
+        $details = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Ordinance_or_Resolution',
+                'a.Ordinance_Resolution_No',
+                'a.Date_of_Approval',
+                'a.Date_of_Effectivity',
+                'a.Ordinance_Resolution_Title',
+                'a.Status_of_Ordinance_or_Resolution_ID',
+                'b.Name_of_Status'
+
+            )
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('boris_transactions.BorisPDF', compact('details'));
+        $daFileNeym = "Ordinance_&_Resolution.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+    public function viewPDF(Request $request)
+    {
+        $details = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Ordinance_or_Resolution',
+                'a.Ordinance_Resolution_No',
+                'a.Date_of_Approval',
+                'a.Date_of_Effectivity',
+                'a.Ordinance_Resolution_Title',
+                'a.Status_of_Ordinance_or_Resolution_ID',
+                'b.Name_of_Status'
+
+            )
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('boris_transactions.BorisPDF', compact('details'));
+        return $pdf->stream();
     }
 }

@@ -32,6 +32,8 @@
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
         <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createOrdinance_Info" style="width: 100px;">New</button></div>
+        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
+        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Ordinance') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div>
     </div>
     <br>
     <div class="col-md-12">
@@ -89,7 +91,7 @@
                                 <label for="exampleInputEmail1">Type</label>
                                 <select class="form-control" id="Ordinance_or_Resolution" name="Ordinance_or_Resolution" required>
                                     <option value='' disabled selected>Select Option</option>
-                                    <option value=0>Ordinace</option>
+                                    <option value=0>Ordinance</option>
                                     <option value=1>Resolution</option>
                                 </select>
                             </div>
@@ -159,17 +161,20 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                <label for="fileattach">File Attach</label>
+                                <label for="fileattach">File Attachments</label>
+                                <ul class="list-group list-group-flush" id="ordinance_files">
+
+                                </ul>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
-                                    <label class="custom-file-label" for="fileattach">Choose file</label>
+                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
+                        <button type="button" id="CloseOrdinance" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
                     </div>
                 </form>
@@ -301,6 +306,7 @@
         $('#City_Municipality_ID').append(option1);
         $('#Province_ID').append(option1);
         $('#Modal_Title').text('Create Ordinance');
+        $('#ordinance_files').empty();
 
     });
 
@@ -345,9 +351,23 @@
             }
         });
 
-
-
-
+        $.ajax({
+            url: "/get_ordinance_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                data.forEach(element => {
+                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                    $('#ordinance_files').append(file);
+                });
+            }
+        });
     });
 
     // Add the following code if you want the name of the file appear on select
@@ -358,7 +378,47 @@
         }).join(", ")
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
+
+    // File Attachments Modal
+    $(document).on('click', ('.ord_del'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_ordinance_attachments",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        $('#CloseOrdinance').click();
+                    }
+                });
+
+            }
+        });
+
+    });
 </script>
+
+
 
 <style>
     .inputfile-box {
@@ -390,6 +450,11 @@
         border: 1px solid;
         top: 0px;
         right: 0px;
+    }
+
+    table {
+        display: block;
+        overflow-x: scroll;
     }
 </style>
 

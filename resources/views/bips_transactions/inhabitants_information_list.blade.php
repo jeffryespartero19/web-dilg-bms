@@ -34,51 +34,61 @@
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
         <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
+        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
+        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
     </div>
     <br>
     <div class="col-md-12">
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th hidden>Resident_ID</th>
-                    <th>Name</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Name Suffix</th>
-                    <th>Birthdate</th>
-                    <th>Resident Status</th>
-                    <th>Voter Status</th>
-                    <th>Resident Voter</th>
-                    <th>Religion</th>
-                    <th>Blood Type</th>
-                    <th>Complete Address</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($db_entries as $x)
-                <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Name_Prefix}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
-                    <td class="sm_data_col txtCtr"></td>
-                    <td class="sm_data_col txtCtr"></td>
-                    <td class="sm_data_col txtCtr"></td>
-                    <td class="sm_data_col txtCtr"></td>
-                    <td class="sm_data_col txtCtr"></td>
-                    <td class="sm_data_col txtCtr"></td>
-                    <td class="sm_data_col txtCtr">
-                        <button class="edit_inhabitants" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div>
+            <table id="example" class="table table-striped table-bordered" style="table-layout:fixed;">
+                <thead>
+                    <tr>
+                        <th hidden>Resident_ID</th>
+                        <th style="width: 300px;">Name</th>
+                        <th style="width: 200px;">Birthplace</th>
+                        <th style="width: 200px;">Birthdate</th>
+                        <th style="width: 200px;">Age</th>
+                        <th style="width: 200px;">Street</th>
+                        <th style="width: 200px;">Civil Status</th>
+                        <th style="width: 200px;">Mobile Number</th>
+                        <th style="width: 200px;">Landline Number</th>
+                        <th style="width: 200px;">Resident Status</th>
+                        <th style="width: 200px;">Solo Parent</th>
+                        <th style="width: 200px;">Indigent</th>
+                        <th style="width: 200px;">4P's Beneficiary</th>
+                        <th style="width: 200px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($db_entries as $x)
+                    <tr>
+                        <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
+                        <td class="sm_data_col txtCtr">
+                            <?php
+                            $age = date_diff(date_create($x->Birthdate), date_create('now'))->y;
+                            echo $age;
+                            ?>
+                        </td>
+                        <td class="sm_data_col txtCtr">{{$x->Street}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
+                        <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
+                        <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
+                        <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
+                        <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
+                        <td class="sm_data_col txtCtr">
+                            <button class="edit_inhabitants" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 
@@ -97,31 +107,32 @@
                         <h3>Name</h3>
                         <div class="row">
                             <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" value="0" hidden>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <input type="text" class="form-control" id="Application_Status" name="Application_Status" value="1" hidden>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Prefix</label>
-                                <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID">
+                                    <option value='' selected>Select Option</option>
                                     @foreach($name_prefix as $bt)
                                     <option value="{{ $bt->Name_Prefix_ID }}">{{ $bt->Name_Prefix }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Last Name</label>
                                 <input type="text" class="form-control" id="Last_Name" name="Last_Name" required>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="First_Name">First Name</label>
                                 <input type="text" class="form-control" id="First_Name" name="First_Name" required>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Middle_Name">Middle Name</label>
                                 <input type="text" class="form-control" id="Middle_Name" name="Middle_Name" required>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Name_Suffix_ID">Suffix</label>
-                                <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID">
+                                    <option value='' selected>Select Option</option>
                                     @foreach($suffix as $bt)
                                     <option value="{{ $bt->Name_Suffix_ID }}">{{ $bt->Name_Suffix }}</option>
                                     @endforeach
@@ -131,7 +142,7 @@
                         <hr>
                         <h3>Address</h3>
                         <div class="row">
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Country</label>
                                 <select class="form-control" id="Country_ID" name="Country_ID" required>
                                     <option value='' selected>Select Option</option>
@@ -140,7 +151,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Region</label>
                                 <select class="form-control" id="Region_ID" name="Region_ID" required>
                                     <option value='' disabled selected>Select Option</option>
@@ -149,41 +160,45 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Province</label>
                                 <select class="form-control" id="Province_ID" name="Province_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="City_Municipality_ID">City/Municipality</label>
                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Barangay_ID">Barangay</label>
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                 </select>
                             </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="exampleInputEmail1">Street</label>
+                                <input type="text" class="form-control" id="Street" name="Street" required>
+                            </div>
                         </div>
                         <hr>
                         <h3>Personal Information</h3>
                         <div class="row">
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Birthdate</label>
                                 <input type="date" class="form-control" id="Birthdate" name="Birthdate" required>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Age</label>
                                 <input type="number" class="form-control" id="Age" name="Age">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Birthplace">Birthplace</label>
                                 <input type="text" class="form-control" id="Birthplace" name="Birthplace">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Religion_ID">Religion</label>
                                 <select class="form-control" id="Religion_ID" name="Religion_ID" required>
                                     <option value='' disabled selected>Select Option</option>
@@ -192,7 +207,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Blood Type</label>
                                 <select class="form-control" id="Blood_Type_ID" name="Blood_Type_ID" required>
                                     <option value='' disabled selected>Select Option</option>
@@ -201,7 +216,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Sex</label>
                                 <select class="form-control" id="Sex" name="Sex" required>
                                     <option value='' disabled selected>Select Option</option>
@@ -209,15 +224,15 @@
                                     <option value='2'>Female</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Weight">Weight</label>
                                 <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kg">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Height">Height</label>
                                 <input type="number" class="form-control" id="Height" name="Height" placeholder="cm">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Civil Status</label>
                                 <select class="form-control" id="Civil_Status_ID" name="Civil_Status_ID" required>
                                     <option value='0' selected>Select Option</option>
@@ -226,23 +241,23 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Mobile No</label>
                                 <input type="text" class="form-control" id="Mobile_No" name="Mobile_No">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Telephone No</label>
                                 <input type="text" class="form-control" id="Telephone_No" name="Telephone_No">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Salary">Salary</label>
                                 <input type="text" class="form-control" id="Salary" name="Salary">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Email">Email</label>
                                 <input type="email" class="form-control" id="Email_Address" name="Email_Address" required>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="PhilSys_Card_No">PhilSys_Card_No</label>
                                 <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No">
                             </div>
@@ -250,32 +265,30 @@
                         <hr>
                         <h3>Resident Information</h3>
                         <div class="row">
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Resident_Status">Resident Status</label>
-                                <select class="form-control" id="Resident_Status" name="Resident_Status" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Resident_Status" name="Resident_Status" >
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Voter_Status">Voter Status</label>
-                                <select class="form-control" id="Voter_Status" name="Voter_Status" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Voter_Status" name="Voter_Status" >
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px"> 
-                                <label for="City_Municipality_ID">City/Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Election_Year_Last_Voted">Election Year Last Voted</label>
+                                <input type="date" class="form-control" id="Election_Year_Last_Voted" name="Election_Year_Last_Voted">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Resident_Voter">Resident Voter</label>
-                                <select class="form-control" id="Resident_Voter" name="Resident_Voter" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Resident_Voter" name="Resident_Voter" >
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
@@ -286,34 +299,34 @@
                         <hr>
                         <h3>Additional Information</h3>
                         <div class="row">
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Solo Parent</label>
-                                <select class="form-control" id="Solo_Parent" name="Solo_Parent" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Solo_Parent" name="Solo_Parent" >
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">OFW</label>
-                                <select class="form-control" id="OFW" name="OFW" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="OFW" name="OFW" >
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Indigent</label>
-                                <select class="form-control" id="Indigent" name="Indigent" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="Indigent" name="Indigent" >
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">4Ps Beneficiary</label>
-                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary" >
+                                    <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
@@ -445,6 +458,120 @@
 </div>
 
 
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form id="print_report" method="POST" action="{{ route('view_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_Name" name="chk_Name">
+                                <label for="1chk_Name">Name</label><br>
+                                <input type="checkbox" id="1chk_Birthplace" name="chk_Birthplace">
+                                <label for="1chk_Birthplace">Birthplace</label><br>
+                                <input type="checkbox" id="1chk_Birthdate" name="chk_Birthdate">
+                                <label for="1chk_Birthdate">Birthdate</label><br>
+                                <input type="checkbox" id="1chk_Age" name="chk_Age">
+                                <label for="1chk_Age">Age</label><br>
+                                <input type="checkbox" id="1chk_Street" name="chk_Street">
+                                <label for="1chk_Street">Street</label><br>
+                                <input type="checkbox" id="1chk_Civil_Status" name="chk_Civil_Status">
+                                <label for="1chk_Civil_Status">Civil Status</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_Mobile" name="chk_Mobile">
+                                <label for="1chk_Mobile">Mobile Number</label><br>
+                                <input type="checkbox" id="1chk_Landline" name="chk_Landline">
+                                <label for="1chk_Landline">Landline Number</label><br>
+                                <input type="checkbox" id="1chk_Resident_Status" name="chk_Resident_Status">
+                                <label for="1chk_Resident_Status">Resident Status</label><br>
+                                <input type="checkbox" id="1chk_Solo_Parent" name="chk_Solo_Parent">
+                                <label for="1chk_Solo_Parent">Solo Parent</label><br>
+                                <input type="checkbox" id="1chk_Indigent" name="chk_Indigent">
+                                <label for="1chk_Indigent">Indigent</label><br>
+                                <input type="checkbox" id="1chk_Beneficiary" name="chk_Beneficiary">
+                                <label for="1chk_Beneficiary">4P's Beneficiary</label><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <center>
+                            <button type="submit" class="btn btn-primary" style="width: 200px;">Print</button>
+                        </center>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form id="download_report" method="POST" action="{{ route('download_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="chk_Name" name="chk_Name">
+                                <label for="chk_Name">Name</label><br>
+                                <input type="checkbox" id="chk_Birthplace" name="chk_Birthplace">
+                                <label for="chk_Birthplace">Birthplace</label><br>
+                                <input type="checkbox" id="chk_Birthdate" name="chk_Birthdate">
+                                <label for="chk_Birthdate">Birthdate</label><br>
+                                <input type="checkbox" id="chk_Age" name="chk_Age">
+                                <label for="chk_Age">Age</label><br>
+                                <input type="checkbox" id="chk_Street" name="chk_Street">
+                                <label for="chk_Street">Street</label><br>
+                                <input type="checkbox" id="chk_Civil_Status" name="chk_Civil_Status">
+                                <label for="chk_Civil_Status">Civil Status</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="chk_Mobile" name="chk_Mobile">
+                                <label for="chk_Mobile">Mobile Number</label><br>
+                                <input type="checkbox" id="chk_Landline" name="chk_Landline">
+                                <label for="chk_Landline">Landline Number</label><br>
+                                <input type="checkbox" id="chk_Resident_Status" name="chk_Resident_Status">
+                                <label for="chk_Resident_Status">Resident Status</label><br>
+                                <input type="checkbox" id="chk_Solo_Parent" name="chk_Solo_Parent">
+                                <label for="chk_Solo_Parent">Solo Parent</label><br>
+                                <input type="checkbox" id="chk_Indigent" name="chk_Indigent">
+                                <label for="chk_Indigent">Indigent</label><br>
+                                <input type="checkbox" id="chk_Beneficiary" name="chk_Beneficiary">
+                                <label for="chk_Beneficiary">4P's Beneficiary</label><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <center>
+                            <button type="submit" class="btn btn-primary" style="width: 200px;">Download</button>
+                        </center>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <!-- Create Announcement_Status END -->
 
 @endsection
@@ -553,8 +680,11 @@
 
     // Data Table
     $(document).ready(function() {
-        $('#example').DataTable();
+        $('#example').DataTable({
+            autoWidth: false
+        });
     });
+
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
@@ -684,6 +814,7 @@
                 $('#PhilSys_Card_No').val(data['theEntry'][0]['PhilSys_Card_No']);
                 $('#Country_ID').val(data['theEntry'][0]['Country_ID']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
+                $('#Street').val(data['theEntry'][0]['Street']);
 
                 var barangay =
                     " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
@@ -870,9 +1001,9 @@
 
 <style>
     table {
-        display: inline-block;
-        overflow-x: scroll;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 </style>
-
 @endsection

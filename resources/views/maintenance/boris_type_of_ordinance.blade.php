@@ -33,13 +33,13 @@
             <tbody>
                 @foreach($db_entries as $x)
                     <tr>
-                        <td class="sm_data_col txtCtr">{{$x->Type_of_Ordinance_ID}}</td>
-                        <td>{{$x->Type_of_Ordinance}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Type_of_Ordinance_or_Resolution_ID}}</td>
+                        <td>{{$x->Name_of_Type}}</td>
                         <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                         <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                         <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                         <td class="sm_data_col txtCtr">
-                            <button class="edit_type_of_ordinance" value="{{$x->Type_of_Ordinance_ID}}" data-toggle="modal" data-target="#updateType_of_Ordinance">Edit</button>
+                            <button class="edit_type_of_ordinance" value="{{$x->Type_of_Ordinance_or_Resolution_ID}}" data-toggle="modal" data-target="#updateType_of_Ordinance">Edit</button>
                         </td>
                     </tr>
                 @endforeach
@@ -103,7 +103,7 @@
                 <div class="modal_input_container">
                     <div class="up_marg5">
                         <span><b>Type_of_Ordinance:</b></span><br>
-                        <input id="this_type_of_ordinance_idX" class="modal_input1" name="Type_of_Ordinance_idX" hidden>
+                        <input id="this_type_of_ordinance_idX" class="modal_input1" name="Type_of_Ordinance_or_Resolution_idX" hidden>
                         <input id="this_type_of_ordinanceX" class="modal_input1" name="Type_of_OrdinanceX2">
                     </div>
 

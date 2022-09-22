@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
                 <li>DILG_BPMS / </li>
-            </a>
+            </a> 
             <li> &nbsp;Contractor List</li>
         </ol> 
     </div>
@@ -34,6 +34,7 @@
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
         <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createContractor" style="width: 100px;">New</button></div>
+        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewContractorPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
     </div>
     <br>
     <div class="col-md-12">
@@ -47,7 +48,7 @@
                     <th >Contractor_Address</th>
                     <th >Contractor_Tin</th>
                     <th >Remarks</th>
-                    <th>Actions</th>
+                    <th>Actions</th> 
                 </tr>
             </thead>
             <tbody>

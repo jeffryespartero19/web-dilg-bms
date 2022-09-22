@@ -34,27 +34,35 @@
     <br>
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createHousehold_Info" style="width: 100px;">New</button></div>
+        <div class="twenty_split txtRight"><a class="btn btn-success" href="{{ url('inhabitants_household_details/0') }}" style="width: 100px;">New</a></div>
+        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
+        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
     </div>
     <br>
     <div class="col-md-12">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th hidden>Resident_ID</th>
-                    <th>Name</th>
+                    <th hidden>Household Profile ID</th>
                     <th>Household Name</th>
+                    <th>Monthly Income</th>
+                    <th>Tenure of Lot</th>
+                    <th>Housing Unit</th>
+                    <th>Family Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($db_entries as $x)
                 <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
+                    <td class="sm_data_col txtCtr" hidden>{{$x->Household_Profile_ID}}</td>
                     <td class="sm_data_col txtCtr">{{$x->Household_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Household_Monthly_Income}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Tenure_of_Lot}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Housing_Unit}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Family_Type_Name}}</td>
                     <td class="sm_data_col txtCtr">
-                        <button class="edit_household" value="{{$x->Household_Profile_ID}}" data-toggle="modal" data-target="#createHousehold_Info">Edit</button>
+                        <a class="btn btn-success" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach
@@ -139,6 +147,88 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form id="print_report" method="POST" action="{{ route('view_Household') }}" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" id="chk_Household_Name" name="chk_Household_Name">
+                                <label for="chk_Household_Name">Household Name</label><br>
+                                <input type="checkbox" id="chk_Household_Monthly_Income" name="chk_Household_Monthly_Income">
+                                <label for="chk_Household_Monthly_Income">Household Monthly Income</label><br>
+                                <input type="checkbox" id="chk_Family_Type_Name" name="chk_Family_Type_Name">
+                                <label for="chk_Family_Type_Name">Family Type</label><br>
+                                <input type="checkbox" id="chk_Tenure_of_Lot" name="chk_Tenure_of_Lot">
+                                <label for="chk_Tenure_of_Lot">Tenure of Lot</label><br>
+                                <input type="checkbox" id="chk_Housing_Unit" name="chk_Housing_Unit">
+                                <label for="chk_Housing_Unit">Housing Unit</label><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <center>
+                            <button type="submit" class="btn btn-primary" style="width: 200px;">Print</button>
+                        </center>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form id="download_report" method="POST" action="{{ route('download_Household') }}" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_Household_Name" name="chk_Household_Name">
+                                <label for="1chk_Household_Name">Household Name</label><br>
+                                <input type="checkbox" id="1chk_Household_Monthly_Income" name="chk_Household_Monthly_Income">
+                                <label for="1chk_Household_Monthly_Income">Household Monthly Income</label><br>
+                                <input type="checkbox" id="1chk_Family_Type_Name" name="chk_Family_Type_Name">
+                                <label for="1chk_Family_Type_Name">Family Type</label><br>
+                                <input type="checkbox" id="1chk_Tenure_of_Lot" name="chk_Tenure_of_Lot">
+                                <label for="1chk_Tenure_of_Lot">Tenure of Lot</label><br>
+                                <input type="checkbox" id="1chk_Housing_Unit" name="chk_Housing_Unit">
+                                <label for="1chk_Housing_Unit">Housing Unit</label><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <center>
+                            <button type="submit" class="btn btn-primary" style="width: 200px;">Download</button>
+                        </center>
+
                     </div>
                 </form>
             </div>

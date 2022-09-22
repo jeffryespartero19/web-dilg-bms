@@ -101,15 +101,15 @@
             <div class="top-right links" style="z-index: 999">
 
                 <a href="" class="text_hoverable">FAQ</a>
-                <a href="{{ route('login') }}" class="text_hoverable">Login</a>
+                <a href="{{ url('logins/'.$b_id) }}" class="text_hoverable">Login</a>
 
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="text_hoverable">Register</a>
+                    <a href="{{ url('registers/'.$b_id) }}" class="text_hoverable">Register</a>
                 @endif
                 
             </div>
             <div class="theContent">
-                <div class=" justify-content-center">
+                <div class=" justify-content-center" style="width: 100%;">
                     <div class="col-md-12 topBanner">
                         <div class="bannerTitle">
                             <span class="intro_txt txtHide firstln">Barangay</span><br>

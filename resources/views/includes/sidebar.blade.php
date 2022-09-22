@@ -31,8 +31,10 @@
 
 
 <div class="modules">
+    @if (Auth::user()->User_Type_ID != 2)
     <div class="col-sm-12">
         {{-- Transactions / Reports --}}
+
         <h4 style="text-align:center; border-bottom:1px solid rgb(165, 165, 145);">Transactions/Reports</h4>
         <div class="module">
             <div class="moduleX" data-toggle="dropdown">
@@ -73,6 +75,9 @@
                 </a>
                 <a href="{{route('inhabitants_incoming_list')}}">
                     <li role="presentation">Incoming List</li>
+                </a>
+                <a href="{{route('application_list')}}">
+                    <li role="presentation">Application List</li>
                 </a>
             </ul>
         </div>
@@ -155,34 +160,34 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('disaster_type_list')}}">
                     <li role="presentation">Disaster Type</li>
                 </a>
-                <a href="">
-                    <li role="presentation">Emergency Evacuation</li>
+                <a href="{{route('emergency_evacuation_site_list')}}">
+                    <li role="presentation">Emergency Evacuation Site</li>
                 </a>
-                <a href="">
+                <a href="{{route('allocated_fund_source_list')}}">
                     <li role="presentation">Allocated Fund Source</li>
                 </a>
-                <a href="">
+                <a href="{{route('disaster_supplies_list')}}">
                     <li role="presentation">Disaster Supplies</li>
                 </a>
-                <a href="">
+                <a href="{{route('emergency_team_list')}}">
                     <li role="presentation">Emergency Team</li>
                 </a>
-                <a href="">
+                <a href="{{route('emergency_equipment_list')}}">
                     <li role="presentation">Emergency Equipment</li>
                 </a>
-                <a href="">
+                <a href="{{route('disaster_related_activities_list')}}">
                     <li role="presentation">Disaster Related Activities</li>
                 </a>
-                <a href="">
+                <a href="{{route('response_information_list')}}">
                     <li role="presentation">Response Information</li>
                 </a>
                 <a href="">
                     <li role="presentation">Evacuee Information</li>
                 </a>
-                <a href="">
+                <a href="{{route('recovery_information_list')}}">
                     <li role="presentation">Recovery Information</li>
                 </a>
                 <a href="">
@@ -206,16 +211,16 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('blotter_list')}}">
                     <li role="presentation">Blotter</li>
                 </a>
-                <a href="">
+                <a href="{{route('summon_list')}}">
                     <li role="presentation">Summons</li>
                 </a>
-                <a href="">
+                <a href="{{route('proceeding_list')}}">
                     <li role="presentation">Proceedings</li>
                 </a>
-                <a href="">
+                <a href="{{route('ordinance_violator_list')}}">
                     <li role="presentation">Ordinance Violators</li>
                 </a>
                 <a href="">
@@ -475,34 +480,34 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('case_maint')}}">
                     <li role="presentation">Case</li>
                 </a>
-                <a href="">
+                <a href="{{route('case_type_maint')}}">
                     <li role="presentation">Case Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('type_of_involved_party_maint')}}">
                     <li role="presentation">Type of Involved Party</li>
                 </a>
-                <a href="">
+                <a href="{{route('violation_status_maint')}}">
                     <li role="presentation">Violation Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('summons_status_maint')}}">
                     <li role="presentation">Summons Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('service_rate_maint')}}">
                     <li role="presentation">Service Rate</li>
                 </a>
-                <a href="">
+                <a href="{{route('proceedings_status_maint')}}">
                     <li role="presentation">Proceedings Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('type_of_action_maint')}}">
                     <li role="presentation">Type of Action </li>
                 </a>
-                <a href="">
+                <a href="{{route('type_of_penalties_maint')}}">
                     <li role="presentation">Type of Penalties</li>
                 </a>
-                <a href="">
+                <a href="{{route('blotter_status_maint')}}">
                     <li role="presentation">Blotter Status</li>
                 </a>
             </ul>
@@ -588,6 +593,26 @@
                 </a>
             </ul>
         </div>
+
+        @else
+        <div class="col-sm-12">
+            {{-- Transactions / Reports --}}
+
+            <h4 style="text-align:center; border-bottom:1px solid rgb(165, 165, 145);">Transactions/Reports</h4>
+            <div class="module">
+                <div class="moduleX" data-toggle="dropdown">
+                    BIPS
+                    <i class="fa fa-chevron-down sb_down" aria-hidden="true"></i>
+                    <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
+                </div>
+                <ul class="sub_module" role="menu" aria-labelledby="menu2">
+                    <a href="{{route('inhabitant_application')}}">
+                        <li role="presentation">Inhabitants Info</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        @endif
 
     </div>
 </div>
