@@ -7,6 +7,10 @@ use Auth;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class InhabitantApplicationController extends Controller
 {
@@ -125,6 +129,8 @@ class InhabitantApplicationController extends Controller
 
         // dd($data);
 
+        $name = $data['First_Name'] . ' ' . $data['Middle_Name'] . ' ' . $data['Last_Name'];
+
         $Resident_ID = DB::table('bips_brgy_inhabitants_information')->insertGetId(
             array(
                 'Name_Prefix_ID' => $data['Name_Prefix_ID'],
@@ -148,7 +154,7 @@ class InhabitantApplicationController extends Controller
                 'Province_ID' => $data['Province_ID'],
                 'Region_ID' => $data['Region_ID'],
                 'Salary' => $data['Salary'],
-                'Email_Address' => $data['Email_Address'],
+                'Email_Address' => $data['email'],
                 'PhilSys_Card_No' => $data['PhilSys_Card_No'],
                 'Solo_Parent' => (int)$data['Solo_Parent'],
                 'OFW' => (int)$data['OFW'],
@@ -159,6 +165,14 @@ class InhabitantApplicationController extends Controller
             )
         );
 
-        return redirect()->back()->with('success', 'Record Saved');
+        User::create([
+            'name' => $name,
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'User_Type_ID' => 2,
+            'Barangay_ID' => $data['Barangay_ID'],
+        ]);
+
+        return redirect()->back()->with('success', 'Application Submitted');
     }
 }

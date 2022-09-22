@@ -61,6 +61,11 @@
                                 </select>
                             </div>
                         </div>
+
+
+
+
+
                         <hr>
                         <h3>Address</h3>
                         <div class="row">
@@ -167,10 +172,7 @@
                                 <label for="Salary">Salary</label>
                                 <input type="text" class="form-control" id="Salary" name="Salary">
                             </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Email">Email</label>
-                                <input type="email" class="form-control" id="Email_Address" name="Email_Address" required>
-                            </div>
+
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="PhilSys_Card_No">PhilSys_Card_No</label>
                                 <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No">
@@ -213,8 +215,46 @@
                             </div>
                         </div>
 
+                        <hr>
+                        <h3>Login Credentials</h3>
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
-                        <div>
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div style="text-align: center;">
                             <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
                             <button type="submit" class="btn btn-primary postThis_Inhabitant_Info" style="width: 200px;">Create</button>
                         </div>
