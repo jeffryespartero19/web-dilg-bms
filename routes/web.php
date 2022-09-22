@@ -94,10 +94,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update_bins_begbal', 'BINSController@update_bins_begbal')->name('update_bins_begbal');
 
     //BINS Barangay Inventory
-    Route::get('/bins_inventroy', 'BINSController@bins_inventroy')->name('bins_inventroy');
-    Route::post('/create_bins_inventroy', 'BINSController@create_bins_inventroy')->name('create_bins_inventroy');
-    Route::get('/get_bins_inventroy', 'BINSController@get_bins_inventroy')->name('get_bins_inventroy');
-    Route::post('/update_bins_inventroy', 'BINSController@update_bins_inventroy')->name('update_bins_inventroy');
+    Route::get('/bins_inventory', 'BINSController@bins_inventory')->name('bins_inventory');
+    Route::post('/create_bins_inventory', 'BINSController@create_bins_inventory')->name('create_bins_inventory');
+    Route::get('/get_bins_inventory', 'BINSController@get_bins_inventory')->name('get_bins_inventory');
+    Route::post('/update_bins_inventory', 'BINSController@update_bins_inventory')->name('update_bins_inventory');
 
     //BINS Item Inspection
     Route::get('/bins_item_inspection', 'BINSController@bins_item_inspection')->name('bins_item_inspection');

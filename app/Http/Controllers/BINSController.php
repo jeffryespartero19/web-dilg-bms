@@ -776,4 +776,105 @@ class BINSController extends Controller
         return redirect()->back()->with('alert', 'Updated Entry');
     }
 
+    //Barangay Inventory
+
+    public function bins_inventory(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bins_brgy_inventory')
+            //->join('bfas_card_file','bfas_card_file.Card_File_ID','=','bins_brgy_inventory.Card_File_ID')
+            ->join('maintenance_bins_item_category','maintenance_bins_item_category.Item_Category_ID','=','bins_brgy_inventory.Item_Category_ID')
+            ->join('maintenance_bins_unit_of_measure','maintenance_bins_unit_of_measure.Unit_of_Measure_ID','=','bins_brgy_inventory.Unit_of_Measure_ID')
+            ->join('maintenance_bins_item_status','maintenance_bins_item_status.Item_Status_ID','=','bins_brgy_inventory.Item_Status_ID')
+           //->join('bins_item_inspection','bins_item_inspection.Item_Inspection_ID','=','bins_brgy_inventory.Item_Inspection_ID')
+            ->join('maintenance_barangay','maintenance_barangay.Barangay_ID','=','bins_brgy_inventory.Barangay_ID')
+            ->join('maintenance_city_municipality','maintenance_city_municipality.City_Municipality_ID','=','bins_brgy_inventory.City_Municipality_ID')
+            ->join('maintenance_province','maintenance_province.Province_ID','=','bins_brgy_inventory.Province_ID')
+            ->join('maintenance_region','maintenance_region.Region_ID','=','bins_brgy_inventory.Region_ID')
+            ->paginate(20,['*'], 'db_entries');
+
+        //dd($db_entries);
+
+        $card_file=DB::table('bfas_card_file')->get();
+
+        $item_category_list= DB::table('maintenance_bins_item_category')->get();
+        $uom_list = DB::table('maintenance_bins_unit_of_measure')->get();
+        $item_status_list=DB::table('maintenance_bins_item_status')->get();
+        $item_inspection=DB::table('bins_item_inspection')->get();
+
+        return view('bins.barangay_inventory',compact('db_entries','currDATE','card_file','item_category_list','uom_list','item_status_list','item_inspection'));
+    }
+
+    public function create_bins_inventory(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        $bgry_ID=Auth::user()->Barangay_ID;
+
+        $theBrgy=DB::table('maintenance_barangay')->where('Barangay_ID',$bgry_ID)->get();
+        $theCity=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',$theBrgy[0]->City_Municipality_ID)->get();
+        $theProv=DB::table('maintenance_province')->where('Province_ID',$theCity[0]->Province_ID)->get();
+        $theRegion=DB::table('maintenance_region')->where('Region_ID',$theProv[0]->Region_ID)->get();
+
+        DB::table('bins_brgy_inventory')->insert(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+
+                'Stock_No'           => $data['Stock_No'],
+                'Inventory_Name'     => $data['Inventory_Name'],
+                'Card_File_ID'       => $data['Card_File_ID'],
+
+                'Item_Category_ID'      => $data['Item_Category_ID'],
+                'Unit_of_Measure_ID' => $data['Unit_of_Measure_ID'],
+                'Item_Status_ID'     => $data['Item_Status_ID'],
+                'Date_Received'      => $data['Date_Received'],
+                'Remarks'            => $data['Remarks'],
+
+                'Barangay_ID'            => $theBrgy[0]->Barangay_ID,
+                'City_Municipality_ID'   => $theCity[0]->City_Municipality_ID,
+                'Province_ID'            => $theProv[0]->Province_ID,
+                'Region_ID'              => $theRegion[0]->Region_ID,
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bins_inventory(Request $request)
+    {
+        $id=$_GET['id']; 
+        //$id=1; 
+
+        $theEntry=DB::table('bins_received_item')->where('Received_Item_ID',$id)->get();
+
+        $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theEntry[0]->Inventory_ID)->get();
+        $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Item_Status_ID)->get();
+
+        //dd($theEntry,$the_item,$theitem_status);
+
+        return(compact('theEntry','the_item','theitem_status'));
+    }
+    public function update_bins_inventory(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bins_received_item')->where('Received_Item_ID',$data['Received_Item_ID'])->update(
+            array(
+                'Encoder_ID'         => Auth::user()->id,
+                'Date_Stamp'         => Carbon::now(),
+                'Inventory_ID'       => $data['item_ID2'],
+                'Item_Status_ID'     => $data['item_status_ID2'],
+                'Donation'           => (int)$data['donationX2'],
+                'Brgy_Officials_and_Staff_ID' => $data['rc_by2'],
+                'Received_Quantity'  => $data['received_qty2'],
+                'Date_Received'      => Carbon::now()
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
 }

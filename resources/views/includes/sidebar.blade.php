@@ -256,7 +256,7 @@
                 <a href="{{route('bins_begbal')}}">
                     <li role="presentation">Inventory Beginning Balance</li>
                 </a>
-                <a href="{{route('bins_inventroy')}}">
+                <a href="{{route('bins_inventory')}}">
                     <li role="presentation">Barangay Inventory</li>
                 </a>
                 <a href="{{route('bins_item_inspection')}}">
