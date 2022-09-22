@@ -471,32 +471,32 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <input type="checkbox" id="chk_Name" name="chk_Name">
-                                <label for="chk_Name">Name</label><br>
-                                <input type="checkbox" id="chk_Birthplace" name="chk_Birthplace">
-                                <label for="chk_Birthplace">Birthplace</label><br>
-                                <input type="checkbox" id="chk_Birthdate" name="chk_Birthdate">
-                                <label for="chk_Birthdate">Birthdate</label><br>
-                                <input type="checkbox" id="chk_Age" name="chk_Age">
-                                <label for="chk_Age">Age</label><br>
-                                <input type="checkbox" id="chk_Street" name="chk_Street">
-                                <label for="chk_Street">Street</label><br>
-                                <input type="checkbox" id="chk_Civil_Status" name="chk_Civil_Status">
-                                <label for="chk_Civil_Status">Civil Status</label><br>
+                                <input type="checkbox" id="1chk_Name" name="chk_Name">
+                                <label for="1chk_Name">Name</label><br>
+                                <input type="checkbox" id="1chk_Birthplace" name="chk_Birthplace">
+                                <label for="1chk_Birthplace">Birthplace</label><br>
+                                <input type="checkbox" id="1chk_Birthdate" name="chk_Birthdate">
+                                <label for="1chk_Birthdate">Birthdate</label><br>
+                                <input type="checkbox" id="1chk_Age" name="chk_Age">
+                                <label for="1chk_Age">Age</label><br>
+                                <input type="checkbox" id="1chk_Street" name="chk_Street">
+                                <label for="1chk_Street">Street</label><br>
+                                <input type="checkbox" id="1chk_Civil_Status" name="chk_Civil_Status">
+                                <label for="1chk_Civil_Status">Civil Status</label><br>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <input type="checkbox" id="chk_Mobile" name="chk_Mobile">
-                                <label for="chk_Mobile">Mobile Number</label><br>
-                                <input type="checkbox" id="chk_Landline" name="chk_Landline">
-                                <label for="chk_Landline">Landline Number</label><br>
-                                <input type="checkbox" id="chk_Resident_Status" name="chk_Resident_Status">
-                                <label for="chk_Resident_Status">Resident Status</label><br>
-                                <input type="checkbox" id="chk_Solo_Parent" name="chk_Solo_Parent">
-                                <label for="chk_Solo_Parent">Solo Parent</label><br>
-                                <input type="checkbox" id="chk_Indigent" name="chk_Indigent">
-                                <label for="chk_Indigent">Indigent</label><br>
-                                <input type="checkbox" id="chk_Beneficiary" name="chk_Beneficiary">
-                                <label for="chk_Beneficiary">4P's Beneficiary</label><br>
+                                <input type="checkbox" id="1chk_Mobile" name="chk_Mobile">
+                                <label for="1chk_Mobile">Mobile Number</label><br>
+                                <input type="checkbox" id="1chk_Landline" name="chk_Landline">
+                                <label for="1chk_Landline">Landline Number</label><br>
+                                <input type="checkbox" id="1chk_Resident_Status" name="chk_Resident_Status">
+                                <label for="1chk_Resident_Status">Resident Status</label><br>
+                                <input type="checkbox" id="1chk_Solo_Parent" name="chk_Solo_Parent">
+                                <label for="1chk_Solo_Parent">Solo Parent</label><br>
+                                <input type="checkbox" id="1chk_Indigent" name="chk_Indigent">
+                                <label for="1chk_Indigent">Indigent</label><br>
+                                <input type="checkbox" id="1chk_Beneficiary" name="chk_Beneficiary">
+                                <label for="1chk_Beneficiary">4P's Beneficiary</label><br>
                             </div>
                         </div>
                     </div>

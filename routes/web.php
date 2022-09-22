@@ -489,6 +489,8 @@ Route::group(['middleware' => 'auth'], function () {
 
       Route::post('/download_Inhabitants', 'bipsController@downloadPDF')->name('download_Inhabitants');
       Route::post('/view_Inhabitants', 'bipsController@viewPDF')->name('view_Inhabitants');
+      Route::post('/download_Household', 'bipsController@download_householdPDF')->name('download_Household');
+      Route::post('/view_Household', 'bipsController@view_householdPDF')->name('view_Household');
 });
 
 
