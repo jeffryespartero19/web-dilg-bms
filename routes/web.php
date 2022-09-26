@@ -496,7 +496,10 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/cms_list', 'BISController@cms_list')->name('cms_list');
       Route::get('/cms_details/{id}', 'BISController@cms_details');
       Route::post('/create_cms', 'BISController@create_cms')->name('create_cms');
-      Route::get('/cms_indicator/{id}', 'BISController@cms_indicator');
+      Route::get('/cms_indicator/{id}/{cat_id}', 'BISController@cms_indicator');
+      Route::post('/create_cms_title', 'BISController@create_cms_title')->name('create_cms_title');
+      Route::post('/create_answer_type', 'BISController@create_answer_type')->name('create_answer_type');
+      Route::get('/get_answer_types', 'BISController@get_answer_types');
 
       //BIS Frequency Maintenance
       Route::get('/frequency_maint', 'maintenanceController@frequency_maint')->name('frequency_maint');

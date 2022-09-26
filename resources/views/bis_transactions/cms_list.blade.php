@@ -39,25 +39,20 @@
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th hidden>Resident_ID</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Name Suffix</th>
+                    <th hidden>CMS_Barangay_Profile_ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($db_entries as $x)
                 <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
+                    <td class="sm_data_col txtCtr" hidden>{{$x->CMS_Barangay_Profile_ID}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Title}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Description}}</td>
                     <td class="sm_data_col txtCtr">
-                        <button class="approve_inhabitants btn btn-success" value="{{$x->Resident_ID}}">Approve</button>
-                        <button class="disapprove_inhabitants  btn btn-danger" value="{{$x->Resident_ID}}">Disapprove</button>
+                        <a class="btn btn-success" href="{{ url('cms_details/'.$x->CMS_Barangay_Profile_ID) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach

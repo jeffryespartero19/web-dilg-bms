@@ -33,7 +33,7 @@
 <div class="tableX_row col-md-12 up_marg5">
 
     <br>
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-bottom: 30px;">
         <form id="newHousehold" method="POST" action="{{ route('create_cms') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="card">
@@ -42,16 +42,26 @@
                     <div style="float: right;">
                         <ul>
                             <li class="dropdown">
+                                @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
                                 <a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-pencil" aria-hidden="true"></i> INDICATOR SETUP &nbsp;<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     @foreach($bp_categories as $bp)
-                                    <li><a href="#">{{$bp->Categories}}</a></li>
+                                    <li><a href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a></li>
                                     @endforeach
                                 </ul>
-                                <a class="btn btn-primary"><i class="fa fa-th" aria-hidden="true"></i> CATEGORIES</a>
-                                <button class="btn btn-warning" type="submit"><i class="fa fa-pencil" aria-hidden="true"></i> UPDATE</button>
+                                @else
+                                @endif
+                                <!-- <a class="btn btn-primary"><i class="fa fa-th" aria-hidden="true"></i> CATEGORIES</a> -->
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-pencil" aria-hidden="true"></i> @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0) UPDATE @else SAVE @endif</button>
                                 <!-- <a class="btn btn-info"><i class="fa fa-files-o" aria-hidden="true"></i> DUPLICATE</a> -->
-                                <a class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</a>
+
+                                @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
+                                <a href="{{ url('cms_details/0') }}" class="btn btn-success" style="width: 100px;" aria-hidden="true">New</a>
+
+                                @else
+                                @endif
+                                <!-- <a class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</a> -->
+
                             </li>
                         </ul>
 
@@ -152,7 +162,7 @@
                         </tbody>
                     </table>
 
-                    <div class="container" style="background-color: white; margin: 0px; width: 100%">
+                    <!-- <div class="container" style="background-color: white; margin: 0px; width: 100%">
                         <br>
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home">General Information</a></li>
@@ -173,7 +183,7 @@
                                 <p>Some content in menu 2.</p>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </form>

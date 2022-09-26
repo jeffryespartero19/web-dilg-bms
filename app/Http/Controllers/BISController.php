@@ -18,76 +18,12 @@ class BISController extends Controller
     public function cms_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_brgy_inhabitants_information as a')
-            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
-            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
-            ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
-            ->select(
-                'a.Resident_ID',
-                'a.Name_Prefix_ID',
-                'a.Last_Name',
-                'a.First_Name',
-                'a.Middle_Name',
-                'a.Name_Suffix_ID',
-                'a.Birthplace',
-                'a.Weight',
-                'a.Height',
-                'a.Civil_Status_ID',
-                'a.Birthdate',
-                'a.Country_ID',
-                'a.Religion_ID',
-                'a.Blood_Type_ID',
-                'a.Sex',
-                'a.Mobile_No',
-                'a.Telephone_No',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Province_ID',
-                'a.Region_ID',
-                'a.Street',
-                'a.Salary',
-                'a.Email_Address',
-                'a.PhilSys_Card_No',
-                'a.Solo_Parent',
-                'a.OFW',
-                'a.Indigent',
-                'a.4Ps_Beneficiary as Beneficiary',
-                'a.Encoder_ID',
-                'a.Date_Stamp',
-                'b.Name_Prefix',
-                'c.Name_Suffix',
-                'd.Civil_Status'
-            )
-            ->where('a.Application_Status', 1)
+        $db_entries = DB::table('bis_cms_barangay_profile')
             ->paginate(20, ['*'], 'db_entries');
-        $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
-        $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
-        $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
-        $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
-        $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
-        $region = DB::table('maintenance_region')->where('Active', 1)->get();
-        $province = DB::table('maintenance_province')->where('Active', 1)->get();
-        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
-        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
-        $country = DB::table('maintenance_country')->where('Active', 1)->get();
-        $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
-        $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
 
         return view('bis_transactions.cms_list', compact(
             'db_entries',
-            'currDATE',
-            'religion',
-            'blood_type',
-            'civil_status',
-            'name_prefix',
-            'suffix',
-            'region',
-            'province',
-            'city',
-            'barangay',
-            'country',
-            'academic_level',
-            'employment_type'
+            'currDATE'
         ));
     }
 
@@ -121,7 +57,8 @@ class BISController extends Controller
             $barangay = DB::table('maintenance_barangay')->get();
             $bp_categories = collect([
                 (object) [
-                    'Categories_ID' => '0'
+                    'Categories_ID' => '0',
+                    'Categories' => ''
                 ],
             ]);
             return view('bis_transactions.cms_details', compact(
@@ -145,7 +82,7 @@ class BISController extends Controller
             $barangay = DB::table('maintenance_barangay')->get();
             $bp_categories = DB::table('bis_cms_barangay_profile_categories as a')
                 ->leftjoin('maintenance_bis_categories as b', 'a.Categories_ID', '=', 'b.Categories_ID')
-                ->select('a.Categories_ID', 'b.Categories')
+                ->select('a.Categories_ID', 'b.Categories', 'a.CMS_Barangay_Profile_ID')
                 ->where('a.CMS_Barangay_Profile_ID', $id)
                 ->get();
             return view('bis_transactions.cms_details', compact(
@@ -215,7 +152,6 @@ class BISController extends Controller
                     'Date_Updated' => $data['Date_Updated'],
                     'Frequency_ID' => $data['Frequency_ID'],
                     'Status' => $data['Status'],
-                    'Categories_ID' => $data['Categories_ID'],
                     'Barangay_ID' => $data['Barangay_ID'],
                     'City_Municipality_ID' => $data['City_Municipality_ID'],
                     'Province_ID' => $data['Province_ID'],
@@ -225,76 +161,259 @@ class BISController extends Controller
                 )
             );
 
+            DB::table('bis_cms_barangay_profile_categories')
+                ->where('CMS_Barangay_Profile_ID', $data['CMS_Barangay_Profile_ID'])
+                ->delete();
+
+            if (isset($data['Categories_ID'])) {
+                $categories = [];
+
+                for ($i = 0; $i < count($data['Categories_ID']); $i++) {
+                    if ($data['Categories_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bis_cms_barangay_profile_categories')->max('Barangay_Profile_Categories_ID');
+                        $id += 1;
+
+                        $categories = [
+                            'CMS_Barangay_Profile_ID' => $data['CMS_Barangay_Profile_ID'],
+                            'Categories_ID' => $data['Categories_ID'][$i],
+                            'Encoder_ID'       => Auth::user()->id,
+                            'Date_Stamp'       => Carbon::now()
+                        ];
+
+                        DB::table('bis_cms_barangay_profile_categories')->updateOrInsert(['Barangay_Profile_Categories_ID' => $id], $categories);
+                    }
+                }
+            }
+
             return redirect()->to('cms_details/' . $data['CMS_Barangay_Profile_ID'])->with('message', 'Barangay Profile Updated');
         }
     }
 
     //CMS Details
-    public function cms_indicator($id)
+    public function cms_indicator($id, $cat_id)
     {
         $currDATE = Carbon::now();
 
         if ($id == 0) {
-            $Barangay_Profile = collect([
+            $title = collect([
                 (object) [
-                    'CMS_Barangay_Profile_ID' => '0',
+                    'Title_ID' => 0,
+                    'CMS_Barangay_Profile_ID' => '',
                     'Title' => '',
-                    'Description' => '',
-                    'Date_Updated' => '',
-                    'Frequency_ID' => '',
-                    'Status' => '',
-                    'Categories_ID' => '',
-                    'Barangay_ID' => '',
-                    'City_Municipality_ID' => '',
-                    'Province_ID' => '',
-                    'Region_ID' => '',
+                    'Visible' => '',
+                    'Instructions' => '',
+                    'Min_Indicator' => '',
+                    'Max_Indicator' => ''
                 ],
             ]);
-            $categories = DB::table('maintenance_bis_categories')->where('Active', 1)->get();
-            $frequency = DB::table('maintenance_bis_frequency')->where('Active', 1)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->get();
-            $barangay = DB::table('maintenance_barangay')->get();
-            $bp_categories = collect([
+            $indicator = collect([
                 (object) [
-                    'Categories_ID' => '0'
+                    'Indicator_ID' => '0',
+                    'Title_ID' => '0',
+                    'Answer_Types_ID' => '',
+                    'Indicator_Description' => '',
+                    'Min_Answer' => '',
+                    'Max_Answer' => '',
                 ],
             ]);
+            $answer_type = DB::table('bis_cms_answer_types')->where('Active', 1)->get();
+
             return view('bis_transactions.cms_indicator', compact(
-                'currDATE',
-                'frequency',
-                'categories',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                'Barangay_Profile',
-                'bp_categories'
+                'title',
+                'id',
+                'answer_type',
+                'indicator',
+                'cat_id'
             ));
         } else {
-            $Barangay_Profile = DB::table('bis_cms_barangay_profile')->where('CMS_Barangay_Profile_ID', $id)->get();
-            $categories = DB::table('maintenance_bis_categories')->where('Active', 1)->get();
-            $frequency = DB::table('maintenance_bis_frequency')->where('Active', 1)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->get();
-            $barangay = DB::table('maintenance_barangay')->get();
-            $bp_categories = DB::table('bis_cms_barangay_profile_categories as a')
-                ->leftjoin('maintenance_bis_categories as b', 'a.Categories_ID', '=', 'b.Categories_ID')
-                ->select('a.Categories_ID', 'b.Categories')
-                ->where('CMS_Barangay_Profile_ID', $id)->get();
+            $title = DB::table('bis_cms_title')->where('CMS_Barangay_Profile_ID', $id)
+                ->where('Categories_ID', $cat_id)
+                ->get();
+            $indicator = DB::table('bis_cms_indicator as a')
+                ->leftjoin('bis_cms_title as b', 'a.Title_ID', '=', 'b.Title_ID')
+                ->select(
+                    'a.Indicator_ID',
+                    'a.Title_ID',
+                    'a.Answer_Types_ID',
+                    'a.Indicator_Description',
+                    'a.Min_Answer',
+                    'a.Max_Answer',
+                )
+                ->where('b.CMS_Barangay_Profile_ID', $id)
+                ->get();
+            $answer_type = DB::table('bis_cms_answer_types')->where('Active', 1)->get();
+
             return view('bis_transactions.cms_indicator', compact(
-                'currDATE',
-                'frequency',
-                'categories',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                'Barangay_Profile',
-                'bp_categories'
+                'title',
+                'id',
+                'answer_type',
+                'indicator',
+                'cat_id'
             ));
         }
+    }
+
+    // Create CMS Title
+    public function create_cms_title(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        // dd($data);
+
+        if (isset($data['Title_ID'])) {
+            $title = [];
+
+            for ($i = 0; $i < count($data['Title_ID']); $i++) {
+                $ID = $data['Title_ID'][$i];
+                if ($ID == 0) {
+
+                    if ($data['Title'][$i] != null) {
+
+                        $Title_ID = DB::table('bis_cms_title')->insertGetId(
+                            array(
+                                'Title' => $data['Title'][$i],
+                                'CMS_Barangay_Profile_ID' => $data['CMS_Barangay_Profile_ID'],
+                                'Categories_ID' => $data['Categories_ID'],
+                                'Visible' => (int)$data['Visible'][$i],
+                                'Instructions' => $data['Instructions'][$i],
+                                'Min_Indicator' => $data['Min_Indicator'][$i],
+                                'Max_Indicator' => $data['Max_Indicator'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            )
+                        );
+
+                        if (isset($data['Indicator_ID'])) {
+                            $indicator = [];
+
+                            for ($i = 0; $i < count($data['Indicator_ID']); $i++) {
+                                if ($data['Indicator_ID'][$i] == 0 && $data['Indicator_ID'][$i] == null) {
+
+                                    if ($data['Indicator_Description'][$i] != null) {
+                                        $indicator = [
+                                            'Title_ID' => $Title_ID,
+                                            'Active' => 1,
+                                            'Answer_Types_ID' => $data['Answer_Types_ID'][$i],
+                                            'Indicator_Description' => $data['Indicator_Description'][$i],
+                                            'Min_Answer' => $data['Min_Answer'][$i],
+                                            'Max_Answer' => $data['Max_Answer'][$i],
+                                            'Encoder_ID' => Auth::user()->id,
+                                            'Date_Stamp' => Carbon::now()
+                                        ];
+
+                                        DB::table('bis_cms_indicator')->insert($indicator);
+                                    }
+                                } else {
+                                    if ($data['Indicator_Description'][$i] != null) {
+                                        $indicator = [
+                                            'Title_ID' => $Title_ID,
+                                            'Active' => 1,
+                                            'Answer_Types_ID' => $data['Answer_Types_ID'][$i],
+                                            'Indicator_Description' => $data['Indicator_Description'][$i],
+                                            'Min_Answer' => $data['Min_Answer'][$i],
+                                            'Max_Answer' => $data['Max_Answer'][$i],
+                                            'Encoder_ID' => Auth::user()->id,
+                                            'Date_Stamp' => Carbon::now()
+                                        ];
+
+                                        DB::table('bis_cms_indicator')->update(['Title_ID' => $data['Indicator_ID']], $indicator);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if ($data['Title'][$i] != null) {
+
+                        DB::table('bis_cms_title')->where('Title_ID', $ID)->update(
+                            array(
+                                'Title' => $data['Title'][$i],
+                                'CMS_Barangay_Profile_ID' => $data['CMS_Barangay_Profile_ID'],
+                                'Categories_ID' => $data['Categories_ID'],
+                                'Visible' => (int)$data['Visible'][$i],
+                                'Instructions' => $data['Instructions'][$i],
+                                'Min_Indicator' => $data['Min_Indicator'][$i],
+                                'Max_Indicator' => $data['Max_Indicator'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            )
+                        );
+
+                        if (isset($data['Indicator_ID'])) {
+                            $indicator = [];
+
+                            for ($i = 0; $i < count($data['Indicator_ID']); $i++) {
+                                if ($data['Indicator_ID'][$i] == 0) {
+
+                                    if ($data['Indicator_Description'][$i] != null) {
+                                        $indicator = [
+                                            'Title_ID' => $ID,
+                                            'Active' => 1,
+                                            'Answer_Types_ID' => $data['Answer_Types_ID'][$i],
+                                            'Indicator_Description' => $data['Indicator_Description'][$i],
+                                            'Min_Answer' => $data['Min_Answer'][$i],
+                                            'Max_Answer' => $data['Max_Answer'][$i],
+                                            'Encoder_ID' => Auth::user()->id,
+                                            'Date_Stamp' => Carbon::now()
+                                        ];
+
+                                        DB::table('bis_cms_indicator')->insert($indicator);
+                                    }
+                                } else {
+                                    if ($data['Indicator_Description'][$i] != null) {
+
+                                        DB::table('bis_cms_indicator')->where('Indicator_ID', $data['Indicator_ID'][$i])->update(
+                                            array(
+                                                'Title_ID' => $ID,
+                                                'Active' => 1,
+                                                'Answer_Types_ID' => $data['Answer_Types_ID'][$i],
+                                                'Indicator_Description' => $data['Indicator_Description'][$i],
+                                                'Min_Answer' => $data['Min_Answer'][$i],
+                                                'Max_Answer' => $data['Max_Answer'][$i],
+                                                'Encoder_ID' => Auth::user()->id,
+                                                'Date_Stamp' => Carbon::now()
+                                            )
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return redirect()->to('cms_indicator/' . $data['CMS_Barangay_Profile_ID'] . '/' . $data['Categories_ID'])->with('message', 'Record Saved');
+    }
+
+    // Create CMS Answer Type
+    public function create_answer_type(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        // dd($data);
+
+        $Answer_Type_ID = DB::table('bis_cms_answer_types')->insertGetId(
+            array(
+                'Title' => $data['Title'],
+                'Description' => $data['Description'],
+                'Widget' => $data['Widget'],
+                'Data_Type' => $data['Data_Type'],
+                'Active' => (int)$data['Active'],
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now()
+            )
+        );
+    }
+
+    // Get City
+    public function get_answer_types(Request $request)
+    {
+        $data = DB::table('bis_cms_answer_types')
+            ->where(['Active' => 1])
+            ->orderBy('Date_Stamp', 'desc')->first();
+
+        return json_encode($data);
     }
 }
