@@ -19,8 +19,7 @@ Auth::routes();
 Route::get('/', 'Public_LandingController@index')->name('*');
 Route::get('/main', 'Public_LandingController@main')->name('main');
 Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
-Route::get('/logins/{b_id}', 'BRGYLoginController@index');
-Route::get('/registers/{b_id}', 'BRGYLoginController@registers');
+Route::get('/registers', 'BRGYLoginController@registers');
 Route::post('/create_inhabitants_application_information', 'InhabitantApplicationController@create_inhabitants_information')->name('create_inhabitants_application_information');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -491,6 +490,25 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/view_Inhabitants', 'bipsController@viewPDF')->name('view_Inhabitants');
       Route::post('/download_Household', 'bipsController@download_householdPDF')->name('download_Household');
       Route::post('/view_Household', 'bipsController@view_householdPDF')->name('view_Household');
+
+      //BIS Transaction
+      //BIS CMS
+      Route::get('/cms_list', 'BISController@cms_list')->name('cms_list');
+      Route::get('/cms_details/{id}', 'BISController@cms_details');
+      Route::post('/create_cms', 'BISController@create_cms')->name('create_cms');
+      Route::get('/cms_indicator/{id}', 'BISController@cms_indicator');
+
+      //BIS Frequency Maintenance
+      Route::get('/frequency_maint', 'maintenanceController@frequency_maint')->name('frequency_maint');
+      Route::post('/create_frequency_maint', 'maintenanceController@create_frequency_maint')->name('create_frequency_maint');
+      Route::get('/get_frequency_maint', 'maintenanceController@get_frequency_maint')->name('get_frequency_maint');
+      Route::post('/update_frequency_maint', 'maintenanceController@update_frequency_maint')->name('update_frequency_maint');
+
+      //BIS Categories Maintenance
+      Route::get('/categories_maint', 'maintenanceController@categories_maint')->name('categories_maint');
+      Route::post('/create_categories_maint', 'maintenanceController@create_categories_maint')->name('create_categories_maint');
+      Route::get('/get_categories_maint', 'maintenanceController@get_categories_maint')->name('get_categories_maint');
+      Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
 });
 
 

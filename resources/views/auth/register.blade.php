@@ -27,7 +27,6 @@
 
                         <h3>Name</h3>
                         <div class="row">
-                            <input type="text" class="form-control" id="B_ID" name="B_ID" value="{{$Barangay_ID}}" hidden>
                             <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" value="applicant" hidden>
                             <input type="text" class="form-control" id="Application_Status" name="Application_Status" value="0" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">

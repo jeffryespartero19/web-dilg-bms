@@ -97,9 +97,6 @@
 
     @yield('scripts')
 
-    <script type="text/javascript">
-        document.getElementsById('LoginBTN').attr('hidden', true)
-    </script>
 
 </body>
 

@@ -250,8 +250,6 @@
         $("#CaseTBL").append(newrow);
 
         $("select.js-example-basic-single").select2();
-
-
     }
 
     // Option Case Remove
