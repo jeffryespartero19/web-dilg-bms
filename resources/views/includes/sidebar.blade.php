@@ -100,11 +100,29 @@
                 <a href="">
                     <li role="presentation">Document Payment</li>
                 </a>
-                <a href="">
-                    <li role="presentation">Business Permit Issuance</li>
+                <a href="{{route('brgy_business_permit_list')}}">
+                    <li role="presentation">Business Permit</li>
                 </a>
                 <a href="">
                     <li role="presentation">Reports Generation</li>
+                </a>
+                <a href="{{route('brgy_document_information_list')}}">
+                    <li role="presentation">Brgy Document Information</li>
+                </a>
+                <a href="{{route('barangay_business_list')}}">
+                    <li role="presentation">Barangay Business</li>
+                </a>
+                <a href="{{route('brgy_payment_collected_docu_list')}}">
+                    <li role="presentation">Brgy Payment Collected(Document Info)</li>
+                </a>
+                <a href="{{route('brgy_payment_collected_business_list')}}">
+                    <li role="presentation">Brgy Payment Collected(Business Permit)</li>
+                </a>
+                <a href="{{route('brgy_document_claim_business_list')}}">
+                    <li role="presentation">Brgy Document Claim(Business Permit)</li>
+                </a>
+                <a href="{{route('brgy_document_claim_docu_list')}}">
+                    <li role="presentation">Brgy Document Claim(Document Info.)</li>
                 </a>
             </ul>
         </div>
@@ -375,13 +393,13 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
-                    <li role="presentation">Barangay Business</li>
+                <a href="{{route('purpose_document_list')}}">
+                    <li role="presentation">Purpose of Document</li>
                 </a>
-                <a href="">
+                <a href="{{route('business_type_list')}}">
                     <li role="presentation">Business Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('document_type_list')}}">
                     <li role="presentation">Document Type</li>
                 </a>
             </ul>
