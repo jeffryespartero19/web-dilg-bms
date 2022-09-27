@@ -19,8 +19,8 @@ Auth::routes();
 Route::get('/', 'Public_LandingController@index')->name('*');
 Route::get('/main', 'Public_LandingController@main')->name('main');
 Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
-Route::get('/logins/{b_id}', 'BRGYLoginController@index');
-Route::get('/registers/{b_id}', 'BRGYLoginController@registers');
+Route::get('/registers', 'BRGYLoginController@registers');
+Route::post('/create_inhabitants_application_information', 'InhabitantApplicationController@create_inhabitants_information')->name('create_inhabitants_application_information');
 
 Route::group(['middleware' => 'auth'], function () {
       //Home
@@ -483,9 +483,9 @@ Route::group(['middleware' => 'auth'], function () {
 
       //Inhabitant Application
       Route::get('/inhabitant_application', 'InhabitantApplicationController@inhabitant_application')->name('inhabitant_application');
-      Route::post('/create_inhabitants_application_information', 'InhabitantApplicationController@create_inhabitants_information')->name('create_inhabitants_application_information');
       Route::get('/application_list', 'bipsController@application_list')->name('application_list');
       Route::post('/approve_disapprove_application', 'bipsController@approve_disapprove_application')->name('approve_disapprove_application');
+
 
       //Business Type
       Route::get('/business_type_list', 'BCPISMTController@business_type_list')->name('business_type_list');
@@ -539,7 +539,36 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/brgy_document_claim_docu_list', 'BCPISController@brgy_document_claim_docu_list')->name('brgy_document_claim_docu_list');
       Route::get('/brgy_document_claim_docu_details/{id}', 'BCPISController@brgy_document_claim_docu_details');
       Route::post('/create_barangay_document_claim_docu', 'BCPISController@create_barangay_document_claim_docu')->name('create_barangay_document_claim_docu');
+
+      Route::post('/download_Inhabitants', 'bipsController@downloadPDF')->name('download_Inhabitants');
+      Route::post('/view_Inhabitants', 'bipsController@viewPDF')->name('view_Inhabitants');
+      Route::post('/download_Household', 'bipsController@download_householdPDF')->name('download_Household');
+      Route::post('/view_Household', 'bipsController@view_householdPDF')->name('view_Household');
+
+      //BIS Transaction
+      //BIS CMS
+      Route::get('/cms_list', 'BISController@cms_list')->name('cms_list');
+      Route::get('/cms_details/{id}', 'BISController@cms_details');
+      Route::post('/create_cms', 'BISController@create_cms')->name('create_cms');
+      Route::get('/cms_indicator/{id}/{cat_id}', 'BISController@cms_indicator');
+      Route::post('/create_cms_title', 'BISController@create_cms_title')->name('create_cms_title');
+      Route::post('/create_answer_type', 'BISController@create_answer_type')->name('create_answer_type');
+      Route::get('/get_answer_types', 'BISController@get_answer_types');
+
+      //BIS Frequency Maintenance
+      Route::get('/frequency_maint', 'maintenanceController@frequency_maint')->name('frequency_maint');
+      Route::post('/create_frequency_maint', 'maintenanceController@create_frequency_maint')->name('create_frequency_maint');
+      Route::get('/get_frequency_maint', 'maintenanceController@get_frequency_maint')->name('get_frequency_maint');
+      Route::post('/update_frequency_maint', 'maintenanceController@update_frequency_maint')->name('update_frequency_maint');
+
+      //BIS Categories Maintenance
+      Route::get('/categories_maint', 'maintenanceController@categories_maint')->name('categories_maint');
+      Route::post('/create_categories_maint', 'maintenanceController@create_categories_maint')->name('create_categories_maint');
+      Route::get('/get_categories_maint', 'maintenanceController@get_categories_maint')->name('get_categories_maint');
+      Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
+
 });
+
 
 // Global Controller
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');

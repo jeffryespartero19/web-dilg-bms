@@ -101,10 +101,10 @@
             <div class="top-right links" style="z-index: 999">
 
                 <a href="" class="text_hoverable">FAQ</a>
-                <a href="{{ url('logins/'.$b_id) }}" class="text_hoverable">Login</a>
+                <a href="{{ route('login')}}" class="text_hoverable">Login</a>
 
                 @if (Route::has('register'))
-                    <a href="{{ url('registers/'.$b_id) }}" class="text_hoverable">Register</a>
+                    <a href="{{ url('registers')}}" class="text_hoverable">Register</a>
                 @endif
                 
             </div>

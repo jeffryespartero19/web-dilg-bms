@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    
+
 
 <head>
     <meta charset="utf-8">
@@ -114,12 +114,12 @@
     <div id="main_public">
         <div class="top-right links" style="z-index: 999">
 
-            <!-- <a href="" class="text_hoverable">FAQ</a>
-                <a href="{{ route('login') }}" class="text_hoverable">Login</a>
+            <a href="" class="text_hoverable">FAQ</a>
+            <a href="{{ route('login') }}" class="text_hoverable">Login</a>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="text_hoverable">Register</a>
-                @endif -->
+            @if (Route::has('register'))
+            <a href="{{ url('registers') }}" class="text_hoverable">Register</a>
+            @endif
 
         </div>
         <div class="theContent">
