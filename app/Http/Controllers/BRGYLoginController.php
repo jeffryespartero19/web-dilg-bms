@@ -9,7 +9,7 @@ use DB;
 
 class BRGYLoginController extends Controller
 {
-    public function index($b_id)
+    public function index()
     {
         $Barangay_ID = $b_id;
         $barangay = DB::table('maintenance_barangay')->where('Barangay_ID', $Barangay_ID)->get();
@@ -18,10 +18,8 @@ class BRGYLoginController extends Controller
         return view('auth.login', compact('Barangay_ID', 'barangay'));
     }
 
-    public function registers($b_id)
+    public function registers()
     {
-        $Barangay_ID = $b_id;
-        $barangay = DB::table('maintenance_barangay')->where('Barangay_ID', $Barangay_ID)->get();
         $currDATE = Carbon::now();
 
         $province = DB::table('maintenance_province')->where('Active', 1)->get();
@@ -38,8 +36,6 @@ class BRGYLoginController extends Controller
         $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
 
         return view('auth.register', compact(
-            'Barangay_ID',
-            'barangay',
             'currDATE',
             'religion',
             'blood_type',

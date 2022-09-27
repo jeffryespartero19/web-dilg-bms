@@ -1771,4 +1771,104 @@ class maintenanceController extends Controller
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
+
+    //Frequency
+    public function frequency_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bis_frequency')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bis_frequency', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_frequency_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bis_frequency')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Frequency'  => $data['FrequencyX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+    public function get_frequency_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bis_frequency')->where('Frequency_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_frequency_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bis_frequency')->where('Frequency_ID', $data['Frequency_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Frequency'  => $data['FrequencyX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Categories
+    public function categories_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bis_categories')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bis_categories', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_categories_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bis_categories')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Categories'  => $data['CategoriesX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+    public function get_categories_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bis_categories')->where('Categories_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_categories_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bis_categories')->where('Categories_ID', $data['Categories_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Categories'  => $data['CategoriesX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
 }

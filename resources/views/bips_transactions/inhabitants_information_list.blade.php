@@ -92,7 +92,7 @@
     </div>
 </div>
 
-<!-- Create Announcement_Status Modal -->
+<!-- Create Ihabitant Modal -->
 
 <div class="modal fade" id="createInhabitants_Info" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">

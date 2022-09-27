@@ -3,13 +3,6 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12">
-            <center>
-                <h3>Barangay {{$barangay[0]->Barangay_Name}}</h1>
-            </center>
-        </div>
-
-        <br>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
@@ -22,7 +15,6 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input type="number" value="{{$Barangay_ID}}" name="Barangay_ID" hidden>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
@@ -86,8 +78,6 @@
     $(document).ready(function() {
         $('#login_btn').attr('hidden', true);
     });
-
-    
 </script>
 
 @endsection
