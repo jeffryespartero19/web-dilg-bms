@@ -491,7 +491,145 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/view_Inhabitants', 'bipsController@viewPDF')->name('view_Inhabitants');
       Route::post('/download_Household', 'bipsController@download_householdPDF')->name('download_Household');
       Route::post('/view_Household', 'bipsController@view_householdPDF')->name('view_Household');
+
+    //BFAS Maintenance
+      //Type of Fee
+      Route::get('/bfas_type_of_fee_maint', 'BFASController@bfas_type_of_fee_maint')->name('bfas_type_of_fee_maint');
+      Route::post('/create_bfas_type_of_fee_maint', 'BFASController@create_bfas_type_of_fee_maint')->name('create_bfas_type_of_fee_maint');
+      Route::get('/get_bfas_type_of_fee_maint', 'BFASController@get_bfas_type_of_fee_maint')->name('get_bfas_type_of_fee_maint');
+      Route::post('/update_bfas_type_of_fee_maint', 'BFASController@update_bfas_type_of_fee_maint')->name('update_bfas_type_of_fee_maint');
+
+       //Card Type
+       Route::get('/bfas_card_type_maint', 'BFASController@bfas_card_type_maint')->name('bfas_card_type_maint');
+       Route::post('/create_bfas_card_type_maint', 'BFASController@create_bfas_card_type_maint')->name('create_bfas_card_type_maint');
+       Route::get('/get_bfas_card_type_maint', 'BFASController@get_bfas_card_type_maint')->name('get_bfas_card_type_maint');
+       Route::post('/update_bfas_card_type_maint', 'BFASController@update_bfas_card_type_maint')->name('update_bfas_card_type_maint');
+
+       //Account Type
+       Route::get('/bfas_account_type_maint', 'BFASController@bfas_account_type_maint')->name('bfas_account_type_maint');
+       Route::post('/create_bfas_account_type_maint', 'BFASController@create_bfas_account_type_maint')->name('create_bfas_account_type_maint');
+       Route::get('/get_bfas_account_type_maint', 'BFASController@get_bfas_account_type_maint')->name('get_bfas_account_type_maint');
+       Route::post('/update_bfas_account_type_maint', 'BFASController@update_bfas_account_type_maint')->name('update_bfas_account_type_maint');
+
+       //Fund Type
+       Route::get('/bfas_fund_type_maint', 'BFASController@bfas_fund_type_maint')->name('bfas_fund_type_maint');
+       Route::post('/create_bfas_fund_type_maint', 'BFASController@create_bfas_fund_type_maint')->name('create_bfas_fund_type_maint');
+       Route::get('/get_bfas_fund_type_maint', 'BFASController@get_bfas_fund_type_maint')->name('get_bfas_fund_type_maint');
+       Route::post('/update_bfas_fund_type_maint', 'BFASController@update_bfas_fund_type_maint')->name('update_bfas_fund_type_maint');
+
+       //Bank Account
+       Route::get('/bfas_bank_account_maint', 'BFASController@bfas_bank_account_maint')->name('bfas_bank_account_maint');
+       Route::post('/create_bfas_bank_account_maint', 'BFASController@create_bfas_bank_account_maint')->name('create_bfas_bank_account_maint');
+       Route::get('/get_bfas_bank_account_maint', 'BFASController@get_bfas_bank_account_maint')->name('get_bfas_bank_account_maint');
+       Route::post('/update_bfas_bank_account_maint', 'BFASController@update_bfas_bank_account_maint')->name('update_bfas_bank_account_maint');
+
+       //Voucher Status
+       Route::get('/bfas_voucher_status_maint', 'BFASController@bfas_voucher_status_maint')->name('bfas_voucher_status_maint');
+       Route::post('/create_bfas_voucher_status_maint', 'BFASController@create_bfas_voucher_status_maint')->name('create_bfas_voucher_status_maint');
+       Route::get('/get_bfas_voucher_status_maint', 'BFASController@get_bfas_voucher_status_maint')->name('get_bfas_voucher_status_maint');
+       Route::post('/update_bfas_voucher_status_maint', 'BFASController@update_bfas_voucher_status_maint')->name('update_bfas_voucher_status_maint');
+
+       //Tax Code
+       Route::get('/bfas_tax_code_maint', 'BFASController@bfas_tax_code_maint')->name('bfas_tax_code_maint');
+       Route::post('/create_bfas_tax_code_maint', 'BFASController@create_bfas_tax_code_maint')->name('create_bfas_tax_code_maint');
+       Route::get('/get_bfas_tax_code_maint', 'BFASController@get_bfas_tax_code_maint')->name('get_bfas_tax_code_maint');
+       Route::post('/update_bfas_tax_code_maint', 'BFASController@update_bfas_tax_code_maint')->name('update_bfas_tax_code_maint');
+
+       //Tax Type
+       Route::get('/bfas_tax_type_maint', 'BFASController@bfas_tax_type_maint')->name('bfas_tax_type_maint');
+       Route::post('/create_bfas_tax_type_maint', 'BFASController@create_bfas_tax_type_maint')->name('create_bfas_tax_type_maint');
+       Route::get('/get_bfas_tax_type_maint', 'BFASController@get_bfas_tax_type_maint')->name('get_bfas_tax_type_maint');
+       Route::post('/update_bfas_tax_type_maint', 'BFASController@update_bfas_tax_type_maint')->name('update_bfas_tax_type_maint');
+
+       //Journal Type
+       Route::get('/bfas_journal_type_maint', 'BFASController@bfas_journal_type_maint')->name('bfas_journal_type_maint');
+       Route::post('/create_bfas_journal_type_maint', 'BFASController@create_bfas_journal_type_maint')->name('create_bfas_journal_type_maint');
+       Route::get('/get_bfas_journal_type_maint', 'BFASController@get_bfas_journal_type_maint')->name('get_bfas_journal_type_maint');
+       Route::post('/update_bfas_journal_type_maint', 'BFASController@update_bfas_journal_type_maint')->name('update_bfas_journal_type_maint');
+
+       //Appropriation Type
+       Route::get('/bfas_appropriation_type_maint', 'BFASController@bfas_appropriation_type_maint')->name('bfas_appropriation_type_maint');
+       Route::post('/create_bfas_appropriation_type_maint', 'BFASController@create_bfas_appropriation_type_maint')->name('create_bfas_appropriation_type_maint');
+       Route::get('/get_bfas_appropriation_type_maint', 'BFASController@get_bfas_appropriation_type_maint')->name('get_bfas_appropriation_type_maint');
+       Route::post('/update_bfas_appropriation_type_maint', 'BFASController@update_bfas_appropriation_type_maint')->name('update_bfas_appropriation_type_maint');
+
+       //Account Code
+       Route::get('/bfas_account_code_maint', 'BFASController@bfas_account_code_maint')->name('bfas_account_code_maint');
+       Route::post('/create_bfas_account_code_maint', 'BFASController@create_bfas_account_code_maint')->name('create_bfas_account_code_maint');
+       Route::get('/get_bfas_account_code_maint', 'BFASController@get_bfas_account_code_maint')->name('get_bfas_account_code_maint');
+       Route::post('/update_bfas_account_code_maint', 'BFASController@update_bfas_account_code_maint')->name('update_bfas_account_code_maint');
+
+       //Expediture Type
+       Route::get('/bfas_expenditure_type_maint', 'BFASController@bfas_expenditure_type_maint')->name('bfas_expenditure_type_maint');
+       Route::post('/create_bfas_expenditure_type_maint', 'BFASController@create_bfas_expenditure_type_maint')->name('create_bfas_expenditure_type_maint');
+       Route::get('/get_bfas_expenditure_type_maint', 'BFASController@get_bfas_expenditure_type_maint')->name('get_bfas_expenditure_type_maint');
+       Route::post('/update_bfas_expenditure_type_maint', 'BFASController@update_bfas_expenditure_type_maint')->name('update_bfas_expenditure_type_maint');
+       
+    //BFAS Transactions
+
+    //JEV Collection
+    Route::get('/bfas_jev_collection', 'BFASController@bfas_jev_collection')->name('bfas_jev_collection');
+    Route::post('/create_bfas_jev_collection', 'BFASController@create_bfas_jev_collection')->name('create_bfas_jev_collection');
+    Route::get('/get_bfas_jev_collection', 'BFASController@get_bfas_jev_collection')->name('get_bfas_jev_collection');
+    Route::post('/update_bfas_jev_collection', 'BFASController@update_bfas_jev_collection')->name('update_bfas_jev_collection');
+    
+    //JEV Disbursement
+    Route::get('/bfas_jev_disbursement', 'BFASController@bfas_jev_disbursement')->name('bfas_jev_disbursement');
+    Route::post('/create_bfas_jev_disbursement', 'BFASController@create_bfas_jev_disbursement')->name('create_bfas_jev_disbursement');
+    Route::get('/get_bfas_jev_disbursement', 'BFASController@get_bfas_jev_disbursement')->name('get_bfas_jev_disbursement');
+    Route::post('/update_bfas_jev_disbursement', 'BFASController@update_bfas_jev_disbursement')->name('update_bfas_jev_disbursement');
+
+    //Budget Appropriation
+    Route::get('/bfas_budget_appropriation', 'BFASController@bfas_budget_appropriation')->name('bfas_budget_appropriation');
+    Route::post('/create_bfas_budget_appropriation', 'BFASController@create_bfas_budget_appropriation')->name('create_bfas_budget_appropriation');
+    Route::get('/get_bfas_budget_appropriation', 'BFASController@get_bfas_budget_appropriation')->name('get_bfas_budget_appropriation');
+    Route::post('/update_bfas_budget_appropriation', 'BFASController@update_bfas_budget_appropriation')->name('update_bfas_budget_appropriation');
+
+    //Budget SAAODBA
+    Route::get('/bfas_SAAODBA', 'BFASController@bfas_SAAODBA')->name('bfas_SAAODBA');
+    Route::post('/create_bfas_SAAODBA', 'BFASController@create_bfas_SAAODBA')->name('create_bfas_SAAODBA');
+    Route::get('/get_bfas_SAAODBA', 'BFASController@get_bfas_SAAODBA')->name('get_bfas_SAAODBA');
+    Route::post('/update_bfas_SAAODBA', 'BFASController@update_bfas_SAAODBA')->name('update_bfas_SAAODBA');
+
+    //Obligation Request
+    Route::get('/bfas_obligation_request', 'BFASController@bfas_obligation_request')->name('bfas_obligation_request');
+    Route::post('/create_bfas_obligation_request', 'BFASController@create_bfas_jev_collection')->name('create_bfas_jev_collection');
+    Route::get('/get_bfas_obligation_request', 'BFASController@get_bfas_jev_collection')->name('get_bfas_jev_collection');
+    Route::post('/update_bfas_jev_collection', 'BFASController@update_bfas_jev_collection')->name('update_bfas_jev_collection');
+
+    //Disbursement Voucher
+    Route::get('/bfas_disbursement_voucher', 'BFASController@bfas_disbursement_voucher')->name('bfas_disbursement_voucher');
+    Route::post('/create_bfas_disbursement_voucher', 'BFASController@create_bfas_disbursement_voucher')->name('create_bfas_disbursement_voucher');
+    Route::get('/get_bfas_disbursement_voucher', 'BFASController@get_bfas_disbursement_voucher')->name('get_bfas_disbursement_voucher');
+    Route::post('/update_bfas_disbursement_voucher', 'BFASController@update_bfas_disbursement_voucher')->name('update_bfas_disbursement_voucher');
+
+    //Check Preparation
+    Route::get('/bfas_check_preparation', 'BFASController@bfas_check_preparation')->name('bfas_check_preparation');
+    Route::post('/create_bfas_check_preparation', 'BFASController@create_bfas_check_preparation')->name('create_bfas_check_preparation');
+    Route::get('/get_bfas_check_preparation', 'BFASController@get_bfas_check_preparation')->name('get_bfas_check_preparation');
+    Route::post('/update_bfas_check_preparation', 'BFASController@update_bfas_check_preparation')->name('update_bfas_check_preparation');
+
+    //Check Status
+    Route::get('/bfas_check_status', 'BFASController@bfas_check_status')->name('bfas_check_status');
+    Route::post('/create_bfas_check_status', 'BFASController@create_bfas_check_status')->name('create_bfas_check_status');
+    Route::get('/get_bfas_check_status', 'BFASController@get_bfas_check_status')->name('get_bfas_check_status');
+    Route::post('/update_bfas_check_status', 'BFASController@update_bfas_check_status')->name('update_bfas_check_status');
+
+    //Payment Collection
+    Route::get('/bfas_payment_collection', 'BFASController@bfas_obligation_request')->name('bfas_obligation_request');
+    Route::post('/create_bfas_payment_collection', 'BFASController@create_bfas_payment_collection')->name('create_bfas_payment_collection');
+    Route::get('/get_bfas_payment_collection', 'BFASController@get_bfas_payment_collection')->name('get_bfas_payment_collection');
+    Route::post('/update_bfas_payment_collection', 'BFASController@update_bfas_payment_collection')->name('update_bfas_payment_collection');
+
+    //Card File 
+    Route::get('/bfas_card_file', 'BFASController@bfas_card_file')->name('bfas_card_file');
+    Route::post('/create_bfas_card_file', 'BFASController@create_bfas_card_file')->name('create_bfas_card_file');
+    Route::get('/get_bfas_card_file', 'BFASController@get_bfas_card_file')->name('get_bfas_card_file');
+    Route::post('/update_bfas_card_file', 'BFASController@update_bfas_card_file')->name('update_bfas_card_file');
+
+    
 });
+
 
 
 // Global Controller

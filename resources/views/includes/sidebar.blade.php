@@ -393,7 +393,7 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('bfas_type_of_fee_maint')}}">
                     <li role="presentation">Type of Fee</li>
                 </a>
                 <a href="">
