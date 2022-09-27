@@ -482,12 +482,21 @@ class BISController extends Controller
         );
     }
 
-    // Get City
+    // Get Answer Type
     public function get_answer_types(Request $request)
     {
         $data = DB::table('bis_cms_answer_types')
             ->where(['Active' => 1])
             ->orderBy('Date_Stamp', 'desc')->first();
+
+        return json_encode($data);
+    }
+
+    public function get_answer_types_list($id)
+    {
+        $data = DB::table('bis_cms_answer_types')
+            ->where(['Answer_Type_ID' => $id])
+            ->first();
 
         return json_encode($data);
     }

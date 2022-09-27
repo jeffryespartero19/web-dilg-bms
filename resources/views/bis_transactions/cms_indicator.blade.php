@@ -115,7 +115,8 @@
                                     <input type="number" class="form-control" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
                                 </div>
                                 <div class="form-group col-lg-3">
-                                    <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                                    <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" hidden><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
                                 </div>
                             </div>
                         </div>
@@ -156,11 +157,11 @@
                         <label for="Widget" class="col-form-label">Widget:</label>
                         <select class="form-control" name="Widget" required>
                             <option value='' disabled selected>Select Option</option>
-                            <!-- <option value='RADIO'>RADIO</option>
-                            <option value='CHECKBOX'>CHECKBOX</option> -->
+                            <option value='RADIO'>RADIO</option>
+                            <option value='CHECKBOX'>CHECKBOX</option>
                             <option value='TEXTBOX'>TEXTBOX</option>
                             <option value='TEXTAREA'>TEXTAREA</option>
-                            <!-- <option value='SELECT'>SELECT</option> -->
+                            <option value='SELECT'>SELECT</option>
                             <option value='DATEPICKER'>DATEPICKER</option>
                             <option value='DATETIMEPICKER'>DATETIMEPICKER</option>
                         </select>
@@ -311,6 +312,68 @@
     </form>
 </div>
 
+<div class="modal fade" id="ADD_OPTIONS_modal" tabindex="-1" role="dialog" aria-labelledby="ADD_OPTIONS_modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Add Option</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="ADD_AT" method="POST" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="Title" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" name="Title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Description" class="col-form-label">Description:</label>
+                        <textarea class="form-control" name="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="Widget" class="col-form-label">Widget:</label>
+                        <select class="form-control" name="Widget" required>
+                            <option value='' disabled selected>Select Option</option>
+                            <option value='RADIO'>RADIO</option>
+                            <option value='CHECKBOX'>CHECKBOX</option>
+                            <option value='TEXTBOX'>TEXTBOX</option>
+                            <option value='TEXTAREA'>TEXTAREA</option>
+                            <option value='SELECT'>SELECT</option>
+                            <option value='DATEPICKER'>DATEPICKER</option>
+                            <option value='DATETIMEPICKER'>DATETIMEPICKER</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Data_Type  " class="col-form-label">Data Type:</label>
+                        <select class="form-control" name="Data_Type" required>
+                            <option value='' disabled selected>Select Option</option>
+                            <option value='STRING'>STRING</option>
+                            <option value='NUMERIC'>NUMERIC</option>
+                            <option value='DECIMAL'>DECIMAL</option>
+                            <option value='DATE'>DATE</option>
+                            <option value='DATETIME'>DATETIME</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Active" class="col-form-label">Active:</label>
+                        <select class="form-control" name="Active" required>
+                            <option value=1 selected>Yes</option>
+                            <option value=0>No</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Create Announcement_Status END -->
 
@@ -418,6 +481,28 @@
             e.preventDefault();
         }
     );
+
+    $(document).on("change", ".answer_types", function() {
+        $id = $(this).val();
+        var div_main = $(this).closest(".IndicatorDIV");
+
+        $.ajax({
+            type: "GET",
+            url: "/get_answer_types_list/" + $id,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data["Widget"]);
+                if (data["Widget"] == 'RADIO' || data["Widget"] == 'SELECT' || data["Widget"] == 'CHECKBOX') {
+                    div_main.find(".ADD_OPTIONS_modal").prop('hidden', false);
+                } else {
+                    div_main.find(".ADD_OPTIONS_modal").prop('hidden', true);
+                }
+            }
+        });
+    });
 </script>
 
 <style>
