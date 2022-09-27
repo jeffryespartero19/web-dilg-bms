@@ -41,6 +41,6 @@ class LoginController extends Controller
 
     protected function credentials(Request $request)
     {
-        return array_merge($request->only($this->username(), 'password'), ['Barangay_ID' => $request->Barangay_ID]);
+        return array_merge($request->only($this->username(), 'password'));
     }
 }

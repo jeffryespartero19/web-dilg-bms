@@ -244,7 +244,7 @@
                 <a href="">
                     <li role="presentation">Barangay Officials Term History</li>
                 </a>
-                <a href="">
+                <a href="{{route('cms_list')}}">
                     <li role="presentation">Content Management System</li>
                 </a>
 
@@ -522,10 +522,10 @@
                 <a href="">
                     <li role="presentation">Term Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('categories_maint')}}">
                     <li role="presentation">BIS Categories</li>
                 </a>
-                <a href="">
+                <a href="{{route('frequency_maint')}}">
                     <li role="presentation">BIS Frequency</li>
                 </a>
             </ul>
