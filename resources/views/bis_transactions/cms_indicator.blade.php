@@ -156,11 +156,11 @@
                         <label for="Widget" class="col-form-label">Widget:</label>
                         <select class="form-control" name="Widget" required>
                             <option value='' disabled selected>Select Option</option>
-                            <option value='RADIO'>RADIO</option>
-                            <option value='CHECKBOX'>CHECKBOX</option>
+                            <!-- <option value='RADIO'>RADIO</option>
+                            <option value='CHECKBOX'>CHECKBOX</option> -->
                             <option value='TEXTBOX'>TEXTBOX</option>
                             <option value='TEXTAREA'>TEXTAREA</option>
-                            <option value='SELECT'>SELECT</option>
+                            <!-- <option value='SELECT'>SELECT</option> -->
                             <option value='DATEPICKER'>DATEPICKER</option>
                             <option value='DATETIMEPICKER'>DATETIMEPICKER</option>
                         </select>

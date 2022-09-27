@@ -18,13 +18,26 @@ class BISController extends Controller
     public function cms_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bis_cms_barangay_profile')
-            ->paginate(20, ['*'], 'db_entries');
 
-        return view('bis_transactions.cms_list', compact(
-            'db_entries',
-            'currDATE'
-        ));
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bis_cms_barangay_profile')
+                ->where('Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+
+            return view('bis_transactions.cms_list_dilg_user', compact(
+                'db_entries',
+                'currDATE'
+            ));
+        } else {
+            $db_entries = DB::table('bis_cms_barangay_profile')
+                ->paginate(20, ['*'], 'db_entries');
+
+            return view('bis_transactions.cms_list', compact(
+                'db_entries',
+                'currDATE'
+            ));
+        }
     }
 
 
@@ -33,69 +46,100 @@ class BISController extends Controller
     {
         $currDATE = Carbon::now();
 
-        if ($id == 0) {
-            $Barangay_Profile = collect([
-                (object) [
-                    'CMS_Barangay_Profile_ID' => '0',
-                    'Title' => '',
-                    'Description' => '',
-                    'Date_Updated' => '',
-                    'Frequency_ID' => '',
-                    'Status' => '',
-                    'Categories_ID' => '',
-                    'Barangay_ID' => '',
-                    'City_Municipality_ID' => '',
-                    'Province_ID' => '',
-                    'Region_ID' => '',
-                ],
-            ]);
-            $categories = DB::table('maintenance_bis_categories')->where('Active', 1)->get();
-            $frequency = DB::table('maintenance_bis_frequency')->where('Active', 1)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->get();
-            $barangay = DB::table('maintenance_barangay')->get();
-            $bp_categories = collect([
-                (object) [
-                    'Categories_ID' => '0',
-                    'Categories' => ''
-                ],
-            ]);
-            return view('bis_transactions.cms_details', compact(
-                'currDATE',
-                'frequency',
-                'categories',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                'Barangay_Profile',
-                'bp_categories'
-            ));
+        if (Auth::user()->User_Type_ID == 3) {
+            if ($id != 0) {
+                $Barangay_Profile = DB::table('bis_cms_barangay_profile')
+                    ->where('CMS_Barangay_Profile_ID', $id)
+
+                    ->get();
+                $categories = DB::table('maintenance_bis_categories')->where('Active', 1)->get();
+                $frequency = DB::table('maintenance_bis_frequency')->where('Active', 1)->get();
+                $region = DB::table('maintenance_region')->where('Active', 1)->get();
+                $province = DB::table('maintenance_province')->get();
+                $city_municipality = DB::table('maintenance_city_municipality')->get();
+                $barangay = DB::table('maintenance_barangay')->get();
+                $bp_categories = DB::table('bis_cms_barangay_profile_categories as a')
+                    ->leftjoin('maintenance_bis_categories as b', 'a.Categories_ID', '=', 'b.Categories_ID')
+                    ->select('a.Categories_ID', 'b.Categories', 'a.CMS_Barangay_Profile_ID')
+                    ->where('a.CMS_Barangay_Profile_ID', $id)
+                    ->get();
+                return view('bis_transactions.cms_details_dilg_user', compact(
+                    'currDATE',
+                    'frequency',
+                    'categories',
+                    'region',
+                    'province',
+                    'city_municipality',
+                    'barangay',
+                    'Barangay_Profile',
+                    'bp_categories'
+                ));
+            }
         } else {
-            $Barangay_Profile = DB::table('bis_cms_barangay_profile')->where('CMS_Barangay_Profile_ID', $id)->get();
-            $categories = DB::table('maintenance_bis_categories')->where('Active', 1)->get();
-            $frequency = DB::table('maintenance_bis_frequency')->where('Active', 1)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->get();
-            $barangay = DB::table('maintenance_barangay')->get();
-            $bp_categories = DB::table('bis_cms_barangay_profile_categories as a')
-                ->leftjoin('maintenance_bis_categories as b', 'a.Categories_ID', '=', 'b.Categories_ID')
-                ->select('a.Categories_ID', 'b.Categories', 'a.CMS_Barangay_Profile_ID')
-                ->where('a.CMS_Barangay_Profile_ID', $id)
-                ->get();
-            return view('bis_transactions.cms_details', compact(
-                'currDATE',
-                'frequency',
-                'categories',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                'Barangay_Profile',
-                'bp_categories'
-            ));
+            if ($id == 0) {
+                $Barangay_Profile = collect([
+                    (object) [
+                        'CMS_Barangay_Profile_ID' => '0',
+                        'Title' => '',
+                        'Description' => '',
+                        'Date_Updated' => '',
+                        'Frequency_ID' => '',
+                        'Status' => '',
+                        'Categories_ID' => '',
+                        'Barangay_ID' => '',
+                        'City_Municipality_ID' => '',
+                        'Province_ID' => '',
+                        'Region_ID' => '',
+                    ],
+                ]);
+                $categories = DB::table('maintenance_bis_categories')->where('Active', 1)->get();
+                $frequency = DB::table('maintenance_bis_frequency')->where('Active', 1)->get();
+                $region = DB::table('maintenance_region')->where('Active', 1)->get();
+                $province = DB::table('maintenance_province')->get();
+                $city_municipality = DB::table('maintenance_city_municipality')->get();
+                $barangay = DB::table('maintenance_barangay')->get();
+                $bp_categories = collect([
+                    (object) [
+                        'Categories_ID' => '0',
+                        'Categories' => ''
+                    ],
+                ]);
+                return view('bis_transactions.cms_details', compact(
+                    'currDATE',
+                    'frequency',
+                    'categories',
+                    'region',
+                    'province',
+                    'city_municipality',
+                    'barangay',
+                    'Barangay_Profile',
+                    'bp_categories'
+                ));
+            } else {
+                $Barangay_Profile = DB::table('bis_cms_barangay_profile')->where('CMS_Barangay_Profile_ID', $id)->get();
+                $categories = DB::table('maintenance_bis_categories')->where('Active', 1)->get();
+                $frequency = DB::table('maintenance_bis_frequency')->where('Active', 1)->get();
+                $region = DB::table('maintenance_region')->where('Active', 1)->get();
+                $province = DB::table('maintenance_province')->get();
+                $city_municipality = DB::table('maintenance_city_municipality')->get();
+                $barangay = DB::table('maintenance_barangay')->get();
+                $bp_categories = DB::table('bis_cms_barangay_profile_categories as a')
+                    ->leftjoin('maintenance_bis_categories as b', 'a.Categories_ID', '=', 'b.Categories_ID')
+                    ->select('a.Categories_ID', 'b.Categories', 'a.CMS_Barangay_Profile_ID')
+                    ->where('a.CMS_Barangay_Profile_ID', $id)
+                    ->get();
+                return view('bis_transactions.cms_details', compact(
+                    'currDATE',
+                    'frequency',
+                    'categories',
+                    'region',
+                    'province',
+                    'city_municipality',
+                    'barangay',
+                    'Barangay_Profile',
+                    'bp_categories'
+                ));
+            }
         }
     }
 
@@ -195,62 +239,93 @@ class BISController extends Controller
     {
         $currDATE = Carbon::now();
 
-        if ($id == 0) {
-            $title = collect([
-                (object) [
-                    'Title_ID' => 0,
-                    'CMS_Barangay_Profile_ID' => '',
-                    'Title' => '',
-                    'Visible' => '',
-                    'Instructions' => '',
-                    'Min_Indicator' => '',
-                    'Max_Indicator' => ''
-                ],
-            ]);
-            $indicator = collect([
-                (object) [
-                    'Indicator_ID' => '0',
-                    'Title_ID' => '0',
-                    'Answer_Types_ID' => '',
-                    'Indicator_Description' => '',
-                    'Min_Answer' => '',
-                    'Max_Answer' => '',
-                ],
-            ]);
-            $answer_type = DB::table('bis_cms_answer_types')->where('Active', 1)->get();
+        if (Auth::user()->User_Type_ID == 3) {
+            if ($id != 0) {
+                $title = DB::table('bis_cms_title')->where('CMS_Barangay_Profile_ID', $id)
+                    ->where('Categories_ID', $cat_id)
+                    ->get();
+                $indicator = DB::table('bis_cms_indicator as a')
+                    ->leftjoin('bis_cms_title as b', 'a.Title_ID', '=', 'b.Title_ID')
+                    ->leftjoin('bis_cms_answer_types as c', 'a.Answer_Types_ID', '=', 'c.Answer_Type_ID')
+                    ->select(
+                        'a.Indicator_ID',
+                        'a.Title_ID',
+                        'a.Answer_Types_ID',
+                        'a.Indicator_Description',
+                        'a.Min_Answer',
+                        'a.Max_Answer',
+                        'c.Widget'
+                    )
+                    ->where('b.CMS_Barangay_Profile_ID', $id)
+                    ->get();
+                $answer_type = DB::table('bis_cms_answer_types')->where('Active', 1)->get();
 
-            return view('bis_transactions.cms_indicator', compact(
-                'title',
-                'id',
-                'answer_type',
-                'indicator',
-                'cat_id'
-            ));
+                return view('bis_transactions.cms_indicator_dilg_user', compact(
+                    'title',
+                    'id',
+                    'answer_type',
+                    'indicator',
+                    'cat_id'
+                ));
+            }
         } else {
-            $title = DB::table('bis_cms_title')->where('CMS_Barangay_Profile_ID', $id)
-                ->where('Categories_ID', $cat_id)
-                ->get();
-            $indicator = DB::table('bis_cms_indicator as a')
-                ->leftjoin('bis_cms_title as b', 'a.Title_ID', '=', 'b.Title_ID')
-                ->select(
-                    'a.Indicator_ID',
-                    'a.Title_ID',
-                    'a.Answer_Types_ID',
-                    'a.Indicator_Description',
-                    'a.Min_Answer',
-                    'a.Max_Answer',
-                )
-                ->where('b.CMS_Barangay_Profile_ID', $id)
-                ->get();
-            $answer_type = DB::table('bis_cms_answer_types')->where('Active', 1)->get();
+            if ($id == 0) {
+                $title = collect([
+                    (object) [
+                        'Title_ID' => 0,
+                        'CMS_Barangay_Profile_ID' => '',
+                        'Title' => '',
+                        'Visible' => '',
+                        'Instructions' => '',
+                        'Min_Indicator' => '',
+                        'Max_Indicator' => ''
+                    ],
+                ]);
+                $indicator = collect([
+                    (object) [
+                        'Indicator_ID' => '0',
+                        'Title_ID' => '0',
+                        'Answer_Types_ID' => '',
+                        'Indicator_Description' => '',
+                        'Min_Answer' => '',
+                        'Max_Answer' => '',
+                    ],
+                ]);
+                $answer_type = DB::table('bis_cms_answer_types')->where('Active', 1)->get();
 
-            return view('bis_transactions.cms_indicator', compact(
-                'title',
-                'id',
-                'answer_type',
-                'indicator',
-                'cat_id'
-            ));
+                return view('bis_transactions.cms_indicator', compact(
+                    'title',
+                    'id',
+                    'answer_type',
+                    'indicator',
+                    'cat_id'
+                ));
+            } else {
+                $title = DB::table('bis_cms_title')->where('CMS_Barangay_Profile_ID', $id)
+                    ->where('Categories_ID', $cat_id)
+                    ->get();
+                $indicator = DB::table('bis_cms_indicator as a')
+                    ->leftjoin('bis_cms_title as b', 'a.Title_ID', '=', 'b.Title_ID')
+                    ->select(
+                        'a.Indicator_ID',
+                        'a.Title_ID',
+                        'a.Answer_Types_ID',
+                        'a.Indicator_Description',
+                        'a.Min_Answer',
+                        'a.Max_Answer',
+                    )
+                    ->where('b.CMS_Barangay_Profile_ID', $id)
+                    ->get();
+                $answer_type = DB::table('bis_cms_answer_types')->where('Active', 1)->get();
+
+                return view('bis_transactions.cms_indicator', compact(
+                    'title',
+                    'id',
+                    'answer_type',
+                    'indicator',
+                    'cat_id'
+                ));
+            }
         }
     }
 
