@@ -420,8 +420,8 @@
                                         <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Missing_Birthdate[]" value="{{$id->Non_Resident_Birthdate}}">
                                     </td>
                                     <td>
-                                        <select class="form-control" style="width: 200px; pointer-events:none" name="Individual_Found[]">
-                                            <option value='' disabled selected>Select Option</option>
+                                        <select class="form-control" style="width: 200px; " name="Individual_Found[]">
+                                            <option value='' selected>Select Option</option>
                                             <option value=0 {{ 0 == $id->Individual_Found  ? "selected" : "" }}>No</option>
                                             <option value=1 {{ 1 == $id->Individual_Found  ? "selected" : "" }}>Yes</option>
                                         </select>

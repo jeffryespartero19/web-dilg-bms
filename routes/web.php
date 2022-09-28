@@ -486,6 +486,60 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/application_list', 'bipsController@application_list')->name('application_list');
       Route::post('/approve_disapprove_application', 'bipsController@approve_disapprove_application')->name('approve_disapprove_application');
 
+
+      //Business Type
+      Route::get('/business_type_list', 'BCPISMTController@business_type_list')->name('business_type_list');
+      Route::post('/create_business_type', 'BCPISMTController@create_business_type')->name('create_business_type');
+      Route::get('/get_business_type', 'BCPISMTController@get_business_type')->name('get_business_type');
+      Route::post('/update_business_type', 'BCPISMTController@update_business_type')->name('update_business_type');
+
+      //Purpose of Document
+      Route::get('/purpose_document_list', 'BCPISMTController@purpose_document_list')->name('purpose_document_list');
+      Route::post('/create_purpose_document', 'BCPISMTController@create_purpose_document')->name('create_purpose_document');
+      Route::get('/get_purpose_document', 'BCPISMTController@get_purpose_document')->name('get_purpose_document');
+      Route::post('/update_purpose_document', 'BCPISMTController@update_purpose_document')->name('update_purpose_document');
+
+      //Document Type
+      Route::get('/document_type_list', 'BCPISMTController@document_type_list')->name('document_type_list');
+      Route::post('/create_document_type', 'BCPISMTController@create_document_type')->name('create_document_type');
+      Route::get('/get_document_type', 'BCPISMTController@get_document_type')->name('get_document_type');
+      Route::post('/update_document_type', 'BCPISMTController@update_document_type')->name('update_document_type');
+
+      //Brgy Document Information
+      Route::get('/brgy_document_information_list', 'BCPISController@brgy_document_information_list')->name('brgy_document_information_list');
+      Route::get('/brgy_document_information_details/{id}', 'BCPISController@brgy_document_information_details');
+      Route::post('/create_brgy_document_information', 'BCPISController@create_brgy_document_information')->name('create_brgy_document_information');
+
+      //Barangay Business Information
+      Route::get('/barangay_business_list', 'BCPISController@barangay_business_list')->name('barangay_business_list');
+      Route::get('/barangay_business_details/{id}', 'BCPISController@barangay_business_details');
+      Route::post('/create_barangay_business', 'BCPISController@create_barangay_business')->name('create_barangay_business');
+
+      //Barangay Business Permit
+      Route::get('/brgy_business_permit_list', 'BCPISController@brgy_business_permit_list')->name('brgy_business_permit_list');
+      Route::get('/brgy_business_permit_details/{id}', 'BCPISController@brgy_business_permit_details');
+      Route::post('/create_barangay_business_permit', 'BCPISController@create_barangay_business_permit')->name('create_barangay_business_permit');
+
+      //Barangay Payment Collected Docu
+      Route::get('/brgy_payment_collected_docu_list', 'BCPISController@brgy_payment_collected_docu_list')->name('brgy_payment_collected_docu_list');
+      Route::get('/brgy_payment_collected_docu_details/{id}', 'BCPISController@brgy_payment_collected_docu_details');
+      Route::post('/create_barangay_payment_collected_docu', 'BCPISController@create_barangay_payment_collected_docu')->name('create_barangay_payment_collected_docu');
+      
+      //Barangay Payment Collected Business
+      Route::get('/brgy_payment_collected_business_list', 'BCPISController@brgy_payment_collected_business_list')->name('brgy_payment_collected_business_list');
+      Route::get('/brgy_payment_collected_business_details/{id}', 'BCPISController@brgy_payment_collected_business_details');
+      Route::post('/create_barangay_payment_collected_business', 'BCPISController@create_barangay_payment_collected_business')->name('create_barangay_payment_collected_business');
+
+      //Barangay Document Claim Business
+      Route::get('/brgy_document_claim_business_list', 'BCPISController@brgy_document_claim_business_list')->name('brgy_document_claim_business_list');
+      Route::get('/brgy_document_claim_business_details/{id}', 'BCPISController@brgy_document_claim_business_details');
+      Route::post('/create_barangay_document_claim_business', 'BCPISController@create_barangay_document_claim_business')->name('create_barangay_document_claim_business');
+
+      //Barangay Document Claim Docue
+      Route::get('/brgy_document_claim_docu_list', 'BCPISController@brgy_document_claim_docu_list')->name('brgy_document_claim_docu_list');
+      Route::get('/brgy_document_claim_docu_details/{id}', 'BCPISController@brgy_document_claim_docu_details');
+      Route::post('/create_barangay_document_claim_docu', 'BCPISController@create_barangay_document_claim_docu')->name('create_barangay_document_claim_docu');
+
       Route::post('/download_Inhabitants', 'bipsController@downloadPDF')->name('download_Inhabitants');
       Route::post('/view_Inhabitants', 'bipsController@viewPDF')->name('view_Inhabitants');
       Route::post('/download_Household', 'bipsController@download_householdPDF')->name('download_Household');
@@ -512,6 +566,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_categories_maint', 'maintenanceController@create_categories_maint')->name('create_categories_maint');
       Route::get('/get_categories_maint', 'maintenanceController@get_categories_maint')->name('get_categories_maint');
       Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
+
 });
 
 
