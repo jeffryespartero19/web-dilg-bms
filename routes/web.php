@@ -512,6 +512,10 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_categories_maint', 'maintenanceController@create_categories_maint')->name('create_categories_maint');
       Route::get('/get_categories_maint', 'maintenanceController@get_categories_maint')->name('get_categories_maint');
       Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
+
+      // Create Indicator Options
+      Route::get('/create_indicator_options', 'BISController@create_indicator_options')->name('create_indicator_options');
+      Route::get('/get_answer_classification/{id}', 'BISController@get_answer_classification');
 });
 
 
