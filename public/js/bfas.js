@@ -290,4 +290,30 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+    if(ident == 6){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_voucher_status_maint",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Voucher_Status_ID']);
+
+                $('#this_voucher_status').val(data['theEntry'][0]['Voucher_Status']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+
+            }
+        });
+    }
+
 });

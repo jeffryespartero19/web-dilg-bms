@@ -426,7 +426,7 @@
                 <a href="{{route('bfas_bank_account_maint')}}">
                     <li role="presentation">Bank Account</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_voucher_status_maint')}}">
                     <li role="presentation">Voucher Status</li>
                 </a>
                 <a href="">
