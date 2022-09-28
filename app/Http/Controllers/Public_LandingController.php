@@ -12,9 +12,9 @@ class Public_LandingController extends Controller
     public function index()
     {
         $currDATE = Carbon::now();
-        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $regionX = DB::table('maintenance_region')->where('Active', 1)->get();
 
-        return view('main_page', compact('currDATE', 'region'));
+        return view('main_page', compact('currDATE', 'regionX'));
     }
 
     public function main(Request $request)

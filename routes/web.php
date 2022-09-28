@@ -648,6 +648,8 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_categories_maint', 'maintenanceController@create_categories_maint')->name('create_categories_maint');
       Route::get('/get_categories_maint', 'maintenanceController@get_categories_maint')->name('get_categories_maint');
       Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
+
+      
 });
 
 
@@ -656,3 +658,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+
+//For Drop Downs
+Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');
+Route::get('/list_city', 'DropDownsController@list_city')->name('list_city');
+Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');

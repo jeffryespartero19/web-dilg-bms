@@ -396,16 +396,16 @@
                 <a href="{{route('bfas_type_of_fee_maint')}}">
                     <li role="presentation">Type of Fee</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_card_type_maint')}}">
                     <li role="presentation">Card Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_account_type_maint')}}">
                     <li role="presentation">Account Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_fund_type_maint')}}">
                     <li role="presentation">Fund Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_bank_account_maint')}}">
                     <li role="presentation">Bank Account</li>
                 </a>
                 <a href="">
@@ -424,11 +424,12 @@
                     <li role="presentation">Appropriation Type</li>
                 </a>
                 <a href="">
-                    <li role="presentation">Account Code</li>
-                </a>
-                <a href="">
                     <li role="presentation">Expenditure Type</li>
                 </a>
+                <a href="">
+                    <li role="presentation">Account Code</li>
+                </a>
+                
             </ul>
         </div>
         <div class="module">
