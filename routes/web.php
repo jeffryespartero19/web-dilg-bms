@@ -554,7 +554,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_cms_title', 'BISController@create_cms_title')->name('create_cms_title');
       Route::post('/create_answer_type', 'BISController@create_answer_type')->name('create_answer_type');
       Route::get('/get_answer_types', 'BISController@get_answer_types');
-
+      Route::get('/get_answer_types_list/{id}', 'BISController@get_answer_types_list');
       //BIS Frequency Maintenance
       Route::get('/frequency_maint', 'maintenanceController@frequency_maint')->name('frequency_maint');
       Route::post('/create_frequency_maint', 'maintenanceController@create_frequency_maint')->name('create_frequency_maint');
@@ -566,6 +566,10 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/create_categories_maint', 'maintenanceController@create_categories_maint')->name('create_categories_maint');
       Route::get('/get_categories_maint', 'maintenanceController@get_categories_maint')->name('get_categories_maint');
       Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
+
+      // Create Indicator Options
+      Route::get('/create_indicator_options', 'BISController@create_indicator_options')->name('create_indicator_options');
+      Route::get('/get_answer_classification/{id}', 'BISController@get_answer_classification');
 
 });
 

@@ -91,7 +91,7 @@
                                     <button class="btn btn-danger IndicatorRemove" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</button>
                                 </div>
                             </div>
-                            <input type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
+                            <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
                             <div class="container row" style="background-color: white; margin: 0px; width:100%; padding:20px">
                                 <div class="form-group col-lg-12">
                                     <label>Description</label>
@@ -114,8 +114,9 @@
                                     <label>Max Answer</label>
                                     <input type="number" class="form-control" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
                                 </div>
-                                <div class="form-group col-lg-3">
-                                    <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                                <div class="form-group col-lg-12">
+                                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                                    <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicators->Widget == 'RADIO' || $indicators->Widget == 'SELECT' || $indicators->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
                                 </div>
                             </div>
                         </div>
@@ -156,11 +157,11 @@
                         <label for="Widget" class="col-form-label">Widget:</label>
                         <select class="form-control" name="Widget" required>
                             <option value='' disabled selected>Select Option</option>
-                            <!-- <option value='RADIO'>RADIO</option>
-                            <option value='CHECKBOX'>CHECKBOX</option> -->
+                            <option value='RADIO'>RADIO</option>
+                            <option value='CHECKBOX'>CHECKBOX</option>
                             <option value='TEXTBOX'>TEXTBOX</option>
                             <option value='TEXTAREA'>TEXTAREA</option>
-                            <!-- <option value='SELECT'>SELECT</option> -->
+                            <option value='SELECT'>SELECT</option>
                             <option value='DATEPICKER'>DATEPICKER</option>
                             <option value='DATETIMEPICKER'>DATETIMEPICKER</option>
                         </select>
@@ -225,7 +226,7 @@
             <label>Max Answer</label>
             <input type="number" class="form-control" name="Max_Answer[]">
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-12">
             <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
         </div>
     </div>
@@ -302,7 +303,7 @@
                         <label>Max Answer</label>
                         <input type="number" class="form-control" name="Max_Answer[]">
                     </div>
-                    <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-12">
                         <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
                     </div>
                 </div>
@@ -311,6 +312,46 @@
     </form>
 </div>
 
+<div class="modal fade" id="ADD_OPTIONS_modal" tabindex="-1" role="dialog" aria-labelledby="ADD_OPTIONS_modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Option</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="ADD_Option" method="POST" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <input type="number" name="modal_Indicator_ID" id="modal_Indicator_ID" hidden>
+                    <div class="form-group">
+                        <button class="btn btn-success" type="button" id="AddOption"><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTION</button>
+                    </div>
+                    <div class="Answer_list">
+                        <div class="form-group Answers">
+                            <label for="Answer" class="col-form-label">Option:</label>
+                            <input type="text" class="form-control" name="Answer_Classification_ID[]" hidden>
+                            <input type="text" class="form-control" name="Answer[]" required>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Clone Answers -->
+<div class="form-group Answers Answers_hidden" hidden>
+    <label for="Answer" class="col-form-label">Option:</label>
+    <input type="text" class="form-control" name="Answer_Classification_ID[]" hidden>
+    <input type="text" class="form-control" name="Answer[]" required>
+</div>
 
 <!-- Create Announcement_Status END -->
 
@@ -418,6 +459,82 @@
             e.preventDefault();
         }
     );
+
+
+    $('#ADD_Option').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: '/create_indicator_options',
+            data: $(this).serialize(),
+            success: function(msg) {
+                $('#ADD_OPTIONS_modal').modal('hide');
+                $('#ADD_Option').trigger('reset');
+                Swal.fire(
+                    'Saved!',
+                    'New Option Added',
+                    'success'
+                )
+                return false;
+            }
+        });
+    });
+
+    $(document).on("change", ".answer_types", function() {
+        $id = $(this).val();
+        var div_main = $(this).closest(".IndicatorDIV");
+
+        $.ajax({
+            type: "GET",
+            url: "/get_answer_types_list/" + $id,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data["Widget"]);
+                if (data["Widget"] == 'RADIO' || data["Widget"] == 'SELECT' || data["Widget"] == 'CHECKBOX') {
+                    div_main.find(".ADD_OPTIONS_modal").prop('hidden', false);
+                } else {
+                    div_main.find(".ADD_OPTIONS_modal").prop('hidden', true);
+                }
+            }
+        });
+    });
+
+    $(document).on("click", ".ADD_OPTIONS_modal", function() {
+        var div_main = $(this).closest(".IndicatorDIV");
+        var Indicator_ID = div_main.find(".Indicator_ID").val();
+        $('#modal_Indicator_ID').val(Indicator_ID);
+
+        $.ajax({
+            type: "GET",
+            url: "/get_answer_classification/" + Indicator_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('.Answer_list').empty();
+                data.forEach(element => {
+                    var option = '<div class="form-group Answers">' +
+                        '<label for="Answer" class="col-form-label">Option:</label>' +
+                        '<input type="text" class="form-control" name="Answer_Classification_ID[]" hidden value="' + element['Answer_Classification_ID'] + '">' +
+                        '<input type="text" class="form-control" name="Answer[]" required value="' + element['Answer'] + '">' +
+                        '</div>';
+                    $('.Answer_list').append(option);
+                });
+            }
+        });
+    });
+
+    $(document).on("click", "#AddOption", function() {
+        var div_main = $('.Answer_list');
+        var div_child = $(".Answers_hidden");
+        var newdiv = div_child.clone();
+        div_main.append(newdiv);
+        div_main.find('.Answers_hidden').prop('hidden', false).removeClass('Answers_hidden')
+    });
 </script>
 
 <style>
