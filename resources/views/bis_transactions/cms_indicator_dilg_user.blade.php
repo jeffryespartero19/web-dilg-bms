@@ -64,25 +64,44 @@
                                     <tr>
                                         <td style="width: 50%;">{{$indicators->Indicator_Description}}</td>
                                         <td style="width: 50%;">
-                                            @if($indicators->Widget == 1)
 
-                                            @elseif($indicators->Widget == 2)
-
+                                            @if($indicators->Widget == 'RADIO')
+                                            @foreach ($answer_classification as $ac)
+                                            @if($ac->Indicator_ID == $indicators->Indicator_ID)
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="{{$ac->Answer_Classification_ID}}">
+                                                {{$ac->Answer}}
+                                            </label>
+                                            <br>
+                                            @endif
+                                            @endforeach
+                                            @elseif($indicators->Widget == 'CHECKBOX')
+                                            @foreach ($answer_classification as $ac)
+                                            @if($ac->Indicator_ID == $indicators->Indicator_ID)
+                                            <label>
+                                                <input type="checkbox" value="{{$ac->Answer_Classification_ID}}">
+                                                {{$ac->Answer}}
+                                            </label>
+                                            <br>
+                                            @endif
+                                            @endforeach
                                             @elseif($indicators->Widget == 'TEXTBOX')
                                             <input type="text" name="" style="width: 100%;">
                                             @elseif($indicators->Widget == 'TEXTAREA')
                                             <textarea name="" rows="3" style="width: 100%;"></textarea>
                                             @elseif($indicators->Widget == 'SELECT')
-                                            <select class="form-control js-example-basic-single mySelect2" name="Resident_ID[]" style="width: 100%;">
-                                                <option value='' disabled selected>Select Option</option>
-                                                <option value='1'>answer 1</option>
+                                            <select class="form-control" name="Resident_ID[]" style="width: 100%;">
+                                                @foreach ($answer_classification as $ac)
+                                                @if($ac->Indicator_ID == $indicators->Indicator_ID)
+                                                <option value='{{$ac->Answer_Classification_ID}}'>{{$ac->Answer}}</option>
+                                                @endif
+                                                @endforeach
                                             </select>
                                             @elseif($indicators->Widget == 'DATEPICKER')
                                             <input type="date" name="" style="width: 100%;">
                                             @elseif($indicators->Widget == 'DATETIMEPICKER')
                                             <input type="datetime-local" name="" style="width: 100%;">
                                             @endif
-
 
                                         </td>
                                     </tr>
