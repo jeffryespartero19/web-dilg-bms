@@ -161,7 +161,7 @@
                     <li role="presentation">Check Status Cleared</li>
                 </a>
                 <a href="">
-                    <li role="presentation">Check Status Released</li>
+                    <li role="presentation">Check Status Released </li>
                 </a>
                 <a href="">
                     <li role="presentation">Payment Collection</li>

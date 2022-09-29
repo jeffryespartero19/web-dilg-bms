@@ -397,4 +397,85 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             }
         });
     }
+
+    if(ident == 10){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_appropriation_type_maint",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Appropriation_Type_ID']);
+
+                $('#this_appropriation_type').val(data['theEntry'][0]['Appropriation_Type']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+
+            }
+        });
+    }
+
+    if(ident == 11){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_expenditure_type_maint",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Expenditure_Type_ID']);
+
+                $('#this_expenditure_type').val(data['theEntry'][0]['Expenditure_Type']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+
+            }
+        });
+    }
+
+    if(ident == 12){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_account_code_maint",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Account_Code_ID']);
+
+                $('#this_account_code').val(data['theEntry'][0]['Account_Code']);
+
+                $('#this_expenditure_type').empty();
+                $('#this_expenditure_type').val(data['theEntry'][0]['Expenditure_Type_ID']);
+                $('#this_expenditure_type').append(data['theEntry'][0]['Expenditure_Type']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+            }
+        });
+    }
 });
