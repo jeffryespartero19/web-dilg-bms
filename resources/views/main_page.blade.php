@@ -147,31 +147,31 @@
                             <h2>Filters</h2>
                             <br>
                             <div class="row">
-                                <div class="form-group" style="padding:0 10px">
-                                    <label for="exampleInputEmail1">Region</label>
-                                    <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
-                                        @foreach($region as $region)
-                                        <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
+                                <div class="up_marg5">
+                                    <span><b>Region:</b></span><br>
+                                    <select class="modal_input1 regionX" name="ActiveX">
+                                        <option value='' hidden selected>Select</option>
+                                        @foreach($regionX as $rx)
+                                            <option value='{{$rx->Region_ID}}' >{{$rx->Region_Name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group" style="padding:0 10px">
-                                    <label for="exampleInputEmail1">Province</label>
-                                    <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
+                                <div class="up_marg5">
+                                    <span><b>Province:</b></span><br>
+                                    <select class="modal_input1 provX" name="ActiveX">
+                                        <option value='' hidden selected>Select</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="padding:0 10px">
-                                    <label for="City_Municipality_ID">City/Municipality</label>
-                                    <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
+                                <div class="up_marg5">
+                                    <span><b>City/Municipality:</b></span><br>
+                                    <select class="modal_input1 cityX" name="ActiveX">
+                                        <option value='' hidden selected>Select</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="padding:0 10px">
-                                    <label for="Barangay_ID">Barangay</label>
-                                    <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
+                                <div class="up_marg5">
+                                    <span><b>Barangay:</b></span><br>
+                                    <select class="modal_input1 brgyX" name="ActiveX">
+                                        <option value='' hidden selected>Select</option>
                                     </select>
                                 </div>
                                 <div class="form-group" style="padding:0 10px; text-align:right">
@@ -191,128 +191,69 @@
         </footer> --}}
 
     <script>
-        // Populate Province
-        $(document).on("change", "#Region_ID", function() {
-            // alert('test');
-            var Region_ID = $(this).val();
-
+        //list province
+        $(document).on('change','.regionX',function(e) {
+            var disID = $(this).find(":selected").val();
             $.ajax({
-                type: "GET",
-                url: "/get_province/" + Region_ID,
-                fail: function() {
-                    alert("request failed");
+                url: "/list_province",
+                type: 'GET',
+                data: { id: disID },
+                fail: function(){
+                    alert('request failed');
                 },
-                success: function(data) {
-                    var data = JSON.parse(data);
-                    $('#Province_ID').empty();
-                    $('#City_Municipality_ID').empty();
-                    $('#Barangay_ID').empty();
-
-
-                    var option1 =
-                        "<option value='' disabled selected>Select Option</option>";
-                    $('#Province_ID').append(option1);
-                    $('#City_Municipality_ID').append(option1);
-                    $('#Barangay_ID').append(option1);
-
-                    data.forEach(element => {
-                        var option = " <option value='" +
-                            element["Province_ID"] +
-                            "'>" +
-                            element["Province_Name"] +
-                            "</option>";
-                        $('#Province_ID').append(option);
+                success: function (data) { 
+                    $('.provX').empty();
+                    $('.provX').append('<option value="" selected> Select </option>');
+                    $.each(data['provinceX'], function(index, value) {
+                        $('.provX').append('<option value="' + data['provinceX'][index]['Province_ID'] + '">' + data['provinceX'][index]['Province_Name']+ '</option>');
                     });
+
                 }
             });
         });
 
-        // Populate City
-        $(document).on("change", "#Province_ID", function() {
-            var Province_ID = $(this).val();
-
+        //list province
+        $(document).on('change','.provX',function(e) {
+            var disID = $(this).find(":selected").val();
             $.ajax({
-                type: "GET",
-                url: "/get_city/" + Province_ID,
-                fail: function() {
-                    alert("request failed");
+                url: "/list_city",
+                type: 'GET',
+                data: { id: disID },
+                fail: function(){
+                    alert('request failed');
                 },
-                success: function(data) {
-                    var data = JSON.parse(data);
-                    $('#City_Municipality_ID').empty();
-                    $('#Barangay_ID').empty();
-
-                    var option1 =
-                        " <option value='' disabled selected>Select Option</option>";
-                    $('#City_Municipality_ID').append(option1);
-                    $('#Barangay_ID').append(option1);
-
-                    data.forEach(element => {
-                        var option = " <option value='" +
-                            element["City_Municipality_ID"] +
-                            "'>" +
-                            element["City_Municipality_Name"] +
-                            "</option>";
-                        $('#City_Municipality_ID').append(option);
+                success: function (data) { 
+                    $('.cityX').empty();
+                    $('.cityX').append('<option value="" selected> Select </option>');
+                    $.each(data['cityX'], function(index, value) {
+                        $('.cityX').append('<option value="' + data['cityX'][index]['City_Municipality_ID'] + '">' + data['cityX'][index]['City_Municipality_Name']+ '</option>');
                     });
+
                 }
             });
         });
 
-
-        // Populate Barangay
-        $(document).on("change", "#City_Municipality_ID", function() {
-            var City_Municipality_ID = $(this).val();
-
+        //list brgy
+        $(document).on('change','.cityX',function(e) {
+            var disID = $(this).find(":selected").val();
             $.ajax({
-                type: "GET",
-                url: "/get_barangay/" + City_Municipality_ID,
-                fail: function() {
-                    alert("request failed");
+                url: "/list_brgy",
+                type: 'GET',
+                data: { id: disID },
+                fail: function(){
+                    alert('request failed');
                 },
-                success: function(data) {
-                    var data = JSON.parse(data);
-                    $('#Barangay_ID').empty();
-
-                    var option1 =
-                        " <option value='' disabled selected>Select Option</option>";
-                    $('#Barangay_ID').append(option1);
-
-                    data.forEach(element => {
-                        var option = " <option value='" +
-                            element["Barangay_ID"] +
-                            "'>" +
-                            element["Barangay_Name"] +
-                            "</option>";
-                        $('#Barangay_ID').append(option);
+                success: function (data) { 
+                    
+                    $('.brgyX').empty();
+                    $('.brgyX').append('<option value="" selected> Select </option>');
+                    $.each(data['brgyX'], function(index, value) {
+                        $('.brgyX').append('<option value="' + data['brgyX'][index]['Barangay_ID'] + '">' + data['brgyX'][index]['Barangay_Name']+ '</option>');
                     });
+
                 }
             });
         });
-
-        $(document).on("change", "#Barangay_ID", function() {
-            var Barangay_ID = $(this).val();
-
-            $('#b_id').val(Barangay_ID);
-
-
-        });
-
-        // $(document).on("click", "#b_id", function() {
-        //     var b_id = $(this).val();
-
-        //     $.ajax({
-        //         type: "get",
-        //         url: "/main/" +
-        //             b_id,
-        //         fail: function() {
-        //             alert("request failed");
-        //         },
-        //         success: function(data) {
-
-        //         },
-        //     });
-        // });
     </script>
 </body>
 

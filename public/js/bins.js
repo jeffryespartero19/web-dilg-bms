@@ -315,6 +315,45 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+    if(ident == 12){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bins_inventory",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Inventory_ID']);
+                $('#this_stock_no').val(data['theEntry'][0]['Stock_No']);
+                $('#this_inventory_name').val(data['theEntry'][0]['Inventory_Name']);
+
+                // $('#this_card_file').empty();
+                // $('#this_card_file').val(data['theEntry'][0]['Card_File_ID']);
+                // $('#this_card_file').append(data['theEntry'][0]['Last_Name']+', '+data['theEntry'][0]['First_Name']);
+
+                $('#this_item_cartegory').empty();
+                $('#this_item_cartegory').val(data['theEntry'][0]['Item_Category_ID']);
+                $('#this_item_cartegory').append(data['theEntry'][0]['Item_Category_Name']);
+
+                $('#this_uom').empty();
+                $('#this_uom').val(data['theEntry'][0]['Unit_of_Measure_ID']);
+                $('#this_uom').append(data['theEntry'][0]['Unit_of_Measure']);
+
+                $('#this_item_status').empty();
+                $('#this_item_status').val(data['theEntry'][0]['Item_Status_ID']);
+                $('#this_item_status').append(data['theEntry'][0]['Item_Status']);
+
+                $('#this_date_recieved').val(data['theEntry'][0]['Date_Received']);
+
+                $('#this_remarks').empty();
+                $('#this_remarks').append(data['theEntry'][0]['Remarks']);
+  
+            }
+        });
+    }
+
     
 });
 
