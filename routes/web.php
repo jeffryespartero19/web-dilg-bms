@@ -703,14 +703,12 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_categories_maint', 'maintenanceController@get_categories_maint')->name('get_categories_maint');
       Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
 
-<<<<<<< HEAD
-      
-=======
+
       // Create Indicator Options
       Route::get('/create_indicator_options', 'BISController@create_indicator_options')->name('create_indicator_options');
       Route::get('/get_answer_classification/{id}', 'BISController@get_answer_classification');
+      Route::post('/create_indicator_answer', 'BISController@create_indicator_answer')->name('create_indicator_answer');
 
->>>>>>> 59a8d0254f0d54cdec53375e5245eeba9a0e5f31
 });
 
 
