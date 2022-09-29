@@ -63,6 +63,26 @@ class BISController extends Controller
                     ->select('a.Categories_ID', 'b.Categories', 'a.CMS_Barangay_Profile_ID')
                     ->where('a.CMS_Barangay_Profile_ID', $id)
                     ->get();
+
+                $bp_title = DB::table('bis_cms_title')
+                    ->select('Categories_ID', 'Title_ID', 'Title')
+                    ->where('CMS_Barangay_Profile_ID', $id)
+                    ->get();
+
+                $bp_indicator = DB::table('bis_cms_indicator as a')
+                    ->leftjoin('bis_cms_title as b', 'a.Title_ID', '=', 'b.Title_ID')
+                    ->select('a.Indicator_Description', 'a.Indicator_ID', 'b.Categories_ID', 'b.Title_ID')
+                    ->where('b.CMS_Barangay_Profile_ID', $id)
+                    ->get();
+
+                $bp_answers = DB::table('bis_cms_indicator_answer as a')
+                    ->leftjoin('bis_cms_indicator as b', 'a.Indicator_ID', '=', 'b.Indicator_ID')
+                    ->leftjoin('bis_cms_title as c', 'b.Title_ID', '=', 'c.Title_ID')
+                    ->select('a.Indicator_ID', 'a.Answer')
+                    ->where('c.CMS_Barangay_Profile_ID', $id)
+                    ->where('a.Encoder_ID', Auth::user()->id)
+                    ->get();
+
                 return view('bis_transactions.cms_details_dilg_user', compact(
                     'currDATE',
                     'frequency',
@@ -72,7 +92,10 @@ class BISController extends Controller
                     'city_municipality',
                     'barangay',
                     'Barangay_Profile',
-                    'bp_categories'
+                    'bp_categories',
+                    'bp_title',
+                    'bp_indicator',
+                    'bp_answers'
                 ));
             }
         } else {
@@ -605,7 +628,7 @@ class BISController extends Controller
                         for ($ii = 0; $ii < count($data['Answer'][$data['Indicator_ID'][$i]]); $ii++) {
 
                             if ($data['Answer'][$data['Indicator_ID'][$i]][$ii] != NULL) {
-                                
+
 
                                 $datas = DB::table('bis_cms_indicator as a')
                                     ->leftjoin('bis_cms_answer_types as b', 'a.Answer_Types_ID', '=', 'b.Answer_Type_ID')
@@ -632,7 +655,7 @@ class BISController extends Controller
                                             'Date_Stamp' => Carbon::now()
                                         )
                                     );
-                                }                              
+                                }
                             }
                         }
                     }
