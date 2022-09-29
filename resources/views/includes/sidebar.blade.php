@@ -438,13 +438,13 @@
                 <a href="">
                     <li role="presentation">Journal Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_appropriation_type_maint')}}">
                     <li role="presentation">Appropriation Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_expenditure_type_maint')}}">
                     <li role="presentation">Expenditure Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_account_code_maint')}}">
                     <li role="presentation">Account Code</li>
                 </a>
                 
