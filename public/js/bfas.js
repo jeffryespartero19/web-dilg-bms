@@ -315,5 +315,86 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             }
         });
     }
+    
+    if(ident == 7){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_tax_code_maint",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Tax_Code_ID']);
 
+                $('#this_description').val(data['theEntry'][0]['Description']);
+                $('#this_payment').val(data['theEntry'][0]['Payment_Type']);
+                $('#this_bir_no').val(data['theEntry'][0]['BIR_Form_No']);
+                $('#this_rate').val(data['theEntry'][0]['Rate']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+
+            }
+        });
+    }
+
+    if(ident == 8){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_tax_type_maint",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Tax_Type_ID']);
+
+                $('#this_tax_type').val(data['theEntry'][0]['Tax_Type']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+
+            }
+        });
+    }
+
+    
+    if(ident == 9){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_journal_type_maint",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Journal_Type_ID']);
+
+                $('#this_journal_type').val(data['theEntry'][0]['Journal_Type']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+
+            }
+        });
+    }
 });
