@@ -429,13 +429,13 @@
                 <a href="{{route('bfas_voucher_status_maint')}}">
                     <li role="presentation">Voucher Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_tax_code_maint')}}">
                     <li role="presentation">Tax Code</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_tax_type_maint')}}">
                     <li role="presentation">Tax Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_journal_type_maint')}}">
                     <li role="presentation">Journal Type</li>
                 </a>
                 <a href="">

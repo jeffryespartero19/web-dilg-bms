@@ -417,5 +417,177 @@ class BFASController extends Controller
         return redirect()->back()->with('alert', 'Updated Entry');
     }
 
+    //Tax Code
+    public function bfas_tax_code_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bfas_tax_code')->paginate(20,['*'], 'db_entries');
+
+        return view('maintenance.bfas_tax_code',compact('db_entries','currDATE'));
+    }
+
+    public function create_bfas_tax_code_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_bfas_tax_code')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Active'           => (int)$data['ActiveX'],
+
+                'Description' => $data['Description'],
+                'Payment_Type' => $data['Payment_Type'],
+                'BIR_Form_No' => $data['BIR_Form_No'],
+                'Rate' => $data['Rate'],
+
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_tax_code_maint(Request $request)
+    {
+       $id=$_GET['id'];
+       //$id=1;
+
+        $theEntry=DB::table('maintenance_bfas_tax_code')->where('Tax_Code_ID',$id)->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_tax_code_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_bfas_tax_code')->where('Tax_Code_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Active'           => (int)$data['ActiveX2'],
+
+                'Description' => $data['Description2'],
+                'Payment_Type' => $data['Payment_Type2'],
+                'BIR_Form_No' => $data['BIR_Form_No2'],
+                'Rate' => $data['Rate2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    
+    //Tax Type
+    public function bfas_tax_type_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bfas_tax_type')->paginate(20,['*'], 'db_entries');
+
+        return view('maintenance.bfas_tax_type',compact('db_entries','currDATE'));
+    }
+
+    public function create_bfas_tax_type_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_bfas_tax_type')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Active'           => (int)$data['ActiveX'],
+
+                'Tax_Type' => $data['Tax_Type'],
+
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_tax_type_maint(Request $request)
+    {
+       $id=$_GET['id'];
+       //$id=1;
+
+        $theEntry=DB::table('maintenance_bfas_tax_type')->where('Tax_Type_ID',$id)->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_tax_type_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_bfas_tax_type')->where('Tax_Type_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Active'           => (int)$data['ActiveX2'],
+
+                'Tax_Type' => $data['Tax_Type2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+       //Journal Type
+       public function bfas_journal_type_maint(Request $request)
+       {
+           $currDATE = Carbon::now();
+           $db_entries = DB::table('maintenance_bfas_journal_type')->paginate(20,['*'], 'db_entries');
+   
+           return view('maintenance.bfas_journal_type',compact('db_entries','currDATE'));
+       }
+   
+       public function create_bfas_journal_type_maint(Request $request)
+       {
+           $currDATE = Carbon::now();
+           $data = request()->all();
+   
+           DB::table('maintenance_bfas_journal_type')->insert(
+               array(
+                   'Encoder_ID'       => Auth::user()->id,
+                   'Date_Stamp'       => Carbon::now(),
+                   'Active'           => (int)$data['ActiveX'],
+   
+                   'Journal_Type' => $data['Journal_Type'],
+   
+                   
+               )
+           );
+   
+           return redirect()->back()->with('alert','New Entry Created');
+       }
+       public function get_bfas_journal_type_maint(Request $request)
+       {
+          $id=$_GET['id'];
+          //$id=1;
+   
+           $theEntry=DB::table('maintenance_bfas_journal_type')->where('Journal_Type_ID',$id)->get();
+           //dd($theEntry);
+           return(compact('theEntry'));
+       }
+       public function update_bfas_journal_type_maint(Request $request)
+       {
+           $currDATE = Carbon::now();
+           $data = request()->all();
+   
+           DB::table('maintenance_bfas_journal_type')->where('Journal_Type_ID',$data['IDx'])->update(
+               array(
+                   'Encoder_ID'       => Auth::user()->id,
+                   'Date_Stamp'       => Carbon::now(),
+                   'Active'           => (int)$data['ActiveX2'],
+   
+                   'Journal_Type' => $data['Journal_Type2'],
+               )
+           );
+   
+           return redirect()->back()->with('alert', 'Updated Entry');
+       }
 
 }
+
