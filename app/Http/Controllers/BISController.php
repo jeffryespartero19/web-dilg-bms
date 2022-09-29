@@ -522,26 +522,6 @@ class BISController extends Controller
         return redirect()->to('cms_indicator/' . $data['CMS_Barangay_Profile_ID'] . '/' . $data['Categories_ID'])->with('message', 'Record Saved');
     }
 
-    // Create CMS Answer Type
-    public function create_answer_type(Request $request)
-    {
-        $currDATE = Carbon::now();
-        $data = request()->all();
-        // dd($data);
-
-        $Answer_Type_ID = DB::table('bis_cms_answer_types')->insertGetId(
-            array(
-                'Title' => $data['Title'],
-                'Description' => $data['Description'],
-                'Widget' => $data['Widget'],
-                'Data_Type' => $data['Data_Type'],
-                'Active' => (int)$data['Active'],
-                'Encoder_ID'       => Auth::user()->id,
-                'Date_Stamp'       => Carbon::now()
-            )
-        );
-    }
-
     // Get Answer Type
     public function get_answer_types(Request $request)
     {
@@ -603,5 +583,63 @@ class BISController extends Controller
             ->get();
 
         return json_encode($data);
+    }
+
+    // Create CMS Answer Type
+    public function create_indicator_answer(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        // dd($data);
+
+        if (isset($data['Indicator_ID'])) {
+
+            for ($i = 0; $i < count($data['Indicator_ID']); $i++) {
+
+                if ($data['Indicator_ID'][$i] != NULL) {
+
+                    // dd($data['Indicator_ID']);
+
+                    if (isset($data['Answer'][$data['Indicator_ID'][$i]])) {
+
+                        for ($ii = 0; $ii < count($data['Answer'][$data['Indicator_ID'][$i]]); $ii++) {
+
+                            if ($data['Answer'][$data['Indicator_ID'][$i]][$ii] != NULL) {
+                                
+
+                                $datas = DB::table('bis_cms_indicator as a')
+                                    ->leftjoin('bis_cms_answer_types as b', 'a.Answer_Types_ID', '=', 'b.Answer_Type_ID')
+                                    ->select('b.Widget')
+                                    ->where(['Indicator_ID' => $data['Indicator_ID'][$i]])
+                                    ->first();
+
+                                if ($datas->Widget == 'RADIO' || $datas->Widget == 'SELECT' || $datas->Widget == 'CHECKBOX') {
+                                    DB::table('bis_cms_indicator_answer')->insert(
+                                        array(
+                                            'Indicator_ID' => $data['Indicator_ID'][$i],
+                                            'Answer_Classification_ID' => $data['Answer'][$data['Indicator_ID'][$i]][$ii],
+                                            'Encoder_ID' => Auth::user()->id,
+                                            'Date_Stamp' => Carbon::now()
+                                        )
+                                    );
+                                } else {
+                                    DB::table('bis_cms_indicator_answer')->insert(
+                                        array(
+                                            'Indicator_ID' => $data['Indicator_ID'][$i],
+                                            'Answer' => $data['Answer'][$data['Indicator_ID'][$i]][$ii],
+                                            'Answer_Classification_ID' => 0,
+                                            'Encoder_ID' => Auth::user()->id,
+                                            'Date_Stamp' => Carbon::now()
+                                        )
+                                    );
+                                }                              
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return redirect()->back()->with('message', 'New Entry Created');
     }
 }

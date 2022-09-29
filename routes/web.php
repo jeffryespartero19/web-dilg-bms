@@ -516,6 +516,7 @@ Route::group(['middleware' => 'auth'], function () {
       // Create Indicator Options
       Route::get('/create_indicator_options', 'BISController@create_indicator_options')->name('create_indicator_options');
       Route::get('/get_answer_classification/{id}', 'BISController@get_answer_classification');
+      Route::post('/create_indicator_answer', 'BISController@create_indicator_answer')->name('create_indicator_answer');
 });
 
 
