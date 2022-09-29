@@ -675,10 +675,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update_bfas_payment_collection', 'BFASController@update_bfas_payment_collection')->name('update_bfas_payment_collection');
 
     //Card File 
-    Route::get('/bfas_card_file', 'BFASController@bfas_card_file')->name('bfas_card_file');
-    Route::post('/create_bfas_card_file', 'BFASController@create_bfas_card_file')->name('create_bfas_card_file');
-    Route::get('/get_bfas_card_file', 'BFASController@get_bfas_card_file')->name('get_bfas_card_file');
-    Route::post('/update_bfas_card_file', 'BFASController@update_bfas_card_file')->name('update_bfas_card_file');
+    Route::get('/bfas_card_file', 'BFASController2@bfas_card_file')->name('bfas_card_file');
+    Route::post('/create_bfas_card_file', 'BFASController2@create_bfas_card_file')->name('create_bfas_card_file');
+    Route::get('/get_bfas_card_file', 'BFASController2@get_bfas_card_file')->name('get_bfas_card_file');
+    Route::post('/update_bfas_card_file', 'BFASController2@update_bfas_card_file')->name('update_bfas_card_file');
 
     
       //BIS Transaction

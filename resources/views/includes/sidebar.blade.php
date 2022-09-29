@@ -166,7 +166,7 @@
                 <a href="">
                     <li role="presentation">Payment Collection</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_card_file')}}">
                     <li role="presentation">Card File (Supplier)</li>
                 </a>
             </ul>
