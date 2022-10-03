@@ -133,10 +133,10 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('bfas_accounts_information')}}">
                     <li role="presentation">Chart of Accounts</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_jev_collection')}}">
                     <li role="presentation">JEV Collection</li>
                 </a>
                 <a href="">
