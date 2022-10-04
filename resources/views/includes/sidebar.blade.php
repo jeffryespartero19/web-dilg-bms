@@ -154,10 +154,10 @@
                 <a href="">
                     <li role="presentation">Disbursement Voucher</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_check_preparation')}}">
                     <li role="presentation">Check Preparation</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_check_status')}}">
                     <li role="presentation">Check Status Cleared</li>
                 </a>
                 <a href="">

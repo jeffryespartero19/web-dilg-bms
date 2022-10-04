@@ -282,4 +282,81 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+    
+    if(ident == 4){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_check_preparation",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Check_Preparation_ID']);
+
+                $('#this_particulars').val(data['theEntry'][0]['Particulars']);
+                
+                $('#this_brgy_OS').empty();
+                $('#this_brgy_OS').val(data['theEntry'][0]['Brgy_Officials_and_Staff_ID']);
+                $('#this_brgy_OS').append(data['theEntry'][0]['Brgy_Officials_and_Staff_ID']);
+
+                $('#this_disbursement_voucher').empty();
+                $('#this_disbursement_voucher').val(data['theEntry'][0]['Disbursement_Voucher_ID']);
+                $('#this_disbursement_voucher').append(data['theEntry'][0]['Disbursement_Voucher_ID']);
+                
+                $('#this_voucher_status').empty();
+                $('#this_voucher_status').val(data['theEntry'][0]['Voucher_Status_ID']);
+                $('#this_voucher_status').append(data['theEntry'][0]['Voucher_Status_ID']);
+
+                $('#this_amount').val(data['theEntry'][0]['Amount']);
+
+                $('#this_bank_account').empty();
+                $('#this_bank_account').val(data['theEntry'][0]['Bank_Account_ID']);
+                $('#this_bank_account').append(data['theEntry'][0]['Bank_Account_Name']+'-('+data['theEntry'][0]['Bank_Account_No']+')');
+
+                $('#this_region').empty();
+                $('#this_region').val(data['theEntry'][0]['Region_ID']);
+                $('#this_region').append(data['theEntry'][0]['Region_Name']);
+
+                $('#this_province').empty();
+                $('#this_province').val(data['theEntry'][0]['Province_ID']);
+                $('#this_province').append(data['theEntry'][0]['Province_Name']);
+
+                $('#this_city').empty();
+                $('#this_city').val(data['theEntry'][0]['City_Municipality_ID']);
+                $('#this_city').append(data['theEntry'][0]['City_Municipality_Name']);
+
+                $('#this_barangay').empty();
+                $('#this_barangay').val(data['theEntry'][0]['Barangay_ID']);
+                $('#this_barangay').append(data['theEntry'][0]['Barangay_Name']);
+                
+
+            }
+        });
+    }
+        
+    if(ident == 5){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_check_status",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Check_Status_Cleared_ID']);
+
+                $('#this_check_prep').empty();
+                $('#this_check_prep').val(data['theEntry'][0]['Check_Preparation_ID']);
+                $('#this_check_prep').append(data['theEntry'][0]['Check_Preparation_ID']);
+
+                $('#this_cleared_date').val(data['theEntry'][0]['Cleared_Date']);
+                $('#this_remarks').val(data['theEntry'][0]['Remarks']);
+                
+                // alert(data['theEntry'][0]['Check_Status_Cleared_ID']);
+            }
+        });
+    }
 });

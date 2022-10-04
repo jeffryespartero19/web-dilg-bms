@@ -173,6 +173,7 @@ class BFASController2 extends Controller
 
         return redirect()->back()->with('alert','New Entry Created');
     }
+
     public function get_bfas_accounts_information(Request $request)
     {
         //$id=$_GET['id'];
@@ -368,6 +369,247 @@ class BFASController2 extends Controller
                 'Province_ID'          => $data['Province_IDX2'],
                 'City_Municipality_ID' => $data['City_Municipality_IDX2'],
                 'Barangay_ID'          => $data['Barangay_IDX2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    
+    // Check Preparation
+    public function bfas_check_preparation(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_check_preparation as a')
+        ->join('maintenance_bfas_bank_account as b','b.Bank_Account_ID','=','a.Bank_Account_ID')
+
+        ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+        ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+        ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+        ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+        
+        ->join('bfas_disbursement_voucher as dv','dv.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
+        ->join('bips_brgy_officials_and_staff as brgy_OS','brgy_OS.Brgy_Officials_and_Staff_ID','=','a.Brgy_Officials_and_Staff_ID')
+        ->join('maintenance_bfas_voucher_status as vs','vs.Voucher_Status_ID','=','a.Voucher_Status_ID')
+
+        ->select(
+            'a.Check_Preparation_ID',
+            'b.Bank_Account_ID',
+            'b.Bank_Account_Name',
+            'b.Bank_Account_No',
+            'a.Particulars',
+            'a.Amount',
+            
+            'brgy.Barangay_ID',
+            'city.City_Municipality_ID',
+            'city.City_Municipality_Name',
+            'prov.Province_ID',
+            'prov.Province_Name',
+            'reg.Region_ID',
+            'reg.Region_Name',
+            'dv.Disbursement_Voucher_ID',
+            'brgy_OS.Brgy_Officials_and_Staff_ID',
+            'vs.Voucher_Status_ID',
+
+            'a.Encoder_ID',
+            'a.Date_Stamp'
+
+        )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $regionX=DB::table('maintenance_region')->get();
+        $bank_acc=DB::table('maintenance_bfas_bank_account')->get();
+        $disbursement_voucher=DB::table('bfas_disbursement_voucher')->get();
+        $voucher_status=DB::table('maintenance_bfas_voucher_status')->get();
+        $brgy_OS=DB::table('bips_brgy_officials_and_staff')->get();
+
+        return view('bfas.check_preparation',compact('db_entries','currDATE','regionX','bank_acc','disbursement_voucher','voucher_status','brgy_OS'));
+    }
+
+    public function create_bfas_check_preparation(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        // dd($data);
+
+        DB::table('bfas_check_preparation')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Particulars'                   => $data['Particulars'],
+                'Brgy_Officials_and_Staff_ID'   => $data['Brgy_Officials_and_Staff_ID'],
+                'Disbursement_Voucher_ID'       => $data['Disbursement_Voucher_ID'],
+                'Voucher_Status_ID'             => $data['Voucher_Status_ID'],
+                'Amount'                        => $data['Amount'],
+                'Bank_Account_ID'               => $data['Bank_Account_ID'],
+
+
+                'Region_ID'            => $data['Region_IDX'],
+                'Province_ID'          => $data['Province_IDX'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX'],
+                'Barangay_ID'          => $data['Barangay_IDX'],
+                
+
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_check_preparation(Request $request)
+    {
+        $id=$_GET['id'];
+        // $id=1;
+
+        $theEntry=DB::table('bfas_check_preparation as a')
+            ->join('maintenance_bfas_bank_account as b','b.Bank_Account_ID','=','a.Bank_Account_ID')
+
+            ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+            ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+            ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+            ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+            
+            ->join('bfas_disbursement_voucher as dv','dv.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
+            ->join('bips_brgy_officials_and_staff as brgy_OS','brgy_OS.Brgy_Officials_and_Staff_ID','=','a.Brgy_Officials_and_Staff_ID')
+            ->join('maintenance_bfas_voucher_status as vs','vs.Voucher_Status_ID','=','a.Voucher_Status_ID')
+
+            ->select(
+                'a.Check_Preparation_ID',
+                'b.Bank_Account_ID',
+                'b.Bank_Account_Name',
+                'b.Bank_Account_No',
+                'a.Particulars',
+                'a.Amount',
+
+                'brgy.Barangay_ID',
+                'city.City_Municipality_ID',
+                'city.City_Municipality_Name',
+                'prov.Province_ID',
+                'prov.Province_Name',
+                'reg.Region_ID',
+                'reg.Region_Name',
+                'dv.Disbursement_Voucher_ID',
+                'brgy_OS.Brgy_Officials_and_Staff_ID',
+                'vs.Voucher_Status_ID',
+
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->where('a.Check_Preparation_ID',$id)
+            ->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_check_preparation(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_check_preparation')->where('Check_Preparation_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Particulars'                   => $data['Particulars2'],
+                'Brgy_Officials_and_Staff_ID'   => $data['Brgy_Officials_and_Staff_ID2'],
+                'Disbursement_Voucher_ID'       => $data['Disbursement_Voucher_ID2'],
+                'Voucher_Status_ID'             => $data['Voucher_Status_ID2'],
+                'Amount'                        => $data['Amount2'],
+                'Bank_Account_ID'               => $data['Bank_Account_ID2'],
+
+
+                'Region_ID'            => $data['Region_IDX2'],
+                'Province_ID'          => $data['Province_IDX2'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX2'],
+                'Barangay_ID'          => $data['Barangay_IDX2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    
+    //Check Status Cleared
+    public function bfas_check_status(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_check_status_cleared as a')
+            ->join('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+            ->select(
+                'a.Check_Status_Cleared_ID',
+                'a.Check_Preparation_ID',
+                'a.Cleared_Date',
+                'a.Remarks',
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $check_prep=DB::table('bfas_check_preparation')->get();
+
+        return view('bfas.check_status',compact('db_entries','currDATE','check_prep',));
+    }
+
+    public function create_bfas_check_status(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_check_status_cleared')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Check_Preparation_ID'  => $data['Check_Preparation_ID'],
+                'Cleared_Date'  => $data['Cleared_Date'],
+                'Remarks'  => $data['Remarks'],
+
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    
+    public function get_bfas_check_status(Request $request)
+    {
+        $id=$_GET['id'];
+        // $id=1;
+
+        $theEntry=DB::table('bfas_check_status_cleared as a')
+        ->join('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+        ->select(
+            'a.Check_Preparation_ID',
+            'a.Check_Status_Cleared_ID',
+            'a.Cleared_Date',
+            'a.Remarks',
+            'a.Encoder_ID',
+            'a.Date_Stamp'
+
+            )
+            ->where('a.Check_Status_Cleared_ID',$id)
+            ->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_check_status(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+
+        DB::table('bfas_check_status_cleared')->where('Check_Status_Cleared_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Check_Preparation_ID'  => $data['Check_Preparation_ID2'],
+                'Cleared_Date'  => $data['Cleared_Date2'],
+                'Remarks'  => $data['Remarks2'],
             )
         );
 
