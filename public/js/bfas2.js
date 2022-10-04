@@ -282,4 +282,59 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+    if(ident == 6){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_check_status_released",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Check_Status_Released_ID']);
+
+                $('#this_check_preparation_id').empty();
+                $('#this_check_preparation_id').val(data['theEntry'][0]['Check_Preparation_ID']);
+                $('#this_check_preparation_id').append(data['theEntry'][0]['Check_Preparation_ID']);
+
+                $('#this_released_date').val(data['theEntry'][0]['Released_Date']);
+                $('#this_received_by').val(data['theEntry'][0]['Received_by']);
+                $('#this_id_presented').val(data['theEntry'][0]['ID_Presented']);
+                $('#this_id_number').val(data['theEntry'][0]['ID_Number']);
+            }
+
+        });
+    }
+
+    if(ident == 7){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_payment_collection",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Payment_Collection_ID']);
+                $('#this_payment_collection_number').val(data['theEntry'][0]['Payment_Collection_Number']);
+
+                $('#this_account_name').empty();
+                $('#this_account_name').val(data['theEntry'][0]['Accounts_Information_ID']);
+                $('#this_account_name').append(data['theEntry'][0]['Account_Name']);
+
+                $('#this_type_of_fee').empty();
+                $('#this_type_of_fee').val(data['theEntry'][0]['Type_of_Fee_ID']);
+                $('#this_type_of_fee').append(data['theEntry'][0]['Type_of_Fee']);
+
+                $('#this_or_number').val(data['theEntry'][0]['OR_No']);
+                $('#this_or_date').val(data['theEntry'][0]['OR_Date']);
+                $('#this_cash_tendered').val(data['theEntry'][0]['Cash_Tendered']);
+                $('#this_remarks').val(data['theEntry'][0]['Remarks']);
+            }
+
+        });
+    }
+
 });

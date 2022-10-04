@@ -668,6 +668,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_bfas_check_preparation', 'BFASController2@get_bfas_check_preparation')->name('get_bfas_check_preparation');
     Route::post('/update_bfas_check_preparation', 'BFASController2@update_bfas_check_preparation')->name('update_bfas_check_preparation');
 
+    //Check Status Released
+    Route::get('/bfas_check_status_released', 'BFASController2@bfas_check_status_released')->name('bfas_check_status_released');
+    Route::post('/create_bfas_check_status_released', 'BFASController2@create_bfas_check_status_released')->name('create_bfas_check_status_released');
+    Route::get('/get_bfas_check_status_released', 'BFASController2@get_bfas_check_status_released')->name('get_bfas_check_status_released');
+    Route::post('/update_bfas_check_status_released', 'BFASController2@update_bfas_check_status_released')->name('update_bfas_check_status_released');
+
     //Check Status
     Route::get('/bfas_check_status', 'BFASController2@bfas_check_status')->name('bfas_check_status');
     Route::post('/create_bfas_check_status', 'BFASController2@create_bfas_check_status')->name('create_bfas_check_status');
@@ -675,7 +681,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update_bfas_check_status', 'BFASController2@update_bfas_check_status')->name('update_bfas_check_status');
 
     //Payment Collection
-    Route::get('/bfas_payment_collection', 'BFASController2@bfas_obligation_request')->name('bfas_obligation_request');
+    Route::get('/bfas_payment_collection', 'BFASController2@bfas_payment_collection')->name('bfas_payment_collection');
     Route::post('/create_bfas_payment_collection', 'BFASController2@create_bfas_payment_collection')->name('create_bfas_payment_collection');
     Route::get('/get_bfas_payment_collection', 'BFASController2@get_bfas_payment_collection')->name('get_bfas_payment_collection');
     Route::post('/update_bfas_payment_collection', 'BFASController2@update_bfas_payment_collection')->name('update_bfas_payment_collection');

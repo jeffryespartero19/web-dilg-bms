@@ -160,10 +160,10 @@
                 <a href="">
                     <li role="presentation">Check Status Cleared</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_check_status_released')}}">
                     <li role="presentation">Check Status Released </li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_payment_collection')}}">
                     <li role="presentation">Payment Collection</li>
                 </a>
                 <a href="{{route('bfas_card_file')}}">

@@ -266,12 +266,13 @@ class BFASController2 extends Controller
         $bank_acc=DB::table('maintenance_bfas_bank_account')->get();
         $journal_type=DB::table('maintenance_bfas_journal_type')->get();
         $fund_type=DB::table('maintenance_bfas_fund_type')->get();
-
+       
         return view('bfas.jev_collection',compact('db_entries','currDATE','regionX','bank_acc','journal_type','fund_type'));
     }
 
     public function create_bfas_jev_collection(Request $request)
     {
+
         $currDATE = Carbon::now();
         $data = request()->all();
 
@@ -297,13 +298,11 @@ class BFASController2 extends Controller
                 
             )
         );
-
         return redirect()->back()->with('alert','New Entry Created');
     }
     public function get_bfas_jev_collection(Request $request)
     {
-        //$id=$_GET['id'];
-        $id=1;
+        $id=$_GET['id'];
 
         $theEntry=DB::table('bfas_jev_collection as a')
             ->join('maintenance_bfas_bank_account as b','b.Bank_Account_ID','=','a.Bank_Account_ID')
@@ -350,7 +349,7 @@ class BFASController2 extends Controller
     {
         $currDATE = Carbon::now();
         $data = request()->all();
-
+        dd($data);
         DB::table('bfas_jev_collection')->where('JEV_Collection_ID',$data['IDx'])->update(
             array(
                 'Encoder_ID'       => Auth::user()->id,
@@ -368,6 +367,198 @@ class BFASController2 extends Controller
                 'Province_ID'          => $data['Province_IDX2'],
                 'City_Municipality_ID' => $data['City_Municipality_IDX2'],
                 'Barangay_ID'          => $data['Barangay_IDX2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Check Status Released
+    public function bfas_check_status_released(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_check_status_released as a')
+            ->leftjoin('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+
+            ->select(
+                'a.Check_Preparation_ID',
+                'a.Check_Status_Released_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'a.ID_Presented',
+                'a.ID_Number',
+                'a.Received_by',
+                'a.Released_Date'
+
+
+            )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $check_prep=DB::table('bfas_check_preparation')->get();
+
+        return view('bfas.check_status_released',compact('db_entries','currDATE', 'check_prep'));
+    }
+
+    public function create_bfas_check_status_released(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_check_status_released')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Check_Preparation_ID'   => $data['Check_Preparation_ID'],
+                'Released_Date'  => $data['Released_Date'],
+                'Received_by'  => $data['Received_by'],
+                'ID_Presented'     => $data['ID_Presented'],
+
+                'ID_Number'      => $data['ID_Number'],
+                
+            )
+        );
+        
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_check_status_released(Request $request)
+    {
+        $id=$_GET['id'];
+
+        $theEntry=DB::table('bfas_check_status_released as a')
+            ->join('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+
+            ->select(
+                'a.Check_Status_Released_ID',
+                'a.Check_Preparation_ID',
+                'a.ID_Presented',
+                'a.ID_Number',
+                'a.Received_by',
+                'a.Released_Date',
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+            )
+            ->where('a.Check_Status_Released_ID',$id)
+            ->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_check_status_released(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        DB::table('bfas_check_status_released')->where('Check_Status_Released_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Check_Preparation_ID'   => $data['Check_Preparation_ID2'],
+
+                'Released_Date'  => $data['Released_Date2'],
+                'Received_by'  => $data['Received_by2'],
+                'ID_Presented'     => $data['ID_Presented2'],
+
+                'ID_Number'      => $data['ID_Number2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+    //Payment Collection
+    public function bfas_payment_collection(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_payment_collection as a')
+            ->leftjoin('bfas_accounts_information as b','b.Accounts_Information_ID','=','a.Accounts_Information_ID')
+            ->leftjoin('maintenance_bfas_type_of_fee as c','c.Type_of_Fee_ID','=','a.Type_of_Fee_ID')
+            ->select(
+                'a.Payment_Collection_ID',
+                'a.Payment_Collection_Number',
+                'b.Accounts_Information_ID',
+                'b.Account_Name',
+                'c.Type_of_Fee_ID',
+                'c.Type_of_Fee',
+                'a.OR_Date',
+                'a.OR_No',
+                'a.Cash_Tendered',
+                'a.Remarks',
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $account_info=DB::table('bfas_accounts_information')->get();
+        $type_fee=DB::table('maintenance_bfas_type_of_fee')->get();
+
+        return view('bfas.payment_collection',compact('db_entries','currDATE', 'account_info', 'type_fee'));
+    }
+    public function create_bfas_payment_collection(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_payment_collection')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Payment_Collection_Number'   => $data['Payment_Collection_Number'],
+                'Accounts_Information_ID'  => $data['Accounts_Information_ID'],
+                'Type_of_Fee_ID'  => $data['Type_of_Fee_ID'],
+                'OR_Date'     => $data['OR_Date'],
+                'OR_No'      => $data['OR_No'],
+                'Cash_Tendered'      => $data['Cash_Tendered'],
+                'Remarks'      => $data['Remarks'],
+                
+            )
+        );
+        
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_payment_collection(Request $request)
+    {
+        $id=$_GET['id'];
+
+        $theEntry=DB::table('bfas_payment_collection as a')
+        ->leftjoin('bfas_accounts_information as b','b.Accounts_Information_ID','=','a.Accounts_Information_ID')
+        ->leftjoin('maintenance_bfas_type_of_fee as c','c.Type_of_Fee_ID','=','a.Type_of_Fee_ID')
+        ->select(
+            'a.Payment_Collection_ID',
+            'a.Payment_Collection_Number',
+            'b.Accounts_Information_ID',
+            'b.Account_Name',
+            'c.Type_of_Fee_ID',
+            'c.Type_of_Fee',
+            'a.OR_Date',
+            'a.OR_No',
+            'a.Cash_Tendered',
+            'a.Remarks',
+            'a.Encoder_ID',
+            'a.Date_Stamp'
+
+        )
+            ->where('a.Payment_Collection_ID',$id)
+            ->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_payment_collection(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        DB::table('bfas_payment_collection')->where('Payment_Collection_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Payment_Collection_Number'   => $data['Payment_Collection_Number2'],
+                'Accounts_Information_ID'  => $data['Accounts_Information_ID2'],
+                'Type_of_Fee_ID'  => $data['Type_of_Fee_ID2'],
+                'OR_Date'     => $data['OR_Date2'],
+                'OR_No'      => $data['OR_No2'],
+                'Cash_Tendered'      => $data['Cash_Tendered2'],
+                'Remarks'      => $data['Remarks2'],
             )
         );
 
