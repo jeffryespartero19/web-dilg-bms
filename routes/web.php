@@ -674,8 +674,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get_bfas_check_status', 'BFASController2@get_bfas_check_status')->name('get_bfas_check_status');
     Route::post('/update_bfas_check_status', 'BFASController2@update_bfas_check_status')->name('update_bfas_check_status');
 
+    //Check Status Released
+    Route::get('/bfas_check_status_released', 'BFASController2@bfas_check_status_released')->name('bfas_check_status_released');
+    Route::post('/create_bfas_check_status_released', 'BFASController2@create_bfas_check_status_released')->name('create_bfas_check_status_released');
+    Route::get('/get_bfas_check_status_released', 'BFASController2@get_bfas_check_status_released')->name('get_bfas_check_status_released');
+    Route::post('/update_bfas_check_status_released', 'BFASController2@update_bfas_check_status_released')->name('update_bfas_check_status_released');
+
     //Payment Collection
-    Route::get('/bfas_payment_collection', 'BFASController2@bfas_obligation_request')->name('bfas_obligation_request');
+    Route::get('/bfas_payment_collection', 'BFASController2@bfas_payment_collection')->name('bfas_payment_collection');
     Route::post('/create_bfas_payment_collection', 'BFASController2@create_bfas_payment_collection')->name('create_bfas_payment_collection');
     Route::get('/get_bfas_payment_collection', 'BFASController2@get_bfas_payment_collection')->name('get_bfas_payment_collection');
     Route::post('/update_bfas_payment_collection', 'BFASController2@update_bfas_payment_collection')->name('update_bfas_payment_collection');

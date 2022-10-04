@@ -101,8 +101,9 @@
                             <span><b>Journal Number:</b></span><br>
                             <input class="modal_input1" name="Journal_Number">
                         </div>
-
-                        <span><b>Bank Account:</b></span><br>
+                    </div>
+                    <div class="up_marg5">
+                    <span><b>Bank Account:</b></span><br>
                         <select class="modal_input1" name="Bank_Account_ID">
                             <option value='' hidden selected>Select</option>
                             @foreach($bank_acc as $bac)

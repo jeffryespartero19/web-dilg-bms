@@ -5,11 +5,11 @@
 <link href="{{ asset('/css/bins.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> JEV Disbursement/Setup </div>
+    <div class="col-md-6 titleXZ"> Check Preparation/Setup </div>
     <div class="col-md-6 breadcrumbXZ"> 
         <ol class="breadcrumb">
             <a href="{{route('home')}}"><li>DILG_BMS / </li></a>
-            <li> &nbsp;bfas_jev_disbursement</li>
+            <li> &nbsp;bfas_check_preparation</li>
         </ol> 
     </div>
 </div>
@@ -22,58 +22,40 @@
         <table class="table-bordered table_gen up_marg5">
             <thead>
                 <tr>
-                    <th>Journal <br>Number</th>
-                    <th style="width:20%">Bank <br>Account</th>
-                    <th>Journal <br>Type</th>
-                    <th>Fund <br>Type</th>
-                    <th style="width:25%">Location</th>
-
+                    <th>Check Preparation <br>ID</th>
                     <th>Particulars</th>
+                    <th>Baranggay Officials <br>and Staff ID</th>
+                    <th>Disbursement Voucher <br>ID</th>
+                    <th>Voucher Status<br>ID</th>
+                    <th>Amount</th>
+                    <th>Bank Account <br>ID</th>
+                    <th>Baranggay <br>ID</th>
+                    <th>City Municipality <br>ID</th>
+                    <th>Province <br>ID</th>
+                    <th>Region <br>ID</th>
+                    <th>Encoder ID</th>
+                    <th>Date Stamp</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($db_entries as $x)
                     <tr>
-                        <td class="sm_data_col txtCtr">{{$x->Journal_Number}}</td>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td><b>Name:</b></td>
-                                    <td>{{$x->Bank_Account_Name}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>No.</b></td>
-                                    <td>{{$x->Bank_Account_No}}</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td class="sm_data_col txtCtr">{{$x->Journal_Type}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Fund_Type}}</td>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td><b>Barangay: </b></td>
-                                    <td>{{$x->Barangay_Name}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>City/Municipaltiy: </b></td>
-                                    <td>{{$x->City_Municipality_Name}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Province: </b></td>
-                                    <td>{{$x->Province_Name}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Region: </b></td>
-                                    <td>{{$x->Region_Name}}</td>
-                                </tr>
-                            </table>
-                        </td>
-
+                        <td class="sm_data_col txtCtr">{{$x->Check_Preparation_ID	}}</td>
                         <td class="sm_data_col txtCtr">{{$x->Particulars}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Brgy_Officials_and_Staff_ID }}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Disbursement_Voucher_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Voucher_Status_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Amount}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Bank_Account_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Barangay_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->City_Municipality_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Province_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Region_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                        <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
                         <td class="sm_data_col txtCtr">
-                            <button class="edit_XYZ" value="{{$x->JEV_Disbursement_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                            <button class="edit_XYZ" value="{{$x->Check_Preparation_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
                         </td>
                     </tr>
                 @endforeach
@@ -92,18 +74,58 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title flexer justifier">Create New Entry</h4>
         </div>
-        <form id="newEntryXYZ" method="POST" action="{{ route('create_bfas_jev_disbursement') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+        <form id="newEntryXYZ" method="POST" action="{{ route('create_bfas_check_preparation') }}" autocomplete="off" enctype="multipart/form-data">@csrf
             <div class="modal-body Absolute-Center">
+               
                 <div class="modal_input_container">
-
+                    {{-- <div class="up_marg5">
+                        <span><b>Check Preparation ID:</b></span><br>
+                        <input class="modal_input1" name="Check_Preparation_ID">
+                    </div> --}}
+    
                     <div class="up_marg5">
-                        <div class="up_marg5">
-                            <span><b>Journal Number:</b></span><br>
-                            <input class="modal_input1" name="Journal_Number">
-                        </div>
+                        <span><b>Particulars:</b></span><br>
+                        <textarea  class="modal_input1" name="Particulars"></textarea>
                     </div>
+    
                     <div class="up_marg5">
-                    <span><b>Bank Account:</b></span><br>
+                        <span><b>Baranggay and Staff ID:</b></span><br>
+                        <select class="modal_input1" name="Brgy_Officials_and_Staff_ID">
+                            <option value='' hidden selected>Select</option>
+                            @foreach($brgy_OS as $brgy_os)
+                                <option value={{$brgy_os->Brgy_Officials_and_Staff_ID}}>{{$brgy_os->Brgy_Officials_and_Staff_ID}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+    
+    
+                    <div class="up_marg5">
+                        <span><b>Disbursement Voucher ID:</b></span><br>
+                        <select class="modal_input1" name="Disbursement_Voucher_ID">
+                            <option value='' hidden selected>Select</option>
+                            @foreach($disbursement_voucher as $dv)
+                                <option value={{$dv->Disbursement_Voucher_ID}}>{{$dv->Disbursement_Voucher_ID}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="up_marg5">
+                        <span><b>Voucher_Status_ID	:</b></span><br>
+                        <select class="modal_input1" name="Voucher_Status_ID">
+                            <option  value='' hidden selected>Select</option>
+                            @foreach($voucher_status as $vs)
+                                <option value={{$vs->Voucher_Status_ID}}>{{$vs->Voucher_Status_ID	}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+    
+                    <div class="up_marg5">
+                        <span><b>Amount:</b></span><br>
+                        <input class="modal_input1" name="Amount">
+                    </div>
+    
+                    <div class="up_marg5">
+                        <span><b>Bank Account ID:</b></span><br>
                         <select class="modal_input1" name="Bank_Account_ID">
                             <option value='' hidden selected>Select</option>
                             @foreach($bank_acc as $bac)
@@ -111,30 +133,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="up_marg5">
-                        <span><b>Journal Type:</b></span><br>
-                        <select class="modal_input1" name="Journal_Type_ID">
-                            <option value='' hidden selected>Select</option>
-                            @foreach($journal_type as $jt)
-                                <option value={{$jt->Journal_Type_ID}}>{{$jt->Journal_Type}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="up_marg5">
-                        <span><b>Fund Type:</b></span><br>
-                        <select class="modal_input1" name="Fund_Type_ID">
-                            <option value='' hidden selected>Select</option>
-                            @foreach($fund_type as $ft)
-                                <option value={{$ft->Fund_Type_ID}}>{{$ft->Fund_Type}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="up_marg5">
-                        <span><b>Particulars:</b></span><br>
-                        <textarea class="modal_input1" name="Particulars"></textarea>
-                    </div>
-
+    
                     <div class="up_marg5">
                         <span><b>Region:</b></span><br>
                         <select class="modal_input1 regionX" name="Region_IDX">
@@ -144,33 +143,37 @@
                             @endforeach
                         </select>
                     </div>
+                    
                     <div class="up_marg5">
                         <span><b>Province:</b></span><br>
                         <select class="modal_input1 provX" name="Province_IDX">
                             <option value='' hidden selected>Select</option>
                         </select>
                     </div>
+
                     <div class="up_marg5">
                         <span><b>City/Municipality:</b></span><br>
                         <select class="modal_input1 cityX" name="City_Municipality_IDX">
                             <option value='' hidden selected>Select</option>
                         </select>
                     </div>
+                    
                     <div class="up_marg5">
                         <span><b>Barangay:</b></span><br>
                         <select class="modal_input1 brgyX" name="Barangay_IDX">
                             <option value='' hidden selected>Select</option>
                         </select>
                     </div>
-                    
-                    <div class="up_marg5">
+    
+    
+                    {{-- <div class="up_marg5">
                         <span><b>Active:</b></span><br>
                         <select class="modal_input1" name="ActiveX">
-                            <option value=1 hidden selected>Is Active?</option>
+                            <option id="this_active"  value=1 hidden selected>Is Active?</option>
                             <option value=1>Yes</option>
                             <option value=0>No</option>
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
                 
             </div>
@@ -195,18 +198,59 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title flexer justifier">Update Entry</h4>
         </div>
-        <form id="updateEntryXYZ" method="POST" action="{{ route('update_bfas_jev_disbursement') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-            <input id="this_identifier" value=4 hidden>
+        <form id="updateEntryXYZ" method="POST" action="{{ route('update_bfas_check_preparation') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+            <input id="this_identifier" value=6 hidden>
             <input id="this_idX" value="" hidden name="IDx">
             <div class="modal-body Absolute-Center">
                 <div class="modal_input_container">
+                    {{-- <div class="up_marg5">
+                        <span><b>Check Preparation ID:</b></span><br>
+                        <input id="this_" class="modal_input1" name="Check_Preparation_ID">
+                    </div> --}}
+    
                     <div class="up_marg5">
-                        <span><b>Journal Number:</b></span><br>
-                        <input id="this_journal_number" class="modal_input1" name="Journal_Number2">
+                        <span><b>Particulars:</b></span><br>
+                        <textarea id="this_particulars" class="modal_input1" name="Particulars2"></textarea>
                     </div>
-
+    
                     <div class="up_marg5">
-                        <span><b>Bank Account:</b></span><br>
+                        <span><b>Baranggay and Staff ID:</b></span><br>
+                        <select class="modal_input1" name="Brgy_Officials_and_Staff_ID2">
+                            <option id="this_brgy_OS" value='' hidden selected>Select</option>
+                            @foreach($brgy_OS as $brgy_os)
+                                <option value={{$brgy_os->Brgy_Officials_and_Staff_ID}}>{{$brgy_os->Brgy_Officials_and_Staff_ID}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+    
+    
+                    <div class="up_marg5">
+                        <span><b>Disbursement Voucher ID:</b></span><br>
+                        <select class="modal_input1" name="Disbursement_Voucher_ID2">
+                            <option id="this_disbursement_voucher" value='' hidden selected>Select</option>
+                            @foreach($disbursement_voucher as $dv)
+                                <option value={{$dv->Disbursement_Voucher_ID}}>{{$dv->Disbursement_Voucher_ID}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="up_marg5">
+                        <span><b>Voucher_Status_ID	:</b></span><br>
+                        <select class="modal_input1" name="Voucher_Status_ID2">
+                            <option id="this_voucher_status" value='' hidden selected>Select</option>
+                            @foreach($voucher_status as $vs)
+                                <option value={{$vs->Voucher_Status_ID}}>{{$vs->Voucher_Status_ID	}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+    
+                    <div class="up_marg5">
+                        <span><b>Amount:</b></span><br>
+                        <input id="this_amount" class="modal_input1" name="Amount2">
+                    </div>
+    
+                    <div class="up_marg5">
+                        <span><b>Bank Account ID:</b></span><br>
                         <select class="modal_input1" name="Bank_Account_ID2">
                             <option id="this_bank_account" value='' hidden selected>Select</option>
                             @foreach($bank_acc as $bac)
@@ -214,31 +258,7 @@
                             @endforeach
                         </select>
                     </div>
-
-                    <div class="up_marg5">
-                        <span><b>Journal Type:</b></span><br>
-                        <select class="modal_input1" name="Journal_Type_ID2">
-                            <option id="this_journal_Type" value='' hidden selected>Select</option>
-                            @foreach($journal_type as $jt)
-                                <option value={{$jt->Journal_Type_ID}}>{{$jt->Journal_Type}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="up_marg5">
-                        <span><b>Fund Type:</b></span><br>
-                        <select class="modal_input1" name="Fund_Type_ID2">
-                            <option id="this_fund_Type" value='' hidden selected>Select</option>
-                            @foreach($fund_type as $ft)
-                                <option value={{$ft->Fund_Type_ID}}>{{$ft->Fund_Type}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-    
-                    <div class="up_marg5">
-                        <span><b>Particulars:</b></span><br>
-                        <textarea id="this_particulars" class="modal_input1" name="Particulars2"></textarea>
-                    </div>
-    
+                    
                     <div class="up_marg5">
                         <span><b>Region:</b></span><br>
                         <select class="modal_input1 regionX2" name="Region_IDX2">
@@ -248,18 +268,21 @@
                             @endforeach
                         </select>
                     </div>
+    
                     <div class="up_marg5">
                         <span><b>Province:</b></span><br>
                         <select class="modal_input1 provX2" name="Province_IDX2">
                             <option id="this_province" value='' hidden selected>Select</option>
                         </select>
                     </div>
+
                     <div class="up_marg5">
                         <span><b>City/Municipality:</b></span><br>
                         <select class="modal_input1 cityX2" name="City_Municipality_IDX2">
                             <option id="this_city" value='' hidden selected>Select</option>
                         </select>
                     </div>
+
                     <div class="up_marg5">
                         <span><b>Barangay:</b></span><br>
                         <select class="modal_input1 brgyX2" name="Barangay_IDX2">
@@ -267,14 +290,15 @@
                         </select>
                     </div>
     
-                    <div class="up_marg5">
+    
+                    {{-- <div class="up_marg5">
                         <span><b>Active:</b></span><br>
-                        <select class="modal_input1" name="ActiveX2">
+                        <select class="modal_input1" name="ActiveX">
                             <option id="this_active"  value=1 hidden selected>Is Active?</option>
                             <option value=1>Yes</option>
                             <option value=0>No</option>
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
                 
             </div>
