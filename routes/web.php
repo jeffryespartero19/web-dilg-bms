@@ -307,8 +307,8 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_ordinance_and_resolution_info', 'borisController@get_ordinance_and_resolution_info')->name('get_ordinance_and_resolution_info');
       Route::get('/get_ordinance_attachments', 'borisController@get_ordinance_attachments')->name('get_ordinance_attachments');
       Route::get('/delete_ordinance_attachments', 'borisController@delete_ordinance_attachments')->name('delete_ordinance_attachments');
-      Route::get('/print_Ordinance', 'borisController@downloadPDF')->name('print_Ordinance');
-      Route::get('/view_Ordinance', 'borisController@viewPDF')->name('view_Ordinance');
+      Route::post('/print_Ordinance', 'borisController@downloadPDF')->name('print_Ordinance');
+      Route::post('/view_Ordinance', 'borisController@viewPDF')->name('view_Ordinance');
 
       //contractor
       Route::get('/contractor_list', 'bpmsController@contractor_list')->name('contractor_list');

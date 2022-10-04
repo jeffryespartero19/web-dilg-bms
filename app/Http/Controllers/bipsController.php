@@ -521,7 +521,7 @@ class bipsController extends Controller
             ->where('b.Application_Status', 1)
             ->paginate(20, ['*'], 'db_entries');
 
-        $name = DB::table('bips_brgy_inhabitants_information')->where('b.Application_Status', 1)->paginate(20, ['*'], 'name');
+        $name = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->paginate(20, ['*'], 'name');
         $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
         $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
         $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');

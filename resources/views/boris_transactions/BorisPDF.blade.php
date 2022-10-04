@@ -29,21 +29,21 @@
     <table style="width:100%; border-top:1px solid black; border-bottom:1px solid black;border-collapse: collapse;">
         <thead>
             <tr>
-                <th style="border:1px solid black;">Title</th>
-                <th style="border:1px solid black;">Type</th>
-                <th style="border:1px solid black;">Ordinance/Resolution Number</th>
+                <th @if($chk_Title==0) class="hidden" @endif style="border:1px solid black;">Title</th>
+                <th @if($chk_Ordinance_No==0) class="hidden" @endif style="border:1px solid black;">Type</th>
+                <th @if($chk_Ordinance_No==0) class="hidden" @endif style="border:1px solid black;">Ordinance/Resolution Number</th>
             </tr>
         </thead>
         <tbody>
             @foreach($details as $dtl)
             <tr>
-                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Ordinance_Resolution_Title"} }}</td>
-                <td style="border:1px solid black; text-align:center">@if($dtl->{"Ordinance_or_Resolution"} == 0)
+                <th @if($chk_Title==0) class="hidden" @endif style="border:1px solid black; text-align:center">{{ $dtl->{"Ordinance_Resolution_Title"} }}</td>
+                <th @if($chk_Ordinance_No==0) class="hidden" @endif style="border:1px solid black; text-align:center">@if($dtl->{"Ordinance_or_Resolution"} == 0)
                     Ordinance
                     @else
                     Resolution
                     @endif</td>
-                <td style="border:1px solid black; text-align:center">{{ $dtl->{"Ordinance_Resolution_No"} }}</td>
+                <th @if($chk_Ordinance_No==0) class="hidden" @endif style="border:1px solid black; text-align:center">{{ $dtl->{"Ordinance_Resolution_No"} }}</td>
             </tr>
             @endforeach
         </tbody>
