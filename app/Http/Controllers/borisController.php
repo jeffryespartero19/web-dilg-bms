@@ -194,8 +194,22 @@ class borisController extends Controller
         return response()->json(array('success' => true));
     }
 
+
     public function downloadPDF(Request $request)
     {
+        $data = request()->all();
+
+        $chk_Ordinance = isset($data['chk_Ordinance']) ? 1 : 0;
+        $chk_Ordinance_No = isset($data['chk_Ordinance_No']) ? 1 : 0;
+        $chk_Approval = isset($data['chk_Approval']) ? 1 : 0;
+        $chk_Effectivity = isset($data['chk_Effectivity']) ? 1 : 0;
+        $chk_Title = isset($data['chk_Title']) ? 1 : 0;
+        $chk_Status = isset($data['chk_Status']) ? 1 : 0;
+        $chk_Region = isset($data['chk_Region']) ? 1 : 0;
+        $chk_Province = isset($data['chk_Province']) ? 1 : 0;
+        $chk_City = isset($data['chk_City']) ? 1 : 0;
+        $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+
         $details = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
             ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
             ->select(
@@ -210,16 +224,43 @@ class borisController extends Controller
 
             )
             ->paginate(20, ['*'], 'details');
-
         //dd($detail);
 
-        $pdf = PDF::loadView('boris_transactions.BorisPDF', compact('details'));
+        $pdf = PDF::loadView('boris_transactions.BorisPDF', compact(
+            'chk_Ordinance',
+            'chk_Ordinance_No',
+            'chk_Approval',
+            'chk_Effectivity',
+            'chk_Title',
+            'chk_Status',
+            'chk_Region',
+            'chk_Province',
+            'chk_City',
+            'chk_Barangay',
+            'details'
+        ));
         $daFileNeym = "Ordinance_&_Resolution.pdf";
         return $pdf->download($daFileNeym);
     }
 
     public function viewPDF(Request $request)
     {
+        $data = request()->all();
+
+
+        $chk_Ordinance = isset($data['chk_Ordinance']) ? 1 : 0;
+        $chk_Ordinance_No = isset($data['chk_Ordinance_No']) ? 1 : 0;
+        $chk_Approval = isset($data['chk_Approval']) ? 1 : 0;
+        $chk_Effectivity = isset($data['chk_Effectivity']) ? 1 : 0;
+        $chk_Title = isset($data['chk_Title']) ? 1 : 0;
+        $chk_Status = isset($data['chk_Status']) ? 1 : 0;
+        $chk_Region = isset($data['chk_Region']) ? 1 : 0;
+        $chk_Province = isset($data['chk_Province']) ? 1 : 0;
+        $chk_City = isset($data['chk_City']) ? 1 : 0;
+        $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+
+
+
         $details = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
             ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
             ->select(
@@ -235,7 +276,19 @@ class borisController extends Controller
             )
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('boris_transactions.BorisPDF', compact('details'));
+        $pdf = PDF::loadView('boris_transactions.BorisPDF', compact(
+            'chk_Ordinance',
+            'chk_Ordinance_No',
+            'chk_Approval',
+            'chk_Effectivity',
+            'chk_Title',
+            'chk_Status',
+            'chk_Region',
+            'chk_Province',
+            'chk_City',
+            'chk_Barangay',
+            'details'
+        ));
         return $pdf->stream();
     }
 }
