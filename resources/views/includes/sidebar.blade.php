@@ -139,7 +139,7 @@
                 <a href="{{route('bfas_jev_collection')}}">
                     <li role="presentation">JEV Collection</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_jev_disbursement')}}">
                     <li role="presentation">JEV Disbursement</li>
                 </a>
                 <a href="">

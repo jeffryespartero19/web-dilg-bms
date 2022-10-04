@@ -282,4 +282,60 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+    if(ident == 4){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_jev_disbursement",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['JEV_Disbursement_ID']);
+    
+                $('#this_journal_number').val(data['theEntry'][0]['Journal_Number']);
+    
+                $('#this_bank_account').empty();
+                $('#this_bank_account').val(data['theEntry'][0]['Bank_Account_ID']);
+                $('#this_bank_account').append(data['theEntry'][0]['Bank_Account_Name']+'-('+data['theEntry'][0]['Bank_Account_No']+')');
+    
+                $('#this_journal_Type').empty();
+                $('#this_journal_Type').val(data['theEntry'][0]['Journal_Type_ID']);
+                $('#this_journal_Type').append(data['theEntry'][0]['Journal_Type']);
+    
+                $('#this_fund_Type').empty();
+                $('#this_fund_Type').val(data['theEntry'][0]['Fund_Type_ID']);
+                $('#this_fund_Type').append(data['theEntry'][0]['Fund_Type']);
+                
+                $('#this_particulars').val(data['theEntry'][0]['Particulars']);
+    
+                $('#this_region').empty();
+                $('#this_region').val(data['theEntry'][0]['Region_ID']);
+                $('#this_region').append(data['theEntry'][0]['Region_Name']);
+    
+                $('#this_province').empty();
+                $('#this_province').val(data['theEntry'][0]['Province_ID']);
+                $('#this_province').append(data['theEntry'][0]['Province_Name']);
+    
+                $('#this_city').empty();
+                $('#this_city').val(data['theEntry'][0]['City_Municipality_ID']);
+                $('#this_city').append(data['theEntry'][0]['City_Municipality_Name']);
+    
+                $('#this_barangay').empty();
+                $('#this_barangay').val(data['theEntry'][0]['Barangay_ID']);
+                $('#this_barangay').append(data['theEntry'][0]['Barangay_Name']);
+                
+                $('#this_active').empty();
+                $('#this_active').val(data['theEntry'][0]['Active']);
+                if(data['theEntry'][0]['Active']==1){
+                    $('#this_active').append('Yes');
+                }else{
+                    $('#this_active').append('No');
+                }
+    
+            }
+        });
+    }
+
 });

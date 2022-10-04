@@ -373,4 +373,158 @@ class BFASController2 extends Controller
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
+
+    //JEV Disbursement
+    public function bfas_jev_disbursement(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_jev_disbursement as a')
+            ->join('maintenance_bfas_bank_account as b','b.Bank_Account_ID','=','a.Bank_Account_ID')
+            ->join('maintenance_bfas_journal_type as c','c.Journal_Type_ID','=','a.Journal_Type_ID')
+            ->join('maintenance_bfas_fund_type as d','d.Fund_Type_ID','=','a.Fund_Type_ID')
+
+            ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+            ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+            ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+            ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+
+            ->select(
+                'a.JEV_Disbursement_ID',
+                'b.Bank_Account_ID',
+                'b.Bank_Account_Name',
+                'b.Bank_Account_No',
+                'c.Journal_Type_ID',
+                'c.Journal_Type',
+                'd.Fund_Type_ID',
+                'd.Fund_Type',
+                'a.Journal_Number',
+                'a.Particulars',
+
+                'brgy.Barangay_ID',
+                'brgy.Barangay_Name',
+                'city.City_Municipality_ID',
+                'city.City_Municipality_Name',
+                'prov.Province_ID',
+                'prov.Province_Name',
+                'reg.Region_ID',
+                'reg.Region_Name',
+
+                'a.Active',
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $regionX=DB::table('maintenance_region')->get();
+        $bank_acc=DB::table('maintenance_bfas_bank_account')->get();
+        $journal_type=DB::table('maintenance_bfas_journal_type')->get();
+        $fund_type=DB::table('maintenance_bfas_fund_type')->get();
+
+        return view('bfas.jev_disbursement',compact('db_entries','currDATE','regionX','bank_acc','journal_type','fund_type'));
+    }
+
+    public function create_bfas_jev_disbursement(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_jev_disbursement')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Active'           => (int)$data['ActiveX'],
+
+                'Journal_Number'   => $data['Journal_Number'],
+                'Bank_Account_ID'  => $data['Bank_Account_ID'],
+                'Journal_Type_ID'  => $data['Journal_Type_ID'],
+                'Fund_Type_ID'     => $data['Fund_Type_ID'],
+
+                'Particulars'      => $data['Particulars'],
+
+                'Region_ID'            => $data['Region_IDX'],
+                'Province_ID'          => $data['Province_IDX'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX'],
+                'Barangay_ID'          => $data['Barangay_IDX'],
+                
+
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_jev_disbursement(Request $request)
+    {
+        //$id=$_GET['id'];
+        $id=1;
+
+        $theEntry=DB::table('bfas_jev_disbursement as a')
+            ->join('maintenance_bfas_bank_account as b','b.Bank_Account_ID','=','a.Bank_Account_ID')
+            ->join('maintenance_bfas_journal_type as c','c.Journal_Type_ID','=','a.Journal_Type_ID')
+            ->join('maintenance_bfas_fund_type as d','d.Fund_Type_ID','=','a.Fund_Type_ID')
+
+            ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+            ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+            ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+            ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+
+            ->select(
+                'a.JEV_Disbursement_ID',
+                'b.Bank_Account_ID',
+                'b.Bank_Account_Name',
+                'b.Bank_Account_No',
+                'c.Journal_Type_ID',
+                'c.Journal_Type',
+                'd.Fund_Type_ID',
+                'd.Fund_Type',
+                'a.Journal_Number',
+                'a.Particulars',
+
+                'brgy.Barangay_ID',
+                'brgy.Barangay_Name',
+                'city.City_Municipality_ID',
+                'city.City_Municipality_Name',
+                'prov.Province_ID',
+                'prov.Province_Name',
+                'reg.Region_ID',
+                'reg.Region_Name',
+
+                'a.Active',
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->where('a.JEV_Disbursement_ID',$id)
+            ->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_jev_disbursement(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_jev_disbursement')->where('JEV_Disbursement_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Active'           => (int)$data['ActiveX2'],
+
+                'Journal_Number'   => $data['Journal_Number2'],
+                'Bank_Account_ID'  => $data['Bank_Account_ID2'],
+                'Journal_Type_ID'  => $data['Journal_Type_ID2'],
+                'Fund_Type_ID'     => $data['Fund_Type_ID2'],
+
+                'Particulars'      => $data['Particulars2'],
+
+                'Region_ID'            => $data['Region_IDX2'],
+                'Province_ID'          => $data['Province_IDX2'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX2'],
+                'Barangay_ID'          => $data['Barangay_IDX2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
 }
