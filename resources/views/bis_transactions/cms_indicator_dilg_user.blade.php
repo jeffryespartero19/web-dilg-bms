@@ -38,6 +38,7 @@
         <div class="card listDIV">
 
             @foreach ($title as $titles)
+            @if($titles->Date_Start <= $currDATE && $titles->Date_End >= $currDATE)
             <div class="card-body LabelDIV" style="margin-bottom: 30px;">
                 <form method="POST" action="{{ route('create_indicator_answer') }}" autocomplete="off" enctype="multipart/form-data">
                     @csrf
@@ -55,11 +56,13 @@
                             <label>Instructions</label>
                             <textarea class="form-control" name="Instructions[]" disabled>{{$titles->Instructions}}</textarea>
                         </div>
+                        @foreach ($indicator as $indicators)
+                        @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
+                        <div style="padding: 20px; width:100%" class="INDetails">
 
-                        <div style="padding: 20px; width:100%">
-                            @foreach ($indicator as $indicators)
-                            @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
                             <input type="number" name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}" hidden>
+                            <input type="number" class="Max_Answer" name="Max_Answer[]" value="{{$indicators->Max_Answer}}" hidden>
+                            <input type="number" class="Min_Answer" name="Min_Answer[]" value="{{$indicators->Min_Answer}}" hidden>
                             <table class="table table-striped table-bordered" style="width:100%">
                                 <tbody>
                                     <tr>
@@ -80,7 +83,7 @@
                                             @foreach ($answer_classification as $ac)
                                             @if($ac->Indicator_ID == $indicators->Indicator_ID)
                                             <label>
-                                                <input type="checkbox" value="{{$ac->Answer_Classification_ID}}" name="Answer[{{$indicators->Indicator_ID}}][]">
+                                                <input type="checkbox" class="Answer_CHK" value="{{$ac->Answer_Classification_ID}}" name="Answer[{{$indicators->Indicator_ID}}][]">
                                                 {{$ac->Answer}}
                                             </label>
                                             <br>
@@ -108,13 +111,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            @endif
-                            @endforeach
+
                         </div>
+                        @endif
+                        @endforeach
 
                     </div>
                 </form>
             </div>
+            @else
+            @endif
             @endforeach
         </div>
 
@@ -225,6 +231,24 @@
             e.preventDefault();
         }
     );
+
+    $(document).on("change", ".Answer_CHK", function() {
+        var div_main = $(this).closest(".INDetails");
+        var max = div_main.find(".Max_Answer").val();
+        var ans_count = div_main.find('.Answer_CHK:checked').length;
+
+        if (max < ans_count) {
+            $(this).prop('checked', false);
+
+            Swal.fire(
+                'Warning',
+                'Max answer count reached',
+                'warning'
+            )
+        }
+
+        // alert(ans_count);
+    });
 </script>
 
 <style>

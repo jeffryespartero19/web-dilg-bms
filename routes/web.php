@@ -710,6 +710,21 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/update_categories_maint', 'maintenanceController@update_categories_maint')->name('update_categories_maint');
 
       
+      //Other Transaction BDRIS
+      Route::get('/other_transaction_list', 'BDRISALController@other_transaction_list')->name('other_transaction_list');
+      //DISASTER TYPE
+      Route::get('/disaster_type_details/{id}', 'BDRISALController@disaster_type_details');
+      //EMERGENCY EVACUATION SITE
+      Route::get('/emergency_evacuation_site_details/{id}', 'BDRISALController@emergency_evacuation_site_details');
+      //ALLOCATED_FUND
+      Route::get('/allocated_fund_details/{id}', 'BDRISALController@allocated_fund_details');
+      //DISASTER SUPPLIES
+      Route::get('/disaster_supplies_details/{id}', 'BDRISALController@disaster_supplies_details');
+      //EMERGENCY TEAM
+      Route::get('/emergency_team_details/{id}', 'BDRISALController@emergency_team_details');
+      //EMERGENCY EQUIPMENT
+      Route::get('/emergency_equipment_details/{id}', 'BDRISALController@emergency_equipment_details');
+
 
       // Create Indicator Options
       Route::get('/create_indicator_options', 'BISController@create_indicator_options')->name('create_indicator_options');

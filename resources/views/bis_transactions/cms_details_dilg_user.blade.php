@@ -43,7 +43,7 @@
                         <ul>
                             <li class="dropdown">
                                 @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
-                                <a class="btn btn-warning dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-pencil" aria-hidden="true"></i> Update &nbsp;<span class="caret"></span></a>
+                                <a class="btn btn-warning dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width: 150px;"><i class="fa fa-pencil" aria-hidden="true"></i> Update &nbsp;<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     @foreach($bp_categories as $bp)
                                     <li><a href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a></li>
@@ -172,7 +172,7 @@
                                     <tbody>
                                         @foreach($bp_title as $bt)
                                         @if($bt->Categories_ID == $bp->Categories_ID)
-                                        <tr style="background-color: lightblue;"> 
+                                        <tr style="background-color: lightblue;">
                                             <th colspan="2">{{$bt->Title}}</th>
                                         </tr>
 
@@ -184,8 +184,22 @@
                                             <td>
                                                 @foreach($bp_answers as $ba)
                                                 @if($ba->Indicator_ID == $bi->Indicator_ID)
-                                                {{$ba->Answer}}
-                                                <br>
+
+                                                    @if($ba->Answer_Classification_ID != 0)
+
+                                                        @foreach($answer_class as $ac)
+                                                        @if($ac->Answer_Classification_ID == $ba->Answer_Classification_ID)
+                                                        {{$ac->Answer}}
+                                                        <br>
+                                                        @else
+                                                        @endif
+                                                        @endforeach
+
+                                                    @else
+                                                    {{$ba->Answer}}
+                                                    <br>
+                                                    @endif
+
                                                 @else
                                                 @endif
                                                 @endforeach
