@@ -263,7 +263,7 @@ class BISController extends Controller
     //CMS Details
     public function cms_indicator($id, $cat_id)
     {
-        $currDATE = Carbon::now();
+        $currDATE = Carbon::today()->toDateString();
 
         if (Auth::user()->User_Type_ID == 3) {
             if ($id != 0) {
@@ -304,7 +304,8 @@ class BISController extends Controller
                     'answer_type',
                     'indicator',
                     'cat_id',
-                    'answer_classification'
+                    'answer_classification',
+                    'currDATE'
                 ));
             }
         } else {
@@ -317,7 +318,9 @@ class BISController extends Controller
                         'Visible' => '',
                         'Instructions' => '',
                         'Min_Indicator' => '',
-                        'Max_Indicator' => ''
+                        'Max_Indicator' => '',
+                        'Date_Start' => '',
+                        'Date_End' => '',
                     ],
                 ]);
                 $indicator = collect([
@@ -404,6 +407,8 @@ class BISController extends Controller
                                 'Instructions' => $data['Instructions'][$i],
                                 'Min_Indicator' => $data['Min_Indicator'][$i],
                                 'Max_Indicator' => $data['Max_Indicator'][$i],
+                                'Date_Start' => $data['Date_Start'][$i],
+                                'Date_End' => $data['Date_End'][$i],
                                 'Encoder_ID' => Auth::user()->id,
                                 'Date_Stamp' => Carbon::now()
                             )
@@ -496,6 +501,8 @@ class BISController extends Controller
                                 'Instructions' => $data['Instructions'][$i],
                                 'Min_Indicator' => $data['Min_Indicator'][$i],
                                 'Max_Indicator' => $data['Max_Indicator'][$i],
+                                'Date_Start' => $data['Date_Start'][$i],
+                                'Date_End' => $data['Date_End'][$i],
                                 'Encoder_ID' => Auth::user()->id,
                                 'Date_Stamp' => Carbon::now()
                             )

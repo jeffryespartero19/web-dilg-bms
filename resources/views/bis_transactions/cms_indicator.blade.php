@@ -81,6 +81,14 @@
                             <label>Instructions</label>
                             <textarea class="form-control" name="Instructions[]">{{$titles->Instructions}}</textarea>
                         </div>
+                        <div class="form-group col-lg-6">
+                            <label>Date Start</label>
+                            <input type="date" class="form-control" name="Date_Start[]" value="{{$titles->Date_Start}}" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Date End</label>
+                            <input type="date" class="form-control" name="Date_End[]" value="{{$titles->Date_End}}" required>
+                        </div>
 
                         @foreach ($indicator as $indicators)
                         @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
@@ -271,6 +279,14 @@
             <div class="form-group col-lg-12">
                 <label>Instructions</label>
                 <textarea class="form-control" name="Instructions[]"></textarea>
+            </div>
+            <div class="form-group col-lg-6">
+                <label>Date Start</label>
+                <input type="date" class="form-control" name="Date_Start[]" required>
+            </div>
+            <div class="form-group col-lg-6">
+                <label>Date End</label>
+                <input type="date" class="form-control" name="Date_End[]" required>
             </div>
 
             <div class="card-body IndicatorDIV col-lg-12" style="margin-bottom: 5px;">

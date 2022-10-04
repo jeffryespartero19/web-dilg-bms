@@ -38,6 +38,7 @@
         <div class="card listDIV">
 
             @foreach ($title as $titles)
+            @if($titles->Date_Start <= $currDATE && $titles->Date_End >= $currDATE)
             <div class="card-body LabelDIV" style="margin-bottom: 30px;">
                 <form method="POST" action="{{ route('create_indicator_answer') }}" autocomplete="off" enctype="multipart/form-data">
                     @csrf
@@ -118,6 +119,8 @@
                     </div>
                 </form>
             </div>
+            @else
+            @endif
             @endforeach
         </div>
 
