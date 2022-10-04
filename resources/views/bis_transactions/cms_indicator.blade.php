@@ -71,11 +71,11 @@
                         </div>
                         <div class="form-group col-lg-2">
                             <label>Min Indicator</label>
-                            <input type="number" class="form-control" name="Min_Indicator[]" value="{{$titles->Min_Indicator}}">
+                            <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]" value="{{$titles->Min_Indicator}}">
                         </div>
                         <div class="form-group col-lg-2">
                             <label>Max Indicator</label>
-                            <input type="number" class="form-control" name="Max_Indicator[]" value="{{$titles->Max_Indicator}}">
+                            <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]" value="{{$titles->Max_Indicator}}">
                         </div>
                         <div class="form-group col-lg-12">
                             <label>Instructions</label>
@@ -166,7 +166,7 @@
                             <option value='DATETIMEPICKER'>DATETIMEPICKER</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="Data_Type  " class="col-form-label">Data Type:</label>
                         <select class="form-control" name="Data_Type" required>
                             <option value='' disabled selected>Select Option</option>
@@ -176,7 +176,7 @@
                             <option value='DATE'>DATE</option>
                             <option value='DATETIME'>DATETIME</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="Active" class="col-form-label">Active:</label>
                         <select class="form-control" name="Active" required>
@@ -262,11 +262,11 @@
             </div>
             <div class="form-group col-lg-2">
                 <label>Min Indicator</label>
-                <input type="number" class="form-control" name="Min_Indicator[]">
+                <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]">
             </div>
             <div class="form-group col-lg-2">
                 <label>Max Indicator</label>
-                <input type="number" class="form-control" name="Max_Indicator[]">
+                <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]">
             </div>
             <div class="form-group col-lg-12">
                 <label>Instructions</label>
@@ -394,10 +394,25 @@
 
     $(document).on("click", ".AddIndicator", function() {
         var div_main = $(this).closest(".LabelDIV");
-        var div_child = $(".IndicatorDIVhidden");
-        var newdiv = div_child.clone();
-        div_main.find(".LblData").append(newdiv);
-        div_main.find('.IndicatorDIVhidden').prop('hidden', false).removeClass('IndicatorDIVhidden')
+
+        var min = div_main.find('.LblData .Min_Indicator').val();
+        var max = div_main.find('.LblData .Max_Indicator').val();
+        var ind_count = div_main.find('.LblData .IndicatorDIV').length;
+
+        if (max > ind_count) {
+            var div_child = $(".IndicatorDIVhidden");
+            var newdiv = div_child.clone();
+            div_main.find(".LblData").append(newdiv);
+            div_main.find('.IndicatorDIVhidden').prop('hidden', false).removeClass('IndicatorDIVhidden')
+        } else {
+            Swal.fire(
+                'Warning',
+                'Max indicator count reached',
+                'warning'
+            )
+        }
+
+        // alert(ind_count);
 
     });
 

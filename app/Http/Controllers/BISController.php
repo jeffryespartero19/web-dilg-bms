@@ -78,10 +78,12 @@ class BISController extends Controller
                 $bp_answers = DB::table('bis_cms_indicator_answer as a')
                     ->leftjoin('bis_cms_indicator as b', 'a.Indicator_ID', '=', 'b.Indicator_ID')
                     ->leftjoin('bis_cms_title as c', 'b.Title_ID', '=', 'c.Title_ID')
-                    ->select('a.Indicator_ID', 'a.Answer')
+                    ->select('a.Indicator_ID', 'a.Answer', 'a.Answer_Classification_ID')
                     ->where('c.CMS_Barangay_Profile_ID', $id)
                     ->where('a.Encoder_ID', Auth::user()->id)
                     ->get();
+
+                $answer_class = DB::table('bis_cms_answer_classification')->get();
 
                 return view('bis_transactions.cms_details_dilg_user', compact(
                     'currDATE',
@@ -95,7 +97,8 @@ class BISController extends Controller
                     'bp_categories',
                     'bp_title',
                     'bp_indicator',
-                    'bp_answers'
+                    'bp_answers',
+                    'answer_class'
                 ));
             }
         } else {
@@ -623,18 +626,27 @@ class BISController extends Controller
 
                     // dd($data['Indicator_ID']);
 
+                    $datas = DB::table('bis_cms_indicator as a')
+                        ->leftjoin('bis_cms_answer_types as b', 'a.Answer_Types_ID', '=', 'b.Answer_Type_ID')
+                        ->select('b.Widget')
+                        ->where(['Indicator_ID' => $data['Indicator_ID'][$i]])
+                        ->first();
+
+                    DB::table('bis_cms_indicator_answer')
+                        ->where(['Indicator_ID' => $data['Indicator_ID'][$i]])
+                        ->where('Encoder_ID', Auth::user()->id)
+                        ->delete();
+
                     if (isset($data['Answer'][$data['Indicator_ID'][$i]])) {
 
+
+                        // dd(count($data['Answer'][$data['Indicator_ID'][$i]]));
                         for ($ii = 0; $ii < count($data['Answer'][$data['Indicator_ID'][$i]]); $ii++) {
 
                             if ($data['Answer'][$data['Indicator_ID'][$i]][$ii] != NULL) {
 
 
-                                $datas = DB::table('bis_cms_indicator as a')
-                                    ->leftjoin('bis_cms_answer_types as b', 'a.Answer_Types_ID', '=', 'b.Answer_Type_ID')
-                                    ->select('b.Widget')
-                                    ->where(['Indicator_ID' => $data['Indicator_ID'][$i]])
-                                    ->first();
+
 
                                 if ($datas->Widget == 'RADIO' || $datas->Widget == 'SELECT' || $datas->Widget == 'CHECKBOX') {
                                     DB::table('bis_cms_indicator_answer')->insert(
@@ -664,5 +676,25 @@ class BISController extends Controller
         }
 
         return redirect()->back()->with('message', 'New Entry Created');
+    }
+
+    // Create CMS Answer Type
+    public function create_answer_type(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        // dd($data);
+
+        $Answer_Type_ID = DB::table('bis_cms_answer_types')->insertGetId(
+            array(
+                'Title' => $data['Title'],
+                'Description' => $data['Description'],
+                'Widget' => $data['Widget'],
+                // 'Data_Type' => $data['Data_Type'],
+                'Active' => (int)$data['Active'],
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now()
+            )
+        );
     }
 }

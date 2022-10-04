@@ -162,13 +162,12 @@
                         </tbody>
                     </table>
 
-                    @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
+                    <!-- @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
 
                     <div class="container" style="background-color: white; margin: 0px; width: 100%">
                         <br>
                         <ul class="nav nav-tabs">
                             @foreach($bp_categories as $bp)
-                            <!-- <li><a href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a></li> -->
                             <li><a data-toggle="tab" href="#menu{{$bp->Categories_ID}}">{{$bp->Categories}}</a></li>
                             @endforeach
 
@@ -207,7 +206,7 @@
                         </div>
                     </div>
                     @else
-                    @endif
+                    @endif -->
 
 
                 </div>
