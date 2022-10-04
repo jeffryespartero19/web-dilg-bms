@@ -154,28 +154,61 @@
                         </tbody>
                     </table>
 
-                    <!-- <div class="container" style="background-color: white; margin: 0px; width: 100%">
+                    @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
+
+                    <div class="container" style="background-color: white; margin: 0px; width: 100%">
                         <br>
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#home">General Information</a></li>
-                            <li><a data-toggle="tab" href="#menu1">Essential Services and Facilities</a></li>
-                            <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+                            @foreach($bp_categories as $bp)
+                            <!-- <li><a href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a></li> -->
+                            <li><a data-toggle="tab" href="#menu{{$bp->Categories_ID}}">{{$bp->Categories}}</a></li>
+                            @endforeach
+
                         </ul>
                         <div class="tab-content">
-                            <div id="home" class="tab-pane fade in active">
-                                <h3>HOME</h3>
-                                <p>Some content.</p>
+                            @foreach($bp_categories as $bp)
+                            <div id="menu{{$bp->Categories_ID}}" class="tab-pane fade table-responsive" style="padding: 20px 20px">
+                                <table class="table table-striped table-bordered" style="width: 100%;">
+                                    <tbody>
+                                        @foreach($bp_title as $bt)
+                                        @if($bt->Categories_ID == $bp->Categories_ID)
+                                        <tr style="background-color: lightblue;"> 
+                                            <th colspan="2">{{$bt->Title}}</th>
+                                        </tr>
+
+                                        @foreach($bp_indicator as $bi)
+                                        @if($bt->Title_ID == $bi->Title_ID)
+                                        <tr>
+                                            <td>{{$bi->Indicator_Description}}</td>
+
+                                            <td>
+                                                @foreach($bp_answers as $ba)
+                                                @if($ba->Indicator_ID == $bi->Indicator_ID)
+                                                {{$ba->Answer}}
+                                                <br>
+                                                @else
+                                                @endif
+                                                @endforeach
+                                            </td>
+
+                                        </tr>
+                                        @else
+                                        @endif
+                                        @endforeach
+
+                                        @else
+                                        @endif
+                                        @endforeach
+                                    </tbody>
+
+                                </table>
                             </div>
-                            <div id="menu1" class="tab-pane fade">
-                                <h3>Menu 1</h3>
-                                <p>Some content in menu 1.</p>
-                            </div>
-                            <div id="menu2" class="tab-pane fade">
-                                <h3>Menu 2</h3>
-                                <p>Some content in menu 2.</p>
-                            </div>
+                            @endforeach
                         </div>
-                    </div> -->
+                    </div>
+                    @else
+                    @endif
+                    <br>
                 </div>
             </div>
         </form>
