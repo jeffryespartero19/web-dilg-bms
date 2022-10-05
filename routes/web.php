@@ -652,9 +652,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Obligation Request
     Route::get('/bfas_obligation_request', 'BFASController2@bfas_obligation_request')->name('bfas_obligation_request');
-    Route::post('/create_bfas_obligation_request', 'BFASController2@create_bfas_jev_collection')->name('create_bfas_jev_collection');
-    Route::get('/get_bfas_obligation_request', 'BFASController2@get_bfas_jev_collection')->name('get_bfas_jev_collection');
-    Route::post('/update_bfas_jev_collection', 'BFASController2@update_bfas_jev_collection')->name('update_bfas_jev_collection');
+    Route::post('/create_bfas_obligation_request', 'BFASController2@create_bfas_obligation_request')->name('create_bfas_obligation_request');
+    Route::get('/get_bfas_obligation_request', 'BFASController2@get_bfas_obligation_request')->name('get_bfas_obligation_request');
+    Route::post('/update_bfas_obligation_request', 'BFASController2@update_bfas_obligation_request')->name('update_bfas_obligation_request');
 
     //Disbursement Voucher
     Route::get('/bfas_disbursement_voucher', 'BFASController2@bfas_disbursement_voucher')->name('bfas_disbursement_voucher');

@@ -175,8 +175,8 @@ class BFASController2 extends Controller
     }
     public function get_bfas_accounts_information(Request $request)
     {
-        //$id=$_GET['id'];
-        $id=1;
+        $id=$_GET['id'];
+        //$id=1;
 
         $theEntry=DB::table('bfas_accounts_information as a')
             ->join('maintenance_bfas_account_type as b','b.Account_Type_ID','=','a.Account_Type_ID')
@@ -302,8 +302,8 @@ class BFASController2 extends Controller
     }
     public function get_bfas_jev_collection(Request $request)
     {
-        //$id=$_GET['id'];
-        $id=1;
+        $id=$_GET['id'];
+        //$id=1;
 
         $theEntry=DB::table('bfas_jev_collection as a')
             ->join('maintenance_bfas_bank_account as b','b.Bank_Account_ID','=','a.Bank_Account_ID')
@@ -456,8 +456,8 @@ class BFASController2 extends Controller
     }
     public function get_bfas_jev_disbursement(Request $request)
     {
-        //$id=$_GET['id'];
-        $id=1;
+        $id=$_GET['id'];
+        //$id=1;
 
         $theEntry=DB::table('bfas_jev_disbursement as a')
             ->join('maintenance_bfas_bank_account as b','b.Bank_Account_ID','=','a.Bank_Account_ID')
@@ -673,8 +673,8 @@ class BFASController2 extends Controller
     }
     public function get_bfas_disbursement_voucher(Request $request)
     {
-        //$id=$_GET['id'];
-        $id=1;
+        $id=$_GET['id'];
+        //$id=1;
 
         $theEntry = DB::table('bfas_disbursement_voucher as a')
             ->join('maintenance_bfas_appropriation_type as b','b.Appropriation_Type_ID','=','a.Appropriation_Type_ID')
@@ -1239,4 +1239,450 @@ class BFASController2 extends Controller
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
+
+    //Budget Appropriation
+    public function bfas_budget_appropriation(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_budget_appropriation as a')
+            ->join('maintenance_bfas_budget_appropriation_status as b','b.Budget_Appropriation_Status_ID','=','a.Budget_Appropriation_Status_ID')
+            ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
+            ->join('maintenance_bfas_appropriation_type as d','d.Appropriation_Type_ID','=','a.Appropriation_Type_ID')
+
+            ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+            ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+            ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+            ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+
+            ->select(
+                'a.Budget_Appropriation_ID',
+                'a.Appropriation_No',
+                'a.Appropriation_Date',
+                'a.Budget_Year',
+                'b.Budget_Appropriation_Status_ID',
+                'b.Budget_Appropriation_Status',
+                'c.Fund_Type_ID',
+                'c.Fund_Type',
+                'd.Appropriation_Type_ID',
+                'd.Appropriation_Type',
+                'a.Particulars',
+    
+
+                'brgy.Barangay_ID',
+                'brgy.Barangay_Name',
+                'city.City_Municipality_ID',
+                'city.City_Municipality_Name',
+                'prov.Province_ID',
+                'prov.Province_Name',
+                'reg.Region_ID',
+                'reg.Region_Name',
+
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $regionX=DB::table('maintenance_region')->get();
+
+        $app_type=DB::table('maintenance_bfas_appropriation_type')->get();
+        $fund_type=DB::table('maintenance_bfas_fund_type')->get();
+        $bp_status=DB::table('maintenance_bfas_budget_appropriation_status')->get();
+        
+
+        return view('bfas.budget_appropriation',compact('db_entries','currDATE','regionX','app_type','fund_type','bp_status'));
+    }
+
+    public function create_bfas_budget_appropriation(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_budget_appropriation')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Appropriation_No'                => $data['Appropriation_No'],
+                'Budget_Appropriation_Status_ID'  => $data['Budget_Appropriation_Status_ID'],
+
+                'Budget_Year'            => $data['Budget_Year'],
+
+                'Fund_Type_ID'           => $data['Fund_Type_ID'],
+                'Appropriation_Date'     => $data['Appropriation_Date'],
+                'Appropriation_Type_ID'  => $data['Appropriation_Type_ID'],
+
+                'Particulars'      => $data['Particulars'],
+
+                'Region_ID'            => $data['Region_IDX'],
+                'Province_ID'          => $data['Province_IDX'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX'],
+                'Barangay_ID'          => $data['Barangay_IDX'],
+                
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_budget_appropriation(Request $request)
+    {
+        $id=$_GET['id'];
+        //$id=1;
+
+        $theEntry = DB::table('bfas_budget_appropriation as a')
+            ->join('maintenance_bfas_budget_appropriation_status as b','b.Budget_Appropriation_Status_ID','=','a.Budget_Appropriation_Status_ID')
+            ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
+            ->join('maintenance_bfas_appropriation_type as d','d.Appropriation_Type_ID','=','a.Appropriation_Type_ID')
+
+            ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+            ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+            ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+            ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+
+            ->select(
+                'a.Budget_Appropriation_ID',
+                'a.Appropriation_No',
+                'a.Appropriation_Date',
+                'a.Budget_Year',
+                'b.Budget_Appropriation_Status_ID',
+                'b.Budget_Appropriation_Status',
+                'c.Fund_Type_ID',
+                'c.Fund_Type',
+                'd.Appropriation_Type_ID',
+                'd.Appropriation_Type',
+                'a.Particulars',
+    
+
+                'brgy.Barangay_ID',
+                'brgy.Barangay_Name',
+                'city.City_Municipality_ID',
+                'city.City_Municipality_Name',
+                'prov.Province_ID',
+                'prov.Province_Name',
+                'reg.Region_ID',
+                'reg.Region_Name',
+
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->where('a.Budget_Appropriation_ID',$id)
+            ->get();
+
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_budget_appropriation(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_budget_appropriation')->where('Budget_Appropriation_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                
+                'Appropriation_No'                => $data['Appropriation_No2'],
+                'Budget_Appropriation_Status_ID'  => $data['Budget_Appropriation_Status_ID2'],
+
+                'Budget_Year'            => $data['Budget_Year2'],
+
+                'Fund_Type_ID'           => $data['Fund_Type_ID2'],
+                'Appropriation_Date'     => $data['Appropriation_Date2'],
+                'Appropriation_Type_ID'  => $data['Appropriation_Type_ID2'],
+
+                'Particulars'      => $data['Particulars2'],
+
+                'Region_ID'            => $data['Region_IDX2'],
+                'Province_ID'          => $data['Province_IDX2'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX2'],
+                'Barangay_ID'          => $data['Barangay_IDX2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Obligation Request
+    public function bfas_obligation_request(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_obligation_request as a')
+            ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
+            ->join('bfas_card_file as d','d.Card_File_ID','=','a.Card_File_ID')
+            ->join('maintenance_bfas_obligation_request_status as e','e.Obligation_Request_Status_ID','=','a.Obligation_Request_Status_ID')
+            ->join('bfas_budget_appropriation as f','f.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
+            ->join('bfas_card_file as g','g.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
+
+            ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+            ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+            ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+            ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+
+            ->select(
+                'a.Obligation_Request_ID',
+                'a.Obligation_Request_No',
+                'a.Purchase_Order_No',
+                'c.Fund_Type_ID',
+                'c.Fund_Type',
+                'd.Card_File_ID',
+                'd.Last_Name','d.First_Name','d.Middle_Name',
+                'e.Obligation_Request_Status_ID',
+                'e.Obligation_Request_Status',
+                'a.Obligation_Request_Date',
+                'a.Remarks',
+                'f.Budget_Appropriation_ID',
+                'f.Appropriation_No',
+                'g.Card_File_ID',
+                'g.Last_Name as Last_Name2','g.First_Name as First_Name2','g.Middle_Name as Middle_Name2',
+
+                'brgy.Barangay_ID',
+                'brgy.Barangay_Name',
+                'city.City_Municipality_ID',
+                'city.City_Municipality_Name',
+                'prov.Province_ID',
+                'prov.Province_Name',
+                'reg.Region_ID',
+                'reg.Region_Name',
+
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $regionX=DB::table('maintenance_region')->get();
+
+        $fund_type=DB::table('maintenance_bfas_fund_type')->get();
+        $card_file=DB::table('bfas_card_file')->get();
+
+        $obr_status=DB::table('maintenance_bfas_obligation_request_status')->get();
+        $b_app=DB::table('bfas_budget_appropriation')->get();
+
+        return view('bfas.obligation_request',compact('db_entries','currDATE','regionX','fund_type','card_file','obr_status','b_app'));
+    }
+
+    public function create_bfas_obligation_request(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_obligation_request')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Obligation_Request_No'         => $data['Obligation_Request_No'],
+                'Purchase_Order_No'             => $data['Purchase_Order_No'],
+                'Obligation_Request_Date'       => $data['Obligation_Request_Date'],
+                'Obligation_Request_Status_ID'  => $data['Obligation_Request_Status_ID'],
+
+                'Fund_Type_ID'                  => $data['Fund_Type_ID'],
+                'Budget_Appropriation_ID'       => $data['Budget_Appropriation_ID'],
+                'Card_File_ID'           => $data['Card_File_ID'],
+                'Brgy_Officials_and_Staff_ID'     => $data['Brgy_Officials_and_Staff_ID'],
+
+                'Remarks'          => $data['Remarks'],
+
+                'Region_ID'            => $data['Region_IDX'],
+                'Province_ID'          => $data['Province_IDX'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX'],
+                'Barangay_ID'          => $data['Barangay_IDX'],
+                
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_obligation_request(Request $request)
+    {
+        $id=$_GET['id'];
+        //$id=1;
+
+        $theEntry = DB::table('bfas_obligation_request as a')
+            ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
+            ->join('bfas_card_file as d','d.Card_File_ID','=','a.Card_File_ID')
+            ->join('maintenance_bfas_obligation_request_status as e','e.Obligation_Request_Status_ID','=','a.Obligation_Request_Status_ID')
+            ->join('bfas_budget_appropriation as f','f.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
+            ->join('bfas_card_file as g','g.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
+
+            ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
+            ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
+            ->join('maintenance_province as prov','prov.Province_ID','=','a.Province_ID')
+            ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
+
+            ->select(
+                'a.Obligation_Request_ID',
+                'a.Obligation_Request_No',
+                'a.Purchase_Order_No',
+                'c.Fund_Type_ID',
+                'c.Fund_Type',
+                'd.Card_File_ID',
+                'd.Last_Name','d.First_Name','d.Middle_Name',
+                'e.Obligation_Request_Status_ID',
+                'e.Obligation_Request_Status',
+                'a.Obligation_Request_Date',
+                'a.Remarks',
+                'f.Budget_Appropriation_ID',
+                'f.Appropriation_No',
+                'g.Card_File_ID',
+                'g.Last_Name as Last_Name2','g.First_Name as First_Name2','g.Middle_Name as Middle_Name2',
+
+                'brgy.Barangay_ID',
+                'brgy.Barangay_Name',
+                'city.City_Municipality_ID',
+                'city.City_Municipality_Name',
+                'prov.Province_ID',
+                'prov.Province_Name',
+                'reg.Region_ID',
+                'reg.Region_Name',
+
+                'a.Encoder_ID',
+                'a.Date_Stamp'
+
+            )
+            ->where('a.Obligation_Request_ID',$id)
+            ->get();
+
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_obligation_request(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+ 
+
+        DB::table('bfas_obligation_request')->where('Obligation_Request_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Obligation_Request_No'         => $data['Obligation_Request_No2'],
+                'Purchase_Order_No'             => $data['Purchase_Order_No2'],
+                'Obligation_Request_Date'       => $data['Obligation_Request_Date2'],
+                'Obligation_Request_Status_ID'  => $data['Obligation_Request_Status_ID2'],
+
+                'Fund_Type_ID'                  => $data['Fund_Type_ID2'],
+                'Budget_Appropriation_ID'       => $data['Budget_Appropriation_ID2'],
+                'Card_File_ID'           => $data['Card_File_ID2'],
+                'Brgy_Officials_and_Staff_ID'     => $data['Brgy_Officials_and_Staff_ID2'],
+
+                'Remarks'          => $data['Remarks2'],
+
+                'Region_ID'            => $data['Region_IDX2'],
+                'Province_ID'          => $data['Province_IDX2'],
+                'City_Municipality_ID' => $data['City_Municipality_IDX2'],
+                'Barangay_ID'          => $data['Barangay_IDX2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //SAAODBA
+    public function bfas_SAAODBA(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('bfas_SAAODBA as a')
+            ->join('bfas_obligation_request as b','b.Obligation_Request_ID','=','a.Obligation_Request_ID')
+            ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
+            ->join('bfas_card_file as d','d.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
+            ->join('bfas_accounts_information as e','e.Accounts_Information_ID','=','a.Accounts_Information_ID')
+
+            ->select(
+                'a.SAAODBA_ID',
+                'b.Obligation_Request_ID',
+                'b.Obligation_Request_No',
+                'c.Fund_Type_ID',
+                'c.Fund_Type',
+                'a.SAAODBA_As_of',
+                'd.Card_File_ID',
+                'd.Last_Name as Last_Name2','d.First_Name as First_Name2','d.Middle_Name as Middle_Name2',
+                'e.Accounts_Information_ID',
+                'e.Account_Name'
+
+
+            )
+            ->paginate(20,['*'], 'db_entries');
+        
+        $obr=DB::table('bfas_obligation_request')->get();
+        $fundX=DB::table('maintenance_bfas_fund_type')->get();
+        $oic=DB::table('bfas_card_file')->get();
+        $accounts=DB::table('bfas_accounts_information')->get();
+
+        return view('bfas.SAAODBA',compact('db_entries','currDATE', 'obr', 'fundX', 'oic', 'accounts'));
+    }
+
+    public function create_bfas_SAAODBA(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bfas_SAAODBA')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Obligation_Request_ID'   => $data['Obligation_Request_ID'],
+                'Fund_Type_ID'            => $data['Fund_Type_ID'],
+                'SAAODBA_As_of'           => $data['SAAODBA_As_of'],
+                'Brgy_Officials_and_Staff_ID' => $data['Brgy_Officials_and_Staff_ID'],
+                'Accounts_Information_ID'     => $data['Accounts_Information_ID'],
+                
+            )
+        );
+        
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_bfas_SAAODBA(Request $request)
+    {
+        $id=$_GET['id'];
+
+        $theEntry=DB::table('bfas_SAAODBA as a')
+            ->join('bfas_obligation_request as b','b.Obligation_Request_ID','=','a.Obligation_Request_ID')
+            ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
+            ->join('bfas_card_file as d','d.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
+            ->join('bfas_accounts_information as e','e.Accounts_Information_ID','=','a.Accounts_Information_ID')
+
+            ->select(
+                'a.SAAODBA_ID',
+                'b.Obligation_Request_ID',
+                'b.Obligation_Request_No',
+                'c.Fund_Type_ID',
+                'c.Fund_Type',
+                'a.SAAODBA_As_of',
+                'd.Card_File_ID',
+                'd.Last_Name as Last_Name2','d.First_Name as First_Name2','d.Middle_Name as Middle_Name2',
+                'e.Accounts_Information_ID',
+                'e.Account_Name'
+
+            )
+            ->where('a.SAAODBA_ID',$id)
+            ->get();
+        //dd($theEntry);
+        return(compact('theEntry'));
+    }
+    public function update_bfas_SAAODBA(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        DB::table('bfas_SAAODBA')->where('SAAODBA_ID',$data['IDx'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+
+                'Obligation_Request_ID'   => $data['Obligation_Request_ID2'],
+                'Fund_Type_ID'            => $data['Fund_Type_ID2'],
+                'SAAODBA_As_of'           => $data['SAAODBA_As_of2'],
+                'Brgy_Officials_and_Staff_ID' => $data['Brgy_Officials_and_Staff_ID2'],
+                'Accounts_Information_ID'     => $data['Accounts_Information_ID2'],
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
 }
