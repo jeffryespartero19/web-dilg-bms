@@ -422,13 +422,6 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 $('#this_barangay').val(data['theEntry'][0]['Barangay_ID']);
                 $('#this_barangay').append(data['theEntry'][0]['Barangay_Name']);
                 
-                $('#this_active').empty();
-                $('#this_active').val(data['theEntry'][0]['Active']);
-                if(data['theEntry'][0]['Active']==1){
-                    $('#this_active').append('Yes');
-                }else{
-                    $('#this_active').append('No');
-                }
     
             }
         });
@@ -563,6 +556,149 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 $('#this_remarks').val(data['theEntry'][0]['Remarks']);
             }
 
+        });
+    }
+    if(ident == 10){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_budget_appropriation",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Budget_Appropriation_ID']);
+
+                $('#this_appropriation_no').val(data['theEntry'][0]['Appropriation_No']);
+                $('#this_appropriation_date').val(data['theEntry'][0]['Appropriation_Date']);
+                $('#this_particulars').val(data['theEntry'][0]['Particulars']);
+
+                $('#this_appropriation_status').empty();
+                $('#this_appropriation_status').val(data['theEntry'][0]['Budget_Appropriation_Status_ID']);
+                $('#this_appropriation_status').append(data['theEntry'][0]['Budget_Appropriation_Status']);
+
+                $('#this_budget_year').empty();
+                $('#this_budget_year').val(data['theEntry'][0]['Budget_Year']);
+                $('#this_budget_year').append(data['theEntry'][0]['Budget_Year']);
+
+                $('#this_appropriation_type_id').empty();
+                $('#this_appropriation_type_id').val(data['theEntry'][0]['Appropriation_Type_ID']);
+                $('#this_appropriation_type_id').append(data['theEntry'][0]['Appropriation_Type']);
+    
+                $('#this_fund_type_id').empty();
+                $('#this_fund_type_id').val(data['theEntry'][0]['Fund_Type_ID']);
+                $('#this_fund_type_id').append(data['theEntry'][0]['Fund_Type']);
+
+                $('#this_region').empty();
+                $('#this_region').val(data['theEntry'][0]['Region_ID']);
+                $('#this_region').append(data['theEntry'][0]['Region_Name']);
+    
+                $('#this_province').empty();
+                $('#this_province').val(data['theEntry'][0]['Province_ID']);
+                $('#this_province').append(data['theEntry'][0]['Province_Name']);
+    
+                $('#this_city').empty();
+                $('#this_city').val(data['theEntry'][0]['City_Municipality_ID']);
+                $('#this_city').append(data['theEntry'][0]['City_Municipality_Name']);
+    
+                $('#this_barangay').empty();
+                $('#this_barangay').val(data['theEntry'][0]['Barangay_ID']);
+                $('#this_barangay').append(data['theEntry'][0]['Barangay_Name']);
+            }
+
+        });
+    }
+
+    if(ident == 11){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_obligation_request",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['Obligation_Request_ID']);
+    
+                $('#this_OR_no').val(data['theEntry'][0]['Obligation_Request_No']);
+                $('#this_PO_no').val(data['theEntry'][0]['Purchase_Order_No']);
+                $('#this_obr_date').val(data['theEntry'][0]['Obligation_Request_Date']);
+    
+                $('#this_obr_status').empty();
+                $('#this_obr_status').val(data['theEntry'][0]['Obligation_Request_Status_ID']);
+                $('#this_obr_status').append(data['theEntry'][0]['Obligation_Request_Status']);
+    
+                $('#this_fund_type_id').empty();
+                $('#this_fund_type_id').val(data['theEntry'][0]['Fund_Type_ID']);
+                $('#this_fund_type_id').append(data['theEntry'][0]['Fund_Type']);
+    
+                $('#this_ba').empty();
+                $('#this_ba').val(data['theEntry'][0]['Budget_Appropriation_ID']);
+                $('#this_ba').append(data['theEntry'][0]['Appropriation_No']);
+
+                $('#this_card_file_id').empty();
+                $('#this_card_file_id').val(data['theEntry'][0]['Card_File_ID']);
+                $('#this_card_file_id').append(data['theEntry'][0]['Last_Name']+', '+data['theEntry'][0]['First_Name']+' '+data['theEntry'][0]['Middle_Name']);
+
+                $('#this_brgy_officials_and_staff_id').empty();
+                $('#this_brgy_officials_and_staff_id').val(data['theEntry'][0]['Card_File_ID']);
+                $('#this_brgy_officials_and_staff_id').append(data['theEntry'][0]['Last_Name']+', '+data['theEntry'][0]['First_Name']+' '+data['theEntry'][0]['Middle_Name']);
+
+                $('#this_remarks').val(data['theEntry'][0]['Remarks']);
+    
+                $('#this_region').empty();
+                $('#this_region').val(data['theEntry'][0]['Region_ID']);
+                $('#this_region').append(data['theEntry'][0]['Region_Name']);
+    
+                $('#this_province').empty();
+                $('#this_province').val(data['theEntry'][0]['Province_ID']);
+                $('#this_province').append(data['theEntry'][0]['Province_Name']);
+    
+                $('#this_city').empty();
+                $('#this_city').val(data['theEntry'][0]['City_Municipality_ID']);
+                $('#this_city').append(data['theEntry'][0]['City_Municipality_Name']);
+    
+                $('#this_barangay').empty();
+                $('#this_barangay').val(data['theEntry'][0]['Barangay_ID']);
+                $('#this_barangay').append(data['theEntry'][0]['Barangay_Name']);
+                
+    
+            }
+        });
+    }
+
+    if(ident == 12){
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_bfas_SAAODBA",
+            type: 'GET',
+            data: { id: disID },
+            fail: function(){
+                alert('request failed');
+            },
+            success: function (data) { 
+                $('#this_idX').val(data['theEntry'][0]['SAAODBA_ID']);
+    
+                $('#this_obr').empty();
+                $('#this_obr').val(data['theEntry'][0]['Obligation_Request_ID']);
+                $('#this_obr').append(data['theEntry'][0]['Obligation_Request_No']);
+    
+                $('#this_fund_type_id').empty();
+                $('#this_fund_type_id').val(data['theEntry'][0]['Fund_Type_ID']);
+                $('#this_fund_type_id').append(data['theEntry'][0]['Fund_Type']);
+
+                $('#this_asof').val(data['theEntry'][0]['SAAODBA_As_of']);
+    
+                $('#this_oic').empty();
+                $('#this_oic').val(data['theEntry'][0]['Card_File_ID']);
+                $('#this_oic').append(data['theEntry'][0]['Last_Name2']+', '+data['theEntry'][0]['First_Name2']+' '+data['theEntry'][0]['Middle_Name2']);
+
+                $('#this_account').empty();
+                $('#this_account').val(data['theEntry'][0]['Accounts_Information_ID']);
+                $('#this_account').append(data['theEntry'][0]['Account_Name']);
+            }
         });
     }
 

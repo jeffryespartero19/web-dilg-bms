@@ -142,13 +142,13 @@
                 <a href="{{route('bfas_jev_disbursement')}}">
                     <li role="presentation">JEV Disbursement</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_budget_appropriation')}}">
                     <li role="presentation">Budget Appropriation</li>
                 </a>
-                <a href="">
+                <a href="bfas_SAAODBA">
                     <li role="presentation">Budget SAAODBA</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_obligation_request')}}">
                     <li role="presentation">Obligation Request</li>
                 </a>
                 <a href="{{route('bfas_disbursement_voucher')}}">
