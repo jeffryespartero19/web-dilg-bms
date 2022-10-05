@@ -162,28 +162,53 @@
                         </tbody>
                     </table>
 
-                    <!-- <div class="container" style="background-color: white; margin: 0px; width: 100%">
+                    <!-- @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
+
+                    <div class="container" style="background-color: white; margin: 0px; width: 100%">
                         <br>
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#home">General Information</a></li>
-                            <li><a data-toggle="tab" href="#menu1">Essential Services and Facilities</a></li>
-                            <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+                            @foreach($bp_categories as $bp)
+                            <li><a data-toggle="tab" href="#menu{{$bp->Categories_ID}}">{{$bp->Categories}}</a></li>
+                            @endforeach
+
                         </ul>
                         <div class="tab-content">
-                            <div id="home" class="tab-pane fade in active">
-                                <h3>HOME</h3>
-                                <p>Some content.</p>
+                            @foreach($bp_categories as $bp)
+                            <div id="menu{{$bp->Categories_ID}}" class="tab-pane fade table-responsive" style="padding: 20px 20px">
+                                <table class="table table-striped table-bordered" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th hidden>Resident_ID</th>
+                                            <th style="width: 300px;">TITLE</th>
+                                            <th style="width: 200px;">IS VISIBLE</th>
+                                            <th style="width: 200px;">MIN RECORD ANSWER</th>
+                                            <th style="width: 200px;">MAX RECORD ANSWER</th>
+                                            <th style="width: 200px;">CHOICE GROUP</th>
+                                            <th style="width: 200px;">CHOICE COUNT</th>
+                                            <th style="width: 200px;">DEFAULT CHOICES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td hidden>Sample</td>
+                                            <td>Sample</td>
+                                            <td>Sample</td>
+                                            <td>Sample</td>
+                                            <td>Sample</td>
+                                            <td>Sample</td>
+                                            <td>Sample</td>
+                                            <td>Sample</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div id="menu1" class="tab-pane fade">
-                                <h3>Menu 1</h3>
-                                <p>Some content in menu 1.</p>
-                            </div>
-                            <div id="menu2" class="tab-pane fade">
-                                <h3>Menu 2</h3>
-                                <p>Some content in menu 2.</p>
-                            </div>
+                            @endforeach
                         </div>
-                    </div> -->
+                    </div>
+                    @else
+                    @endif -->
+
+
                 </div>
             </div>
         </form>

@@ -32,8 +32,9 @@
     <div class="flexer">
         <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
         <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createOrdinance_Info" style="width: 100px;">New</button></div>
-        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
-        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Ordinance') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div>
+        <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
+        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
+        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
     </div>
     <br>
     <div class="col-md-12">
@@ -176,6 +177,110 @@
                     <div class="modal-footer">
                         <button type="button" id="CloseOrdinance" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form id="print_report" method="POST" action="{{ route('view_Ordinance') }}" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="chk_Ordinance" name="chk_Ordinance">
+                                <label for="chk_Ordinance">Ordinance / Resolution</label><br>
+                                <input type="checkbox" id="chk_Ordinance_No" name="chk_Ordinance_No">
+                                <label for="chk_Ordinance_No">Ordinance Resolution No.</label><br>
+                                <input type="checkbox" id="chk_Approval" name="chk_Approval">
+                                <label for="chk_Approval">Date of Approval</label><br>
+                                <input type="checkbox" id="chk_Effectivity" name="chk_Effectivity">
+                                <label for="chk_Effectivity">Date of Effectivity</label><br>
+                                <input type="checkbox" id="chk_Title" name="chk_Title">
+                                <label for="chk_Title">Ordinance Resolution Title</label><br>
+                                <input type="checkbox" id="chk_Status" name="chk_Status">
+                                <label for="chk_Status">Status</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="chk_Region" name="chk_Region">
+                                <label for="chk_Region">Region</label><br>
+                                <input type="checkbox" id="chk_Province" name="chk_Province">
+                                <label for="chk_Province">Province</label><br>
+                                <input type="checkbox" id="chk_City" name="chk_City">
+                                <label for="chk_City">City/Municipality</label><br>
+                                <input type="checkbox" id="chk_Barangay" name="chk_Barangay">
+                                <label for="chk_Barangay">Barangay</label><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <center>
+                            <button type="submit" class="btn btn-primary" style="width: 200px;">Print</button>
+                        </center>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form id="download_report" method="POST" action="{{ route('print_Ordinance') }}" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_Ordinance" name="chk_Ordinance">
+                                <label for="1chk_Ordinance">Ordinance / Resolution</label><br>
+                                <input type="checkbox" id="1chk_Ordinance_No" name="chk_Ordinance_No">
+                                <label for="1chk_Ordinance_No">Ordinance Resolution No.</label><br>
+                                <input type="checkbox" id="1chk_Approval" name="chk_Approval">
+                                <label for="1chk_Approval">Date of Approval</label><br>
+                                <input type="checkbox" id="1chk_Effectivity" name="chk_Effectivity">
+                                <label for="1chk_Effectivity">Date of Effectivity</label><br>
+                                <input type="checkbox" id="1chk_Title" name="chk_Title">
+                                <label for="1chk_Title">Ordinance Resolution Title</label><br>
+                                <input type="checkbox" id="1chk_Status" name="chk_Status">
+                                <label for="1chk_Status">Status</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_Region" name="chk_Region">
+                                <label for="1chk_Region">Region</label><br>
+                                <input type="checkbox" id="1chk_Province" name="chk_Province">
+                                <label for="1chk_Province">Province</label><br>
+                                <input type="checkbox" id="1chk_City" name="chk_City">
+                                <label for="1chk_City">City/Municipality</label><br>
+                                <input type="checkbox" id="1chk_Barangay" name="chk_Barangay">
+                                <label for="1chk_Barangay">Barangay</label><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <center>
+                            <button type="submit" class="btn btn-primary" style="width: 200px;">Download</button>
+                        </center>
+
                     </div>
                 </form>
             </div>

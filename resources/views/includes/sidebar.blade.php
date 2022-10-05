@@ -100,11 +100,29 @@
                 <a href="">
                     <li role="presentation">Document Payment</li>
                 </a>
-                <a href="">
-                    <li role="presentation">Business Permit Issuance</li>
+                <a href="{{route('brgy_business_permit_list')}}">
+                    <li role="presentation">Business Permit</li>
                 </a>
                 <a href="">
                     <li role="presentation">Reports Generation</li>
+                </a>
+                <a href="{{route('brgy_document_information_list')}}">
+                    <li role="presentation">Brgy Document Information</li>
+                </a>
+                <a href="{{route('barangay_business_list')}}">
+                    <li role="presentation">Barangay Business</li>
+                </a>
+                <a href="{{route('brgy_payment_collected_docu_list')}}">
+                    <li role="presentation">Brgy Payment Collected(Document Info)</li>
+                </a>
+                <a href="{{route('brgy_payment_collected_business_list')}}">
+                    <li role="presentation">Brgy Payment Collected(Business Permit)</li>
+                </a>
+                <a href="{{route('brgy_document_claim_business_list')}}">
+                    <li role="presentation">Brgy Document Claim(Business Permit)</li>
+                </a>
+                <a href="{{route('brgy_document_claim_docu_list')}}">
+                    <li role="presentation">Brgy Document Claim(Document Info.)</li>
                 </a>
             </ul>
         </div>
@@ -261,7 +279,7 @@
                 <a href="{{route('bins_begbal')}}">
                     <li role="presentation">Inventory Beginning Balance</li>
                 </a>
-                <a href="{{route('bins_inventroy')}}">
+                <a href="{{route('bins_inventory')}}">
                     <li role="presentation">Barangay Inventory</li>
                 </a>
                 <a href="{{route('bins_item_inspection')}}">
@@ -375,13 +393,13 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
-                    <li role="presentation">Barangay Business</li>
+                <a href="{{route('purpose_document_list')}}">
+                    <li role="presentation">Purpose of Document</li>
                 </a>
-                <a href="">
+                <a href="{{route('business_type_list')}}">
                     <li role="presentation">Business Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('document_type_list')}}">
                     <li role="presentation">Document Type</li>
                 </a>
             </ul>
@@ -393,19 +411,19 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('bfas_type_of_fee_maint')}}">
                     <li role="presentation">Type of Fee</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_card_type_maint')}}">
                     <li role="presentation">Card Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_account_type_maint')}}">
                     <li role="presentation">Account Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_fund_type_maint')}}">
                     <li role="presentation">Fund Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_bank_account_maint')}}">
                     <li role="presentation">Bank Account</li>
                 </a>
                 <a href="">
@@ -424,11 +442,12 @@
                     <li role="presentation">Appropriation Type</li>
                 </a>
                 <a href="">
-                    <li role="presentation">Account Code</li>
-                </a>
-                <a href="">
                     <li role="presentation">Expenditure Type</li>
                 </a>
+                <a href="">
+                    <li role="presentation">Account Code</li>
+                </a>
+                
             </ul>
         </div>
         <div class="module">

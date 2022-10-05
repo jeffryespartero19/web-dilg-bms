@@ -71,15 +71,23 @@
                         </div>
                         <div class="form-group col-lg-2">
                             <label>Min Indicator</label>
-                            <input type="number" class="form-control" name="Min_Indicator[]" value="{{$titles->Min_Indicator}}">
+                            <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]" value="{{$titles->Min_Indicator}}">
                         </div>
                         <div class="form-group col-lg-2">
                             <label>Max Indicator</label>
-                            <input type="number" class="form-control" name="Max_Indicator[]" value="{{$titles->Max_Indicator}}">
+                            <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]" value="{{$titles->Max_Indicator}}">
                         </div>
                         <div class="form-group col-lg-12">
                             <label>Instructions</label>
                             <textarea class="form-control" name="Instructions[]">{{$titles->Instructions}}</textarea>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Date Start</label>
+                            <input type="date" class="form-control" name="Date_Start[]" value="{{$titles->Date_Start}}" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Date End</label>
+                            <input type="date" class="form-control" name="Date_End[]" value="{{$titles->Date_End}}" required>
                         </div>
 
                         @foreach ($indicator as $indicators)
@@ -91,7 +99,7 @@
                                     <button class="btn btn-danger IndicatorRemove" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</button>
                                 </div>
                             </div>
-                            <input type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
+                            <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
                             <div class="container row" style="background-color: white; margin: 0px; width:100%; padding:20px">
                                 <div class="form-group col-lg-12">
                                     <label>Description</label>
@@ -114,9 +122,9 @@
                                     <label>Max Answer</label>
                                     <input type="number" class="form-control" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
                                 </div>
-                                <div class="form-group col-lg-3">
+                                <div class="form-group col-lg-12">
                                     <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
-                                    <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" hidden><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
+                                    <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicators->Widget == 'RADIO' || $indicators->Widget == 'SELECT' || $indicators->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +174,7 @@
                             <option value='DATETIMEPICKER'>DATETIMEPICKER</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="Data_Type  " class="col-form-label">Data Type:</label>
                         <select class="form-control" name="Data_Type" required>
                             <option value='' disabled selected>Select Option</option>
@@ -176,7 +184,7 @@
                             <option value='DATE'>DATE</option>
                             <option value='DATETIME'>DATETIME</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="Active" class="col-form-label">Active:</label>
                         <select class="form-control" name="Active" required>
@@ -226,7 +234,7 @@
             <label>Max Answer</label>
             <input type="number" class="form-control" name="Max_Answer[]">
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-12">
             <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
         </div>
     </div>
@@ -262,15 +270,23 @@
             </div>
             <div class="form-group col-lg-2">
                 <label>Min Indicator</label>
-                <input type="number" class="form-control" name="Min_Indicator[]">
+                <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]">
             </div>
             <div class="form-group col-lg-2">
                 <label>Max Indicator</label>
-                <input type="number" class="form-control" name="Max_Indicator[]">
+                <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]">
             </div>
             <div class="form-group col-lg-12">
                 <label>Instructions</label>
                 <textarea class="form-control" name="Instructions[]"></textarea>
+            </div>
+            <div class="form-group col-lg-6">
+                <label>Date Start</label>
+                <input type="date" class="form-control" name="Date_Start[]" required>
+            </div>
+            <div class="form-group col-lg-6">
+                <label>Date End</label>
+                <input type="date" class="form-control" name="Date_End[]" required>
             </div>
 
             <div class="card-body IndicatorDIV col-lg-12" style="margin-bottom: 5px;">
@@ -303,7 +319,7 @@
                         <label>Max Answer</label>
                         <input type="number" class="form-control" name="Max_Answer[]">
                     </div>
-                    <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-12">
                         <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
                     </div>
                 </div>
@@ -316,53 +332,24 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" >Add Option</h5>
+                <h5 class="modal-title">Add Option</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="ADD_AT" method="POST" autocomplete="off" enctype="multipart/form-data">
+            <form id="ADD_Option" method="POST" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-
+                    <input type="number" name="modal_Indicator_ID" id="modal_Indicator_ID" hidden>
                     <div class="form-group">
-                        <label for="Title" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" name="Title" required>
+                        <button class="btn btn-success" type="button" id="AddOption"><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTION</button>
                     </div>
-                    <div class="form-group">
-                        <label for="Description" class="col-form-label">Description:</label>
-                        <textarea class="form-control" name="Description"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="Widget" class="col-form-label">Widget:</label>
-                        <select class="form-control" name="Widget" required>
-                            <option value='' disabled selected>Select Option</option>
-                            <option value='RADIO'>RADIO</option>
-                            <option value='CHECKBOX'>CHECKBOX</option>
-                            <option value='TEXTBOX'>TEXTBOX</option>
-                            <option value='TEXTAREA'>TEXTAREA</option>
-                            <option value='SELECT'>SELECT</option>
-                            <option value='DATEPICKER'>DATEPICKER</option>
-                            <option value='DATETIMEPICKER'>DATETIMEPICKER</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="Data_Type  " class="col-form-label">Data Type:</label>
-                        <select class="form-control" name="Data_Type" required>
-                            <option value='' disabled selected>Select Option</option>
-                            <option value='STRING'>STRING</option>
-                            <option value='NUMERIC'>NUMERIC</option>
-                            <option value='DECIMAL'>DECIMAL</option>
-                            <option value='DATE'>DATE</option>
-                            <option value='DATETIME'>DATETIME</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="Active" class="col-form-label">Active:</label>
-                        <select class="form-control" name="Active" required>
-                            <option value=1 selected>Yes</option>
-                            <option value=0>No</option>
-                        </select>
+                    <div class="Answer_list">
+                        <div class="form-group Answers">
+                            <label for="Answer" class="col-form-label">Option:</label>
+                            <input type="text" class="form-control" name="Answer_Classification_ID[]" hidden>
+                            <input type="text" class="form-control" name="Answer[]" required>
+                        </div>
                     </div>
 
                 </div>
@@ -373,6 +360,13 @@
             </form>
         </div>
     </div>
+</div>
+
+<!-- Clone Answers -->
+<div class="form-group Answers Answers_hidden" hidden>
+    <label for="Answer" class="col-form-label">Option:</label>
+    <input type="text" class="form-control" name="Answer_Classification_ID[]" hidden>
+    <input type="text" class="form-control" name="Answer[]" required>
 </div>
 
 <!-- Create Announcement_Status END -->
@@ -416,10 +410,25 @@
 
     $(document).on("click", ".AddIndicator", function() {
         var div_main = $(this).closest(".LabelDIV");
-        var div_child = $(".IndicatorDIVhidden");
-        var newdiv = div_child.clone();
-        div_main.find(".LblData").append(newdiv);
-        div_main.find('.IndicatorDIVhidden').prop('hidden', false).removeClass('IndicatorDIVhidden')
+
+        var min = div_main.find('.LblData .Min_Indicator').val();
+        var max = div_main.find('.LblData .Max_Indicator').val();
+        var ind_count = div_main.find('.LblData .IndicatorDIV').length;
+
+        if (max > ind_count) {
+            var div_child = $(".IndicatorDIVhidden");
+            var newdiv = div_child.clone();
+            div_main.find(".LblData").append(newdiv);
+            div_main.find('.IndicatorDIVhidden').prop('hidden', false).removeClass('IndicatorDIVhidden')
+        } else {
+            Swal.fire(
+                'Warning',
+                'Max indicator count reached',
+                'warning'
+            )
+        }
+
+        // alert(ind_count);
 
     });
 
@@ -482,6 +491,26 @@
         }
     );
 
+
+    $('#ADD_Option').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: '/create_indicator_options',
+            data: $(this).serialize(),
+            success: function(msg) {
+                $('#ADD_OPTIONS_modal').modal('hide');
+                $('#ADD_Option').trigger('reset');
+                Swal.fire(
+                    'Saved!',
+                    'New Option Added',
+                    'success'
+                )
+                return false;
+            }
+        });
+    });
+
     $(document).on("change", ".answer_types", function() {
         $id = $(this).val();
         var div_main = $(this).closest(".IndicatorDIV");
@@ -502,6 +531,40 @@
                 }
             }
         });
+    });
+
+    $(document).on("click", ".ADD_OPTIONS_modal", function() {
+        var div_main = $(this).closest(".IndicatorDIV");
+        var Indicator_ID = div_main.find(".Indicator_ID").val();
+        $('#modal_Indicator_ID').val(Indicator_ID);
+
+        $.ajax({
+            type: "GET",
+            url: "/get_answer_classification/" + Indicator_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('.Answer_list').empty();
+                data.forEach(element => {
+                    var option = '<div class="form-group Answers">' +
+                        '<label for="Answer" class="col-form-label">Option:</label>' +
+                        '<input type="text" class="form-control" name="Answer_Classification_ID[]" hidden value="' + element['Answer_Classification_ID'] + '">' +
+                        '<input type="text" class="form-control" name="Answer[]" required value="' + element['Answer'] + '">' +
+                        '</div>';
+                    $('.Answer_list').append(option);
+                });
+            }
+        });
+    });
+
+    $(document).on("click", "#AddOption", function() {
+        var div_main = $('.Answer_list');
+        var div_child = $(".Answers_hidden");
+        var newdiv = div_child.clone();
+        div_main.append(newdiv);
+        div_main.find('.Answers_hidden').prop('hidden', false).removeClass('Answers_hidden')
     });
 </script>
 

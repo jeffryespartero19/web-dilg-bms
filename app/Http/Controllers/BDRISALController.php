@@ -699,13 +699,14 @@ class BDRISALController extends Controller
             $disaster_type = DB::table('maintenance_bdris_disaster_type')->paginate(20, ['*'], 'disaster_type');
             $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
             $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
 
             return view('bdris_transactions.response_information', compact(
                 'currDATE',
                 'disaster_type',
                 'alert_level',
                 'region',
-               
+                'resident'
             ));
         } else {
             $response = DB::table('bdris_response_information')->where('Disaster_Response_ID', $id)->get();
@@ -716,6 +717,25 @@ class BDRISALController extends Controller
             $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $response[0]->Province_ID)->get();
             $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $response[0]->City_Municipality_ID)->get();
             $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $evacuee = DB::table('bdris_evacuee_information as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
+            ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
+            ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
+            ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
+            ->select(
+                        'a.Evacuee_ID'
+                        ,'a.Resident_ID'
+                        ,'a.Residency_Status'
+                        ,'a.Disaster_Response_ID'
+                        ,'a.Non_Resident_Name'
+                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
+                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+                        )
+            ->where('a.Disaster_Response_ID', $id)->get();
+
+
             return view('bdris_transactions.response_information_edit', compact(
                 'currDATE',
                 'disaster_type',
@@ -725,7 +745,9 @@ class BDRISALController extends Controller
                 'barangay',
                 'response',
                 'attachment',
-                'city_municipality'
+                'city_municipality',
+                'resident',
+                'evacuee'
             ));
         }
     }
@@ -758,6 +780,8 @@ class BDRISALController extends Controller
                 )
             );
 
+            DB::table('bdris_evacuee_information')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
                     $filename = $file->getClientOriginalName();
@@ -773,6 +797,42 @@ class BDRISALController extends Controller
                         'Date_Stamp'       => Carbon::now()
                     );
                     DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
+
+            if (isset($data['Resident_ID'])) {
+                $resident_details = [];
+
+                for ($i = 0; $i < count($data['Resident_ID']); $i++) {
+                    if ($data['Resident_ID'][$i] != NULL) {
+                        if (is_int($data['Resident_ID'][$i]) || ctype_digit($data['Resident_ID'][$i])) {
+                            $id = 0 + DB::table('bdris_evacuee_information')->max('Evacuee_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Disaster_Response_ID' => $Disaster_Response_ID,
+                                'Resident_ID' => $data['Resident_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        } else {
+                            $id = 0 + DB::table('bdris_evacuee_information')->max('Evacuee_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Disaster_Response_ID' => $Disaster_Response_ID,
+                                'Resident_ID' => 0,
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Non_Resident_Name' => $data['Resident_ID'][$i],
+                                'Non_Resident_Address' => $data['Non_Resident_Address'][$i],
+                                'Non_Resident_Birthdate' => $data['Non_Resident_Birthdate'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        }
+                        DB::table('bdris_evacuee_information')->insert($resident_details);
+                    }
                 }
             }
  
@@ -798,6 +858,8 @@ class BDRISALController extends Controller
                 )
             );
 
+            DB::table('bdris_evacuee_information')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
                     $filename = $file->getClientOriginalName();
@@ -813,6 +875,42 @@ class BDRISALController extends Controller
                         'Date_Stamp'       => Carbon::now()
                     );
                     DB::table('bdris_file_attachment')->insert($file_data);
+                }
+            }
+
+            if (isset($data['Resident_ID'])) {
+                $resident_details = [];
+
+                for ($i = 0; $i < count($data['Resident_ID']); $i++) {
+                    if ($data['Resident_ID'][$i] != NULL) {
+                        if (is_int($data['Resident_ID'][$i]) || ctype_digit($data['Resident_ID'][$i])) {
+                            $id = 0 + DB::table('bdris_evacuee_information')->max('Evacuee_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Disaster_Response_ID' => $data['Disaster_Response_ID'],
+                                'Resident_ID' => $data['Resident_ID'][$i],
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        } else {
+                            $id = 0 + DB::table('bdris_evacuee_information')->max('Evacuee_ID');
+                            $id += 1;
+
+                            $resident_details = [
+                                'Disaster_Response_ID' => $data['Disaster_Response_ID'],
+                                'Resident_ID' => 0,
+                                'Residency_Status' => (int)$data['Residency_Status'][$i],
+                                'Non_Resident_Name' => $data['Resident_ID'][$i],
+                                'Non_Resident_Address' => $data['Non_Resident_Address'][$i],
+                                'Non_Resident_Birthdate' => $data['Non_Resident_Birthdate'][$i],
+                                'Encoder_ID' => Auth::user()->id,
+                                'Date_Stamp' => Carbon::now()
+                            ];
+                        }
+                        DB::table('bdris_evacuee_information')->insert($resident_details);
+                    }
                 }
             }
          
