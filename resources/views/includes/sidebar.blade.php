@@ -133,13 +133,13 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="">
+                <a href="{{route('bfas_accounts_information')}}">
                     <li role="presentation">Chart of Accounts</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_jev_collection')}}">
                     <li role="presentation">JEV Collection</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_jev_disbursement')}}">
                     <li role="presentation">JEV Disbursement</li>
                 </a>
                 <a href="">
@@ -151,22 +151,22 @@
                 <a href="">
                     <li role="presentation">Obligation Request</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_disbursement_voucher')}}">
                     <li role="presentation">Disbursement Voucher</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_check_preparation')}}">
                     <li role="presentation">Check Preparation</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_check_status')}}">
                     <li role="presentation">Check Status Cleared</li>
                 </a>
-                <a href="">
-                    <li role="presentation">Check Status Released</li>
+                <a href="{{route('bfas_check_status_released')}}">
+                    <li role="presentation">Check Status Released </li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_payment_collection')}}">
                     <li role="presentation">Payment Collection</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_card_file')}}">
                     <li role="presentation">Card File (Supplier)</li>
                 </a>
             </ul>
@@ -178,7 +178,10 @@
                 <i class="fa fa-chevron-up sb_up" aria-hidden="true"></i>
             </div>
             <ul class="sub_module" role="menu" aria-labelledby="menu2">
-                <a href="{{route('disaster_type_list')}}">
+                <a href="{{route('other_transaction_list')}}">
+                    <li role="presentation">Other Transaction/s</li>
+                </a>
+                <!-- <a href="{{route('disaster_type_list')}}">
                     <li role="presentation">Disaster Type</li>
                 </a>
                 <a href="{{route('emergency_evacuation_site_list')}}">
@@ -188,27 +191,27 @@
                     <li role="presentation">Allocated Fund Source</li>
                 </a>
                 <a href="{{route('disaster_supplies_list')}}">
-                    <li role="presentation">Disaster Supplies</li>
+                    <li role="presentation">Disaster Supplies</li> 
                 </a>
                 <a href="{{route('emergency_team_list')}}">
                     <li role="presentation">Emergency Team</li>
                 </a>
                 <a href="{{route('emergency_equipment_list')}}">
                     <li role="presentation">Emergency Equipment</li>
-                </a>
+                </a> -->
                 <a href="{{route('disaster_related_activities_list')}}">
                     <li role="presentation">Disaster Related Activities</li>
                 </a>
                 <a href="{{route('response_information_list')}}">
                     <li role="presentation">Response Information</li>
                 </a>
-                <a href="">
+                <!-- <a href="">
                     <li role="presentation">Evacuee Information</li>
-                </a>
+                </a> -->
                 <a href="{{route('recovery_information_list')}}">
                     <li role="presentation">Recovery Information</li>
                 </a>
-                <a href="">
+                <!-- <a href="">
                     <li role="presentation">Affected Household and Infra</li>
                 </a>
                 <a href="">
@@ -219,7 +222,7 @@
                 </a>
                 <a href="">
                     <li role="presentation">Recovery Damage Loss</li>
-                </a>
+                </a> -->
             </ul>
         </div>
         <div class="module">
@@ -426,25 +429,25 @@
                 <a href="{{route('bfas_bank_account_maint')}}">
                     <li role="presentation">Bank Account</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_voucher_status_maint')}}">
                     <li role="presentation">Voucher Status</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_tax_code_maint')}}">
                     <li role="presentation">Tax Code</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_tax_type_maint')}}">
                     <li role="presentation">Tax Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_journal_type_maint')}}">
                     <li role="presentation">Journal Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_appropriation_type_maint')}}">
                     <li role="presentation">Appropriation Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_expenditure_type_maint')}}">
                     <li role="presentation">Expenditure Type</li>
                 </a>
-                <a href="">
+                <a href="{{route('bfas_account_code_maint')}}">
                     <li role="presentation">Account Code</li>
                 </a>
                 
