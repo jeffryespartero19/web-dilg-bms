@@ -5,15 +5,23 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Blotter Details </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BMS / </li>
-            </a>
-            <li> &nbsp;Blotter Details</li>
-        </ol>
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Blotter Details</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('blotter_list')}}">Blotter List</a></li>
+                        <li class="breadcrumb-item active">Blotter Details</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -30,191 +38,210 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
 
-    <br>
-    <div class="col-md-12">
-        <form id="newHousehold" method="POST" action="{{ route('create_blotter') }}" autocomplete="off" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" value="0" hidden>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Blotter Number</label>
-                        <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Blotter Status</label>
-                        <br>
-                        <select id="Blotter_Status_ID" class="form-control" name="Blotter_Status_ID" style="width: 100%;">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($blotter_status as $bs)
-                            <option value="{{ $bs->Blotter_Status_ID }}">{{ $bs->Blotter_Status_Name }}</option>
-                            @endforeach
-                        </select>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tableX_row col-md-12 up_marg5">
 
-                    </div>
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Incident Date</label>
-                        <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Region</label>
-                        <select class="form-control" id="Region_ID" name="Region_ID" required>
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($region as $region)
-                            <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Province</label>
-                        <select class="form-control" id="Province_ID" name="Province_ID" required>
-                            <option value='' disabled selected>Select Option</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="City_Municipality_ID">City/Municipality</label>
-                        <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                            <option value='' disabled selected>Select Option</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Barangay_ID">Barangay</label>
-                        <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                            <option value='' disabled selected>Select Option</option>
-                        </select>
-                    </div>
+                            <br>
+                            <div class="col-md-12">
+                                <form id="newHousehold" method="POST" action="{{ route('create_blotter') }}" autocomplete="off" enctype="multipart/form-data">
+                                    @csrf
+                                    <div>
+                                        <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" value="0" hidden>
+                                        <div class="row">
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="exampleInputEmail1">Blotter Number</label>
+                                                <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="exampleInputEmail1">Blotter Status</label>
+                                                <br>
+                                                <select id="Blotter_Status_ID" class="form-control" name="Blotter_Status_ID" style="width: 100%;">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($blotter_status as $bs)
+                                                    <option value="{{ $bs->Blotter_Status_ID }}">{{ $bs->Blotter_Status_Name }}</option>
+                                                    @endforeach
+                                                </select>
 
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-12" style="padding:0 10px" id="CaseDetails">
-                        <h3>Case Details</h3>
-                        <a onclick="addrow();" style="float: right; cursor:pointer">+ Add</a>
-                        <table id="CaseTBL" class="table table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th hidden>Resident_ID</th>
-                                    <th>Case List</th>
-                                </tr>
-                            </thead>
-                            <tbody class="CSBody">
-                                <tr class="CSDetails">
-                                    <td hidden></td>
-                                    <td>
-                                        <select class="form-control js-example-basic-single mySelect2" name="Case_ID[]" style="width: 100%;">
-                                            <option value='' disabled selected>Select Option</option>
-                                            @foreach($case as $cs)
-                                            <option value="{{ $cs->Case_ID }}">{{ $cs->Case_Name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td style="text-align: center; width:10%">
-                                        <button type="button" class="btn btn-danger CSRemove">Remove</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <hr>
-                    <div class="form-group col-lg-12" style="padding:0 10px;">
-                        <h3>Involved Parties</h3>
-                        <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
-                        <br>
-                        <div style="overflow-x:auto;" id="HouseholdDetails">
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="exampleInputEmail1">Incident Date</label>
+                                                <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="exampleInputEmail1">Region</label>
+                                                <select class="form-control" id="Region_ID" name="Region_ID" required>
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($region as $region)
+                                                    <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="exampleInputEmail1">Province</label>
+                                                <select class="form-control" id="Province_ID" name="Province_ID" required>
+                                                    <option value='' disabled selected>Select Option</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="City_Municipality_ID">City/Municipality</label>
+                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
+                                                    <option value='' disabled selected>Select Option</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Barangay_ID">Barangay</label>
+                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
+                                                    <option value='' disabled selected>Select Option</option>
+                                                </select>
+                                            </div>
 
-                            <table id="ResidentTBL" class="table table-striped table-bordered table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th hidden>Resident_ID</th>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Resident Status</th>
-                                        <th>Address</th>
-                                        <th>Birthdate</th>
-                                        <th>Phone No.</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="HSBody">
-                                    <tr class="HRDetails">
-                                        <td hidden></td>
-                                        <td>
-                                            <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
-                                                <option value='' disabled selected>Select Option</option>
-                                                @foreach($resident as $rs)
-                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control Type_of_Involved_Party_ID" name="Type_of_Involved_Party_ID[]" style="width: 200px;">
-                                                <option value='' disabled selected>Select Option</option>
-                                                @foreach($involved_party as $rs)
-                                                <option value="{{ $rs->Type_of_Involved_Party_ID  }}">{{ $rs->Type_of_Involved_Party }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
-                                                <option value='' disabled selected>Select Option</option>
-                                                <option value=0>Non-Resident</option>
-                                                <option value=1>Resident</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
-                                        </td>
-                                        <td>
-                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" style="width: 200px;" name="Phone_No[]">
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <button type="button" class="btn btn-danger HRRemove">Remove</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-12" style="padding:0 10px" id="CaseDetails">
+                                                <h3>Case Details</h3>
+                                                <a onclick="addrow();" style="float: right; cursor:pointer">+ Add</a>
+                                                <table id="CaseTBL" class="table table-striped table-bordered" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th hidden>Resident_ID</th>
+                                                            <th>Case List</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="CSBody">
+                                                        <tr class="CSDetails">
+                                                            <td hidden></td>
+                                                            <td>
+                                                                <select class="form-control js-example-basic-single mySelect2" name="Case_ID[]" style="width: 100%;">
+                                                                    <option value='' disabled selected>Select Option</option>
+                                                                    @foreach($case as $cs)
+                                                                    <option value="{{ $cs->Case_ID }}">{{ $cs->Case_Name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td style="text-align: center; width:10%">
+                                                                <button type="button" class="btn btn-danger CSRemove">Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group col-lg-12" style="padding:0 10px;">
+                                                <h3>Involved Parties</h3>
+                                                <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                                                <br>
+                                                <div style="overflow-x:auto;" id="HouseholdDetails">
 
-                    </div>
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Complaint Details</label>
-                        <textarea class="form-control" id="Complaint_Details" name="Complaint_Details" rows="5"></textarea>
-                    </div>
-                    <hr>
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <div class="input-group my-3">
-                            <div class="custom-file">
-                                <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                <br />Selected files:
-                                <div id="fileList"></div>
+                                                    <table id="ResidentTBL" class="table table-striped table-bordered table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th hidden>Resident_ID</th>
+                                                                <th>Name</th>
+                                                                <th>Type</th>
+                                                                <th>Resident Status</th>
+                                                                <th>Address</th>
+                                                                <th>Birthdate</th>
+                                                                <th>Phone No.</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="HSBody">
+                                                            <tr class="HRDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                                        <option value='' disabled selected>Select Option</option>
+                                                                        @foreach($resident as $rs)
+                                                                        <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <select class="form-control Type_of_Involved_Party_ID" name="Type_of_Involved_Party_ID[]" style="width: 200px;">
+                                                                        <option value='' disabled selected>Select Option</option>
+                                                                        @foreach($involved_party as $rs)
+                                                                        <option value="{{ $rs->Type_of_Involved_Party_ID  }}">{{ $rs->Type_of_Involved_Party }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
+                                                                        <option value='' disabled selected>Select Option</option>
+                                                                        <option value=0>Non-Resident</option>
+                                                                        <option value=1>Resident</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 200px;" name="Phone_No[]">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger HRRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="exampleInputEmail1">Complaint Details</label>
+                                                <textarea class="form-control" id="Complaint_Details" name="Complaint_Details" rows="5"></textarea>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <div class="input-group my-3">
+                                                    <div class="custom-file">
+                                                        <input type="file" name="fileattach[]" class="custom-file-input" id="fileattach" multiple onchange="javascript:updateList()" />
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-12" style="margin-bottom: 100px;">
+                                        <center>
+                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
+                                        </center>
+                                    </div>
+
+                                </form>
+
                             </div>
                         </div>
                     </div>
-
+                    <!-- /.card-body -->
                 </div>
+                <!-- /.card -->
 
             </div>
-
-            <div class="col-lg-12" style="margin-bottom: 100px;">
-                <center>
-                    <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
-                </center>
-            </div>
-
-        </form>
-
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-</div>
-
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 
 <!-- Create Announcement_Status END -->

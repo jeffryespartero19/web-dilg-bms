@@ -5,15 +5,23 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Brgy Business Permit Information</div> 
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BCPCIS / </li>
-            </a> 
-            <li> &nbsp;Brgy Business Permit Information</li>
-        </ol> 
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Brgy Business Permit Information</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('brgy_business_permit_list')}}">Brgy Business Permit List</a></li>
+                        <li class="breadcrumb-item active">Brgy Business Permit Information</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -29,112 +37,132 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="col-md-12">
-        <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_barangay_business_permit') }}" autocomplete="off" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <input type="text" class="form-control" id="Barangay_Permits_ID" name="Barangay_Permits_ID" value="{{$permit[0]->Barangay_Permits_ID}}" hidden>
-                <div class="row">
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Business_ID">Business</label>
-                        <select class="form-control" id="Business_ID" name="Business_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                @foreach($business as $bt1)
-                                <option value="{{ $bt1->Business_ID }}" {{ $bt1->Business_ID  == $permit[0]->Business_ID  ? "selected" : "" }}>{{ $bt1->Business_Name }}</option>
-                                @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Transaction_No">Transaction No</label>
-                        <input type="text" class="form-control" id="Transaction_No" name="Transaction_No" value="{{$permit[0]->Transaction_No}}">
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Resident_ID">Resident</label>
-                        <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 350px;">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($resident as $rs)
-                            <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $permit[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-2" style="padding:0 10px">
-                        <label for="New_or_Renewal">New or Renewal</label>
-                        <select class="form-control" style="width: 200px;" name="New_or_Renewal" id="New_or_Renewal">
-                            <option value='' selected>Select Option</option>
-                            <option value=0 {{ 0 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>Renewal</option> 
-                            <option value=1 {{ 1 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>New</option>
-                        </select>
-                    </div>  
-                    <div class="form-group col-lg-2" style="padding:0 10px">
-                        <label for="Owned_or_Rented">Owned or Rented</label>
-                        <select class="form-control" style="width: 200px;" name="Owned_or_Rented" id="Owned_or_Rented">
-                            <option value='' selected>Select Option</option>
-                            <option value=0 {{ 0 == $permit[0]->Owned_or_Rented  ? "selected" : "" }}>Rented</option> 
-                            <option value=1 {{ 1 == $permit[0]->Owned_or_Rented  ? "selected" : "" }}>Owned</option>
-                        </select>
-                    </div>  
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Barangay_Business_Permit_Expiration_Date">Expiration Date</label>
-                        <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" value="{{$permit[0]->Barangay_Business_Permit_Expiration_Date}}" required>
-                    </div>
-                    <div class="form-group col-lg-5" style="padding:0 10px">
-                        <label for="CTC_No">CTC No</label>
-                        <input type="text" class="form-control" id="CTC_No" name="CTC_No" value="{{$permit[0]->CTC_No}}"> 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Region_ID">Region</label>
-                            <select class="form-control" id="Region_ID" name="Region_ID">
-                                <option value=''  selected>Select Option</option>
-                                @foreach($region as $bt1)
-                                <option value="{{ $bt1->Region_ID }}" {{ $bt1->Region_ID  == $permit[0]->Region_ID  ? "selected" : "" }}>{{ $bt1->Region_Name }}</option>
-                                @endforeach
-                            </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Province_ID">Province</label>
-                            <select class="form-control" id="Province_ID" name="Province_ID">
-                                <option value=''  selected>Select Option</option>
-                                @foreach($province as $bt1)
-                                <option value="{{ $bt1->Province_ID }}" {{ $bt1->Province_ID  == $permit[0]->Province_ID  ? "selected" : "" }}>{{ $bt1->Province_Name }}</option>
-                                @endforeach
-                            </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="City_Municipality_ID">City_Municipality</label>
-                            <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                <option value='' disabled selected>Select Option</option>
-                                @foreach($city_municipality as $bt1)
-                                <option value="{{ $bt1->City_Municipality_ID }}" {{ $bt1->City_Municipality_ID  == $permit[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $bt1->City_Municipality_Name }}</option>
-                                @endforeach
-                            </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Barangay_ID">Barangay</label>
-                            <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                <option value='' disabled selected>Select Option</option>
-                                @foreach($barangay as $bt1)
-                                <option value="{{ $bt1->Barangay_ID }}" {{ $bt1->Barangay_ID  == $permit[0]->Barangay_ID  ? "selected" : "" }}>{{ $bt1->Barangay_Name }}</option>
-                                @endforeach
-                            </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12" style="margin-bottom: 100px;">
-                <center>
-                    <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
-                </center>
-            </div>
-        </form>    
-    </div>
-</div>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <br>
+                            <div class="col-md-12">
+                                <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_barangay_business_permit') }}" autocomplete="off" enctype="multipart/form-data">
+                                    @csrf
+                                    <div>
+                                        <input type="text" class="form-control" id="Barangay_Permits_ID" name="Barangay_Permits_ID" value="{{$permit[0]->Barangay_Permits_ID}}" hidden>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Business_ID">Business</label>
+                                                <select class="form-control" id="Business_ID" name="Business_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($business as $bt1)
+                                                    <option value="{{ $bt1->Business_ID }}" {{ $bt1->Business_ID  == $permit[0]->Business_ID  ? "selected" : "" }}>{{ $bt1->Business_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Transaction_No">Transaction No</label>
+                                                <input type="text" class="form-control" id="Transaction_No" name="Transaction_No" value="{{$permit[0]->Transaction_No}}">
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Resident_ID">Resident</label>
+                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($resident as $rs)
+                                                    <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $permit[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="New_or_Renewal">New or Renewal</label>
+                                                <select class="form-control" name="New_or_Renewal" id="New_or_Renewal">
+                                                    <option value='' selected>Select Option</option>
+                                                    <option value=0 {{ 0 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>Renewal</option>
+                                                    <option value=1 {{ 1 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>New</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Owned_or_Rented">Owned or Rented</label>
+                                                <select class="form-control" name="Owned_or_Rented" id="Owned_or_Rented">
+                                                    <option value='' selected>Select Option</option>
+                                                    <option value=0 {{ 0 == $permit[0]->Owned_or_Rented  ? "selected" : "" }}>Rented</option>
+                                                    <option value=1 {{ 1 == $permit[0]->Owned_or_Rented  ? "selected" : "" }}>Owned</option>
+                                                </select>
+                                            </div>
 
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Barangay_Business_Permit_Expiration_Date">Expiration Date</label>
+                                                <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" value="{{$permit[0]->Barangay_Business_Permit_Expiration_Date}}" required>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_No">CTC No</label>
+                                                <input type="text" class="form-control" id="CTC_No" name="CTC_No" value="{{$permit[0]->CTC_No}}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Region_ID">Region</label>
+                                                <select class="form-control" id="Region_ID" name="Region_ID">
+                                                    <option value='' selected>Select Option</option>
+                                                    @foreach($region as $bt1)
+                                                    <option value="{{ $bt1->Region_ID }}" {{ $bt1->Region_ID  == $permit[0]->Region_ID  ? "selected" : "" }}>{{ $bt1->Region_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Province_ID">Province</label>
+                                                <select class="form-control" id="Province_ID" name="Province_ID">
+                                                    <option value='' selected>Select Option</option>
+                                                    @foreach($province as $bt1)
+                                                    <option value="{{ $bt1->Province_ID }}" {{ $bt1->Province_ID  == $permit[0]->Province_ID  ? "selected" : "" }}>{{ $bt1->Province_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="City_Municipality_ID">City_Municipality</label>
+                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($city_municipality as $bt1)
+                                                    <option value="{{ $bt1->City_Municipality_ID }}" {{ $bt1->City_Municipality_ID  == $permit[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $bt1->City_Municipality_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Barangay_ID">Barangay</label>
+                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($barangay as $bt1)
+                                                    <option value="{{ $bt1->Barangay_ID }}" {{ $bt1->Barangay_ID  == $permit[0]->Barangay_ID  ? "selected" : "" }}>{{ $bt1->Barangay_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom: 100px;">
+                                        <center>
+                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 
 @endsection
@@ -142,8 +170,8 @@
 @section('scripts')
 
 <script>
-   // Data Table
-   $(document).ready(function() {
+    // Data Table
+    $(document).ready(function() {
         $('#example').DataTable();
 
         $('.js-example-basic-single').select2();
@@ -153,7 +181,7 @@
         });
     });
 
-    
+
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
         // alert('test');
@@ -254,7 +282,7 @@
 </script>
 
 <style>
-   table {
+    table {
         display: block;
         overflow-x: scroll;
     }

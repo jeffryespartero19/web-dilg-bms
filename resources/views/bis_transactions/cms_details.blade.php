@@ -5,15 +5,23 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Barangay Information </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BMS / </li>
-            </a>
-            <li> &nbsp;Barangay Information</li>
-        </ol>
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Barangay Information</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('cms_list')}}">Case Management System</a></li>
+                        <li class="breadcrumb-item active">Barangay Information</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -39,129 +47,120 @@
             <div class="card">
                 <input type="text" id="CMS_Barangay_Profile_ID" name="CMS_Barangay_Profile_ID" value="{{$Barangay_Profile[0]->CMS_Barangay_Profile_ID}}" hidden>
                 <div class="card-body">
-                    <div style="float: right;">
-                        <ul>
-                            <li class="dropdown">
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align: right;">
+                            <div style="margin-bottom:10px">
                                 @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
-                                <a class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-pencil" aria-hidden="true"></i> INDICATOR SETUP &nbsp;<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    @foreach($bp_categories as $bp)
-                                    <li><a href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a></li>
-                                    @endforeach
-                                </ul>
+                                <a href="{{ url('cms_details/0') }}" class="btn btn-info" style="width: 100px;" aria-hidden="true">New</a>
                                 @else
                                 @endif
-                                <!-- <a class="btn btn-primary"><i class="fa fa-th" aria-hidden="true"></i> CATEGORIES</a> -->
-                                <button class="btn btn-warning" type="submit"><i class="fa fa-pencil" aria-hidden="true"></i> @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0) UPDATE @else SAVE @endif</button>
-                                <!-- <a class="btn btn-info"><i class="fa fa-files-o" aria-hidden="true"></i> DUPLICATE</a> -->
+
+                                <button class="btn btn-success" type="submit"><i class="fa fa-pencil" aria-hidden="true"></i> @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0) UPDATE @else SAVE @endif</button>
 
                                 @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
-                                <a href="{{ url('cms_details/0') }}" class="btn btn-success" style="width: 100px;" aria-hidden="true">New</a>
-
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown">INDICATOR SETUP &nbsp;
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @foreach($bp_categories as $bp)
+                                        <a class="dropdown-item" href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a>
+                                        @endforeach
+                                    </div>
+                                </div>
                                 @else
                                 @endif
-                                <!-- <a class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</a> -->
 
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
 
                     </div>
-                    <table id="example3" class="table table-striped table-bordered" style="width:100%">
-                        <tbody>
-                            <tr>
-                                <th style="width: 200px;">Title</th>
-                                <td><input type="text" class="form-control" id="Title" name="Title" value="{{$Barangay_Profile[0]->Title}}" required></td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Description</th>
-                                <td><textarea class="form-control" rows="4" id="Description" name="Description" required>{{$Barangay_Profile[0]->Description}}</textarea></td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Date</th>
-                                <td><input type="datetime-local" class="form-control" id="Date_Updated" name="Date_Updated" value="{{$Barangay_Profile[0]->Date_Updated}}" required></td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Frequency</th>
-                                <td>
-                                    <select class="form-control" id="Frequency_ID" name="Frequency_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
-                                        @foreach($frequency as $fm)
-                                        <option value="{{ $fm->Frequency_ID }}" {{ $fm->Frequency_ID  == $Barangay_Profile[0]->Frequency_ID  ? "selected" : "" }}>{{ $fm->Frequency }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Status</th>
-                                <td><input type="text" class="form-control" id="Status" name="Status" value="{{$Barangay_Profile[0]->Status}}" required></td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Categories</th>
-                                <td>
-                                    <select class="form-control js-example-basic-multiple" id="Categories_ID" name="Categories_ID[]" multiple="multiple" required>
 
-                                        @foreach($categories as $fm)
-                                        <option value="{{ $fm->Categories_ID }}" @foreach($bp_categories as $bp) {{ $fm->Categories_ID  == $bp->Categories_ID  ? "selected" : "" }} @endforeach>{{ $fm->Categories }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Region</th>
-                                <td>
-                                    <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
-                                        @foreach($region as $region)
-                                        <option value="{{ $region->Region_ID }}" {{ $region->Region_ID  == $Barangay_Profile[0]->Region_ID  ? "selected" : "" }}>{{ $region->Region_Name }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Province</th>
-                                <td>
-                                    <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
-                                        @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID == 0)
-                                        @else
-                                        @foreach($province as $province)
-                                        <option value="{{ $province->Province_ID }}" {{ $province->Province_ID  == $Barangay_Profile[0]->Province_ID  ? "selected" : "" }}>{{ $province->Province_Name }}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">City/Municipality</th>
-                                <td>
-                                    <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
-                                        @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID == 0)
-                                        @else
-                                        @foreach($city_municipality as $city_municipality)
-                                        <option value="{{ $city_municipality->City_Municipality_ID }}" {{ $city_municipality->City_Municipality_ID  == $Barangay_Profile[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $city_municipality->City_Municipality_Name }}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 200px;">Barangay</th>
-                                <td>
-                                    <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
-                                        @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID == 0)
-                                        @else
-                                        @foreach($barangay as $barangay)
-                                        <option value="{{ $barangay->Barangay_ID }}" {{ $barangay->Barangay_ID  == $Barangay_Profile[0]->Barangay_ID  ? "selected" : "" }}>{{ $barangay->Barangay_Name }}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="Title">Title</label>
+                            <input type="text" class="form-control" id="Title" name="Title" value="{{$Barangay_Profile[0]->Title}}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label for="Description">Description</label>
+                            <textarea class="form-control" rows="4" id="Description" name="Description" required>{{$Barangay_Profile[0]->Description}}</textarea>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="Date_Updated">Date</label>
+                            <input type="datetime-local" class="form-control" id="Date_Updated" name="Date_Updated" value="{{$Barangay_Profile[0]->Date_Updated}}" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="Frequency_ID">Frequency</label>
+                            <select class="form-control" id="Frequency_ID" name="Frequency_ID" required>
+                                <option value='' disabled selected>Select Option</option>
+                                @foreach($frequency as $fm)
+                                <option value="{{ $fm->Frequency_ID }}" {{ $fm->Frequency_ID  == $Barangay_Profile[0]->Frequency_ID  ? "selected" : "" }}>{{ $fm->Frequency }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="Status">Status</label>
+                            <input type="text" class="form-control" id="Status" name="Status" value="{{$Barangay_Profile[0]->Status}}" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="Categories_ID">Categories</label>
+                            <select class="form-control select2" id="Categories_ID" name="Categories_ID[]" multiple="multiple" required>
+                                @foreach($categories as $fm)
+                                <option value="{{ $fm->Categories_ID }}" @foreach($bp_categories as $bp) {{ $fm->Categories_ID  == $bp->Categories_ID  ? "selected" : "" }} @endforeach>{{ $fm->Categories }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="Region_ID">Region</label>
+                            <select class="form-control" id="Region_ID" name="Region_ID" required>
+                                <option value='' disabled selected>Select Option</option>
+                                @foreach($region as $region)
+                                <option value="{{ $region->Region_ID }}" {{ $region->Region_ID  == $Barangay_Profile[0]->Region_ID  ? "selected" : "" }}>{{ $region->Region_Name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="Province_ID">Province</label>
+                            <select class="form-control" id="Province_ID" name="Province_ID" required>
+                                <option value='' disabled selected>Select Option</option>
+                                @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID == 0)
+                                @else
+                                @foreach($province as $province)
+                                <option value="{{ $province->Province_ID }}" {{ $province->Province_ID  == $Barangay_Profile[0]->Province_ID  ? "selected" : "" }}>{{ $province->Province_Name }}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="City_Municipality_ID">City/Municipality</label>
+                            <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
+                                <option value='' disabled selected>Select Option</option>
+                                @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID == 0)
+                                @else
+                                @foreach($city_municipality as $city_municipality)
+                                <option value="{{ $city_municipality->City_Municipality_ID }}" {{ $city_municipality->City_Municipality_ID  == $Barangay_Profile[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $city_municipality->City_Municipality_Name }}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="Barangay_ID">Barangay</label>
+                            <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
+                                <option value='' disabled selected>Select Option</option>
+                                @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID == 0)
+                                @else
+                                @foreach($barangay as $barangay)
+                                <option value="{{ $barangay->Barangay_ID }}" {{ $barangay->Barangay_ID  == $Barangay_Profile[0]->Barangay_ID  ? "selected" : "" }}>{{ $barangay->Barangay_Name }}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                        </div>
 
+
+                    </div>
+
+                    
                     <!-- @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
 
                     <div class="container" style="background-color: white; margin: 0px; width: 100%">
@@ -207,8 +206,6 @@
                     </div>
                     @else
                     @endif -->
-
-
                 </div>
             </div>
         </form>
@@ -231,7 +228,7 @@
     });
 
     $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
+        $('.select2').select2();
     });
 
     // Populate Province
@@ -334,12 +331,5 @@
     });
 </script>
 
-<style>
-    .select2-selection {
-        height: 42px !important;
-        padding: 3px 3px;
-        font: 13px;
-    }
-</style>
 
 @endsection

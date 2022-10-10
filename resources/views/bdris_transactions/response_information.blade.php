@@ -5,15 +5,23 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Response Information</div> 
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BDRIS / </li>
-            </a> 
-            <li> &nbsp;Response Information</li>
-        </ol> 
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Response Information</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('response_information_list')}}">Response Information List</a></li>
+                        <li class="breadcrumb-item active">Response Information</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -29,172 +37,191 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="col-md-12">
-        <form id="newResponse_Information" method="POST" action="{{ route('create_response_information') }}"  autocomplete="off" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <input type="text" class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID" hidden>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Disaster_Name">Disaster Name</label>
-                        <input type="text" class="form-control" id="Disaster_Name" name="Disaster_Name">
-                    </div>
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Disaster_Type_ID">Disaster Type</label>
-                        <select class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($disaster_type as $bt1)
-                            <option value="{{ $bt1->Disaster_Type_ID }}">{{ $bt1->Disaster_Type }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Alert_Level_ID">Alert Level</label>
-                        <select class="form-control" id="Alert_Level_ID" name="Alert_Level_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($alert_level as $bt1)
-                            <option value="{{ $bt1->Alert_Level_ID }}">{{ $bt1->Alert_Level }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Disaster_Date_Start">Disaster Date Start</label>
-                        <input type="datetime-local" class="form-control" id="Disaster_Date_Start" name="Disaster_Date_Start" required>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Disaster_Date_End">Disaster Date End</label>
-                        <input type="datetime-local" class="form-control" id="Disaster_Date_End" name="Disaster_Date_End" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-9" style="padding:0 10px">
-                        <label for="Damaged_Location">Damaged Location</label>
-                        <input type="text" class="form-control" id="Damaged_Location" name="Damaged_Location">
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="GPS_Coordinates">GPS Coordinates</label>
-                        <input type="text" class="form-control" id="GPS_Coordinates" name="GPS_Coordinates">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <label for="Risk_Assesment">Risk Assesment</label>
-                        <input type="text" class="form-control" id="Risk_Assesment" name="Risk_Assesment">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <label for="Action_Taken">Action Taken</label>
-                        <input type="text" class="form-control" id="Action_Taken" name="Action_Taken">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Region_ID">Region</label>
-                        <select class="form-control" id="Region_ID" name="Region_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                @foreach($region as $bt1)
-                                <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Province_ID">Province</label>
-                        <select class="form-control" id="Province_ID" name="Province_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                    
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="City_Municipality_ID">City_Municipality</label>
-                        <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                  
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Barangay_ID">Barangay</label>
-                        <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                   
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <div class="input-group my-3">
-                            <div class="custom-file">
-                                <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                <br />Selected files:
-                                <div id="fileList"></div>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <br>
+                            <div class="col-md-12">
+                                <form id="newResponse_Information" method="POST" action="{{ route('create_response_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                    @csrf
+                                    <div>
+                                        <input type="text" class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID" hidden>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Disaster_Name">Disaster Name</label>
+                                                <input type="text" class="form-control" id="Disaster_Name" name="Disaster_Name">
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Disaster_Type_ID">Disaster Type</label>
+                                                <select class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($disaster_type as $bt1)
+                                                    <option value="{{ $bt1->Disaster_Type_ID }}">{{ $bt1->Disaster_Type }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Alert_Level_ID">Alert Level</label>
+                                                <select class="form-control" id="Alert_Level_ID" name="Alert_Level_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($alert_level as $bt1)
+                                                    <option value="{{ $bt1->Alert_Level_ID }}">{{ $bt1->Alert_Level }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Disaster_Date_Start">Disaster Date Start</label>
+                                                <input type="datetime-local" class="form-control" id="Disaster_Date_Start" name="Disaster_Date_Start" required>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Disaster_Date_End">Disaster Date End</label>
+                                                <input type="datetime-local" class="form-control" id="Disaster_Date_End" name="Disaster_Date_End" required>
+                                            </div>
+                                            <div class="form-group col-lg-9" style="padding:0 10px">
+                                                <label for="Damaged_Location">Damaged Location</label>
+                                                <input type="text" class="form-control" id="Damaged_Location" name="Damaged_Location">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="GPS_Coordinates">GPS Coordinates</label>
+                                                <input type="text" class="form-control" id="GPS_Coordinates" name="GPS_Coordinates">
+                                            </div>
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="Risk_Assesment">Risk Assesment</label>
+                                                <input type="text" class="form-control" id="Risk_Assesment" name="Risk_Assesment">
+                                            </div>
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="Action_Taken">Action Taken</label>
+                                                <input type="text" class="form-control" id="Action_Taken" name="Action_Taken">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Region_ID">Region</label>
+                                                <select class="form-control" id="Region_ID" name="Region_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($region as $bt1)
+                                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Province_ID">Province</label>
+                                                <select class="form-control" id="Province_ID" name="Province_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="City_Municipality_ID">City_Municipality</label>
+                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Barangay_ID">Barangay</label>
+                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+
+                                                </select>
+                                            </div>
+                                            <!-- <div class="form-group col-lg-6">
+                                                <label for="exampleInputFile">File input</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">Upload</span>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <div class="input-group my-3">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+
+                                                    </div>
+                                                </div>
+                                                Selected files:
+                                                <div id="fileList"></div>
+                                            </div>
+                                            <div class="col-lg-12" style="padding:0 10px;">
+                                                <h3>Evacuee Information</h3>
+                                                <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                                                <br>
+                                                <div class="table-responsive" id="CasualtiesDetails">
+                                                    <table id="ResidentTBL" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th hidden>Resident_ID</th>
+                                                                <th>Name</th>
+                                                                <th>Resident Status</th>
+                                                                <th>Address</th>
+                                                                <th>Birthdate</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="HSBody">
+                                                            <tr class="HRDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                                        <option value='' disabled selected>Select Option</option>
+                                                                        @foreach($resident as $rs)
+                                                                        <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
+                                                                        <option value='' disabled selected>Select Option</option>
+                                                                        <option value=0>Non-Resident</option>
+                                                                        <option value=1>Resident</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger HRRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom: 100px;">
+                                        <center>
+                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                        </center>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-body -->
                 </div>
-                <div class="row">
-                    <div class="form-group col-lg-12" style="padding:0 10px;">
-                        <h3>Evacuee Information</h3>
-                        <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
-                        <br>
-                        <div style="overflow-x:auto;" id="CasualtiesDetails">
-
-                            <table id="ResidentTBL" class="table table-striped table-bordered table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th hidden>Resident_ID</th>
-                                        <th>Name</th>
-                                        <th>Resident Status</th>
-                                        <th>Address</th>
-                                        <th>Birthdate</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="HSBody">
-                                    <tr class="HRDetails">
-                                        <td hidden></td>
-                                        <td>
-                                            <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
-                                                <option value='' disabled selected>Select Option</option>
-                                                @foreach($resident as $rs)
-                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
-                                                <option value='' disabled selected>Select Option</option>
-                                                <option value=0>Non-Resident</option>
-                                                <option value=1>Resident</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
-                                        </td>
-                                        <td>
-                                            <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <button type="button" class="btn btn-danger HRRemove">Remove</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
+                <!-- /.card -->
             </div>
-            <div class="col-lg-12" style="margin-bottom: 100px;">
-                <center>
-                    <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
-                </center>
-            </div>
-        </form>    
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 
 
@@ -353,7 +380,7 @@
             tags: true
         });
     }
-   
+
 
     // Resident Casualties Change 
     $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
@@ -392,16 +419,9 @@
     $(".HSBody").on("click", ".HRRemove", function() {
         $(this).closest(".HRDetails").remove();
     });
-
-   
 </script>
 
 <style>
-   table {
-        display: block;
-        overflow-x: scroll;
-    }
-
     .select2-selection {
         height: 32px !important;
         padding: 3px 3px;

@@ -5,15 +5,23 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Disaster Supplies </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BDRIS / </li>
-            </a> 
-            <li> &nbsp;Disaster Supplies</li>
-        </ol> 
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Disaster Supplies</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('other_transaction_list')}}">Other Transaction List(BDRIS)</a></li>
+                        <li class="breadcrumb-item active">Disaster Supplies</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -29,103 +37,118 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="col-md-12">
-        <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_disaster_supplies') }}"  autocomplete="off" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <input type="text" class="form-control" id="Disaster_Supplies_ID" name="Disaster_Supplies_ID" hidden>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Disaster_Response_ID">Disaster Response</label>
-                        <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                @foreach($disaster_response as $bt1)
-                                <option value="{{ $bt1->Disaster_Response_ID }}">{{ $bt1->Disaster_Name }} </option>
-                                @endforeach
-                        </select>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <br>
+                            <div class="col-md-12">
+                                <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_disaster_supplies') }}" autocomplete="off" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <input type="text" class="form-control" id="Disaster_Supplies_ID" name="Disaster_Supplies_ID" hidden>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Disaster_Response_ID">Disaster Response</label>
+                                                <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($disaster_response as $bt1)
+                                                    <option value="{{ $bt1->Disaster_Response_ID }}">{{ $bt1->Disaster_Name }} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Disaster_Supplies_Name">Disaster Supplies Name</label>
+                                                <input type="text" class="form-control" id="Disaster_Supplies_Name" name="Disaster_Supplies_Name">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Disaster_Supplies_Quantity">Disaster Supplies Quantity</label>
+                                                <input type="number" class="form-control" id="Disaster_Supplies_Quantity" name="Disaster_Supplies_Quantity">
+                                            </div>
+                                            <div class="form-group col-lg-9" style="padding:0 10px">
+                                                <label for="Location">Location</label>
+                                                <input type="text" class="form-control" id="Location" name="Location">
+                                            </div>
+
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="Remarks">Remarks</label>
+                                                <input type="text" class="form-control" id="Remarks" name="Remarks">
+                                            </div>
+
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Brgy_Officials_and_Staff_ID">Brgy Official Name</label>
+                                                <select class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($brgy_officials_and_staff as $bt1)
+                                                    <option value="{{ $bt1->Resident_ID }}">{{ $bt1->Last_Name }} {{ $bt1->First_Name }}, {{ $bt1->Middle_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Region_ID">Region</label>
+                                                <select class="form-control" id="Region_ID" name="Region_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($region as $bt1)
+                                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Province_ID">Province</label>
+                                                <select class="form-control" id="Province_ID" name="Province_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="City_Municipality_ID">City_Municipality</label>
+                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Barangay_ID">Barangay</label>
+                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Barangay_ID">Active:</label>
+                                                <select class="form-control" name="Active" id="Active">
+                                                    <option hidden selected>Is Active?</option>
+                                                    <option value=1>Yes</option>
+                                                    <option value=0>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="col-lg-12" style="margin-bottom: 100px;">
+                                        <center>
+                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Disaster_Supplies_Name">Disaster Supplies Name</label>
-                        <input type="text" class="form-control" id="Disaster_Supplies_Name" name="Disaster_Supplies_Name">
-                    </div>
+                    <!-- /.card-body -->
                 </div>
-                <div class="row">
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Disaster_Supplies_Quantity">Disaster Supplies Quantity</label>
-                        <input type="number" class="form-control" id="Disaster_Supplies_Quantity" name="Disaster_Supplies_Quantity">
-                    </div>
-                    <div class="form-group col-lg-9" style="padding:0 10px">
-                        <label for="Location">Location</label>
-                        <input type="text" class="form-control" id="Location" name="Location">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <label for="Remarks">Remarks</label>
-                        <input type="text" class="form-control" id="Remarks" name="Remarks">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Brgy_Officials_and_Staff_ID">Brgy Official Name</label>
-                        <select class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                @foreach($brgy_officials_and_staff as $bt1)
-                                <option value="{{ $bt1->Resident_ID }}">{{ $bt1->Last_Name }} {{ $bt1->First_Name }}, {{ $bt1->Middle_Name }}</option>
-                                @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Region_ID">Region</label>
-                        <select class="form-control" id="Region_ID" name="Region_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                @foreach($region as $bt1)
-                                <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Province_ID">Province</label>
-                        <select class="form-control" id="Province_ID" name="Province_ID">
-                            <option value='' disabled selected>Select Option</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="City_Municipality_ID">City_Municipality</label>
-                        <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                            <option value='' disabled selected>Select Option</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Barangay_ID">Barangay</label>
-                        <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <span><b>Active:</b></span><br>
-                        <select class="modal_input1" name="Active" id="Active">
-                        <option hidden selected>Is Active?</option>
-                        <option value=1>Yes</option>
-                        <option value=0>No</option>
-                        </select>
-                    </div>
-                </div>
+                <!-- /.card -->
             </div>
-            <div class="col-lg-12" style="margin-bottom: 100px;">
-                <center>
-                    <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
-                </center>
-            </div>
-        </form>    
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 
 <!-- Create Announcement_Status END -->
@@ -244,7 +267,6 @@
             }
         });
     });
-  
 </script>
 
 <style>

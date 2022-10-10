@@ -5,15 +5,22 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Inhabitants Information List </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BMS / </li>
-            </a>
-            <li> &nbsp;Inhabitants Information List</li>
-        </ol>
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Inhabitants Information List</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item active">Inhabitants Information List</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -29,80 +36,105 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="flexer">
-        <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
-        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
-        <div style="margin-left: 10px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
-    </div>
-    <br>
-    <div class="col-md-12">
-        <div>
-            <table id="example" class="table table-striped table-bordered" style="table-layout:fixed;">
-                <thead>
-                    <tr>
-                        <th hidden>Resident_ID</th>
-                        <th style="width: 300px;">Name</th>
-                        <th style="width: 200px;">Birthplace</th>
-                        <th style="width: 200px;">Birthdate</th>
-                        <th style="width: 200px;">Age</th>
-                        <th style="width: 200px;">Street</th>
-                        <th style="width: 200px;">Civil Status</th>
-                        <th style="width: 200px;">Mobile Number</th>
-                        <th style="width: 200px;">Landline Number</th>
-                        <th style="width: 200px;">Resident Status</th>
-                        <th style="width: 200px;">Solo Parent</th>
-                        <th style="width: 200px;">Indigent</th>
-                        <th style="width: 200px;">4P's Beneficiary</th>
-                        <th style="width: 200px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($db_entries as $x)
-                    <tr>
-                        <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
-                        <td class="sm_data_col txtCtr">
-                            <?php
-                            $age = date_diff(date_create($x->Birthdate), date_create('now'))->y;
-                            echo $age;
-                            ?>
-                        </td>
-                        <td class="sm_data_col txtCtr">{{$x->Street}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
-                        <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
-                        <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
-                        <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
-                        <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
-                        <td class="sm_data_col txtCtr">
-                            <button class="edit_inhabitants" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
 
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="text-align: right;">
+                            <div class="btn-group">
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
+                                <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <div class="col-md-12">
+                                <div>
+                                    <table id="example" class="table table-striped table-bordered" style="table-layout:fixed;">
+                                        <thead>
+                                            <tr>
+                                                <th hidden>Resident_ID</th>
+                                                <th style="width: 300px;">Name</th>
+                                                <th style="width: 200px;">Birthplace</th>
+                                                <th style="width: 200px;">Birthdate</th>
+                                                <th style="width: 200px;">Age</th>
+                                                <th style="width: 200px;">Street</th>
+                                                <th style="width: 200px;">Civil Status</th>
+                                                <th style="width: 200px;">Mobile Number</th>
+                                                <th style="width: 200px;">Landline Number</th>
+                                                <th style="width: 200px;">Resident Status</th>
+                                                <th style="width: 200px;">Solo Parent</th>
+                                                <th style="width: 200px;">Indigent</th>
+                                                <th style="width: 200px;">4P's Beneficiary</th>
+                                                <th style="width: 200px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($db_entries as $x)
+                                            <tr>
+                                                <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
+                                                <td class="sm_data_col txtCtr">
+                                                    <?php
+                                                    $age = date_diff(date_create($x->Birthdate), date_create('now'))->y;
+                                                    echo $age;
+                                                    ?>
+                                                </td>
+                                                <td class="sm_data_col txtCtr">{{$x->Street}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
+                                                <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
+                                                <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
+                                                <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
+                                                <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
+                                                <td class="sm_data_col txtCtr">
+                                                    <button class="edit_inhabitants" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
 
 <!-- Create Ihabitant Modal -->
 
 <div class="modal fade" id="createInhabitants_Info" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title flexer justifier" id="Modal_Title">Create Inhabitant</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body">
-                <form id="newInhabitant" method="POST" action="{{ route('create_inhabitants_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+            <form id="newInhabitant" method="POST" action="{{ route('create_inhabitants_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <div class="modal-body">
+
                     <div class="modal-body">
                         <h3>Name</h3>
                         <div class="row">
@@ -267,7 +299,7 @@
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Resident_Status">Resident Status</label>
-                                <select class="form-control" id="Resident_Status" name="Resident_Status" >
+                                <select class="form-control" id="Resident_Status" name="Resident_Status">
                                     <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -275,7 +307,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Voter_Status">Voter Status</label>
-                                <select class="form-control" id="Voter_Status" name="Voter_Status" >
+                                <select class="form-control" id="Voter_Status" name="Voter_Status">
                                     <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -287,7 +319,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Resident_Voter">Resident Voter</label>
-                                <select class="form-control" id="Resident_Voter" name="Resident_Voter" >
+                                <select class="form-control" id="Resident_Voter" name="Resident_Voter">
                                     <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -301,7 +333,7 @@
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Solo Parent</label>
-                                <select class="form-control" id="Solo_Parent" name="Solo_Parent" >
+                                <select class="form-control" id="Solo_Parent" name="Solo_Parent">
                                     <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -309,7 +341,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">OFW</label>
-                                <select class="form-control" id="OFW" name="OFW" >
+                                <select class="form-control" id="OFW" name="OFW">
                                     <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -317,7 +349,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Indigent</label>
-                                <select class="form-control" id="Indigent" name="Indigent" >
+                                <select class="form-control" id="Indigent" name="Indigent">
                                     <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -325,7 +357,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">4Ps Beneficiary</label>
-                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary" >
+                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary">
                                     <option value='' selected>Select Option</option>
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
@@ -445,13 +477,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary postThis_Inhabitant_Info" style="width: 200px;">Create</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
 
         </div>
     </div>
@@ -462,12 +493,13 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
             </div>
-            <div class="modal-body">
-                <form id="print_report" method="POST" action="{{ route('view_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
-                    @csrf
+            <form id="print_report" method="POST" action="{{ route('view_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -500,16 +532,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <center>
-                            <button type="submit" class="btn btn-primary" style="width: 200px;">Print</button>
-                        </center>
-
-                    </div>
-                </form>
-            </div>
-
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -519,12 +547,13 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
             </div>
-            <div class="modal-body">
-                <form id="download_report" method="POST" action="{{ route('download_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
-                    @csrf
+            <form id="download_report" method="POST" action="{{ route('download_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -557,16 +586,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <center>
-                            <button type="submit" class="btn btn-primary" style="width: 200px;">Download</button>
-                        </center>
-
-                    </div>
-                </form>
-            </div>
-
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

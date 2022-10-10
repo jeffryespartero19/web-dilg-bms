@@ -545,21 +545,39 @@ class bipsController extends Controller
     public function create_inhabitants_transfer(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
-        DB::table('Inhabitants_Transfer')->insert(
-            array(
-                'Resident_ID'           => $data['Resident_ID'],
-                'Region_ID'             => $data['Region_ID'],
-                'Province_ID'           => $data['Province_ID'],
-                'City_Municipality_ID'  => $data['City_Municipality_ID'],
-                'Barangay_ID'           => $data['Barangay_ID'],
-                'Status_ID'             => 0,
-                'Encoder_ID'            => Auth::user()->id,
-                'Date_Stamp'            => Carbon::now()
-            )
-        );
-        return redirect()->back()->with('message', 'New Entry Created');
+        // dd($data);
+
+        if ($data['Inhabitants_Transfer_ID'] == 0) {
+            DB::table('Inhabitants_Transfer')->insert(
+                array(
+                    'Resident_ID'           => $data['Resident_ID'],
+                    'Region_ID'             => $data['Region_ID'],
+                    'Province_ID'           => $data['Province_ID'],
+                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
+                    'Barangay_ID'           => $data['Barangay_ID'],
+                    'Status_ID'             => 0,
+                    'Encoder_ID'            => Auth::user()->id,
+                    'Date_Stamp'            => Carbon::now()
+                )
+            );
+            return redirect()->back()->with('message', 'New Entry Created');
+        } else {
+            DB::table('Inhabitants_Transfer')->where('Inhabitants_Transfer_ID', $data['Inhabitants_Transfer_ID'])->update(
+                array(
+                    'Resident_ID'           => $data['Resident_ID'],
+                    'Region_ID'             => $data['Region_ID'],
+                    'Province_ID'           => $data['Province_ID'],
+                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
+                    'Barangay_ID'           => $data['Barangay_ID'],
+                    'Status_ID'             => 0,
+                    'Encoder_ID'            => Auth::user()->id,
+                    'Date_Stamp'            => Carbon::now()
+                )
+            );
+            return redirect()->back()->with('message', 'Record Updated');
+        }
     }
 
 
