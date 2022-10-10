@@ -5,15 +5,22 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Deceased Profile List </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BMS / </li>
-            </a>
-            <li> &nbsp;Deceased Profile List</li>
-        </ol> 
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Deceased Profile List</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item active">Deceased Profile List</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -29,42 +36,62 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="flexer">
-        <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createDeceased_Profile" style="width: 100px;">New</button></div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="text-align: right;">
+                            <div class="btn-group">
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createDeceased_Profile" style="width: 100px;">New</button></div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <div class="col-md-12 table-responsive">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th hidden>Resident_ID</th>
+                                            <th>Name</th>
+                                            <th>Deceased Type</th>
+                                            <th>Cause of Death</th>
+                                            <th>Date of Death</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($db_entries as $x)
+                                        <tr>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Deceased_Type}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Cause_of_Death}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
+                                            <td class="sm_data_col txtCtr">
+                                                <button class="edit_deceased_profile" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-    <br>
-    <div class="col-md-12">
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th hidden>Resident_ID</th>
-                    <th>Name</th>
-                    <th>Deceased Type</th>
-                    <th>Cause of Death</th>
-                    <th>Date of Death</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($db_entries as $x)
-                <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Deceased_Type}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Cause_of_Death}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
-                    <td class="sm_data_col txtCtr"> 
-                        <button class="edit_deceased_profile" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 <!-- Create Announcement_Status Modal  -->
 
@@ -72,11 +99,11 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title flexer justifier">Create Deceased Profile</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body">
-                <form id="newInhabitant" method="POST" action="{{ route('create_deceased_profile') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+            <form id="newInhabitant" method="POST" action="{{ route('create_deceased_profile') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <div class="modal-body">
                     <div class="modal-body">
                         <h3>Resident Information</h3>
                         <br>
@@ -105,23 +132,22 @@
                         <h3>Death Information</h3>
                         <br>
                         <div class="row">
-                            <div class="form-group col-lg-9" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Cause_of_Death">Cause of Death</label>
                                 <input type="text" class="form-control" id="Cause_of_Death" name="Cause_of_Death">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Date_of_Death">Date of Death</label>
                                 <input type="date" class="form-control" id="Date_of_Death" name="Date_of_Death" required>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
-                    </div>
-                </form>
-            </div>
-
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -136,11 +162,11 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Edit Deceased Profile</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier">Create Deceased Profile</h4>
             </div>
-            <div class="modal-body">
-                <form id="newDeceased_Profile" method="POST" action="{{ route('update_deceased_profile') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+            <form id="newDeceased_Profile" method="POST" action="{{ route('update_deceased_profile') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <div class="modal-body">
                     <div class="modal-body">
                         <h3>Resident Information</h3>
                         <br>
@@ -169,23 +195,22 @@
                         <h3>Death Information</h3>
                         <br>
                         <div class="row">
-                            <div class="form-group col-lg-9" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Cause_of_Death2">Cause of Death</label>
                                 <input type="text" class="form-control" id="Cause_of_Death2" name="Cause_of_Death2">
                             </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
+                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Date_of_Death2">Date of Death</label>
                                 <input type="date" class="form-control" id="Date_of_Death2" name="Date_of_Death2" required>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" style="width: 200px;">Update</button>
-                    </div>
-                </form>
-            </div>
-
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -233,11 +258,5 @@
     });
 </script>
 
-<style>
-    table {
-        display: block;
-        overflow-x: scroll;
-    }
-</style>
 
 @endsection

@@ -6,7 +6,7 @@
 <link href="{{ asset('/css/homeX.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/general.css') }}" rel="stylesheet">
 <div class="theContent">
-    <div class="justify-content-center">
+    <div class="justify-content-center row">
         <div class="col-md-9 middlePane">
             <div class="flexer justifier">
                 @auth 

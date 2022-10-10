@@ -5,15 +5,23 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Barangay Information </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BMS / </li>
-            </a>
-            <li> &nbsp;Barangay Information</li>
-        </ol>
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Barangay Information</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('cms_list')}}">Case Management System</a></li>
+                        <li class="breadcrumb-item active">Barangay Information</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -30,115 +38,162 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
 
-    <br>
-    <div class="col-md-12">
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
 
-        <div class="card listDIV">
+            <div class="col-md-12">
+                <div class="listDIV">
+                    <div style="text-align: right; margin-bottom:20px">
+                        <div class="btn-group">
+                            <button class="btn btn-success" type="button" id="AddLABEL"><i class="fa fa-plus" aria-hidden="true"></i> ADD LABEL</button>
+                        </div>
+                    </div>
+                    @foreach ($title as $titles)
+                    <div class="LabelDIV">
+                        <form method="POST" action="{{ route('create_cms_title') }}" autocomplete="off" enctype="multipart/form-data">
+                            @csrf
+                            <input type="text" name="CMS_Barangay_Profile_ID" hidden value="{{$id}}">
+                            <input type="text" name="Categories_ID" hidden value="{{$cat_id}}">
+                            <div class="card card-info collapsed-card">
+                                <div class="card-header pc-view">
+                                    <h3 class="card-title" data-card-widget="collapse">Title: {{$titles->Title}}</h3>
 
-            <div class="row" style="margin-bottom: 20px;">
-                <div style="float: right;">
-                    <button class="btn btn-success" type="button" id="AddLABEL"><i class="fa fa-plus" aria-hidden="true"></i> ADD LABEL</button>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool AddIndicator">
+                                            <i class="fas fa-plus"></i>&nbsp;Add Indicator
+                                        </button>
+                                        <button type="submit" class="btn btn-tool">
+                                            <i class="fas fa-save"></i>&nbsp;Save
+                                        </button>
+                                        <button type="button" class="btn btn-tool LabelRemove">
+                                            <i class="fas fa-trash"></i>&nbsp;Delete
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <div class="card-header mobile-view">
+                                    <h3 class="card-title">Title: {{$titles->Title}}</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="row mobile-view">
+                                        <div class="col-12" style="text-align: center; margin-bottom:5px">
+                                            <button type="button" class="btn btn-tool AddIndicator">
+                                                <i class="fas fa-plus"></i>&nbsp;Add Indicator
+                                            </button>
+                                            <button type="submit" class="btn btn-tool">
+                                                <i class="fas fa-save"></i>&nbsp;Save
+                                            </button>
+                                            <button type="button" class="btn btn-tool LabelRemove">
+                                                <i class="fas fa-trash"></i>&nbsp;Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="LblData">
+                                        <div class="row">
+                                            <div class="form-group col-lg-6">
+                                                <input type="text" name="Title_ID[]" hidden value="{{$titles->Title_ID}}">
+                                                <label>Title</label>
+                                                <input type="text" class="form-control" name="Title[]" value="{{$titles->Title}}" required>
+                                            </div>
+                                            <div class="form-group col-lg-2">
+                                                <label>Visible</label>
+                                                <select class="form-control" name="Visible[]" required>
+                                                    <option value=1 selected>Yes</option>
+                                                    <option value=0>No</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-2 col-6">
+                                                <label>Min Indicator</label>
+                                                <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]" value="{{$titles->Min_Indicator}}">
+                                            </div>
+                                            <div class="form-group col-lg-2 col-6">
+                                                <label>Max Indicator</label>
+                                                <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]" value="{{$titles->Max_Indicator}}">
+                                            </div>
+                                            <div class="form-group col-lg-12">
+                                                <label>Instructions</label>
+                                                <textarea class="form-control" name="Instructions[]">{{$titles->Instructions}}</textarea>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label>Date Start</label>
+                                                <input type="date" class="form-control" name="Date_Start[]" value="{{$titles->Date_Start}}" required>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label>Date End</label>
+                                                <input type="date" class="form-control" name="Date_End[]" value="{{$titles->Date_End}}" required>
+                                            </div>
+                                        </div>
+                                        @foreach ($indicator as $indicators)
+                                        @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
+                                        <div class="card-teal IndicatorDIV">
+                                            <div class="card-header">
+                                                <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool IndicatorRemove">
+                                                        <i class="fas fa-trash"></i>&nbsp;Delete
+                                                    </button>
+                                                </div>
+                                                <!-- /.card-tools -->
+                                            </div>
+                                            <div class="card-body col-lg-12" style="margin-bottom: 5px;">
+                                                <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
+                                                <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
+                                                    <div class="form-group col-lg-12">
+                                                        <label>Description</label>
+                                                        <textarea class="form-control" name="Indicator_Description[]">{{$indicators->Indicator_Description}}</textarea>
+                                                    </div>
+                                                    <div class="form-group col-lg-4">
+                                                        <label>Answer Type</label>
+                                                        <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
+                                                            <option value='' disabled selected>Select Option</option>
+                                                            @foreach($answer_type as $at)
+                                                            <option value="{{ $at->Answer_Type_ID }}" {{ $at->Answer_Type_ID  == $indicators->Answer_Types_ID  ? "selected" : "" }}>{{ $at->Title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-lg-4">
+                                                        <label>Min. Answer</label>
+                                                        <input type="number" class="form-control" name="Min_Answer[]" value="{{$indicators->Min_Answer}}">
+                                                    </div>
+                                                    <div class="form-group col-lg-4">
+                                                        <label>Max Answer</label>
+                                                        <input type="number" class="form-control" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
+                                                    </div>
+                                                    <div class="form-group col-lg-12">
+                                                        <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                                                        <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicators->Widget == 'RADIO' || $indicators->Widget == 'SELECT' || $indicators->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @endif
+                                        @endforeach
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </form>
+                    </div>
+                    @endforeach
                 </div>
             </div>
-            @foreach ($title as $titles)
-            <div class="card-body LabelDIV" style="margin-bottom: 30px;">
-                <form method="POST" action="{{ route('create_cms_title') }}" autocomplete="off" enctype="multipart/form-data">
-                    @csrf
-                    <input type="text" name="CMS_Barangay_Profile_ID" hidden value="{{$id}}">
-                    <input type="text" name="Categories_ID" hidden value="{{$cat_id}}">
-                    <div class="container" style="background-color: #5bc0de; width: 100%; padding: 10px 15px">
-                        <a href="#" class="BTNCollapse"><span style="font-size: 18px; color:white; font-weight:bold">Title: {{$titles->Title}}</span></a>
-                        <div style="float: right;">
-                            <button class="btn btn-default AddIndicator" type="button"><i class="fa fa-plus" aria-hidden="true"></i> ADD INDICATOR</button>
-                            <button class="btn btn-success" type="submit"><i class="fa fa-save" aria-hidden="true"></i> Save</button>
-                            <button class="btn btn-danger LabelRemove" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</button>
-                        </div>
-                    </div>
-                    <div class="container row LblData collapse" style="background-color: white; margin: 0px; width:100%; padding:20px">
-                        <input type="text" name="Title_ID[]" hidden value="{{$titles->Title_ID}}">
-                        <div class="form-group col-lg-6">
-                            <label>Title</label>
-                            <input type="text" class="form-control" name="Title[]" value="{{$titles->Title}}" required>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <label>Visible</label>
-                            <select class="form-control" name="Visible[]" required>
-                                <option value=1 selected>Yes</option>
-                                <option value=0>No</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <label>Min Indicator</label>
-                            <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]" value="{{$titles->Min_Indicator}}">
-                        </div>
-                        <div class="form-group col-lg-2">
-                            <label>Max Indicator</label>
-                            <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]" value="{{$titles->Max_Indicator}}">
-                        </div>
-                        <div class="form-group col-lg-12">
-                            <label>Instructions</label>
-                            <textarea class="form-control" name="Instructions[]">{{$titles->Instructions}}</textarea>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label>Date Start</label>
-                            <input type="date" class="form-control" name="Date_Start[]" value="{{$titles->Date_Start}}" required>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <label>Date End</label>
-                            <input type="date" class="form-control" name="Date_End[]" value="{{$titles->Date_End}}" required>
-                        </div>
-
-                        @foreach ($indicator as $indicators)
-                        @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
-                        <div class="card-body IndicatorDIV col-lg-12" style="margin-bottom: 5px;">
-                            <div class="container" style="background-color: gray; width: 100%; padding: 10px 15px">
-                                <span style="font-size: 18px; color:white; font-weight:bold">Indicator</span>
-                                <div style="float: right;">
-                                    <button class="btn btn-danger IndicatorRemove" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</button>
-                                </div>
-                            </div>
-                            <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
-                            <div class="container row" style="background-color: white; margin: 0px; width:100%; padding:20px">
-                                <div class="form-group col-lg-12">
-                                    <label>Description</label>
-                                    <textarea class="form-control" name="Indicator_Description[]">{{$indicators->Indicator_Description}}</textarea>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Answer Type</label>
-                                    <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
-                                        <option value='' disabled selected>Select Option</option>
-                                        @foreach($answer_type as $at)
-                                        <option value="{{ $at->Answer_Type_ID }}" {{ $at->Answer_Type_ID  == $indicators->Answer_Types_ID  ? "selected" : "" }}>{{ $at->Title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Min. Answer</label>
-                                    <input type="number" class="form-control" name="Min_Answer[]" value="{{$indicators->Min_Answer}}">
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Max Answer</label>
-                                    <input type="number" class="form-control" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
-                                </div>
-                                <div class="form-group col-lg-12">
-                                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
-                                    <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicators->Widget == 'RADIO' || $indicators->Widget == 'SELECT' || $indicators->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                        @endforeach
-                    </div>
-                </form>
-            </div>
-            @endforeach
         </div>
-
-
+        <!-- /.row -->
     </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
 
 <div class="modal fade" id="ADD_AT_modal" tabindex="-1" role="dialog" aria-labelledby="ADD_AT_modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -204,129 +259,183 @@
 </div>
 
 <!-- Indicator Clone DIV -->
-<div class="card-body IndicatorDIV IndicatorDIVhidden col-lg-12" style="margin-bottom: 5px;" hidden>
-    <div class="container" style="background-color: gray; width: 100%; padding: 10px 15px">
-        <span style="font-size: 18px; color:white; font-weight:bold">Indicator</span>
-        <div style="float: right;">
-            <button class="btn btn-danger IndicatorRemove" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</button>
+
+<div class="card-teal IndicatorDIV IndicatorDIVhidden" hidden>
+    <div class="card-header">
+        <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool IndicatorRemove">
+                <i class="fas fa-trash"></i>&nbsp;Delete
+            </button>
         </div>
+        <!-- /.card-tools -->
     </div>
-    <input type="text" hidden name="Indicator_ID[]">
-    <div class="container row" style="background-color: white; margin: 0px; width:100%; padding:20px">
-        <div class="form-group col-lg-12">
-            <label>Description</label>
-            <textarea class="form-control" name="Indicator_Description[]"></textarea>
-        </div>
-        <div class="form-group col-lg-4">
-            <label>Answer Type</label>
-            <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
-                <option value='' disabled selected>Select Option</option>
-                @foreach($answer_type as $at)
-                <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group col-lg-4">
-            <label>Min. Answer</label>
-            <input type="number" class="form-control" name="Min_Answer[]">
-        </div>
-        <div class="form-group col-lg-4">
-            <label>Max Answer</label>
-            <input type="number" class="form-control" name="Max_Answer[]">
-        </div>
-        <div class="form-group col-lg-12">
-            <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+    <div class="card-body col-lg-12" style="margin-bottom: 5px;">
+        <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
+        <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
+            <div class="form-group col-lg-12">
+                <label>Description</label>
+                <textarea class="form-control" name="Indicator_Description[]"></textarea>
+            </div>
+            <div class="form-group col-lg-4">
+                <label>Answer Type</label>
+                <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
+                    <option value='' disabled selected>Select Option</option>
+                    @foreach($answer_type as $at)
+                    <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-lg-4">
+                <label>Min. Answer</label>
+                <input type="number" class="form-control" name="Min_Answer[]">
+            </div>
+            <div class="form-group col-lg-4">
+                <label>Max Answer</label>
+                <input type="number" class="form-control" name="Max_Answer[]">
+            </div>
+            <div class="form-group col-lg-12">
+                <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+            </div>
         </div>
     </div>
 </div>
 
 
 <!-- Label Clone DIV -->
-<div class="card-body LabelDIV LabelDIVhidden" style="margin-bottom: 30px;" hidden>
+
+<div class="LabelDIV LabelDIVhidden" hidden>
     <form method="POST" action="{{ route('create_cms_title') }}" autocomplete="off" enctype="multipart/form-data">
         @csrf
         <input type="text" name="CMS_Barangay_Profile_ID" hidden value="{{$id}}">
         <input type="text" name="Categories_ID" hidden value="{{$cat_id}}">
-        <div class="container" style="background-color: #5bc0de; width: 100%; padding: 10px 15px">
-            <a href="#" class="BTNCollapse"><span style="font-size: 18px; color:white; font-weight:bold">Title:</span></a>
-            <div style="float: right;">
-                <button class="btn btn-default AddIndicator" type="button"><i class="fa fa-plus" aria-hidden="true"></i> ADD INDICATOR</button>
-                <button class="btn btn-success" type="submit"><i class="fa fa-save" aria-hidden="true"></i> Save</button>
-                <button class="btn btn-danger LabelRemove" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</button>
-            </div>
-        </div>
-        <div class="container row LblData collapse" style="background-color: white; margin: 0px; width:100%; padding:20px">
-            <input type="text" name="Title_ID[]" hidden>
-            <div class="form-group col-lg-6">
-                <label>Title</label>
-                <input type="text" class="form-control" name="Title[]" required>
-            </div>
-            <div class="form-group col-lg-2">
-                <label>Visible</label>
-                <select class="form-control" name="Visible[]" required>
-                    <option value=1 selected>Yes</option>
-                    <option value=0>No</option>
-                </select>
-            </div>
-            <div class="form-group col-lg-2">
-                <label>Min Indicator</label>
-                <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]">
-            </div>
-            <div class="form-group col-lg-2">
-                <label>Max Indicator</label>
-                <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]">
-            </div>
-            <div class="form-group col-lg-12">
-                <label>Instructions</label>
-                <textarea class="form-control" name="Instructions[]"></textarea>
-            </div>
-            <div class="form-group col-lg-6">
-                <label>Date Start</label>
-                <input type="date" class="form-control" name="Date_Start[]" required>
-            </div>
-            <div class="form-group col-lg-6">
-                <label>Date End</label>
-                <input type="date" class="form-control" name="Date_End[]" required>
-            </div>
+        <div class="card card-info collapsed-card">
+            <div class="card-header pc-view">
+                <h3 class="card-title" data-card-widget="collapse">Title:</h3>
 
-            <div class="card-body IndicatorDIV col-lg-12" style="margin-bottom: 5px;">
-                <div class="container" style="background-color: gray; width: 100%; padding: 10px 15px">
-                    <span style="font-size: 18px; color:white; font-weight:bold">Indicator</span>
-                    <div style="float: right;">
-                        <button class="btn btn-danger IndicatorRemove" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i> DELETE</button>
-                    </div>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool AddIndicator">
+                        <i class="fas fa-plus"></i>&nbsp;Add Indicator
+                    </button>
+                    <button type="submit" class="btn btn-tool">
+                        <i class="fas fa-save"></i>&nbsp;Save
+                    </button>
+                    <button type="button" class="btn btn-tool LabelRemove">
+                        <i class="fas fa-trash"></i>&nbsp;Delete
+                    </button>
                 </div>
-                <input type="text" hidden name="Indicator_ID[]">
-                <div class="container row" style="background-color: white; margin: 0px; width:100%; padding:20px">
-                    <div class="form-group col-lg-12">
-                        <label>Description</label>
-                        <textarea class="form-control" name="Indicator_Description[]"></textarea>
-                    </div>
-                    <div class="form-group col-lg-4">
-                        <label>Answer Type</label>
-                        <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($answer_type as $at)
-                            <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4">
-                        <label>Min. Answer</label>
-                        <input type="number" class="form-control" name="Min_Answer[]">
-                    </div>
-                    <div class="form-group col-lg-4">
-                        <label>Max Answer</label>
-                        <input type="number" class="form-control" name="Max_Answer[]">
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
-                    </div>
+                <!-- /.card-tools -->
+            </div>
+            <div class="card-header mobile-view">
+                <h3 class="card-title">Title:</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                    </button>
                 </div>
             </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row mobile-view">
+                    <div class="col-12" style="text-align: center; margin-bottom:5px">
+                        <button type="button" class="btn btn-tool AddIndicator">
+                            <i class="fas fa-plus"></i>&nbsp;Add Indicator
+                        </button>
+                        <button type="submit" class="btn btn-tool">
+                            <i class="fas fa-save"></i>&nbsp;Save
+                        </button>
+                        <button type="button" class="btn btn-tool LabelRemove">
+                            <i class="fas fa-trash"></i>&nbsp;Delete
+                        </button>
+                    </div>
+                </div>
+                <div class="LblData">
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <input type="text" name="Title_ID[]" hidden>
+                            <label>Title</label>
+                            <input type="text" class="form-control" name="Title[]" required>
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label>Visible</label>
+                            <select class="form-control" name="Visible[]" required>
+                                <option value=1 selected>Yes</option>
+                                <option value=0>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label>Min Indicator</label>
+                            <input type="number" class="form-control Min_Indicator" name="Min_Indicator[]">
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label>Max Indicator</label>
+                            <input type="number" class="form-control Max_Indicator" name="Max_Indicator[]">
+                        </div>
+                        <div class="form-group col-lg-12">
+                            <label>Instructions</label>
+                            <textarea class="form-control" name="Instructions[]"></textarea>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Date Start</label>
+                            <input type="date" class="form-control" name="Date_Start[]" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Date End</label>
+                            <input type="date" class="form-control" name="Date_End[]" required>
+                        </div>
+                    </div>
+                    @foreach ($indicator as $indicators)
+                    @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
+                    <div class="card-teal IndicatorDIV">
+                        <div class="card-header">
+                            <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool IndicatorRemove">
+                                    <i class="fas fa-trash"></i>&nbsp;Delete
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <div class="card-body" style="margin-bottom: 5px;">
+                            <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
+                            <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
+                                <div class="form-group col-lg-12">
+                                    <label>Description</label>
+                                    <textarea class="form-control" name="Indicator_Description[]"></textarea>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label>Answer Type</label>
+                                    <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
+                                        <option value='' disabled selected>Select Option</option>
+                                        @foreach($answer_type as $at)
+                                        <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label>Min. Answer</label>
+                                    <input type="number" class="form-control" name="Min_Answer[]">
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label>Max Answer</label>
+                                    <input type="number" class="form-control" name="Max_Answer[]">
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @endif
+                    @endforeach
+                </div>
+
+            </div>
         </div>
+        <!-- /.card-body -->
     </form>
 </div>
+
 
 <div class="modal fade" id="ADD_OPTIONS_modal" tabindex="-1" role="dialog" aria-labelledby="ADD_OPTIONS_modal" aria-hidden="true">
     <div class="modal-dialog" role="document">
