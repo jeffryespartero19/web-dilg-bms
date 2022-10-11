@@ -39,7 +39,7 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark">
             <div class="container">
-                <a href="#" class="navbar-brand">
+                <a href="{{ url('/') }}" class="navbar-brand">
                     <span class="brand-text font-weight-light"><b>DILG</b> Barangay Management System - {{$b_details[0]->Barangay_Name}}</span>
                 </a>
 
@@ -142,10 +142,10 @@
                                 <div class="card-header">
                                     <h5 class="card-title m-0">Events / Announcements</h5>
                                 </div>
-                               
-                                    @isset($EV_AN)
-                                    @foreach($EV_AN as $ex)
-                                    <div class="card-body">
+
+                                @isset($EV_AN)
+                                @foreach($EV_AN as $ex)
+                                <div class="card-body">
                                     <div class="flexer justifier EventContainer">
                                         <div class="E_Loop_container">
                                             <img src="{{ asset('/css/img/MegaPhone_PNG.png') }}" width="45" style="margin-left: -30px;">
@@ -165,11 +165,11 @@
                                             <div class="moreInfo width100 txtCtr" style="margin-top:3px;"> Click for More Info</div>
                                         </div>
                                     </div>
-                                    </div>
-                                    <hr>
-                                    @endforeach
-                                    @endisset
-                               
+                                </div>
+                                <hr>
+                                @endforeach
+                                @endisset
+
                             </div>
                         </div>
                         <!-- /.col-md-6 -->

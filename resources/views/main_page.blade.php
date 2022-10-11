@@ -37,7 +37,7 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark">
             <div class="container">
-                <a href="../../index3.html" class="navbar-brand">
+                <a href="#" class="navbar-brand">
                     <span class="brand-text font-weight-light"><b>DILG</b> Barangay Management System</span>
                 </a>
 
