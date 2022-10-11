@@ -652,9 +652,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Obligation Request
     Route::get('/bfas_obligation_request', 'BFASController2@bfas_obligation_request')->name('bfas_obligation_request');
-    Route::post('/create_bfas_obligation_request', 'BFASController2@create_bfas_jev_collection')->name('create_bfas_jev_collection');
-    Route::get('/get_bfas_obligation_request', 'BFASController2@get_bfas_jev_collection')->name('get_bfas_jev_collection');
-    Route::post('/update_bfas_jev_collection', 'BFASController2@update_bfas_jev_collection')->name('update_bfas_jev_collection');
+    Route::post('/create_bfas_obligation_request', 'BFASController2@create_bfas_obligation_request')->name('create_bfas_obligation_request');
+    Route::get('/get_bfas_obligation_request', 'BFASController2@get_bfas_obligation_request')->name('get_bfas_obligation_request');
+    Route::post('/update_bfas_obligation_request', 'BFASController2@update_bfas_obligation_request')->name('update_bfas_obligation_request');
 
     //Disbursement Voucher
     Route::get('/bfas_disbursement_voucher', 'BFASController2@bfas_disbursement_voucher')->name('bfas_disbursement_voucher');
@@ -745,6 +745,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
 
 //For Drop Downs
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');

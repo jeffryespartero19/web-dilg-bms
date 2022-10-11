@@ -5,115 +5,162 @@
 <link href="{{ asset('/css/bins.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Account Information/Setup </div>
-    <div class="col-md-6 breadcrumbXZ"> 
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}"><li>DILG_BMS / </li></a>
-            <li> &nbsp;bfas_accounts_information</li>
-        </ol> 
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Account Information/Setup</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item active">Account Information/Setup</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
-<div class="tableX_row col-md-12 up_marg5">
-    <div class="flexer"> 
-        <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" data-target="#createXYZ">New</button></div>
-    </div>
-    <div class="col-md-12">
-        <table class="table-bordered table_gen up_marg5">
-            <thead>
-                <tr>
-                    <th>Account <br>Information ID</th>
-                    <th>Account <br>Type</th>
-                    <th>Account <br>Code</th>
-                    <th>Account <br>Name</th>
-                    <th>Account <br>Number</th>
-                    <th>Active</th>
-                    <th>Encoder ID</th>
-                    <th>Date Stamp</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($db_entries as $x)
-                    <tr>
-                        <td class="sm_data_col txtCtr">{{$x->Accounts_Information_ID}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Account_Type}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Account_Code}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Account_Name}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Account_Number}}</td>
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 
-                        <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
-                        <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
-                        <td class="sm_data_col txtCtr">
-                            <button class="edit_XYZ" value="{{$x->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+@if(session()->has('message'))
+<div class="alert alert-success">
+    {{ session()->get('message') }}
 </div>
+@endif
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="text-align: right;">
+                            <div class="btn-group">
+                                <div style="padding: 2px;"><button class="btn btn-success" data-toggle="modal" data-target="#createXYZ">New</button></div>
+                                <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <div class="col-md-12 table-responsive">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Account <br>Information ID</th>
+                                            <th>Account <br>Type</th>
+                                            <th>Account <br>Code</th>
+                                            <th>Account <br>Name</th>
+                                            <th>Account <br>Number</th>
+                                            <th>Active</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($db_entries as $x)
+                                        <tr>
+                                            <td class="sm_data_col txtCtr">{{$x->Accounts_Information_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Account_Type}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Account_Code}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Account_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Account_Number}}</td>
+
+                                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
+                                            <td class="sm_data_col txtCtr">
+                                                <button class="edit_XYZ" value="{{$x->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 <!-- Create Modal -->
 <div class="modal fade" id="createXYZ" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title flexer justifier">Create New Entry</h4>
-        </div>
-        <form id="newEntryXYZ" method="POST" action="{{ route('create_bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-            <div class="modal-body Absolute-Center">
-                <div class="modal_input_container">
 
-                    <div class="up_marg5">
-                        <span><b>Account Type:</b></span><br>
-                        <select class="modal_input1" name="Account_Type_ID">
-                            <option value='' hidden selected>Select</option>
-                            @foreach($acc_type as $act)
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Create New Entry</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="newEntryXYZ" method="POST" action="{{ route('create_bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <div class="modal-body Absolute-Center">
+                    <div class="modal_input_container">
+                        <div class="form-group">
+                            <label for="Account_Type_ID">Account Type:</label>
+                            <select class="modal_input1 form-control" name="Account_Type_ID">
+                                <option value='' hidden selected>Select</option>
+                                @foreach($acc_type as $act)
                                 <option value={{$act->Account_Type_ID}}>{{$act->Account_Type}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="up_marg5">
-                        <span><b>Account Type:</b></span><br>
-                        <select class="modal_input1" name="Account_Code_ID">
-                            <option value='' hidden selected>Select</option>
-                            @foreach($acc_code as $acc)
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Account_Code_ID">Account Type:</label>
+                            <select class="modal_input1 form-control" name="Account_Code_ID">
+                                <option value='' hidden selected>Select</option>
+                                @foreach($acc_code as $acc)
                                 <option value={{$acc->Account_Code_ID}}>{{$acc->Account_Code}}</option>
-                            @endforeach
-                        </select>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Account_Name">Account Name:</label>
+                            <input class="modal_input1 form-control" name="Account_Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="Account_Number">Account Number:</label>
+                            <input class="modal_input1 form-control" name="Account_Number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ActiveX">Active:</label>
+                            <select class="modal_input1 form-control" name="ActiveX">
+                                <option value=1 hidden selected>Is Active?</option>
+                                <option value=1>Yes</option>
+                                <option value=0>No</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="up_marg5">
-                        <span><b>Account Name:</b></span><br>
-                        <input class="modal_input1" name="Account_Name">
-                    </div>
-                    <div class="up_marg5">
-                        <span><b>Account Number:</b></span><br>
-                        <input class="modal_input1" name="Account_Number">
-                    </div>
-                    
-                    <div class="up_marg5">
-                        <span><b>Active:</b></span><br>
-                        <select class="modal_input1" name="ActiveX">
-                            <option value=1 hidden selected>Is Active?</option>
-                            <option value=1>Yes</option>
-                            <option value=0>No</option>
-                        </select>
-                    </div>
                 </div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn postThis_XYZ modal_sb_button">Create</button>
-            </div>
-        </form>
-      </div>
-      
+                <div class="modal-footer">
+                    <button type="button" class="btn postThis_XYZ modal_sb_button">Create</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 
@@ -122,66 +169,79 @@
 <!-- Edit/Update  Modal -->
 <div class="modal fade" id="updateXYZ" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title flexer justifier">Update Entry</h4>
-        </div>
-        <form id="updateEntryXYZ" method="POST" action="{{ route('update_bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-            <input id="this_identifier" value=2 hidden>
-            <input id="this_idX" value="" hidden name="IDx">
-            <div class="modal-body Absolute-Center">
-                <div class="modal_input_container">
-                    <div class="up_marg5">
-                        <span><b>Account Type:</b></span><br>
-                        <select class="modal_input1" name="Account_Type_ID2">
-                            <option id="this_acc_type" value='' hidden selected>Select</option>
-                            @foreach($acc_type as $act)
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Update Entry</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="updateEntryXYZ" method="POST" action="{{ route('update_bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <input id="this_identifier" value=2 hidden>
+                <input id="this_idX" value="" hidden name="IDx">
+                <div class="modal-body Absolute-Center">
+                    <div class="modal_input_container">
+                        <div class="form-group">
+                            <label>Account Type:</label>
+                            <select class="form-control" name="Account_Type_ID2">
+                                <option id="this_acc_type" value='' hidden selected>Select</option>
+                                @foreach($acc_type as $act)
                                 <option value={{$act->Account_Type_ID}}>{{$act->Account_Type}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="up_marg5">
-                        <span><b>Account Type:</b></span><br>
-                        <select class="modal_input1" name="Account_Code_ID2">
-                            <option id="this_acc_code" value='' hidden selected>Select</option>
-                            @foreach($acc_code as $acc)
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Account Type:</label>
+                            <select class="form-control" name="Account_Code_ID2">
+                                <option id="this_acc_code" value='' hidden selected>Select</option>
+                                @foreach($acc_code as $acc)
                                 <option value={{$acc->Account_Code_ID}}>{{$acc->Account_Code}}</option>
-                            @endforeach
-                        </select>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Account Name:</label>
+                            <input id="this_acc_name" class="form-control" name="Account_Name2">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number:</label>
+                            <input id="this_acc_no" class="form-control" name="Account_Number2">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Active:</label>
+                            <select class="form-control" name="ActiveX2">
+                                <option id="this_active" value=1 hidden selected>Is Active?</option>
+                                <option value=1>Yes</option>
+                                <option value=0>No</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="up_marg5">
-                        <span><b>Account Name:</b></span><br>
-                        <input id="this_acc_name" class="modal_input1" name="Account_Name2">
-                    </div>
-                    <div class="up_marg5">
-                        <span><b>Account Number:</b></span><br>
-                        <input id="this_acc_no" class="modal_input1" name="Account_Number2">
-                    </div>
-
-                    <div class="up_marg5">
-                        <span><b>Active:</b></span><br>
-                        <select class="modal_input1" name="ActiveX2">
-                            <option id="this_active"  value=1 hidden selected>Is Active?</option>
-                            <option value=1>Yes</option>
-                            <option value=0>No</option>
-                        </select>
-                    </div>
                 </div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn updateThis_XYZ modal_sb_button">Save</button>
-            </div>
-        </form>
-      </div>
-      
+                <div class="modal-footer">
+                    <button type="button" class="btn updateThis_XYZ modal_sb_button">Save</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 
 <!-- Edit/Update END -->
+
+@endsection
+
+@section('scripts')
+
+<script>
+    // Data Table
+    $(document).ready(function() {
+        $('#example').DataTable();
+        $('#example2').DataTable();
+        $('#example3').DataTable();
+    });
+</script>
 
 @endsection

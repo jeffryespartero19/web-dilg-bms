@@ -37,4 +37,16 @@ class GlobalController extends Controller
         return json_encode($data);
     }
 
+     // Search Barangay
+     public function searchBarangay($text)
+     {
+         $data = DB::table('maintenance_barangay as a')
+             ->leftjoin('maintenance_city_municipality as b', 'b.City_Municipality_ID', '=', 'a.City_Municipality_ID')
+             ->leftjoin('maintenance_province as c', 'c.Province_ID', '=', 'a.Province_ID')
+             ->where(['City_Municipality_ID' => $text])
+             ->get();
+ 
+         return json_encode($data);
+     }
+ 
 }
