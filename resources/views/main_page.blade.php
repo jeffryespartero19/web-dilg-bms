@@ -3,7 +3,32 @@
 
 
 <head>
-    @include('includes.head')
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <link rel="shortcut icon" href="../../dist/img/pdea_logo.jpg" />
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <!-- Other styles -->
+    <link rel="stylesheet" href="{{ asset('css/c_gl.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/fontawesome.min.css') }}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -20,7 +45,7 @@
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <!-- Messages Dropdown Menu -->
                     <li class="nav-item">
-                        <a href="{{ route('login') }}" class="nav-link">Login</a>
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#login">Login</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('registers') }}" class="nav-link">Register</a>
@@ -48,7 +73,7 @@
                     <div class="col-12">
                         <center>
                             <div class="input-group" style="width: 50%;">
-                                <input class="form-control" id="search" type="search" placeholder="Search Barangay" aria-label="Search" style="font-size: 40px; height:60px; width:600px">
+                                <input class="form-control" id="search" type="search" placeholder="Search City/Municipality" aria-label="Search" style="font-size: 40px; height:60px; width:600px">
                             </div>
                         </center>
                     </div>
@@ -57,7 +82,23 @@
 
                 </div>
                 <div class="container">
-                    <h1>hello</h1>
+                    <div class="table-responsive">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Barangay ID</th>
+                                    <th>Barangay Name</th>
+                                    <th>City/Municipality</th>
+                                    <th>Province</th>
+                                    <th>Region</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="BRGY_list">
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- /.content -->
@@ -75,46 +116,131 @@
             <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
         </footer>
     </div>
+
+    <div class="modal fade" id="login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Login</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="Enter email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" placeholder="Enter password" value="{{ old('password') }}" required autocomplete="current-password" autofocus>
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="remember">Remember Me</label>
+                        </div>
+
+                        <div class="form-group">
+                            @if (Route::has('password.request'))
+                            <label for="exampleInputEmail1">
+                                <a href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
+                            </label>
+                            @endif
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <form id="BRGYFilter" action="{{ route('main') }}" hidden>
+        @csrf
+        <input type="text" id="Barangay_ID" name="Barangay_ID">
+    </form>
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->
-    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
     <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../../dist/js/demo.js"></script>
+    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
     <script>
-        $("#search").keyup(function() {
+        // Data Table
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
 
-            var text = $(this).val();
-            alert(text);
-            $.ajax({
-                type: "GET",
-                url: "/search_barangay/" + text,
-                fail: function() {
-                    alert("request failed");
-                },
-                success: function(data) {
-                    var data = JSON.parse(data);
-                    $('#Province_ID').empty();
-                    $('#City_Municipality_ID').empty();
-                    $('#Barangay_ID').empty();
+        $("#search").keypress(function(e) {
+            if (e.which == 13) {
+                var text = $(this).val();
+                // alert(text);
+                $.ajax({
+                    type: "GET",
+                    url: "/search_barangay/" + text,
+                    fail: function() {
+                        alert("request failed");
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
 
-                    data.forEach(element => {
-                        var option = " <option value='" +
-                            element["Province_ID"] +
-                            "'>" +
-                            element["Province_Name"] +
-                            "</option>";
-                        $('#Province_ID').append(option);
-                    });
-                }
-            });
+                        // alert(data);
+                        $('#example').dataTable().fnClearTable();
+                        $('#example').dataTable().fnDraw();
+                        $('#example').dataTable().fnDestroy();
+
+                        data.forEach(function(element) {
+
+                            $('#example').DataTable().row.add([
+                                element["Barangay_ID"],
+                                element["Barangay_Name"],
+                                element["City_Municipality_Name"],
+                                element["Province_Name"],
+                                element["Region_Name"],
+                                "<button class='btn btn-success EnterLink' value='" + element["Barangay_ID"] + "'>Go</button>",
+                            ]).draw();
+
+                        });
+                    }
+                });
+            }
+        });
+
+        $(document).on("click", ".EnterLink", function() {
+            var Barangay_ID = $(this).val();
+
+            $('#Barangay_ID').val(Barangay_ID);
+            $('#BRGYFilter').submit();
+
         });
     </script>
 </body>
