@@ -28,8 +28,9 @@ class Public_LandingController extends Controller
         $posts_encoder_IDs = DB::table('brgy_website_news')->orderBy('Date_Stamp', 'DESC')->pluck('Encoder_ID');
 
         $usersX = DB::table('users')->whereIn('id', $posts_encoder_IDs)->get();
+        $b_details = DB::table('maintenance_barangay')->where('Barangay_ID', $b_id)->get();
 
-        return view('welcome', compact('posts', 'uploads', 'currDATE', 'EV_AN', 'usersX', 'b_id'));
+        return view('welcome', compact('posts', 'uploads', 'currDATE', 'EV_AN', 'usersX', 'b_id', 'b_details'));
     }
 
     public function viewAnnouncement(Request $request)
