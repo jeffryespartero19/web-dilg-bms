@@ -161,9 +161,28 @@ class InhabitantApplicationController extends Controller
                 'Indigent' => (int)$data['Indigent'],
                 '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
                 'Encoder_ID'       => 0,
-                'Date_Stamp'       => Carbon::now()
+                'Date_Stamp'       => Carbon::now(),
+                'Street' => $data['Street'],
+                'House_No' => $data['House_No'],
             )
         );
+
+        if ($request->hasfile('fileattach')) {
+            foreach ($request->file('fileattach') as $file) {
+                $filename = $file->getClientOriginalName();
+                // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                $filePath = public_path() . '/files/uploads/bips_RIB_Form/';
+                $file->move($filePath, $filename);
+                // $file_path = $filePath . $filename;
+
+
+                DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $Resident_ID)->update(
+                    array(
+                        'RIB_Form' => $filename,
+                    )
+                );
+            }
+        }
 
         User::create([
             'name' => $name,
