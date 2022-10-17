@@ -17,7 +17,7 @@
     </div>
     @endif
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
@@ -61,10 +61,6 @@
                             </div>
                         </div>
 
-
-
-
-
                         <hr>
                         <h3>Address</h3>
                         <div class="row">
@@ -103,6 +99,14 @@
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
                                     <option value='' selected>Select Option</option>
                                 </select>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Street">Street</label>
+                                <input type="text" class="form-control" id="Street" name="Street">
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="House_No">House Number</label>
+                                <input type="text" class="form-control" id="House_No" name="House_No">
                             </div>
                         </div>
                         <hr>
@@ -211,6 +215,14 @@
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="fileattach">Attach Signed RIB Form</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="fileattach[]" id="fileattach" onchange="javascript:updateList()" accept="image/png, image/jpeg, application/pdf," required />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
