@@ -509,6 +509,8 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/brgy_document_information_list', 'BCPISController@brgy_document_information_list')->name('brgy_document_information_list');
       Route::get('/brgy_document_information_details/{id}', 'BCPISController@brgy_document_information_details');
       Route::post('/create_brgy_document_information', 'BCPISController@create_brgy_document_information')->name('create_brgy_document_information');
+      Route::get('/viewBrgyDocPDF', 'BCPISController@viewBrgyDocPDF')->name('viewBrgyDocPDF');
+
 
       //Barangay Business Information
       Route::get('/barangay_business_list', 'BCPISController@barangay_business_list')->name('barangay_business_list');
