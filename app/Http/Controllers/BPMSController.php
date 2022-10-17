@@ -470,4 +470,6 @@ class BPMSController extends Controller
         $pdf = PDF::loadView('bpms_transactions.contractorPDF', compact('details'));
         return $pdf->stream();
     }
+
+    
 }
