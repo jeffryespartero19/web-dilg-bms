@@ -5,14 +5,14 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Brgy Document Information</div> 
+    <div class="col-md-6 titleXZ"> Brgy Document Information</div>
     <div class="col-md-6 breadcrumbXZ">
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
                 <li>DILG_BCPCIS / </li>
-            </a> 
+            </a>
             <li> &nbsp;Brgy Document Information</li>
-        </ol> 
+        </ol>
     </div>
 </div>
 @if ($errors->any())
@@ -30,64 +30,19 @@
 </div>
 @endif
 <div class="tableX_row col-md-12 up_marg5">
+    <div style="margin-left: 5px;"><button type="submit" class="btn btn-warning" style="width: 100px;" id="Print_Certification" class="Print_Certification">Print</button></div>
+    <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewContractorPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
     <br>
     <div class="col-md-12">
-        <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_brgy_document_information') }}"  autocomplete="off" enctype="multipart/form-data">
+        <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_brgy_document_information') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
-            <div class="row">
+            <div >
                 <input type="text" class="form-control" id="Document_ID" name="Document_ID" value="{{$document[0]->Document_ID}}" hidden>
+                <input type="text" class="form-control" id="Payment_Collected_ID" name="Payment_Collected_ID" value="{{$payment_docu[0]->Payment_Collected_ID}}" hidden>
                 <div class="row">
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Transaction_No">Transaction No</label>
                         <input type="text" class="form-control" id="Transaction_No" name="Transaction_No" value="{{$document[0]->Transaction_No}}">
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Request_Date">Request_Date</label>
-                        <input type="date" class="form-control" id="Request_Date" name="Request_Date" value="{{$document[0]->Request_Date}}" required>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Purpose_of_Document_ID">Purpose of Document</label>
-                        <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($purpose as $bt1)
-                            <option value="{{ $bt1->Purpose_of_Document_ID }}" {{ $bt1->Purpose_of_Document_ID  == $document[0]->Purpose_of_Document_ID  ? "selected" : "" }}>{{ $bt1->Purpose_of_Document }}</option>
-                            @endforeach  
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-1" style="padding:0 10px">
-                        <label for="Released">Released</label>
-                        <select class="form-control" style="width: 200px;" name="Released" id="Released">
-                            
-
-                            <option value=0 {{ 0 == $document[0]->Released  ? "selected" : "" }}>No</option>
-                            <option value=1 {{ 1 == $document[0]->Released  ? "selected" : "" }}>Yes</option>
-                        </select>
-                    </div>  
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-12" style="padding:0 10px">
-                        <label for="Remarks">Remarks</label>
-                        <input type="text" class="form-control" id="Remarks" name="Remarks" value="{{$document[0]->Remarks}}">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Salutation_Name">Salutation Name</label>
-                        <input type="text" class="form-control" id="Salutation_Name" name="Salutation_Name" value="{{$document[0]->Salutation_Name}}">
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="CTC_No">CTC No</label>
-                        <input type="text" class="form-control" id="CTC_No" name="CTC_No" value="{{$document[0]->CTC_No}}">
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Issued_On">Issued On</label>
-                        <input type="datetime-local" class="form-control" id="Issued_On" name="Issued_On" value="{{$document[0]->Issued_On}}"required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
-                        <label for="Issued_At">Issued At</label>
-                        <input type="text" class="form-control" id="Issued_At" name="Issued_At" value="{{$document[0]->Issued_At}}">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Document_Type_ID">Document Type</label>
@@ -98,20 +53,96 @@
                                 @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
+                    <div class="form-group col-lg-4" style="padding:0 10px">
                         <label for="Resident_ID">Resident</label>
-                        <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 350px;">
+                        <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" >
                             <option value='' disabled selected>Select Option</option>
                             @foreach($resident as $rs)
                             <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $document[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group col-lg-1" style="padding:0 10px">
+                        <label for="Released">Released</label>
+                        <select class="form-control" style="width: 200px;" name="Released" id="Released">
+                            <option value=0 {{ 0 == $document[0]->Released  ? "selected" : "" }}>No</option>
+                            <option value=1 {{ 1 == $document[0]->Released  ? "selected" : "" }}>Yes</option>
+                        </select>
+                    </div>  
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-6" style="padding:0 10px">
+                    <div class="form-group col-lg-4" style="padding:0 10px">
+                        <label for="Purpose_of_Document_ID">Purpose of Document</label>
+                        <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
+                            <option value='' disabled selected>Select Option</option>
+                            @foreach($purpose as $bt1)
+                            <option value="{{ $bt1->Purpose_of_Document_ID }}" {{ $bt1->Purpose_of_Document_ID  == $document[0]->Purpose_of_Document_ID  ? "selected" : "" }}>{{ $bt1->Purpose_of_Document }}</option>
+                            @endforeach  
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Request_Date">Request_Date</label>
+                        <input type="date" class="form-control" id="Request_Date" name="Request_Date" value="{{$document[0]->Request_Date}}" required>
+                    </div>
+                    <div class="form-group col-lg-5" style="padding:0 10px">
+                        <label for="Salutation_Name">Salutation Name</label>
+                        <input type="text" class="form-control" id="Salutation_Name" name="Salutation_Name" value="{{$document[0]->Salutation_Name}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12" style="padding:0 10px">
+                        <label for="Remarks">Remarks</label>
+                        <input type="text" class="form-control" id="Remarks" name="Remarks" value="{{$document[0]->Remarks}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="SecondResident_Name">Other Resident Name</label>
                         <input type="text" class="form-control" id="SecondResident_Name" name="SecondResident_Name" value="{{$document[0]->SecondResident_Name}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Issued_On">Issued On</label>
+                        <input type="datetime-local" class="form-control" id="Issued_On" name="Issued_On" value="{{$document[0]->Issued_On}}"required>
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Issued_At">Issued At</label>
+                        <input type="text" class="form-control" id="Issued_At" name="Issued_At" value="{{$document[0]->Issued_At}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="OR_Date">OR Date</label>
+                        <input type="date" class="form-control" id="OR_Date" name="OR_Date" value="{{$payment_docu[0]->OR_Date}}" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="OR_No">OR No</label>
+                        <input type="text" class="form-control" id="OR_No" name="OR_No" value="{{$payment_docu[0]->OR_No}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Cash_Tendered">Cash Tendered</label>
+                        <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" value="{{$payment_docu[0]->Cash_Tendered}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="CTC_Details">CTC_Details</label>
+                        <input type="text" class="form-control" id="CTC_No" name="CTC_Details" value="{{$payment_docu[0]->CTC_Details}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="CTC_Date_Issued">CTC Date Issued</label>
+                        <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required value="{{$payment_docu[0]->CTC_Date_Issued}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="CTC_No">CTC No</label>
+                        <input type="text" class="form-control" id="CTC_No" name="CTC_No"  value="{{$payment_docu[0]->CTC_No}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="CTC_Amount">CTC Amount</label>
+                        <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Place_Issued">Place Issued</label>
+                        <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Region_ID">Region</label>
@@ -122,6 +153,8 @@
                                 @endforeach
                             </select>
                     </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Province_ID">Province</label>
                             <select class="form-control" id="Province_ID" name="Province_ID">
@@ -131,9 +164,7 @@
                                 @endforeach
                             </select>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-4" style="padding:0 10px">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="City_Municipality_ID">City_Municipality</label>
                             <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
                                 <option value='' disabled selected>Select Option</option>
@@ -142,7 +173,7 @@
                                 @endforeach
                             </select>
                     </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Barangay_ID">Barangay</label>
                             <select class="form-control" id="Barangay_ID" name="Barangay_ID">
                                 <option value='' disabled selected>Select Option</option>
@@ -152,8 +183,6 @@
                             </select>
                     </div>
                 </div>
-                
-
             </div>
             <div class="col-lg-12" style="margin-bottom: 100px;">
                 <center>
@@ -161,9 +190,17 @@
                     <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
                 </center>
             </div>
-        </form>    
+        </form>
     </div>
 </div>
+
+<form id="Print" method="GET" action="{{ url('viewBrgyDocPDF') }}" autocomplete="off" enctype="multipart/form-data">
+    @csrf
+    <input type="text" class="form-control" id="doc_id" name="doc_id" value="{{$document[0]->Document_Type_ID}}">
+    <input type="text" class="form-control" id="Document_IDx" name="Document_IDx" value="{{$document[0]->Document_ID}}">
+</form>
+
+
 
 
 
@@ -172,8 +209,8 @@
 @section('scripts')
 
 <script>
-   // Data Table
-   $(document).ready(function() {
+    // Data Table
+    $(document).ready(function() {
         $('#example').DataTable();
 
         $('.js-example-basic-single').select2();
@@ -183,7 +220,7 @@
         });
     });
 
-    
+
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
         // alert('test');
@@ -281,10 +318,23 @@
             }
         });
     });
+
+    $(document).on('change', ('#Document_Type_ID'), function(e) {
+        var Docment_Type_ID = $(this).val();
+
+        var id = Docment_Type_ID;
+        $('#doc_id').val(id);
+    });
+
+    $(document).on('click', ('#Print_Certification'), function(e) {
+        $('#Print').submit();
+
+        
+    });
 </script>
 
 <style>
-   table {
+    table {
         display: block;
         overflow-x: scroll;
     }
