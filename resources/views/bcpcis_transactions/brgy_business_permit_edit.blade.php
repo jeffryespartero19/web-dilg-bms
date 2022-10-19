@@ -17,7 +17,7 @@
                         <li class="breadcrumb-item"><a href="{{route('brgy_business_permit_list')}}">Brgy Business Permit List</a></li>
                         <li class="breadcrumb-item active">Brgy Business Permit Information</li>
                     </ol>
-                </div>
+                </div> 
             </div>
         </div>
         <!-- /.container-fluid -->
@@ -45,6 +45,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
+                        <div style="margin-left: 5px;"><button type="submit" class="btn btn-warning" style="width: 100px;" id="Print_Certification" class="Print_Certification">Print</button></div>
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_barangay_business_permit') }}" autocomplete="off" enctype="multipart/form-data">
@@ -98,8 +99,44 @@
                                                 <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" value="{{$permit[0]->Barangay_Business_Permit_Expiration_Date}}" required>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="OR_Date">OR Date</label>
+                                                <input type="date" class="form-control" id="OR_Date" name="OR_Date" value="{{$payment_docu[0]->OR_Date}}" required>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="OR_No">OR No</label>
+                                                <input type="text" class="form-control" id="OR_No" name="OR_No" value="{{$payment_docu[0]->OR_No}}">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Cash_Tendered">Cash Tendered</label>
+                                                <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" value="{{$payment_docu[0]->Cash_Tendered}}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_Details">CTC_Details</label>
+                                                <input type="text" class="form-control" id="CTC_No" name="CTC_Details" value="{{$payment_docu[0]->CTC_Details}}">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_Date_Issued">CTC Date Issued</label>
+                                                <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required value="{{$payment_docu[0]->CTC_Date_Issued}}">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
-                                                <input type="text" class="form-control" id="CTC_No" name="CTC_No" value="{{$permit[0]->CTC_No}}">
+                                                <input type="text" class="form-control" id="CTC_No" name="CTC_No"  value="{{$payment_docu[0]->CTC_No}}">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_Amount">CTC Amount</label>
+                                                <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Place_Issued">Place Issued</label>
+                                                <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}">
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Occupation">Occupation</label>
+                                                <input type="text" class="form-control" id="Occupation" name="Occupation" value="{{$permit[0]->Occupation}}">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -164,12 +201,29 @@
 </section>
 <!-- /.content -->
 
+<form id="Print" method="GET" action="{{ url('viewBrgyBusinessPDF') }}" autocomplete="off" enctype="multipart/form-data">
+    @csrf
+    <input type="text" class="form-control" id="permit_id" name="permit_id" value="{{$permit[0]->Barangay_Permits_ID}}" hidden>
+</form>
 
 @endsection
 
 @section('scripts')
 
 <script>
+
+    $(document).on('change', ('#Barangay_Permits_ID'), function(e) {
+        var Barangay_Permits_ID = $(this).val();
+
+        var id = Barangay_Permits_ID;
+        $('#permit_id').val(id);
+    });
+
+    $(document).on('click', ('#Print_Certification'), function(e) {
+        $('#Print').submit();
+
+        
+    });
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();

@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body"> 
                         <div class="tableX_row col-md-12 up_marg5">
                             <br>
                             <div class="col-md-12">
@@ -98,10 +98,45 @@
                                                 <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" required>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="CTC_No">CTC No</label>
-                                                <input type="text" class="form-control" id="CTC_No" name="CTC_No">
+                                                <label for="OR_Date">OR Date</label>
+                                                <input type="date" class="form-control" id="OR_Date" name="OR_Date" required>
                                             </div>
-
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="OR_No">OR No</label>
+                                                <input type="text" class="form-control" id="OR_No" name="OR_No" value="{{old('OR_No')}}">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Cash_Tendered">Cash Tendered</label>
+                                                <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" value="{{old('Cash_Tendered')}}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_Details">CTC_Details</label>
+                                                <input type="text" class="form-control" id="CTC_No" name="CTC_Details" value="{{old('CTC_Details')}}">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_Date_Issued">CTC Date Issued</label>
+                                                <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_No">CTC No</label>
+                                                <input type="text" class="form-control" id="CTC_No" name="CTC_No" value="{{old('CTC_No')}}">
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="CTC_Amount">CTC Amount</label>
+                                                <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" value="{{old('CTC_Amount')}}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Place_Issued">Place Issued</label>
+                                                <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}">
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Occupation">Occupation</label>
+                                                <input type="text" class="form-control" id="Occupation" name="Occupation" value="{{old('Occupation')}}">
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
