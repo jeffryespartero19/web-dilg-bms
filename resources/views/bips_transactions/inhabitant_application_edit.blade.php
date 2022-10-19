@@ -131,7 +131,7 @@
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Birthplace">Birthplace</label>
-                        <input type="text" class="form-control" id="Birthplace" name="Birthplace"  value="{{$db_entries[0]->Birthplace}}">
+                        <input type="text" class="form-control" id="Birthplace" name="Birthplace" value="{{$db_entries[0]->Birthplace}}">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Religion_ID">Religion</label>
@@ -181,11 +181,11 @@
                         <input type="text" class="form-control" id="Mobile_No" name="Mobile_No" value="{{$db_entries[0]->Mobile_No}}">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Telephone No</label>
+                        <label for="exampleInputEmail1">Landline Number</label>
                         <input type="text" class="form-control" id="Telephone_No" name="Telephone_No" value="{{$db_entries[0]->Telephone_No}}">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Salary">Salary</label>
+                        <label for="Salary">Monthly Income</label>
                         <input type="text" class="form-control" id="Salary" name="Salary" value="{{$db_entries[0]->Salary}}">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
@@ -193,7 +193,7 @@
                         <input type="email" class="form-control" id="Email_Address" name="Email_Address" required value="{{$db_entries[0]->Email_Address}}">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="PhilSys_Card_No">PhilSys_Card_No</label>
+                        <label for="PhilSys_Card_No">PhilSys Card Number</label>
                         <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No" value="{{$db_entries[0]->PhilSys_Card_No}}">
                     </div>
                 </div>
@@ -231,6 +231,22 @@
                             <option value=1 {{ 1  == $db_entries[0]->Beneficiary ? "selected" : "" }}>Yes</option>
                             <option value=0 {{ 0  == $db_entries[0]->Beneficiary ? "selected" : "" }}>No</option>
                         </select>
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="PhilHealth">PhilHealth</label>
+                        <input type="text" class="form-control" id="PhilHealth" name="PhilHealth" value="{{$db_entries[0]->PhilHealth}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="GSIS">GSIS</label>
+                        <input type="text" class="form-control" id="GSIS" name="GSIS" value="{{$db_entries[0]->GSIS}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="SSS">SSS</label>
+                        <input type="text" class="form-control" id="SSS" name="SSS" value="{{$db_entries[0]->SSS}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="PagIbig">PagIbig</label>
+                        <input type="text" class="form-control" id="PagIbig" name="PagIbig" value="{{$db_entries[0]->PagIbig}}">
                     </div>
                 </div>
                 <!-- <hr>
@@ -597,6 +613,8 @@
                 $('#PhilSys_Card_No').val(data['theEntry'][0]['PhilSys_Card_No']);
                 $('#Country_ID').val(data['theEntry'][0]['Country_ID']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
+                $('#Street').val(data['theEntry'][0]['Street']);
+                $('#House_No').val(data['theEntry'][0]['House_No']);
 
                 var barangay =
                     " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
@@ -617,6 +635,10 @@
                 $('#Voter_Status').val(data['theEntry'][0]['Voter_Status']);
                 $('#Resident_Voter').val(data['theEntry'][0]['Resident_Voter']);
                 $('#Election_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#PhilHealth').val(data['theEntry'][0]['PhilHealth']);
+                $('#GSIS').val(data['theEntry'][0]['GSIS']);
+                $('#SSS').val(data['theEntry'][0]['SSS']);
+                $('#PagIbig').val(data['theEntry'][0]['PagIbig']);
             }
         });
 

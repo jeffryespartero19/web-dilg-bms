@@ -130,7 +130,12 @@ class bipsController extends Controller
                     'Indigent' => (int)$data['Indigent'],
                     '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
                     'Encoder_ID'       => Auth::user()->id,
-                    'Date_Stamp'       => Carbon::now()
+                    'Date_Stamp'       => Carbon::now(),
+                    'House_No' => $data['House_No'],
+                    'PhilHealth' => $data['PhilHealth'],
+                    'GSIS' => $data['GSIS'],
+                    'SSS' => $data['SSS'],
+                    'PagIbig' => $data['PagIbig'],
                 )
             );
 
@@ -240,7 +245,12 @@ class bipsController extends Controller
                     'Indigent' => (int)$data['Indigent'],
                     '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
                     'Encoder_ID'       => Auth::user()->id,
-                    'Date_Stamp'       => Carbon::now()
+                    'Date_Stamp'       => Carbon::now(),
+                    'House_No' => $data['House_No'],
+                    'PhilHealth' => $data['PhilHealth'],
+                    'GSIS' => $data['GSIS'],
+                    'SSS' => $data['SSS'],
+                    'PagIbig' => $data['PagIbig'],
                 )
             );
 
@@ -372,7 +382,12 @@ class bipsController extends Controller
                 'e.Election_Year_Last_Voted',
                 'e.Resident_Voter',
                 'f.Region_Name',
-                'a.Street'
+                'a.Street',
+                'a.House_No',
+                'a.PhilHealth',
+                'a.GSIS',
+                'a.SSS',
+                'a.PagIbig',
             )
             ->where('a.Resident_ID', $id)->get();
         return (compact('theEntry'));

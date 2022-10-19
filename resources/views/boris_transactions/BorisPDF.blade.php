@@ -19,7 +19,11 @@
 <div class="page-border">
     <table style="width:100%;">
         <tr style="text-align: center;">
-            <td style="font-size: 24px; font-weight:700;">List of Ordinances and Resolutions</td>
+            <td style="font-size: 24px; font-weight:700;">List of @if($chk_Ordinance==0)
+                Ordinances
+                @else
+                Resolutions
+                @endif</td>
         </tr>
         <tr style="text-align: center;">
             <td style="font-size: 24px; font-weight:700;">Sample</td>
@@ -31,7 +35,11 @@
             <tr>
                 <th @if($chk_Title==0) class="hidden" @endif style="border:1px solid black;">Title</th>
                 <th @if($chk_Ordinance_No==0) class="hidden" @endif style="border:1px solid black;">Type</th>
-                <th @if($chk_Ordinance_No==0) class="hidden" @endif style="border:1px solid black;">Ordinance/Resolution Number</th>
+                <th @if($chk_Ordinance_No==0) class="hidden" @endif style="border:1px solid black;">@if($chk_Ordinance==0)
+                    Ordinance
+                    @else
+                    Resolution
+                    @endif Number</th>
             </tr>
         </thead>
         <tbody>
