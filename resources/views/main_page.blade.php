@@ -6,253 +6,241 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DILG_BIS</title>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ asset('css/logos/DILG_logo.png') }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
-    <style>
-        html,
-        body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
+    <link rel="shortcut icon" href="../../dist/img/pdea_logo.jpg" />
 
-        .full-height {
-            height: 100vh;
-        }
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <!-- Other styles -->
+    <link rel="stylesheet" href="{{ asset('css/c_gl.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/fontawesome.min.css') }}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links>a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-    <!-- Scripts -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="{{ asset('js/global.js') }}" defer></script>
-
-    <script type="text/javascript">
-        (function() {
-            var css = document.createElement('link');
-            css.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
-            css.rel = 'stylesheet';
-            css.type = 'text/css';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
-
-    <script>
-        var msg = '{{Session::get('
-        alert ')}}';
-        var exist = '{{Session::has('
-        alert ')}}';
-        if (exist) {
-            alert(msg);
-        }
-    </script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet'>
-    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' type='text/css'>
-
-    <!-- Styles -->
-    <link rel="shortcut icon" href="{{ asset('css/logos/DILG_logo.png') }}">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-    <link href="{{ asset('css/global.css') }}" rel="stylesheet">
-
-    <script src="{{ asset('/js/homeX.js') }}" defer></script>
-    <link href="{{ asset('/css/homeX.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/general.css') }}" rel="stylesheet">
 </head>
 
-<body class="">
-    <div id="main_public">
-        <div class="top-right links" style="z-index: 999">
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
 
-            <a href="" class="text_hoverable">FAQ</a>
-            <a href="{{ route('login') }}" class="text_hoverable">Login</a>
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark">
+            <div class="container">
+                <a href="#" class="navbar-brand">
+                    <span class="brand-text font-weight-light"><b>DILG</b> Barangay Management System</span>
+                </a>
 
-            @if (Route::has('register'))
-            <a href="{{ url('registers') }}" class="text_hoverable">Register</a>
-            @endif
+                <!-- Right navbar links -->
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                    <!-- Messages Dropdown Menu -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('registers') }}" class="nav-link">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /.navbar -->
 
-        </div>
-        <div class="theContent">
-            <div class=" justify-content-center" style="width: 100%;">
-                <div class="col-md-12 topBanner">
-                    <div class="bannerTitle">
-                        <span class="intro_txt txtHide firstln">Barangay</span><br>
-                        <span class="intro_txt txtHide secondln">Online Web Services</span><br>
-                        <span class="intro_txt txtHide thirdln"></span><br>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content" style="height: 150px;">
+                <div class="container">
+                    <div class="row " style="padding-top: 20px;">
+                        <img src="{{ asset('/dist/img/logo-dilg-new.png') }}">
                     </div>
                 </div>
+            </div>
+            <!-- /.content-header -->
 
-                <div class="col-md-9 middlePane">
-                    <div class="flexer justifier">
-
-                    </div>
-                    <div class="flexer justifier">
-
-                    </div>
-                </div>
-                <div class="col-md-3 rightPane">
-                    <div>
-                        <form id="BRGYFilter" action="{{ route('main') }}">
-                            @csrf
-                            <h2>Filters</h2>
-                            <br>
-                            <div class="row">
-                                <div class="up_marg5">
-                                    <span><b>Region:</b></span><br>
-                                    <select class="modal_input1 regionX" name="ActiveX">
-                                        <option value='' hidden selected>Select</option>
-                                        @foreach($regionX as $rx)
-                                            <option value='{{$rx->Region_ID}}' >{{$rx->Region_Name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="up_marg5">
-                                    <span><b>Province:</b></span><br>
-                                    <select class="modal_input1 provX" name="ActiveX">
-                                        <option value='' hidden selected>Select</option>
-                                    </select>
-                                </div>
-                                <div class="up_marg5">
-                                    <span><b>City/Municipality:</b></span><br>
-                                    <select class="modal_input1 cityX" name="ActiveX">
-                                        <option value='' hidden selected>Select</option>
-                                    </select>
-                                </div>
-                                <div class="up_marg5">
-                                    <span><b>Barangay:</b></span><br>
-                                    <select class="modal_input1 brgyX" name="ActiveX">
-                                        <option value='' hidden selected>Select</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="padding:0 10px; text-align:right">
-                                    <button type="submit" id="b_id" value="0">Go</button>
-                                </div>
+            <!-- Main content -->
+            <div class="content">
+                <div class="row bg-warning" style="height: 250px; padding-top:100px">
+                    <div class="col-12">
+                        <center>
+                            <div class="input-group" style="width: 50%;">
+                                <input class="form-control" id="search" type="search" placeholder="Search City/Municipality" aria-label="Search" style="font-size: 40px; height:60px; width:600px">
                             </div>
-                        </form>
+                        </center>
+                    </div>
+                </div>
+                <div class="row bg-secondary" style="height: 50px; margin-bottom:50px">
+
+                </div>
+                <div class="container">
+                    <div class="table-responsive">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Barangay ID</th>
+                                    <th>Barangay Name</th>
+                                    <th>City/Municipality</th>
+                                    <th>Province</th>
+                                    <th>Region</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="BRGY_list">
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            <!-- /.content -->
         </div>
-    </div>
-    {{-- <footer class="">
-            <div>
-                <span style="font-size: 11px;"> Wizzard Technologies, Inc. DILG-BIS</span>
+        <!-- /.content-wrapper -->
+
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="float-right d-none d-sm-inline">
+                Anything you want
             </div>
-        </footer> --}}
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        </footer>
+    </div>
+
+    <div class="modal fade" id="login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title">Login</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="Enter email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" placeholder="Enter password" value="{{ old('password') }}" required autocomplete="current-password" autofocus>
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="remember">Remember Me</label>
+                        </div>
+
+                        <div class="form-group">
+                            @if (Route::has('password.request'))
+                            <label for="exampleInputEmail1">
+                                <a href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
+                            </label>
+                            @endif
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <form id="BRGYFilter" action="{{ route('main') }}" hidden>
+        @csrf
+        <input type="text" id="Barangay_ID" name="Barangay_ID">
+    </form>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
     <script>
-        //list province
-        $(document).on('change','.regionX',function(e) {
-            var disID = $(this).find(":selected").val();
-            $.ajax({
-                url: "/list_province",
-                type: 'GET',
-                data: { id: disID },
-                fail: function(){
-                    alert('request failed');
-                },
-                success: function (data) { 
-                    $('.provX').empty();
-                    $('.provX').append('<option value="" selected> Select </option>');
-                    $.each(data['provinceX'], function(index, value) {
-                        $('.provX').append('<option value="' + data['provinceX'][index]['Province_ID'] + '">' + data['provinceX'][index]['Province_Name']+ '</option>');
-                    });
-
-                }
-            });
+        // Data Table
+        $(document).ready(function() {
+            $('#example').DataTable();
         });
 
-        //list province
-        $(document).on('change','.provX',function(e) {
-            var disID = $(this).find(":selected").val();
-            $.ajax({
-                url: "/list_city",
-                type: 'GET',
-                data: { id: disID },
-                fail: function(){
-                    alert('request failed');
-                },
-                success: function (data) { 
-                    $('.cityX').empty();
-                    $('.cityX').append('<option value="" selected> Select </option>');
-                    $.each(data['cityX'], function(index, value) {
-                        $('.cityX').append('<option value="' + data['cityX'][index]['City_Municipality_ID'] + '">' + data['cityX'][index]['City_Municipality_Name']+ '</option>');
-                    });
+        $("#search").keypress(function(e) {
+            if (e.which == 13) {
+                var text = $(this).val();
+                // alert(text);
+                $.ajax({
+                    type: "GET",
+                    url: "/search_barangay/" + text,
+                    fail: function() {
+                        alert("request failed");
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
 
-                }
-            });
+                        // alert(data);
+                        $('#example').dataTable().fnClearTable();
+                        $('#example').dataTable().fnDraw();
+                        $('#example').dataTable().fnDestroy();
+
+                        data.forEach(function(element) {
+
+                            $('#example').DataTable().row.add([
+                                element["Barangay_ID"],
+                                element["Barangay_Name"],
+                                element["City_Municipality_Name"],
+                                element["Province_Name"],
+                                element["Region_Name"],
+                                "<button class='btn btn-success EnterLink' value='" + element["Barangay_ID"] + "'>Go</button>",
+                            ]).draw();
+
+                        });
+                    }
+                });
+            }
         });
 
-        //list brgy
-        $(document).on('change','.cityX',function(e) {
-            var disID = $(this).find(":selected").val();
-            $.ajax({
-                url: "/list_brgy",
-                type: 'GET',
-                data: { id: disID },
-                fail: function(){
-                    alert('request failed');
-                },
-                success: function (data) { 
-                    
-                    $('.brgyX').empty();
-                    $('.brgyX').append('<option value="" selected> Select </option>');
-                    $.each(data['brgyX'], function(index, value) {
-                        $('.brgyX').append('<option value="' + data['brgyX'][index]['Barangay_ID'] + '">' + data['brgyX'][index]['Barangay_Name']+ '</option>');
-                    });
+        $(document).on("click", ".EnterLink", function() {
+            var Barangay_ID = $(this).val();
 
-                }
-            });
+            $('#Barangay_ID').val(Barangay_ID);
+            $('#BRGYFilter').submit();
+
         });
     </script>
 </body>

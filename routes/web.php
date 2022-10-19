@@ -747,6 +747,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
+Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
 
 //For Drop Downs
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');

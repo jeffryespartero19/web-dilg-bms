@@ -547,8 +547,6 @@ class bipsController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
-        // dd($data);
-
         if ($data['Inhabitants_Transfer_ID'] == 0) {
             DB::table('Inhabitants_Transfer')->insert(
                 array(
