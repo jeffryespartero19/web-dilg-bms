@@ -71,7 +71,11 @@
                     </div>  
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4" style="padding:0 10px">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Brgy_Cert_No">Barangay Cert. No.</label>
+                        <input type="text" class="form-control" id="Brgy_Cert_No" name="Brgy_Cert_No" value="{{$document[0]->Brgy_Cert_No}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Purpose_of_Document_ID">Purpose of Document</label>
                         <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
                             <option value='' disabled selected>Select Option</option>
@@ -84,7 +88,7 @@
                         <label for="Request_Date">Request_Date</label>
                         <input type="date" class="form-control" id="Request_Date" name="Request_Date" value="{{$document[0]->Request_Date}}" required>
                     </div>
-                    <div class="form-group col-lg-5" style="padding:0 10px">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Salutation_Name">Salutation Name</label>
                         <input type="text" class="form-control" id="Salutation_Name" name="Salutation_Name" value="{{$document[0]->Salutation_Name}}">
                     </div>
@@ -196,8 +200,8 @@
 
 <form id="Print" method="GET" action="{{ url('viewBrgyDocPDF') }}" autocomplete="off" enctype="multipart/form-data">
     @csrf
-    <input type="text" class="form-control" id="doc_id" name="doc_id" value="{{$document[0]->Document_Type_ID}}">
-    <input type="text" class="form-control" id="Document_IDx" name="Document_IDx" value="{{$document[0]->Document_ID}}">
+    <input type="text" class="form-control" id="doc_id" name="doc_id" value="{{$document[0]->Document_Type_ID}}" hidden>
+    <input type="text" class="form-control" id="Document_IDx" name="Document_IDx" value="{{$document[0]->Document_ID}}" hidden>
 </form>
 
 
