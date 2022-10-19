@@ -521,6 +521,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/brgy_business_permit_list', 'BCPISController@brgy_business_permit_list')->name('brgy_business_permit_list');
       Route::get('/brgy_business_permit_details/{id}', 'BCPISController@brgy_business_permit_details');
       Route::post('/create_barangay_business_permit', 'BCPISController@create_barangay_business_permit')->name('create_barangay_business_permit');
+      Route::get('/viewBrgyBusinessPDF', 'BCPISController@viewBrgyBusinessPDF')->name('viewBrgyBusinessPDF');
 
       //Barangay Payment Collected Docu
       Route::get('/brgy_payment_collected_docu_list', 'BCPISController@brgy_payment_collected_docu_list')->name('brgy_payment_collected_docu_list');

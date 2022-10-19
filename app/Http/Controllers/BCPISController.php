@@ -135,6 +135,7 @@ class BCPISController extends Controller
                     'Salutation_Name'       => $data['Salutation_Name'],
                     'Issued_On'             => $data['Issued_On'],
                     'Issued_At'             => $data['Issued_At'],
+                    'Brgy_Cert_No'          => $data['Brgy_Cert_No'],
                     'Document_Type_ID'      => $data['Document_Type_ID'],
                     'Resident_ID'           => $data['Resident_ID'],
                     'SecondResident_Name'   => $data['SecondResident_Name'],
@@ -187,6 +188,7 @@ class BCPISController extends Controller
                     'Salutation_Name'       => $data['Salutation_Name'],
                     'Issued_On'             => $data['Issued_On'],
                     'Issued_At'             => $data['Issued_At'],
+                    'Brgy_Cert_No'          => $data['Brgy_Cert_No'],
                     'Document_Type_ID'      => $data['Document_Type_ID'],
                     'Resident_ID'           => $data['Resident_ID'],
                     'SecondResident_Name'   => $data['SecondResident_Name'],
@@ -422,6 +424,7 @@ class BCPISController extends Controller
             $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $permit[0]->Province_ID)->get();
             $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $permit[0]->City_Municipality_ID)->get();
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $payment_docu = DB::table('bcpcis_brgy_payment_collected')->where('Barangay_Permits_ID', $id)->get();
             return view('bcpcis_transactions.brgy_business_permit_edit', compact(
                 'currDATE',
                 'permit',
@@ -431,6 +434,7 @@ class BCPISController extends Controller
                 'business',
                 'resident',
                 'city_municipality',
+                'payment_docu',
             ));
         }
     }
@@ -450,7 +454,7 @@ class BCPISController extends Controller
                     'New_or_Renewal'                            => (int)$data['New_or_Renewal'],
                     'Owned_or_Rented'                           => (int)$data['Owned_or_Rented'],
                     'Barangay_Business_Permit_Expiration_Date'  => $data['Barangay_Business_Permit_Expiration_Date'],
-                    'CTC_No'                                    => $data['CTC_No'],
+                    'Occupation'                                => $data['Occupation'],
                     'Barangay_ID'                               => $data['Barangay_ID'],
                     'City_Municipality_ID'                      => $data['City_Municipality_ID'],
                     'Province_ID'                               => $data['Province_ID'],
@@ -460,6 +464,28 @@ class BCPISController extends Controller
 
                 )
             );
+
+            DB::table('bcpcis_brgy_payment_collected')->insertGetId(
+                array(
+                    'Barangay_Permits_ID'                       => $Barangay_Permits_ID,
+                    'OR_Date'                                   => $data['OR_Date'],
+                    'OR_No'                                     => $data['OR_No'],
+                    'Cash_Tendered'                             => $data['Cash_Tendered'],
+                    'CTC_Details'                               => $data['CTC_Details'],
+                    'CTC_Date_Issued'                           => $data['CTC_Date_Issued'],
+                    'CTC_No'                                    => $data['CTC_No'],
+                    'CTC_Amount'                                => $data['CTC_Amount'],
+                    'Place_Issued'                              => $data['Place_Issued'],
+                    'Barangay_ID'                               => $data['Barangay_ID'],
+                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
+                    'Province_ID'                               => $data['Province_ID'],
+                    'Region_ID'                                 => $data['Region_ID'],
+                    'Encoder_ID'                                => Auth::user()->id,
+                    'Date_Stamp'                                => Carbon::now(),
+
+                )
+            );
+
 
             return redirect()->to('brgy_business_permit_details/' . $Barangay_Permits_ID)->with('message', 'New Recovery Information Created');
         } else {
@@ -471,7 +497,7 @@ class BCPISController extends Controller
                     'New_or_Renewal'                            => (int)$data['New_or_Renewal'],
                     'Owned_or_Rented'                           => (int)$data['Owned_or_Rented'],
                     'Barangay_Business_Permit_Expiration_Date'  => $data['Barangay_Business_Permit_Expiration_Date'],
-                    'CTC_No'                                    => $data['CTC_No'],
+                    'Occupation'                                => $data['Occupation'],
                     'Barangay_ID'                               => $data['Barangay_ID'],
                     'City_Municipality_ID'                      => $data['City_Municipality_ID'],
                     'Province_ID'                               => $data['Province_ID'],
@@ -481,7 +507,25 @@ class BCPISController extends Controller
                 )
             );
 
-            
+            DB::table('bcpcis_brgy_payment_collected')->where('Barangay_Permits_ID', $data['Barangay_Permits_ID'])->update(
+                array(
+                    'OR_Date'                                   => $data['OR_Date'],
+                    'OR_No'                                     => $data['OR_No'],
+                    'Cash_Tendered'                             => $data['Cash_Tendered'],
+                    'CTC_Details'                               => $data['CTC_Details'],
+                    'CTC_Date_Issued'                           => $data['CTC_Date_Issued'],
+                    'CTC_No'                                    => $data['CTC_No'],
+                    'CTC_Amount'                                => $data['CTC_Amount'],
+                    'Place_Issued'                              => $data['Place_Issued'],
+                    'Barangay_ID'                               => $data['Barangay_ID'],
+                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
+                    'Province_ID'                               => $data['Province_ID'],
+                    'Region_ID'                                 => $data['Region_ID'],
+                    'Encoder_ID'                                => Auth::user()->id,
+                    'Date_Stamp'                                => Carbon::now(),
+                )
+
+            );
          
             return redirect()->back()->with('message', 'Response Information Updated');
         }
@@ -1063,6 +1107,160 @@ class BCPISController extends Controller
 
         $pdf = PDF::loadView('bcpcis_transactions.DocIndigencyPDF', compact('details'));
         }
+
+
+        if($data['doc_id'] == 3) {
+            $details = DB::table('bcpcis_brgy_document_information as a')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_bcpcis_purpose_of_document as f', 'a.Purpose_of_Document_ID', '=', 'f.Purpose_of_Document_ID')
+            ->leftjoin('maintenance_bcpcis_document_type as g', 'a.Document_Type_ID', '=', 'g.Document_Type_ID')
+            ->leftjoin('bcpcis_brgy_payment_collected as h', 'a.Document_ID', '=', 'h.Document_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as i', 'a.Resident_ID', '=', 'i.Resident_ID')
+            ->leftjoin('maintenance_bips_civil_status as j', 'i.Civil_Status_ID', '=', 'j.Civil_Status_ID')
+            
+                ->select(
+                    DB::raw('UPPER(c.Province_Name) as Province_Name')
+                    ,'d.City_Municipality_Name'
+                    ,DB::raw('UPPER(e.Barangay_Name) as Barangay_Name')
+                    ,DB::raw('CONCAT(UPPER(i.First_Name), " ",UPPER(i.Middle_Name)," ",UPPER(i.Last_Name)) AS Resident_Name')
+                    ,DB::raw('CONCAT(UPPER(e.Barangay_Name), ", ",UPPER(d.City_Municipality_Name),", ",UPPER(c.Province_Name)) AS Resident_Address')
+                    ,'j.Civil_Status'
+                    ,DB::raw('UPPER((CASE WHEN i.Sex = 2 THEN "F" ELSE "M" END)) AS Gender')
+                    ,'i.Birthdate'
+                    ,DB::raw('TIMESTAMPDIFF(YEAR, i.Birthdate, CURDATE()) AS Age')
+                    ,'a.Request_Date'
+                    ,'h.OR_Date'
+                    ,'h.OR_No'
+                    ,'h.Cash_Tendered'
+                    ,'h.CTC_Date_Issued'
+                    ,'h.CTC_No'
+                    ,'h.CTC_Amount'
+                    ,'h.Place_Issued'
+                    ,'h.CTC_Details'
+                    ,DB::raw('DAY(a.Issued_On) AS Issued_Day')
+                    ,DB::raw('CASE WHEN DAY(Issued_On) % 100 IN (11,12,13) THEN  "th" WHEN DAY(Issued_On) % 10 = 1 THEN "st" WHEN DAY(Issued_On) % 10 = 2 THEN "nd" WHEN DAY(Issued_On) % 10 = 3 THEN "rd" ELSE "th" END AS OrdinalNumber')
+                    ,DB::raw('MONTHNAME(a.Issued_On) AS MThName')
+                    ,DB::raw('YEAR(a.Issued_On) AS IssuedYear')
+                    ,DB::raw('e.Barangay_Name as Barangay_Name_pro')
+                    ,DB::raw('c.Province_Name as Province_Name_pro')
+                    ,'a.SecondResident_Name'
+                    ,'f.Purpose_of_Document'
+                    ,'a.Brgy_Cert_No'
+                    ,'a.Issued_At'
+                    ,'a.Issued_On'
+                   
+                )
+            ->where('a.Document_ID', $data['Document_IDx'])
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bcpcis_transactions.DocTravelPDF', compact('details'));
+        }
+       
+
+        if($data['doc_id'] == 4) {
+            $details = DB::table('bcpcis_brgy_document_information as a')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_bcpcis_purpose_of_document as f', 'a.Purpose_of_Document_ID', '=', 'f.Purpose_of_Document_ID')
+            ->leftjoin('maintenance_bcpcis_document_type as g', 'a.Document_Type_ID', '=', 'g.Document_Type_ID')
+            ->leftjoin('bcpcis_brgy_payment_collected as h', 'a.Document_ID', '=', 'h.Document_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as i', 'a.Resident_ID', '=', 'i.Resident_ID')
+            ->leftjoin('maintenance_bips_civil_status as j', 'i.Civil_Status_ID', '=', 'j.Civil_Status_ID')
+            
+                ->select(
+                    DB::raw('UPPER(c.Province_Name) as Province_Name')
+                    ,'d.City_Municipality_Name'
+                    ,DB::raw('UPPER(e.Barangay_Name) as Barangay_Name')
+                    ,DB::raw('CONCAT(UPPER(i.First_Name), " ",UPPER(i.Middle_Name)," ",UPPER(i.Last_Name)) AS Resident_Name')
+                    ,DB::raw('CONCAT(UPPER(e.Barangay_Name), ", ",UPPER(d.City_Municipality_Name),", ",UPPER(c.Province_Name)) AS Resident_Address')
+                    ,'j.Civil_Status'
+                    ,DB::raw('UPPER((CASE WHEN i.Sex = 2 THEN "F" ELSE "M" END)) AS Gender')
+                    ,'i.Birthdate'
+                    ,DB::raw('TIMESTAMPDIFF(YEAR, i.Birthdate, CURDATE()) AS Age')
+                    ,'a.Request_Date'
+                    ,'h.OR_Date'
+                    ,'h.OR_No'
+                    ,'h.Cash_Tendered'
+                    ,'h.CTC_Date_Issued'
+                    ,'h.CTC_No'
+                    ,'h.CTC_Amount'
+                    ,'h.Place_Issued'
+                    ,'h.CTC_Details'
+                    ,DB::raw('DAY(a.Issued_On) AS Issued_Day')
+                    ,DB::raw('CASE WHEN DAY(Issued_On) % 100 IN (11,12,13) THEN  "th" WHEN DAY(Issued_On) % 10 = 1 THEN "st" WHEN DAY(Issued_On) % 10 = 2 THEN "nd" WHEN DAY(Issued_On) % 10 = 3 THEN "rd" ELSE "th" END AS OrdinalNumber')
+                    ,DB::raw('MONTHNAME(a.Issued_On) AS MThName')
+                    ,DB::raw('YEAR(a.Issued_On) AS IssuedYear')
+                    ,DB::raw('e.Barangay_Name as Barangay_Name_pro')
+                    ,DB::raw('c.Province_Name as Province_Name_pro')
+                    ,'a.SecondResident_Name'
+                    ,'f.Purpose_of_Document'
+                    ,'a.Brgy_Cert_No'
+                    ,'a.Issued_At'
+                    ,'a.Issued_On'
+                   
+                )
+            ->where('a.Document_ID', $data['Document_IDx'])
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bcpcis_transactions.DocTravelPDF', compact('details'));
+        }
+
+        return $pdf->stream();
+        
+
+        
+    }
+
+    public function viewBrgyBusinessPDF(Request $request)
+    {
+
+        $data = request()->all();
+
+        
+            $details = DB::table('bcpcis_brgy_business_permits as a')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_bcpcis_barangay_business as f', 'a.Business_ID', '=', 'f.Business_ID')
+            ->leftjoin('bcpcis_brgy_payment_collected as h', 'a.Barangay_Permits_ID', '=', 'h.Barangay_Permits_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as i', 'a.Resident_ID', '=', 'i.Resident_ID')
+            ->leftjoin('maintenance_bips_civil_status as j', 'i.Civil_Status_ID', '=', 'j.Civil_Status_ID')
+            
+                ->select(
+                    DB::raw('UPPER(c.Province_Name) as Province_Name')
+                    ,'d.City_Municipality_Name'
+                    ,DB::raw('UPPER(e.Barangay_Name) as Barangay_Name')
+                    ,DB::raw('CONCAT(UPPER(i.Last_Name), ", ",UPPER(i.First_Name), ", ",UPPER(i.Middle_Name), ", ") AS Resident_Name')
+                    ,'a.Occupation'
+                    ,DB::raw('CONCAT(UPPER(e.Barangay_Name), ", ",UPPER(d.City_Municipality_Name),", ",UPPER(c.Province_Name)) AS Resident_Address')
+                    ,DB::raw('YEAR(a.Date_Stamp) AS IssuedYear')
+                    ,'f.Mobile_No'
+                    ,'j.Civil_Status'
+                    ,DB::raw('(CASE WHEN a.New_or_Renewal = 0 THEN "Renewal" ELSE "New" END) AS New_or_Renewal')
+                    ,'f.Business_Name'
+                    ,'f.Business_Address'
+                    ,'h.OR_Date'
+                    ,'h.OR_No'
+                    ,'h.Cash_Tendered'
+                    ,'h.CTC_Date_Issued'
+                    ,'h.CTC_No'
+                    ,'h.CTC_Amount'
+                    ,'h.Place_Issued'
+                    ,'h.CTC_Details'
+                )
+            ->where('a.Barangay_Permits_ID', $data['permit_id'])
+            ->paginate(20, ['*'], 'details');
+
+        $pdf = PDF::loadView('bcpcis_transactions.DocBusinessPDF', compact('details'));
+       
+         
+               
 
         return $pdf->stream();
         
