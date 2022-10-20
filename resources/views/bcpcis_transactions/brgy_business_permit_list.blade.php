@@ -63,7 +63,6 @@
                                             <th>New or Renewal</th>
                                             <th>Owned or Rented</th>
                                             <th>Expiration Date</th>
-                                            <th>CTC No</th>
                                             <th>Region </th>
                                             <th>Province </th>
                                             <th>City/Municipality </th>
@@ -81,7 +80,6 @@
                                             <td class="sm_data_col txtCtr">{{$x->New_or_Renewal}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Owned_or_Rented}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Barangay_Business_Permit_Expiration_Date}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->CTC_No}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>

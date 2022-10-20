@@ -29,6 +29,11 @@
                                 <p>Ordinance Information</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('resolutions_list')}}" class="nav-link">
+                                <p>Resolution Information</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -216,10 +221,10 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link" title="Barangay Justice, Blotter and Help Desk Information System">
                         <i class="nav-icon fas fa-clone"></i>
                         <p>
-                            BJISBH
+                            BJBHDIS
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>

@@ -146,7 +146,7 @@
                                 <input type="date" class="form-control" id="Actual_Project_Start" name="Actual_Project_Start" required>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="Project_Completion_Date">Project Completion Date</label>
+                                <label for="Project_Completion_Date">Actual Project Completion Date</label>
                                 <input type="date" class="form-control" id="Project_Completion_Date" name="Project_Completion_Date" required>
                             </div>
                         </div>

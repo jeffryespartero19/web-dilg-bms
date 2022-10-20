@@ -303,6 +303,7 @@ Route::group(['middleware' => 'auth'], function () {
       // BORIS TRANSACTIONS
       //BORIS Ordinance & Resolutions
       Route::get('/ordinances_and_resolutions_list', 'borisController@ordinances_and_resolutions_list')->name('ordinances_and_resolutions_list');
+      Route::get('/resolutions_list', 'borisController@resolutions_list')->name('resolutions_list');
       Route::post('/create_ordinance_and_resolution', 'borisController@create_ordinance_and_resolution')->name('create_ordinance_and_resolution');
       Route::get('/get_ordinance_and_resolution_info', 'borisController@get_ordinance_and_resolution_info')->name('get_ordinance_and_resolution_info');
       Route::get('/get_ordinance_attachments', 'borisController@get_ordinance_attachments')->name('get_ordinance_attachments');
@@ -521,6 +522,7 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/brgy_business_permit_list', 'BCPISController@brgy_business_permit_list')->name('brgy_business_permit_list');
       Route::get('/brgy_business_permit_details/{id}', 'BCPISController@brgy_business_permit_details');
       Route::post('/create_barangay_business_permit', 'BCPISController@create_barangay_business_permit')->name('create_barangay_business_permit');
+      Route::get('/viewBrgyBusinessPDF', 'BCPISController@viewBrgyBusinessPDF')->name('viewBrgyBusinessPDF');
 
       //Barangay Payment Collected Docu
       Route::get('/brgy_payment_collected_docu_list', 'BCPISController@brgy_payment_collected_docu_list')->name('brgy_payment_collected_docu_list');

@@ -43,9 +43,7 @@
         <tr style="text-align: center;">
             <td style="font-size: 26px; font-weight:700;"><b>Certificate of Residency</b></td>
         </tr>
-        
-
-    </table>
+        </table>
     <br>
     <br>
     <table style="width:100%;">
@@ -175,5 +173,8 @@
             <td style="width:70%; font-size: 12px; font-weight:700; ">Place Issued.: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $dtl->{"Place_Issued"} }} </td>
         </tr>
     </table>
+        
+
+    
     @endforeach
 </div>

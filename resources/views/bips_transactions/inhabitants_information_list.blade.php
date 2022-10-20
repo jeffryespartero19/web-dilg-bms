@@ -211,8 +211,12 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Street</label>
+                                <label for="Street">Street</label>
                                 <input type="text" class="form-control" id="Street" name="Street" required>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="House_No">House Number</label>
+                                <input type="text" class="form-control" id="House_No" name="House_No">
                             </div>
                         </div>
                         <hr>
@@ -258,11 +262,11 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Weight">Weight</label>
-                                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kg">
+                                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kilo">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Height">Height</label>
-                                <input type="number" class="form-control" id="Height" name="Height" placeholder="cm">
+                                <input type="number" class="form-control" id="Height" name="Height" placeholder="meter">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Civil Status</label>
@@ -274,15 +278,15 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Mobile No</label>
+                                <label for="exampleInputEmail1">Mobile Number</label>
                                 <input type="text" class="form-control" id="Mobile_No" name="Mobile_No">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Telephone No</label>
+                                <label for="exampleInputEmail1">Landline Number</label>
                                 <input type="text" class="form-control" id="Telephone_No" name="Telephone_No">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Salary">Salary</label>
+                                <label for="Salary">Monthly Income</label>
                                 <input type="text" class="form-control" id="Salary" name="Salary">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -290,7 +294,7 @@
                                 <input type="email" class="form-control" id="Email_Address" name="Email_Address" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="PhilSys_Card_No">PhilSys_Card_No</label>
+                                <label for="PhilSys_Card_No">PhilSys Card Number</label>
                                 <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No">
                             </div>
                         </div>
@@ -362,6 +366,22 @@
                                     <option value=1>Yes</option>
                                     <option value=0>No</option>
                                 </select>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="PhilHealth">PhilHealth</label>
+                                <input type="text" class="form-control" id="PhilHealth" name="PhilHealth">
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="GSIS">GSIS</label>
+                                <input type="text" class="form-control" id="GSIS" name="GSIS">
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="SSS">SSS</label>
+                                <input type="text" class="form-control" id="SSS" name="SSS">
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="PagIbig">PagIbig</label>
+                                <input type="text" class="form-control" id="PagIbig" name="PagIbig">
                             </div>
                         </div>
                         <hr>
@@ -840,6 +860,7 @@
                 $('#Country_ID').val(data['theEntry'][0]['Country_ID']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
                 $('#Street').val(data['theEntry'][0]['Street']);
+                $('#House_No').val(data['theEntry'][0]['House_No']);
 
                 var barangay =
                     " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
@@ -860,6 +881,10 @@
                 $('#Voter_Status').val(data['theEntry'][0]['Voter_Status']);
                 $('#Resident_Voter').val(data['theEntry'][0]['Resident_Voter']);
                 $('#Election_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#PhilHealth').val(data['theEntry'][0]['PhilHealth']);
+                $('#GSIS').val(data['theEntry'][0]['GSIS']);
+                $('#SSS').val(data['theEntry'][0]['SSS']);
+                $('#PagIbig').val(data['theEntry'][0]['PagIbig']);
             }
         });
 

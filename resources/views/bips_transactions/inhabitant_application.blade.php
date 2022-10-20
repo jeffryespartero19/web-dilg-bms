@@ -108,6 +108,14 @@
                             <option value='' disabled selected>Select Option</option>
                         </select>
                     </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Street">Street</label>
+                        <input type="text" class="form-control" id="Street" name="Street" required>
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="House_No">House Number</label>
+                        <input type="text" class="form-control" id="House_No" name="House_No">
+                    </div>
                 </div>
                 <hr>
                 <h3>Personal Information</h3>
@@ -168,15 +176,15 @@
                         </select>
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Mobile No</label>
+                        <label for="exampleInputEmail1">Mobile Number</label>
                         <input type="text" class="form-control" id="Mobile_No" name="Mobile_No">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="exampleInputEmail1">Telephone No</label>
+                        <label for="exampleInputEmail1">Landline Number</label>
                         <input type="text" class="form-control" id="Telephone_No" name="Telephone_No">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Salary">Salary</label>
+                        <label for="Salary">Monthly Income</label>
                         <input type="text" class="form-control" id="Salary" name="Salary">
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
@@ -184,7 +192,7 @@
                         <input type="email" class="form-control" id="Email_Address" name="Email_Address" required>
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="PhilSys_Card_No">PhilSys_Card_No</label>
+                        <label for="PhilSys_Card_No">PhilSys Card Number</label>
                         <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No">
                     </div>
                 </div>
@@ -222,6 +230,22 @@
                             <option value=1>Yes</option>
                             <option value=0>No</option>
                         </select>
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="PhilHealth">PhilHealth</label>
+                        <input type="text" class="form-control" id="PhilHealth" name="PhilHealth">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="GSIS">GSIS</label>
+                        <input type="text" class="form-control" id="GSIS" name="GSIS">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="SSS">SSS</label>
+                        <input type="text" class="form-control" id="SSS" name="SSS">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="PagIbig">PagIbig</label>
+                        <input type="text" class="form-control" id="PagIbig" name="PagIbig">
                     </div>
                 </div>
                 <!-- <hr>

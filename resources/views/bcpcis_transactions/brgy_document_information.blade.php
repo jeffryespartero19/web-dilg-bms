@@ -69,20 +69,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4" style="padding:0 10px">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
+                        <label for="Brgy_Cert_No">Barangay Cert. No.</label>
+                        <input type="text" class="form-control" id="Brgy_Cert_No" name="Brgy_Cert_No" value="{{old('Brgy_Cert_No')}}">
+                    </div>
+                    <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Purpose_of_Document_ID">Purpose of Document</label>
                         <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
                             <option value='' disabled selected>Select Option</option>
                                 @foreach($purpose as $bt1)
                                 <option value="{{ $bt1->Purpose_of_Document_ID }}">{{ $bt1->Purpose_of_Document }}</option>
-                                @endforeach
+                                @endforeach 
                         </select>
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Request_Date">Request_Date</label>
                         <input type="date" class="form-control" id="Request_Date" name="Request_Date" required>
                     </div>
-                    <div class="form-group col-lg-5" style="padding:0 10px">
+                    <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Salutation_Name">Salutation Name</label>
                         <input type="text" class="form-control" id="Salutation_Name" name="Salutation_Name" value="{{old('Salutation_Name')}}">
                     </div>
