@@ -227,7 +227,7 @@ class maintenanceController extends Controller
     public function create_bweb_news_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('maintenance_brgy_web_news_status')->insert(
             array(
