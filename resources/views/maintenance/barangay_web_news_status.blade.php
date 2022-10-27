@@ -127,7 +127,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn postThis_News_Status modal_sb_button">Create</button>
+                    <button type="submit" class="btn postThis_News_Status modal_sb_button">Create</button>
                 </div>
             </form>
         </div>
@@ -168,7 +168,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn updateThis_News_Status modal_sb_button">Save</button>
+                    <button type="submit" class="btn updateThis_News_Status modal_sb_button">Save</button>
                 </div>
             </form>
         </div>

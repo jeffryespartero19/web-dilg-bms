@@ -110,9 +110,6 @@
                 <h5 class="card-title m-0">Events / Announcements</h5>
             </div>
 
-            @auth
-            <div class="btnAnn_new_container"><button data-toggle="modal" data-target="#createAnn">New</button></div>
-            @endauth
             @isset($EV_AN)
             @foreach($EV_AN as $ex)
             <div class="card-body">
