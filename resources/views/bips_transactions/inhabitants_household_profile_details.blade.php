@@ -200,6 +200,7 @@
     $(".HSBody").on("click", ".HRRemove", function() {
         $(this).closest(".HRDetails").remove();
     });
+    
 </script>
 
 

@@ -182,7 +182,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
+                            <!-- <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Region</label>
                                 <select class="form-control" id="Region_ID" name="Region_ID" required>
                                     <option value='' disabled selected>Select Option</option>
@@ -208,7 +208,7 @@
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="form-group col-lg-12" style="padding:0 10px">
                                 <label for="fileattach">File Attachments</label>
                                 <ul class="list-group list-group-flush" id="ordinance_files">
