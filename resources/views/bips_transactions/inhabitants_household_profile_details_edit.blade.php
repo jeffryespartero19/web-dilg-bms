@@ -46,7 +46,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
-
+                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
                                 <form id="newHousehold" method="POST" action="{{ route('create_household_information') }}" autocomplete="off" enctype="multipart/form-data">
@@ -69,7 +69,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-12" style="padding:0 10px" id="HouseholdDetails">
-                                            <a onclick="addrow();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                                            <button onclick="addrow();" style="float: right; cursor:pointer" type="button" class="btn btn-default">+ Add</button>
                                             <table id="ResidentTBL" class="table table-striped table-bordered" style="width:100%">
                                                 <thead>
                                                     <tr>
@@ -234,6 +234,15 @@
     // Option Case Remove
     $(".HSBody").on("click", ".HRRemove", function() {
         $(this).closest(".HRDetails").remove();
+    });
+
+
+    // Disable Form if DILG USER
+    $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3) {
+            $("#newHousehold :input").prop("disabled", true);
+        }
     });
 </script>
 

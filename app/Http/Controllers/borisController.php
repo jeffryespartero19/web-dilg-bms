@@ -159,10 +159,10 @@ class borisController extends Controller
                     'Ordinance_Resolution_Title' => $data['Ordinance_Resolution_Title'],
                     'Status_of_Ordinance_or_Resolution_ID' => $data['Status_of_Ordinance_or_Resolution_ID'],
                     'Previous_Related_Ordinance_Resolution_ID' => $data['Previous_Related_Ordinance_Resolution_ID'],
-                    'Barangay_ID' => $data['Barangay_ID'],
-                    'City_Municipality_ID' => $data['City_Municipality_ID'],
-                    'Province_ID' => $data['Province_ID'],
-                    'Region_ID' => $data['Region_ID'],
+                    'Barangay_ID' => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID' => Auth::user()->City_Municipality_ID,
+                    'Province_ID' => Auth::user()->Province_ID,
+                    'Region_ID' => Auth::user()->Region_ID,
                     'Encoder_ID'       => Auth::user()->id,
                     'Date_Stamp'       => Carbon::now()
                 )
@@ -197,10 +197,10 @@ class borisController extends Controller
                     'Ordinance_Resolution_Title' => $data['Ordinance_Resolution_Title'],
                     'Status_of_Ordinance_or_Resolution_ID' => $data['Status_of_Ordinance_or_Resolution_ID'],
                     'Previous_Related_Ordinance_Resolution_ID' => $data['Previous_Related_Ordinance_Resolution_ID'],
-                    'Barangay_ID' => $data['Barangay_ID'],
-                    'City_Municipality_ID' => $data['City_Municipality_ID'],
-                    'Province_ID' => $data['Province_ID'],
-                    'Region_ID' => $data['Region_ID'],
+                    'Barangay_ID' => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID' => Auth::user()->City_Municipality_ID,
+                    'Province_ID' => Auth::user()->Province_ID,
+                    'Region_ID' => Auth::user()->Region_ID,
                     'Encoder_ID'       => Auth::user()->id,
                     'Date_Stamp'       => Carbon::now()
                 )
