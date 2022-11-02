@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BCPCIS</a></li>
                         <li class="breadcrumb-item"><a href="{{route('brgy_business_permit_list')}}">Brgy Business Permit List</a></li>
                         <li class="breadcrumb-item active">Brgy Business Permit Information</li>
                     </ol>
@@ -82,7 +82,7 @@
                                                     <option value=0 {{ 0 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>Renewal</option>
                                                     <option value=1 {{ 1 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>New</option>
                                                 </select>
-                                            </div>
+                                            </div> 
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Owned_or_Rented">Owned or Rented</label>
                                                 <select class="form-control" name="Owned_or_Rented" id="Owned_or_Rented">
@@ -159,7 +159,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
+                                                <label for="City_Municipality_ID">City Municipality</label>
                                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($city_municipality as $bt1)

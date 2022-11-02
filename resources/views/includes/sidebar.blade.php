@@ -98,12 +98,6 @@
                             <a href="{{route('barangay_business_list')}}" class="nav-link">
                                 <p>Barangay Business</p>
                             </a>
-                            <a href="{{route('brgy_payment_collected_docu_list')}}" class="nav-link">
-                                <p>Brgy Payment Collected(Document Info)</p>
-                            </a>
-                            <a href="{{route('brgy_payment_collected_business_list')}}" class="nav-link">
-                                <p>Brgy Payment Collected(Business Permit)</p>
-                            </a>
                             <a href="{{route('brgy_document_claim_business_list')}}" class="nav-link">
                                 <p>Brgy Document Claim(Business Permit)</p>
                             </a>

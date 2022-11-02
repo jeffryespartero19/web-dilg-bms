@@ -4,16 +4,23 @@
 <script src="{{ asset('/js/maintenance.js') }}" defer></script>
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
-<div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Contractor List </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BPMS / </li>
-            </a> 
-            <li> &nbsp;Contractor List</li>
-        </ol> 
-    </div>
+<div class="page_title_row col-md-12"> 
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Contractor List</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BPMS</a></li>
+                        <li class="breadcrumb-item active">Contractor List</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -29,47 +36,67 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="flexer">
-        <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createContractor" style="width: 100px;">New</button></div>
-        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewContractorPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="text-align: right;">
+                            <div class="btn-group">
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createContractor">New</button></div>
+                                <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewContractorPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <div class="col-md-12 table-responsive">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th hidden>Contractor ID</th>
+                                            <th >Contractor Name</th>
+                                            <th >Contact Person</th>
+                                            <th >Contact No</th>
+                                            <th >Contractor Address</th>
+                                            <th >Contractor Tin</th>
+                                            <th >Remarks</th>
+                                            <th>Actions</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($db_entries as $x)
+                                        <tr>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Contractor_ID}}</td>
+                                            <td class="sm_data_col txtCtr" >{{$x->Contractor_Name}}</td>
+                                            <td class="sm_data_col txtCtr" >{{$x->Contact_Person}}</td>
+                                            <td class="sm_data_col txtCtr" >{{$x->Contact_No}}</td>
+                                            <td class="sm_data_col txtCtr" >{{$x->Contractor_Address}}</td>
+                                            <td class="sm_data_col txtCtr" >{{$x->Contractor_TIN}}</td>
+                                            <td class="sm_data_col txtCtr" >{{$x->Remarks}}</td>
+                                            <td class="sm_data_col txtCtr"> 
+                                                <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">Edit</button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-    <br>
-    <div class="col-md-12">
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th hidden>Contractor_ID</th>
-                    <th >Contractor_Name</th>
-                    <th >Contact_Person</th>
-                    <th >Contact_No</th>
-                    <th >Contractor_Address</th>
-                    <th >Contractor_Tin</th>
-                    <th >Remarks</th>
-                    <th>Actions</th> 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($db_entries as $x)
-                <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Contractor_ID}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Contractor_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Contact_Person}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Contact_No}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Contractor_Address}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Contractor_TIN}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Remarks}}</td>
-                    <td class="sm_data_col txtCtr"> 
-                        <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">Edit</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 <!-- Create Announcement_Status Modal  -->
 
