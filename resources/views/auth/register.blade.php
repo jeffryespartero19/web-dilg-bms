@@ -148,11 +148,11 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Weight">Weight</label>
-                                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kg">
+                                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kilo">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Height">Height</label>
-                                <input type="number" class="form-control" id="Height" name="Height" placeholder="cm">
+                                <input type="number" class="form-control" id="Height" name="Height" placeholder="meter">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Civil Status</label>
@@ -164,20 +164,20 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Mobile No</label>
+                                <label for="exampleInputEmail1">Mobile Number</label>
                                 <input type="text" class="form-control" id="Mobile_No" name="Mobile_No">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Telephone No</label>
+                                <label for="exampleInputEmail1">Landline Number</label>
                                 <input type="text" class="form-control" id="Telephone_No" name="Telephone_No">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Salary">Salary</label>
+                                <label for="Salary">Monthly Income</label>
                                 <input type="text" class="form-control" id="Salary" name="Salary">
                             </div>
 
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="PhilSys_Card_No">PhilSys_Card_No</label>
+                                <label for="PhilSys_Card_No">PhilSys Card Number</label>
                                 <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No">
                             </div>
                         </div>

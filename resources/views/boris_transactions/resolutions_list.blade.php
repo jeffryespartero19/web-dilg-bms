@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Ordinances List</h1>
+                    <h1>Resolutions List</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
-                        <li class="breadcrumb-item active">Ordinances List</li>
+                        <li class="breadcrumb-item active">Resolutions List</li>
                     </ol>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                                     <thead>
                                         <tr>
                                             <th hidden>Ordinance_Resolution_ID</th>
-                                            <th>Ordinance Number</th>
+                                            <th>Resolution Number</th>
                                             <th>Title</th>
                                             <th>Date of Approval</th>
                                             <th>Date of Effectivity</th>
@@ -106,7 +106,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Create Ordinance</h4>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Create Resolution</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
 
             </div>
@@ -115,9 +115,9 @@
                     <div class="modal-body">
                         <div class="row">
                             <input type="text" class="form-control" id="Ordinance_Resolution_ID" name="Ordinance_Resolution_ID" value="" hidden>
-                            <input type="text" class="form-control" id="Ordinance_or_Resolution" name="Ordinance_or_Resolution" hidden value=0>
+                            <input type="text" class="form-control" id="Ordinance_or_Resolution" name="Ordinance_or_Resolution" hidden value=1>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Ordinance No</label>
+                                <label for="exampleInputEmail1">Resolution No</label>
                                 <input type="text" class="form-control" id="Ordinance_Resolution_No" name="Ordinance_Resolution_No" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -129,7 +129,7 @@
                                 <input type="date" class="form-control" id="Date_of_Effectivity" name="Date_of_Effectivity" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Ordinance_Resolution_Title">Ordinance Title</label>
+                                <label for="Ordinance_Resolution_Title">Resolution Title</label>
                                 <input type="text" class="form-control" id="Ordinance_Resolution_Title" name="Ordinance_Resolution_Title" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -142,7 +142,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Previous_Related_Ordinance_Resolution_ID">Previous Related Ordinance</label>
+                                <label for="Previous_Related_Ordinance_Resolution_ID">Previous Related Resolution</label>
                                 <select class="form-control" id="Previous_Related_Ordinance_Resolution_ID" name="Previous_Related_Ordinance_Resolution_ID">
                                     <option value='' selected>Select Option</option>
                                     @foreach($db_entries as $de)
@@ -212,15 +212,15 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <input type="number" id="chk_Ordinance" name="chk_Ordinance" hidden value=0>
+                                <input type="number" id="chk_Ordinance" name="chk_Ordinance" hidden value=1>
                                 <input type="checkbox" id="chk_Ordinance_No" name="chk_Ordinance_No">
-                                <label for="chk_Ordinance_No">Ordinance No.</label><br>
+                                <label for="chk_Ordinance_No">Resolution No.</label><br>
                                 <input type="checkbox" id="chk_Approval" name="chk_Approval">
                                 <label for="chk_Approval">Date of Approval</label><br>
                                 <input type="checkbox" id="chk_Effectivity" name="chk_Effectivity">
                                 <label for="chk_Effectivity">Date of Effectivity</label><br>
                                 <input type="checkbox" id="chk_Title" name="chk_Title">
-                                <label for="chk_Title">Ordinance Title</label><br>
+                                <label for="chk_Title">Resolution Title</label><br>
                                 <input type="checkbox" id="chk_Status" name="chk_Status">
                                 <label for="chk_Status">Status</label><br>
                             </div>
@@ -260,15 +260,15 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <input type="number" id="1chk_Ordinance" name="chk_Ordinance" hidden value=0>
+                                <input type="number" id="1chk_Ordinance" name="chk_Ordinance" hidden value=1>
                                 <input type="checkbox" id="1chk_Ordinance_No" name="chk_Ordinance_No">
-                                <label for="1chk_Ordinance_No">Ordinance No.</label><br>
+                                <label for="1chk_Ordinance_No">Resolution No.</label><br>
                                 <input type="checkbox" id="1chk_Approval" name="chk_Approval">
                                 <label for="1chk_Approval">Date of Approval</label><br>
                                 <input type="checkbox" id="1chk_Effectivity" name="chk_Effectivity">
                                 <label for="1chk_Effectivity">Date of Effectivity</label><br>
                                 <input type="checkbox" id="1chk_Title" name="chk_Title">
-                                <label for="1chk_Title">Ordinance Title</label><br>
+                                <label for="1chk_Title">Resolution Title</label><br>
                                 <input type="checkbox" id="1chk_Status" name="chk_Status">
                                 <label for="1chk_Status">Status</label><br>
                             </div>
