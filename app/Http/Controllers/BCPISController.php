@@ -176,7 +176,7 @@ class BCPISController extends Controller
 
 
             
-            return redirect()->to('brgy_document_information_details/' . $Document_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_document_information_details/' . $Document_ID)->with('message', 'New Document Information Created');
         } else {
             DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
                 array(
@@ -330,7 +330,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('barangay_business_details/' . $Business_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('barangay_business_details/' . $Business_ID)->with('message', 'New Barangay Business Created');
         } else {
             DB::table('maintenance_bcpcis_barangay_business')->where('Business_ID', $data['Business_ID'])->update(
                 array(
@@ -487,7 +487,7 @@ class BCPISController extends Controller
             );
 
 
-            return redirect()->to('brgy_business_permit_details/' . $Barangay_Permits_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_business_permit_details/' . $Barangay_Permits_ID)->with('message', 'New Business Permits Created');
         } else {
             DB::table('bcpcis_brgy_business_permits')->where('Barangay_Permits_ID', $data['Barangay_Permits_ID'])->update(
                 array(
@@ -627,7 +627,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('brgy_payment_collected_docu_details/' . $Payment_Collected_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_payment_collected_docu_details/' . $Payment_Collected_ID)->with('message', 'New Payment Collected Created');
         } else {
             DB::table('bcpcis_brgy_payment_collected')->where('Payment_Collected_ID', $data['Payment_Collected_ID'])->update(
                 array(
@@ -746,7 +746,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('brgy_payment_collected_business_details/' . $Payment_Collected_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_payment_collected_business_details/' . $Payment_Collected_ID)->with('message', 'New Payment Collected Created');
         } else {
             DB::table('bcpcis_brgy_payment_collected')->where('Payment_Collected_ID', $data['Payment_Collected_ID'])->update(
                 array(
@@ -871,7 +871,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('brgy_document_claim_business_details/' . $Claim_Schedule_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_document_claim_business_details/' . $Claim_Schedule_ID)->with('message', 'New Claim Schedule Created');
         } else {
             DB::table('bcpcis_brgy_document_claim_schedule')->where('Claim_Schedule_ID', $data['Claim_Schedule_ID'])->update(
                 array(
@@ -996,7 +996,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('brgy_document_claim_docu_details/' . $Claim_Schedule_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_document_claim_docu_details/' . $Claim_Schedule_ID)->with('message', 'New Claim Schedule Created');
         } else {
             DB::table('bcpcis_brgy_document_claim_schedule')->where('Claim_Schedule_ID', $data['Claim_Schedule_ID'])->update(
                 array(

@@ -5,17 +5,25 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Brgy Document Claim (Business Permit)</div> 
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BCPCIS / </li>
-            </a> 
-            <li> &nbsp;Brgy Document Claim (Business Permit)</li>
-        </ol> 
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Brgy Document Claim (Business Permit)</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BCPCIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('brgy_document_claim_business_list')}}">Brgy Document Claim List (Business Permit)</a></li>
+                        <li class="breadcrumb-item active">Brgy Document Claim (Business Permit)</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
-@if ($errors->any())
+@if ($errors->any()) 
 <div class="alert alert-danger">
     <ul>
         @foreach ($errors->all() as $error)
@@ -29,80 +37,100 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="col-md-12">
-        <form id="newBrgy_Document_Information" method="POST"  action="{{ route('create_barangay_document_claim_business') }}"  autocomplete="off" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <input type="text" class="form-control" id="Claim_Schedule_ID" name="Claim_Schedule_ID" hidden>
-                <div class="row">
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Barangay_Permits_ID">Barangay Permits</label>
-                        <select class="form-control" id="Barangay_Permits_ID" name="Barangay_Permits_ID">
-                            <option value='' disabled selected>Select Option</option>
-                                @foreach($business_permit as $bt1)
-                                <option value="{{ $bt1->Barangay_Permits_ID }}">{{ $bt1->Transaction_No }}</option>
-                                @endforeach
-                        </select>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body"> 
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <br>
+                            <div class="col-md-12">
+                                <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_barangay_document_claim_business') }}" autocomplete="off" enctype="multipart/form-data">
+                                    @csrf
+                                    <div>
+                                        <input type="text" class="form-control" id="Claim_Schedule_ID" name="Claim_Schedule_ID" hidden>
+                                        <div class="row">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Barangay_Permits_ID">Barangay Permits</label>
+                                                <select class="form-control" id="Barangay_Permits_ID" name="Barangay_Permits_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                        @foreach($business_permit as $bt1)
+                                                        <option value="{{ $bt1->Barangay_Permits_ID }}">{{ $bt1->Transaction_No }}</option>
+                                                        @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Requested_Date_and_Time">Requested Date and Time</label>
+                                                <input type="datetime-local" class="form-control" id="Requested_Date_and_Time" name="Requested_Date_and_Time"  required>
+                                            </div>
+                                            <div class="form-group col-lg-2" style="padding:0 10px">
+                                                <label for="Queue_Ticket_Number">Queue Ticket Number</label>
+                                                <input type="text" class="form-control" id="Queue_Ticket_Number" name="Queue_Ticket_Number">
+                                            </div>
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Resident_ID">Resident</label>
+                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 350px;">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($resident as $rs)
+                                                    <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Region_ID">Region</label>
+                                                    <select class="form-control" id="Region_ID" name="Region_ID">
+                                                        <option value=''  selected>Select Option</option>
+                                                        @foreach($region as $bt1)
+                                                        <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Province_ID">Province</label>
+                                                    <select class="form-control" id="Province_ID" name="Province_ID">
+                                                        <option value=''  selected>Select Option</option>
+                                                    </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="City_Municipality_ID">City Municipality</label>
+                                                    <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                    </select>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Barangay_ID">Barangay</label>
+                                                    <select class="form-control" id="Barangay_ID" name="Barangay_ID">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                    </select>
+                                            </div>
+                                        </div>
+                                        
+                                    <div class="col-lg-12" style="margin-bottom: 100px;">
+                                        <center>
+                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Requested_Date_and_Time">Requested Date and Time</label>
-                        <input type="datetime-local" class="form-control" id="Requested_Date_and_Time" name="Requested_Date_and_Time"  required>
-                    </div>
-                    <div class="form-group col-lg-2" style="padding:0 10px">
-                        <label for="Queue_Ticket_Number">Queue Ticket Number</label>
-                        <input type="text" class="form-control" id="Queue_Ticket_Number" name="Queue_Ticket_Number">
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Resident_ID">Resident</label>
-                        <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 350px;">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($resident as $rs)
-                            <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <!-- /.card-body -->
                 </div>
-                <div class="row">
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Region_ID">Region</label>
-                            <select class="form-control" id="Region_ID" name="Region_ID">
-                                <option value=''  selected>Select Option</option>
-                                @foreach($region as $bt1)
-                                <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                @endforeach
-                            </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Province_ID">Province</label>
-                            <select class="form-control" id="Province_ID" name="Province_ID">
-                                <option value=''  selected>Select Option</option>
-                            </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="City_Municipality_ID">City_Municipality</label>
-                            <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                <option value='' disabled selected>Select Option</option>
-                            </select>
-                    </div>
-                    <div class="form-group col-lg-3" style="padding:0 10px">
-                        <label for="Barangay_ID">Barangay</label>
-                            <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                <option value='' disabled selected>Select Option</option>
-                            </select>
-                    </div>
-                </div>
+                <!-- /.card -->
+
             </div>
-            <div class="col-lg-12" style="margin-bottom: 100px;">
-                <center>
-                    <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
-                </center>
-            </div>
-        </form>    
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 
 
