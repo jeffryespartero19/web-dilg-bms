@@ -331,26 +331,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-clone"></i>
-                        <p>
-                            BPMS
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('contractor_list')}}" class="nav-link">
-                                <p>Contractor</p>
-                            </a>
-                            <a href="{{route('brgy_projects_monitoring_list')}}" class="nav-link">
-                                <p>Brgy Projects Monitoring</p>
-                            </a>
-
-                        </li>
-                    </ul>
-                </li>
                 <li class="nav-header" style="font-size: 20px;">Maintenance</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

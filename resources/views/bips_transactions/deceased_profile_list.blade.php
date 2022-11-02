@@ -40,6 +40,34 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
+            @if (Auth::user()->User_Type_ID == 3)
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+                            <div class="form-group col-lg-6">
+                                <label for="CM_ID">City/Municipality</label>
+                                <select class="form-control" id="CM_ID" name="CM_ID" required>
+                                    <option value='' disabled selected>Select Option</option>
+
+                                    @foreach($city1 as $city_municipality)
+                                    <option value="{{ $city_municipality->City_Municipality_ID }}">{{ $city_municipality->City_Municipality_Name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="B_ID">Barangay</label>
+                                <select class="form-control" id="B_ID" name="B_ID" required>
+                                    <option value='' disabled selected>Select Option</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -54,7 +82,6 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th hidden>Resident_ID</th>
                                             <th>Name</th>
                                             <th>Deceased Type</th>
                                             <th>Cause of Death</th>
@@ -65,7 +92,6 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Deceased_Type}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Cause_of_Death}}</td>
@@ -255,6 +281,69 @@
         });
 
 
+    });
+
+    $(document).on("change", "#CM_ID", function() {
+
+        // var City_Municipality_ID = $(this).val();
+        var City_Municipality_ID = '01';
+
+        $.ajax({
+            type: "GET",
+            url: "/get_barangay/" + City_Municipality_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('#B_ID').empty();
+
+                var option1 =
+                    " <option value='' disabled selected>Select Option</option>";
+                $('#B_ID').append(option1);
+
+                data.forEach(element => {
+                    var option = " <option value='" +
+                        element["Barangay_ID"] +
+                        "'>" +
+                        element["Barangay_Name"] +
+                        "</option>";
+                    $('#B_ID').append(option);
+                });
+            }
+        });
+    });
+
+    $(document).on("change", "#B_ID", function() {
+
+        var Barangay_ID = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/get_deceased_list/" + Barangay_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+
+                // alert(data);
+                $('#example').dataTable().fnClearTable();
+                $('#example').dataTable().fnDraw();
+                $('#example').dataTable().fnDestroy();
+
+                data.forEach(function(element) {
+
+                    $('#example').DataTable().row.add([
+                        element["Last_Name"] + ', ' + element["First_Name"] + ' ' + element["Middle_Name"],
+                        element["Deceased_Type"],
+                        element["Cause_of_Death"],
+                        element["Date_of_Death"],
+                        "<button class='edit_deceased_profile' value='" + element["Resident_ID"] + "' data-toggle='modal' data-target='#updateDeceased_Profile'>Edit</button>",
+                    ]).draw();
+                });
+            }
+        });
     });
 </script>
 

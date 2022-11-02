@@ -41,6 +41,34 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
+            @if (Auth::user()->User_Type_ID == 3)
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+                            <div class="form-group col-lg-6">
+                                <label for="CM_ID">City/Municipality</label>
+                                <select class="form-control" id="CM_ID" name="CM_ID" required>
+                                    <option value='' disabled selected>Select Option</option>
+
+                                    @foreach($city1 as $city_municipality)
+                                    <option value="{{ $city_municipality->City_Municipality_ID }}">{{ $city_municipality->City_Municipality_Name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="B_ID">Barangay</label>
+                                <select class="form-control" id="B_ID" name="B_ID" required>
+                                    <option value='' disabled selected>Select Option</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -59,7 +87,6 @@
                                     <table id="example" class="table table-striped table-bordered" style="table-layout:fixed;">
                                         <thead>
                                             <tr>
-                                                <th hidden>Resident_ID</th>
                                                 <th style="width: 300px;">Name</th>
                                                 <th style="width: 200px;">Birthplace</th>
                                                 <th style="width: 200px;">Birthdate</th>
@@ -68,7 +95,6 @@
                                                 <th style="width: 200px;">Civil Status</th>
                                                 <th style="width: 200px;">Mobile Number</th>
                                                 <th style="width: 200px;">Landline Number</th>
-                                                <th style="width: 200px;">Resident Status</th>
                                                 <th style="width: 200px;">Solo Parent</th>
                                                 <th style="width: 200px;">Indigent</th>
                                                 <th style="width: 200px;">4P's Beneficiary</th>
@@ -78,7 +104,6 @@
                                         <tbody>
                                             @foreach($db_entries as $x)
                                             <tr>
-                                                <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
@@ -92,7 +117,6 @@
                                                 <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
@@ -1046,6 +1070,107 @@
     // Remove Employment TR
     $("#Employment").on("click", ".removeRow", function() {
         $(this).closest("tr").remove();
+    });
+
+    $(document).on("change", "#CM_ID", function() {
+
+        var City_Municipality_ID = '01';
+
+        $.ajax({
+            type: "GET",
+            url: "/get_barangay/" + City_Municipality_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('#B_ID').empty();
+
+                var option1 =
+                    " <option value='' disabled selected>Select Option</option>";
+                $('#B_ID').append(option1);
+
+                data.forEach(element => {
+                    var option = " <option value='" +
+                        element["Barangay_ID"] +
+                        "'>" +
+                        element["Barangay_Name"] +
+                        "</option>";
+                    $('#B_ID').append(option);
+                });
+            }
+        });
+    });
+
+    $(document).on("change", "#B_ID", function() {
+
+        var Barangay_ID = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/get_inhabitant_list/" + Barangay_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+
+                // alert(data);
+                $('#example').dataTable().fnClearTable();
+                $('#example').dataTable().fnDraw();
+                $('#example').dataTable().fnDestroy();
+
+                data.forEach(function(element) {
+
+                    var dob = element["Birthdate"];
+                    if (dob != '') {
+                        var str = dob.split('-');
+                        var firstdate = new Date(str[0], str[1], str[2]);
+                        var today = new Date();
+                        var dayDiff = Math.ceil(today.getTime() - firstdate.getTime()) / (1000 * 60 * 60 * 24 * 365);
+                        var age = parseInt(dayDiff);
+                    }
+
+                    $Solo_Parent = element["Solo_Parent"];
+                    if ($Solo_Parent == 1) {
+                        $Solo_Parent = 'Yes';
+                    } else {
+                        $Solo_Parent = 'No';
+                    }
+
+                    $Indigent = element["Indigent"];
+                    if ($Indigent == 1) {
+                        $Indigent = 'Yes';
+                    } else {
+                        $Indigent = 'No';
+                    }
+
+                    $Beneficiary = element["Beneficiary"];
+                    if ($Beneficiary == 1) {
+                        $Beneficiary = 'Yes';
+                    } else {
+                        $Beneficiary = 'No';
+                    }
+
+
+                    $('#example').DataTable().row.add([
+                        element["Last_Name"] + ', ' + element["First_Name"] + ' ' + element["Middle_Name"] + ' ' + element["Name_Suffix"],
+                        element["Birthplace"],
+                        element["Birthdate"],
+                        age,
+                        element["Street"],
+                        element["Civil_Status"],
+                        element["Mobile_No"],
+                        element["Telephone_No"],
+                        $Solo_Parent,
+                        $Indigent,
+                        $Beneficiary,
+                        "<button class='edit_inhabitants' value='" + element["Resident_ID"] + "' data-toggle='modal' data-target='#createInhabitants_Info'>Edit</button>",
+                    ]).draw();
+
+                });
+            }
+        });
     });
 </script>
 

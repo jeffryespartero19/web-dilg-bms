@@ -16,22 +16,45 @@ class borisController extends Controller
     public function ordinances_and_resolutions_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
-            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
-            ->select(
-                'a.Ordinance_Resolution_ID',
-                'a.Ordinance_or_Resolution',
-                'a.Ordinance_Resolution_No',
-                'a.Date_of_Approval',
-                'a.Date_of_Effectivity',
-                'a.Ordinance_Resolution_Title',
-                'a.Status_of_Ordinance_or_Resolution_ID',
-                'b.Name_of_Status'
 
-            )
-            ->where('a.Ordinance_or_Resolution', 0)
-            ->paginate(20, ['*'], 'db_entries');
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+                ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+                ->select(
+                    'a.Ordinance_Resolution_ID',
+                    'a.Ordinance_or_Resolution',
+                    'a.Ordinance_Resolution_No',
+                    'a.Date_of_Approval',
+                    'a.Date_of_Effectivity',
+                    'a.Ordinance_Resolution_Title',
+                    'a.Status_of_Ordinance_or_Resolution_ID',
+                    'b.Name_of_Status'
+                )
+                ->where('a.Ordinance_or_Resolution', 0)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+                ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+                ->select(
+                    'a.Ordinance_Resolution_ID',
+                    'a.Ordinance_or_Resolution',
+                    'a.Ordinance_Resolution_No',
+                    'a.Date_of_Approval',
+                    'a.Date_of_Effectivity',
+                    'a.Ordinance_Resolution_Title',
+                    'a.Status_of_Ordinance_or_Resolution_ID',
+                    'b.Name_of_Status'
 
+                )
+                ->where('a.Ordinance_or_Resolution', 0)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         $region = DB::table('maintenance_region')->where('Active', 1)->get();
         $province = DB::table('maintenance_province')->where('Active', 1)->get();
         $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
@@ -47,6 +70,7 @@ class borisController extends Controller
             'province',
             'city',
             'barangay',
+            'city1',
             'status',
             'type',
             'category',
@@ -57,22 +81,46 @@ class borisController extends Controller
     public function resolutions_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
-            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
-            ->select(
-                'a.Ordinance_Resolution_ID',
-                'a.Ordinance_or_Resolution',
-                'a.Ordinance_Resolution_No',
-                'a.Date_of_Approval',
-                'a.Date_of_Effectivity',
-                'a.Ordinance_Resolution_Title',
-                'a.Status_of_Ordinance_or_Resolution_ID',
-                'b.Name_of_Status'
 
-            )
-            ->where('a.Ordinance_or_Resolution', 1)
-            ->paginate(20, ['*'], 'db_entries');
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+                ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+                ->select(
+                    'a.Ordinance_Resolution_ID',
+                    'a.Ordinance_or_Resolution',
+                    'a.Ordinance_Resolution_No',
+                    'a.Date_of_Approval',
+                    'a.Date_of_Effectivity',
+                    'a.Ordinance_Resolution_Title',
+                    'a.Status_of_Ordinance_or_Resolution_ID',
+                    'b.Name_of_Status'
 
+                )
+                ->where('a.Ordinance_or_Resolution', 1)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+                ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+                ->select(
+                    'a.Ordinance_Resolution_ID',
+                    'a.Ordinance_or_Resolution',
+                    'a.Ordinance_Resolution_No',
+                    'a.Date_of_Approval',
+                    'a.Date_of_Effectivity',
+                    'a.Ordinance_Resolution_Title',
+                    'a.Status_of_Ordinance_or_Resolution_ID',
+                    'b.Name_of_Status'
+
+                )
+                ->where('a.Ordinance_or_Resolution', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         $region = DB::table('maintenance_region')->where('Active', 1)->get();
         $province = DB::table('maintenance_province')->where('Active', 1)->get();
         $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
@@ -91,6 +139,7 @@ class borisController extends Controller
             'status',
             'type',
             'category',
+            'city1',
         ));
     }
 
@@ -331,5 +380,47 @@ class borisController extends Controller
             'details'
         ));
         return $pdf->stream();
+    }
+
+    public function get_ordinance($Barangay_ID)
+    {
+        $data = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Ordinance_or_Resolution',
+                'a.Ordinance_Resolution_No',
+                'a.Date_of_Approval',
+                'a.Date_of_Effectivity',
+                'a.Ordinance_Resolution_Title',
+                'a.Status_of_Ordinance_or_Resolution_ID',
+                'b.Name_of_Status'
+
+            )
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->where('a.Ordinance_or_Resolution', 0)
+            ->get();
+        return json_encode($data);
+    }
+
+    public function get_resolution($Barangay_ID)
+    {
+        $data = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Ordinance_or_Resolution',
+                'a.Ordinance_Resolution_No',
+                'a.Date_of_Approval',
+                'a.Date_of_Effectivity',
+                'a.Ordinance_Resolution_Title',
+                'a.Status_of_Ordinance_or_Resolution_ID',
+                'b.Name_of_Status'
+
+            )
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->where('a.Ordinance_or_Resolution', 1)
+            ->get();
+        return json_encode($data);
     }
 }
