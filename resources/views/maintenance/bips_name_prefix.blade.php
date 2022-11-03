@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BIPS</a></li>
                         <li class="breadcrumb-item active">Name Prefix Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -56,11 +56,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Name_Prefix_ID </th>
-                                            <th>Name_Prefix</th>
+                                            <th>Name Prefix ID </th>
+                                            <th>Name Prefix</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -108,7 +108,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Name_Prefix:</label>
+                            <label>Name Prefix:</label>
                             <input class="form-control" name="Name_PrefixX">
                         </div>
 
@@ -148,7 +148,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Name_Prefix:</label>
+                            <label>Name Prefix:</label>
                             <input id="this_name_prefix_idX" class="form-control" name="Name_Prefix_idX" hidden>
                             <input id="this_name_prefixX" class="form-control" name="Name_PrefixX2">
                         </div>
@@ -174,5 +174,18 @@
 </div>
 
 <!-- Edit/Update Name_Prefix END -->
+
+@endsection
+
+@section('scripts')
+
+<script>
+    // Data Table
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
+
+
 
 @endsection
