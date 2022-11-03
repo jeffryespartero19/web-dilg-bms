@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BORIS</a></li>
                         <li class="breadcrumb-item active">Type of Ordinance Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -45,11 +45,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Type_of_Ordinance_ID </th>
-                                            <th>Type_of_Ordinance</th>
+                                            <th>Type of Ordinance ID </th>
+                                            <th>Type of Ordinance</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -84,7 +84,7 @@
 </section>
 <!-- /.content -->
 
-<!-- Create Type_of_Ordinance Modal -->
+<!-- Create Document_Type Modal -->
 <div class="modal fade" id="createType_of_Ordinance" role="dialog">
     <div class="modal-dialog">
 
@@ -98,7 +98,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="row">
                         <div class="form-group col-lg-12">
-                            <label>Type_of_Ordinance:</label>
+                            <label>Type of Ordinance:</label>
                             <input class="form-control" name="Type_of_OrdinanceX">
                         </div>
 
@@ -114,7 +114,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn postThis_Type_of_Ordinance modal_sb_button">Create</button>
+                    <button type="submit" class="btn postThis_Type_of_Ordinance modal_sb_button">Save</button>
                 </div>
             </form>
         </div>
@@ -122,7 +122,7 @@
     </div>
 </div>
 
-<!-- Create Type_of_Ordinance END -->
+<!-- Create Document_Type END -->
 
 <!-- Edit/Update Type_of_Ordinance Modal -->
 <div class="modal fade" id="updateType_of_Ordinance" role="dialog">
@@ -131,31 +131,31 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title flexer justifier">Create Post</h4>
+                <h4 class="modal-title flexer justifier">Update Post</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="updateBRGY_Type_of_Ordinance" method="POST" action="{{ route('update_type_of_ordinance_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
                 <div class="modal-body Absolute-Center">
-                    <div class="modal_input_container">
-                        <div class="up_marg5">
-                            <span><b>Type_of_Ordinance:</label>
-                                    <input id="this_type_of_ordinance_idX" class="modal_input1" name="Type_of_Ordinance_or_Resolution_idX" hidden>
-                                    <input id="this_type_of_ordinanceX" class="modal_input1" name="Type_of_OrdinanceX2">
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>Type of Ordinance:</label>
+                            <input id="this_type_of_ordinance_idX" class="form-control" name="Type_of_Ordinance_or_Resolution_idX" hidden>
+                            <input id="this_type_of_ordinanceX" class="form-control" name="Type_of_OrdinanceX2">
                         </div>
 
-                        <div class="up_marg5">
-                            <span><b>Active:</label>
-                                    <select class="modal_input1" name="ActiveX2">
-                                        <option id="this_type_of_ordinance_active" value=1 hidden selected>Is Active?</option>
-                                        <option value=1>Yes</option>
-                                        <option value=0>No</option>
-                                    </select>
+                        <div class="form-group col-lg-12">
+                            <label>Active:</label>
+                            <select class="form-control" name="ActiveX2">
+                                <option id="this_document_type_active" value=1 hidden selected>Is Active?</option>
+                                <option value=1>Yes</option>
+                                <option value=0>No</option>
+                            </select>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn updateThis_Type_of_Ordinance modal_sb_button">Save</button>
+                    <button type="submit" class="btn updateThis_Type_of_Ordinance modal_sb_button">Save</button>
                 </div>
             </form>
         </div>
@@ -165,6 +165,7 @@
 
 <!-- Edit/Update Type_of_Ordinance END -->
 
+<!-- Edit/Update Document_Type END -->
 @endsection
 
 @section('scripts')

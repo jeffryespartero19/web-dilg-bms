@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BIPS</a></li>
                         <li class="breadcrumb-item active">Family Position Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -56,11 +56,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Family_Position_ID </th>
-                                            <th>Family_Position</th>
+                                            <th>Family Position ID </th>
+                                            <th>Family Position</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -108,7 +108,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Family_Position:</label>
+                            <label>Family Position:</label>
                             <input class="form-control" name="Family_PositionX">
                         </div>
 
@@ -148,7 +148,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Family_Position:</label>
+                            <label>Family Position:</label>
                             <input id="this_family_position_idX" class="form-control" name="Family_Position_idX" hidden>
                             <input id="this_family_positionX" class="form-control" name="Family_PositionX2">
                         </div>
@@ -174,5 +174,18 @@
 </div>
 
 <!-- Edit/Update Family_Position END -->
+
+@endsection
+
+@section('scripts')
+
+<script>
+    // Data Table
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
+
+
 
 @endsection

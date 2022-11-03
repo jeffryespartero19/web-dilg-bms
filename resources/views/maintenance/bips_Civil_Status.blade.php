@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BIPS</a></li>
                         <li class="breadcrumb-item active">Civil Status Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -56,11 +56,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Civil_Status_ID </th>
-                                            <th>Civil_Status</th>
+                                            <th>Civil Status ID </th>
+                                            <th>Civil Status</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -108,7 +108,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Civil_Status:</label>
+                            <label>Civil Status:</label>
                             <input class="form-control" name="Civil_StatusX">
                         </div>
 
@@ -148,7 +148,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Civil_Status:</label>
+                            <label>Civil Status:</label>
                             <input id="this_civil_status_idX" class="form-control" name="Civil_Status_idX" hidden>
                             <input id="this_civil_statusX" class="form-control" name="Civil_StatusX2">
                         </div>
@@ -174,5 +174,18 @@
 </div>
 
 <!-- Edit/Update Civil_Status END -->
+
+@endsection
+
+@section('scripts')
+
+<script>
+    // Data Table
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
+
+
 
 @endsection

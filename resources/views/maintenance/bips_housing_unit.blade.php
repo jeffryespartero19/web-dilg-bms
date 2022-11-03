@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BIPS</a></li>
                         <li class="breadcrumb-item active">Housing Unit Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -56,11 +56,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Housing_Unit_ID </th>
-                                            <th>Housing_Unit</th>
+                                            <th>Housing Unit ID </th>
+                                            <th>Housing Unit</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -108,7 +108,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Housing_Unit:</label>
+                            <label>Housing Unit:</label>
                             <input class="form-control" name="Housing_UnitX">
                         </div>
 
@@ -148,7 +148,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Housing_Unit:</label>
+                            <label>Housing Unit:</label>
                             <input id="this_housing_unit_idX" class="form-control" name="Housing_Unit_idX" hidden>
                             <input id="this_housing_unitX" class="form-control" name="Housing_UnitX2">
                         </div>
@@ -174,5 +174,18 @@
 </div>
 
 <!-- Edit/Update Housing_Unit END -->
+
+@endsection
+
+@section('scripts')
+
+<script>
+    // Data Table
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
+
+
 
 @endsection
