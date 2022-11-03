@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BORIS</a></li>
                         <li class="breadcrumb-item active">Ordinance Category Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -56,11 +56,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Ordinance_Category_ID </th>
-                                            <th>Ordinance_Category_Name</th>
+                                            <th>Ordinance Category ID </th>
+                                            <th>Ordinance Category Name</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -108,7 +108,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Ordinance_Category:</label>
+                            <label>Ordinance Category:</label>
                             <input class="form-control" name="Ordinance_CategoryX">
                         </div>
 
@@ -148,7 +148,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Ordinance_Category:</label>
+                            <label>Ordinance Category:</label>
                             <input id="this_ordinance_category_idX" class="form-control" name="Ordinance_Category_idX" hidden>
                             <input id="this_ordinance_categoryX" class="form-control" name="Ordinance_CategoryX2">
                         </div>
