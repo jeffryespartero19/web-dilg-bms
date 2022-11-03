@@ -13,7 +13,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('recovery_information_list')}}">Recovery Information List</a></li>
                         <li class="breadcrumb-item active">Recovery Information</li>
                     </ol>
                 </div>
