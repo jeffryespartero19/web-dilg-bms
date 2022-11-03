@@ -46,10 +46,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
-
+                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
-                                <form id="newHousehold" method="POST" action="{{ route('create_ordinance_violator') }}" autocomplete="off" enctype="multipart/form-data">
+                                <form id="newForm" method="POST" action="{{ route('create_ordinance_violator') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <input type="number" class="form-control" id="Ordinance_Violators_ID" name="Ordinance_Violators_ID" value="0" hidden>
@@ -349,6 +349,14 @@
         }
         output.innerHTML += '</ul>';
     }
+
+    // Disable Form if DILG USER
+    $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3) {
+            $("#newForm :input").prop("disabled", true);
+        }
+    });
 </script>
 
 <style>

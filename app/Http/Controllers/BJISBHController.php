@@ -546,18 +546,35 @@ class BJISBHController extends Controller
     public function proceeding_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bjisbh_proceedings as a')
-            ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
-            ->select(
-                'b.Blotter_Number',
-                'b.Blotter_ID'
-            )
-            ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
-            ->paginate(20, ['*'], 'db_entries');
-
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bjisbh_proceedings as a')
+                ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'b.Blotter_Number',
+                    'b.Blotter_ID'
+                )
+                ->where('e.Province_ID', Auth::user()->Province_ID)
+                ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('bjisbh_proceedings as a')
+                ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+                ->select(
+                    'b.Blotter_Number',
+                    'b.Blotter_ID'
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
+                ->paginate(20, ['*'], 'db_entries');
+        }
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         return view('bjisbh_transactions.proceeding_list', compact(
             'db_entries',
             'currDATE',
+            'city1'
         ));
     }
 
@@ -620,7 +637,8 @@ class BJISBHController extends Controller
                             'Proceedings_Date'   => $data['Proceedings_Date'][$i],
                             'Settlement'   => $data['Settlement'][$i],
                             'Encoder_ID'  => Auth::user()->id,
-                            'Date_Stamp'  => Carbon::now()
+                            'Date_Stamp'  => Carbon::now(),
+                            'Barangay_ID' => Auth::user()->Barangay_ID,
                         ];
                     }
 
@@ -636,29 +654,57 @@ class BJISBHController extends Controller
     public function ordinance_violator_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bjisbh_ordinance_violators as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('boris_brgy_ordinances_and_resolutions_information as c', 'a.Ordinance_ID', '=', 'c.Ordinance_Resolution_ID')
-            ->leftjoin('maintenance_bjisbh_types_of_penalties as d', 'a.Types_of_Penalties_ID', '=', 'd.Types_of_Penalties_ID')
-            ->leftjoin('maintenance_bjisbh_violation_status as e', 'a.Violation_Status_ID', '=', 'e.Violation_Status_ID')
-            ->select(
-                'a.Ordinance_Violators_ID',
-                'a.Vilotation_Date',
-                'c.Ordinance_Resolution_Title',
-                'c.Ordinance_Resolution_ID',
-                'b.Last_Name',
-                'b.First_Name',
-                'b.Middle_Name',
-                'd.Types_of_Penalties_ID',
-                'd.Type_of_Penalties',
-                'e.Violation_Status_ID',
-                'e.Violation_Status',
-            )
-            ->paginate(20, ['*'], 'db_entries');
-
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bjisbh_ordinance_violators as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('boris_brgy_ordinances_and_resolutions_information as c', 'a.Ordinance_ID', '=', 'c.Ordinance_Resolution_ID')
+                ->leftjoin('maintenance_bjisbh_types_of_penalties as d', 'a.Types_of_Penalties_ID', '=', 'd.Types_of_Penalties_ID')
+                ->leftjoin('maintenance_bjisbh_violation_status as e', 'a.Violation_Status_ID', '=', 'e.Violation_Status_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Ordinance_Violators_ID',
+                    'a.Vilotation_Date',
+                    'c.Ordinance_Resolution_Title',
+                    'c.Ordinance_Resolution_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'd.Types_of_Penalties_ID',
+                    'd.Type_of_Penalties',
+                    'e.Violation_Status_ID',
+                    'e.Violation_Status',
+                )
+                ->where('f.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('bjisbh_ordinance_violators as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('boris_brgy_ordinances_and_resolutions_information as c', 'a.Ordinance_ID', '=', 'c.Ordinance_Resolution_ID')
+                ->leftjoin('maintenance_bjisbh_types_of_penalties as d', 'a.Types_of_Penalties_ID', '=', 'd.Types_of_Penalties_ID')
+                ->leftjoin('maintenance_bjisbh_violation_status as e', 'a.Violation_Status_ID', '=', 'e.Violation_Status_ID')
+                ->select(
+                    'a.Ordinance_Violators_ID',
+                    'a.Vilotation_Date',
+                    'c.Ordinance_Resolution_Title',
+                    'c.Ordinance_Resolution_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'd.Types_of_Penalties_ID',
+                    'd.Type_of_Penalties',
+                    'e.Violation_Status_ID',
+                    'e.Violation_Status',
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         return view('bjisbh_transactions.ordinance_violator_list', compact(
             'db_entries',
             'currDATE',
+            'city1'
         ));
     }
 
@@ -716,7 +762,8 @@ class BJISBHController extends Controller
                     'Vilotation_Date' => $data['Vilotation_Date'],
                     'Complied_Date' => $data['Complied_Date'],
                     'Encoder_ID' => Auth::user()->id,
-                    'Date_Stamp' => Carbon::now()
+                    'Date_Stamp' => Carbon::now(),
+                    'Barangay_ID' => Auth::user()->Barangay_ID,
                 )
             );
 
@@ -781,6 +828,46 @@ class BJISBHController extends Controller
             )
             ->where('b.Barangay_ID', $Barangay_ID)
             ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
+            ->get();
+        return json_encode($data);
+    }
+
+    public function get_proceeding_list($Barangay_ID)
+    {
+        $data = DB::table('bjisbh_proceedings as a')
+            ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
+                'b.Blotter_Number',
+                'b.Blotter_ID'
+            )
+            ->where('b.Barangay_ID', $Barangay_ID)
+            ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
+            ->get();
+        return json_encode($data);
+    }
+
+    public function get_ordinance_violator_list($Barangay_ID)
+    {
+        $data = DB::table('bjisbh_ordinance_violators as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('boris_brgy_ordinances_and_resolutions_information as c', 'a.Ordinance_ID', '=', 'c.Ordinance_Resolution_ID')
+            ->leftjoin('maintenance_bjisbh_types_of_penalties as d', 'a.Types_of_Penalties_ID', '=', 'd.Types_of_Penalties_ID')
+            ->leftjoin('maintenance_bjisbh_violation_status as e', 'a.Violation_Status_ID', '=', 'e.Violation_Status_ID')
+            ->select(
+                'a.Ordinance_Violators_ID',
+                'a.Vilotation_Date',
+                'c.Ordinance_Resolution_Title',
+                'c.Ordinance_Resolution_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'd.Types_of_Penalties_ID',
+                'd.Type_of_Penalties',
+                'e.Violation_Status_ID',
+                'e.Violation_Status',
+            )
+            ->where('a.Barangay_ID', $Barangay_ID)
             ->get();
         return json_encode($data);
     }
