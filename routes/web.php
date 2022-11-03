@@ -750,6 +750,8 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_incoming_list/{Barangay_ID}', 'bipsController@get_incoming_list');
   Route::get('/get_blotter_list/{Barangay_ID}', 'BJISBHController@get_blotter_list');
   Route::get('/get_summon_list/{Barangay_ID}', 'BJISBHController@get_summon_list');
+  Route::get('/get_proceeding_list/{Barangay_ID}', 'BJISBHController@get_proceeding_list');
+  Route::get('/get_ordinance_violator_list/{Barangay_ID}', 'BJISBHController@get_ordinance_violator_list');
 });
 
 
