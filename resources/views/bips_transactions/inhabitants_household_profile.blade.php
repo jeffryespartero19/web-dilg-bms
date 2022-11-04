@@ -76,8 +76,9 @@
                     <div class="card-body">
                         <div style="text-align: right;">
                             <div class="btn-group">
+                                @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a class="btn btn-success" href="{{ url('inhabitants_household_details/0') }}" style="width: 100px;">New</a></div>
-                                <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
+                                @endif
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
@@ -314,12 +315,14 @@
                         element["Tenure_of_Lot"],
                         element["Housing_Unit"],
                         element["Family_Type_Name"],
-                        "<a class='btn btn-success' href='{{ url('inhabitants_household_details/'" + element["Household_Profile_ID"] + "'>Edit</a>",
+                        "<a class='btn btn-success' href='inhabitants_household_details/" + element["Household_Profile_ID"] + "'>Edit</a>",
                     ]).draw();
                 });
             }
         });
     });
+
+
 </script>
 
 <style>

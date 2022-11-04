@@ -74,8 +74,9 @@
                     <div class="card-body">
                         <div style="text-align: right;">
                             <div class="btn-group">
+                                @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
-                                <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
+                                @endif
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
@@ -1171,6 +1172,15 @@
                 });
             }
         });
+    });
+
+
+    // Disable Form if DILG USER
+    $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3) {
+            $("#newInhabitant :input").prop("disabled", true);
+        }
     });
 </script>
 

@@ -73,7 +73,9 @@
                     <div class="card-body">
                         <div style="text-align: right;">
                             <div class="btn-group">
+                                @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createDeceased_Profile" style="width: 100px;">New</button></div>
+                                @endif
                             </div>
                         </div>
                         <br>
@@ -344,6 +346,14 @@
                 });
             }
         });
+    });
+
+    // Disable Form if DILG USER
+    $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3) {
+            $("#newDeceased_Profile :input").prop("disabled", true);
+        }
     });
 </script>
 
