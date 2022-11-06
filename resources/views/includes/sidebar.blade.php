@@ -301,6 +301,32 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-clone"></i>
+                        <p>
+                            BIS
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <!-- <a href="" class="nav-link">
+                                <p>Barangay Information</p>
+                            </a>
+                            <a href="" class="nav-link">
+                                <p>Barangay Officials and Staff</p>
+                            </a>
+                            <a href="" class="nav-link">
+                                <p>Barangay Officials Term History</p>
+                            </a> -->
+                            <a href="{{route('cms_list')}}" class="nav-link">
+                                <p>Content Management System</p>
+                            </a>
+
+                        </li>
+                    </ul>   
+                </li>
                 @elseif (Auth::user()->User_Type_ID == 5)
                 <li class="nav-item">
                     <a href="#" class="nav-link">
