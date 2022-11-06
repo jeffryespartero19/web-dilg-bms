@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BCPIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item active">Barangay Business Information List</li>
                     </ol>
                 </div>
@@ -63,10 +63,6 @@
                                             <th >Business Owner</th>
                                             <th >Business Address</th>
                                             <th >Mobile No</th>
-                                            <th >Region </th>
-                                            <th >Province </th>
-                                            <th >City/Municipality </th>
-                                            <th >Barangay</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -79,11 +75,7 @@
                                             <td class="sm_data_col txtCtr" >{{$x->Business_Tin}}</td>  
                                             <td class="sm_data_col txtCtr" >{{$x->Business_Owner}}</td>  
                                             <td class="sm_data_col txtCtr" >{{$x->Business_Address}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Mobile_No}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Region_Name}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->Province_Name}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->City_Municipality_Name}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->Barangay_Name}}</td>
+                                            <td class="sm_data_col txtCtr" >{{$x->Mobile_No}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <a class="btn btn-success" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">Edit</a>
                                             </td>
@@ -123,10 +115,7 @@
 </script>
 
 <style>
-    table {
-        display: block;
-        overflow-x: scroll;
-    }
+ 
 
    
 </style>

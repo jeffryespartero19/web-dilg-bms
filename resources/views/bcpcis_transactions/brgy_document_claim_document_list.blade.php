@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BCPCIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item active">Brgy Document Claim List(Brgy Document Information) </li>
                     </ol>
                 </div>
@@ -61,10 +61,6 @@
                                             <th >Resident Name</th>
                                             <th >Requested Date and Time</th>
                                             <th >Queue Ticket Number</th>
-                                            <th >Region </th>
-                                            <th >Province </th>
-                                            <th >City/Municipality </th>
-                                            <th >Barangay</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -76,10 +72,6 @@
                                             <td class="sm_data_col txtCtr" >{{$x->Resident_Name}}</td>  
                                             <td class="sm_data_col txtCtr" >{{$x->Requested_Date_and_Time}}</td>  
                                             <td class="sm_data_col txtCtr" >{{$x->Queue_Ticket_Number}}</td> 
-                                            <td class="sm_data_col txtCtr" >{{$x->Region_Name}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->Province_Name}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->City_Municipality_Name}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->Barangay_Name}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <a class="btn btn-success" href="{{ url('brgy_document_claim_docu_details/'.$x->Claim_Schedule_ID) }}">Edit</a>
                                             </td>
@@ -119,10 +111,7 @@
 </script>
 
 <style>
-    table {
-        display: block;
-        overflow-x: scroll;
-    }
+
 
    
 </style>

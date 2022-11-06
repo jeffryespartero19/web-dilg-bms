@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Type_of_Involved_Party_ID </th>
-                                            <th>Type_of_Involved_Party</th>
+                                            <th>Type of Involved Party ID </th>
+                                            <th>Type of Involved Party</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Type_of_Involved_Party:</label>
+                            <label>Type of Involved Party:</label>
                             <input class="form-control" name="Type_of_Involved_PartyX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Type_of_Involved_Party:</label>
+                            <label>Type of Involved Party:</label>
                             <input id="this_type_of_involved_party_idX" class="form-control" name="Type_of_Involved_Party_idX" hidden>
                             <input id="this_type_of_involved_partyX" class="form-control" name="Type_of_Involved_PartyX2">
                         </div>

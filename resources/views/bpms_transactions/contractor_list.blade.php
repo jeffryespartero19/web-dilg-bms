@@ -266,10 +266,7 @@
 </script>
 
 <style>
-    table {
-        display: block;
-        overflow-x: scroll;
-    }
+
 </style>
 
 @endsection

@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Level_of_Damage_ID </th>
-                                            <th>Level_of_Damage</th>
+                                            <th>Level of Damage ID </th>
+                                            <th>Level of Damage</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Level_of_Damage:</label>
+                            <label>Level of Damage:</label>
                             <input class="form-control" name="Level_of_DamageX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Level_of_Damage:</label>
+                            <label>Level of Damage:</label>
                             <input id="this_level_of_damage_idX" class="form-control" name="Level_of_Damage_idX" hidden>
                             <input id="this_level_of_damageX" class="form-control" name="Level_of_DamageX2">
                         </div>

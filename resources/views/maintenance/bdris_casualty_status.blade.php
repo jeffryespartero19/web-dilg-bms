@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Casualty_Status_ID </th>
-                                            <th>Casualty_Status</th>
+                                            <th>Casualty Status ID </th>
+                                            <th>Casualty Status</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Casualty_Status:</label>
+                            <label>Casualty Status:</label>
                             <input class="form-control" name="Casualty_StatusX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Casualty_Status:</label>
+                            <label>Casualty Status:</label>
                             <input id="this_casualty_status_idX" class="form-control" name="Casualty_Status_idX" hidden>
                             <input id="this_casualty_statusX" class="form-control" name="Casualty_StatusX2">
                         </div>

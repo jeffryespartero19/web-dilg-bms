@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Type_of_Action_ID </th>
-                                            <th>Type_of_Action</th>
+                                            <th>Type of Action ID </th>
+                                            <th>Type of Action</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Type_of_Action:</label>
+                            <label>Type of Action:</label>
                             <input class="form-control" name="Type_of_ActionX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Type_of_Action:</label>
+                            <label>Type of Action:</label>
                             <input id="this_type_of_action_idX" class="form-control" name="Type_of_Action_idX" hidden>
                             <input id="this_type_of_actionX" class="form-control" name="Type_of_ActionX2">
                         </div>

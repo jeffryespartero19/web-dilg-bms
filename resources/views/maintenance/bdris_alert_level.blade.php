@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
                         <li class="breadcrumb-item active">Alert Level Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Alert_Level_ID </th>
-                                            <th>Alert_Level</th>
+                                            <th>Alert Level ID </th>
+                                            <th>Alert Level</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -112,7 +112,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Alert_Level:</label>
+                            <label>Alert Level:</label>
                             <input class="form-control" name="Alert_LevelX">
                         </div>
 
@@ -152,7 +152,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Alert_Level:</label>
+                            <label>Alert Level:</label>
                             <input id="this_alert_level_idX" class="form-control" name="Alert_Level_idX" hidden>
                             <input id="this_alert_levelX" class="form-control" name="Alert_LevelX2">
                         </div>

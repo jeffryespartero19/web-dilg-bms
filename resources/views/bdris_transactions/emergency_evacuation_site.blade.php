@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item"><a href="{{route('other_transaction_list')}}">Other Transaction List(BDRIS)</a></li>
                         <li class="breadcrumb-item active">Emergency Evacuation Site</li>
                     </ol>
@@ -37,23 +37,22 @@
     {{ session()->get('message') }}
 </div>
 @endif
-
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body"> 
                         <div class="tableX_row col-md-12 up_marg5">
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_emergency_evacuation_site') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="row">
+                                    <div>
                                         <input type="text" class="form-control" id="Emergency_Evacuation_Site_ID" name="Emergency_Evacuation_Site_ID" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-8" style="padding:0 10px">
+                                        <div class="form-group col-lg-8" style="padding:0 10px">
                                                 <label for="Emergency_Evacuation_Site_Name">Emergency Evacuation Site Name</label>
                                                 <input type="text" class="form-control" id="Emergency_Evacuation_Site_Name" name="Emergency_Evacuation_Site_Name">
                                             </div>
@@ -61,39 +60,11 @@
                                                 <label for="Capacity">Capacity</label>
                                                 <input type="number" class="form-control" id="Capacity" name="Capacity">
                                             </div>
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-9" style="padding:0 10px">
                                                 <label for="Address">Address</label>
                                                 <input type="text" class="form-control" id="Address" name="Address">
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $bt1)
-                                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-                                                </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <span><b>Active:</b></span><br>
@@ -105,7 +76,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
                                             <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
@@ -119,6 +89,7 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
+
             </div>
             <!-- /.col -->
         </div>
@@ -127,13 +98,6 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
-
-<!-- Create Announcement_Status END -->
-
-
-
-
 
 
 

@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Blotter_Status_ID </th>
-                                            <th>Blotter_Status_Name</th>
+                                            <th>Blotter Status ID </th>
+                                            <th>Blotter Status Name</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -112,7 +112,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Blotter_Status:</label>
+                            <label>Blotter Status:</label>
                             <input class="form-control" name="Blotter_Status_NameX">
                         </div>
 
@@ -152,7 +152,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Blotter_Status:</label>
+                            <label>Blotter Status:</label>
                             <input id="this_blotter_status_idX" class="form-control" name="Blotter_Status_idX" hidden>
                             <input id="this_blotter_statusX" class="form-control" name="Blotter_Status_NameX2">
                         </div>

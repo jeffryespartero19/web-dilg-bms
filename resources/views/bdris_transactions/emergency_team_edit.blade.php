@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item"><a href="{{route('other_transaction_list')}}">Other Transaction List(BDRIS)</a></li>
                         <li class="breadcrumb-item active">Emergency Team</li>
                     </ol>
@@ -49,7 +49,7 @@
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_emergency_team') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="row">
+                                    <div>
                                         <input type="text" class="form-control" id="Emergency_Team_ID" name="Emergency_Team_ID" value="{{$emergency_team[0]->Emergency_Team_ID}}" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-7" style="padding:0 10px">
@@ -60,45 +60,9 @@
                                                 <label for="Emergency_Team_Hotline">Emergency Team Hotline</label>
                                                 <input type="text" class="form-control" id="Emergency_Team_Hotline" name="Emergency_Team_Hotline" value="{{$emergency_team[0]->Emergency_Team_Hotline}}">
                                             </div>
-
+                                            
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $bt1)
-                                                    <option value="{{ $bt1->Region_ID }}" {{ $bt1->Region_ID  == $emergency_team[0]->Region_ID  ? "selected" : "" }}>{{ $bt1->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($province as $bt1)
-                                                    <option value="{{ $bt1->Province_ID }}" {{ $bt1->Province_ID  == $emergency_team[0]->Province_ID  ? "selected" : "" }}>{{ $bt1->Province_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($city_municipality as $bt1)
-                                                    <option value="{{ $bt1->City_Municipality_ID }}" {{ $bt1->City_Municipality_ID  == $emergency_team[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $bt1->City_Municipality_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($barangay as $bt1)
-                                                    <option value="{{ $bt1->Barangay_ID }}" {{ $bt1->Barangay_ID  == $emergency_team[0]->Barangay_ID  ? "selected" : "" }}>{{ $bt1->Barangay_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <span><b>Active:</b></span><br>
+                                                <label for="Active">Active</label>
                                                 <select class="modal_input1 form-control" name="Active" id="Active">
                                                     <option hidden selected>Is Active?</option>
                                                     <option value=0 {{ 0 == $emergency_team[0]->Active  ? "selected" : "" }}>No</option>
@@ -107,6 +71,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <br>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
                                             <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
@@ -128,7 +93,6 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
 
 <!-- Create Announcement_Status END -->
 
