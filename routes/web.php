@@ -755,6 +755,8 @@ Route::group(['middleware' => 'auth'], function () {
 
   //Tagging
   Route::post('/tag_bfas_budget_appropriation', 'BFASController2@tag_bfas_budget_appropriation')->name('tag_bfas_budget_appropriation');
+  Route::post('/tag_bfas_obligation_request', 'BFASController2@tag_bfas_obligation_request')->name('tag_bfas_obligation_request');
+  Route::post('/tag_bfas_disbursement_voucher', 'BFASController2@tag_bfas_disbursement_voucher')->name('tag_bfas_disbursement_voucher');
 });
 
 

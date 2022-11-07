@@ -539,6 +539,9 @@ class BFASController2 extends Controller
             ->join('maintenance_bfas_voucher_status as e','e.Voucher_Status_ID','=','a.Disbursement_Voucher_Status_ID')
             ->join('maintenance_bfas_tax_code as f','f.Tax_Code_ID','=','a.Tax_Code_ID')
             ->join('bfas_card_file as g','g.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bfas_dv_obligation_request as h','h.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
+            ->leftjoin('bfas_obligation_request as i','i.Obligation_Request_ID','=','h.Obligation_Request_ID')
+            ->leftjoin('bfas_obr_accounts as j','j.Obligation_Request_ID','=','i.Obligation_Request_ID')
 
             ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
             ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
@@ -569,6 +572,12 @@ class BFASController2 extends Controller
                 'g.Card_File_ID',
                 'g.Last_Name as Last_Name2','g.First_Name as First_Name2','g.Middle_Name as Middle_Name2',
 
+                'h.Multiple_OBR_ID',
+
+                'i.Obligation_Request_No',
+                
+                'j.Amount',
+
                 'brgy.Barangay_ID',
                 'brgy.Barangay_Name',
                 'city.City_Municipality_ID',
@@ -583,7 +592,7 @@ class BFASController2 extends Controller
 
             )
             ->paginate(20,['*'], 'db_entries');
-        
+       /// dd($db_entries);
         $regionX=DB::table('maintenance_region')->get();
 
         $app_type=DB::table('maintenance_bfas_appropriation_type')->get();
@@ -591,8 +600,9 @@ class BFASController2 extends Controller
         $card_file=DB::table('bfas_card_file')->get();
         $dv_status=DB::table('maintenance_bfas_voucher_status')->get();
         $tax_code=DB::table('maintenance_bfas_tax_code')->get();
+        $obr=DB::table('bfas_obligation_request')->get();
 
-        return view('bfas.disbursement_voucher',compact('db_entries','currDATE','regionX','app_type','fund_type','card_file','dv_status','tax_code'));
+        return view('bfas.disbursement_voucher',compact('db_entries','currDATE','regionX','app_type','fund_type','card_file','dv_status','tax_code','obr'));
     }
 
     public function create_bfas_disbursement_voucher(Request $request)
@@ -1248,8 +1258,8 @@ class BFASController2 extends Controller
             ->join('maintenance_bfas_budget_appropriation_status as b','b.Budget_Appropriation_Status_ID','=','a.Budget_Appropriation_Status_ID')
             ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
             ->join('maintenance_bfas_appropriation_type as d','d.Appropriation_Type_ID','=','a.Appropriation_Type_ID')
-            ->join('bfas_budget_appropriation_accounts as e','e.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
-            ->join('bfas_accounts_information as f','f.Accounts_Information_ID','=','e.Accounts_Information_ID')
+            ->leftjoin('bfas_budget_appropriation_accounts as e','e.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
+            ->leftjoin('bfas_accounts_information as f','f.Accounts_Information_ID','=','e.Accounts_Information_ID')
 
             ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
             ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
@@ -1425,6 +1435,8 @@ class BFASController2 extends Controller
             ->join('maintenance_bfas_obligation_request_status as e','e.Obligation_Request_Status_ID','=','a.Obligation_Request_Status_ID')
             ->join('bfas_budget_appropriation as f','f.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
             ->join('bfas_card_file as g','g.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bfas_obr_accounts as h','h.Obligation_Request_ID','=','a.Obligation_Request_ID')
+            ->leftjoin('bfas_accounts_information as i','i.Accounts_Information_ID','=','h.Accounts_Information_ID')
 
             ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
             ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
@@ -1445,9 +1457,13 @@ class BFASController2 extends Controller
                 'a.Remarks',
                 'f.Budget_Appropriation_ID',
                 'f.Appropriation_No',
-                'f.Amount',
                 'g.Card_File_ID',
                 'g.Last_Name as Last_Name2','g.First_Name as First_Name2','g.Middle_Name as Middle_Name2',
+                'h.Accounts_Information_ID',
+                'h.Amount',
+                'h.Adjustment_Amount',
+                'i.Account_Number',
+                'i.Account_Name',
 
                 'brgy.Barangay_ID',
                 'brgy.Barangay_Name',
@@ -1471,8 +1487,10 @@ class BFASController2 extends Controller
 
         $obr_status=DB::table('maintenance_bfas_obligation_request_status')->get();
         $b_app=DB::table('bfas_budget_appropriation')->get();
+        $tax_type=DB::table('maintenance_bfas_tax_type')->get();
+        $accounts=DB::table('bfas_accounts_information')->get();
 
-        return view('bfas.obligation_request',compact('db_entries','currDATE','regionX','fund_type','card_file','obr_status','b_app'));
+        return view('bfas.obligation_request',compact('db_entries','currDATE','regionX','fund_type','card_file','obr_status','b_app','tax_type','accounts'));
     }
 
     public function create_bfas_obligation_request(Request $request)
@@ -1702,7 +1720,7 @@ class BFASController2 extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
         $itemLen= count($data['tagAccounts_Information_ID']);
-// dd($data);
+
         for ($i = 0; $i < $itemLen; $i++) {
             DB::table('bfas_budget_appropriation_accounts')->insert(
                 array(
@@ -1712,6 +1730,53 @@ class BFASController2 extends Controller
                     'Accounts_Information_ID'   => $data['tagAccounts_Information_ID'][$i],
                     'Budget_Appropriation_ID'   => $data['B_IDx'],
                     'Appropriation_Amount'      => $data['Appropriation_Amount'][$i],
+                )
+            );
+        }
+       
+
+        return redirect()->back()->with('alert', 'Entry Tagged');
+    }
+
+    public function tag_bfas_obligation_request(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        $itemLen= count($data['tagAccounts_Information_ID']);
+
+        for ($i = 0; $i < $itemLen; $i++) {
+            DB::table('bfas_obr_accounts')->insert(
+                array(
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now(),
+    
+                    'Tax_Type_ID'               => $data['Tax_Type_ID'][$i],
+                    'Accounts_Information_ID'   => $data['tagAccounts_Information_ID'][$i],
+                    'Obligation_Request_ID'     => $data['B_IDx'],
+                    'Adjustment_Amount'         => $data['Adjustment_Amount'][$i],
+                    'Amount' => $data['Amount'][$i],
+                )
+            );
+        }
+       
+
+        return redirect()->back()->with('alert', 'Entry Tagged');
+    }
+
+    public function tag_bfas_disbursement_voucher(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        $itemLen= count($data['tagObligation_Requests_ID']);
+
+        for ($i = 0; $i < $itemLen; $i++) {
+            DB::table('bfas_dv_obligation_request')->insert(
+                array(
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now(),
+
+                    'Obligation_Request_ID'   => $data['tagObligation_Requests_ID'][$i],
+                    'Disbursement_Voucher_ID'     => $data['B_IDx'],
                 )
             );
         }
