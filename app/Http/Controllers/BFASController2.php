@@ -1248,6 +1248,8 @@ class BFASController2 extends Controller
             ->join('maintenance_bfas_budget_appropriation_status as b','b.Budget_Appropriation_Status_ID','=','a.Budget_Appropriation_Status_ID')
             ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
             ->join('maintenance_bfas_appropriation_type as d','d.Appropriation_Type_ID','=','a.Appropriation_Type_ID')
+            ->join('bfas_budget_appropriation_accounts as e','e.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
+            ->join('bfas_accounts_information as f','f.Accounts_Information_ID','=','e.Accounts_Information_ID')
 
             ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
             ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
@@ -1259,6 +1261,7 @@ class BFASController2 extends Controller
                 'a.Appropriation_No',
                 'a.Appropriation_Date',
                 'a.Budget_Year',
+                // 'a.Amount',
                 'b.Budget_Appropriation_Status_ID',
                 'b.Budget_Appropriation_Status',
                 'c.Fund_Type_ID',
@@ -1277,6 +1280,12 @@ class BFASController2 extends Controller
                 'reg.Region_ID',
                 'reg.Region_Name',
 
+                'e.Accounts_Information_ID',
+                'e.Appropriation_Amount',
+
+                'f.Account_Name',
+                'f.Account_Number',
+
                 'a.Encoder_ID',
                 'a.Date_Stamp'
 
@@ -1288,9 +1297,10 @@ class BFASController2 extends Controller
         $app_type=DB::table('maintenance_bfas_appropriation_type')->get();
         $fund_type=DB::table('maintenance_bfas_fund_type')->get();
         $bp_status=DB::table('maintenance_bfas_budget_appropriation_status')->get();
+        $accounts=DB::table('bfas_accounts_information')->get();
         
 
-        return view('bfas.budget_appropriation',compact('db_entries','currDATE','regionX','app_type','fund_type','bp_status'));
+        return view('bfas.budget_appropriation',compact('db_entries','currDATE','regionX','app_type','fund_type','bp_status','accounts'));
     }
 
     public function create_bfas_budget_appropriation(Request $request)
@@ -1345,6 +1355,7 @@ class BFASController2 extends Controller
                 'a.Appropriation_No',
                 'a.Appropriation_Date',
                 'a.Budget_Year',
+                // 'a.Amount',
                 'b.Budget_Appropriation_Status_ID',
                 'b.Budget_Appropriation_Status',
                 'c.Fund_Type_ID',
@@ -1434,6 +1445,7 @@ class BFASController2 extends Controller
                 'a.Remarks',
                 'f.Budget_Appropriation_ID',
                 'f.Appropriation_No',
+                'f.Amount',
                 'g.Card_File_ID',
                 'g.Last_Name as Last_Name2','g.First_Name as First_Name2','g.Middle_Name as Middle_Name2',
 
@@ -1683,6 +1695,29 @@ class BFASController2 extends Controller
         );
 
         return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    public function tag_bfas_budget_appropriation(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+        $itemLen= count($data['tagAccounts_Information_ID']);
+// dd($data);
+        for ($i = 0; $i < $itemLen; $i++) {
+            DB::table('bfas_budget_appropriation_accounts')->insert(
+                array(
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now(),
+    
+                    'Accounts_Information_ID'   => $data['tagAccounts_Information_ID'][$i],
+                    'Budget_Appropriation_ID'   => $data['B_IDx'],
+                    'Appropriation_Amount'      => $data['Appropriation_Amount'][$i],
+                )
+            );
+        }
+       
+
+        return redirect()->back()->with('alert', 'Entry Tagged');
     }
 
 }

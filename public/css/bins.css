@@ -1,0 +1,4 @@
+.fa-plus-square:hover{
+    transform: scale(1.25);
+    cursor: pointer;
+}

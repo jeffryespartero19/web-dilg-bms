@@ -6,6 +6,11 @@ $(document).on('click','.updateThis_XYZ',function(e) {
     $('#updateEntryXYZ').submit(); 
 });
 
+$(document).on('click',('.tag_XYZ'),function(e) {
+    var disVal = $(this).val();
+    $('#this_B_IDx').val(disVal);
+});
+
 //list province
 $(document).on('change','.regionX',function(e) {
     var disID = $(this).find(":selected").val();
@@ -703,3 +708,12 @@ $(document).on('click',('.edit_XYZ'),function(e) {
     }
 
 });
+
+$(document).on('click','.tagThis_XYZ',function(e) {
+    $('#tagEntryXYZ').submit(); 
+});tag_XYZ
+
+$(document).on('click',('.thisAdd'),function(e) {
+    $(this).next().clone().appendTo(".tagger");
+});
+
