@@ -12,7 +12,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
-                @if (Auth::user()->User_Type_ID != 2)
+                @if (Auth::user()->User_Type_ID == 1 || Auth::user()->User_Type_ID == 3)
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 <li class="nav-header" style="font-size: 20px;">Transactions</li>
                 <li class="nav-item">
@@ -55,6 +55,7 @@
                             <a href="{{route('deceased_profile_list')}}" class="nav-link">
                                 <p>Deceased Profile</p>
                             </a>
+                            @if (Auth::user()->User_Type_ID == 1)
                             <a href="{{route('inhabitants_transfer_list')}}" class="nav-link">
                                 <p>Inhabitants Transfer</p>
                             </a>
@@ -64,6 +65,7 @@
                             <a href="{{route('application_list')}}" class="nav-link">
                                 <p>Application List</p>
                             </a>
+                            @endif
                         </li>
                     </ul>
                 </li>
@@ -97,12 +99,6 @@
                             </a>
                             <a href="{{route('barangay_business_list')}}" class="nav-link">
                                 <p>Barangay Business</p>
-                            </a>
-                            <a href="{{route('brgy_payment_collected_docu_list')}}" class="nav-link">
-                                <p>Brgy Payment Collected(Document Info)</p>
-                            </a>
-                            <a href="{{route('brgy_payment_collected_business_list')}}" class="nav-link">
-                                <p>Brgy Payment Collected(Business Permit)</p>
                             </a>
                             <a href="{{route('brgy_document_claim_business_list')}}" class="nav-link">
                                 <p>Brgy Document Claim(Business Permit)</p>
@@ -252,32 +248,6 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-clone"></i>
                         <p>
-                            BIS
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <p>Barangay Information</p>
-                            </a>
-                            <a href="" class="nav-link">
-                                <p>Barangay Officials and Staff</p>
-                            </a>
-                            <a href="" class="nav-link">
-                                <p>Barangay Officials Term History</p>
-                            </a>
-                            <a href="{{route('cms_list')}}" class="nav-link">
-                                <p>Content Management System</p>
-                            </a>
-
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-clone"></i>
-                        <p>
                             BINS
                             <i class="right fas fa-angle-left"></i>
                         </p>
@@ -335,21 +305,54 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-clone"></i>
                         <p>
-                            BPMS
+                            BIS
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('contractor_list')}}" class="nav-link">
-                                <p>Contractor</p>
+                            <!-- <a href="" class="nav-link">
+                                <p>Barangay Information</p>
                             </a>
-                            <a href="{{route('brgy_projects_monitoring_list')}}" class="nav-link">
-                                <p>Brgy Projects Monitoring</p>
+                            <a href="" class="nav-link">
+                                <p>Barangay Officials and Staff</p>
+                            </a>
+                            <a href="" class="nav-link">
+                                <p>Barangay Officials Term History</p>
+                            </a> -->
+                            <a href="{{route('cms_list')}}" class="nav-link">
+                                <p>Content Management System</p>
                             </a>
 
                         </li>
-                    </ul>
+                    </ul>   
+                </li>
+                @elseif (Auth::user()->User_Type_ID == 5)
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-clone"></i>
+                        <p>
+                            BIS
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <!-- <a href="" class="nav-link">
+                                <p>Barangay Information</p>
+                            </a>
+                            <a href="" class="nav-link">
+                                <p>Barangay Officials and Staff</p>
+                            </a>
+                            <a href="" class="nav-link">
+                                <p>Barangay Officials Term History</p>
+                            </a> -->
+                            <a href="{{route('cms_list')}}" class="nav-link">
+                                <p>Content Management System</p>
+                            </a>
+
+                        </li>
+                    </ul>   
                 </li>
                 <li class="nav-header" style="font-size: 20px;">Maintenance</li>
                 <li class="nav-item">
@@ -637,6 +640,7 @@
                         </li>
                     </ul>
                 </li>
+                
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
@@ -684,7 +688,7 @@
                         </li>
                     </ul>
                 </li>
-                @else
+                @elseif (Auth::user()->User_Type_ID == 2)
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
@@ -702,6 +706,7 @@
                     </ul>
                 </li>
                 @endif
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

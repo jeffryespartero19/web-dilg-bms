@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BIPS</a></li>
                         <li class="breadcrumb-item active">Deceased Type Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -56,11 +56,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Deceased_Type_ID </th>
-                                            <th>Deceased_Type</th>
+                                            <th>Deceased Type ID </th>
+                                            <th>Deceased Type</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -108,7 +108,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Deceased_Type:</label>
+                            <label>Deceased Type:</label>
                             <input class="form-control" name="Deceased_TypeX">
                         </div>
 
@@ -148,7 +148,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Deceased_Type:</label>
+                            <label>Deceased Type:</label>
                             <input id="this_deceased_type_idX" class="form-control" name="Deceased_Type_idX" hidden>
                             <input id="this_deceased_typeX" class="form-control" name="Deceased_TypeX2">
                         </div>
@@ -174,5 +174,18 @@
 </div>
 
 <!-- Edit/Update Deceased_Type END -->
+
+@endsection
+
+@section('scripts')
+
+<script>
+    // Data Table
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
+
+
 
 @endsection

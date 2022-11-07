@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BCPCIS</a></li>
                         <li class="breadcrumb-item"><a href="{{route('brgy_business_permit_list')}}">Brgy Business Permit List</a></li>
                         <li class="breadcrumb-item active">Brgy Business Permit Information</li>
                     </ol>
@@ -137,7 +137,7 @@
                                                 <label for="Occupation">Occupation</label>
                                                 <input type="text" class="form-control" id="Occupation" name="Occupation" value="{{old('Occupation')}}">
                                             </div>
-                                        </div>
+                                        </div> 
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Region_ID">Region</label>
@@ -155,7 +155,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
+                                                <label for="City_Municipality_ID">City Municipality</label>
                                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
                                                     <option value='' disabled selected>Select Option</option>
                                                 </select>
@@ -166,7 +166,7 @@
                                                     <option value='' disabled selected>Select Option</option>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> 
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
