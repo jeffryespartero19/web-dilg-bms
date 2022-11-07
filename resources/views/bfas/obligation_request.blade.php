@@ -58,13 +58,10 @@
                                 <table id="example" class="table table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Request No</th>
-                                            <th>Purchase Order No</th>
-                                            <th>Payee</th>
+                                            <th style="width:18%">Reference</th>
                                             <th>Fund</th>
-                                            <th>Request Date</th>
-                                            <th>Request Status</th>
-                                            <th>Budget Appropriation</th>
+                                            <th>OBR Details</th>
+                                            <th style="width:18%">Tagged Accounts</th>
 
                                             <th>Officer <br>in Charge</th>
                                             <th style="width:15%">Location</th>
@@ -76,13 +73,58 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Obligation_Request_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Purchase_Order_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Fund_Type}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Obligation_Request_Date}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Obligation_Request_Status}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Appropriation_No}}</td>
+                                            <td class="sm_data_col txtCtr">
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Request No: </b></td>
+                                                        <td>{{$x->Obligation_Request_No}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>PO No: </b></td>
+                                                        <td>{{$x->Purchase_Order_No}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>App No: </b></td>
+                                                        <td>{{$x->Appropriation_No}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Payee: </b></td>
+                                                        <td>{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Fund Type: </b></td>
+                                                        <td>{{$x->Fund_Type}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Request Date: </b></td>
+                                                        <td>{{$x->Obligation_Request_Date}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Request Status: </b></td>
+                                                        <td>{{$x->Obligation_Request_Status}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <table>
+                                                    <tr>
+                                                        <th><b>Account</b></th>
+                                                        <th><b>Amount</b></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>({{$x->Account_Number}})-{{$x->Account_Name}}</td>
+                                                        <td>{{number_format((float)$x->Amount, 2, '.', ',')}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
 
                                             <td class="sm_data_col txtCtr">{{$x->Last_Name2}}, {{$x->First_Name2}} {{$x->Middle_Name2}}</td>
 
@@ -110,6 +152,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Obligation_Request_ID }}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="tag_XYZ" value="{{$x->Obligation_Request_ID}}" data-toggle="modal" data-target="#tagXYZ">Tag</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -377,6 +420,59 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Tagging  Modal -->
+<div class="modal fade" id="tagXYZ" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Tag Entries</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="tagEntryXYZ" method="POST" action="{{ route('tag_bfas_obligation_request') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <input id="this_B_IDx" value="" hidden name="B_IDx">
+                <div class="modal-body Absolute-Center tagger">
+                    <i class="fa fa-plus-square thisAdd" style="font-size: 25px"></i>
+                    <div class="modal_input_container row dupli">
+                        <div class="form-group col-lg-6">
+                            <label>Account:</label>
+                            <select class="form-control regionX2" name="tagAccounts_Information_ID[]">
+                                <option id="this_region" value='' hidden selected>Select</option>
+                                @foreach($accounts as $ac)
+                                <option value='{{$ac->Accounts_Information_ID }}'>({{$ac->Account_Number}})-{{$ac->Account_Name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>Tax Type:</label>
+                            <select class="form-control regionX2" name="Tax_Type_ID[]">
+                                <option id="this_region" value='' hidden selected>Select</option>
+                                @foreach($tax_type as $tx)
+                                <option value='{{$tx->Tax_Type_ID  }}'>{{$tx->Tax_Type}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Amount:</label>
+                            <input type="number" class="form-control" name="Amount[]" min="0" step=".01">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Adjustment Amount:</label>
+                            <input type="number" class="form-control" name="Adjustment_Amount[]" min="0" step=".01">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn tagThis_XYZ modal_sb_button">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- End Tagging  Modal -->
 
 @endsection
 
