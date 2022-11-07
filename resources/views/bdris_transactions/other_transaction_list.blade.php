@@ -100,10 +100,6 @@
                             <th>Emergency Evacuation_Site Name </th>
                             <th>Address </th>
                             <th>Capacity </th>
-                            <th>Region </th>
-                            <th>Province </th>
-                            <th>City/Municipality </th>
-                            <th>Barangay</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -114,10 +110,6 @@
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Evacuation_Site_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Address}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Capacity}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                             <td class="sm_data_col txtCtr">
                                 <a class="btn btn-success" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">Edit</a>
                             </td>
@@ -186,10 +178,6 @@
                             <th>Location </th>
                             <th>Remarks </th>
                             <th>Brgy Official Name </th>
-                            <th>Region </th>
-                            <th>Province </th>
-                            <th>City/Municipality </th>
-                            <th>Barangay</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -203,10 +191,6 @@
                             <td class="sm_data_col txtCtr">{{$x->Location}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                             <td class="sm_data_col txtCtr">
                                 <a class="btn btn-success" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">Edit</a>
                             </td>
@@ -234,10 +218,6 @@
                             <th hidden>Emergency_Team_ID </th>
                             <th>Emergency Team Name </th>
                             <th>Emergency Team Hotline </th>
-                            <th>Region </th>
-                            <th>Province </th>
-                            <th>City/Municipality </th>
-                            <th>Barangay</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -247,10 +227,6 @@
                             <td class="sm_data_col txtCtr" hidden>{{$x->Emergency_Team_ID}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Hotline}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                             <td class="sm_data_col txtCtr">
                                 <a class="btn btn-success" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">Edit</a>
                             </td>
@@ -278,10 +254,6 @@
                             <th hidden>Emergency_Equipment_ID </th>
                             <th>Emergency Equipment Name </th>
                             <th>Location </th>
-                            <th>Region </th>
-                            <th>Province </th>
-                            <th>City/Municipality </th>
-                            <th>Barangay</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -291,10 +263,6 @@
                             <td class="sm_data_col txtCtr" hidden>{{$x->Emergency_Equipment_ID}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Equipment_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Location}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                             <td class="sm_data_col txtCtr">
                                 <a class="btn btn-success" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">Edit</a>
                             </td>

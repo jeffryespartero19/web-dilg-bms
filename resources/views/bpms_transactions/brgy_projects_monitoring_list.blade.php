@@ -4,16 +4,23 @@
 <script src="{{ asset('/js/maintenance.js') }}" defer></script>
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
-<div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Barangay Projects Monitoring List </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BPMS / </li>
-            </a>
-            <li> &nbsp;Barangay Projects Monitoring List</li>
-        </ol>
-    </div>
+<div class="page_title_row col-md-12"> 
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Barangay Projects Monitoring List</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BPMS</a></li>
+                        <li class="breadcrumb-item active">Barangay Projects Monitoring List</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -29,52 +36,72 @@
     {{ session()->get('message') }}
 </div>
 @endif
-<div class="tableX_row col-md-12 up_marg5">
-    <br>
-    <div class="flexer">
-        <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-        <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createBrgy_Projects_Monitoring" style="width: 100px;">New</button></div>
-        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Project') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
-        <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Project') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="text-align: right;">
+                            <div class="btn-group">
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createBrgy_Projects_Monitoring">New</button></div>
+                                <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Project') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
+                                <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Project') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <div class="col-md-12 table-responsive">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th hidden>BrgyProjects_ID</th>
+                                            <th>Project Number</th>
+                                            <th>Project Name</th>
+                                            <th>Total Project Cost</th>
+                                            <th>Exact Location</th>
+                                            <th>Actual Project Start</th>
+                                            <th>Contractor Name</th>
+                                            <th>Project Type</th>
+                                            <th>Project Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($db_entries as $x)
+                                        <tr>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Brgy_Projects_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Project_Number}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Project_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Total_Project_Cost}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Exact_Location}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Actual_Project_Start}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Contractor_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Project_Type_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Project_Status_Name}}</td>
+                                            <td class="sm_data_col txtCtr">
+                                                <button class="edit_brgy_projects_monitoring" value="{{$x->Brgy_Projects_ID}}" data-toggle="modal" data-target="#createBrgy_Projects_Monitoring">Edit</button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
-    <br>
-    <div class="col-md-12">
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th hidden>BrgyProjects_ID</th>
-                    <th>Project Number</th>
-                    <th>Project Name</th>
-                    <th>Total Project Cost</th>
-                    <th>Exact Location</th>
-                    <th>Actual Project Start</th>
-                    <th>Contractor Name</th>
-                    <th>Project Type</th>
-                    <th>Project Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($db_entries as $x)
-                <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->Brgy_Projects_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Project_Number}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Project_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Total_Project_Cost}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Exact_Location}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Actual_Project_Start}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Contractor_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Project_Type_Name}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Project_Status_Name}}</td>
-                    <td class="sm_data_col txtCtr">
-                        <button class="edit_brgy_projects_monitoring" value="{{$x->Brgy_Projects_ID}}" data-toggle="modal" data-target="#createBrgy_Projects_Monitoring">Edit</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
 <!-- Create Announcement_Status Modal  -->
 
@@ -176,40 +203,6 @@
                                     @foreach($project_status as $bt1)
                                     <option value="{{ $bt1->Project_Status_ID }}">{{ $bt1->Project_Status_Name }}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="Region_ID">Region</label>
-                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($region as $bt1)
-                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="Province_ID">Province</label>
-                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                    <option value='' disabled selected>Select Option</option>
-
-
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="City_Municipality_ID">City_Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                    <option value='' disabled selected>Select Option</option>
-
-
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="Barangay_ID">Barangay</label>
-                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                    <option value='' disabled selected>Select Option</option>
-
                                 </select>
                             </div>
                         </div>

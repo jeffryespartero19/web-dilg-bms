@@ -18,48 +18,98 @@ class bipsController extends Controller
     public function inhabitants_information_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_brgy_inhabitants_information as a')
-            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
-            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
-            ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
-            ->select(
-                'a.Resident_ID',
-                'a.Name_Prefix_ID',
-                'a.Last_Name',
-                'a.First_Name',
-                'a.Middle_Name',
-                'a.Name_Suffix_ID',
-                'a.Birthplace',
-                'a.Weight',
-                'a.Height',
-                'a.Civil_Status_ID',
-                'a.Birthdate',
-                'a.Country_ID',
-                'a.Religion_ID',
-                'a.Blood_Type_ID',
-                'a.Sex',
-                'a.Mobile_No',
-                'a.Telephone_No',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Province_ID',
-                'a.Region_ID',
-                'a.Street',
-                'a.Salary',
-                'a.Email_Address',
-                'a.PhilSys_Card_No',
-                'a.Solo_Parent',
-                'a.OFW',
-                'a.Indigent',
-                'a.4Ps_Beneficiary as Beneficiary',
-                'a.Encoder_ID',
-                'a.Date_Stamp',
-                'b.Name_Prefix',
-                'c.Name_Suffix',
-                'd.Civil_Status'
-            )
-            ->where('a.Application_Status', 1)
-            ->paginate(20, ['*'], 'db_entries');
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+                ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Name_Prefix_ID',
+                    'a.Last_Name',
+                    'a.First_Name',
+                    'a.Middle_Name',
+                    'a.Name_Suffix_ID',
+                    'a.Birthplace',
+                    'a.Weight',
+                    'a.Height',
+                    'a.Civil_Status_ID',
+                    'a.Birthdate',
+                    'a.Country_ID',
+                    'a.Religion_ID',
+                    'a.Blood_Type_ID',
+                    'a.Sex',
+                    'a.Mobile_No',
+                    'a.Telephone_No',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Street',
+                    'a.Salary',
+                    'a.Email_Address',
+                    'a.PhilSys_Card_No',
+                    'a.Solo_Parent',
+                    'a.OFW',
+                    'a.Indigent',
+                    'a.4Ps_Beneficiary as Beneficiary',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Name_Prefix',
+                    'c.Name_Suffix',
+                    'd.Civil_Status'
+                )
+                ->where('a.Application_Status', 1)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+
+            $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+                ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Name_Prefix_ID',
+                    'a.Last_Name',
+                    'a.First_Name',
+                    'a.Middle_Name',
+                    'a.Name_Suffix_ID',
+                    'a.Birthplace',
+                    'a.Weight',
+                    'a.Height',
+                    'a.Civil_Status_ID',
+                    'a.Birthdate',
+                    'a.Country_ID',
+                    'a.Religion_ID',
+                    'a.Blood_Type_ID',
+                    'a.Sex',
+                    'a.Mobile_No',
+                    'a.Telephone_No',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Street',
+                    'a.Salary',
+                    'a.Email_Address',
+                    'a.PhilSys_Card_No',
+                    'a.Solo_Parent',
+                    'a.OFW',
+                    'a.Indigent',
+                    'a.4Ps_Beneficiary as Beneficiary',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Name_Prefix',
+                    'c.Name_Suffix',
+                    'd.Civil_Status'
+                )
+                ->where('a.Application_Status', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+
         $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
         $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
         $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
@@ -72,6 +122,9 @@ class bipsController extends Controller
         $country = DB::table('maintenance_country')->where('Active', 1)->get();
         $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
         $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
 
         return view('bips_transactions.inhabitants_information_list', compact(
             'db_entries',
@@ -87,7 +140,8 @@ class bipsController extends Controller
             'barangay',
             'country',
             'academic_level',
-            'employment_type'
+            'employment_type',
+            'city1'
         ));
     }
 
@@ -420,24 +474,46 @@ class bipsController extends Controller
     public function deceased_profile_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_deceased_profile as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_bips_deceased_type as c', 'a.Deceased_Type_ID', '=', 'c.Deceased_Type_ID')
-            ->select(
-                'a.Resident_ID',
-                'b.Last_Name',
-                'b.First_Name',
-                'b.Middle_Name',
-                'a.Deceased_Type_ID',
-                'c.Deceased_Type',
-                'a.Cause_of_Death',
-                'a.Date_of_Death',
-            )
-            ->where('b.Application_Status', 1)
-            ->paginate(20, ['*'], 'db_entries');
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bips_deceased_profile as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_deceased_type as c', 'a.Deceased_Type_ID', '=', 'c.Deceased_Type_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Deceased_Type_ID',
+                    'c.Deceased_Type',
+                    'a.Cause_of_Death',
+                    'a.Date_of_Death',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('e.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('bips_deceased_profile as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_deceased_type as c', 'a.Deceased_Type_ID', '=', 'c.Deceased_Type_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Deceased_Type_ID',
+                    'c.Deceased_Type',
+                    'a.Cause_of_Death',
+                    'a.Date_of_Death',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
 
-
-
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         $name = DB::table('bips_brgy_inhabitants_information')->paginate(20, ['*'], 'name');
         $deceased_type = DB::table('maintenance_bips_deceased_type')->where('Active', 1)->get();
 
@@ -446,6 +522,7 @@ class bipsController extends Controller
             'currDATE',
             'name',
             'deceased_type',
+            'city1'
         ));
     }
 
@@ -463,7 +540,8 @@ class bipsController extends Controller
                 'Cause_of_Death' => $data['Cause_of_Death'],
                 'Date_of_Death' => $data['Date_of_Death'],
                 'Encoder_ID'       => Auth::user()->id,
-                'Date_Stamp'       => Carbon::now()
+                'Date_Stamp'       => Carbon::now(),
+                'Barangay_ID'       => Auth::user()->Barangay_ID,
             )
         );
         return redirect()->back()->with('message', 'New Entry Created');
@@ -512,37 +590,66 @@ class bipsController extends Controller
     public function inhabitants_transfer_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('Inhabitants_Transfer as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
-            ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
-            ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
-            ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
-            ->select(
-                'a.Inhabitants_Transfer_ID',
-                'a.Resident_ID',
-                'b.Last_Name',
-                'b.First_Name',
-                'b.Middle_Name',
-                'a.Region_ID',
-                'c.Region_Name',
-                'a.Province_ID',
-                'd.Province_Name',
-                'a.City_Municipality_ID',
-                'e.City_Municipality_Name',
-                'a.Barangay_ID',
-                'f.Barangay_Name',
-            )
-            ->where('b.Application_Status', 1)
-            ->paginate(20, ['*'], 'db_entries');
-
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+                ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->leftjoin('maintenance_barangay as g', 'a.Main_Barangay_ID', '=', 'g.Barangay_ID')
+                ->select(
+                    'a.Inhabitants_Transfer_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Region_ID',
+                    'c.Region_Name',
+                    'a.Province_ID',
+                    'd.Province_Name',
+                    'a.City_Municipality_ID',
+                    'e.City_Municipality_Name',
+                    'a.Barangay_ID',
+                    'f.Barangay_Name',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('g.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+                ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Inhabitants_Transfer_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Region_ID',
+                    'c.Region_Name',
+                    'a.Province_ID',
+                    'd.Province_Name',
+                    'a.City_Municipality_ID',
+                    'e.City_Municipality_Name',
+                    'a.Barangay_ID',
+                    'f.Barangay_Name',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('a.Main_Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         $name = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->paginate(20, ['*'], 'name');
         $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
         $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
         $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
         $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
-
-
 
         return view('bips_transactions.inhabitants_transfer_list', compact(
             'db_entries',
@@ -552,6 +659,7 @@ class bipsController extends Controller
             'province',
             'barangay',
             'city',
+            'city1'
 
         ));
     }
@@ -572,7 +680,8 @@ class bipsController extends Controller
                     'Barangay_ID'           => $data['Barangay_ID'],
                     'Status_ID'             => 0,
                     'Encoder_ID'            => Auth::user()->id,
-                    'Date_Stamp'            => Carbon::now()
+                    'Date_Stamp'            => Carbon::now(),
+                    'Main_Barangay_ID'            => Auth::user()->Barangay_ID,
                 )
             );
             return redirect()->back()->with('message', 'New Entry Created');
@@ -630,54 +739,114 @@ class bipsController extends Controller
     public function inhabitants_incoming_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('Inhabitants_Transfer as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
-            ->select(
-                'a.Resident_ID',
-                'a.Region_ID',
-                'a.Province_ID',
-                'a.City_Municipality_ID',
-                'a.Barangay_ID',
-                'b.Last_Name',
-                'b.First_Name',
-                'b.Middle_Name',
-                'c.Name_Suffix'
-            )
-            ->where('a.Status_ID', 0)
-            ->paginate(20, ['*'], 'db_entries');
-        $db_entries2 = DB::table('Inhabitants_Transfer as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
-            ->select(
-                'a.Resident_ID',
-                'a.Region_ID',
-                'a.Province_ID',
-                'a.City_Municipality_ID',
-                'a.Barangay_ID',
-                'b.Last_Name',
-                'b.First_Name',
-                'b.Middle_Name',
-                'c.Name_Suffix'
-            )
-            ->where('a.Status_ID', 1)
-            ->paginate(20, ['*'], 'db_entries');
-        $db_entries3 = DB::table('Inhabitants_Transfer as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
-            ->select(
-                'a.Resident_ID',
-                'a.Region_ID',
-                'a.Province_ID',
-                'a.City_Municipality_ID',
-                'a.Barangay_ID',
-                'b.Last_Name',
-                'b.First_Name',
-                'b.Middle_Name',
-                'c.Name_Suffix'
-            )
-            ->where('a.Status_ID', 2)
-            ->paginate(20, ['*'], 'db_entries');
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 0)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+            $db_entries2 = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 1)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+            $db_entries3 = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 2)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 0)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+            $db_entries2 = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+            $db_entries3 = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 2)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
         $region = DB::table('maintenance_region')->where('Active', 1)->get();
         $province = DB::table('maintenance_province')->where('Active', 1)->get();
@@ -694,7 +863,8 @@ class bipsController extends Controller
             'region',
             'province',
             'city',
-            'barangay'
+            'barangay',
+            'city1'
         ));
     }
 
@@ -739,19 +909,42 @@ class bipsController extends Controller
     public function inhabitants_household_profile(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bips_household_profile as a')
-            ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
-            ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
-            ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
-            ->select(
-                'a.Household_Profile_ID',
-                'a.Household_Name',
-                'a.Household_Monthly_Income',
-                'b.Family_Type_Name',
-                'c.Tenure_of_Lot',
-                'd.Housing_Unit',
-            )
-            ->paginate(20, ['*'], 'db_entries');
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bips_household_profile as a')
+                ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+                ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+                ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Household_Profile_ID',
+                    'a.Household_Name',
+                    'a.Household_Monthly_Income',
+                    'b.Family_Type_Name',
+                    'c.Tenure_of_Lot',
+                    'd.Housing_Unit',
+                )
+                ->where('e.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('bips_household_profile as a')
+                ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+                ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+                ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+                ->select(
+                    'a.Household_Profile_ID',
+                    'a.Household_Name',
+                    'a.Household_Monthly_Income',
+                    'b.Family_Type_Name',
+                    'c.Tenure_of_Lot',
+                    'd.Housing_Unit',
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
         $resident = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->get();
         $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
         $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
@@ -769,6 +962,7 @@ class bipsController extends Controller
             'family_type',
             'suffix',
             'resident',
+            'city1'
         ));
     }
 
@@ -840,7 +1034,8 @@ class bipsController extends Controller
                     'Family_Type_ID' => $data['Family_Type_ID'],
                     'Household_Name' => $data['Household_Name'],
                     'Encoder_ID'       => Auth::user()->id,
-                    'Date_Stamp'       => Carbon::now()
+                    'Date_Stamp'       => Carbon::now(),
+                    'Barangay_ID'       => Auth::user()->Barangay_ID,
                 )
             );
 
@@ -1213,5 +1408,126 @@ class bipsController extends Controller
             'db_entries'
         ));
         return $pdf->stream();
+    }
+
+    public function get_inhabitant_list($Barangay_ID)
+    {
+        $data = DB::table('bips_brgy_inhabitants_information as a')
+            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Name_Prefix_ID',
+                'a.Last_Name',
+                'a.First_Name',
+                'a.Middle_Name',
+                'a.Name_Suffix_ID',
+                'a.Birthplace',
+                'a.Weight',
+                'a.Height',
+                'a.Civil_Status_ID',
+                'a.Birthdate',
+                'a.Country_ID',
+                'a.Religion_ID',
+                'a.Blood_Type_ID',
+                'a.Sex',
+                'a.Mobile_No',
+                'a.Telephone_No',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Province_ID',
+                'a.Region_ID',
+                'a.Street',
+                'a.Salary',
+                'a.Email_Address',
+                'a.PhilSys_Card_No',
+                'a.Solo_Parent',
+                'a.OFW',
+                'a.Indigent',
+                'a.4Ps_Beneficiary as Beneficiary',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Name_Prefix',
+                'c.Name_Suffix',
+                'd.Civil_Status'
+            )
+            ->where('a.Application_Status', 1)
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
+    }
+
+    public function get_household_list($Barangay_ID)
+    {
+        $data = DB::table('bips_household_profile as a')
+            ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+            ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+            ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
+                'a.Household_Profile_ID',
+                'a.Household_Name',
+                'a.Household_Monthly_Income',
+                'b.Family_Type_Name',
+                'c.Tenure_of_Lot',
+                'd.Housing_Unit',
+            )
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->get();
+
+        return json_encode($data);
+    }
+
+    public function get_deceased_list($Barangay_ID)
+    {
+        $data = DB::table('bips_deceased_profile as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_deceased_type as c', 'a.Deceased_Type_ID', '=', 'c.Deceased_Type_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
+                'a.Resident_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'a.Deceased_Type_ID',
+                'c.Deceased_Type',
+                'a.Cause_of_Death',
+                'a.Date_of_Death',
+            )
+            ->where('b.Application_Status', 1)
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
+    }
+
+    public function get_transfer_list($Barangay_ID)
+    {
+        $data = DB::table('Inhabitants_Transfer as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+            ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+            ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+            ->leftjoin('maintenance_barangay as g', 'a.Main_Barangay_ID', '=', 'g.Barangay_ID')
+            ->select(
+                'a.Inhabitants_Transfer_ID',
+                'a.Resident_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'a.Region_ID',
+                'c.Region_Name',
+                'a.Province_ID',
+                'd.Province_Name',
+                'a.City_Municipality_ID',
+                'e.City_Municipality_Name',
+                'a.Barangay_ID',
+                'f.Barangay_Name',
+            )
+            ->where('b.Application_Status', 1)
+            ->where('a.Main_Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
     }
 }

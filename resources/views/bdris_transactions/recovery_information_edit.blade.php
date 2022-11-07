@@ -5,15 +5,23 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <div class="col-md-6 titleXZ"> Edit Recovery Information </div>
-    <div class="col-md-6 breadcrumbXZ">
-        <ol class="breadcrumb">
-            <a href="{{route('home')}}">
-                <li>DILG_BDRIS / </li>
-            </a>
-            <li> &nbsp;Recovery Information </li>
-        </ol>
-    </div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Recovery Information</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('recovery_information_list')}}">Recovery Information List</a></li>
+                        <li class="breadcrumb-item active">Recovery Information</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
 </div>
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -48,45 +56,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Region_ID">Region</label>
-                        <select class="form-control" id="Region_ID" name="Region_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($region as $bt1)
-                            <option value="{{ $bt1->Region_ID }}" {{ $bt1->Region_ID  == $recovery[0]->Region_ID  ? "selected" : "" }}>{{ $bt1->Region_Name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Province_ID">Province</label>
-                        <select class="form-control" id="Province_ID" name="Province_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($province as $bt1)
-                            <option value="{{ $bt1->Province_ID }}" {{ $bt1->Province_ID  == $recovery[0]->Province_ID  ? "selected" : "" }}>{{ $bt1->Province_Name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="City_Municipality_ID">City_Municipality</label>
-                        <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($city_municipality as $bt1)
-                            <option value="{{ $bt1->City_Municipality_ID }}" {{ $bt1->City_Municipality_ID  == $recovery[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $bt1->City_Municipality_Name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-lg-4" style="padding:0 10px">
-                        <label for="Barangay_ID">Barangay</label>
-                        <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                            <option value='' disabled selected>Select Option</option>
-                            @foreach($barangay as $bt1)
-                            <option value="{{ $bt1->Barangay_ID }}" {{ $bt1->Barangay_ID  == $recovery[0]->Barangay_ID  ? "selected" : "" }}>{{ $bt1->Barangay_Name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <div class="form-group col-lg-12" style="padding:0 10px">
                         <label for="fileattach">File Attachments</label>
                         <ul class="list-group list-group-flush" id="recovery_information_files">

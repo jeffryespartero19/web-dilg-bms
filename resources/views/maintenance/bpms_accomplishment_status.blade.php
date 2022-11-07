@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Accomplishment_Status_ID </th>
-                                            <th>Accomplishment_Status_Name</th>
+                                            <th>Accomplishment Status ID </th>
+                                            <th>Accomplishment Status Name</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -112,7 +112,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Accomplishment_Status:</label>
+                            <label>Accomplishment Status:</label>
                             <input class="form-control" name="Accomplishment_StatusX">
                         </div>
 
@@ -152,7 +152,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Accomplishment_Status:</label>
+                            <label>Accomplishment Status:</label>
                             <input id="this_accomplishment_status_idX" class="form-control" name="Accomplishment_Status_idX" hidden>
                             <input id="this_accomplishment_statusX" class="form-control" name="Accomplishment_StatusX2">
                         </div>

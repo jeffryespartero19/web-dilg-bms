@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BCPIS</a></li>
                         <li class="breadcrumb-item active">Document Type Maintenance/Setup</li>
                     </ol>
                 </div>
@@ -126,7 +126,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Create Post</h4>
+                <h4 class="modal-title flexer justifier">Update Post</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="update_Document_Type" method="POST" action="{{ route('update_document_type') }}" autocomplete="off" enctype="multipart/form-data">@csrf

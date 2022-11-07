@@ -4,7 +4,7 @@
 <script src="{{ asset('/js/maintenance.js') }}" defer></script>
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
-<div class="page_title_row col-md-12">
+<div class="page_title_row col-md-12"> 
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -63,10 +63,6 @@
                                             <th>New or Renewal</th>
                                             <th>Owned or Rented</th>
                                             <th>Expiration Date</th>
-                                            <th>Region </th>
-                                            <th>Province </th>
-                                            <th>City/Municipality </th>
-                                            <th>Barangay</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -80,10 +76,6 @@
                                             <td class="sm_data_col txtCtr">{{$x->New_or_Renewal}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Owned_or_Rented}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Barangay_Business_Permit_Expiration_Date}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <a class="btn btn-success" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">Edit</a>
                                             </td>

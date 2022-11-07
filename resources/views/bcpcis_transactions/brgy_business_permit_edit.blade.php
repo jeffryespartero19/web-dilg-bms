@@ -82,7 +82,7 @@
                                                     <option value=0 {{ 0 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>Renewal</option>
                                                     <option value=1 {{ 1 == $permit[0]->New_or_Renewal  ? "selected" : "" }}>New</option>
                                                 </select>
-                                            </div>
+                                            </div> 
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Owned_or_Rented">Owned or Rented</label>
                                                 <select class="form-control" name="Owned_or_Rented" id="Owned_or_Rented">
@@ -137,44 +137,6 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Occupation">Occupation</label>
                                                 <input type="text" class="form-control" id="Occupation" name="Occupation" value="{{$permit[0]->Occupation}}">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                                    <option value='' selected>Select Option</option>
-                                                    @foreach($region as $bt1)
-                                                    <option value="{{ $bt1->Region_ID }}" {{ $bt1->Region_ID  == $permit[0]->Region_ID  ? "selected" : "" }}>{{ $bt1->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                                    <option value='' selected>Select Option</option>
-                                                    @foreach($province as $bt1)
-                                                    <option value="{{ $bt1->Province_ID }}" {{ $bt1->Province_ID  == $permit[0]->Province_ID  ? "selected" : "" }}>{{ $bt1->Province_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($city_municipality as $bt1)
-                                                    <option value="{{ $bt1->City_Municipality_ID }}" {{ $bt1->City_Municipality_ID  == $permit[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $bt1->City_Municipality_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($barangay as $bt1)
-                                                    <option value="{{ $bt1->Barangay_ID }}" {{ $bt1->Barangay_ID  == $permit[0]->Barangay_ID  ? "selected" : "" }}>{{ $bt1->Barangay_Name }}</option>
-                                                    @endforeach
-                                                </select>
                                             </div>
                                         </div>
                                     </div>

@@ -65,10 +65,6 @@
                                             <th>GPS Coordinates</th>
                                             <th>Risk Assesment</th>
                                             <th>Action Taken</th>
-                                            <th>Region </th>
-                                            <th>Province </th>
-                                            <th>City/Municipality </th>
-                                            <th>Barangay</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -85,10 +81,6 @@
                                             <td class="sm_data_col txtCtr">{{$x->GPS_Coordinates}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Risk_Assesment}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Action_Taken}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <a class="btn btn-success" href="{{ url('response_information_details/'.$x->Disaster_Response_ID) }}">Edit</a>
                                             </td>

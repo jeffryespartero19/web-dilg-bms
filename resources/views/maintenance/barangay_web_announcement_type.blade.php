@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Announcement_Type_ID </th>
-                                            <th>Announcement_Type_Name</th>
+                                            <th>Announcement Type ID </th>
+                                            <th>Announcement Type Name</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Announcement_Type_Name:</label>
+                            <label>Announcement Type Name:</label>
                             <input class="form-control" name="Announcement_Type_NameX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Announcement_Type_Name:</label>
+                            <label>Announcement Type Name:</label>
                             <input id="this_ann_type_idX" class="form-control" name="Announcement_Type_idX" hidden>
                             <input id="this_ann_type_NameX" class="form-control" name="Announcement_Type_NameX2">
                         </div>

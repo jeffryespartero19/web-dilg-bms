@@ -54,6 +54,7 @@ class BCPISController extends Controller
                 DB::raw('CONCAT(i.First_Name, " ",LEFT(i.Middle_Name,1),". ",i.Last_Name) AS Resident_Name'),
 
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -139,10 +140,10 @@ class BCPISController extends Controller
                     'Document_Type_ID'      => $data['Document_Type_ID'],
                     'Resident_ID'           => $data['Resident_ID'],
                     'SecondResident_Name'   => $data['SecondResident_Name'],
-                    'Barangay_ID'           => $data['Barangay_ID'],
-                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
-                    'Province_ID'           => $data['Province_ID'],
-                    'Region_ID'             => $data['Region_ID'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Encoder_ID'            => Auth::user()->id,
                     'Date_Stamp'            => Carbon::now(),
 
@@ -161,10 +162,10 @@ class BCPISController extends Controller
                     'CTC_No'                                    => $data['CTC_No'],
                     'CTC_Amount'                                => $data['CTC_Amount'],
                     'Place_Issued'                              => $data['Place_Issued'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
 
@@ -176,7 +177,7 @@ class BCPISController extends Controller
 
 
             
-            return redirect()->to('brgy_document_information_details/' . $Document_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_document_information_details/' . $Document_ID)->with('message', 'New Document Information Created');
         } else {
             DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
                 array(
@@ -192,10 +193,10 @@ class BCPISController extends Controller
                     'Document_Type_ID'      => $data['Document_Type_ID'],
                     'Resident_ID'           => $data['Resident_ID'],
                     'SecondResident_Name'   => $data['SecondResident_Name'],
-                    'Barangay_ID'           => $data['Barangay_ID'],
-                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
-                    'Province_ID'           => $data['Province_ID'],
-                    'Region_ID'             => $data['Region_ID'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Encoder_ID'            => Auth::user()->id,
                     'Date_Stamp'            => Carbon::now(),
                 )
@@ -213,10 +214,10 @@ class BCPISController extends Controller
                     'CTC_No'                                    => $data['CTC_No'],
                     'CTC_Amount'                                => $data['CTC_Amount'],
                     'Place_Issued'                              => $data['Place_Issued'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
                 )
@@ -225,7 +226,7 @@ class BCPISController extends Controller
 
             
          
-            return redirect()->back()->with('message', 'Response Information Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 
@@ -261,6 +262,7 @@ class BCPISController extends Controller
                 'f.Business_Type',
 
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -319,10 +321,10 @@ class BCPISController extends Controller
                     'Business_Owner'        => $data['Business_Owner'],
                     'Business_Address'      => $data['Business_Address'],
                     'Mobile_No'             => $data['Mobile_No'],
-                    'Barangay_ID'           => $data['Barangay_ID'],
-                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
-                    'Province_ID'           => $data['Province_ID'],
-                    'Region_ID'             => $data['Region_ID'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Active'                => (int)$data['Active'],
                     'Encoder_ID'            => Auth::user()->id,
                     'Date_Stamp'            => Carbon::now(),
@@ -330,7 +332,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('barangay_business_details/' . $Business_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('barangay_business_details/' . $Business_ID)->with('message', 'New Barangay Business Created');
         } else {
             DB::table('maintenance_bcpcis_barangay_business')->where('Business_ID', $data['Business_ID'])->update(
                 array(
@@ -340,10 +342,10 @@ class BCPISController extends Controller
                     'Business_Owner'        => $data['Business_Owner'],
                     'Business_Address'      => $data['Business_Address'],
                     'Mobile_No'             => $data['Mobile_No'],
-                    'Barangay_ID'           => $data['Barangay_ID'],
-                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
-                    'Province_ID'           => $data['Province_ID'],
-                    'Region_ID'             => $data['Region_ID'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Active'                => (int)$data['Active'],
                     'Encoder_ID'            => Auth::user()->id,
                     'Date_Stamp'            => Carbon::now(),
@@ -352,7 +354,7 @@ class BCPISController extends Controller
 
             
          
-            return redirect()->back()->with('message', 'Response Information Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 
@@ -390,6 +392,7 @@ class BCPISController extends Controller
                 DB::raw('(CASE WHEN a.Owned_or_Rented = false THEN "Rented" ELSE "Owned" END) AS Owned_or_Rented'),
 
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -455,10 +458,10 @@ class BCPISController extends Controller
                     'Owned_or_Rented'                           => (int)$data['Owned_or_Rented'],
                     'Barangay_Business_Permit_Expiration_Date'  => $data['Barangay_Business_Permit_Expiration_Date'],
                     'Occupation'                                => $data['Occupation'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
 
@@ -476,10 +479,10 @@ class BCPISController extends Controller
                     'CTC_No'                                    => $data['CTC_No'],
                     'CTC_Amount'                                => $data['CTC_Amount'],
                     'Place_Issued'                              => $data['Place_Issued'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
 
@@ -487,7 +490,7 @@ class BCPISController extends Controller
             );
 
 
-            return redirect()->to('brgy_business_permit_details/' . $Barangay_Permits_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_business_permit_details/' . $Barangay_Permits_ID)->with('message', 'New Business Permits Created');
         } else {
             DB::table('bcpcis_brgy_business_permits')->where('Barangay_Permits_ID', $data['Barangay_Permits_ID'])->update(
                 array(
@@ -498,10 +501,10 @@ class BCPISController extends Controller
                     'Owned_or_Rented'                           => (int)$data['Owned_or_Rented'],
                     'Barangay_Business_Permit_Expiration_Date'  => $data['Barangay_Business_Permit_Expiration_Date'],
                     'Occupation'                                => $data['Occupation'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
                 )
@@ -517,17 +520,17 @@ class BCPISController extends Controller
                     'CTC_No'                                    => $data['CTC_No'],
                     'CTC_Amount'                                => $data['CTC_Amount'],
                     'Place_Issued'                              => $data['Place_Issued'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
                 )
 
             );
          
-            return redirect()->back()->with('message', 'Response Information Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 
@@ -627,7 +630,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('brgy_payment_collected_docu_details/' . $Payment_Collected_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_payment_collected_docu_details/' . $Payment_Collected_ID)->with('message', 'New Payment Collected Created');
         } else {
             DB::table('bcpcis_brgy_payment_collected')->where('Payment_Collected_ID', $data['Payment_Collected_ID'])->update(
                 array(
@@ -646,7 +649,7 @@ class BCPISController extends Controller
 
             
          
-            return redirect()->back()->with('message', 'Response Information Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 
@@ -746,7 +749,7 @@ class BCPISController extends Controller
                 )
             );
 
-            return redirect()->to('brgy_payment_collected_business_details/' . $Payment_Collected_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_payment_collected_business_details/' . $Payment_Collected_ID)->with('message', 'New Payment Collected Created');
         } else {
             DB::table('bcpcis_brgy_payment_collected')->where('Payment_Collected_ID', $data['Payment_Collected_ID'])->update(
                 array(
@@ -765,7 +768,7 @@ class BCPISController extends Controller
 
             
          
-            return redirect()->back()->with('message', 'Response Information Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 
@@ -800,7 +803,8 @@ class BCPISController extends Controller
                 DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
 
             )
-            ->where('a.Barangay_Permits_ID','!=', 0)
+           
+            ->where([['a.Barangay_Permits_ID', '!=', 0],['a.Barangay_ID', Auth::user()->Barangay_ID]])
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -861,17 +865,17 @@ class BCPISController extends Controller
                     'Resident_ID'                               => $data['Resident_ID'],
                     'Requested_Date_and_Time'                   => $data['Requested_Date_and_Time'],
                     'Queue_Ticket_Number'                       => $data['Queue_Ticket_Number'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
 
                 )
             );
 
-            return redirect()->to('brgy_document_claim_business_details/' . $Claim_Schedule_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_document_claim_business_details/' . $Claim_Schedule_ID)->with('message', 'New Claim Schedule Created');
         } else {
             DB::table('bcpcis_brgy_document_claim_schedule')->where('Claim_Schedule_ID', $data['Claim_Schedule_ID'])->update(
                 array(
@@ -879,10 +883,10 @@ class BCPISController extends Controller
                     'Resident_ID'                               => $data['Resident_ID'],
                     'Requested_Date_and_Time'                   => $data['Requested_Date_and_Time'],
                     'Queue_Ticket_Number'                       => $data['Queue_Ticket_Number'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
                 )
@@ -890,7 +894,7 @@ class BCPISController extends Controller
 
             
          
-            return redirect()->back()->with('message', 'Response Information Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 
@@ -925,7 +929,7 @@ class BCPISController extends Controller
                 DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
 
             )
-            ->where('a.Document_ID','!=', 0)
+            ->where([['a.Document_ID', '!=', 0],['a.Barangay_ID', Auth::user()->Barangay_ID]])
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -986,17 +990,17 @@ class BCPISController extends Controller
                     'Resident_ID'                               => $data['Resident_ID'],
                     'Requested_Date_and_Time'                   => $data['Requested_Date_and_Time'],
                     'Queue_Ticket_Number'                       => $data['Queue_Ticket_Number'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
 
                 )
             );
 
-            return redirect()->to('brgy_document_claim_docu_details/' . $Claim_Schedule_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('brgy_document_claim_docu_details/' . $Claim_Schedule_ID)->with('message', 'New Claim Schedule Created');
         } else {
             DB::table('bcpcis_brgy_document_claim_schedule')->where('Claim_Schedule_ID', $data['Claim_Schedule_ID'])->update(
                 array(
@@ -1004,10 +1008,10 @@ class BCPISController extends Controller
                     'Resident_ID'                               => $data['Resident_ID'],
                     'Requested_Date_and_Time'                   => $data['Requested_Date_and_Time'],
                     'Queue_Ticket_Number'                       => $data['Queue_Ticket_Number'],
-                    'Barangay_ID'                               => $data['Barangay_ID'],
-                    'City_Municipality_ID'                      => $data['City_Municipality_ID'],
-                    'Province_ID'                               => $data['Province_ID'],
-                    'Region_ID'                                 => $data['Region_ID'],
+                    'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                               => Auth::user()->Province_ID,
+                    'Region_ID'                                 => Auth::user()->Region_ID,
                     'Encoder_ID'                                => Auth::user()->id,
                     'Date_Stamp'                                => Carbon::now(),
                 )
@@ -1015,7 +1019,7 @@ class BCPISController extends Controller
 
             
          
-            return redirect()->back()->with('message', 'Response Information Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 

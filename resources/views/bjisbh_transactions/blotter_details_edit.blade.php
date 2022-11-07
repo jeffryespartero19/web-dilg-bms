@@ -46,10 +46,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
-
+                            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
-                                <form id="newHousehold" method="POST" action="{{ route('create_blotter') }}" autocomplete="off" enctype="multipart/form-data">
+                                <form id="newBlotter" method="POST" action="{{ route('create_blotter') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
                                     <div>
                                         <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" hidden value="{{$blotter[0]->Blotter_ID}}">
@@ -76,7 +76,7 @@
                                                 <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required value="{{$blotter[0]->Incident_Date_Time}}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="exampleInputEmail1">Region</label>
                                                 <select class="form-control" id="Region_ID" name="Region_ID" required>
@@ -114,7 +114,7 @@
                                                 </select>
                                             </div>
 
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px" id="CaseDetails">
                                                 <h3>Case Details</h3>
@@ -565,6 +565,14 @@
             }
         });
 
+    });
+
+    // Disable Form if DILG USER
+    $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3) {
+            $("#newBlotter :input").prop("disabled", true);
+        }
     });
 </script>
 

@@ -58,10 +58,6 @@
                                         <tr>
                                             <th hidden>Disaster Recovery</th>
                                             <th>Disaster Name</th>
-                                            <th>Region </th>
-                                            <th>Province </th>
-                                            <th>City/Municipality </th>
-                                            <th>Barangay</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -70,10 +66,6 @@
                                         <tr>
                                             <td class="sm_data_col txtCtr" hidden>{{$x->Disaster_Recovery_ID}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Disaster_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <a class="btn btn-success" href="{{ url('recovery_information_details/'.$x->Disaster_Recovery_ID) }}">Edit</a>
                                             </td>
