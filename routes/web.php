@@ -741,6 +741,9 @@ Route::group(['middleware' => 'auth'], function () {
       Route::get('/get_answer_classification/{id}', 'BISController@get_answer_classification');
       Route::post('/create_indicator_answer', 'BISController@create_indicator_answer')->name('create_indicator_answer');
 
+      //Tagging
+      Route::post('/tag_bfas_budget_appropriation', 'BFASController2@tag_bfas_budget_appropriation')->name('tag_bfas_budget_appropriation');
+
 });
 
 
@@ -750,6 +753,7 @@ Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
+//Route::get('/search_barangay', 'GlobalController@searchBarangay');
 
 //For Drop Downs
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');

@@ -57,15 +57,11 @@
                                 <table id="example" class="table table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th style="width:15%">Location</th>
-                                            <th>Appropriation No</th>
-                                            <th>Budget Appropriation Status</th>
-                                            <th>Budget Year</th>
-                                            <th>Fund</th>
-                                            <th>Appropriation Date</th>
-                                            <th>Appropriation Type</th>
+                                            <th style="width:20%">Location</th>
+                                            <th style="width:20%">Details</th>
+                                            <th style="width:20%">Tagged Accounts</th>
                                             <th>Particulars</th>
-                                            <th>Actions</th>
+                                            <th style="width:10%">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -91,16 +87,51 @@
                                                     </tr>
                                                 </table>
                                             </td>
-                                            <td class="sm_data_col txtCtr">{{$x->Appropriation_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Budget_Appropriation_Status}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Budget_Year}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Fund_Type}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Appropriation_Date}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Appropriation_Type}}</td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td><b>App No: </b></td>
+                                                        <td>{{$x->Appropriation_No}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Status: </b></td>
+                                                        <td>{{$x->Budget_Appropriation_Status}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Budget Year: </b></td>
+                                                        <td>{{$x->Budget_Year}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Fund Type: </b></td>
+                                                        <td>{{$x->Fund_Type}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>App Date: </b></td>
+                                                        <td>{{$x->Appropriation_Date}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>APP Type: </b></td>
+                                                        <td>{{$x->Appropriation_Type}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td class="sm_data_col txtCtr">
+                                                <table>
+                                                    <tr>
+                                                        <th><b>Account</b></th>
+                                                        <th><b>Amount</b></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>({{$x->Account_Number}})-{{$x->Account_Name}}</td>
+                                                        <td>{{number_format((float)$x->Appropriation_Amount, 2, '.', ',')}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
 
                                             <td class="sm_data_col txtCtr">{{$x->Particulars}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Budget_Appropriation_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="tag_XYZ" value="{{$x->Budget_Appropriation_ID}}" data-toggle="modal" data-target="#tagXYZ">Tag</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -313,6 +344,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        
 
                         <div class="form-group col-lg-6">
                             <label>Appropriation Date:</label>
@@ -345,6 +377,46 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Tagging  Modal -->
+<div class="modal fade" id="tagXYZ" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Tag Entries</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="tagEntryXYZ" method="POST" action="{{ route('tag_bfas_budget_appropriation') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <input id="this_B_IDx" value="" hidden name="B_IDx">
+                <div class="modal-body Absolute-Center tagger">
+                    <i class="fa fa-plus-square thisAdd" style="font-size: 25px"></i>
+                    <div class="modal_input_container row dupli">
+                        <div class="form-group col-lg-6">
+                            <label>Account:</label>
+                            <select class="form-control regionX2" name="tagAccounts_Information_ID[]">
+                                <option id="this_region" value='' hidden selected>Select</option>
+                                @foreach($accounts as $ac)
+                                <option value='{{$ac->Accounts_Information_ID }}'>({{$ac->Account_Number}})-{{$ac->Account_Name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Amount:</label>
+                            <input type="number" class="form-control" name="Appropriation_Amount[]" min="0" step=".01">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn tagThis_XYZ modal_sb_button">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- End Tagging  Modal -->
 
 @endsection
 
