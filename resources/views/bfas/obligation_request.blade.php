@@ -69,7 +69,7 @@
                                             <th>Officer <br>in Charge</th>
                                             <th style="width:15%">Location</th>
 
-                                            <th>Remarks</th>
+                                            <th>Particulars</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -82,7 +82,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Fund_Type}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Obligation_Request_Date}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Obligation_Request_Status}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Budget_Appropriation_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Appropriation_No}}</td>
 
                                             <td class="sm_data_col txtCtr">{{$x->Last_Name2}}, {{$x->First_Name2}} {{$x->Middle_Name2}}</td>
 
@@ -208,7 +208,7 @@
                         </div>
 
                         <div class="form-group col-lg-12">
-                            <label>Remarks:</label>
+                            <label>Particulars:</label>
                             <textarea class="form-control" name="Remarks"></textarea>
                         </div>
 
@@ -333,7 +333,7 @@
 
 
                         <div class="form-group col-lg-12">
-                            <label>Remarks:</label>
+                            <label>Particular:</label>
                             <textarea id="this_remarks" class="form-control" name="Remarks2"></textarea>
                         </div>
 

@@ -752,6 +752,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_summon_list/{Barangay_ID}', 'BJISBHController@get_summon_list');
   Route::get('/get_proceeding_list/{Barangay_ID}', 'BJISBHController@get_proceeding_list');
   Route::get('/get_ordinance_violator_list/{Barangay_ID}', 'BJISBHController@get_ordinance_violator_list');
+
+  //Tagging
+  Route::post('/tag_bfas_budget_appropriation', 'BFASController2@tag_bfas_budget_appropriation')->name('tag_bfas_budget_appropriation');
 });
 
 
@@ -761,6 +764,7 @@ Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
+//Route::get('/search_barangay', 'GlobalController@searchBarangay');
 
 //For Drop Downs
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');
