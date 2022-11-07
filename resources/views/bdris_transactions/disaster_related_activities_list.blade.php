@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item active">Disaster Related Activities List</li>
                     </ol>
                 </div>
@@ -57,17 +57,13 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th hidden>Disaster_Related_Activities_ID </th>
-                                            <th>Activity_Name </th>
+                                            <th hidden>Disaster Related Activities ID </th>
+                                            <th>Activity Name </th>
                                             <th>Purpose </th>
-                                            <th>Date_Start </th>
-                                            <th>Date_End </th>
-                                            <th>Number_of_Participants </th>
+                                            <th>Date Start </th>
+                                            <th>Date End </th>
+                                            <th>Number of Participants </th>
                                             <th>Brgy Official Name </th>
-                                            <th>Region </th>
-                                            <th>Province </th>
-                                            <th>City/Municipality </th>
-                                            <th>Barangay</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -81,10 +77,6 @@
                                             <td class="sm_data_col txtCtr">{{$x->Date_End}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Number_of_Participants}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">Edit</button>
                                             </td>
@@ -134,21 +126,19 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-lg-4" style="padding:0 10px">
+                            <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Date_Start">Date Start</label>
                                 <input type="date" class="form-control" id="Date_Start" name="Date_Start" required>
                             </div>
-                            <div class="form-group col-lg-4" style="padding:0 10px">
+                            <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Date_End">Date End</label>
                                 <input type="date" class="form-control" id="Date_End" name="Date_End" required>
                             </div>
-                            <div class="form-group col-lg-4" style="padding:0 10px">
+                            <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Number_of_Participants">Number of Participants</label>
                                 <input type="number" class="form-control" id="Number_of_Participants" name="Number_of_Participants">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-4" style="padding:0 10px">
+                            <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Brgy_Officials_and_Staff_ID">Brgy Official Name</label>
                                 <select class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID">
                                     <option value='' disabled selected>Select Option</option>
@@ -157,40 +147,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                <label for="Region_ID">Region</label>
-                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($region as $bt1)
-                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                <label for="Province_ID">Province</label>
-                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                    <option value='' disabled selected>Select Option</option>
-
-
-                                </select>
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                <label for="City_Municipality_ID">City_Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                    <option value='' disabled selected>Select Option</option>
-
-
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                <label for="Barangay_ID">Barangay</label>
-                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                    <option value='' disabled selected>Select Option</option>
-
-                                </select>
-                            </div>
                             <div class="form-group col-lg-12" style="padding:0 10px">
                                 <label for="fileattach">File Attachments</label>
                                 <ul class="list-group list-group-flush" id="disaster_related_activities_files">

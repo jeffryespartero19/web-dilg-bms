@@ -98,48 +98,6 @@
                                                 <label for="Action_Taken">Action Taken</label>
                                                 <input type="text" class="form-control" id="Action_Taken" name="Action_Taken">
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $bt1)
-                                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-                                                </select>
-                                            </div>
-                                            <!-- <div class="form-group col-lg-6">
-                                                <label for="exampleInputFile">File input</label>
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()">
-                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                </div>
-                                            </div> -->
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <div class="input-group my-3">
                                                     <div class="custom-file">

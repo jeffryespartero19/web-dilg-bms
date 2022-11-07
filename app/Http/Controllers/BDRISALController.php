@@ -582,10 +582,10 @@ class BDRISALController extends Controller
                     'GPS_Coordinates'       => $data['GPS_Coordinates'],
                     'Risk_Assesment'        => $data['Risk_Assesment'],
                     'Action_Taken'          => $data['Action_Taken'],
-                    'Barangay_ID'           => $data['Barangay_ID'],
-                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
-                    'Province_ID'           => $data['Province_ID'],
-                    'Region_ID'             => $data['Region_ID'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Encoder_ID'            => Auth::user()->id,
                     'Date_Stamp'            => Carbon::now(),
 
@@ -661,10 +661,10 @@ class BDRISALController extends Controller
                     'GPS_Coordinates'       => $data['GPS_Coordinates'],
                     'Risk_Assesment'        => $data['Risk_Assesment'],
                     'Action_Taken'          => $data['Action_Taken'],
-                    'Barangay_ID'           => $data['Barangay_ID'],
-                    'City_Municipality_ID'  => $data['City_Municipality_ID'],
-                    'Province_ID'           => $data['Province_ID'],
-                    'Region_ID'             => $data['Region_ID'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Encoder_ID'            => Auth::user()->id,
                     'Date_Stamp'            => Carbon::now(),
                 )
@@ -976,10 +976,10 @@ class BDRISALController extends Controller
             $Disaster_Recovery_ID = DB::table('bdris_recovery_information')->insertGetId(
                 array(
                     'Disaster_Response_ID'              => $data['Disaster_Response_ID'],
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                 )
@@ -1150,10 +1150,10 @@ class BDRISALController extends Controller
             DB::table('bdris_recovery_information')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->update(
                 array(
                     'Disaster_Response_ID'              => $data['Disaster_Response_ID'],
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                 )
@@ -1446,6 +1446,7 @@ class BDRISALController extends Controller
                 'g.Middle_Name',
                   
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries');
 
             $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
@@ -1489,10 +1490,11 @@ class BDRISALController extends Controller
                     'Date_End'                          => $data['Date_End'],
                     'Number_of_Participants'            => $data['Number_of_Participants'],
                    
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
+
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                 )
@@ -1526,10 +1528,10 @@ class BDRISALController extends Controller
                     'Date_End'                          => $data['Date_End'],
                     'Number_of_Participants'            => $data['Number_of_Participants'],
                     
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                 )
@@ -1845,11 +1847,13 @@ class BDRISALController extends Controller
                 'd.City_Municipality_Name',      
 
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries2');
         //EMERGENCY EVACUATION SITE
 
         //ALLOCATED FUND
         $db_entries3 = DB::table('bdris_allocated_fund_source as a')
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries');
         //ALLOCATED FUND        
         
@@ -2218,27 +2222,28 @@ class BDRISALController extends Controller
                     'Emergency_Evacuation_Site_Name'    => $data['Emergency_Evacuation_Site_Name'],
                     'Address'                           => $data['Address'],
                     'Capacity'                          => $data['Capacity'],
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
+
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                     'Active'                            => (int)$data['Active']
                 )
             );
  
-            return redirect()->to('emergency_evacuation_site_details/' . $Emergency_Evacuation_Site_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('emergency_evacuation_site_details/' . $Emergency_Evacuation_Site_ID)->with('message', 'Emergency Evacuation Site Created');
         } else {
             DB::table('bdris_emergency_evacuation_site')->where('Emergency_Evacuation_Site_ID', $data['Emergency_Evacuation_Site_ID'])->update(
                 array(
                     'Emergency_Evacuation_Site_Name'    => $data['Emergency_Evacuation_Site_Name'],
                     'Address'                           => $data['Address'],
                     'Capacity'                          => $data['Capacity'],
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                     'Active'                            => (int)$data['Active']
@@ -2261,6 +2266,10 @@ class BDRISALController extends Controller
                 array(
                     'Allocated_Fund_Name'  => $data['Allocated_Fund_Name'],
                     'Amount'               => $data['Amount'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Encoder_ID'           => Auth::user()->id,
                     'Date_Stamp'           => Carbon::now(),
                     'Active'               => (int)$data['Active']
@@ -2273,6 +2282,10 @@ class BDRISALController extends Controller
                 array(
                     'Allocated_Fund_Name'  => $data['Allocated_Fund_Name'],
                     'Amount'               => $data['Amount'],
+                    'Barangay_ID'           => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                    'Province_ID'           => Auth::user()->Province_ID,
+                    'Region_ID'             => Auth::user()->Region_ID,
                     'Encoder_ID'           => Auth::user()->id,
                     'Date_Stamp'           => Carbon::now(),
                     'Active'               => (int)$data['Active']
@@ -2299,17 +2312,17 @@ class BDRISALController extends Controller
                     'Location'                          => $data['Location'],
                     'Remarks'                           => $data['Remarks'],
                    
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                     'Active'                            => (int)$data['Active']
                 )
             );
  
-            return redirect()->to('disaster_supplies_details/' . $Disaster_Supplies_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('disaster_supplies_details/' . $Disaster_Supplies_ID)->with('message', 'New Disaster Supplies Information Created');
         } else {
             DB::table('bdris_disaster_supplies')->where('Disaster_Supplies_ID', $data['Disaster_Supplies_ID'])->update(
                 array(
@@ -2319,10 +2332,10 @@ class BDRISALController extends Controller
                     'Location'                          => $data['Location'],
                     'Remarks'                           => $data['Remarks'],
                    
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                     'Active'                            => (int)$data['Active']
@@ -2345,26 +2358,26 @@ class BDRISALController extends Controller
                 array(
                     'Emergency_Team_Name'               => $data['Emergency_Team_Name'],
                     'Emergency_Team_Hotline'            => $data['Emergency_Team_Hotline'],
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                     'Active'                            => (int)$data['Active']
                 )
             );
  
-            return redirect()->to('emergency_team_details/' . $Emergency_Team_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('emergency_team_details/' . $Emergency_Team_ID)->with('message', 'New Emergency Team Information Created');
         } else {
             DB::table('bdris_emergency_team')->where('Emergency_Team_ID', $data['Emergency_Team_ID'])->update(
                 array(
                     'Emergency_Team_Name'               => $data['Emergency_Team_Name'],
                     'Emergency_Team_Hotline'            => $data['Emergency_Team_Hotline'],
-                    'Barangay_ID'                       => $data['Barangay_ID'],
-                    'City_Municipality_ID'              => $data['City_Municipality_ID'],
-                    'Province_ID'                       => $data['Province_ID'],
-                    'Region_ID'                         => $data['Region_ID'],
+                    'Barangay_ID'                       => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
+                    'Province_ID'                       => Auth::user()->Province_ID,
+                    'Region_ID'                         => Auth::user()->Region_ID,
                     'Encoder_ID'                        => Auth::user()->id,
                     'Date_Stamp'                        => Carbon::now(),
                     'Active'                            => (int)$data['Active']
@@ -2385,28 +2398,28 @@ class BDRISALController extends Controller
         if ($data['Emergency_Equipment_ID'] == null || $data['Emergency_Equipment_ID'] == 0) {
             $Emergency_Equipment_ID = DB::table('bdris_emergency_equipment')->insertGetId(
                 array(
-                    'Emergency_Equipment_Name' => $data['Emergency_Equipment_Name'],
-                    'Location'                 => $data['Location'],
-                    'Barangay_ID'              => $data['Barangay_ID'],
-                    'City_Municipality_ID'     => $data['City_Municipality_ID'],
-                    'Province_ID'              => $data['Province_ID'],
-                    'Region_ID'                => $data['Region_ID'],
-                    'Encoder_ID'               => Auth::user()->id,
-                    'Date_Stamp'               => Carbon::now(),
-                    'Active'                   => (int)$data['Active']
+                    'Emergency_Equipment_Name'  => $data['Emergency_Equipment_Name'],
+                    'Location'                  => $data['Location'],
+                    'Barangay_ID'               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'               => Auth::user()->Province_ID,
+                    'Region_ID'                 => Auth::user()->Region_ID,
+                    'Encoder_ID'                => Auth::user()->id,
+                    'Date_Stamp'                => Carbon::now(),
+                    'Active'                    => (int)$data['Active']
                 )
             );
  
-            return redirect()->to('emergency_equipment_details/' . $Emergency_Equipment_ID)->with('message', 'New Recovery Information Created');
+            return redirect()->to('emergency_equipment_details/' . $Emergency_Equipment_ID)->with('message', 'New Emergency Equipment Information Created');
         } else {
             DB::table('bdris_emergency_equipment')->where('Emergency_Equipment_ID', $data['Emergency_Equipment_ID'])->update(
                 array(
                    'Emergency_Equipment_Name' => $data['Emergency_Equipment_Name'],
                    'Location'                 => $data['Location'],
-                   'Barangay_ID'              => $data['Barangay_ID'],
-                   'City_Municipality_ID'     => $data['City_Municipality_ID'],
-                   'Province_ID'              => $data['Province_ID'],
-                   'Region_ID'                => $data['Region_ID'],
+                   'Barangay_ID'               => Auth::user()->Barangay_ID,
+                    'City_Municipality_ID'      => Auth::user()->City_Municipality_ID,
+                    'Province_ID'               => Auth::user()->Province_ID,
+                    'Region_ID'                 => Auth::user()->Region_ID,
                    'Encoder_ID'               => Auth::user()->id,
                    'Date_Stamp'               => Carbon::now(),
                    'Active'                   => (int)$data['Active']

@@ -59,11 +59,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Violation_Status_ID </th>
-                                            <th>Violation_Status</th>
+                                            <th>Violation Status ID </th>
+                                            <th>Violation Status</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -113,7 +113,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Violation_Status:</label>
+                            <label>Violation Status:</label>
                             <input class="form-control" name="Violation_StatusX">
                         </div>
 
@@ -153,7 +153,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Violation_Status:</label>
+                            <label>Violation Status:</label>
                             <input id="this_violation_status_idX" class="form-control" name="Violation_Status_idX" hidden>
                             <input id="this_violation_statusX" class="form-control" name="Violation_StatusX2">
                         </div>

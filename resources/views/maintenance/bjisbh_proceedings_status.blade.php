@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Proceedings_Status_ID </th>
-                                            <th>Type_of_Action</th>
+                                            <th>Proceedings Status ID </th>
+                                            <th>Type of Action</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -112,7 +112,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Proceedings_Status:</label>
+                            <label>Proceedings Status:</label>
                             <input class="form-control" name="Type_of_ActionX">
                         </div>
 
@@ -152,7 +152,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Proceedings_Status:</label>
+                            <label>Proceedings Status:</label>
                             <input id="this_proceedings_status_idX" class="form-control" name="Proceedings_Status_idX" hidden>
                             <input id="this_proceedings_statusX" class="form-control" name="Type_of_ActionX2">
                         </div>

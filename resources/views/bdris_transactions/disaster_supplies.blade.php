@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item"><a href="{{route('other_transaction_list')}}">Other Transaction List(BDRIS)</a></li>
                         <li class="breadcrumb-item active">Disaster Supplies</li>
                     </ol>
@@ -88,35 +88,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $bt1)
-                                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-                                                </select>
-                                            </div>
+                                            
                                             <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Barangay_ID">Active:</label>
                                                 <select class="form-control" name="Active" id="Active">

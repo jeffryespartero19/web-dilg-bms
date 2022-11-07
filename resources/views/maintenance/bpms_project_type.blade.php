@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Project_Type_ID </th>
-                                            <th>Project_Type_Name</th>
+                                            <th>Project Type ID </th>
+                                            <th>Project Type Name</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Project_Type:</label>
+                            <label>Project Type:</label>
                             <input class="form-control" name="Project_TypeX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Project_Type:</label>
+                            <label>Project Type:</label>
                             <input id="this_project_type_idX" class="form-control" name="Project_Type_idX" hidden>
                             <input id="this_project_typeX" class="form-control" name="Project_TypeX2">
                         </div>
