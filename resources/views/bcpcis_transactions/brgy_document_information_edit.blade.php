@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right"> 
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BCPCIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item"><a href="{{route('brgy_document_information_list')}}">Brgy Document Information List</a></li>
                         <li class="breadcrumb-item active">Brgy Document Information</li>
                     </ol>
@@ -161,44 +161,6 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Place_Issued">Place Issued</label>
                                                 <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}">
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                    <select class="form-control" id="Region_ID" name="Region_ID">
-                                                        <option value=''  selected>Select Option</option>
-                                                        @foreach($region as $bt1)
-                                                        <option value="{{ $bt1->Region_ID }}" {{ $bt1->Region_ID  == $document[0]->Region_ID  ? "selected" : "" }}>{{ $bt1->Region_Name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                    <select class="form-control" id="Province_ID" name="Province_ID">
-                                                        <option value='' disabled selected>Select Option</option>
-                                                        @foreach($province as $bt1)
-                                                        <option value="{{ $bt1->Province_ID }}" {{ $bt1->Province_ID  == $document[0]->Province_ID  ? "selected" : "" }}>{{ $bt1->Province_Name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
-                                                    <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                        <option value='' disabled selected>Select Option</option>
-                                                        @foreach($city_municipality as $bt1)
-                                                        <option value="{{ $bt1->City_Municipality_ID }}" {{ $bt1->City_Municipality_ID  == $document[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $bt1->City_Municipality_Name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                    <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                        <option value='' disabled selected>Select Option</option>
-                                                        @foreach($barangay as $bt1)
-                                                        <option value="{{ $bt1->Barangay_ID }}" {{ $bt1->Barangay_ID  == $document[0]->Barangay_ID  ? "selected" : "" }}>{{ $bt1->Barangay_Name }}</option>
-                                                        @endforeach
-                                                    </select>
                                             </div>
                                         </div>
                                     </div>

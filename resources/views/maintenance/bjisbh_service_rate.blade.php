@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Service_Rate_ID </th>
-                                            <th>Service_Rate</th>
+                                            <th>Service Rate ID </th>
+                                            <th>Service Rate</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Service_Rate:</label>
+                            <label>Service Rate:</label>
                             <input class="form-control" name="Service_RateX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Service_Rate:</label>
+                            <label>Service Rate:</label>
                             <input id="this_service_rate_idX" class="form-control" name="Service_Rate_idX" hidden>
                             <input id="this_service_rateX" class="form-control" name="Service_RateX2">
                         </div>

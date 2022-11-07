@@ -97,42 +97,6 @@
                                                 <label for="Action_Taken">Action Taken</label>
                                                 <input type="text" class="form-control" id="Action_Taken" name="Action_Taken" value="{{$response[0]->Action_Taken}}">
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $bt1)
-                                                    <option value="{{ $bt1->Region_ID }}" {{ $bt1->Region_ID  == $response[0]->Region_ID  ? "selected" : "" }}>{{ $bt1->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($province as $bt1)
-                                                    <option value="{{ $bt1->Province_ID }}" {{ $bt1->Province_ID  == $response[0]->Province_ID  ? "selected" : "" }}>{{ $bt1->Province_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($city_municipality as $bt1)
-                                                    <option value="{{ $bt1->City_Municipality_ID }}" {{ $bt1->City_Municipality_ID  == $response[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $bt1->City_Municipality_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($barangay as $bt1)
-                                                    <option value="{{ $bt1->Barangay_ID }}" {{ $bt1->Barangay_ID  == $response[0]->Barangay_ID  ? "selected" : "" }}>{{ $bt1->Barangay_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="fileattach">File Attachments</label>
                                                 <ul class="list-group list-group-flush" id="ordinance_files">

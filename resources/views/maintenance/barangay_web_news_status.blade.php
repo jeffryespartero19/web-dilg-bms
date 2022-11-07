@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>News_Status_ID </th>
-                                            <th>News_Status</th>
+                                            <th>News Status ID </th>
+                                            <th>News Status</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>News_Status:</label>
+                            <label>News Status:</label>
                             <input class="form-control" name="News_StatusX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>News_Status:</label>
+                            <label>News Status:</label>
                             <input id="this_news_status_idX" class="form-control" name="News_Status_idX" hidden>
                             <input id="this_news_statusX" class="form-control" name="News_StatusX2">
                         </div>

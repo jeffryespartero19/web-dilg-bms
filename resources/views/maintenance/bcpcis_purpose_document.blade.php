@@ -126,7 +126,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Create Post</h4>
+                <h4 class="modal-title flexer justifier">Update Post</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="update_Purpose_of_Document" method="POST" action="{{ route('update_purpose_document') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -165,6 +165,11 @@
 
 @section('scripts')
 <script>
+
+$(document).ready(function() {
+        $('#example').DataTable();
+    });
+    
     $(document).on('click', '.postThis_Purpose_of_Document', function (e) {
     $('#new_Purpose_of_Document').submit();
 });

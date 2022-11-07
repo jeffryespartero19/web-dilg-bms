@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Summons_Status:</label>
+                            <label>Summons Status:</label>
                             <input class="form-control" name="Type_of_ActionX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Summons_Status:</label>
+                            <label>Summons Status:</label>
                             <input id="this_summons_status_idX" class="form-control" name="Summons_Status_idX" hidden>
                             <input id="this_summons_statusX" class="form-control" name="Type_of_ActionX2">
                         </div>

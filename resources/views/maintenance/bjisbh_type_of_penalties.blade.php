@@ -58,11 +58,11 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Types_of_Penalties_ID </th>
-                                            <th>Type_of_Penalties</th>
+                                            <th>Types of Penalties ID </th>
+                                            <th>Type of Penalties</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder ID</th>
+                                            <th>Date Stamp</th>
                                             <th>Penaltiess</th>
                                         </tr>
                                     </thead>
@@ -111,7 +111,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Type_of_Penalties:</label>
+                            <label>Type of Penalties:</label>
                             <input class="form-control" name="Type_of_PenaltiesX">
                         </div>
 
@@ -151,7 +151,7 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Type_of_Penalties:</label>
+                            <label>Type of Penalties:</label>
                             <input id="this_type_of_penalties_idX" class="form-control" name="Types_of_Penalties_idX" hidden>
                             <input id="this_type_of_penaltiesX" class="form-control" name="Type_of_PenaltiesX2">
                         </div>

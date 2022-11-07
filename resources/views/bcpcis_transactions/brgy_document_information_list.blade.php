@@ -69,10 +69,6 @@
                                             <th>SecondResident Name</th>
                                             <th>Purpose of Document</th>
                                             <th>Document Type Name</th>
-                                            <th>Region </th>
-                                            <th>Province </th>
-                                            <th>City/Municipality </th>
-                                            <th>Barangay</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -92,10 +88,6 @@
                                             <td class="sm_data_col txtCtr">{{$x->SecondResident_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Purpose_of_Document}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Document_Type_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <a class="btn btn-success" href="{{ url('brgy_document_information_details/'.$x->Document_ID) }}">Edit</a>
                                             </td>

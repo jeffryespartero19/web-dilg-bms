@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BDRIS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
                         <li class="breadcrumb-item"><a href="{{route('other_transaction_list')}}">Other Transaction List(BDRIS)</a></li>
                         <li class="breadcrumb-item active">Emergency Equipment</li>
                     </ol>
@@ -43,54 +43,18 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body"> 
                         <div class="tableX_row col-md-12 up_marg5">
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_emergency_equipment') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
                                     <div>
-                                        <input type="text" class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" hidden>
+                                    <input type="text" class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-9" style="padding:0 10px">
                                                 <label for="Emergency_Equipment_Name">Emergency Equipment Name</label>
                                                 <input type="text" class="form-control" id="Emergency_Equipment_Name" name="Emergency_Equipment_Name">
-                                            </div>
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Location">Location</label>
-                                                <input type="text" class="form-control" id="Location" name="Location">
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Region_ID">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $bt1)
-                                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Province_ID">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City_Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-
-                                                </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <span><b>Active:</b></span><br>
@@ -100,11 +64,15 @@
                                                     <option value=0>No</option>
                                                 </select>
                                             </div>
-
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="Location">Location</label>
+                                                <input type="text" class="form-control" id="Location" name="Location" >
+                                            </div>
                                         </div>
                                     </div>
-                                    <br>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
                                             <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
                                             <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
@@ -117,6 +85,7 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
+
             </div>
             <!-- /.col -->
         </div>
@@ -125,9 +94,6 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
-
-<!-- Create Announcement_Status END -->
 
 
 

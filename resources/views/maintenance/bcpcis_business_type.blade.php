@@ -127,7 +127,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Create Post</h4>
+                <h4 class="modal-title flexer justifier">Update Post</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="update_Business_Type" method="POST" action="{{ route('update_business_type') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -198,6 +198,11 @@ $(document).on('click', ('.edit_business_type'), function (e) {
 $(document).on('click', '.updateThis_Business_Type', function (e) {
     $('#update_Business_Type').submit();
 });
+
+    // Data Table
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
 </script>
 @endsection
 
