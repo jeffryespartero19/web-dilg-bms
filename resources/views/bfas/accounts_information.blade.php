@@ -9,12 +9,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Account Information/Setup</h1>
+                    <h1>Chart of Accounts</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
-                        <li class="breadcrumb-item active">Account Information/Setup</li>
+                        <li class="breadcrumb-item active">chart_of_accounts</li>
                     </ol>
                 </div>
             </div>
@@ -54,36 +54,149 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
+                                <div style="display: flex; width:100%;" >
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=1 hidden>
+                                        <button style="width:150px">Asset</button> 
+                                    </form>
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=45 hidden>
+                                        <button  style="width:150px">Liability</button> 
+                                    </form>
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=46 hidden>
+                                        <button style="width:150px">Equity</button> 
+                                    </form>
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=47 hidden>
+                                        <button style="width:150px">Income</button> 
+                                    </form>
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=48 hidden>
+                                        <button style="width:150px">Cost of Sales</button> 
+                                    </form>
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=49 hidden>
+                                        <button style="width:150px">Expense</button> 
+                                    </form>
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=50 hidden>
+                                        <button  style="width:150px">Other Income</button> 
+                                    </form>
+                                    <form  method="GET" action="{{ route('bfas_accounts_information') }}" autocomplete="off" enctype="multipart/form-data">
+                                        <input name="determiner" value=51 hidden>
+                                        <button style="width:150px">Other Expense</button> 
+                                    </form>
+                                </div>
+                                <br>
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Account <br>Information ID</th>
-                                            <th>Account <br>Type</th>
-                                            <th>Account <br>Code</th>
-                                            <th>Account <br>Name</th>
-                                            <th>Account <br>Number</th>
-                                            <th>Active</th>
-                                            <th>Encoder ID</th>
-                                            <th>Date Stamp</th>
+                                            <th>Account Details</th>
+                                            <th>Account Type</th>
+                                            <th>Level</th>
+                                            <th>Parent Account</th>
+                                            
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Accounts_Information_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Account_Type}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Account_Code}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Account_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Account_Number}}</td>
+                                        @foreach($Level_1 as $x)
+                                                <tr style="background-color:rgb(184, 184, 238);">
+                                                    <td class="sm_data_col">
+                                                        {{$x->Account_Number}} &nbsp; {{$x->Account_Name}}
+                                                    </td>
+                                                    <td class="sm_data_col">{{$x->Account_Type}}</td>
+                                                    <td class="sm_data_col txtCtr">{{$x->Account_Level}}</td>
+                                                    <td class="sm_data_col txtCtr"></td>
 
-                                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_XYZ" value="{{$x->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
-                                            </td>
-                                        </tr>
+                                                    <td class="sm_data_col txtCtr">
+                                                        <button class="edit_XYZ" value="{{$x->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                    </td>
+                                                </tr>
+                                                @foreach($Level_2 as $x2)
+                                                    @if($x2->Parent_Account == $x->Accounts_Information_ID)
+                                                    <tr style="background-color:rgb(202, 202, 247);">
+                                                        <td class="sm_data_col" >
+                                                            <p style="margin-left: 3%;">{{$x2->Account_Number}} &nbsp; {{$x2->Account_Name}}</p>
+                                                        </td>
+                                                        <td class="sm_data_col">{{$x2->Account_Type}}</td>
+                                                        <td class="sm_data_col txtCtr">{{$x2->Account_Level}}</td>
+                                                        <td class="sm_data_col ">
+                                                            @if($x2->Parent_Account == $x->Accounts_Information_ID)
+                                                                {{$x->Account_Number}} &nbsp; {{$x->Account_Name}}
+                                                            @endif
+                                                        </td>
+    
+                                                        <td class="sm_data_col txtCtr">
+                                                            <button class="edit_XYZ" value="{{$x2->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                        </td>
+                                                    </tr>
+                                                    @foreach($Level_3 as $x3)
+                                                        @if($x3->Parent_Account == $x2->Accounts_Information_ID)
+                                                        <tr style="background-color:rgb(225, 225, 248);">
+                                                            <td class="sm_data_col" >
+                                                                <p style="margin-left: 6%;">{{$x3->Account_Number}} &nbsp; {{$x3->Account_Name}}</p>
+                                                            </td>
+                                                            <td class="sm_data_col">{{$x3->Account_Type}}</td>
+                                                            <td class="sm_data_col txtCtr">{{$x3->Account_Level}}</td>
+                                                            <td class="sm_data_col ">
+                                                                @if($x3->Parent_Account == $x2->Accounts_Information_ID)
+                                                                    {{$x2->Account_Number}} &nbsp; {{$x2->Account_Name}}
+                                                                @endif
+                                                            </td>
+        
+                                                            <td class="sm_data_col txtCtr">
+                                                                <button class="edit_XYZ" value="{{$x3->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                            </td>
+                                                        </tr>
+                                                            @foreach($Level_4 as $x4)
+                                                                @if($x4->Parent_Account == $x3->Accounts_Information_ID)
+                                                                <tr style="background-color:rgb(239, 239, 252);">
+                                                                    <td class="sm_data_col" >
+                                                                        <p style="margin-left: 9%;">{{$x4->Account_Number}} &nbsp; {{$x4->Account_Name}}</p>
+                                                                    </td>
+                                                                    <td class="sm_data_col">{{$x4->Account_Type}}</td>
+                                                                    <td class="sm_data_col txtCtr">{{$x4->Account_Level}}</td>
+                                                                    
+                                                                    <td class="sm_data_col ">
+                                                                        @if($x4->Parent_Account == $x3->Accounts_Information_ID)
+                                                                            {{$x3->Account_Number}} &nbsp; {{$x3->Account_Name}}
+                                                                        @endif
+                                                                    </td>
+                
+                                                                    <td class="sm_data_col txtCtr">
+                                                                        <button class="edit_XYZ" value="{{$x4->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                                    </td>
+                                                                </tr>
+                                                                @foreach($Level_5 as $x5)
+                                                                    @if($x5->Parent_Account == $x4->Accounts_Information_ID)
+                                                                    <tr style="background-color:rgb(252, 252, 252);">
+                                                                        <td class="sm_data_col" >
+                                                                            <p style="margin-left: 12%;">{{$x5->Account_Number}} &nbsp; {{$x5->Account_Name}}</p>
+                                                                        </td>
+                                                                        <td class="sm_data_col">{{$x5->Account_Type}}</td>
+                                                                        <td class="sm_data_col txtCtr">{{$x5->Account_Level}}</td>
+                                                                        <td class="sm_data_col ">
+                                                                            @if($x5->Parent_Account == $x4->Accounts_Information_ID)
+                                                                                {{$x4->Account_Number}} &nbsp; {{$x4->Account_Name}}
+                                                                            @endif
+                                                                        </td>
+                    
+                                                                        <td class="sm_data_col txtCtr">
+                                                                            <button class="edit_XYZ" value="{{$x5->Accounts_Information_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @endif
+
+                                                                @endforeach
+                                                                @endif
+
+                                                            @endforeach
+                                                        @endif
+                                                    @endforeach
+                                                    @endif
+                                                @endforeach
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -142,6 +255,25 @@
                         <div class="form-group">
                             <label for="Account_Number">Account Number:</label>
                             <input class="modal_input1 form-control" name="Account_Number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Account_Level">Account Level:</label>
+                            <select id="acc_lvl" class="modal_input1 form-control" name="Account_Level">
+                                <option value=1 hidden selected>Select</option>
+                                <option value=1>Level 1</option>
+                                <option value=2>Level 2</option>
+                                <option value=3>Level 3</option>
+                                <option value=4>Level 4</option>
+                                <option value=5>Level 5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Parent_Account">Parent Account:</label>
+                            <select id="acc_parents" class="modal_input1 form-control" name="Parent_Account">
+                                <option value=0 hidden selected>Select</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -207,6 +339,25 @@
                         <div class="form-group">
                             <label>Account Number:</label>
                             <input id="this_acc_no" class="form-control" name="Account_Number2">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Account_Level2">Account Level:</label>
+                            <select id="acc_lvl2" class="modal_input1 form-control" name="Account_Level2">
+                                <option id="this_acc_lvl" value=1 hidden selected>Select</option>
+                                <option value=1>Level 1</option>
+                                <option value=2>Level 2</option>
+                                <option value=3>Level 3</option>
+                                <option value=4>Level 4</option>
+                                <option value=5>Level 5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ActiParent_Account2veX">Parent Account:</label>
+                            <select id="acc_parents2" class="modal_input1 form-control" name="Parent_Account2">
+                                <option id="this_acc_parent" value=0 hidden selected>Select</option>
+                            </select>
                         </div>
 
                         <div class="form-group">

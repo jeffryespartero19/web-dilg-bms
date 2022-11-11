@@ -226,6 +226,31 @@ $(document).on('click',('.edit_XYZ'),function(e) {
 
                 $('#this_acc_name').val(data['theEntry'][0]['Account_Name']);
                 $('#this_acc_no').val(data['theEntry'][0]['Account_Number']);
+
+                $('#this_acc_lvl').empty();
+                $('#this_acc_lvl').val(data['theEntry'][0]['Account_Level']);
+                $('#this_acc_lvl').append('Level '+data['theEntry'][0]['Account_Level']);
+
+                $('#this_acc_parent').empty();
+                $('#this_acc_parent').val(data['theEntry'][0]['Accounts_Information_ID']);
+                $('#this_acc_parent').append(data['theEntry'][0]['Account_Number']+ ' ' +data['theEntry'][0]['Account_Name']);
+
+                var disVal = data['theEntry'][0]['Account_Level'];
+
+                $.ajax({
+                    url: "/get_acc_parents",
+                    type: 'GET',
+                    data: { id: disVal },
+                    fail: function(){
+                        alert('request failed');
+                    },
+                    success: function (data) { 
+
+                        $.each(data['theEntry'], function(index, value) {
+                            $('#acc_parents2').append('<option value="' + data['theEntry'][index]['Accounts_Information_ID'] + '">' +data['theEntry'][index]['Account_Number']+ ' ' +data['theEntry'][index]['Account_Name']+ '</option>');
+                        });
+                    }
+                });
                 
                 $('#this_active').empty();
                 $('#this_active').val(data['theEntry'][0]['Active']);
@@ -715,5 +740,49 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 
+});
+
+$(document).on('change',('#acc_lvl'),function(e) {
+    var disVal =$(this).val();
+
+    $.ajax({
+        url: "/get_acc_parents",
+        type: 'GET',
+        data: { id: disVal },
+        fail: function(){
+            alert('request failed');
+        },
+        success: function (data) { 
+
+            $('#acc_parents').empty();
+            $('#acc_parents').append('<option value="0" hidden selected>Select</option> ');
+
+            $.each(data['theEntry'], function(index, value) {
+                $('#acc_parents').append('<option value="' + data['theEntry'][index]['Accounts_Information_ID'] + '">' +data['theEntry'][index]['Account_Number']+ ' ' +data['theEntry'][index]['Account_Name']+ '</option>');
+            });
+        }
+    });
+});
+
+$(document).on('change',('#acc_lvl2'),function(e) {
+    var disVal =$(this).val();
+
+    $.ajax({
+        url: "/get_acc_parents",
+        type: 'GET',
+        data: { id: disVal },
+        fail: function(){
+            alert('request failed');
+        },
+        success: function (data) { 
+
+            $('#acc_parents2').empty();
+            $('#acc_parents2').append('<option value="0" hidden selected>Select</option> ');
+
+            $.each(data['theEntry'], function(index, value) {
+                $('#acc_parents2').append('<option value="' + data['theEntry'][index]['Accounts_Information_ID'] + '">' +data['theEntry'][index]['Account_Number']+ ' ' +data['theEntry'][index]['Account_Name']+ '</option>');
+            });
+        }
+    });
 });
 
