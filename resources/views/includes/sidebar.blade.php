@@ -103,8 +103,8 @@
                             <a href="{{route('brgy_document_claim_business_list')}}" class="nav-link">
                                 <p>Brgy Document Claim(Business Permit)</p>
                             </a>
-                            <a href="{{route('brgy_document_claim_docu_list')}}" class="nav-link">
-                                <p>Brgy Document Claim(Document Info.)</p>
+                            <a href="{{route('document_request_pending_list')}}" class="nav-link">
+                                <p>Document Request Pending</p>
                             </a>
                         </li>
                     </ul>
@@ -701,6 +701,22 @@
                         <li class="nav-item">
                             <a href="{{route('inhabitant_application')}}" class="nav-link">
                                 Inhabitants Info</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            BCPCIS
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a> 
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('brgy_document_information_details_request')}}" class="nav-link">
+                                Document Request</p>
                             </a>
                         </li>
                     </ul>

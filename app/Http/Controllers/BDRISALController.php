@@ -1887,6 +1887,7 @@ class BDRISALController extends Controller
                 'h.Disaster_Name',
                   
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries4');
         //Disaster SUpplies
 
@@ -1910,6 +1911,7 @@ class BDRISALController extends Controller
                 'd.City_Municipality_Name',      
 
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries5');
         //EMERGENCY TEAM
 
@@ -1933,6 +1935,7 @@ class BDRISALController extends Controller
                 'd.City_Municipality_Name',      
 
             )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries6');
         //EMERGENCY EQUIPMENT
        
