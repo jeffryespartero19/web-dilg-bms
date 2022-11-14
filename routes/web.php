@@ -757,6 +757,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/tag_bfas_budget_appropriation', 'BFASController2@tag_bfas_budget_appropriation')->name('tag_bfas_budget_appropriation');
   Route::post('/tag_bfas_obligation_request', 'BFASController2@tag_bfas_obligation_request')->name('tag_bfas_obligation_request');
   Route::post('/tag_bfas_disbursement_voucher', 'BFASController2@tag_bfas_disbursement_voucher')->name('tag_bfas_disbursement_voucher');
+
+  //Get Account Parent Child
+  Route::get('/get_acc_parents', 'BFASController2@get_acc_parents')->name('get_acc_parents');;
 });
 
 
