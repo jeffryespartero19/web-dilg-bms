@@ -759,7 +759,22 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/tag_bfas_disbursement_voucher', 'BFASController2@tag_bfas_disbursement_voucher')->name('tag_bfas_disbursement_voucher');
 
   //Get Account Parent Child
-  Route::get('/get_acc_parents', 'BFASController2@get_acc_parents')->name('get_acc_parents');;
+  Route::get('/get_acc_parents', 'BFASController2@get_acc_parents')->name('get_acc_parents');
+
+  //Deceased Profile
+  Route::get('/brgy_official_list', 'bipsController@brgy_official_list')->name('brgy_official_list');
+  Route::post('/create_brgy_official', 'bipsController@create_brgy_official')->name('create_brgy_official');
+  Route::get('/get_brgy_official', 'bipsController@get_brgy_official')->name('get_brgy_official');
+  Route::post('/update_brgy_official', 'bipsController@update_brgy_official')->name('update_brgy_official');
+
+  //Brgy Position Maintenance
+  Route::get('/brgy_position_maint', 'maintenanceController@brgy_position_maint')->name('brgy_position_maint');
+  Route::post('/create_brgy_position_maint', 'maintenanceController@create_brgy_position_maint')->name('create_brgy_position_maint');
+  Route::get('/get_brgy_position_maint', 'maintenanceController@get_brgy_position_maint')->name('get_brgy_position_maint');
+  Route::post('/update_brgy_position_maint', 'maintenanceController@update_brgy_position_maint')->name('update_brgy_position_maint');
+
+  //Get Boris Attester
+  Route::get('/get_ordinance_and_resolution_attester', 'borisController@get_ordinance_and_resolution_attester')->name('get_ordinance_and_resolution_attester');
 });
 
 

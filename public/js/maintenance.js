@@ -1407,3 +1407,36 @@ $(document).on('click', ('.edit_categories'), function(e) {
 $(document).on('click', '.updateThis_Categories', function(e) {
     $('#updateBRGY_Categories').submit();
 });
+
+// Blood Type
+//post buttons
+$(document).on('click', '.postThis_Brgy_Position', function(e) {
+    $('#newBRGY_Brgy_Position').submit();
+});
+
+$(document).on('click', ('.edit_brgy_position'), function(e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_brgy_position_maint",
+        data: { id: disID },
+        fail: function() {
+            alert('request failed');
+        },
+        success: function(data) {
+            $('#this_brgy_position_idX').val(data['theEntry'][0]['Brgy_Position_ID']);
+            $('#this_brgy_positionX').val(data['theEntry'][0]['Brgy_Position']);
+
+            $('#this_brgy_position_active').empty();
+            $('#this_brgy_position_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_brgy_position_active').append('Yes');
+            } else {
+                $('#this_brgy_position_active').append('No');
+            }
+
+        }
+    });
+
+
+});
