@@ -1871,4 +1871,54 @@ class maintenanceController extends Controller
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
+
+    //Brgy Position
+    public function brgy_position_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bips_brgy_position')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bips_brgy_position', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_brgy_position_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bips_brgy_position')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'created_at'       => Carbon::now(),
+                'Brgy_Position'  => $data['Brgy_PositionX'],
+                'Active'               => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'New Entry Created');
+    }
+    public function get_brgy_position_maint(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('maintenance_bips_brgy_position')->where('Brgy_Position_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function update_brgy_position_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bips_brgy_position')->where('Brgy_Position_ID', $data['Brgy_Position_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'created_at'       => Carbon::now(),
+                'Brgy_Position'  => $data['Brgy_PositionX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
 }

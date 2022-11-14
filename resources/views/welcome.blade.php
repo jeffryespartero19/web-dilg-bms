@@ -135,6 +135,7 @@
                                 @endforeach
                                 @endisset
                             </div>
+
                         </div>
                         <!-- /.col-md-6 -->
                         <div class="col-lg-4">
@@ -171,8 +172,80 @@
                                 @endisset
 
                             </div>
+
                         </div>
                         <!-- /.col-md-6 -->
+
+                        <div class="col-lg-12">
+                            <div class="card card-info card-outline collapsed-card">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0">Barangay Ordinances</h5>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding: 10px;">
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ordinance Number</th>
+                                                    <th>Title</th>
+                                                    <th>Approval Date</th>
+                                                    <th>Effective Date</th>
+                                                </tr>
+                                            </thead>
+                                            @foreach($ordinance as $ordinances)
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{$ordinances->Ordinance_Resolution_No}}</td>
+                                                    <td>{{$ordinances->Ordinance_Resolution_Title}}</td>
+                                                    <td>{{$ordinances->Date_of_Approval}}</td>
+                                                    <td>{{$ordinances->Date_of_Effectivity}}</td>
+                                                </tr>
+                                            </tbody>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-info card-outline collapsed-card">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0">Barangay Resolutions</h5>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding: 10px;">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ordinance Number</th>
+                                                    <th>Title</th>
+                                                    <th>Approval Date</th>
+                                                    <th>Effective Date</th>
+                                                </tr>
+                                            </thead>
+                                            @foreach($resolution as $resolutions)
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{$resolutions->Ordinance_Resolution_No}}</td>
+                                                    <td>{{$resolutions->Ordinance_Resolution_Title}}</td>
+                                                    <td>{{$resolutions->Date_of_Approval}}</td>
+                                                    <td>{{$resolutions->Date_of_Effectivity}}</td>
+                                                </tr>
+                                            </tbody>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.row -->
                 </div>
@@ -251,6 +324,20 @@
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+            $('#example1').DataTable();
+        });
+    </script>
 </body>
 
 </html>
