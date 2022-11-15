@@ -283,6 +283,8 @@ class BFASController2 extends Controller
                 'Account_Code_ID'  => $data['Account_Code_ID'],
                 'Account_Name'     => $data['Account_Name'],
                 'Account_Number'   => $data['Account_Number'],
+                'Account_Class'    => $data['Account_Class'],
+                'Beginning_Balance'    => $data['Beginning_Balance'],
 
                 'Account_Level'    => $data['Account_Level'],
                 'Parent_Account'   => $data['Parent_Account'],
@@ -310,6 +312,8 @@ class BFASController2 extends Controller
                 'a.Account_Name',
                 'a.Account_Number',
                 'a.Account_Level',
+                'a.Account_Class',
+                'a.Beginning_Balance',
                 'a.Active',
                 'a.Encoder_ID',
                 'a.Date_Stamp'
@@ -335,6 +339,8 @@ class BFASController2 extends Controller
                 'Account_Code_ID'  => $data['Account_Code_ID2'],
                 'Account_Name'     => $data['Account_Name2'],
                 'Account_Number'   => $data['Account_Number2'],
+                'Account_Class'    => $data['Account_Class2'],
+                'Beginning_Balance'    => $data['Beginning_Balance2'],
 
                 'Account_Level'    => $data['Account_Level2'],
                 'Parent_Account'   => $data['Parent_Account2'],

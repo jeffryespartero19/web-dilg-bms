@@ -237,12 +237,18 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="Account_Code_ID">Account Type:</label>
-                            <select class="modal_input1 form-control" name="Account_Code_ID">
+                            <label for="Account_Class">Account Class:</label>
+                            <select class="modal_input1 form-control" name="Account_Class">
                                 <option value='' hidden selected>Select</option>
-                                @foreach($acc_code as $acc)
-                                <option value={{$acc->Account_Code_ID}}>{{$acc->Account_Code}}</option>
-                                @endforeach
+
+                                <option value="Asset">Asset</option>
+                                <option value="Liability">Liability</option>
+                                <option value="Equity">Equity</option>
+                                <option value="Income">Income</option>
+                                <option value="Expense">Expense</option>
+                                <option value="Cost of Sale">Cost of Sale</option>
+                                <option value="Other Income">Other Income</option>
+                                <option value="Other Expense">Other Expense</option>
                             </select>
                         </div>
 
@@ -272,6 +278,11 @@
                             <select id="acc_parents" class="modal_input1 form-control" name="Parent_Account">
                                 <option value=0 hidden selected>Select</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Beginning_Balance">Beginning Balance:</label>
+                            <input id="this_begbal" type="number"  class="form-control" name="Beginning_Balance2" value="" min=".00" step=".01">
                         </div>
 
                         <div class="form-group">
@@ -321,12 +332,19 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Account Type:</label>
-                            <select class="form-control" name="Account_Code_ID2">
-                                <option id="this_acc_code" value='' hidden selected>Select</option>
-                                @foreach($acc_code as $acc)
-                                <option value={{$acc->Account_Code_ID}}>{{$acc->Account_Code}}</option>
-                                @endforeach
+                            <label>Account Class:</label>
+                            <select class="form-control" name="Account_Class2">
+                                <option id="this_acc_class" value='' hidden selected>Select</option>
+                                
+                                <option value="Asset">Asset</option>
+                                <option value="Liability">Liability</option>
+                                <option value="Equity">Equity</option>
+                                <option value="Income">Income</option>
+                                <option value="Expense">Expense</option>
+                                <option value="Cost of Sale">Cost of Sale</option>
+                                <option value="Other Income">Other Income</option>
+                                <option value="Other Expense">Other Expense</option>
+                                
                             </select>
                         </div>
 
@@ -356,6 +374,11 @@
                             <select id="acc_parents2" class="modal_input1 form-control" name="Parent_Account2">
                                 <option id="this_acc_parent" value=0 hidden selected>Select</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Beginning_Balance2">Beginning Balance:</label>
+                            <input id="this_begbal" type="number"  class="form-control" name="Beginning_Balance2" value="" min=".00" step=".01">
                         </div>
 
                         <div class="form-group">

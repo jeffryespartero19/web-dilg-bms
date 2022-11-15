@@ -216,13 +216,15 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             success: function (data) { 
                 $('#this_idX').val(data['theEntry'][0]['Accounts_Information_ID']);
 
+                $('#this_begbal').val(data['theEntry'][0]['Beginning_Balance']);
+
                 $('#this_acc_type').empty();
                 $('#this_acc_type').val(data['theEntry'][0]['Account_Type_ID']);
                 $('#this_acc_type').append(data['theEntry'][0]['Account_Type']);
 
-                $('#this_acc_code').empty();
-                $('#this_acc_code').val(data['theEntry'][0]['Account_Code_ID']);
-                $('#this_acc_code').append(data['theEntry'][0]['Account_Code']);
+                $('#this_acc_class').empty();
+                $('#this_acc_class').val(data['theEntry'][0]['Account_Class']);
+                $('#this_acc_class').append(data['theEntry'][0]['Account_Class']);
 
                 $('#this_acc_name').val(data['theEntry'][0]['Account_Name']);
                 $('#this_acc_no').val(data['theEntry'][0]['Account_Number']);
