@@ -29,8 +29,17 @@ class Public_LandingController extends Controller
 
         $usersX = DB::table('users')->whereIn('id', $posts_encoder_IDs)->get();
         $b_details = DB::table('maintenance_barangay')->where('Barangay_ID', $b_id)->get();
+        $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')
+            ->where('Ordinance_or_Resolution', 0)
+            ->where('Barangay_ID', $b_id)
+            ->get();
+        $resolution = DB::table('boris_brgy_ordinances_and_resolutions_information')
+            ->where('Ordinance_or_Resolution', 1)
+            ->where('Barangay_ID', $b_id)
+            ->get();
 
-        return view('welcome', compact('posts', 'uploads', 'currDATE', 'EV_AN', 'usersX', 'b_id', 'b_details'));
+
+        return view('welcome', compact('posts', 'uploads', 'currDATE', 'EV_AN', 'usersX', 'b_id', 'b_details', 'ordinance', 'resolution'));
     }
 
     public function viewAnnouncement(Request $request)
