@@ -148,8 +148,8 @@ class BFASController2 extends Controller
             
             ->get();
 
-            $determiner=1;
-            if($request->has('determiner')){$data = request()->all(); $determiner=$data['determiner'];}else{$determiner=1;}
+            $determiner='Asset';
+            if($request->has('determiner')){$data = request()->all(); $determiner=$data['determiner'];}else{$determiner='Asset';}
 
             $Level_1 = DB::table('bfas_accounts_information as a')
             ->leftjoin('maintenance_bfas_account_type as b','b.Account_Type_ID','=','a.Account_Type_ID')
@@ -164,12 +164,13 @@ class BFASController2 extends Controller
                 'c.Account_Code',
                 'a.Account_Name',
                 'a.Account_Number',
+                'a.Account_Class',
                 'a.Active',
                 'a.Encoder_ID',
                 'a.Date_Stamp'
             )
             ->where('a.Account_Level',1)
-            ->where('a.Accounts_Information_ID',$determiner)
+            ->where('a.Account_Class',$determiner)
             ->get();
 
             $Level_2 = DB::table('bfas_accounts_information as a')
@@ -185,11 +186,13 @@ class BFASController2 extends Controller
                 'c.Account_Code',
                 'a.Account_Name',
                 'a.Account_Number',
+                'a.Account_Class',
                 'a.Active',
                 'a.Encoder_ID',
                 'a.Date_Stamp'
             )
             ->where('a.Account_Level',2)
+            ->where('a.Account_Class',$determiner)
             ->get();
 
             $Level_3 = DB::table('bfas_accounts_information as a')
@@ -205,11 +208,13 @@ class BFASController2 extends Controller
                 'c.Account_Code',
                 'a.Account_Name',
                 'a.Account_Number',
+                'a.Account_Class',
                 'a.Active',
                 'a.Encoder_ID',
                 'a.Date_Stamp'
             )
             ->where('a.Account_Level',3)
+            ->where('a.Account_Class',$determiner)
             ->get();
 
             $Level_4 = DB::table('bfas_accounts_information as a')
@@ -225,11 +230,13 @@ class BFASController2 extends Controller
                 'c.Account_Code',
                 'a.Account_Name',
                 'a.Account_Number',
+                'a.Account_Class',
                 'a.Active',
                 'a.Encoder_ID',
                 'a.Date_Stamp'
             )
             ->where('a.Account_Level',4)
+            ->where('a.Account_Class',$determiner)
             ->get();
 
             $Level_5 = DB::table('bfas_accounts_information as a')
@@ -245,14 +252,16 @@ class BFASController2 extends Controller
                 'c.Account_Code',
                 'a.Account_Name',
                 'a.Account_Number',
+                'a.Account_Class',
                 'a.Active',
                 'a.Encoder_ID',
                 'a.Date_Stamp'
             )
             ->where('a.Account_Level',5)
+            ->where('a.Account_Class',$determiner)
             ->get();
 
-//dd($Level_4);
+//dd($Level_1,$Level_2,$Level_3,$Level_4,$Level_5);
         $acc_type=DB::table('maintenance_bfas_account_type')->get();
         $acc_code=DB::table('maintenance_bfas_account_code')->get();
 
