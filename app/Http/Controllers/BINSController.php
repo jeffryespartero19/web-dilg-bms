@@ -17,7 +17,7 @@ class BINSController extends Controller
     public function bins_uom_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_unit_of_measure')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bins_unit_of_measure')->get();
 
         return view('maintenance.bins_unit_of_measure',compact('db_entries','currDATE'));
     }
@@ -69,7 +69,7 @@ class BINSController extends Controller
     public function bins_bes_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_borrowed_equipment_status')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bins_borrowed_equipment_status')->get();
 
         return view('maintenance.bins_borrowed_equipment_status',compact('db_entries','currDATE'));
     }
@@ -121,7 +121,7 @@ class BINSController extends Controller
     public function bins_item_class_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_item_classification')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bins_item_classification')->get();
 
         return view('maintenance.bins_item_classification',compact('db_entries','currDATE'));
     }
@@ -172,7 +172,7 @@ class BINSController extends Controller
     public function bins_item_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_item_status')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bins_item_status')->get();
 
         return view('maintenance.bins_item_status',compact('db_entries','currDATE'));
     }
@@ -223,7 +223,7 @@ class BINSController extends Controller
     public function bins_item_category_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_item_category')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bins_item_category')->get();
 
         $item_class_list=DB::table('maintenance_bins_item_classification')->get();
 
@@ -284,7 +284,7 @@ class BINSController extends Controller
     public function bins_begbal(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_inventory_begbal')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('bins_inventory_begbal')->get();
 
         $inventoryX=DB::table('bins_brgy_inventory')->get();
 
@@ -342,7 +342,7 @@ class BINSController extends Controller
     public function bins_item_inspection(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_item_inspection')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('bins_item_inspection')->get();
 
         $RC_item_list=DB::table('bins_received_item')->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
@@ -409,7 +409,7 @@ class BINSController extends Controller
     public function bins_received_item(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_received_item')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('bins_received_item')->get();
 
         $inventory_list=DB::table('bins_brgy_inventory')->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
@@ -480,7 +480,7 @@ class BINSController extends Controller
     public function bins_physical_count(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_physical_count')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('bins_physical_count')->get();
 
         $P_inventory_list=DB::table('bins_physical_count_inventory')->get();
         $item_category_list=DB::table('maintenance_bins_item_category')->get();
@@ -547,7 +547,7 @@ class BINSController extends Controller
     public function bins_inv_disposal(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_inventory_for_disposal')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('bins_inventory_for_disposal')->get();
 
         $inventory_list=DB::table('bins_brgy_inventory')->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
@@ -615,7 +615,7 @@ class BINSController extends Controller
     public function bins_borrow(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_equipment_borrowed')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('bins_equipment_borrowed')->get();
 
         $request_list = DB::table('bins_inhabitants_equipment_borrow_request')->get();
 
@@ -711,7 +711,7 @@ class BINSController extends Controller
     public function bins_supply_issuance(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_received_item')->paginate(20,['*'], 'db_entries');
+        $db_entries = DB::table('bins_received_item')->get();
 
         $inventory_list=DB::table('bins_brgy_inventory')->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
@@ -791,7 +791,7 @@ class BINSController extends Controller
             ->join('maintenance_city_municipality','maintenance_city_municipality.City_Municipality_ID','=','bins_brgy_inventory.City_Municipality_ID')
             ->join('maintenance_province','maintenance_province.Province_ID','=','bins_brgy_inventory.Province_ID')
             ->join('maintenance_region','maintenance_region.Region_ID','=','bins_brgy_inventory.Region_ID')
-            ->paginate(20,['*'], 'db_entries');
+            ->get();
 
         //dd($db_entries);
 

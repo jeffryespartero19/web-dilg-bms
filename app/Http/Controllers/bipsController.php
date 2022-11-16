@@ -1530,4 +1530,208 @@ class bipsController extends Controller
             ->get();
         return json_encode($data);
     }
+
+    public function official_list(Request $request)
+    {
+        $currDATE = Carbon::now();
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+                ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->leftjoin('maintenance_barangay as g', 'a.Main_Barangay_ID', '=', 'g.Barangay_ID')
+                ->select(
+                    'a.Inhabitants_Transfer_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Region_ID',
+                    'c.Region_Name',
+                    'a.Province_ID',
+                    'd.Province_Name',
+                    'a.City_Municipality_ID',
+                    'e.City_Municipality_Name',
+                    'a.Barangay_ID',
+                    'f.Barangay_Name',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('g.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+                ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Inhabitants_Transfer_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Region_ID',
+                    'c.Region_Name',
+                    'a.Province_ID',
+                    'd.Province_Name',
+                    'a.City_Municipality_ID',
+                    'e.City_Municipality_Name',
+                    'a.Barangay_ID',
+                    'f.Barangay_Name',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('a.Main_Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
+        $name = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->paginate(20, ['*'], 'name');
+        $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
+        $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
+        $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
+        $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
+
+        return view('bips_transactions.inhabitants_transfer_list', compact(
+            'db_entries',
+            'currDATE',
+            'name',
+            'region',
+            'province',
+            'barangay',
+            'city',
+            'city1'
+
+        ));
+    }
+
+
+    //Brgy Official
+    //Brgy Official List
+    public function brgy_official_list(Request $request)
+    {
+        $currDATE = Carbon::now();
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bips_brgy_officials_and_staff as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Barangay_Position_ID',
+                    'c.Brgy_Position',
+                    'a.Brgy_Officials_and_Staff_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                    'a.monthly_income',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('e.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('bips_brgy_officials_and_staff as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Barangay_Position_ID',
+                    'c.Brgy_Position',
+                    'a.Brgy_Officials_and_Staff_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                    'a.monthly_income',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
+        $name = DB::table('bips_brgy_inhabitants_information')->paginate(20, ['*'], 'name');
+        $brgy_position = DB::table('maintenance_bips_brgy_position')->where('Active', 1)->get();
+
+        return view('bips_transactions.brgy_official_list', compact(
+            'db_entries',
+            'currDATE',
+            'name',
+            'brgy_position',
+            'city1'
+        ));
+    }
+
+
+    // Save Brgy Official
+    public function create_brgy_official(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        // dd($data);
+
+        DB::table('bips_brgy_officials_and_staff')->insert(
+            array(
+                'Resident_ID' => $data['Resident_IDs'],
+                'Barangay_Position_ID' => $data['Brgy_Position_ID'],
+                'Term_From' => $data['Term_From'],
+                'Term_To' => $data['Term_To'],
+                'monthly_income' => $data['monthly_income'],
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Barangay_ID'       => Auth::user()->Barangay_ID,
+                'Active'       => 1,
+            )
+        );
+        return redirect()->back()->with('message', 'New Entry Created');
+    }
+
+    // Display Brgy Official
+    public function get_brgy_official(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('bips_brgy_officials_and_staff as a')
+            ->select(
+                'a.Brgy_Officials_and_Staff_ID',
+                'a.Resident_ID',
+                'a.Barangay_Position_ID',
+                'a.Term_From',
+                'a.Term_To',
+                'a.monthly_income',
+            )
+            ->where('Brgy_Officials_and_Staff_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    //updating Brgy Official
+    public function update_brgy_official(Request $request)
+
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID', $data['Brgy_Officials_and_Staff_ID'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Barangay_Position_ID' => $data['Brgy_Position_ID2'],
+                'Term_From' => $data['Term_From2'],
+                'Term_To' => $data['Term_To2'],
+                'monthly_income' => $data['monthly_income2'],
+
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
 }
