@@ -36,7 +36,6 @@
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
 
-
 <!-- <script src="{{ asset('/js/chatX.js') }}" defer></script> -->
 <script src="{{ asset('js/global.js') }}" defer></script>
 
