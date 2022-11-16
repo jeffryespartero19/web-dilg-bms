@@ -1271,4 +1271,395 @@ class BCPISController extends Controller
 
         
     }
+
+    //Brgy Document Infomation Details Request
+    public function brgy_document_information_details_request()
+    {
+        $currDATE = Carbon::now();
+
+        
+            $purpose = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'purpose');
+            $document_type = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'document_type');
+            return view('bcpcis_transactions.brgy_document_information_request', compact(
+                'currDATE',
+                'purpose',
+                'document_type',
+               
+            ));
+         
+    }
+
+     // Save Brgy Document Information Request aldren
+     public function create_brgy_document_information_request(Request $request)
+     {
+         $currDATE = Carbon::now();
+         $data = request()->all();
+         $randomNumber = random_int(1, 9999);
+ 
+ 
+         if ($data['Document_ID'] == null || $data['Document_ID'] == 0) {
+             $Document_ID = DB::table('bcpcis_brgy_document_information')->insertGetId(
+                 array(
+                     'Request_Date'             => Carbon::now(),
+                     'Remarks'                  => $data['Remarks'],
+                     'Purpose_of_Document_ID'   => $data['Purpose_of_Document_ID'],
+                     'Salutation_Name'          => $data['Salutation_Name'],
+                     'Document_Type_ID'         => $data['Document_Type_ID'],
+                     'Resident_ID'              => Auth::user()->Resident_ID,
+                     'SecondResident_Name'      => $data['SecondResident_Name'],
+                     'Request_Status_ID'        => 0,
+                     'Barangay_ID'              => Auth::user()->Barangay_ID,
+                     'City_Municipality_ID'     => Auth::user()->City_Municipality_ID,
+                     'Province_ID'              => Auth::user()->Province_ID,
+                     'Region_ID'                => Auth::user()->Region_ID,
+                     'Encoder_ID'               => Auth::user()->id,
+                     'Date_Stamp'               => Carbon::now(),
+ 
+                 )
+ 
+             );
+ 
+             DB::table('bcpcis_brgy_document_claim_schedule')->insertGetId(
+                 array(
+                     'Document_ID'                                  => $Document_ID,
+                     'Resident_ID'                                  => Auth::user()->Resident_ID,
+                     'Queue_Ticket_Number'                          => $randomNumber,
+                     'Requested_Date_and_Time'                      => $data['Requested_Date_and_Time'],
+                     'Barangay_ID'                                  => Auth::user()->Barangay_ID,
+                     'City_Municipality_ID'                         => Auth::user()->City_Municipality_ID,
+                     'Province_ID'                                  => Auth::user()->Province_ID,
+                     'Region_ID'                                    => Auth::user()->Region_ID,
+                     'Encoder_ID'                                   => Auth::user()->id,
+                     'Date_Stamp'                                   => Carbon::now(),
+ 
+                 )
+             );
+           
+            $for_modal=1;
+            $Queue_Ticket_Number=$randomNumber;
+            $Requested_Date_and_Time= $data['Requested_Date_and_Time'];
+
+            $purpose = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'purpose');
+            $document_type = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'document_type');
+//dd($data['Document_Type_ID']);
+             return view('bcpcis_transactions.brgy_document_information_request', compact(
+                'Queue_Ticket_Number',
+                'Requested_Date_and_Time',
+                'for_modal','purpose','document_type','data'
+            ));
+            
+         } 
+     }
+
+     public function document_request_pending_list(Request $request)
+    {
+        $currDATE = Carbon::now();
+
+    $db_entries = DB::table('bcpcis_brgy_document_information as a') 
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as c', 'a.Resident_ID', '=', 'c.Resident_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as e', 'a.Purpose_of_Document_ID', '=', 'e.Purpose_of_Document_ID')
+        ->select(
+            'a.Document_ID',
+            'b.Queue_Ticket_Number',
+            'b.Requested_Date_and_Time',
+            DB::raw('CONCAT(c.First_Name, " ",LEFT(c.Middle_Name,1),". ",c.Last_Name) AS Resident_Name'),
+            'd.Document_Type_Name',
+            'e.Purpose_of_Document',
+
+           
+        )
+        ->where('a.Request_Status_ID', 0)
+        ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+        ->paginate(20, ['*'], 'db_entries');
+    $db_entries2 = DB::table('bcpcis_brgy_document_information as a') 
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as c', 'a.Resident_ID', '=', 'c.Resident_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as e', 'a.Purpose_of_Document_ID', '=', 'e.Purpose_of_Document_ID')
+        ->select(
+            'a.Document_ID',
+            'b.Queue_Ticket_Number',
+            'b.Requested_Date_and_Time',
+            DB::raw('CONCAT(c.First_Name, " ",LEFT(c.Middle_Name,1),". ",c.Last_Name) AS Resident_Name'),
+            'd.Document_Type_Name',
+            'e.Purpose_of_Document',
+
+           
+        )
+        ->where('a.Request_Status_ID', 1)
+        ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+        ->paginate(20, ['*'], 'db_entries');
+    $db_entries3 = DB::table('bcpcis_brgy_document_information as a') 
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as c', 'a.Resident_ID', '=', 'c.Resident_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as e', 'a.Purpose_of_Document_ID', '=', 'e.Purpose_of_Document_ID')
+        ->select(
+            'a.Document_ID',
+            'b.Queue_Ticket_Number',
+            'b.Requested_Date_and_Time',
+            DB::raw('CONCAT(c.First_Name, " ",LEFT(c.Middle_Name,1),". ",c.Last_Name) AS Resident_Name'),
+            'd.Document_Type_Name',
+            'e.Purpose_of_Document',
+
+           
+        )
+        ->where('a.Request_Status_ID', 2)
+        ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+        ->paginate(20, ['*'], 'db_entries');
+
+
+
+        return view('bcpcis_transactions.document_request_pending_list', compact(
+            'db_entries',
+            'db_entries2',
+            'db_entries3',
+            'currDATE',
+        ));
+           
+
+    }
+
+
+    // Approve Disapprove Document Request Pending
+    public function approve_disapprove_document_request_pending(Request $request)
+    {
+        $data = request()->all();
+        
+        $message = 'Disapprove';
+
+        DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
+            array(
+                'Request_Status_ID' => $data['Request_Status_ID'],
+            )
+        );
+
+        return redirect()->back()->with('message', 'Document Request is ' . $message);
+    }
+
+    //Document Request Details
+    public function document_request_details($id)
+    {
+        $currDATE = Carbon::now();
+
+       
+
+        $document = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+        ->select(
+            'a.Document_ID',
+            'a.Resident_ID',
+            'a.Document_Type_ID',
+            'a.Purpose_of_Document_ID',
+            'a.Request_Date',
+            'a.Salutation_Name',
+            'a.Remarks',
+            'a.SecondResident_Name',
+            DB::raw('CONCAT(b.First_Name, " ",LEFT(b.Middle_Name,1),". ",b.Last_Name) AS Resident_Name'), 
+        )
+        ->where('Document_ID', $id)
+        ->paginate(20, ['*'], 'document');
+        $claim = DB::table('bcpcis_brgy_document_claim_schedule')->where('Document_ID', $id)->get();
+        $purpose = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'purpose');
+        $document_type = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'document_type');
+            return view('bcpcis_transactions.document_request_approve', compact(
+                'currDATE',
+                'document',
+                'claim',
+                'purpose',
+                'document_type',
+            ));
+        
+    }
+
+    // Approve Document Request Update
+    public function update_document_request_approve_information(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        if ($data['Document_Type_ID'] == 1){
+            $validated = $request->validate([
+                'OR_No' => 'required',
+                'Cash_Tendered' => 'required',
+                'CTC_No' => 'required',
+                'CTC_Amount' => 'required',
+                'Place_Issued' => 'required',
+                
+            ]);
+        }
+
+        DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
+            array(
+                'Transaction_No'        => $data['Transaction_No'],
+                'Request_Date'          => $data['Request_Date'],
+                'Remarks'               => $data['Remarks'],
+                'Released'              => (int)$data['Released'],
+                'Purpose_of_Document_ID'=> $data['Purpose_of_Document_ID'],
+                'Salutation_Name'       => $data['Salutation_Name'],
+                'Issued_On'             => $data['Issued_On'],
+                'Issued_At'             => $data['Issued_At'],
+                'Brgy_Cert_No'          => $data['Brgy_Cert_No'],
+                'Document_Type_ID'      => $data['Document_Type_ID'],
+                'Resident_ID'           => $data['Resident_ID'],
+                'SecondResident_Name'   => $data['SecondResident_Name'],
+                'Request_Status_ID'     => 1,
+                'Barangay_ID'           => Auth::user()->Barangay_ID,
+                'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                'Province_ID'           => Auth::user()->Province_ID,
+                'Region_ID'             => Auth::user()->Region_ID,
+                'Encoder_ID'            => Auth::user()->id,
+                'Date_Stamp'            => Carbon::now(),
+            )
+
+            
+        );
+
+        DB::table('bcpcis_brgy_payment_collected')->insertGetId(
+            array(
+                'Document_ID'                               => $data['Document_ID'],
+                'OR_Date'                                   => $data['OR_Date'],
+                'OR_No'                                     => $data['OR_No'],
+                'Cash_Tendered'                             => $data['Cash_Tendered'],
+                'CTC_Details'                               => $data['CTC_Details'],
+                'CTC_Date_Issued'                           => $data['CTC_Date_Issued'],
+                'CTC_No'                                    => $data['CTC_No'],
+                'CTC_Amount'                                => $data['CTC_Amount'],
+                'Place_Issued'                              => $data['Place_Issued'],
+                'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                'Province_ID'                               => Auth::user()->Province_ID,
+                'Region_ID'                                 => Auth::user()->Region_ID,
+                'Encoder_ID'                                => Auth::user()->id,
+                'Date_Stamp'                                => Carbon::now(),
+
+            )
+        );
+
+
+        return redirect()->to('document_request_approved_details/' . $data['Document_ID'])->with('message', 'The Document resquest has been saved and approved');
+    }
+
+
+    //Document request Approved details
+    public function document_request_approved_details($id)
+    {
+        $currDATE = Carbon::now();
+
+       
+        $document = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+        ->select(
+            'a.*',
+            DB::raw('CONCAT(b.First_Name, " ",LEFT(b.Middle_Name,1),". ",b.Last_Name) AS Resident_Name'), 
+        )
+        ->where('Document_ID', $id)
+        ->paginate(20, ['*'], 'document');
+            $purpose = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'purpose');
+            $document_type = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'document_type');
+            $payment_docu = DB::table('bcpcis_brgy_payment_collected')->where('Document_ID', $id)->get();
+            return view('bcpcis_transactions.document_request_approved_edit', compact(
+                'currDATE',
+                'document',
+                'purpose',
+                'document_type',
+                'payment_docu',
+            ));
+        
+    }
+
+    // Approve Document Request EDIT Update
+    public function update_document_request_approve_edit_information(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        if ($data['Document_Type_ID'] == 1){
+            $validated = $request->validate([
+                'OR_No' => 'required',
+                'Cash_Tendered' => 'required',
+                'CTC_No' => 'required',
+                'CTC_Amount' => 'required',
+                'Place_Issued' => 'required',
+                
+            ]);
+        }
+
+        DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
+            array(
+                'Transaction_No'        => $data['Transaction_No'],
+                'Request_Date'          => $data['Request_Date'],
+                'Remarks'               => $data['Remarks'],
+                'Released'              => (int)$data['Released'],
+                'Purpose_of_Document_ID'=> $data['Purpose_of_Document_ID'],
+                'Salutation_Name'       => $data['Salutation_Name'],
+                'Issued_On'             => $data['Issued_On'],
+                'Issued_At'             => $data['Issued_At'],
+                'Brgy_Cert_No'          => $data['Brgy_Cert_No'],
+                'Document_Type_ID'      => $data['Document_Type_ID'],
+                'Resident_ID'           => $data['Resident_ID'],
+                'SecondResident_Name'   => $data['SecondResident_Name'],
+                'Barangay_ID'           => Auth::user()->Barangay_ID,
+                'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                'Province_ID'           => Auth::user()->Province_ID,
+                'Region_ID'             => Auth::user()->Region_ID,
+                'Encoder_ID'            => Auth::user()->id,
+                'Date_Stamp'            => Carbon::now(),
+            )
+
+            
+        );
+
+        DB::table('bcpcis_brgy_payment_collected')->where('Document_ID', $data['Document_ID'])->update(
+            array(
+                'OR_Date'                                   => $data['OR_Date'],
+                'OR_No'                                     => $data['OR_No'],
+                'Cash_Tendered'                             => $data['Cash_Tendered'],
+                'CTC_Details'                               => $data['CTC_Details'],
+                'CTC_Date_Issued'                           => $data['CTC_Date_Issued'],
+                'CTC_No'                                    => $data['CTC_No'],
+                'CTC_Amount'                                => $data['CTC_Amount'],
+                'Place_Issued'                              => $data['Place_Issued'],
+                'Barangay_ID'                               => Auth::user()->Barangay_ID,
+                'City_Municipality_ID'                      => Auth::user()->City_Municipality_ID,
+                'Province_ID'                               => Auth::user()->Province_ID,
+                'Region_ID'                                 => Auth::user()->Region_ID,
+                'Encoder_ID'                                => Auth::user()->id,
+                'Date_Stamp'                                => Carbon::now(),
+            )
+
+        );
+
+        
+     
+        return redirect()->back()->with('message', 'Information Updated');
+    }
+
+    //Document request Ticket Number Details
+    public function document_request_ticket_number_details($id)
+    {
+        $currDATE = Carbon::now();
+
+       
+        $document = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as c', 'a.Document_ID', '=', 'c.Document_ID')
+        ->select(
+            'a.Document_ID',
+            'c.Queue_Ticket_Number',
+            'c.Requested_Date_and_Time',
+
+            
+        )
+        ->where('a.Document_ID', $id)
+        ->paginate(20, ['*'], 'document');
+           
+            return view('bcpcis_transactions.brgy_document_information_request_ticket', compact(
+                'currDATE',
+                'document',
+            ));
+        
+    }
 }
