@@ -62,6 +62,18 @@ class borisController extends Controller
         $status = DB::table('maintenance_boris_status_of_ordinance_or_resolution')->where('Active', 1)->get();
         $type = DB::table('maintenance_boris_type_of_ordinance_or_resolution')->where('Active', 1)->get();
         $category = DB::table('maintenance_boris_category_of_ordinance_or_resolution_id')->where('Active', 1)->get();
+        $brgy_official = DB::table('bips_brgy_officials_and_staff as a')
+            ->join('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->select(
+                'a.Resident_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+            )
+            ->groupBy('a.Resident_ID', 'b.Last_Name', 'b.First_Name', 'b.Middle_Name')
+            ->where('a.Active', 1)
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->get();
 
         return view('boris_transactions.ordinances_and_resolutions_list', compact(
             'db_entries',
@@ -74,6 +86,7 @@ class borisController extends Controller
             'status',
             'type',
             'category',
+            'brgy_official'
         ));
     }
 
@@ -128,6 +141,18 @@ class borisController extends Controller
         $status = DB::table('maintenance_boris_status_of_ordinance_or_resolution')->where('Active', 1)->get();
         $type = DB::table('maintenance_boris_type_of_ordinance_or_resolution')->where('Active', 1)->get();
         $category = DB::table('maintenance_boris_category_of_ordinance_or_resolution_id')->where('Active', 1)->get();
+        $brgy_official = DB::table('bips_brgy_officials_and_staff as a')
+            ->join('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->select(
+                'a.Resident_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+            )
+            ->groupBy('a.Resident_ID', 'b.Last_Name', 'b.First_Name', 'b.Middle_Name')
+            ->where('a.Active', 1)
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->get();
 
         return view('boris_transactions.resolutions_list', compact(
             'db_entries',
@@ -140,6 +165,7 @@ class borisController extends Controller
             'type',
             'category',
             'city1',
+            'brgy_official'
         ));
     }
 
@@ -164,7 +190,9 @@ class borisController extends Controller
                     'Province_ID' => Auth::user()->Province_ID,
                     'Region_ID' => Auth::user()->Region_ID,
                     'Encoder_ID'       => Auth::user()->id,
-                    'Date_Stamp'       => Carbon::now()
+                    'Date_Stamp'       => Carbon::now(),
+                    'Approver_ID' => $data['Approver_ID'],
+
                 )
             );
 
@@ -186,6 +214,26 @@ class borisController extends Controller
                 }
             }
 
+            if (isset($data['Attester_ID'])) {
+                $attester = [];
+
+                for ($i = 0; $i < count($data['Attester_ID']); $i++) {
+                    if ($data['Attester_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('boris_attester')->max('id');
+                        $id += 1;
+
+                        $attester = [
+                            'Ordinance_Resolution_ID' => $Ordinance_Resolution_ID,
+                            'Resident_ID' => $data['Attester_ID'][$i],
+                            'created_at'       => Carbon::now()
+                        ];
+
+                        DB::table('boris_attester')->updateOrInsert(['id' => $id], $attester);
+                    }
+                }
+            }
+
             return redirect()->back()->with('message', 'New Record Created');
         } else {
             DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_Resolution_ID', $data['Ordinance_Resolution_ID'])->update(
@@ -202,7 +250,8 @@ class borisController extends Controller
                     'Province_ID' => Auth::user()->Province_ID,
                     'Region_ID' => Auth::user()->Region_ID,
                     'Encoder_ID'       => Auth::user()->id,
-                    'Date_Stamp'       => Carbon::now()
+                    'Date_Stamp'       => Carbon::now(),
+                    'Approver_ID' => $data['Approver_ID'],
                 )
             );
 
@@ -221,6 +270,30 @@ class borisController extends Controller
                         'Date_Stamp'       => Carbon::now()
                     );
                     DB::table('boris_file_attachment')->insert($file_data);
+                }
+            }
+
+            if (isset($data['Attester_ID'])) {
+                $attester = [];
+
+                DB::table('boris_attester')
+                    ->where('Ordinance_Resolution_ID', $data['Ordinance_Resolution_ID'])
+                    ->delete();
+
+                for ($i = 0; $i < count($data['Attester_ID']); $i++) {
+                    if ($data['Attester_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('boris_attester')->max('id');
+                        $id += 1;
+
+                        $attester = [
+                            'Ordinance_Resolution_ID' => $data['Ordinance_Resolution_ID'],
+                            'Resident_ID' => $data['Attester_ID'][$i],
+                            'created_at'       => Carbon::now()
+                        ];
+
+                        DB::table('boris_attester')->updateOrInsert(['id' => $id], $attester);
+                    }
                 }
             }
 
@@ -253,6 +326,7 @@ class borisController extends Controller
                 'b.Barangay_Name',
                 'c.City_Municipality_Name',
                 'd.Province_Name',
+                'a.Approver_ID'
             )
             ->where('a.Ordinance_Resolution_ID', $id)
             ->get();
@@ -421,6 +495,17 @@ class borisController extends Controller
             ->where('a.Barangay_ID', $Barangay_ID)
             ->where('a.Ordinance_or_Resolution', 1)
             ->get();
+        return json_encode($data);
+    }
+
+    public function get_ordinance_and_resolution_attester(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $data = DB::table('boris_attester')
+            ->where('Ordinance_Resolution_ID', $id)
+            ->get();
+
         return json_encode($data);
     }
 }

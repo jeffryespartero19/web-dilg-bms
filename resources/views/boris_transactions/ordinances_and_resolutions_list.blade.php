@@ -182,33 +182,23 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <!-- <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Region</label>
-                                <select class="form-control" id="Region_ID" name="Region_ID" required>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Approver_ID">Approver</label>
+                                <select class="form-control" id="Approver_ID" name="Approver_ID" required>
                                     <option value='' disabled selected>Select Option</option>
-                                    @foreach($region as $region)
-                                    <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
+                                    @foreach($brgy_official as $bo)
+                                    <option value="{{ $bo->Resident_ID  }}">{{ $bo->Last_Name }}, {{$bo->First_Name}} {{$bo->Middle_Name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Province</label>
-                                <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                <label for="Attester_ID">Attester</label>
+                                <select class="form-control select2" id="Attester_ID" name="Attester_ID[]" multiple="multiple" required>
+                                    @foreach($brgy_official as $bo)
+                                    <option value="{{ $bo->Resident_ID  }}">{{ $bo->Last_Name }}, {{$bo->First_Name}} {{$bo->Middle_Name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="City_Municipality_ID">City/Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Barangay_ID">Barangay</label>
-                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div> -->
                             <div class="form-group col-lg-12" style="padding:0 10px">
                                 <label for="fileattach">File Attachments</label>
                                 <ul class="list-group list-group-flush" id="ordinance_files">
@@ -334,6 +324,10 @@
 @section('scripts')
 
 <script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+
     $(document).ready(function() {
         var User_Type_ID = $('#User_Type_ID').val();
         if (User_Type_ID == 3) {
@@ -518,6 +512,7 @@
                 $('#Ordinance_Resolution_Title').val(data['theEntry'][0]['Ordinance_Resolution_Title']);
                 $('#Status_of_Ordinance_or_Resolution_ID').val(data['theEntry'][0]['Status_of_Ordinance_or_Resolution_ID']);
                 $('#Previous_Related_Ordinance_Resolution_ID').val(data['theEntry'][0]['Previous_Related_Ordinance_Resolution_ID']);
+                $('#Approver_ID').val(data['theEntry'][0]['Approver_ID']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
 
                 var barangay =
@@ -560,7 +555,32 @@
             }
         });
 
+        $.ajax({
+            url: "/get_ordinance_and_resolution_attester",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data);
 
+                var arr = new Array();
+                // or var arr = [];
+
+                data.forEach(element => {
+                    arr.push(element['Resident_ID']);
+                });
+
+                $('#Attester_ID').val(arr).trigger('change')
+
+                // alert(arr);
+
+            }
+        });
 
     });
 
@@ -643,6 +663,10 @@
                 });
             }
         });
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#createOrdinance_Info').trigger("reset");
     });
 </script>
 

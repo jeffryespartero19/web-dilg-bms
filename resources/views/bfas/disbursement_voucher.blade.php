@@ -57,15 +57,10 @@
                                 <table id="example" class="table table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Transaction No</th>
-                                            <th>Voucher No</th>
-                                            <th>Appropriation</th>
+                                            <th>Reference</th>
                                             <th>Fund</th>
-                                            <th>Tax Code</th>
-                                            <th>Payee</th>
-                                            <th>Officer <br>in Charge</th>
-                                            <th>Status</th>
                                             <th>Purpose</th>
+                                            <th style="width:15%">Tagged OBR</th>
                                             <th style="width:15%">Location</th>
 
                                             <th>Particulars</th>
@@ -76,14 +71,51 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Transaction_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Voucher_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Appropriation_Type}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Fund_Type}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Description}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name2}}, {{$x->First_Name2}} {{$x->Middle_Name2}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Voucher_Status}}</td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Transaction No: </b></td>
+                                                        <td>{{$x->Transaction_No}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Voucher No: </b></td>
+                                                        <td>{{$x->Voucher_No}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Voucher Status: </b></td>
+                                                        <td>{{$x->Voucher_Status}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td><b>Appropriation Type: </b></td>
+                                                        <td>{{$x->Appropriation_Type}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Fund Type: </b></td>
+                                                        <td>{{$x->Fund_Type}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Voucher Status: </b></td>
+                                                        <td>{{$x->Voucher_Status}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Tax Code: </b></td>
+                                                        <td>{{$x->Description}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Payee: </b></td>
+                                                        <td>{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Officer <br>in Charge: </b></td>
+                                                        <td>{{$x->Last_Name2}}, {{$x->First_Name2}} {{$x->Middle_Name2}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            
                                             <td class="sm_data_col txtCtr">
                                                 @if($x->For_Liquidation==1) For Liquidation @endif
                                                 @if($x->For_Payroll==1) For Payroll @endif
@@ -91,6 +123,21 @@
                                                 @if($x->Disbursement_Check==1) Check Disbursement @endif
                                                 @if($x->Disbursement_Cash==1) Cash Disbursement @endif
                                             </td>
+
+                                            
+                                            <td class="sm_data_col txtCtr">
+                                                <table>
+                                                    <tr>
+                                                        <th><b>OB Request</b></th>
+                                                        <th><b>Amount</b></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{$x->Obligation_Request_No}}</td>
+                                                        <td>{{number_format((float)$x->Amount, 2, '.', ',')}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            
 
                                             <td>
                                                 <table>
@@ -117,6 +164,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Disbursement_Voucher_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="tag_XYZ" value="{{$x->Disbursement_Voucher_ID}}" data-toggle="modal" data-target="#tagXYZ">Tag</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -421,6 +469,42 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Tagging  Modal -->
+<div class="modal fade" id="tagXYZ" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Tag Entries</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="tagEntryXYZ" method="POST" action="{{ route('tag_bfas_disbursement_voucher') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <input id="this_B_IDx" value="" hidden name="B_IDx">
+                <div class="modal-body Absolute-Center tagger">
+                    <i class="fa fa-plus-square thisAdd" style="font-size: 25px"></i>
+                    <div class="modal_input_container row dupli">
+                        <div class="form-group col-lg-6">
+                            <label>Obligation Request:</label>
+                            <select class="form-control regionX2" name="tagObligation_Requests_ID[]">
+                                <option id="this_region" value='' hidden selected>Select</option>
+                                @foreach($obr as $o)
+                                <option value='{{$o->Obligation_Request_ID}}'>{{$o->Obligation_Request_No}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn tagThis_XYZ modal_sb_button">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- End Tagging  Modal -->
 
 @endsection
 

@@ -65,6 +65,9 @@
                             <a href="{{route('application_list')}}" class="nav-link">
                                 <p>Application List</p>
                             </a>
+                            <a href="{{route('brgy_official_list')}}" class="nav-link">
+                                <p>Brgy. Official</p>
+                            </a>
                             @endif
                         </li>
                     </ul>
@@ -422,6 +425,9 @@
                             </a>
                             <a href="{{route('name_suffix_maint')}}" class="nav-link">
                                 <p>Name Suffix</p>
+                            </a>
+                            <a href="{{route('brgy_position_maint')}}" class="nav-link">
+                                <p>Brgy. Position</p>
                             </a>
                         </li>
                     </ul>

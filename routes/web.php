@@ -754,6 +754,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_ordinance_violator_list/{Barangay_ID}', 'BJISBHController@get_ordinance_violator_list');
 
 
+
     //Document Request
     Route::get('/brgy_document_information_details_request', 'BCPISController@brgy_document_information_details_request')->name('brgy_document_information_details_request');
     Route::post('/create_brgy_document_information_request', 'BCPISController@create_brgy_document_information_request')->name('create_brgy_document_information_request');
@@ -766,6 +767,30 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/document_request_approved_details/{id}', 'BCPISController@document_request_approved_details');
   Route::post('/update_document_request_approve_edit_information', 'BCPISController@update_document_request_approve_edit_information')->name('update_document_request_approve_edit_information');
   Route::get('/document_request_ticket_number_details/{id}', 'BCPISController@document_request_ticket_number_details');
+
+  //Tagging
+  Route::post('/tag_bfas_budget_appropriation', 'BFASController2@tag_bfas_budget_appropriation')->name('tag_bfas_budget_appropriation');
+  Route::post('/tag_bfas_obligation_request', 'BFASController2@tag_bfas_obligation_request')->name('tag_bfas_obligation_request');
+  Route::post('/tag_bfas_disbursement_voucher', 'BFASController2@tag_bfas_disbursement_voucher')->name('tag_bfas_disbursement_voucher');
+
+  //Get Account Parent Child
+  Route::get('/get_acc_parents', 'BFASController2@get_acc_parents')->name('get_acc_parents');
+
+  //Deceased Profile
+  Route::get('/brgy_official_list', 'bipsController@brgy_official_list')->name('brgy_official_list');
+  Route::post('/create_brgy_official', 'bipsController@create_brgy_official')->name('create_brgy_official');
+  Route::get('/get_brgy_official', 'bipsController@get_brgy_official')->name('get_brgy_official');
+  Route::post('/update_brgy_official', 'bipsController@update_brgy_official')->name('update_brgy_official');
+
+  //Brgy Position Maintenance
+  Route::get('/brgy_position_maint', 'maintenanceController@brgy_position_maint')->name('brgy_position_maint');
+  Route::post('/create_brgy_position_maint', 'maintenanceController@create_brgy_position_maint')->name('create_brgy_position_maint');
+  Route::get('/get_brgy_position_maint', 'maintenanceController@get_brgy_position_maint')->name('get_brgy_position_maint');
+  Route::post('/update_brgy_position_maint', 'maintenanceController@update_brgy_position_maint')->name('update_brgy_position_maint');
+
+  //Get Boris Attester
+  Route::get('/get_ordinance_and_resolution_attester', 'borisController@get_ordinance_and_resolution_attester')->name('get_ordinance_and_resolution_attester');
+
 });
 
 
@@ -775,6 +800,7 @@ Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
+//Route::get('/search_barangay', 'GlobalController@searchBarangay');
 
 //For Drop Downs
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');
