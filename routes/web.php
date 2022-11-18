@@ -752,11 +752,10 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_summon_list/{Barangay_ID}', 'BJISBHController@get_summon_list');
   Route::get('/get_proceeding_list/{Barangay_ID}', 'BJISBHController@get_proceeding_list');
   Route::get('/get_ordinance_violator_list/{Barangay_ID}', 'BJISBHController@get_ordinance_violator_list');
-
-
-  //Document Request
-  Route::get('/brgy_document_information_details_request', 'BCPISController@brgy_document_information_details_request')->name('brgy_document_information_details_request');
-  Route::post('/create_brgy_document_information_request', 'BCPISController@create_brgy_document_information_request')->name('create_brgy_document_information_request');
+  
+    //Document Request
+    Route::get('/brgy_document_information_details_request', 'BCPISController@brgy_document_information_details_request')->name('brgy_document_information_details_request');
+    Route::post('/create_brgy_document_information_request', 'BCPISController@create_brgy_document_information_request')->name('create_brgy_document_information_request');
 
   //DOCUMENT REQUEST PENDING
   Route::get('/document_request_pending_list', 'BCPISController@document_request_pending_list')->name('document_request_pending_list');
