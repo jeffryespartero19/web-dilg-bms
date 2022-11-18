@@ -5,7 +5,7 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-<section class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -193,20 +193,20 @@
                                                 @foreach($bp_answers as $ba)
                                                 @if($ba->Indicator_ID == $bi->Indicator_ID)
 
-                                                    @if($ba->Answer_Classification_ID != 0)
+                                                @if($ba->Answer_Classification_ID != 0)
 
-                                                        @foreach($answer_class as $ac)
-                                                        @if($ac->Answer_Classification_ID == $ba->Answer_Classification_ID)
-                                                        {{$ac->Answer}}
-                                                        <br>
-                                                        @else
-                                                        @endif
-                                                        @endforeach
+                                                @foreach($answer_class as $ac)
+                                                @if($ac->Answer_Classification_ID == $ba->Answer_Classification_ID)
+                                                {{$ac->Answer}}
+                                                <br>
+                                                @else
+                                                @endif
+                                                @endforeach
 
-                                                    @else
-                                                    {{$ba->Answer}}
-                                                    <br>
-                                                    @endif
+                                                @else
+                                                {{$ba->Answer}}
+                                                <br>
+                                                @endif
 
                                                 @else
                                                 @endif

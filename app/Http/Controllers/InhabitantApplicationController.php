@@ -53,8 +53,12 @@ class InhabitantApplicationController extends Controller
                 'Encoder_ID',
                 'Date_Stamp',
                 'Application_Status',
+                'PhilHealth',
+                'GSIS',
+                'SSS',
+                'PagIbig'
             )
-            ->where('Encoder_ID', Auth::user()->id)
+            ->where('Resident_ID', Auth::user()->Resident_ID)
             ->get();
 
         if ($db_entries->isEmpty()) {
@@ -190,6 +194,7 @@ class InhabitantApplicationController extends Controller
             'password' => Hash::make($data['password']),
             'User_Type_ID' => 2,
             'Barangay_ID' => $data['Barangay_ID'],
+            'Resident_ID' => $Resident_ID,
         ]);
 
         return redirect()->back()->with('success', 'Application Submitted');
