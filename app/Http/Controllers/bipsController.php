@@ -69,6 +69,13 @@ class bipsController extends Controller
                 ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
                 ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
                 ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+                ->leftjoin('maintenance_region as e', 'a.Region_ID', '=', 'e.Region_ID')
+                ->leftjoin('maintenance_province as f', 'a.Province_ID', '=', 'f.Province_ID')
+                ->leftjoin('maintenance_city_municipality as g', 'a.City_Municipality_ID', '=', 'g.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as h', 'a.Barangay_ID', '=', 'h.Barangay_ID')
+                ->leftjoin('maintenance_bips_religion as i', 'a.Religion_ID', '=', 'i.Religion_ID')
+                ->leftjoin('maintenance_bips_blood_type as j', 'a.Blood_Type_ID', '=', 'j.Blood_Type_ID')
+                ->leftjoin('bips_resident_profile as k', 'a.Resident_ID', '=', 'k.Resident_ID')
                 ->select(
                     'a.Resident_ID',
                     'a.Name_Prefix_ID',
@@ -103,7 +110,18 @@ class bipsController extends Controller
                     'a.Date_Stamp',
                     'b.Name_Prefix',
                     'c.Name_Suffix',
-                    'd.Civil_Status'
+                    'd.Civil_Status',
+                    'a.House_No',
+                    'h.Barangay_Name',
+                    'g.City_Municipality_Name',
+                    'f.Province_Name',
+                    'e.Region_Name',
+                    'i.Religion',
+                    'j.Blood_Type',
+                    'k.Resident_Status',
+                    'k.Voter_Status',
+                    'k.Election_Year_Last_Voted',
+                    'k.Resident_Voter',
                 )
                 ->where('a.Application_Status', 1)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -1687,7 +1705,7 @@ class bipsController extends Controller
                 'Term_To' => $data['Term_To'],
                 'monthly_income' => $data['monthly_income'],
                 'Encoder_ID'       => Auth::user()->id,
-                'Date_Stamp'       => Carbon::now(),
+                'created_at'       => Carbon::now(),
                 'Barangay_ID'       => Auth::user()->Barangay_ID,
                 'Active'       => 1,
             )
@@ -1723,12 +1741,121 @@ class bipsController extends Controller
         DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID', $data['Brgy_Officials_and_Staff_ID'])->update(
             array(
                 'Encoder_ID'       => Auth::user()->id,
-                'Date_Stamp'       => Carbon::now(),
+                'created_at'       => Carbon::now(),
                 'Barangay_Position_ID' => $data['Brgy_Position_ID2'],
                 'Term_From' => $data['Term_From2'],
                 'Term_To' => $data['Term_To2'],
                 'monthly_income' => $data['monthly_income2'],
 
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Brgy Purok Leader
+    //Brgy Purok Leader List
+    public function brgy_purok_leader_list(Request $request)
+    {
+        $currDATE = Carbon::now();
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bips_brgy_purok_leader as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Brgy_Purok_Leader_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('e.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('bips_brgy_purok_leader as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Brgy_Purok_Leader_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        }
+
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
+        $name = DB::table('bips_brgy_inhabitants_information')->paginate(20, ['*'], 'name');
+
+        return view('bips_transactions.brgy_purok_leaders_list', compact(
+            'db_entries',
+            'currDATE',
+            'name',
+            'city1'
+        ));
+    }
+
+
+    // Save Brgy Official
+    public function create_brgy_purok_leader(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        // dd($data);
+
+        DB::table('bips_brgy_purok_leader')->insert(
+            array(
+                'Resident_ID' => $data['Resident_IDs'],
+                'Term_From' => $data['Term_From'],
+                'Term_To' => $data['Term_To'],
+                'Encoder_ID'       => Auth::user()->id,
+                'created_at'       => Carbon::now(),
+                'Barangay_ID'       => Auth::user()->Barangay_ID,
+                'Active'       => 1,
+            )
+        );
+        return redirect()->back()->with('message', 'New Entry Created');
+    }
+
+    // Display Brgy Official
+    public function get_brgy_purok_leader(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('bips_brgy_purok_leader as a')
+            ->select(
+                'a.Brgy_Purok_Leader_ID',
+                'a.Resident_ID',
+                'a.Term_From',
+                'a.Term_To',
+            )
+            ->where('Brgy_Purok_Leader_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    //updating Brgy Official
+    public function update_brgy_purok_leader(Request $request)
+
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bips_brgy_purok_leader')->where('Brgy_Purok_Leader_ID', $data['Brgy_Purok_Leader_ID'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'created_at'       => Carbon::now(),
+                'Term_From' => $data['Term_From2'],
+                'Term_To' => $data['Term_To2'],
             )
         );
 

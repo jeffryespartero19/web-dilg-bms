@@ -752,13 +752,12 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_summon_list/{Barangay_ID}', 'BJISBHController@get_summon_list');
   Route::get('/get_proceeding_list/{Barangay_ID}', 'BJISBHController@get_proceeding_list');
   Route::get('/get_ordinance_violator_list/{Barangay_ID}', 'BJISBHController@get_ordinance_violator_list');
-
   
     //Document Request
     Route::get('/brgy_document_information_details_request', 'BCPISController@brgy_document_information_details_request')->name('brgy_document_information_details_request');
     Route::post('/create_brgy_document_information_request', 'BCPISController@create_brgy_document_information_request')->name('create_brgy_document_information_request');
 
-    //DOCUMENT REQUEST PENDING
+  //DOCUMENT REQUEST PENDING
   Route::get('/document_request_pending_list', 'BCPISController@document_request_pending_list')->name('document_request_pending_list');
   Route::post('/approve_disapprove_document_request_pending', 'BCPISController@approve_disapprove_document_request_pending')->name('approve_disapprove_document_request_pending');
   Route::get('/document_request_details/{id}', 'BCPISController@document_request_details');
@@ -775,7 +774,7 @@ Route::group(['middleware' => 'auth'], function () {
   //Get Account Parent Child
   Route::get('/get_acc_parents', 'BFASController2@get_acc_parents')->name('get_acc_parents');
 
-  //Deceased Profile
+  //Brgy Official
   Route::get('/brgy_official_list', 'bipsController@brgy_official_list')->name('brgy_official_list');
   Route::post('/create_brgy_official', 'bipsController@create_brgy_official')->name('create_brgy_official');
   Route::get('/get_brgy_official', 'bipsController@get_brgy_official')->name('get_brgy_official');
@@ -790,6 +789,11 @@ Route::group(['middleware' => 'auth'], function () {
   //Get Boris Attester
   Route::get('/get_ordinance_and_resolution_attester', 'borisController@get_ordinance_and_resolution_attester')->name('get_ordinance_and_resolution_attester');
 
+  //Brgy Official
+  Route::get('/brgy_purok_leader_list', 'bipsController@brgy_purok_leader_list')->name('brgy_purok_leader_list');
+  Route::post('/create_brgy_purok_leader', 'bipsController@create_brgy_purok_leader')->name('create_brgy_purok_leader');
+  Route::get('/get_brgy_purok_leader', 'bipsController@get_brgy_purok_leader')->name('get_brgy_purok_leader');
+  Route::post('/update_brgy_purok_leader', 'bipsController@update_brgy_purok_leader')->name('update_brgy_purok_leader');
 });
 
 

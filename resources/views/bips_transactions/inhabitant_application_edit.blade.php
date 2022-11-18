@@ -363,10 +363,9 @@
                 </div> -->
             </div>
 
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+            <!-- <div class="modal-footer">
                 <button type="submit" class="btn btn-primary postThis_Inhabitant_Info" style="width: 200px;">Create</button>
-            </div>
+            </div> -->
         </form>
         <br>
         <br>
@@ -381,6 +380,11 @@
 @section('scripts')
 
 <script>
+    // Disable Form if DILG USER
+    $(document).ready(function() {
+        $("#newInhabitant :input").prop("disabled", true);
+    });
+
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
         // alert('test');

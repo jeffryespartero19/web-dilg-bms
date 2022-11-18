@@ -68,6 +68,9 @@
                             <a href="{{route('brgy_official_list')}}" class="nav-link">
                                 <p>Brgy. Official</p>
                             </a>
+                            <a href="{{route('brgy_purok_leader_list')}}" class="nav-link">
+                                <p>Brgy. Purok Leader</p>
+                            </a>
                             @endif
                         </li>
                     </ul>

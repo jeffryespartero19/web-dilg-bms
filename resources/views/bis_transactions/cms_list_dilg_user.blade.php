@@ -50,33 +50,33 @@
                             </div>
                         </div>
                         <br>
-<div class="tableX_row col-md-12 up_marg5">
-        <div class="table-responsive">
+                        <div class="tableX_row col-md-12 up_marg5">
+                            <div class="table-responsive">
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th hidden>CMS_Barangay_Profile_ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($db_entries as $x)
-                <tr>
-                    <td class="sm_data_col txtCtr" hidden>{{$x->CMS_Barangay_Profile_ID}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Title}}</td>
-                    <td class="sm_data_col txtCtr">{{$x->Description}}</td>
-                    <td class="sm_data_col txtCtr">
-                        <a class="btn btn-success" href="{{ url('cms_details/'.$x->CMS_Barangay_Profile_ID) }}">Go</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
-</div>
+                                    <thead>
+                                        <tr>
+                                            <th hidden>CMS_Barangay_Profile_ID</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($db_entries as $x)
+                                        <tr>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->CMS_Barangay_Profile_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Title}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Description}}</td>
+                                            <td class="sm_data_col txtCtr">
+                                                <a class="btn btn-success" href="{{ url('cms_details/'.$x->CMS_Barangay_Profile_ID) }}">Go</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
