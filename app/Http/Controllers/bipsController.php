@@ -1207,11 +1207,34 @@ class bipsController extends Controller
         $chk_Solo_Parent = isset($data['chk_Solo_Parent']) ? 1 : 0;
         $chk_Indigent = isset($data['chk_Indigent']) ? 1 : 0;
         $chk_Beneficiary = isset($data['chk_Beneficiary']) ? 1 : 0;
+        $chk_Sex = isset($data['chk_Sex']) ? 1 : 0;
+        $chk_House_No = isset($data['chk_House_No']) ? 1 : 0;
+        $chk_Street = isset($data['chk_Street']) ? 1 : 0;
+        $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+        $chk_City_Municipality = isset($data['chk_City_Municipality']) ? 1 : 0;
+        $chk_Province = isset($data['chk_Province']) ? 1 : 0;
+        $chk_Region = isset($data['chk_Region']) ? 1 : 0;
+        $chk_Religion = isset($data['chk_Religion']) ? 1 : 0;
+        $chk_Blood_Type = isset($data['chk_Blood_Type']) ? 1 : 0;
+        $chk_Weight = isset($data['chk_Weight']) ? 1 : 0;
+        $chk_Height = isset($data['chk_Height']) ? 1 : 0;
+        $chk_Email = isset($data['chk_Email']) ? 1 : 0;
+        $chk_Philsys_Number = isset($data['chk_Philsys_Number']) ? 1 : 0;
+        $chk_Voter = isset($data['chk_Voter']) ? 1 : 0;
+        $chk_Year_Last_Voted = isset($data['chk_Year_Last_Voted']) ? 1 : 0;
+        $chk_Resident_Voter = isset($data['chk_Resident_Voter']) ? 1 : 0;
 
         $db_entries = DB::table('bips_brgy_inhabitants_information as a')
             ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
             ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
             ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+            ->leftjoin('bips_resident_profile as e', 'a.Resident_ID', '=', 'e.Resident_ID')
+            ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+            ->leftjoin('maintenance_city_municipality as g', 'a.City_Municipality_ID', '=', 'g.City_Municipality_ID')
+            ->leftjoin('maintenance_province as h', 'a.Province_ID', '=', 'h.Province_ID')
+            ->leftjoin('maintenance_region as i', 'a.Region_ID', '=', 'i.Region_ID')
+            ->leftjoin('maintenance_bips_religion as j', 'a.Religion_ID', '=', 'j.Religion_ID')
+            ->leftjoin('maintenance_bips_blood_type as k', 'a.Blood_Type_ID', '=', 'k.Blood_Type_ID')
             ->select(
                 'a.Resident_ID',
                 'a.Name_Prefix_ID',
@@ -1225,16 +1248,17 @@ class bipsController extends Controller
                 'a.Civil_Status_ID',
                 'a.Birthdate',
                 'a.Country_ID',
-                'a.Religion_ID',
-                'a.Blood_Type_ID',
+                'j.Religion',
+                'k.Blood_Type',
                 'a.Sex',
                 'a.Mobile_No',
                 'a.Telephone_No',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Province_ID',
-                'a.Region_ID',
+                'f.Barangay_Name',
+                'g.City_Municipality_Name',
+                'h.Province_Name',
+                'i.Region_Name',
                 'a.Street',
+                'a.House_No',
                 'a.Salary',
                 'a.Email_Address',
                 'a.PhilSys_Card_No',
@@ -1247,7 +1271,10 @@ class bipsController extends Controller
                 'b.Name_Prefix',
                 'c.Name_Suffix',
                 'd.Civil_Status',
-
+                'e.Resident_Status',
+                'e.Voter_Status',
+                'e.Election_Year_Last_Voted',
+                'e.Resident_Voter'
             )
             ->where('a.Application_Status', 1)
             ->paginate(20, ['*'], 'details');
@@ -1267,8 +1294,24 @@ class bipsController extends Controller
             'chk_Solo_Parent',
             'chk_Indigent',
             'chk_Beneficiary',
-            'db_entries'
-        ));
+            'chk_Sex',
+            'chk_House_No',
+            'chk_Street',
+            'chk_Barangay',
+            'chk_City_Municipality',
+            'chk_Province',
+            'chk_Region',
+            'chk_Religion',
+            'chk_Blood_Type',
+            'chk_Weight',
+            'chk_Height',
+            'chk_Email',
+            'chk_Philsys_Number',
+            'chk_Voter',
+            'chk_Year_Last_Voted',
+            'chk_Resident_Voter',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
         $daFileNeym = "Inhabitants_List.pdf";
         return $pdf->download($daFileNeym);
     }
@@ -1290,11 +1333,34 @@ class bipsController extends Controller
         $chk_Solo_Parent = isset($data['chk_Solo_Parent']) ? 1 : 0;
         $chk_Indigent = isset($data['chk_Indigent']) ? 1 : 0;
         $chk_Beneficiary = isset($data['chk_Beneficiary']) ? 1 : 0;
+        $chk_Sex = isset($data['chk_Sex']) ? 1 : 0;
+        $chk_House_No = isset($data['chk_House_No']) ? 1 : 0;
+        $chk_Street = isset($data['chk_Street']) ? 1 : 0;
+        $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+        $chk_City_Municipality = isset($data['chk_City_Municipality']) ? 1 : 0;
+        $chk_Province = isset($data['chk_Province']) ? 1 : 0;
+        $chk_Region = isset($data['chk_Region']) ? 1 : 0;
+        $chk_Religion = isset($data['chk_Religion']) ? 1 : 0;
+        $chk_Blood_Type = isset($data['chk_Blood_Type']) ? 1 : 0;
+        $chk_Weight = isset($data['chk_Weight']) ? 1 : 0;
+        $chk_Height = isset($data['chk_Height']) ? 1 : 0;
+        $chk_Email = isset($data['chk_Email']) ? 1 : 0;
+        $chk_Philsys_Number = isset($data['chk_Philsys_Number']) ? 1 : 0;
+        $chk_Voter = isset($data['chk_Voter']) ? 1 : 0;
+        $chk_Year_Last_Voted = isset($data['chk_Year_Last_Voted']) ? 1 : 0;
+        $chk_Resident_Voter = isset($data['chk_Resident_Voter']) ? 1 : 0;
 
         $db_entries = DB::table('bips_brgy_inhabitants_information as a')
             ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
             ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
             ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+            ->leftjoin('bips_resident_profile as e', 'a.Resident_ID', '=', 'e.Resident_ID')
+            ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+            ->leftjoin('maintenance_city_municipality as g', 'a.City_Municipality_ID', '=', 'g.City_Municipality_ID')
+            ->leftjoin('maintenance_province as h', 'a.Province_ID', '=', 'h.Province_ID')
+            ->leftjoin('maintenance_region as i', 'a.Region_ID', '=', 'i.Region_ID')
+            ->leftjoin('maintenance_bips_religion as j', 'a.Religion_ID', '=', 'j.Religion_ID')
+            ->leftjoin('maintenance_bips_blood_type as k', 'a.Blood_Type_ID', '=', 'k.Blood_Type_ID')
             ->select(
                 'a.Resident_ID',
                 'a.Name_Prefix_ID',
@@ -1308,16 +1374,17 @@ class bipsController extends Controller
                 'a.Civil_Status_ID',
                 'a.Birthdate',
                 'a.Country_ID',
-                'a.Religion_ID',
-                'a.Blood_Type_ID',
+                'j.Religion',
+                'k.Blood_Type',
                 'a.Sex',
                 'a.Mobile_No',
                 'a.Telephone_No',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Province_ID',
-                'a.Region_ID',
+                'f.Barangay_Name',
+                'g.City_Municipality_Name',
+                'h.Province_Name',
+                'i.Region_Name',
                 'a.Street',
+                'a.House_No',
                 'a.Salary',
                 'a.Email_Address',
                 'a.PhilSys_Card_No',
@@ -1329,7 +1396,11 @@ class bipsController extends Controller
                 'a.Date_Stamp',
                 'b.Name_Prefix',
                 'c.Name_Suffix',
-                'd.Civil_Status'
+                'd.Civil_Status',
+                'e.Resident_Status',
+                'e.Voter_Status',
+                'e.Election_Year_Last_Voted',
+                'e.Resident_Voter'
             )
             ->where('a.Application_Status', 1)
             ->paginate(20, ['*'], 'details');
@@ -1349,8 +1420,24 @@ class bipsController extends Controller
             'chk_Solo_Parent',
             'chk_Indigent',
             'chk_Beneficiary',
-            'db_entries'
-        ));
+            'chk_Sex',
+            'chk_House_No',
+            'chk_Street',
+            'chk_Barangay',
+            'chk_City_Municipality',
+            'chk_Province',
+            'chk_Region',
+            'chk_Religion',
+            'chk_Blood_Type',
+            'chk_Weight',
+            'chk_Height',
+            'chk_Email',
+            'chk_Philsys_Number',
+            'chk_Voter',
+            'chk_Year_Last_Voted',
+            'chk_Resident_Voter',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 

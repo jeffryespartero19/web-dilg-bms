@@ -44,7 +44,9 @@
                     <div class="card-body">
                         <div style="text-align: right;">
                             <div class="btn-group">
+                                @if (Auth::user()->User_Type_ID == 5)
                                 <div style="padding: 2px;"><a href="{{ url('cms_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
+                                @endif
                                 <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
@@ -68,7 +70,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Title}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Description}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <a class="btn btn-success" href="{{ url('cms_details/'.$x->CMS_Barangay_Profile_ID) }}">Edit</a>
+                                                <a class="btn btn-success" href="{{ url('cms_details/'.$x->CMS_Barangay_Profile_ID) }}"> @if (Auth::user()->User_Type_ID == 5) Edit @else View @endif</a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -101,6 +103,7 @@
         $('#example2').DataTable();
         $('#example3').DataTable();
     });
+    
 </script>
 
 <style>
