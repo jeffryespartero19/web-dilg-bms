@@ -43,24 +43,26 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-
+            <input type="number" id="User_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
             <div class="col-md-12">
                 <div class="listDIV">
                     <div style="text-align: right; margin-bottom:20px">
+                        @if (Auth::user()->User_Type_ID == 5)
                         <div class="btn-group">
                             <button class="btn btn-success" type="button" id="AddLABEL"><i class="fa fa-plus" aria-hidden="true"></i> ADD LABEL</button>
                         </div>
+                        @endif
                     </div>
                     @foreach ($title as $titles)
                     <div class="LabelDIV">
-                        <form method="POST" action="{{ route('create_cms_title') }}" autocomplete="off" enctype="multipart/form-data">
+                        <form id="CreateIndicator" method="POST" action="{{ route('create_cms_title') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             <input type="text" name="CMS_Barangay_Profile_ID" hidden value="{{$id}}">
                             <input type="text" name="Categories_ID" hidden value="{{$cat_id}}">
                             <div class="card card-info collapsed-card">
                                 <div class="card-header pc-view">
                                     <h3 class="card-title" data-card-widget="collapse">Title: {{$titles->Title}}</h3>
-
+                                    @if (Auth::user()->User_Type_ID == 5)
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool AddIndicator">
                                             <i class="fas fa-plus"></i>&nbsp;Add Indicator
@@ -72,6 +74,7 @@
                                             <i class="fas fa-trash"></i>&nbsp;Delete
                                         </button>
                                     </div>
+                                    @endif
                                     <!-- /.card-tools -->
                                 </div>
                                 <div class="card-header mobile-view">
@@ -83,6 +86,7 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
+                                    @if (Auth::user()->User_Type_ID == 5)
                                     <div class="row mobile-view">
                                         <div class="col-12" style="text-align: center; margin-bottom:5px">
                                             <button type="button" class="btn btn-tool AddIndicator">
@@ -96,6 +100,7 @@
                                             </button>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="LblData">
                                         <div class="row">
                                             <div class="form-group col-lg-6">
@@ -136,11 +141,13 @@
                                         <div class="card-teal IndicatorDIV">
                                             <div class="card-header">
                                                 <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
+                                                @if (Auth::user()->User_Type_ID == 5)
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool IndicatorRemove">
                                                         <i class="fas fa-trash"></i>&nbsp;Delete
                                                     </button>
                                                 </div>
+                                                @endif
                                                 <!-- /.card-tools -->
                                             </div>
                                             <div class="card-body col-lg-12" style="margin-bottom: 5px;">
@@ -485,10 +492,13 @@
 @section('scripts')
 
 <script>
-    // Data Table
-    // $(document).ready(function() {
-    //     $('#example').DataTable();
-    // });
+    $(document).ready(function() {
+        $User_ID = $('#User_ID').val();
+
+        if ($User_ID != 5) {
+            $("#CreateIndicator :input").prop("disabled", true);
+        }
+    });
 
     //Select2
     $(document).ready(function() {

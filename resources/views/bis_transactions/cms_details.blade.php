@@ -42,6 +42,7 @@
 
     <br>
     <div class="col-md-12" style="margin-bottom: 30px;">
+    <input type="number" id="User_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
         <form id="newHousehold" method="POST" action="{{ route('create_cms') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="card">
@@ -50,12 +51,14 @@
                     <div class="row">
                         <div class="col-lg-12" style="text-align: right;">
                             <div style="margin-bottom:10px">
+                                @if (Auth::user()->User_Type_ID == 5)
                                 @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
                                 <a href="{{ url('cms_details/0') }}" class="btn btn-info" style="width: 100px;" aria-hidden="true">New</a>
                                 @else
                                 @endif
 
                                 <button class="btn btn-success" type="submit"><i class="fa fa-pencil" aria-hidden="true"></i> @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0) UPDATE @else SAVE @endif</button>
+                                @endif
 
                                 @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
                                 <div class="btn-group">
@@ -63,7 +66,7 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         @foreach($bp_categories as $bp)
-                                        <a class="dropdown-item" href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a>
+                                        <a id="Indicator_Setup" class="dropdown-item" href="{{ url('cms_indicator/'.$bp->CMS_Barangay_Profile_ID.'/'.$bp->Categories_ID) }}">{{$bp->Categories}}</a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -160,7 +163,7 @@
 
                     </div>
 
-                    
+
                     <!-- @if($Barangay_Profile[0]->CMS_Barangay_Profile_ID != 0)
 
                     <div class="container" style="background-color: white; margin: 0px; width: 100%">
@@ -229,6 +232,25 @@
 
     $(document).ready(function() {
         $('.select2').select2();
+    });
+
+    $(document).ready(function() {
+        $User_ID = $('#User_ID').val();
+
+        if($User_ID != 5) {
+            $("#Title").prop("disabled", true);
+            $("#Description").prop("disabled", true);
+            $("#Frequency_ID").prop("disabled", true);
+            $("#Status").prop("disabled", true);
+            $("#Categories_ID").prop("disabled", true);
+            $("#Region_ID").prop("disabled", true);
+            $("#Province_ID").prop("disabled", true);
+            $("#City_Municipality_ID").prop("disabled", true);
+            $("#Barangay_ID").prop("disabled", true);
+            $("#Date_Updated").prop("disabled", true);
+        }
+        
+        
     });
 
     // Populate Province

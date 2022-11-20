@@ -794,6 +794,13 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/create_brgy_purok_leader', 'bipsController@create_brgy_purok_leader')->name('create_brgy_purok_leader');
   Route::get('/get_brgy_purok_leader', 'bipsController@get_brgy_purok_leader')->name('get_brgy_purok_leader');
   Route::post('/update_brgy_purok_leader', 'bipsController@update_brgy_purok_leader')->name('update_brgy_purok_leader');
+
+
+  //Justice Rating
+  Route::get('/justice_rating_inhabitants', 'JusticeRatingController@justice_rating_inhabitants')->name('justice_rating_inhabitants');
+  Route::get('/rating_page/{id}', 'JusticeRatingController@rating_page');
+  Route::post('/create_rating', 'JusticeRatingController@create_rating')->name('create_rating');
+  Route::get('/justice_rating_staff', 'JusticeRatingController@justice_rating_staff')->name('justice_rating_staff');
 });
 
 
