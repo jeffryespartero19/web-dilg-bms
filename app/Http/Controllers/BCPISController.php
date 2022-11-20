@@ -12,7 +12,7 @@ use PDF;
 
 class BCPISController extends Controller
 {
-    //Brgy Document Information List
+    //Brgy Document Information List BUBAN
     public function brgy_document_information_list(Request $request)
     {
         $currDATE = Carbon::now();
@@ -45,6 +45,7 @@ class BCPISController extends Controller
                 'a.City_Municipality_ID',
                 'a.Encoder_ID',
                 'a.Date_Stamp',
+                'a.Request_Status_ID',
                 'b.Region_Name',
                 'c.Province_Name',
                 'e.Barangay_Name',
@@ -54,7 +55,7 @@ class BCPISController extends Controller
                 DB::raw('CONCAT(i.First_Name, " ",LEFT(i.Middle_Name,1),". ",i.Last_Name) AS Resident_Name'),
 
             )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->where([['a.Request_Status_ID', 3],['a.Barangay_ID', Auth::user()->Barangay_ID]])
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -140,6 +141,7 @@ class BCPISController extends Controller
                     'Document_Type_ID'      => $data['Document_Type_ID'],
                     'Resident_ID'           => $data['Resident_ID'],
                     'SecondResident_Name'   => $data['SecondResident_Name'],
+                    'Request_Status_ID'     => 3,
                     'Barangay_ID'           => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
                     'Province_ID'           => Auth::user()->Province_ID,
