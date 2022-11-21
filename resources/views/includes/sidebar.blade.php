@@ -103,12 +103,14 @@
                             <a href="{{route('barangay_business_list')}}" class="nav-link">
                                 <p>Barangay Business</p>
                             </a>
-                            <a href="{{route('brgy_document_claim_business_list')}}" class="nav-link">
+                            <!-- <a href="{{route('brgy_document_claim_business_list')}}" class="nav-link">
                                 <p>Brgy Document Claim(Business Permit)</p>
-                            </a>
+                            </a> -->
+                            @if (Auth::user()->User_Type_ID == 1)
                             <a href="{{route('document_request_pending_list')}}" class="nav-link">
                                 <p>Document Request Pending</p>
                             </a>
+                            @endif
                         </li>
                     </ul>
                 </li>

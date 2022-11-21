@@ -19,7 +19,7 @@ class bipsController extends Controller
     {
         $currDATE = Carbon::now();
 
-        if (Auth::user()->User_Type_ID == 3) {
+        if (Auth::user()->User_Type_ID == 3 ) {
             $db_entries = DB::table('bips_brgy_inhabitants_information as a')
                 ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
                 ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')

@@ -44,6 +44,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
+                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_allocated_fund_source') }}" autocomplete="off" enctype="multipart/form-data">
@@ -71,13 +72,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-12" style="margin-bottom: 100px;">
+                                        <center>
+                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                        </center>
+                                    </div>
+                                    
                             </div>
-                            <div class="col-lg-12" style="margin-bottom: 100px;">
-                                <center>
-                                    <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                                    <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
-                                </center>
-                            </div>
+                            
                             </form>
                         </div>
                     </div>
@@ -115,102 +118,14 @@
     });
 
 
-    // Populate Province
-    $(document).on("change", "#Region_ID", function() {
-        // alert('test');
-        var Region_ID = $(this).val();
+    
 
-        $.ajax({
-            type: "GET",
-            url: "/get_province/" + Region_ID,
-            fail: function() {
-                alert("request failed");
-            },
-            success: function(data) {
-                var data = JSON.parse(data);
-                $('#Province_ID').empty();
-                $('#City_Municipality_ID').empty();
-                $('#Barangay_ID').empty();
-
-
-                var option1 =
-                    "<option value='' disabled selected>Select Option</option>";
-                $('#Province_ID').append(option1);
-                $('#City_Municipality_ID').append(option1);
-                $('#Barangay_ID').append(option1);
-
-                data.forEach(element => {
-                    var option = " <option value='" +
-                        element["Province_ID"] +
-                        "'>" +
-                        element["Province_Name"] +
-                        "</option>";
-                    $('#Province_ID').append(option);
-                });
-            }
-        });
-    });
-
-    // Populate City
-    $(document).on("change", "#Province_ID", function() {
-        var Province_ID = $(this).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/get_city/" + Province_ID,
-            fail: function() {
-                alert("request failed");
-            },
-            success: function(data) {
-                var data = JSON.parse(data);
-                $('#City_Municipality_ID').empty();
-                $('#Barangay_ID').empty();
-
-                var option1 =
-                    " <option value='' disabled selected>Select Option</option>";
-                $('#City_Municipality_ID').append(option1);
-                $('#Barangay_ID').append(option1);
-
-                data.forEach(element => {
-                    var option = " <option value='" +
-                        element["City_Municipality_ID"] +
-                        "'>" +
-                        element["City_Municipality_Name"] +
-                        "</option>";
-                    $('#City_Municipality_ID').append(option);
-                });
-            }
-        });
-    });
-
-    // Populate Barangay
-    $(document).on("change", "#City_Municipality_ID", function() {
-        var City_Municipality_ID = $(this).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/get_barangay/" + City_Municipality_ID,
-            fail: function() {
-                alert("request failed");
-            },
-            success: function(data) {
-                var data = JSON.parse(data);
-                $('#Barangay_ID').empty();
-
-                var option1 =
-                    " <option value='' disabled selected>Select Option</option>";
-                $('#Barangay_ID').append(option1);
-
-                data.forEach(element => {
-                    var option = " <option value='" +
-                        element["Barangay_ID"] +
-                        "'>" +
-                        element["Barangay_Name"] +
-                        "</option>";
-                    $('#Barangay_ID').append(option);
-                });
-            }
-        });
+     // Disable Form if DILG USER
+     $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3 || User_Type_ID == 4) {
+            $("#newBrgy_Document_Information :input").prop("disabled", true);
+        }
     });
 </script>
 

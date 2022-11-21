@@ -790,6 +790,20 @@ Route::group(['middleware' => 'auth'], function () {
   //Get Boris Attester
   Route::get('/get_ordinance_and_resolution_attester', 'borisController@get_ordinance_and_resolution_attester')->name('get_ordinance_and_resolution_attester');
 
+  Route::get('/get_businsess_permit_list/{Barangay_ID}', 'BCPISController@get_businsess_permit_list');
+  Route::get('/get_brgy_document_information_list/{Barangay_ID}', 'BCPISController@get_brgy_document_information_list');
+  Route::get('/get_brgy_business_list/{Barangay_ID}', 'BCPISController@get_brgy_business_list');
+  Route::get('/get_contractor_list/{Barangay_ID}', 'BPMSController@get_contractor_list');
+  Route::get('/get_brgy_projects_monitoring_list/{Barangay_ID}', 'BPMSController@get_brgy_projects_monitoring_list');
+  Route::get('/get_recovery_information_list/{Barangay_ID}', 'BDRISALController@get_recovery_information_list');
+  Route::get('/get_response_information_list/{Barangay_ID}', 'BDRISALController@get_response_information_list');
+  Route::get('/get_disaster_related_activities_list/{Barangay_ID}', 'BDRISALController@get_disaster_related_activities_list');
+  Route::get('/get_emergency_evacuation_site_list/{Barangay_ID}', 'BDRISALController@get_emergency_evacuation_site_list');
+  Route::get('/get_allocated_fund_list/{Barangay_ID}', 'BDRISALController@get_allocated_fund_list');
+  Route::get('/get_disaster_supplies_list/{Barangay_ID}', 'BDRISALController@get_disaster_supplies_list');
+  Route::get('/get_emergency_team_list/{Barangay_ID}', 'BDRISALController@get_emergency_team_list');
+  Route::get('/get_emergency_equipment_list/{Barangay_ID}', 'BDRISALController@get_emergency_equipment_list');
+
 });
 
 
