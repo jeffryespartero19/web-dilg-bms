@@ -89,13 +89,29 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 300px;">Name</th>
-                                                <th style="width: 200px;">Birthplace</th>
                                                 <th style="width: 200px;">Birthdate</th>
+                                                <th style="width: 200px;">Birthplace</th>
                                                 <th style="width: 200px;">Age</th>
-                                                <th style="width: 200px;">Street</th>
+                                                <th style="width: 200px;">Sex</th>
                                                 <th style="width: 200px;">Civil Status</th>
                                                 <th style="width: 200px;">Mobile Number</th>
                                                 <th style="width: 200px;">Landline Number</th>
+                                                <th style="width: 200px;">House Number</th>
+                                                <th style="width: 200px;">Street</th>
+                                                <th style="width: 200px;">Barangay</th>
+                                                <th style="width: 200px;">City/Municipality</th>
+                                                <th style="width: 200px;">Province</th>
+                                                <th style="width: 200px;">Region</th>
+                                                <th style="width: 200px;">Religion</th>
+                                                <th style="width: 200px;">Blood Type</th>
+                                                <th style="width: 200px;">Weight</th>
+                                                <th style="width: 200px;">Height</th>
+                                                <th style="width: 200px;">Email</th>
+                                                <th style="width: 200px;">PhilSys Card Number</th>
+                                                <th style="width: 200px;">Resident</th>
+                                                <th style="width: 200px;">Voter</th>
+                                                <th style="width: 200px;">Election Year Last Voted</th>
+                                                <th style="width: 200px;">Resident Voter</th>
                                                 <th style="width: 200px;">Solo Parent</th>
                                                 <th style="width: 200px;">Indigent</th>
                                                 <th style="width: 200px;">4P's Beneficiary</th>
@@ -106,18 +122,34 @@
                                             @foreach($db_entries as $x)
                                             <tr>
                                                 <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
                                                 <td class="sm_data_col txtCtr">
                                                     <?php
                                                     $age = date_diff(date_create($x->Birthdate), date_create('now'))->y;
                                                     echo $age;
                                                     ?>
                                                 </td>
-                                                <td class="sm_data_col txtCtr">{{$x->Street}}</td>
+                                                <td class="sm_data_col txtCtr">@if($x->Sex == 1) Male @else Female @endif</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->House_No}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Street}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Religion}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Blood_Type}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Weight}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Height}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Email_Address}}</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
+                                                <td class="sm_data_col txtCtr">@if($x->Resident_Status == 1) Yes @else No @endif</td>
+                                                <td class="sm_data_col txtCtr">@if($x->Voter_Status == 1) Yes @else No @endif</td>
+                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
+                                                <td class="sm_data_col txtCtr">@if($x->Resident_Voter == 1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
@@ -535,7 +567,7 @@
 
 
 <div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title flexer justifier">Filter</h4>
@@ -547,7 +579,7 @@
 
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
                                 <input type="checkbox" id="1chk_Name" name="chk_Name">
                                 <label for="1chk_Name">Name</label><br>
                                 <input type="checkbox" id="1chk_Birthplace" name="chk_Birthplace">
@@ -556,18 +588,50 @@
                                 <label for="1chk_Birthdate">Birthdate</label><br>
                                 <input type="checkbox" id="1chk_Age" name="chk_Age">
                                 <label for="1chk_Age">Age</label><br>
-                                <input type="checkbox" id="1chk_Street" name="chk_Street">
-                                <label for="1chk_Street">Street</label><br>
+                                <input type="checkbox" id="1chk_Sex" name="chk_Sex">
+                                <label for="1chk_Sex">Sex</label><br>
                                 <input type="checkbox" id="1chk_Civil_Status" name="chk_Civil_Status">
                                 <label for="1chk_Civil_Status">Civil Status</label><br>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="checkbox" id="1chk_Mobile" name="chk_Mobile">
                                 <label for="1chk_Mobile">Mobile Number</label><br>
                                 <input type="checkbox" id="1chk_Landline" name="chk_Landline">
                                 <label for="1chk_Landline">Landline Number</label><br>
+                                <input type="checkbox" id="1chk_House_No" name="chk_House_No">
+                                <label for="1chk_House_No">House Number</label><br>
+                            </div>
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_Street" name="chk_Street">
+                                <label for="1chk_Street">Street</label><br>
+                                <input type="checkbox" id="1chk_Barangay" name="chk_Barangay">
+                                <label for="1chk_Barangay">Barangay</label><br>
+                                <input type="checkbox" id="1chk_City_Municipality" name="chk_City_Municipality">
+                                <label for="1chk_City_Municipality">City/Municipality</label><br>
+                                <input type="checkbox" id="1chk_Province" name="chk_Province">
+                                <label for="1chk_Province">Province</label><br>
+                                <input type="checkbox" id="1chk_Region" name="chk_Region">
+                                <label for="1chk_Region">Region</label><br>
+                                <input type="checkbox" id="1chk_Religion" name="chk_Religion">
+                                <label for="1chk_Religion">Religion</label><br>
+                                <input type="checkbox" id="1chk_Blood_Type" name="chk_Blood_Type">
+                                <label for="1chk_Blood_Type">Blood Type</label><br>
+                                <input type="checkbox" id="1chk_Weight" name="chk_Weight">
+                                <label for="1chk_Weight">Weight</label><br>
+                                <input type="checkbox" id="1chk_Height" name="chk_Height">
+                                <label for="1chk_Height">Height</label><br>
+                            </div>
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_Email" name="chk_Email">
+                                <label for="1chk_Email">Email</label><br>
+                                <input type="checkbox" id="1chk_Philsys_Number" name="chk_Philsys_Number">
+                                <label for="1chk_Philsys_Number">Philsys_Number</label><br>
                                 <input type="checkbox" id="1chk_Resident_Status" name="chk_Resident_Status">
                                 <label for="1chk_Resident_Status">Resident Status</label><br>
+                                <input type="checkbox" id="1chk_Voter" name="chk_Voter">
+                                <label for="1chk_Voter">Voter</label><br>
+                                <input type="checkbox" id="1chk_Year_Last_Voted" name="chk_Year_Last_Voted">
+                                <label for="1chk_Year_Last_Voted">Year Last Voted</label><br>
+                                <input type="checkbox" id="1chk_Resident_Voter" name="chk_Resident_Voter">
+                                <label for="1chk_Resident_Voter">Resident Voter</label><br>
                                 <input type="checkbox" id="1chk_Solo_Parent" name="chk_Solo_Parent">
                                 <label for="1chk_Solo_Parent">Solo Parent</label><br>
                                 <input type="checkbox" id="1chk_Indigent" name="chk_Indigent">
@@ -589,7 +653,7 @@
 
 
 <div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title flexer justifier">Filter</h4>
@@ -601,7 +665,7 @@
 
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
+                            <div class="form-group col-lg-4" style="padding:0 10px">
                                 <input type="checkbox" id="chk_Name" name="chk_Name">
                                 <label for="chk_Name">Name</label><br>
                                 <input type="checkbox" id="chk_Birthplace" name="chk_Birthplace">
@@ -610,18 +674,50 @@
                                 <label for="chk_Birthdate">Birthdate</label><br>
                                 <input type="checkbox" id="chk_Age" name="chk_Age">
                                 <label for="chk_Age">Age</label><br>
-                                <input type="checkbox" id="chk_Street" name="chk_Street">
-                                <label for="chk_Street">Street</label><br>
+                                <input type="checkbox" id="chk_Sex" name="chk_Sex">
+                                <label for="chk_Sex">Sex</label><br>
                                 <input type="checkbox" id="chk_Civil_Status" name="chk_Civil_Status">
                                 <label for="chk_Civil_Status">Civil Status</label><br>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="checkbox" id="chk_Mobile" name="chk_Mobile">
                                 <label for="chk_Mobile">Mobile Number</label><br>
                                 <input type="checkbox" id="chk_Landline" name="chk_Landline">
                                 <label for="chk_Landline">Landline Number</label><br>
+                                <input type="checkbox" id="chk_House_No" name="chk_House_No">
+                                <label for="chk_House_No">House Number</label><br>
+                            </div>
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <input type="checkbox" id="chk_Street" name="chk_Street">
+                                <label for="chk_Street">Street</label><br>
+                                <input type="checkbox" id="chk_Barangay" name="chk_Barangay">
+                                <label for="chk_Barangay">Barangay</label><br>
+                                <input type="checkbox" id="chk_City_Municipality" name="chk_City_Municipality">
+                                <label for="chk_City_Municipality">City/Municipality</label><br>
+                                <input type="checkbox" id="chk_Province" name="chk_Province">
+                                <label for="chk_Province">Province</label><br>
+                                <input type="checkbox" id="chk_Region" name="chk_Region">
+                                <label for="chk_Region">Region</label><br>
+                                <input type="checkbox" id="chk_Religion" name="chk_Religion">
+                                <label for="chk_Religion">Religion</label><br>
+                                <input type="checkbox" id="chk_Blood_Type" name="chk_Blood_Type">
+                                <label for="chk_Blood_Type">Blood Type</label><br>
+                                <input type="checkbox" id="chk_Weight" name="chk_Weight">
+                                <label for="chk_Weight">Weight</label><br>
+                                <input type="checkbox" id="chk_Height" name="chk_Height">
+                                <label for="chk_Height">Height</label><br>
+                            </div>
+                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                <input type="checkbox" id="chk_Email" name="chk_Email">
+                                <label for="chk_Email">Email</label><br>
+                                <input type="checkbox" id="chk_Philsys_Number" name="chk_Philsys_Number">
+                                <label for="chk_Philsys_Number">Philsys_Number</label><br>
                                 <input type="checkbox" id="chk_Resident_Status" name="chk_Resident_Status">
                                 <label for="chk_Resident_Status">Resident Status</label><br>
+                                <input type="checkbox" id="chk_Voter" name="chk_Voter">
+                                <label for="chk_Voter">Voter</label><br>
+                                <input type="checkbox" id="chk_Year_Last_Voted" name="chk_Year_Last_Voted">
+                                <label for="chk_Year_Last_Voted">Year Last Voted</label><br>
+                                <input type="checkbox" id="chk_Resident_Voter" name="chk_Resident_Voter">
+                                <label for="chk_Resident_Voter">Resident Voter</label><br>
                                 <input type="checkbox" id="chk_Solo_Parent" name="chk_Solo_Parent">
                                 <label for="chk_Solo_Parent">Solo Parent</label><br>
                                 <input type="checkbox" id="chk_Indigent" name="chk_Indigent">
