@@ -45,8 +45,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
+                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+                        @if (Auth::user()->User_Type_ID == 1)
                         <div style="margin-left: 5px;"><button type="submit" class="btn btn-warning" style="width: 100px;" id="Print_Certification" class="Print_Certification">Print</button></div>
-                            <br>
+                        @endif    
+                        <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_barangay_business_permit') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
@@ -91,7 +94,7 @@
                                                     <option value=1 {{ 1 == $permit[0]->Owned_or_Rented  ? "selected" : "" }}>Owned</option>
                                                 </select>
                                             </div>
-
+ 
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -113,7 +116,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="CTC_Details">CTC_Details</label>
+                                                <label for="CTC_Details">CTC Details</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_Details" value="{{$payment_docu[0]->CTC_Details}}">
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -294,6 +297,14 @@
                 });
             }
         });
+    });
+
+    // Disable Form if DILG USER
+    $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3 || User_Type_ID == 4) {
+            $("#newBrgy_Document_Information :input").prop("disabled", true);
+        }
     });
 </script>
 

@@ -16,7 +16,9 @@ class BCPISController extends Controller
     public function brgy_document_information_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bcpcis_brgy_document_information as a')
+
+        if (Auth::user()->User_Type_ID == 1) {
+         $db_entries = DB::table('bcpcis_brgy_document_information as a')
         ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
         ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
         ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
@@ -64,6 +66,57 @@ class BCPISController extends Controller
             'currDATE',
             
         ));
+        }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+        $db_entries = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as g', 'a.Purpose_of_Document_ID', '=', 'g.Purpose_of_Document_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as h', 'a.Document_Type_ID', '=', 'h.Document_Type_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as i', 'a.Resident_ID', '=', 'i.Resident_ID')
+            ->select(
+                'a.Document_ID',
+                'a.Transaction_No',
+                'a.Request_Date',
+                'a.Released',
+                'a.Remarks',
+                'a.Purpose_of_Document_ID',
+                'a.Salutation_Name',
+                'a.Picture',
+                'a.CTC_No',
+                'a.Issued_On',
+                'a.Issued_At',
+                'a.Document_Type_ID',
+                'a.Resident_ID',
+                'a.SecondResident_Name',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'a.Request_Status_ID',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'g.Purpose_of_Document',  
+                'h.Document_Type_Name',
+                DB::raw('CONCAT(i.First_Name, " ",LEFT(i.Middle_Name,1),". ",i.Last_Name) AS Resident_Name'),
+
+            )
+            ->where([['a.Request_Status_ID', 3],['a.Barangay_ID', Auth::user()->Barangay_ID]])
+            ->paginate(20, ['*'], 'db_entries');
+        $region1 = DB::table('maintenance_region')->where('Active', 1)->get();        
+
+        return view('bcpcis_transactions.brgy_document_information_list', compact(
+            'db_entries',
+            'currDATE',
+            'region1',
+            
+        ));
+        }
     }
 
     //Brgy Document Infomation Details
@@ -236,43 +289,83 @@ class BCPISController extends Controller
     public function barangay_business_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bcpcis_barangay_business as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('maintenance_bcpcis_business_type as f', 'a.Business_Type_ID', '=', 'f.Business_Type_ID')
-            ->select(
-                'a.Business_ID',
-                'a.Business_Name',
-                'a.Business_Type_ID',
-                'a.Business_Tin',
-                'a.Business_Owner',
-                'a.Business_Address',
-                'a.Mobile_No',
-                'a.Active',
-                'a.Region_ID',
-                'a.Province_ID',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Encoder_ID',
-                'a.Date_Stamp',
-                'b.Region_Name',
-                'c.Province_Name',
-                'e.Barangay_Name',
-                'd.City_Municipality_Name',    
-                'f.Business_Type',
-
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries');
-
+        if (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('maintenance_bcpcis_barangay_business as a')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_bcpcis_business_type as f', 'a.Business_Type_ID', '=', 'f.Business_Type_ID')
+                ->select(
+                    'a.Business_ID',
+                    'a.Business_Name',
+                    'a.Business_Type_ID',
+                    'a.Business_Tin',
+                    'a.Business_Owner',
+                    'a.Business_Address',
+                    'a.Mobile_No',
+                    'a.Active',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Region_Name',
+                    'c.Province_Name',
+                    'e.Barangay_Name',
+                    'd.City_Municipality_Name',    
+                    'f.Business_Type',
+    
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
 
         return view('bcpcis_transactions.barangay_business_list', compact(
             'db_entries',
             'currDATE',
             
         ));
+        }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+            $db_entries = DB::table('maintenance_bcpcis_barangay_business as a')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_bcpcis_business_type as f', 'a.Business_Type_ID', '=', 'f.Business_Type_ID')
+                ->select(
+                    'a.Business_ID',
+                    'a.Business_Name',
+                    'a.Business_Type_ID',
+                    'a.Business_Tin',
+                    'a.Business_Owner',
+                    'a.Business_Address',
+                    'a.Mobile_No',
+                    'a.Active',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Region_Name',
+                    'c.Province_Name',
+                    'e.Barangay_Name',
+                    'd.City_Municipality_Name',    
+                    'f.Business_Type',
+    
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+        $region1 = DB::table('maintenance_region')->where('Active', 1)->get();        
+
+        return view('bcpcis_transactions.barangay_business_list', compact(
+            'db_entries',
+            'currDATE',
+            'region1',
+            
+        ));
+        }
     }
 
     //Barangay Business Details
@@ -364,6 +457,7 @@ class BCPISController extends Controller
     public function brgy_business_permit_list(Request $request)
     {
         $currDATE = Carbon::now();
+        if (Auth::user()->User_Type_ID == 1) {
         $db_entries = DB::table('bcpcis_brgy_business_permits as a')
         ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
         ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
@@ -403,6 +497,48 @@ class BCPISController extends Controller
             'currDATE',
             
         ));
+        }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+        $db_entries = DB::table('bcpcis_brgy_business_permits as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_barangay_business as f', 'a.Business_ID', '=', 'f.Business_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Resident_ID', '=', 'g.Resident_ID')
+            ->select(
+                'a.Barangay_Permits_ID',
+                'a.Business_ID',
+                'a.Resident_ID',
+                'a.Transaction_No',
+                'a.Barangay_Business_Permit_Expiration_Date',
+                'a.CTC_No',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'f.Business_Name',
+                DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
+                DB::raw('(CASE WHEN a.New_or_Renewal = false THEN "Renewal" ELSE "New" END) AS New_or_Renewal'),
+                DB::raw('(CASE WHEN a.Owned_or_Rented = false THEN "Rented" ELSE "Owned" END) AS Owned_or_Rented'),
+
+            )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'db_entries');
+        $region1 = DB::table('maintenance_region')->where('Active', 1)->get();        
+
+        return view('bcpcis_transactions.brgy_business_permit_list', compact(
+            'db_entries',
+            'currDATE',
+            'region1',
+            
+        ));
+        }
     }
 
     //Brgy Business Permit Details
@@ -1664,4 +1800,125 @@ class BCPISController extends Controller
             ));
         
     }
+
+    public function get_businsess_permit_list($Barangay_ID)
+    {
+        $data = DB::table('bcpcis_brgy_business_permits as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_barangay_business as f', 'a.Business_ID', '=', 'f.Business_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Resident_ID', '=', 'g.Resident_ID')
+            ->select(
+                'a.Barangay_Permits_ID',
+                'a.Business_ID',
+                'a.Resident_ID',
+                'a.Transaction_No',
+                'a.Barangay_Business_Permit_Expiration_Date',
+                'a.CTC_No',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'f.Business_Name',
+                DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
+                DB::raw('(CASE WHEN a.New_or_Renewal = false THEN "Renewal" ELSE "New" END) AS New_or_Renewal'),
+                DB::raw('(CASE WHEN a.Owned_or_Rented = false THEN "Rented" ELSE "Owned" END) AS Owned_or_Rented'),
+
+            )
+             
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
+    }
+
+    public function get_brgy_document_information_list($Barangay_ID)
+    {   
+        $data = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as g', 'a.Purpose_of_Document_ID', '=', 'g.Purpose_of_Document_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as h', 'a.Document_Type_ID', '=', 'h.Document_Type_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as i', 'a.Resident_ID', '=', 'i.Resident_ID')
+            ->select(
+                'a.Document_ID',
+                'a.Transaction_No',
+                'a.Request_Date',
+                'a.Released',
+                'a.Remarks',
+                'a.Purpose_of_Document_ID',
+                'a.Salutation_Name',
+                'a.Picture',
+                'a.CTC_No',
+                'a.Issued_On',
+                'a.Issued_At',
+                'a.Document_Type_ID',
+                'a.Resident_ID',
+                'a.SecondResident_Name',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'a.Request_Status_ID',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'g.Purpose_of_Document',  
+                'h.Document_Type_Name',
+                DB::raw('CONCAT(i.First_Name, " ",LEFT(i.Middle_Name,1),". ",i.Last_Name) AS Resident_Name'),
+
+            )
+            
+            ->where([['a.Request_Status_ID', 3],['a.Barangay_ID', $Barangay_ID]])
+            ->get();
+        return json_encode($data);
+    }
+
+    public function get_brgy_business_list($Barangay_ID)
+    {   
+        $data = DB::table('maintenance_bcpcis_barangay_business as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_business_type as f', 'a.Business_Type_ID', '=', 'f.Business_Type_ID')
+            ->select(
+                'a.Business_ID',
+                'a.Business_Name',
+                'a.Business_Type_ID',
+                'a.Business_Tin',
+                'a.Business_Owner',
+                'a.Business_Address',
+                'a.Mobile_No',
+                'a.Active',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'f.Business_Type',
+
+            )
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
+    }
+
 }
