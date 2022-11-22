@@ -73,7 +73,7 @@ class BJISBHController extends Controller
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
                 ->paginate(20, ['*'], 'db_entries');
         }
-        $city1 = DB::table('maintenance_city_municipality')
+        $city1 = DB::table('maintenance_city_municipality')->where('Province_ID', 28)
             ->where('Province_ID', Auth::user()->Province_ID)
             ->get();
         $case = DB::table('maintenance_bjisbh_case')->where('Active', 1)->get();

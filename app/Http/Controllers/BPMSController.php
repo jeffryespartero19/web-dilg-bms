@@ -15,15 +15,32 @@ class BPMSController extends Controller
     //Contractor Information List
     public function contractor_list(Request $request)
     {
-        $currDATE = Carbon::now();
-        $db_entries = DB::table('bpms_contractor')->paginate(20, ['*'], 'db_entries');
+      
 
+        $currDATE = Carbon::now();
+        if (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('bpms_contractor')
+                ->where('Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+
+                return view('bpms_transactions.contractor_list', compact(
+                    'db_entries',
+                    'currDATE',
+        
+                ));
+        }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+            $db_entries = DB::table('bpms_contractor')
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'db_entries');
+        $region1 = DB::table('maintenance_region')->where('Active', 1)->get();        
 
         return view('bpms_transactions.contractor_list', compact(
             'db_entries',
             'currDATE',
-
+            'region1',
+            
         ));
+        }
     }
 
     // Save Contractor
@@ -41,6 +58,11 @@ class BPMSController extends Controller
                 'Contractor_Address'    => $data['Contractor_Address'],
                 'Contractor_TIN'        => $data['Contractor_TIN'],
                 'Remarks'               => $data['Remarks'],
+                'Barangay_ID'           => Auth::user()->Barangay_ID,
+                'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                'Province_ID'           => Auth::user()->Province_ID,
+                'Region_ID'             => Auth::user()->Region_ID,
+
                 'Encoder_ID'            => Auth::user()->id,
                 'Date_Stamp'            => Carbon::now()
             )
@@ -86,6 +108,10 @@ class BPMSController extends Controller
                 'Contractor_Address' => $data['Contractor_Address1'],
                 'Contractor_TIN'    => $data['Contractor_TIN1'],
                 'Remarks'           => $data['Remarks1'],
+                'Barangay_ID'           => Auth::user()->Barangay_ID,
+                'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
+                'Province_ID'           => Auth::user()->Province_ID,
+                'Region_ID'             => Auth::user()->Region_ID,
 
             )
         );
@@ -97,6 +123,8 @@ class BPMSController extends Controller
     public function brgy_projects_monitoring_list(Request $request)
     {
         $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 1) {
         $db_entries = DB::table('bpms_brgy_projects_monitoring as a')
             ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
             ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
@@ -115,10 +143,6 @@ class BPMSController extends Controller
             )
             ->paginate(20, ['*'], 'db_entries');
 
-        $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-        $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-        $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-        $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
         $contractor = DB::table('bpms_contractor')->paginate(20, ['*'], 'contractor');
         $project_type = DB::table('maintenance_bpms_project_type')->paginate(20, ['*'], 'project_type');
         $project_status = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'project_status');
@@ -129,10 +153,6 @@ class BPMSController extends Controller
         return view('bpms_transactions.brgy_projects_monitoring_list', compact(
             'db_entries',
             'currDATE',
-            'region',
-            'province',
-            'barangay',
-            'city',
             'contractor',
             'project_type',
             'project_status',
@@ -141,6 +161,46 @@ class BPMSController extends Controller
 
 
         ));
+    }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+        $db_entries = DB::table('bpms_brgy_projects_monitoring as a')
+            ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+            ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+            ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+            ->select(
+                'a.Brgy_Projects_ID',
+                'a.Project_Number',
+                'a.Project_Name',
+                'a.Total_Project_Cost',
+                'a.Exact_Location',
+                'a.Actual_Project_Start',
+                'b.Contractor_Name',
+                'c.Project_Type_Name',
+                'd.Project_Status_Name',
+
+            )
+            ->paginate(20, ['*'], 'db_entries');
+
+        $contractor = DB::table('bpms_contractor')->paginate(20, ['*'], 'contractor');
+        $project_type = DB::table('maintenance_bpms_project_type')->paginate(20, ['*'], 'project_type');
+        $project_status = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'project_status');
+        $accomplishment = DB::table('maintenance_bpms_accomplishment_status')->paginate(20, ['*'], 'accomplishment');
+        $milestone = DB::table('bpms_milestone_status')->paginate(20, ['*'], 'milestone');
+        $region1 = DB::table('maintenance_region')->where('Active', 1)->get();  
+
+
+        return view('bpms_transactions.brgy_projects_monitoring_list', compact(
+            'db_entries',
+            'currDATE',
+            'contractor',
+            'project_type',
+            'project_status',
+            'accomplishment',
+            'milestone',
+            'region1',
+
+
+        ));
+    }
     }
 
 
@@ -471,5 +531,35 @@ class BPMSController extends Controller
         return $pdf->stream();
     }
 
-    
+    public function get_contractor_list($Barangay_ID)
+    {   
+        $data = DB::table('bpms_contractor')
+            ->where('Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
+    }   
+     
+    public function get_brgy_projects_monitoring_list($Barangay_ID)
+    {   
+        $data = DB::table('bpms_brgy_projects_monitoring as a')
+            ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+            ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+            ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+            ->select(
+                'a.Brgy_Projects_ID',
+                'a.Project_Number',
+                'a.Project_Name',
+                'a.Total_Project_Cost',
+                'a.Exact_Location',
+                'a.Actual_Project_Start',
+                'b.Contractor_Name',
+                'c.Project_Type_Name',
+                'd.Project_Status_Name',
+                'a.Barangay_ID'
+
+            )
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
+    }    
 }

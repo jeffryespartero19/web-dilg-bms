@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body"> 
+                    <div class="card-body">  
                         <div class="tableX_row col-md-12 up_marg5">
                             <br>
                             <div class="col-md-12">

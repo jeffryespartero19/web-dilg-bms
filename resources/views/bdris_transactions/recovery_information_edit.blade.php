@@ -19,7 +19,7 @@
                     </ol>
                 </div>
             </div>
-        </div>
+        </div> 
         <!-- /.container-fluid -->
     </section>
 </div>
@@ -38,12 +38,13 @@
 </div>
 @endif
 <div class="tableX_row col-md-12 up_marg5">
-
+<input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
     <br>
     <div class="col-md-12">
         <form id="newRecovery_Information" method="POST" action="{{ route('create_recovery_information') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="row">
+                
                 <input type="text" class="form-control" id="Disaster_Recovery_ID" name="Disaster_Recovery_ID" value="{{$recovery[0]->Disaster_Recovery_ID}}" hidden>
                 <div class="row">
 
@@ -134,7 +135,7 @@
                                     <select class="form-control js-example-basic-single mySelect2" name="Household_Profile_ID[]" style="width: 250px;">
                                         <option value=0 disabled selected>Select Option</option>
                                         @foreach($household_profile as $bt1)
-                                        <option value="{{ $bt1->Household_Profile_ID }}">{{ $bt1->CasHousehold_Namee_Name }}</option>
+                                        <option value="{{ $bt1->Household_Profile_ID }}">{{ $bt1->Household_Name }}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -909,6 +910,14 @@
             });
         } else {
             $($row.find('td:eq(2) select')).val(0);
+        }
+    });
+
+     // Disable Form if DILG USER
+     $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3 || User_Type_ID == 4) {
+            $("#newRecovery_Information :input").prop("disabled", true);
         }
     });
 </script>

@@ -45,6 +45,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
+                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_disaster_supplies') }}" autocomplete="off" enctype="multipart/form-data">
@@ -238,6 +239,14 @@
                 });
             }
         });
+    });
+
+        // Disable Form if DILG USER
+        $(document).ready(function() {
+        var User_Type_ID = $('#User_Type_ID').val();
+        if (User_Type_ID == 3 || User_Type_ID == 4) {
+            $("#newBrgy_Document_Information :input").prop("disabled", true);
+        }
     });
 </script>
 
