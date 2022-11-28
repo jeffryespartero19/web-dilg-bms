@@ -338,7 +338,7 @@
                 @elseif (Auth::user()->User_Type_ID == 5)
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-clone"></i>
+                        <img src="{{ asset('css/logos/BIS.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             BIS
                             <i class="right fas fa-angle-left"></i>
@@ -365,8 +365,10 @@
                 <li class="nav-header" style="font-size: 20px;">Maintenance</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <img src="{{ asset('css/logos/Ordinance &Resolution.png') }}" style="opacity: .8; margin-right:5px" height="35" width="35">
-                        <p>Ordinance & Resolution</p>
+                        <img src="{{ asset('css/logos/Ordinance &Resolution.png') }}" style="opacity: .8;" height="28" width="28">
+                        <p>Ordinance & Resolution
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
@@ -384,9 +386,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Inhabitants.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BIPS
+                            Inhabitants
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -436,9 +438,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Certification & Permits.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BCPCIS
+                            Certification & Permits
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -458,9 +460,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Accounting.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BFAS
+                            Accounting
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -507,9 +509,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Disaster Response.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BDRIS
+                            Disaster Response
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -529,7 +531,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/psgc.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             PSGC
                             <i class="right fas fa-angle-left"></i>
@@ -557,9 +559,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Justice.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BJISBH
+                            Justice
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -600,7 +602,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/BIS.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             BIS
                             <i class="right fas fa-angle-left"></i>
@@ -622,9 +624,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Inventory.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BINS
+                            Inventory
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -651,9 +653,9 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Projects.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BPMS
+                            Projects
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -673,7 +675,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/web.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             BRGY WEB
                             <i class="right fas fa-angle-left"></i>
@@ -698,7 +700,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Inhabitants.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             User
                             <i class="right fas fa-angle-left"></i>
@@ -715,9 +717,9 @@
                 @elseif (Auth::user()->User_Type_ID == 2)
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Inhabitants.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BIPS
+                            Inhabitants
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -731,7 +733,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Certification & Permits.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             BCPCIS
                             <i class="right fas fa-angle-left"></i>
@@ -747,7 +749,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{route('justice_rating_inhabitants')}}" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
+                        <img src="{{ asset('css/logos/Justice.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             Justice Rating
                         </p>
