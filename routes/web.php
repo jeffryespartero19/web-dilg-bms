@@ -752,10 +752,10 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_summon_list/{Barangay_ID}', 'BJISBHController@get_summon_list');
   Route::get('/get_proceeding_list/{Barangay_ID}', 'BJISBHController@get_proceeding_list');
   Route::get('/get_ordinance_violator_list/{Barangay_ID}', 'BJISBHController@get_ordinance_violator_list');
-  
-    //Document Request
-    Route::get('/brgy_document_information_details_request', 'BCPISController@brgy_document_information_details_request')->name('brgy_document_information_details_request');
-    Route::post('/create_brgy_document_information_request', 'BCPISController@create_brgy_document_information_request')->name('create_brgy_document_information_request');
+
+  //Document Request
+  Route::get('/brgy_document_information_details_request', 'BCPISController@brgy_document_information_details_request')->name('brgy_document_information_details_request');
+  Route::post('/create_brgy_document_information_request', 'BCPISController@create_brgy_document_information_request')->name('create_brgy_document_information_request');
 
   //DOCUMENT REQUEST PENDING
   Route::get('/document_request_pending_list', 'BCPISController@document_request_pending_list')->name('document_request_pending_list');
@@ -821,6 +821,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/create_user', 'UserController@create_user')->name('create_user');
   Route::post('/update_user', 'UserController@update_user')->name('update_user');
   Route::get('/get_user', 'UserController@get_user')->name('get_user');
+
+  //Update Inhabitants
+  Route::post('/update_inhabitants_application_info', 'InhabitantApplicationController@update_inhabitants_application_info')->name('update_inhabitants_application_info');
 });
 
 
