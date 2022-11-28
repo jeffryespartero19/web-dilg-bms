@@ -815,6 +815,12 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/rating_page/{id}', 'JusticeRatingController@rating_page');
   Route::post('/create_rating', 'JusticeRatingController@create_rating')->name('create_rating');
   Route::get('/justice_rating_staff', 'JusticeRatingController@justice_rating_staff')->name('justice_rating_staff');
+
+  //User
+  Route::get('/user_list', 'UserController@user_list')->name('user_list');
+  Route::post('/create_user', 'UserController@create_user')->name('create_user');
+  Route::post('/update_user', 'UserController@update_user')->name('update_user');
+  Route::get('/get_user', 'UserController@get_user')->name('get_user');
 });
 
 
