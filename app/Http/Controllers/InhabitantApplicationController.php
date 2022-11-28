@@ -199,4 +199,28 @@ class InhabitantApplicationController extends Controller
 
         return redirect()->back()->with('success', 'Application Submitted');
     }
+
+    //updating Deceased Profile
+    public function update_inhabitants_application_info(Request $request)
+
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
+            array(
+                'Birthplace'  => $data['Birthplace'],
+                'Religion_ID'  => $data['Religion_ID'],
+                'Weight'  => $data['Weight'],
+                'Height'  => $data['Height'],
+                'Civil_Status_ID'  => $data['Civil_Status_ID'],
+                'Mobile_No'  => $data['Mobile_No'],
+                'Telephone_No'  => $data['Telephone_No'],
+                'Salary'  => $data['Salary'],
+                'PhilSys_Card_No'  => $data['PhilSys_Card_No'],
+            )
+        );
+
+        return redirect()->back()->with('message', 'Record Updated');
+    }
 }
