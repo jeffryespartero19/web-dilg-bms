@@ -120,7 +120,7 @@
                                 <label for="Birthplace">Birthplace</label>
                                 <input type="text" class="form-control" id="Birthplace" name="Birthplace">
                             </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
+                            <!-- <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Religion_ID">Religion</label>
                                 <select class="form-control" id="Religion_ID" name="Religion_ID" required>
                                     <option value='' selected>Select Option</option>
@@ -128,7 +128,7 @@
                                     <option value="{{ $religions->Religion_ID }}">{{ $religions->Religion }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Blood Type</label>
                                 <select class="form-control" id="Blood_Type_ID" name="Blood_Type_ID" required>
@@ -138,7 +138,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
+                            <!-- <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Sex</label>
                                 <select class="form-control" id="Sex" name="Sex" required>
                                     <option value='' selected>Select Option</option>
@@ -179,7 +179,7 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="PhilSys_Card_No">PhilSys Card Number</label>
                                 <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No">
-                            </div>
+                            </div> -->
                         </div>
                         <hr>
                         <h3>Additional Information</h3>
