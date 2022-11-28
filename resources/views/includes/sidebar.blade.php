@@ -696,6 +696,22 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            User
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('user_list')}}" class="nav-link">
+                                User List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 @elseif (Auth::user()->User_Type_ID == 2)
                 <li class="nav-item">
                     <a href="#" class="nav-link">
