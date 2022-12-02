@@ -21,6 +21,7 @@ Route::get('/main', 'Public_LandingController@main')->name('main');
 Route::get('/viewAnnouncement', 'Public_LandingController@viewAnnouncement')->name('viewAnnouncement');
 Route::get('/registers', 'BRGYLoginController@registers');
 Route::post('/create_inhabitants_application_information', 'InhabitantApplicationController@create_inhabitants_information')->name('create_inhabitants_application_information');
+Route::post('/create_inhabitants_user', 'InhabitantApplicationController@create_inhabitants_user')->name('create_inhabitants_user');
 
 Route::group(['middleware' => 'auth'], function () {
   //Home

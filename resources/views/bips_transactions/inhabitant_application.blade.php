@@ -61,7 +61,7 @@
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Name_Suffix_ID">Suffix</label>
-                        <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID" required>
+                        <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID">
                             <option value='' disabled selected>Select Option</option>
                             @foreach($suffix as $bt)
                             <option value="{{ $bt->Name_Suffix_ID }}">{{ $bt->Name_Suffix }}</option>
