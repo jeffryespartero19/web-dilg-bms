@@ -9,6 +9,7 @@ use DB;
 
 class Public_LandingController extends Controller
 {
+    
     public function index()
     {
         $currDATE = Carbon::now();
