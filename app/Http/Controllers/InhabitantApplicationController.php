@@ -124,14 +124,31 @@ class InhabitantApplicationController extends Controller
         }
     }
 
+    // Save Inhabitants Info
+    public function create_inhabitants_user(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        User::create([
+            'name' => '',
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'User_Type_ID' => 2,
+            'Barangay_ID' => '',
+            'Resident_ID' => '',
+            'Login_Status' => 1,
+        ]);
+
+        return redirect()->back()->with('success', 'Application Submitted');
+    }
+
 
     // Save Inhabitants Info
     public function create_inhabitants_information(Request $request)
     {
         $currDATE = Carbon::now();
         $data = request()->all();
-
-        // dd($data);
 
         $name = $data['First_Name'] . ' ' . $data['Middle_Name'] . ' ' . $data['Last_Name'];
 
@@ -143,23 +160,23 @@ class InhabitantApplicationController extends Controller
                 'Middle_Name' => $data['Middle_Name'],
                 'Name_Suffix_ID' => $data['Name_Suffix_ID'],
                 'Birthplace' => $data['Birthplace'],
-                // 'Weight' => $data['Weight'],
-                // 'Height' => $data['Height'],
-                // 'Civil_Status_ID' => $data['Civil_Status_ID'],
+                'Weight' => $data['Weight'],
+                'Height' => $data['Height'],
+                'Civil_Status_ID' => $data['Civil_Status_ID'],
                 'Birthdate' => $data['Birthdate'],
                 'Country_ID' => $data['Country_ID'],
-                // 'Religion_ID' => $data['Religion_ID'],
+                'Religion_ID' => $data['Religion_ID'],
                 'Blood_Type_ID' => $data['Blood_Type_ID'],
-                // 'Sex' => $data['Sex'],
-                // 'Mobile_No' => $data['Mobile_No'],
-                // 'Telephone_No' => $data['Telephone_No'],
+                'Sex' => $data['Sex'],
+                'Mobile_No' => $data['Mobile_No'],
+                'Telephone_No' => $data['Telephone_No'],
                 'Barangay_ID' => $data['Barangay_ID'],
                 'City_Municipality_ID' => $data['City_Municipality_ID'],
                 'Province_ID' => $data['Province_ID'],
                 'Region_ID' => $data['Region_ID'],
-                // 'Salary' => $data['Salary'],
-                'Email_Address' => $data['email'],
-                // 'PhilSys_Card_No' => $data['PhilSys_Card_No'],
+                'Salary' => $data['Salary'],
+                'Email_Address' => Auth::user()->email,
+                'PhilSys_Card_No' => $data['PhilSys_Card_No'],
                 'Solo_Parent' => (int)$data['Solo_Parent'],
                 'OFW' => (int)$data['OFW'],
                 'Indigent' => (int)$data['Indigent'],
@@ -188,19 +205,18 @@ class InhabitantApplicationController extends Controller
             }
         }
 
-        User::create([
-            'name' => $name,
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'User_Type_ID' => 2,
-            'Barangay_ID' => $data['Barangay_ID'],
-            'Resident_ID' => $Resident_ID,
-        ]);
+        DB::table('users')->where('id', Auth::user()->id)->update(
+            array(
+                'Resident_ID' => $Resident_ID,
+                'name' => $name,
+                'Barangay_ID' => $data['Barangay_ID'],
+            )
+        );
 
         return redirect()->back()->with('success', 'Application Submitted');
     }
 
-    //updating Deceased Profile
+
     public function update_inhabitants_application_info(Request $request)
 
     {
