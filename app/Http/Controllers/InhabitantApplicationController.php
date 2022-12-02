@@ -131,70 +131,71 @@ class InhabitantApplicationController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
-        // dd($data);
+        // // dd($data);
 
-        $name = $data['First_Name'] . ' ' . $data['Middle_Name'] . ' ' . $data['Last_Name'];
+        // $name = $data['First_Name'] . ' ' . $data['Middle_Name'] . ' ' . $data['Last_Name'];
 
-        $Resident_ID = DB::table('bips_brgy_inhabitants_information')->insertGetId(
-            array(
-                'Name_Prefix_ID' => $data['Name_Prefix_ID'],
-                'Last_Name' => $data['Last_Name'],
-                'First_Name' => $data['First_Name'],
-                'Middle_Name' => $data['Middle_Name'],
-                'Name_Suffix_ID' => $data['Name_Suffix_ID'],
-                'Birthplace' => $data['Birthplace'],
-                // 'Weight' => $data['Weight'],
-                // 'Height' => $data['Height'],
-                // 'Civil_Status_ID' => $data['Civil_Status_ID'],
-                'Birthdate' => $data['Birthdate'],
-                'Country_ID' => $data['Country_ID'],
-                // 'Religion_ID' => $data['Religion_ID'],
-                'Blood_Type_ID' => $data['Blood_Type_ID'],
-                // 'Sex' => $data['Sex'],
-                // 'Mobile_No' => $data['Mobile_No'],
-                // 'Telephone_No' => $data['Telephone_No'],
-                'Barangay_ID' => $data['Barangay_ID'],
-                'City_Municipality_ID' => $data['City_Municipality_ID'],
-                'Province_ID' => $data['Province_ID'],
-                'Region_ID' => $data['Region_ID'],
-                // 'Salary' => $data['Salary'],
-                'Email_Address' => $data['email'],
-                // 'PhilSys_Card_No' => $data['PhilSys_Card_No'],
-                'Solo_Parent' => (int)$data['Solo_Parent'],
-                'OFW' => (int)$data['OFW'],
-                'Indigent' => (int)$data['Indigent'],
-                '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
-                'Encoder_ID'       => 0,
-                'Date_Stamp'       => Carbon::now(),
-                'Street' => $data['Street'],
-                'House_No' => $data['House_No'],
-            )
-        );
+        // $Resident_ID = DB::table('bips_brgy_inhabitants_information')->insertGetId(
+        //     array(
+        //         'Name_Prefix_ID' => $data['Name_Prefix_ID'],
+        //         'Last_Name' => $data['Last_Name'],
+        //         'First_Name' => $data['First_Name'],
+        //         'Middle_Name' => $data['Middle_Name'],
+        //         'Name_Suffix_ID' => $data['Name_Suffix_ID'],
+        //         'Birthplace' => $data['Birthplace'],
+        //         // 'Weight' => $data['Weight'],
+        //         // 'Height' => $data['Height'],
+        //         // 'Civil_Status_ID' => $data['Civil_Status_ID'],
+        //         'Birthdate' => $data['Birthdate'],
+        //         'Country_ID' => $data['Country_ID'],
+        //         // 'Religion_ID' => $data['Religion_ID'],
+        //         'Blood_Type_ID' => $data['Blood_Type_ID'],
+        //         // 'Sex' => $data['Sex'],
+        //         // 'Mobile_No' => $data['Mobile_No'],
+        //         // 'Telephone_No' => $data['Telephone_No'],
+        //         'Barangay_ID' => $data['Barangay_ID'],
+        //         'City_Municipality_ID' => $data['City_Municipality_ID'],
+        //         'Province_ID' => $data['Province_ID'],
+        //         'Region_ID' => $data['Region_ID'],
+        //         // 'Salary' => $data['Salary'],
+        //         'Email_Address' => $data['email'],
+        //         // 'PhilSys_Card_No' => $data['PhilSys_Card_No'],
+        //         'Solo_Parent' => (int)$data['Solo_Parent'],
+        //         'OFW' => (int)$data['OFW'],
+        //         'Indigent' => (int)$data['Indigent'],
+        //         '4Ps_Beneficiary' => (int)$data['4Ps_Beneficiary'],
+        //         'Encoder_ID'       => 0,
+        //         'Date_Stamp'       => Carbon::now(),
+        //         'Street' => $data['Street'],
+        //         'House_No' => $data['House_No'],
+        //     )
+        // );
 
-        if ($request->hasfile('fileattach')) {
-            foreach ($request->file('fileattach') as $file) {
-                $filename = $file->getClientOriginalName();
-                // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
-                $filePath = public_path() . '/files/uploads/bips_RIB_Form/';
-                $file->move($filePath, $filename);
-                // $file_path = $filePath . $filename;
+        // if ($request->hasfile('fileattach')) {
+        //     foreach ($request->file('fileattach') as $file) {
+        //         $filename = $file->getClientOriginalName();
+        //         // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+        //         $filePath = public_path() . '/files/uploads/bips_RIB_Form/';
+        //         $file->move($filePath, $filename);
+        //         // $file_path = $filePath . $filename;
 
 
-                DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $Resident_ID)->update(
-                    array(
-                        'RIB_Form' => $filename,
-                    )
-                );
-            }
-        }
+        //         DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $Resident_ID)->update(
+        //             array(
+        //                 'RIB_Form' => $filename,
+        //             )
+        //         );
+        //     }
+        // }
 
         User::create([
-            'name' => $name,
+            'name' => '',
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'User_Type_ID' => 2,
-            'Barangay_ID' => $data['Barangay_ID'],
-            'Resident_ID' => $Resident_ID,
+            'Barangay_ID' => '',
+            'Resident_ID' => '',
+            'Login_Status' => 1,
         ]);
 
         return redirect()->back()->with('success', 'Application Submitted');
