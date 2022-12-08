@@ -71,6 +71,9 @@
                             <a href="{{route('brgy_purok_leader_list')}}" class="nav-link">
                                 <p>Brgy. Purok Leader</p>
                             </a>
+                            <a href="{{route('processing_sched')}}" class="nav-link">
+                                <p>Processing Schedule</p>
+                            </a>
                             @endif
                         </li>
                     </ul>

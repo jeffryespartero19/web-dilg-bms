@@ -9,6 +9,10 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\File;
 use PDF;
+use Notification;
+use App\Mail\ApprovedEmailNotif;
+use App\Mail\DisapprovedEmailNotif;
+use Illuminate\Support\Facades\Mail;
 
 class bipsController extends Controller
 {
@@ -401,6 +405,7 @@ class bipsController extends Controller
                 }
             }
         }
+
         return redirect()->back()->with('alert', 'New Entry Created');
     }
 
@@ -1158,9 +1163,30 @@ class bipsController extends Controller
             ->where('a.Application_Status', 0)
             ->paginate(20, ['*'], 'db_entries');
 
+        $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
+        $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
+        $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
+        $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
+        $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Active', 1)->get();
+        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
+        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
+        $country = DB::table('maintenance_country')->where('Active', 1)->get();
+
         return view('bips_transactions.application_list', compact(
             'db_entries',
-            'currDATE'
+            'currDATE',
+            'religion',
+            'blood_type',
+            'civil_status',
+            'name_prefix',
+            'suffix',
+            'region',
+            'province',
+            'city',
+            'barangay',
+            'country',
         ));
     }
 
@@ -1168,6 +1194,15 @@ class bipsController extends Controller
     public function approve_disapprove_application(Request $request)
     {
         $data = request()->all();
+
+        // dd($data);
+
+        $user = DB::table('bips_brgy_inhabitants_information')
+            ->where('Resident_ID', $data['Resident_ID'])
+            ->get();
+
+        // $email = $user[0]->Email_Address;
+        // dd($user[0]->Email_Address);
 
         if ($data['Status_ID'] == 1) {
             $message = 'Approved';
@@ -1183,15 +1218,23 @@ class bipsController extends Controller
                     'Login_Status' => 1
                 )
             );
+            Mail::to($user[0]->Email_Address)->send(new ApprovedEmailNotif());
         } else {
             $message = 'Disapprove';
 
             DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
                 array(
-                    'Application_Status' => 2
+                    'Application_Status' => 2,
+                    'status_remarks' => $data['disapprove_remarks']
                 )
             );
+
+            Mail::to($user[0]->Email_Address)->send(new DisapprovedEmailNotif());
         }
+
+       
+
+        // Notification::send($user, new SendInhabitantsStatusEmailNotification($details));
 
         return redirect()->back()->with('message', 'Resident ' . $message);
     }
@@ -1954,4 +1997,67 @@ class bipsController extends Controller
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
+
+    //Processing Sched
+    //Processing Sched List
+    public function processing_sched(Request $request)
+    {
+        $currDATE = Carbon::now();
+
+        $db_entries = DB::table('bips_processing_sched')
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->get();
+
+        return view('bips_transactions.processing_sched', compact(
+            'db_entries'
+        ));
+    }
+
+    //updating Processing Sched
+    public function update_processing_sched(Request $request)
+
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        $sched = [
+            'Barangay_ID' => Auth::user()->Barangay_ID,
+            'days' => $data['days'],
+            'Encoder_ID'       => Auth::user()->id,
+            'updated_at'       => Carbon::now()
+        ];
+
+        DB::table('bips_processing_sched')->updateOrInsert(['Barangay_ID' => Auth::user()->Barangay_ID], $sched);
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    // //Send Inhabitants Status Email Notif
+    // public function update_Inhabitant_Status(Request $request)
+
+    // {
+    //     $currDATE = Carbon::now();
+    //     $data = request()->all();
+
+    //     $user = DB::table('bips_brgy_inhabitants_information')
+    //         ->where('Resident_ID', $data['Resident_ID']);
+
+    //     $user_status = [
+    //         'Application_Status' => 1,
+    //     ];
+
+    //     DB::table('bips_brgy_inhabitants_information')->update(['Resident_ID' => $data['Resident_ID']], $user_status);
+
+    //     $details = [
+    //         'greeting' => 'Hello Applicant',
+    //         'body' => 'Your application was approved.',
+    //         'actiontext'       => 'Go',
+    //         'actionurl'       => '/',
+    //         'lastline'       => 'Thank you!'
+    //     ];
+
+    //     Notification::send($user, new SendInhabitantsStatusEmailNotification($details));
+
+    //     return redirect()->back()->with('alert', 'Updated Entry');
+    // }
 }

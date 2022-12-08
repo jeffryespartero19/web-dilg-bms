@@ -36,6 +36,14 @@
     {{ session()->get('message') }}
 </div>
 @endif
+@if ($db_entries[0]->Application_Status == 2)
+<div class="alert alert-danger">
+    <ul>
+        <li>Your Application was disapproved</li>
+        <li>Remarks: {{$db_entries[0]->status_remarks}}</li>
+    </ul>
+</div>
+@endif
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -122,6 +130,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <input type="text" class="form-control" id="Barangay_ID2" name="Barangay_ID2" value="{{$db_entries[0]->Barangay_ID}}" hidden>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Barangay_ID">Barangay</label>
                                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID" required disabled>
