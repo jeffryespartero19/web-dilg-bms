@@ -525,6 +525,13 @@
         });
 
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.resolution').addClass('active');
+        $('.boris_menu').addClass('active');
+        $('.boris_main').addClass('menu-open');
+    });
 </script>
 
 

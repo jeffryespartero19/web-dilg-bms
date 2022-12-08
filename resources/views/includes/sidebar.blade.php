@@ -18,8 +18,8 @@
                     <li class="nav-header" style="font-size: 20px;">Home</li>
                 </a>
                 <li class="nav-header" style="font-size: 20px;">Transactions</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" title="Barangay Ordinance And Resolution">
+                <li class="nav-item boris_main">
+                    <a href="#" class="nav-link boris_menu" title="Barangay Ordinance And Resolution">
                         <img src="{{ asset('css/logos/Ordinance &Resolution.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             Ordinance & Resolution
@@ -28,19 +28,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('ordinances_and_resolutions_list')}}" class="nav-link">
+                            <a href="{{route('ordinances_and_resolutions_list')}}" class="nav-link ordinance">
                                 <p>Ordinance Information</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('resolutions_list')}}" class="nav-link">
+                            <a href="{{route('resolutions_list')}}" class="nav-link resolution">
                                 <p>Resolution Information</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item inhabitants_main">
+                    <a href="#" class="nav-link inhabitants_menu">
                         <img src="{{ asset('css/logos/Inhabitants.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             Inhabitants
@@ -49,32 +49,32 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('inhabitants_information_list')}}" class="nav-link">
+                            <a href="{{route('inhabitants_information_list')}}" class="nav-link inhabitants">
                                 <p>Inhabitants List</p>
                             </a>
-                            <a href="{{route('inhabitants_household_profile')}}" class="nav-link">
+                            <a href="{{route('inhabitants_household_profile')}}" class="nav-link household">
                                 <p>Household Profile</p>
                             </a>
-                            <a href="{{route('deceased_profile_list')}}" class="nav-link">
+                            <a href="{{route('deceased_profile_list')}}" class="nav-link deceased_profile">
                                 <p>Deceased Profile</p>
                             </a>
                             @if (Auth::user()->User_Type_ID == 1)
-                            <a href="{{route('inhabitants_transfer_list')}}" class="nav-link">
+                            <a href="{{route('inhabitants_transfer_list')}}" class="nav-link transfer">
                                 <p>Inhabitants Transfer</p>
                             </a>
-                            <a href="{{route('inhabitants_incoming_list')}}" class="nav-link">
+                            <a href="{{route('inhabitants_incoming_list')}}" class="nav-link incoming">
                                 <p>Incoming List</p>
                             </a>
-                            <a href="{{route('application_list')}}" class="nav-link">
+                            <a href="{{route('application_list')}}" class="nav-link application_list">
                                 <p>Application List</p>
                             </a>
-                            <a href="{{route('brgy_official_list')}}" class="nav-link">
+                            <a href="{{route('brgy_official_list')}}" class="nav-link brgy_official">
                                 <p>Brgy. Official</p>
                             </a>
-                            <a href="{{route('brgy_purok_leader_list')}}" class="nav-link">
+                            <a href="{{route('brgy_purok_leader_list')}}" class="nav-link brgy_purok">
                                 <p>Brgy. Purok Leader</p>
                             </a>
-                            <a href="{{route('processing_sched')}}" class="nav-link">
+                            <a href="{{route('processing_sched')}}" class="nav-link processingsched">
                                 <p>Processing Schedule</p>
                             </a>
                             @endif

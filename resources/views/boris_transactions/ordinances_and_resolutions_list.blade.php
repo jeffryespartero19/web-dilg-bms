@@ -668,6 +668,13 @@
     $(document).on('click', '.modal-close', function(e) {
         $('#createOrdinance_Info').trigger("reset");
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.ordinance').addClass('active');
+        $('.boris_menu').addClass('active');
+        $('.boris_main').addClass('menu-open');
+    });
 </script>
 
 

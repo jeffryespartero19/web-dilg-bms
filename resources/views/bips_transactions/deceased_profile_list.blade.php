@@ -355,6 +355,13 @@
             $("#newDeceased_Profile :input").prop("disabled", true);
         }
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.deceased_profile').addClass('active');
+        $('.inhabitants_menu').addClass('active');
+        $('.inhabitants_main').addClass('menu-open');
+    });
 </script>
 
 
