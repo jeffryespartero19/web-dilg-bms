@@ -202,36 +202,36 @@
 
         $("#search").keyup(function() {
 
-                var text = $(this).val();
-                // alert(text);
-                $.ajax({
-                    type: "GET",
-                    url: "/search_barangay/" + text,
-                    fail: function() {
-                        alert("request failed");
-                    },
-                    success: function(data) {
-                        var data = JSON.parse(data);
+            var text = $(this).val();
+            // alert(text);
+            $.ajax({
+                type: "GET",
+                url: "/search_barangay/" + text,
+                fail: function() {
+                    alert("request failed");
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
 
-                        // alert(data);
-                        $('#example').dataTable().fnClearTable();
-                        $('#example').dataTable().fnDraw();
-                        $('#example').dataTable().fnDestroy();
+                    // alert(data);
+                    $('#example').dataTable().fnClearTable();
+                    $('#example').dataTable().fnDraw();
+                    $('#example').dataTable().fnDestroy();
 
-                        data.forEach(function(element) {
+                    data.forEach(function(element) {
 
-                            $('#example').DataTable().row.add([
-                                element["Barangay_ID"],
-                                element["Barangay_Name"],
-                                element["City_Municipality_Name"],
-                                element["Province_Name"],
-                                element["Region_Name"],
-                                "<button class='btn btn-success EnterLink' value='" + element["Barangay_ID"] + "'>Visit</button>",
-                            ]).draw();
+                        $('#example').DataTable().row.add([
+                            element["Barangay_ID"],
+                            element["Barangay_Name"],
+                            element["City_Municipality_Name"],
+                            element["Province_Name"],
+                            element["Region_Name"],
+                            "<button class='btn btn-success EnterLink' value='" + element["Barangay_ID"] + "'>Visit</button>",
+                        ]).draw();
 
-                        });
-                    }
-                });
+                    });
+                }
+            });
 
         });
 
@@ -242,6 +242,8 @@
             $('#BRGYFilter').submit();
 
         });
+
+        
     </script>
 </body>
 

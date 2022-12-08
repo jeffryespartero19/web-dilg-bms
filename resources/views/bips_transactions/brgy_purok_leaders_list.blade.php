@@ -307,7 +307,14 @@
 
     $('#updateBrgy_Official').on('hidden.bs.modal', function() {
         $(this).find('form').trigger('reset');
-    })
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.brgy_purok').addClass('active');
+        $('.inhabitants_menu').addClass('active');
+        $('.inhabitants_main').addClass('menu-open');
+    });
 </script>
 
 

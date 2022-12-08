@@ -46,7 +46,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
-                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+                            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
                                 <form id="newHousehold" method="POST" action="{{ route('create_household_information') }}" autocomplete="off" enctype="multipart/form-data">
@@ -243,6 +243,13 @@
         if (User_Type_ID == 3) {
             $("#newHousehold :input").prop("disabled", true);
         }
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.household').addClass('active');
+        $('.inhabitants_menu').addClass('active');
+        $('.inhabitants_main').addClass('menu-open');
     });
 </script>
 

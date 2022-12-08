@@ -561,6 +561,13 @@
         });
 
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.ordinance').addClass('active');
+        $('.boris_menu').addClass('active');
+        $('.boris_main').addClass('menu-open');
+    });
 </script>
 
 

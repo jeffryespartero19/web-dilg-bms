@@ -379,7 +379,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="disapproveApplication"  role="dialog" aria-labelledby="disapproveApplication" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="disapproveApplication" role="dialog" aria-labelledby="disapproveApplication" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -510,6 +510,13 @@
             }
         });
 
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.application_list').addClass('active');
+        $('.inhabitants_menu').addClass('active');
+        $('.inhabitants_main').addClass('menu-open');
     });
 </script>
 
