@@ -14,6 +14,9 @@
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                 @if (Auth::user()->User_Type_ID == 1 || Auth::user()->User_Type_ID == 3)
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                <a href="{{route('home')}}">
+                    <li class="nav-header" style="font-size: 20px;">Home</li>
+                </a>
                 <li class="nav-header" style="font-size: 20px;">Transactions</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" title="Barangay Ordinance And Resolution">

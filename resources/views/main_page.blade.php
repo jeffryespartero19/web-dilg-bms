@@ -200,8 +200,8 @@
             $('#example').DataTable();
         });
 
-        $("#search").keypress(function(e) {
-            if (e.which == 13) {
+        $("#search").keyup(function() {
+
                 var text = $(this).val();
                 // alert(text);
                 $.ajax({
@@ -226,13 +226,13 @@
                                 element["City_Municipality_Name"],
                                 element["Province_Name"],
                                 element["Region_Name"],
-                                "<button class='btn btn-success EnterLink' value='" + element["Barangay_ID"] + "'>Go</button>",
+                                "<button class='btn btn-success EnterLink' value='" + element["Barangay_ID"] + "'>Visit</button>",
                             ]).draw();
 
                         });
                     }
                 });
-            }
+
         });
 
         $(document).on("click", ".EnterLink", function() {
