@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\StatusEmailNotif;
 
 /*
 |--------------------------------------------------------------------------
@@ -826,6 +827,12 @@ Route::group(['middleware' => 'auth'], function () {
 
   //Update Inhabitants
   Route::post('/update_inhabitants_application_info', 'InhabitantApplicationController@update_inhabitants_application_info')->name('update_inhabitants_application_info');
+
+   //Processing Sched
+   Route::get('/processing_sched', 'bipsController@processing_sched')->name('processing_sched');
+   Route::post('/update_processing_sched', 'bipsController@update_processing_sched')->name('update_processing_sched');
+
+   Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
 });
 
 

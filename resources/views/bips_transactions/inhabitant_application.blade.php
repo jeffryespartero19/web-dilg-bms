@@ -42,6 +42,7 @@
                         <label for="exampleInputEmail1">Prefix</label>
                         <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID" required>
                             <option value='' disabled selected>Select Option</option>
+                            <!-- <option value='0'>None</option> -->
                             @foreach($name_prefix as $bt)
                             <option value="{{ $bt->Name_Prefix_ID }}">{{ $bt->Name_Prefix }}</option>
                             @endforeach
@@ -61,8 +62,9 @@
                     </div>
                     <div class="form-group col-lg-3" style="padding:0 10px">
                         <label for="Name_Suffix_ID">Suffix</label>
-                        <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID">
+                        <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID" required>
                             <option value='' disabled selected>Select Option</option>
+                            <option value='0'>None</option>
                             @foreach($suffix as $bt)
                             <option value="{{ $bt->Name_Suffix_ID }}">{{ $bt->Name_Suffix }}</option>
                             @endforeach

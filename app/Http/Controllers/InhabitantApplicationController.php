@@ -56,7 +56,8 @@ class InhabitantApplicationController extends Controller
                 'PhilHealth',
                 'GSIS',
                 'SSS',
-                'PagIbig'
+                'PagIbig',
+                'status_remarks'
             )
             ->where('Resident_ID', Auth::user()->Resident_ID)
             ->get();
@@ -213,7 +214,11 @@ class InhabitantApplicationController extends Controller
             )
         );
 
-        return redirect()->back()->with('success', 'Application Submitted');
+        $days_sched = DB::table('bips_processing_sched')->where('Barangay_ID', $data['Barangay_ID'])->get();
+
+        return redirect()->to('inhabitant_application')->with('message', 'Application Submitted, Wait for atleast ' . $days_sched[0]->days . ' days to process the application.');
+
+        // return redirect()->back()->with('message', 'Application Submitted, Wait for atleast ' . $days_sched[0]->days . 'days to process the application.');
     }
 
 
@@ -222,6 +227,8 @@ class InhabitantApplicationController extends Controller
     {
         $currDATE = Carbon::now();
         $data = request()->all();
+
+        // dd($data);
 
         DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
             array(
@@ -236,6 +243,8 @@ class InhabitantApplicationController extends Controller
                 'PhilSys_Card_No'  => $data['PhilSys_Card_No'],
             )
         );
+
+        $days_sched = DB::table('bips_processing_sched')->where('Barangay_ID', $data['Barangay_ID2'])->get();
 
         return redirect()->back()->with('message', 'Record Updated');
     }
