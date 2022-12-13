@@ -57,10 +57,10 @@
                                     <thead>
                                         <tr>
                                             <th hidden>Claim_Schedule_ID</th>
-                                            <th >Transaction No(Busines Permit)</th>
-                                            <th >Resident Name</th>
-                                            <th >Requested Date and Time</th>
-                                            <th >Queue Ticket Number</th>
+                                            <th>Transaction No(Busines Permit)</th>
+                                            <th>Resident Name</th>
+                                            <th>Requested Date and Time</th>
+                                            <th>Queue Ticket Number</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -68,10 +68,10 @@
                                         @foreach($db_entries as $x)
                                         <tr>
                                             <td class="sm_data_col txtCtr" hidden>{{$x->Claim_Schedule_ID}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->Transaction_No}}</td>
-                                            <td class="sm_data_col txtCtr" >{{$x->Resident_Name}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Requested_Date_and_Time}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Queue_Ticket_Number}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Transaction_No}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Requested_Date_and_Time}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Queue_Ticket_Number}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <a class="btn btn-success" href="{{ url('brgy_document_claim_business_details/'.$x->Claim_Schedule_ID) }}">Edit</a>
                                             </td>
@@ -108,13 +108,19 @@
         $('#example').DataTable();
 
     });
-    
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.brgyDocument').addClass('active');
+        $('.certification_menu').addClass('active');
+        $('.certification_main').addClass('menu-open');
+    });
 </script>
 
 <style>
-  
 
-   
+
+
 </style>
 
 @endsection

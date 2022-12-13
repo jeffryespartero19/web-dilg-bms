@@ -90,3 +90,14 @@
 <!-- Create Announcement_Status END -->
 
 @endsection
+
+@section('scripts')
+<script>
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.JusticeRating').addClass('active');
+        $('.justice_menu').addClass('active');
+        $('.justice_main').addClass('menu-open');
+    });
+</script>
+@endsection

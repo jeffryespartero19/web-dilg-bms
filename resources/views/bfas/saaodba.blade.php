@@ -253,6 +253,13 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
+     // Side Bar Active
+     $(document).ready(function() {
+        $('.budgetSAAODBA').addClass('active');
+        $('.accounting_menu').addClass('active');
+        $('.accounting_main').addClass('menu-open');
+    });
 </script>
 
 @endsection

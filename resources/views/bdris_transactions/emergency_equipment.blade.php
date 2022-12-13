@@ -43,14 +43,14 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body"> 
+                    <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_emergency_equipment') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
                                     <div>
-                                    <input type="text" class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" hidden>
+                                        <input type="text" class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-9" style="padding:0 10px">
                                                 <label for="Emergency_Equipment_Name">Emergency Equipment Name</label>
@@ -68,7 +68,7 @@
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Location">Location</label>
-                                                <input type="text" class="form-control" id="Location" name="Location" >
+                                                <input type="text" class="form-control" id="Location" name="Location">
                                             </div>
                                         </div>
                                     </div>
@@ -208,6 +208,13 @@
                 });
             }
         });
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.otherTrans').addClass('active');
+        $('.disaster_menu').addClass('active');
+        $('.disaster_main').addClass('menu-open');
     });
 </script>
 

@@ -21,7 +21,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-</div> 
+</div>
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -171,36 +171,44 @@
         $('#example').DataTable();
     });
 
-    $(document).on('click', ('.edit_document_type'), function (e) {
+    $(document).on('click', ('.edit_document_type'), function(e) {
 
-var disID = $(this).val();
-$.ajax({
-    url: "/get_document_type",
-    type: 'GET',
-    data: { id: disID },
-    fail: function () {
-        alert('request failed');
-    },
-    success: function (data) {
-        $('#this_document_type_idX').val(data['theEntry'][0]['Document_Type_ID']);
-        $('#this_document_type_NameX').val(data['theEntry'][0]['Document_Type_Name']);
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_document_type",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#this_document_type_idX').val(data['theEntry'][0]['Document_Type_ID']);
+                $('#this_document_type_NameX').val(data['theEntry'][0]['Document_Type_Name']);
 
-        $('#this_document_type_active').empty();
-        $('#this_document_type_active').val(data['theEntry'][0]['Active']);
-        if (data['theEntry'][0]['Active'] == 1) {
-            $('#this_document_type_active').append('Yes');
-        } else {
-            $('#this_document_type_active').append('No');
-        }
+                $('#this_document_type_active').empty();
+                $('#this_document_type_active').val(data['theEntry'][0]['Active']);
+                if (data['theEntry'][0]['Active'] == 1) {
+                    $('#this_document_type_active').append('Yes');
+                } else {
+                    $('#this_document_type_active').append('No');
+                }
 
-    }
-});
+            }
+        });
 
 
-});
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mC3').addClass('active');
+        $('.mCert_menu').addClass('active');
+        $('.mCert_main').addClass('menu-open');
+    });
 </script>
 
 
 
 @endsection
-

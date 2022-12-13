@@ -187,6 +187,13 @@
 
 
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.resident').addClass('active');
+        $('.inhabitants_menu').addClass('active');
+        $('.inhabitants_main').addClass('menu-open');
+    });
 </script>
 
 <style>

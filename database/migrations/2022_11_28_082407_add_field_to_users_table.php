@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBorisAttasterTable extends Migration
+class AddFieldToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateBorisAttasterTable extends Migration
      */
     public function up()
     {
-        Schema::create('boris_attester', function (Blueprint $table) {
-            $table->id();
-            $table->integer('Resident_ID');
-            $table->integer('Ordinance_Resolution_ID');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('Active');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateBorisAttasterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('boris_attaster');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('Active');
+        });
     }
 }

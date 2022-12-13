@@ -474,6 +474,13 @@
     $(document).on('click', '.modal-close', function(e) {
         $('#createOrdinance_Info').trigger("reset");
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        // $('.uIJus1').addClass('active');
+        $('.uIJus_menu').addClass('active');
+        $('.uIJus_main').addClass('menu-open');
+    });
 </script>
 
 

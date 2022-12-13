@@ -212,6 +212,14 @@
             }
         });
     });
+
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.otherTrans').addClass('active');
+        $('.disaster_menu').addClass('active');
+        $('.disaster_main').addClass('menu-open');
+    });
 </script>
 
 <style>

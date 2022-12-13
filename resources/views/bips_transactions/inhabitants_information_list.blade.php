@@ -1278,6 +1278,13 @@
             $("#newInhabitant :input").prop("disabled", true);
         }
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.inhabitants').addClass('active');
+        $('.inhabitants_menu').addClass('active');
+        $('.inhabitants_main').addClass('menu-open');
+    });
 </script>
 
 <style>

@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body"> 
+                    <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
                             <br>
                             <div class="col-md-12">
@@ -56,9 +56,9 @@
                                                 <label for="Barangay_Permits_ID">Barangay Permits</label>
                                                 <select class="form-control" id="Barangay_Permits_ID" name="Barangay_Permits_ID">
                                                     <option value='' disabled selected>Select Option</option>
-                                                        @foreach($business_permit as $bt1)
-                                                        <option value="{{ $bt1->Barangay_Permits_ID }}" {{ $bt1->Barangay_Permits_ID  == $claim_business[0]->Barangay_Permits_ID  ? "selected" : "" }}>{{ $bt1->Transaction_No }}</option>
-                                                        @endforeach
+                                                    @foreach($business_permit as $bt1)
+                                                    <option value="{{ $bt1->Barangay_Permits_ID }}" {{ $bt1->Barangay_Permits_ID  == $claim_business[0]->Barangay_Permits_ID  ? "selected" : "" }}>{{ $bt1->Transaction_No }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -73,18 +73,18 @@
                                                 <label for="Resident_ID">Resident</label>
                                                 <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 350px;">
                                                     <option value='' disabled selected>Select Option</option>
-                                                        @foreach($resident as $rs)
-                                                        <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $claim_business[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                        @endforeach
+                                                    @foreach($resident as $rs)
+                                                    <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $claim_business[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
-                                    <div class="col-lg-12" style="margin-bottom: 100px;">
-                                        <center>
-                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
-                                        </center>
-                                    </div>
+                                        <div class="col-lg-12" style="margin-bottom: 100px;">
+                                            <center>
+                                                <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
+                                                <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                            </center>
+                                        </div>
                                 </form>
                             </div>
                         </div>
@@ -109,8 +109,8 @@
 @section('scripts')
 
 <script>
-   // Data Table
-   $(document).ready(function() {
+    // Data Table
+    $(document).ready(function() {
         $('#example').DataTable();
 
         $('.js-example-basic-single').select2();
@@ -120,7 +120,7 @@
         });
     });
 
-    
+
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
         // alert('test');
@@ -218,10 +218,17 @@
             }
         });
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.brgyDocument').addClass('active');
+        $('.certification_menu').addClass('active');
+        $('.certification_main').addClass('menu-open');
+    });
 </script>
 
 <style>
-   table {
+    table {
         display: block;
         overflow-x: scroll;
     }

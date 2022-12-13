@@ -56,7 +56,8 @@ class InhabitantApplicationController extends Controller
                 'PhilHealth',
                 'GSIS',
                 'SSS',
-                'PagIbig'
+                'PagIbig',
+                'status_remarks'
             )
             ->where('Resident_ID', Auth::user()->Resident_ID)
             ->get();
@@ -124,14 +125,31 @@ class InhabitantApplicationController extends Controller
         }
     }
 
+    // Save Inhabitants Info
+    public function create_inhabitants_user(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        User::create([
+            'name' => '',
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'User_Type_ID' => 2,
+            'Barangay_ID' => '',
+            'Resident_ID' => '',
+            'Login_Status' => 1,
+        ]);
+
+        return redirect()->back()->with('success', 'Application Submitted');
+    }
+
 
     // Save Inhabitants Info
     public function create_inhabitants_information(Request $request)
     {
         $currDATE = Carbon::now();
         $data = request()->all();
-
-        // dd($data);
 
         $name = $data['First_Name'] . ' ' . $data['Middle_Name'] . ' ' . $data['Last_Name'];
 
@@ -158,7 +176,7 @@ class InhabitantApplicationController extends Controller
                 'Province_ID' => $data['Province_ID'],
                 'Region_ID' => $data['Region_ID'],
                 'Salary' => $data['Salary'],
-                'Email_Address' => $data['email'],
+                'Email_Address' => Auth::user()->email,
                 'PhilSys_Card_No' => $data['PhilSys_Card_No'],
                 'Solo_Parent' => (int)$data['Solo_Parent'],
                 'OFW' => (int)$data['OFW'],
@@ -188,15 +206,46 @@ class InhabitantApplicationController extends Controller
             }
         }
 
-        User::create([
-            'name' => $name,
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'User_Type_ID' => 2,
-            'Barangay_ID' => $data['Barangay_ID'],
-            'Resident_ID' => $Resident_ID,
-        ]);
+        DB::table('users')->where('id', Auth::user()->id)->update(
+            array(
+                'Resident_ID' => $Resident_ID,
+                'name' => $name,
+                'Barangay_ID' => $data['Barangay_ID'],
+            )
+        );
 
-        return redirect()->back()->with('success', 'Application Submitted');
+        $days_sched = DB::table('bips_processing_sched')->where('Barangay_ID', $data['Barangay_ID'])->get();
+
+        return redirect()->to('inhabitant_application')->with('message', 'Application Submitted, Wait for atleast ' . $days_sched[0]->days . ' days to process the application.');
+
+        // return redirect()->back()->with('message', 'Application Submitted, Wait for atleast ' . $days_sched[0]->days . 'days to process the application.');
+    }
+
+
+    public function update_inhabitants_application_info(Request $request)
+
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        // dd($data);
+
+        DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $data['Resident_ID'])->update(
+            array(
+                'Birthplace'  => $data['Birthplace'],
+                'Religion_ID'  => $data['Religion_ID'],
+                'Weight'  => $data['Weight'],
+                'Height'  => $data['Height'],
+                'Civil_Status_ID'  => $data['Civil_Status_ID'],
+                'Mobile_No'  => $data['Mobile_No'],
+                'Telephone_No'  => $data['Telephone_No'],
+                'Salary'  => $data['Salary'],
+                'PhilSys_Card_No'  => $data['PhilSys_Card_No'],
+            )
+        );
+
+        $days_sched = DB::table('bips_processing_sched')->where('Barangay_ID', $data['Barangay_ID2'])->get();
+
+        return redirect()->back()->with('message', 'Record Updated');
     }
 }
