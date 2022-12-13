@@ -68,6 +68,9 @@
                             <a href="{{route('brgy_official_list')}}" class="nav-link">
                                 <p>Brgy. Official</p>
                             </a>
+                            <a href="{{route('brgy_purok_leader_list')}}" class="nav-link">
+                                <p>Brgy. Purok Leader</p>
+                            </a>
                             @endif
                         </li>
                     </ul>
@@ -243,8 +246,8 @@
                             <a href="{{route('ordinance_violator_list')}}" class="nav-link">
                                 <p>Ordinance Violators</p>
                             </a>
-                            <a href="" class="nav-link">
-                                <p>Justice Service Rating</p>
+                            <a href="{{route('justice_rating_staff')}}" class="nav-link">
+                                <p>Justice Rating</p>
                             </a>
                         </li>
                     </ul>
@@ -330,7 +333,7 @@
                             </a>
 
                         </li>
-                    </ul>   
+                    </ul>
                 </li>
                 @elseif (Auth::user()->User_Type_ID == 5)
                 <li class="nav-item">
@@ -357,7 +360,7 @@
                             </a>
 
                         </li>
-                    </ul>   
+                    </ul>
                 </li>
                 <li class="nav-header" style="font-size: 20px;">Maintenance</li>
                 <li class="nav-item">
@@ -648,7 +651,7 @@
                         </li>
                     </ul>
                 </li>
-                
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
@@ -720,7 +723,7 @@
                             BCPCIS
                             <i class="right fas fa-angle-left"></i>
                         </p>
-                    </a> 
+                    </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{route('brgy_document_information_details_request')}}" class="nav-link">
@@ -728,6 +731,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('justice_rating_inhabitants')}}" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            Justice Rating
+                        </p>
+                    </a>
                 </li>
                 @endif
 
