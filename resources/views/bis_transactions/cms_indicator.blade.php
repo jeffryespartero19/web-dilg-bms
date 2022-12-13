@@ -685,6 +685,13 @@
         div_main.append(newdiv);
         div_main.find('.Answers_hidden').prop('hidden', false).removeClass('Answers_hidden')
     });
+
+     // Side Bar Active
+     $(document).ready(function() {
+        $('.contentManage').addClass('active');
+        $('.cms_menu').addClass('active');
+        $('.cms_main').addClass('menu-open');
+    });
 </script>
 
 <style>

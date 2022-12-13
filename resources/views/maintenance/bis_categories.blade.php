@@ -189,6 +189,13 @@
         $('#example2').DataTable();
         $('#example3').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mBis1').addClass('active');
+        $('.mBis_menu').addClass('active');
+        $('.mBis_main').addClass('menu-open');
+    });
 </script>
 
 @endsection

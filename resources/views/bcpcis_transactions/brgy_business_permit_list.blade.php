@@ -288,6 +288,13 @@ $(document).on("change", "#P_ID", function() {
             }
         });
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.businessPermit').addClass('active');
+        $('.certification_menu').addClass('active');
+        $('.certification_main').addClass('menu-open');
+    });
 </script>
 
 @endsection

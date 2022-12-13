@@ -42,7 +42,7 @@
 
     <br>
     <div class="col-md-12" style="margin-bottom: 30px;">
-    <input type="number" id="User_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+        <input type="number" id="User_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
         <form id="newHousehold" method="POST" action="{{ route('create_cms') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="card">
@@ -237,7 +237,7 @@
     $(document).ready(function() {
         $User_ID = $('#User_ID').val();
 
-        if($User_ID != 5) {
+        if ($User_ID != 5) {
             $("#Title").prop("disabled", true);
             $("#Description").prop("disabled", true);
             $("#Frequency_ID").prop("disabled", true);
@@ -249,8 +249,8 @@
             $("#Barangay_ID").prop("disabled", true);
             $("#Date_Updated").prop("disabled", true);
         }
-        
-        
+
+
     });
 
     // Populate Province
@@ -350,6 +350,14 @@
                 });
             }
         });
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.contentManage').addClass('active');
+        $('.cms_menu').addClass('active');
+        $('.cms_main').addClass('menu-open');
+        
     });
 </script>
 

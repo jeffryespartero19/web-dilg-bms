@@ -706,6 +706,13 @@
     $(".HS2Body").on("click", ".HR2Remove", function() {
         $(this).closest(".HR2Details").remove();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.recoveryInfo').addClass('active');
+        $('.disaster_menu').addClass('active');
+        $('.disaster_main').addClass('menu-open');
+    });
 </script>
 
 <style>

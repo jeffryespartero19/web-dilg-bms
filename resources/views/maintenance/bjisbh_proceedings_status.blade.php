@@ -188,6 +188,13 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mJus7').addClass('active');
+        $('.mJus_menu').addClass('active');
+        $('.mJus_main').addClass('menu-open');
+    });
 </script>
 
 @endsection

@@ -192,7 +192,12 @@
     });
 
 
-
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.brgyDocument').addClass('active');
+        $('.certification_menu').addClass('active');
+        $('.certification_main').addClass('menu-open');
+    });
 </script>
 
 <style>

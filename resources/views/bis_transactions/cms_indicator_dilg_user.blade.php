@@ -257,6 +257,13 @@
 
         // alert(ans_count);
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.ContentManageDILG').addClass('active');
+        $('.cms_dilg_menu').addClass('active');
+        $('.cms_dilg_main').addClass('menu-open');
+    });
 </script>
 
 <style>

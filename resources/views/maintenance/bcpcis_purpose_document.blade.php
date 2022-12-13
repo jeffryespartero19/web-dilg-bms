@@ -21,7 +21,7 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-</div> 
+</div>
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -165,46 +165,53 @@
 
 @section('scripts')
 <script>
-
-$(document).ready(function() {
+    $(document).ready(function() {
         $('#example').DataTable();
     });
-    
-    $(document).on('click', '.postThis_Purpose_of_Document', function (e) {
-    $('#new_Purpose_of_Document').submit();
-});
 
-$(document).on('click', ('.edit_purpose_of_document'), function (e) {
-
-    var disID = $(this).val();
-    $.ajax({
-        url: "/get_purpose_document",
-        type: 'GET',
-        data: { id: disID },
-        fail: function () {
-            alert('request failed');
-        },
-        success: function (data) {
-            $('#this_purpose_of_document_idX').val(data['theEntry'][0]['Purpose_of_Document_ID']);
-            $('#this_purpose_of_documentX').val(data['theEntry'][0]['Purpose_of_Document']);
-
-            $('#this_purpose_of_document_active').empty();
-            $('#this_purpose_of_document_active').val(data['theEntry'][0]['Active']);
-            if (data['theEntry'][0]['Active'] == 1) {
-                $('#this_purpose_of_document_active').append('Yes');
-            } else {
-                $('#this_purpose_of_document_active').append('No');
-            }
-
-        }
+    $(document).on('click', '.postThis_Purpose_of_Document', function(e) {
+        $('#new_Purpose_of_Document').submit();
     });
 
+    $(document).on('click', ('.edit_purpose_of_document'), function(e) {
 
-});
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_purpose_document",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#this_purpose_of_document_idX').val(data['theEntry'][0]['Purpose_of_Document_ID']);
+                $('#this_purpose_of_documentX').val(data['theEntry'][0]['Purpose_of_Document']);
 
-$(document).on('click', '.updateThis_Purpose_of_Document', function (e) {
-    $('#update_Purpose_of_Document').submit();
-});
+                $('#this_purpose_of_document_active').empty();
+                $('#this_purpose_of_document_active').val(data['theEntry'][0]['Active']);
+                if (data['theEntry'][0]['Active'] == 1) {
+                    $('#this_purpose_of_document_active').append('Yes');
+                } else {
+                    $('#this_purpose_of_document_active').append('No');
+                }
+
+            }
+        });
+
+
+    });
+
+    $(document).on('click', '.updateThis_Purpose_of_Document', function(e) {
+        $('#update_Purpose_of_Document').submit();
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mC1').addClass('active');
+        $('.mCert_menu').addClass('active');
+        $('.mCert_main').addClass('menu-open');
+    });
 </script>
 @endsection
-

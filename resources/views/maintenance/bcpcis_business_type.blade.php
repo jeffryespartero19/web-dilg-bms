@@ -203,6 +203,13 @@ $(document).on('click', '.updateThis_Business_Type', function (e) {
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mC2').addClass('active');
+        $('.mCert_menu').addClass('active');
+        $('.mCert_main').addClass('menu-open');
+    });
 </script>
 @endsection
 

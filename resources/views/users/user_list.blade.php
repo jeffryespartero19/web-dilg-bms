@@ -506,6 +506,13 @@
 
 
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mUser1').addClass('active');
+        $('.mUser_menu').addClass('active');
+        $('.mUser_main').addClass('menu-open');
+    });
 </script>
 
 

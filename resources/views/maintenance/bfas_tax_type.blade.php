@@ -188,6 +188,13 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mAc8').addClass('active');
+        $('.mAccount_menu').addClass('active');
+        $('.mAccount_main').addClass('menu-open');
+    });
 </script>
 
 @endsection
