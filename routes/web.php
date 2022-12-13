@@ -789,7 +789,7 @@ Route::group(['middleware' => 'auth'], function () {
   //Get Boris Attester
   Route::get('/get_ordinance_and_resolution_attester', 'borisController@get_ordinance_and_resolution_attester')->name('get_ordinance_and_resolution_attester');
 
- 
+  Route::get('/get_businsess_permit_list/{Barangay_ID}', 'BCPISController@get_businsess_permit_list');
   Route::get('/get_brgy_document_information_list/{Barangay_ID}', 'BCPISController@get_brgy_document_information_list');
   Route::get('/get_brgy_business_list/{Barangay_ID}', 'BCPISController@get_brgy_business_list');
   Route::get('/get_contractor_list/{Barangay_ID}', 'BPMSController@get_contractor_list');
@@ -816,6 +816,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/rating_page/{id}', 'JusticeRatingController@rating_page');
   Route::post('/create_rating', 'JusticeRatingController@create_rating')->name('create_rating');
   Route::get('/justice_rating_staff', 'JusticeRatingController@justice_rating_staff')->name('justice_rating_staff');
+
 });
 
 
