@@ -103,7 +103,16 @@
         $('#example2').DataTable();
         $('#example3').DataTable();
     });
-    
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.contentManage').addClass('active');
+        $('.cms_menu').addClass('active');
+        $('.cms_main').addClass('menu-open');
+        $('.ContentManageDILG').addClass('active');
+        $('.cms_dilg_menu').addClass('active');
+        $('.cms_dilg_main').addClass('menu-open');
+    });
 </script>
 
 <style>

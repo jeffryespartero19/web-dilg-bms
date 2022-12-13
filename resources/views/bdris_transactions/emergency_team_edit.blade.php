@@ -45,7 +45,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
-                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+                            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_emergency_team') }}" autocomplete="off" enctype="multipart/form-data">
@@ -61,7 +61,7 @@
                                                 <label for="Emergency_Team_Hotline">Emergency Team Hotline</label>
                                                 <input type="text" class="form-control" id="Emergency_Team_Hotline" name="Emergency_Team_Hotline" value="{{$emergency_team[0]->Emergency_Team_Hotline}}">
                                             </div>
-                                            
+
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Active">Active</label>
                                                 <select class="modal_input1 form-control" name="Active" id="Active">
@@ -212,12 +212,19 @@
         });
     });
 
-     // Disable Form if DILG USER
-     $(document).ready(function() {
+    // Disable Form if DILG USER
+    $(document).ready(function() {
         var User_Type_ID = $('#User_Type_ID').val();
         if (User_Type_ID == 3 || User_Type_ID == 4) {
             $("#newBrgy_Document_Information :input").prop("disabled", true);
         }
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.otherTrans').addClass('active');
+        $('.disaster_menu').addClass('active');
+        $('.disaster_main').addClass('menu-open');
     });
 </script>
 

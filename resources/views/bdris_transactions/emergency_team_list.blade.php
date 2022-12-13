@@ -10,9 +10,9 @@
         <ol class="breadcrumb">
             <a href="{{route('home')}}">
                 <li>DILG_BDRIS / </li>
-            </a> 
+            </a>
             <li> &nbsp;Emergency Team List</li>
-        </ol> 
+        </ol>
     </div>
 </div>
 @if ($errors->any())
@@ -42,12 +42,12 @@
             <thead>
                 <tr>
                     <th hidden>Emergency_Team_ID </th>
-                    <th >Emergency Team Name </th>
-                    <th >Emergency Team Hotline </th>
-                    <th >Region </th>
-                    <th >Province </th>
-                    <th >City/Municipality </th>
-                    <th >Barangay</th>
+                    <th>Emergency Team Name </th>
+                    <th>Emergency Team Hotline </th>
+                    <th>Region </th>
+                    <th>Province </th>
+                    <th>City/Municipality </th>
+                    <th>Barangay</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -55,13 +55,13 @@
                 @foreach($db_entries as $x)
                 <tr>
                     <td class="sm_data_col txtCtr" hidden>{{$x->Emergency_Team_ID}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Emergency_Team_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Emergency_Team_Hotline}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Region_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Province_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->City_Municipality_Name}}</td>
-                    <td class="sm_data_col txtCtr" >{{$x->Barangay_Name}}</td>
-                    <td class="sm_data_col txtCtr"> 
+                    <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Hotline}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
+                    <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
+                    <td class="sm_data_col txtCtr">
                         <button class="edit_emergency_team" value="{{$x->Emergency_Team_ID}}" data-toggle="modal" data-target="#createEmergency_Team">Edit</button>
                     </td>
                 </tr>
@@ -82,7 +82,7 @@
             </div>
             <div class="modal-body">
                 <form id="newEmergency_Team" method="POST" action="{{ route('create_emergency_team') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-                <div class="modal-body">
+                    <div class="modal-body">
                         <h3>Emergency Team Information</h3>
                         <br>
                         <div class="row">
@@ -98,9 +98,9 @@
                             <div class="form-group col-lg-2" style="padding:0 10px">
                                 <span><b>Active:</b></span><br>
                                 <select class="modal_input1" name="Active" id="Active">
-                                <option hidden selected>Is Active?</option>
-                                <option value=1>Yes</option>
-                                <option value=0>No</option>
+                                    <option hidden selected>Is Active?</option>
+                                    <option value=1>Yes</option>
+                                    <option value=0>No</option>
                                 </select>
                             </div>
                         </div>
@@ -109,16 +109,16 @@
                                 <label for="Region_ID">Region</label>
                                 <select class="form-control" id="Region_ID" name="Region_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                        @foreach($region as $bt1)
-                                        <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
-                                        @endforeach
+                                    @foreach($region as $bt1)
+                                    <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Province_ID">Province</label>
                                 <select class="form-control" id="Province_ID" name="Province_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                    
+
 
                                 </select>
                             </div>
@@ -126,7 +126,7 @@
                                 <label for="City_Municipality_ID">City_Municipality</label>
                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                  
+
 
                                 </select>
                             </div>
@@ -134,7 +134,7 @@
                                 <label for="Barangay_ID">Barangay</label>
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID">
                                     <option value='' disabled selected>Select Option</option>
-                                   
+
                                 </select>
                             </div>
                         </div>
@@ -173,8 +173,8 @@
         $('#newEmergency_Team').trigger("reset");
     });
 
-     // Populate Province
-     $(document).on("change", "#Region_ID", function() {
+    // Populate Province
+    $(document).on("change", "#Region_ID", function() {
         // alert('test');
         var Region_ID = $(this).val();
 
@@ -289,7 +289,7 @@
             success: function(data) {
                 $('#Emergency_Team_ID').val(data['theEntry'][0]['Emergency_Team_ID']);
                 $('#Emergency_Team_Name').val(data['theEntry'][0]['Emergency_Team_Name']);
-                $('#Emergency_Team_Hotline').val(data['theEntry'][0]['Emergency_Team_Hotline']);            
+                $('#Emergency_Team_Hotline').val(data['theEntry'][0]['Emergency_Team_Hotline']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
                 $('#Active').val(data['theEntry'][0]['Active']);
 
@@ -304,9 +304,9 @@
                 var province =
                     " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
                 $('#Province_ID').append(province);
-            
-              
-               
+
+
+
             }
         });
     });
@@ -322,10 +322,17 @@
         $('#Barangay_ID').append(option1);
         $('#City_Municipality_ID').append(option1);
         $('#Province_ID').append(option1);
-       
+
         $('#Modal_Title').text('Create Emergency Team');
 
-        
+
+    });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.otherTrans').addClass('active');
+        $('.disaster_menu').addClass('active');
+        $('.disaster_main').addClass('menu-open');
     });
 </script>
 

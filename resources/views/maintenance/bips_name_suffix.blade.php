@@ -211,6 +211,13 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mI12').addClass('active');
+        $('.minhabitants_menu').addClass('active');
+        $('.minhabitants_main').addClass('menu-open');
+    });
 </script>
 
 

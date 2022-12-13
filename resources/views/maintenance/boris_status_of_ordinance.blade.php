@@ -172,6 +172,13 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mboris2').addClass('active');
+        $('.mboris_menu').addClass('active');
+        $('.mboris_main').addClass('menu-open');
+    });
 </script>
 
 @endsection

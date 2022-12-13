@@ -377,6 +377,13 @@
     $(".HSBody").on("click", ".HRRemove", function() {
         $(this).closest(".HRDetails").remove();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.responseInfo').addClass('active');
+        $('.disaster_menu').addClass('active');
+        $('.disaster_main').addClass('menu-open');
+    });
 </script>
 
 <style>

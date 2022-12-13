@@ -795,6 +795,13 @@
     $("#Employment").on("click", ".removeRow", function() {
         $(this).closest("tr").remove();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.uInh1').addClass('active');
+        $('.uInh_menu').addClass('active');
+        $('.uInh_main').addClass('menu-open');
+    });
 </script>
 
 <style>

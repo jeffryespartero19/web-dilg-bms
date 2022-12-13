@@ -191,6 +191,13 @@
         $('#example2').DataTable();
         $('#example3').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.mInv1').addClass('active');
+        $('.mInv_menu').addClass('active');
+        $('.mInv_main').addClass('menu-open');
+    });
 </script>
 
 @endsection

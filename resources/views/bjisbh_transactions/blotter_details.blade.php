@@ -466,6 +466,13 @@
             $("#newBlotter :input").prop("disabled", true);
         }
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.Blotter').addClass('active');
+        $('.justice_menu').addClass('active');
+        $('.justice_main').addClass('menu-open');
+    });
 </script>
 
 <style>

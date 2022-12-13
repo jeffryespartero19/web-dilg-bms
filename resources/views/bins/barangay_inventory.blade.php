@@ -286,5 +286,12 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
+    // Side Bar Active
+    $(document).ready(function() {
+        $('.brgyInventory').addClass('active');
+        $('.inventory_menu').addClass('active');
+        $('.inventory_main').addClass('menu-open');
+    });
 </script>
 @endsection
