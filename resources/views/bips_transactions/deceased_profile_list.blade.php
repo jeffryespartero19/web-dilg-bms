@@ -139,8 +139,8 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_ID">Name</label>
-                                <select class="form-control" id="Resident_IDs" name="Resident_IDs">
+                                <label class="required" for="Resident_ID">Name</label>
+                                <select class="form-control" id="Resident_IDs" name="Resident_IDs" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($name as $bt)
                                     <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -148,8 +148,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Deceased_Type_ID">Deceased Type</label>
-                                <select class="form-control" id="Deceased_Type_ID" name="Deceased_Type_ID">
+                                <label class="required" for="Deceased_Type_ID">Deceased Type</label>
+                                <select class="form-control" id="Deceased_Type_ID" name="Deceased_Type_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($deceased_type as $bt1)
                                     <option value="{{ $bt1->Deceased_Type_ID }}">{{ $bt1->Deceased_Type }}</option>
@@ -162,11 +162,11 @@
                         <br>
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Cause_of_Death">Cause of Death</label>
-                                <input type="text" class="form-control" id="Cause_of_Death" name="Cause_of_Death">
+                                <label class="required" for="Cause_of_Death">Cause of Death</label>
+                                <input type="text" class="form-control" id="Cause_of_Death" name="Cause_of_Death" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Date_of_Death">Date of Death</label>
+                                <label class="required" for="Date_of_Death">Date of Death</label>
                                 <input type="date" class="form-control" id="Date_of_Death" name="Date_of_Death" required>
                             </div>
                         </div>
@@ -202,8 +202,8 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Resident_ID2" name="Resident_ID2" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_IDs2">Name</label>
-                                <select class="form-control" id="Resident_IDs2" name="Resident_IDs2">
+                                <label class="required" for="Resident_IDs2">Name</label>
+                                <select class="form-control" id="Resident_IDs2" name="Resident_IDs2" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($name as $bt)
                                     <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -211,8 +211,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Deceased_Type_ID2">Deceased Type</label>
-                                <select class="form-control" id="Deceased_Type_ID2" name="Deceased_Type_ID2">
+                                <label class="required" for="Deceased_Type_ID2">Deceased Type</label>
+                                <select class="form-control" id="Deceased_Type_ID2" name="Deceased_Type_ID2" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($deceased_type as $bt1)
                                     <option value="{{ $bt1->Deceased_Type_ID }}">{{ $bt1->Deceased_Type }}</option>
@@ -225,11 +225,11 @@
                         <br>
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Cause_of_Death2">Cause of Death</label>
-                                <input type="text" class="form-control" id="Cause_of_Death2" name="Cause_of_Death2">
+                                <label class="required" for="Cause_of_Death2">Cause of Death</label>
+                                <input type="text" class="form-control" id="Cause_of_Death2" name="Cause_of_Death2" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Date_of_Death2">Date of Death</label>
+                                <label class="required" for="Date_of_Death2">Date of Death</label>
                                 <input type="date" class="form-control" id="Date_of_Death2" name="Date_of_Death2" required>
                             </div>
                         </div>

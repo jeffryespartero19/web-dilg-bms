@@ -139,8 +139,8 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_ID">Name</label>
-                                <select class="form-control js-example-basic-single" id="Resident_IDs" name="Resident_IDs">
+                                <label class="required" for="Resident_ID">Name</label>
+                                <select class="form-control js-example-basic-single" id="Resident_IDs" name="Resident_IDs" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($name as $bt)
                                     <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -148,8 +148,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Brgy_Position_ID">Position</label>
-                                <select class="form-control" id="Brgy_Position_ID" name="Brgy_Position_ID">
+                                <label class="required" for="Brgy_Position_ID">Position</label>
+                                <select class="form-control" id="Brgy_Position_ID" name="Brgy_Position_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($brgy_position as $bt1)
                                     <option value="{{ $bt1->Brgy_Position_ID }}">{{ $bt1->Brgy_Position }}</option>
@@ -157,12 +157,12 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Term_From">Term From</label>
-                                <input class="form-control" type="number" id="Term_From" name="Term_From" max="3000" min="1900">
+                                <label class="required" for="Term_From">Term From</label>
+                                <input class="form-control" type="number" id="Term_From" name="Term_From" max="3000" min="1900" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Term_To">Term To</label>
-                                <input class="form-control" type="number" id="Term_To" name="Term_To" max="3000" min="1900">
+                                <label class="required" for="Term_To">Term To</label>
+                                <input class="form-control" type="number" id="Term_To" name="Term_To" max="3000" min="1900" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="monthly_income">Monthly Income</label>
@@ -202,8 +202,8 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_IDs2">Name</label>
-                                <select class="form-control js-example-basic-single" id="Resident_IDs2" name="Resident_IDs2">
+                                <label class="required" for="Resident_IDs2">Name</label>
+                                <select class="form-control js-example-basic-single" id="Resident_IDs2" name="Resident_IDs2" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($name as $bt)
                                     <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -211,8 +211,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Brgy_Position_ID2">Position</label>
-                                <select class="form-control" id="Brgy_Position_ID2" name="Brgy_Position_ID2">
+                                <label class="required" for="Brgy_Position_ID2">Position</label>
+                                <select class="form-control" id="Brgy_Position_ID2" name="Brgy_Position_ID2" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($brgy_position as $bt1)
                                     <option value="{{ $bt1->Brgy_Position_ID }}">{{ $bt1->Brgy_Position }}</option>
@@ -220,12 +220,12 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Term_From2">Term From</label>
-                                <input class="form-control" type="number" id="Term_From2" name="Term_From2" max="3000" min="1900">
+                                <label class="required" for="Term_From2">Term From</label>
+                                <input class="form-control" type="number" id="Term_From2" name="Term_From2" max="3000" min="1900" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Term_To2">Term To</label>
-                                <input class="form-control" type="number" id="Term_To2" name="Term_To2" max="3000" min="1900">
+                                <label class="required" for="Term_To2">Term To</label>
+                                <input class="form-control" type="number" id="Term_To2" name="Term_To2" max="3000" min="1900" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="monthly_income2">Monthly Income</label>
