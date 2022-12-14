@@ -96,8 +96,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Term_From}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Term_To}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_brgy_purok_leader" value="{{$x->Brgy_Purok_Leader_ID}}" data-toggle="modal" data-target="#Update_Brgy_Purok_Leader">Edit</button>
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <button class="view_brgy_purok_leader btn btn-primary">View</button>&nbsp;
+                                                <button class="edit_brgy_purok_leader btn btn-info" value="{{$x->Brgy_Purok_Leader_ID}}" data-toggle="modal" data-target="#Update_Brgy_Purok_Leader">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -175,7 +176,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Edit Brgy. Official</h4>
+                <h4 class="modal-title flexer justifier Mtitle">Edit</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newBrgy_Official" method="POST" action="{{ route('update_brgy_purok_leader') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -314,6 +315,19 @@
         $('.brgy_purok').addClass('active');
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_brgy_purok_leader'), function() {
+        $("#newBrgy_Official :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+        $(this).closest(".sm_data_col").find(".edit_brgy_purok_leader").trigger('click');
+        $(".Mtitle").text("View");
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#newBrgy_Official').trigger("reset");
+        $("#newBrgy_Official :input").prop("disabled", false);
+        $(".Mtitle").text("Edit");
     });
 </script>
 

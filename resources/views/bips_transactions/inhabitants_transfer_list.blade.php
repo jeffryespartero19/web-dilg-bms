@@ -101,8 +101,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_inhabitants_transfer" value="{{$x->Inhabitants_Transfer_ID}}" data-toggle="modal" data-target="#updateInhabitants_Transfer">Edit</button>
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <button class="view_inhabitants_transfer btn btn-primary">View</button>&nbsp;
+                                                <button class="edit_inhabitants_transfer btn btn-info" value="{{$x->Inhabitants_Transfer_ID}}" data-toggle="modal" data-target="#updateInhabitants_Transfer">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -207,7 +208,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Edit Transfer Inhabitants</h4>
+                <h4 class="modal-title flexer justifier" id="Mtitle">Edit Transfer Inhabitants</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newInhabitants_Transfer" method="POST" action="{{ route('create_inhabitants_transfer') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -594,6 +595,19 @@
         $('.transfer').addClass('active');
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_inhabitants_transfer'), function() {
+        $("#newInhabitants_Transfer :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+        $(this).closest(".sm_data_col").find(".edit_inhabitants_transfer").trigger('click');
+        $("#Mtitle").text("View");
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#newInhabitants_Transfer').trigger("reset");
+        $("#newInhabitants_Transfer :input").prop("disabled", false);
+        $("#Mtitle").text("Edit");
     });
 </script>
 

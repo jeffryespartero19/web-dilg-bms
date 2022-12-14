@@ -75,7 +75,7 @@
                         <div style="text-align: right;">
                             <div class="btn-group">
                                 @if (Auth::user()->User_Type_ID == 1)
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success create_new" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
                                 @endif
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
@@ -153,8 +153,9 @@
                                                 <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">
-                                                    <button class="edit_inhabitants" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
+                                                <td class="sm_data_col txtCtr" style="display: flex;">
+                                                    <button class="view_inhabitants btn btn-primary">View</button>&nbsp;
+                                                    <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -186,7 +187,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Create Inhabitant</h4>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Edit Inhabitant</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newInhabitant" method="POST" action="{{ route('create_inhabitants_information') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -851,6 +852,10 @@
         });
     });
 
+    $(document).on('click', '.create_new', function() {
+        $('#Modal_Title').text('Create Inhabitant');
+    });
+
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
@@ -861,7 +866,10 @@
         $('#Barangay_ID').append(option1);
         $('#City_Municipality_ID').append(option1);
         $('#Province_ID').append(option1);
-        $('#Modal_Title').text('Create Inhabitant');
+        $('#createInhabitants_Info').trigger("reset");
+        $("#createInhabitants_Info :input").prop("disabled", false);
+        $('#Modal_Title').text('Edit Inhabitant');
+
 
         // Reset Education Table
         $('#EducTBLD').empty();
@@ -948,7 +956,6 @@
     $(document).on('click', ('.edit_inhabitants'), function(e) {
 
         var disID = $(this).val();
-        $('#Modal_Title').text('Edit Inhabitant Information');
         $.ajax({
             url: "/get_inhabitants_info",
             type: 'GET',
@@ -1284,6 +1291,16 @@
         $('.inhabitants').addClass('active');
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_inhabitants'), function() {
+        $("#createInhabitants_Info :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+        $('#Modal_Title').text('View Inhabitant Information');
+
+        $(".btn_action").val(1);
+
+        $(this).closest(".sm_data_col").find(".edit_inhabitants").trigger('click');
     });
 </script>
 

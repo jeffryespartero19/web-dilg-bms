@@ -98,8 +98,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Deceased_Type}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Cause_of_Death}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_deceased_profile" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <button class="view_deceased_profile btn btn-primary">View</button>&nbsp;
+                                                <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -190,7 +191,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Edit Deceased Profile</h4>
+                <h4 class="modal-title flexer justifier" id="DPTitle">Edit Deceased Profile</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newDeceased_Profile" method="POST" action="{{ route('update_deceased_profile') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -252,13 +253,6 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
-
-    $(document).on('click', '.modal-close', function(e) {
-        $('#newInhabitant').trigger("reset");
-    });
-
-
-
 
     // Edit Button Display Modal
     $(document).on('click', ('.edit_deceased_profile'), function(e) {
@@ -361,6 +355,19 @@
         $('.deceased_profile').addClass('active');
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_deceased_profile'), function() {
+        $("#newDeceased_Profile :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+        $(this).closest(".sm_data_col").find(".edit_deceased_profile").trigger('click');
+        $("#DPTitle").text("View Deceased Profile");
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#newDeceased_Profile').trigger("reset");
+        $("#newDeceased_Profile :input").prop("disabled", false);
+        $("#DPTitle").text("Edit Deceased Profile");
     });
 </script>
 
