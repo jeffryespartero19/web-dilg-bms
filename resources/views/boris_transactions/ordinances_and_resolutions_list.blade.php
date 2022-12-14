@@ -106,8 +106,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Approval}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Effectivity}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_ordinance" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <button class="view_ordinance btn btn-primary">View</button>&nbsp;
+                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -667,6 +668,7 @@
 
     $(document).on('click', '.modal-close', function(e) {
         $('#createOrdinance_Info').trigger("reset");
+        $("#createOrdinance_Info :input").prop("disabled", false);
     });
 
     // Side Bar Active
@@ -674,6 +676,13 @@
         $('.ordinance').addClass('active');
         $('.boris_menu').addClass('active');
         $('.boris_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_ordinance'), function() {
+        $("#createOrdinance_Info :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+
+        $(this).closest(".sm_data_col").find(".edit_ordinance").trigger('click');
     });
 </script>
 

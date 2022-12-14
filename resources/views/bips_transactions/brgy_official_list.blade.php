@@ -98,8 +98,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Brgy_Position}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Term_From}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Term_To}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_brgy_official" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <button class="view_brgy_official btn btn-primary">View</button>&nbsp;
+                                                <button class="edit_brgy_official btn btn-info" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -127,7 +128,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Create Brgy. Official</h4>
+                <h4 class="modal-title flexer justifier">Create</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newInhabitant" method="POST" action="{{ route('create_brgy_official') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -190,7 +191,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Edit Brgy. Official</h4>
+                <h4 class="modal-title flexer justifier Mtitle">Edit Brgy. Official</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newBrgy_Official" method="POST" action="{{ route('update_brgy_official') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -333,15 +334,24 @@
         $('.js-example-basic-single').select2();
     });
 
-    $('#updateBrgy_Official').on('hidden.bs.modal', function() {
-        $(this).find('form').trigger('reset');
-    });
-
     // Side Bar Active
     $(document).ready(function() {
         $('.brgy_official').addClass('active');
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_brgy_official'), function() {
+        $("#newBrgy_Official :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+        $(this).closest(".sm_data_col").find(".edit_brgy_official").trigger('click');
+        $(".Mtitle").text("View");
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#newBrgy_Official').trigger("reset");
+        $("#newBrgy_Official :input").prop("disabled", false);
+        $(".Mtitle").text("Edit");
     });
 </script>
 

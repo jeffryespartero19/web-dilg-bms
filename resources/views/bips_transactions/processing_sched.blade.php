@@ -80,7 +80,7 @@
                                     <div class="row">
                                         <div class="form-group col-lg-12" style="padding:0 10px">
                                             <label for="days">Number of Days</label>
-                                            <input type="text" class="form-control" id="days" name="days" value="{{$db_entries[0]->days}}">
+                                            <input type="text" class="form-control" id="days" name="days" value="@if(isset($db_entries[0]->days)) {{$db_entries[0]->days}} @endif">
                                         </div>
                                     </div>
                                 </div>
