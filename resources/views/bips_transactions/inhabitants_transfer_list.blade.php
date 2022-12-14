@@ -143,8 +143,8 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Inhabitants_Transfer_ID" name="Inhabitants_Transfer_ID" hidden>
                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                <label for="Resident_ID">Name</label>
-                                <select class="form-control" id="Resident_ID" name="Resident_ID">
+                                <label class="required" for="Resident_ID">Name</label>
+                                <select class="form-control" id="Resident_ID" name="Resident_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($name as $bt)
                                     <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -157,8 +157,8 @@
                         <br>
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Region_ID">Region</label>
-                                <select class="form-control" id="Region_ID" name="Region_ID">
+                                <label class="required" for="Region_ID">Region</label>
+                                <select class="form-control" id="Region_ID" name="Region_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($region as $bt1)
                                     <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
@@ -166,22 +166,22 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Province_ID">Province</label>
-                                <select class="form-control" id="Province_ID" name="Province_ID">
+                                <label class="required" for="Province_ID">Province</label>
+                                <select class="form-control" id="Province_ID" name="Province_ID" required>
                                     <option value='' disabled selected>Select Option</option>
 
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="City_Municipality_ID">City_Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID">
+                                <label class="required" for="City_Municipality_ID">City_Municipality</label>
+                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
                                     <option value='' disabled selected>Select Option</option>
 
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Barangay_ID">Barangay</label>
-                                <select class="form-control" id="Barangay_ID" name="Barangay_ID">
+                                <label class="required" for="Barangay_ID">Barangay</label>
+                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
                                     <option value='' disabled selected>Select Option</option>
 
                                 </select>
@@ -221,8 +221,8 @@
                             <div class="row">
                                 <input type="text" class="form-control" id="Inhabitants_Transfer_ID1" name="Inhabitants_Transfer_ID" hidden>
                                 <div class="form-group col-lg-12" style="padding:0 10px">
-                                    <label for="Resident_ID1">Name</label>
-                                    <select class="form-control" id="Resident_ID1" name="Resident_ID">
+                                    <label class="required" for="Resident_ID1">Name</label>
+                                    <select class="form-control" id="Resident_ID1" name="Resident_ID" required>
                                         <option value='' disabled selected>Select Option</option>
                                         @foreach($name as $bt)
                                         <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -235,8 +235,8 @@
                             <br>
                             <div class="row">
                                 <div class="form-group col-lg-6" style="padding:0 10px">
-                                    <label for="Region_ID1">Region</label>
-                                    <select class="form-control" id="Region_ID1" name="Region_ID">
+                                    <label class="required" for="Region_ID1">Region</label>
+                                    <select class="form-control" id="Region_ID1" name="Region_ID" required>
                                         <option value='' disabled selected>Select Option</option>
                                         @foreach($region as $bt1)
                                         <option value="{{ $bt1->Region_ID }}">{{ $bt1->Region_Name }}</option>
@@ -244,8 +244,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-6" style="padding:0 10px">
-                                    <label for="Province_ID1">Province</label>
-                                    <select class="form-control" id="Province_ID1" name="Province_ID">
+                                    <label class="required" for="Province_ID1">Province</label>
+                                    <select class="form-control" id="Province_ID1" name="Province_ID" required>
                                         <option value='' disabled selected>Select Option</option>
                                         @foreach($province as $bt1)
                                         <option value="{{ $bt1->Province_ID }}">{{ $bt1->Province_Name }}</option>
@@ -253,8 +253,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-6" style="padding:0 10px">
-                                    <label for="City_Municipality_ID1">City_Municipality</label>
-                                    <select class="form-control" id="City_Municipality_ID1" name="City_Municipality_ID">
+                                    <label class="required" for="City_Municipality_ID1">City_Municipality</label>
+                                    <select class="form-control" id="City_Municipality_ID1" name="City_Municipality_ID" required>
                                         <option value='' disabled selected>Select Option</option>
                                         @foreach($city as $bt1)
                                         <option value="{{ $bt1->City_Municipality_ID }}">{{ $bt1->City_Municipality_Name }}</option>
@@ -262,8 +262,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-6" style="padding:0 10px">
-                                    <label for="Barangay_ID1">Barangay</label>
-                                    <select class="form-control" id="Barangay_ID1" name="Barangay_ID">
+                                    <label class="required" for="Barangay_ID1">Barangay</label>
+                                    <select class="form-control" id="Barangay_ID1" name="Barangay_ID" required>
                                         <option value='' disabled selected>Select Option</option>
                                         @foreach($barangay as $bt1)
                                         <option value="{{ $bt1->Barangay_ID }}">{{ $bt1->Barangay_Name }}</option>

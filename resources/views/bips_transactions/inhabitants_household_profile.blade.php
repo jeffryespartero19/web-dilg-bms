@@ -332,10 +332,9 @@
 </script>
 
 <style>
-    /* table {
-        display: block;
-        overflow-x: scroll;
-    } */
+    .required span:before {
+        content: "*"
+    }
 </style>
 
 @endsection

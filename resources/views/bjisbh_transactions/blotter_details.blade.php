@@ -56,15 +56,15 @@
                                         <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" value="0" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Blotter Number</label>
+                                                <label class="required" for="exampleInputEmail1">Blotter Number</label>
                                                 <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Blotter Status</label>
+                                                <label class="required" for="exampleInputEmail1">Blotter Status</label>
                                                 <br>
-                                                <select id="Blotter_Status_ID" class="form-control" name="Blotter_Status_ID" style="width: 100%;">
+                                                <select required id="Blotter_Status_ID" class="form-control" name="Blotter_Status_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($blotter_status as $bs)
                                                     <option value="{{ $bs->Blotter_Status_ID }}">{{ $bs->Blotter_Status_Name }}</option>
@@ -73,7 +73,7 @@
 
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Incident Date</label>
+                                                <label class="required" for="exampleInputEmail1">Incident Date</label>
                                                 <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required>
                                             </div>
                                         </div>

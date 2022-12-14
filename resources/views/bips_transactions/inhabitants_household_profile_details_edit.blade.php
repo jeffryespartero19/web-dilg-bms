@@ -56,11 +56,11 @@
                                     <div class="row">
                                         <input type="number" class="form-control" id="Household_Profile_ID" name="Household_Profile_ID" hidden value="{{$household[0]->Household_Profile_ID}}">
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label for="Household_Name">Household Name</label>
+                                            <label class="required" for="Household_Name">Household Name</label>
                                             <input type="text" class="form-control" id="Household_Name" name="Household_Name" required value="{{$household[0]->Household_Name}}">
                                         </div>
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label for="Family_Type_ID">Family Type</label>
+                                            <label class="required" for="Family_Type_ID">Family Type</label>
                                             <select class="form-control" id="Family_Type_ID" name="Family_Type_ID" required>
                                                 <option value='' disabled selected>Select Option</option>
                                                 @foreach($family_type as $fm)
@@ -147,12 +147,12 @@
                                         </div>
 
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label for="Household_Monthly_Income">Household Monthly Income</label>
+                                            <label class="required" for="Household_Monthly_Income">Household Monthly Income</label>
                                             <input type="number" class="form-control" id="Household_Monthly_Income" name="Household_Monthly_Income" required value="{{$household[0]->Household_Monthly_Income}}">
                                         </div>
 
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label for="exampleInputEmail1">Tenure of Lot</label>
+                                            <label class="required" for="exampleInputEmail1">Tenure of Lot</label>
                                             <select class="form-control" id="Tenure_of_Lot_ID" name="Tenure_of_Lot_ID" required>
                                                 <option value='' disabled selected>Select Option</option>
                                                 @foreach($tenure_of_lot as $tol)
@@ -161,7 +161,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label for="Housing_Unit_ID">Housing Unit</label>
+                                            <label class="required" for="Housing_Unit_ID">Housing Unit</label>
                                             <select class="form-control" id="Housing_Unit_ID" name="Housing_Unit_ID" required>
                                                 <option value='' disabled selected>Select Option</option>
                                                 @foreach($housing_unit as $hu)
