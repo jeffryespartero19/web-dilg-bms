@@ -835,6 +835,28 @@ Route::group(['middleware' => 'auth'], function () {
 
    Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
 
+   //DISASTER TYPE VIEW
+  Route::get('/view_disaster_type_details/{id}', 'BDRISALController@view_disaster_type_details');
+  //EMERGENCY EVACUATION SITE VIEW
+  Route::get('/view_emergency_evacuation_site_details/{id}', 'BDRISALController@view_emergency_evacuation_site_details');
+  //ALLOCATED FUND VIEW
+  Route::get('/view_allocated_fund_details/{id}', 'BDRISALController@view_emergency_evacuation_site_details');
+  //DISASTER SUPPLIES VIEW
+  Route::get('/view_disaster_supplies_details/{id}', 'BDRISALController@view_disaster_supplies_details');
+  //EMERGENCY TEAM VIEW
+  Route::get('/view_emergency_team_details/{id}', 'BDRISALController@view_emergency_team_details');
+  //EMERGENCY EQUIPMENT VIEW
+  Route::get('/view_emergency_equipment_details/{id}', 'BDRISALController@view_emergency_equipment_details');
+  //RESPONSE INFORMATION VIEW
+  Route::get('/view_response_information_details/{id}', 'BDRISALController@view_response_information_details');
+  //RECOVERY INFORMATION VIEW
+  Route::get('/view_recovery_information_details/{id}', 'BDRISALController@view_recovery_information_details');
+  //BRGY BUSINESS PERMIT VIEW
+  Route::get('/view_brgy_business_permit_details/{id}', 'BCPISController@view_brgy_business_permit_details');
+  //BRGY DOCUMENT INFORMATION VIEW
+  Route::get('/view_brgy_document_information_details/{id}', 'BCPISController@view_brgy_document_information_details');
+  //BRGY BUSINESS VIEW
+  Route::get('/view_barangay_business_details/{id}', 'BCPISController@view_barangay_business_details');
 });
 
 

@@ -120,6 +120,7 @@
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">Edit</button>
+                                                <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
                                                 <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">View</button>
@@ -265,6 +266,65 @@
 </div>
 
 
+<div class="modal fade" id="viewContractor" tabindex="-1" role="dialog" aria-labelledby="Update_Contractor" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title flexer justifier">Viewing Contractor Profile</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="newContrator" method="POST" action="{{ route('update_contractor') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                    <div class="modal-body">
+                        <h3>Contractor Information</h3>
+                        <br>
+                        <div class="row">
+                            <input type="text" class="form-control" id="Contractor_ID2" name="Contractor_ID2" hidden>
+                            <input type="text" class="form-control" id="Contractor_ID" name="Contractor_ID" hidden>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Contractor_Name2">Contractor Name</label>
+                                <input type="text" class="form-control" id="Contractor_Name2" name="Contractor_Name2" disabled>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Contact_Person2">Contact Person</label>
+                                <input type="text" class="form-control" id="Contact_Person2" name="Contact_Person2" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Contact_No2">Contact No.</label>
+                                <input type="text" class="form-control" id="Contact_No2" name="Contact_No2" disabled>
+                            </div>
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Contractor_TIN2">Contractor Tin</label>
+                                <input type="text" class="form-control" id="Contractor_TIN2" name="Contractor_TIN2" disabled>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Remarks2">Remarks</label>
+                                <input type="text" class="form-control" id="Remarks2" name="Remarks2" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <label for="Contractor_Address2">Contractor Address</label>
+                                <input type="text" class="form-control" id="Contractor_Address2" name="Contractor_Address2" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal" disabled>Close</button>
+                        <button type="submit" class="btn btn-primary" style="width: 200px;" disabled>Update</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -306,6 +366,14 @@
                 $('#Contractor_Address1').val(data['theEntry'][0]['Contractor_Address']);
                 $('#Contractor_TIN1').val(data['theEntry'][0]['Contractor_TIN']);
                 $('#Remarks1').val(data['theEntry'][0]['Remarks']);
+
+                $('#Contractor_ID2').val(data['theEntry'][0]['Contractor_ID']);
+                $('#Contractor_Name2').val(data['theEntry'][0]['Contractor_Name']);
+                $('#Contact_Person2').val(data['theEntry'][0]['Contact_Person']);
+                $('#Contact_No2').val(data['theEntry'][0]['Contact_No']);
+                $('#Contractor_Address2').val(data['theEntry'][0]['Contractor_Address']);
+                $('#Contractor_TIN2').val(data['theEntry'][0]['Contractor_TIN']);
+                $('#Remarks2').val(data['theEntry'][0]['Remarks']);
             }
         });
 
@@ -448,6 +516,8 @@
             $("#newContrator :input").prop("disabled", true);
         }
     });
+
+   
 
     // Side Bar Active
     $(document).ready(function() {

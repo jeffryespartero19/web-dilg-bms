@@ -384,6 +384,7 @@ class BPMSController extends Controller
                 'g.City_Municipality_Name',
             )
             ->where('Brgy_Projects_ID', $id)->get();
+            
 
         return (compact('theEntry'));
     }
