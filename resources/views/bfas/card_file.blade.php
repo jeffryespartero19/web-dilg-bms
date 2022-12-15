@@ -227,31 +227,31 @@
 
                         <div class="form-group col-lg-6">
                             <label>Region:</label>
-                            <select class="form-control regionX" name="Region_IDX">
+                            <select class="form-control regionX no_edit" name="Region_IDX">
                                 <option value='' hidden selected>Select</option>
                                 @foreach($regionX as $rx)
-                                <option value='{{$rx->Region_ID}}'>{{$rx->Region_Name}}</option>
+                                <option value='{{$rx->Region_ID}}' @if(Auth::user()->Region_ID==$rx->Region_ID) selected @endif>{{$rx->Region_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Province:</label>
-                            <select class="form-control provX" name="Province_IDX">
-                                <option value='' hidden selected>Select</option>
+                            <select class="form-control provX no_edit" name="Province_IDX">
+                                <option value='@if($provX->isNotEmpty()){{$provX[0]->Province_ID}}@endif' hidden selected>@if($provX->isNotEmpty()){{$provX[0]->Province_Name}}@endif</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-6">
                             <label>City/Municipality:</label>
-                            <select class="form-control cityX" name="City_Municipality_IDX">
-                                <option value='' hidden selected>Select</option>
+                            <select class="form-control cityX no_edit" name="City_Municipality_IDX">
+                                <option value='@if($cityX->isNotEmpty()){{$cityX[0]->City_Municipality_ID}}@endif' hidden selected>@if($cityX->isNotEmpty()){{$cityX[0]->City_Municipality_Name}}@endif</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Barangay:</label>
-                            <select class="form-control brgyX" name="Barangay_IDX">
-                                <option value='' hidden selected>Select</option>
+                            <select class="form-control brgyX no_edit" name="Barangay_IDX">
+                                <option value='@if($brgyX->isNotEmpty()){{$brgyX[0]->Barangay_ID}}@endif' hidden selected>@if($brgyX->isNotEmpty()){{$brgyX[0]->Barangay_Name}}@endif</option>
                             </select>
-                        </div>
+                        </div
 
                         <div class="form-group col-lg-6">
                             <label>Active:</label>
@@ -351,7 +351,7 @@
 
                         <div class="form-group col-lg-6">
                             <label>Region:</label>
-                            <select class="form-control regionX2" name="Region_IDX2">
+                            <select class="form-control regionX2 no_edit" name="Region_IDX2">
                                 <option id="this_region" value='' hidden selected>Select</option>
                                 @foreach($regionX as $rx)
                                 <option value='{{$rx->Region_ID}}'>{{$rx->Region_Name}}</option>
@@ -360,19 +360,19 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Province:</label>
-                            <select class="form-control provX2" name="Province_IDX2">
+                            <select class="form-control provX2 no_edit" name="Province_IDX2">
                                 <option id="this_province" value='' hidden selected>Select</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-6">
                             <label>City/Municipality:</label>
-                            <select class="form-control cityX2" name="City_Municipality_IDX2">
+                            <select class="form-control cityX2 no_edit" name="City_Municipality_IDX2">
                                 <option id="this_city" value='' hidden selected>Select</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Barangay:</label>
-                            <select class="form-control brgyX2" name="Barangay_IDX2">
+                            <select class="form-control brgyX2 no_edit" name="Barangay_IDX2">
                                 <option id="this_barangay" value='' hidden selected>Select</option>
                             </select>
                         </div>

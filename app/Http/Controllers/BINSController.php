@@ -717,7 +717,7 @@ class BINSController extends Controller
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
         $staff_list=DB::table('bips_brgy_officials_and_staff')->get();
 
-        return view('bins.received_item',compact('db_entries','currDATE','inventory_list','item_status_list','staff_list'));
+        return view('bins.supply_issuance',compact('db_entries','currDATE','inventory_list','item_status_list','staff_list'));
     }
 
     public function create_bins_supply_issuance(Request $request)

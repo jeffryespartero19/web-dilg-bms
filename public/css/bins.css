@@ -2,3 +2,7 @@
     transform: scale(1.25);
     cursor: pointer;
 }
+
+.no_edit{
+    pointer-events: none;
+}
