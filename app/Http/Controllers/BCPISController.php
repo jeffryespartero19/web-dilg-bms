@@ -162,6 +162,35 @@ class BCPISController extends Controller
         }
     }
 
+    public function view_brgy_document_information_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        
+            $document = DB::table('bcpcis_brgy_document_information')->where('Document_ID', $id)->get();
+            $purpose = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'purpose');
+            $document_type = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'document_type');
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $document[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $document[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $document[0]->City_Municipality_ID)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $payment_docu = DB::table('bcpcis_brgy_payment_collected')->where('Document_ID', $id)->get();
+            return view('bcpcis_transactions.brgy_document_information_view', compact(
+                'currDATE',
+                'document',
+                'region',
+                'province',
+                'barangay',
+                'purpose',
+                'document_type',
+                'resident',
+                'city_municipality',
+                'payment_docu',
+            ));
+        
+    }
+
     // Save Brgy Document Information
     public function create_brgy_document_information(Request $request)
     {
@@ -401,6 +430,29 @@ class BCPISController extends Controller
         }
     }
 
+    public function view_barangay_business_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        
+            $business_type = DB::table('maintenance_bcpcis_business_type')->paginate(20, ['*'], 'business_type');
+            $business = DB::table('maintenance_bcpcis_barangay_business')->where('Business_ID', $id)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $business[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $business[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $business[0]->City_Municipality_ID)->get();
+            return view('bcpcis_transactions.barangay_business_view', compact(
+                'currDATE',
+                'business',
+                'region',
+                'province',
+                'barangay',
+                'business_type',
+                'city_municipality',
+            ));
+       
+    }
+
     // Save Barangay Business
     public function create_barangay_business(Request $request)
     {
@@ -578,6 +630,33 @@ class BCPISController extends Controller
                 'payment_docu',
             ));
         }
+    }
+
+    public function view_brgy_business_permit_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        
+            $permit = DB::table('bcpcis_brgy_business_permits')->where('Barangay_Permits_ID', $id)->get();
+            $business = DB::table('maintenance_bcpcis_barangay_business')->paginate(20, ['*'], 'business');
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $permit[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $permit[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $permit[0]->City_Municipality_ID)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $payment_docu = DB::table('bcpcis_brgy_payment_collected')->where('Barangay_Permits_ID', $id)->get();
+            return view('bcpcis_transactions.brgy_business_permit_view', compact(
+                'currDATE',
+                'permit',
+                'region',
+                'province',
+                'barangay',
+                'business',
+                'resident',
+                'city_municipality',
+                'payment_docu',
+            ));
+      
     }
 
     // Save Barangay Business Permit

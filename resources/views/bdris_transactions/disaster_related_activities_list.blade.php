@@ -119,6 +119,7 @@
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">Edit</button>
+                                                <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#viewDisaster_Related_Activities">View</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
                                                 <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">View</button>
@@ -218,7 +219,75 @@
 
 <!-- Create Announcement_Status END -->
 
+<div class="modal fade" id="viewDisaster_Related_Activities" tabindex="-1" role="dialog" aria-labelledby="Create_Disaster_Related_Activities" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Disaster Related Activities Profile</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="newDisaster_Related_Activities" method="POST" action="{{ route('create_disaster_related_activities') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                <div class="modal-body">
 
+                    <div class="modal-body">
+                        <h3>Disaster Related Activities Information</h3>
+                        <br>
+                        <div class="row">
+                            <input type="text" class="form-control" id="Disaster_Related_Activities_ID1" name="Disaster_Related_Activities_ID1" hidden>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Activity_Name1">Activity Name</label>
+                                <input type="text" class="form-control" id="Activity_Name1" name="Activity_Name1" disabled>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <label for="Purpose1">Purpose</label>
+                                <input type="text" class="form-control" id="Purpose1" name="Purpose1" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Date_Start1">Date Start</label>
+                                <input type="date" class="form-control" id="Date_Start1" name="Date_Start1" disabled>
+                            </div>
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Date_End1">Date End</label>
+                                <input type="date" class="form-control" id="Date_End1" name="Date_End1" disabled>
+                            </div>
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Number_of_Participants1">Number of Participants</label>
+                                <input type="number" class="form-control" id="Number_of_Participants1" name="Number_of_Participants1" disabled>
+                            </div>
+                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                <label for="Brgy_Officials_and_Staff_ID1">Brgy Official Name</label>
+                                <select class="form-control" id="Brgy_Officials_and_Staff_ID1" name="Brgy_Officials_and_Staff_ID1" disabled>
+                                    <option value='' disabled selected>Select Option</option>
+                                    @foreach($brgy_officials_and_staff as $bt1)
+                                    <option value="{{ $bt1->Resident_ID }}">{{ $bt1->Last_Name }} {{ $bt1->First_Name }}, {{ $bt1->Middle_Name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <label for="fileattach">File Attachments</label>
+                                <ul class="list-group list-group-flush" id="disaster_related_activities_files">
+
+                                </ul>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple disabled>
+                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" id="CloseDisaster_Related_Activities" class="btn btn-default modal-close" data-dismiss="modal" disabled>Close</button>
+                    <button type="submit" class="btn btn-primary" disabled>Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -360,17 +429,16 @@
                 $('#Number_of_Participants').val(data['theEntry'][0]['Number_of_Participants']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
 
-                var barangay =
-                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
-                $('#Barangay_ID').append(barangay);
 
-                var city =
-                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
-                $('#City_Municipality_ID').append(city);
+                $('#Disaster_Related_Activities_ID1').val(data['theEntry'][0]['Disaster_Related_Activities_ID']);
+                $('#Activity_Name1').val(data['theEntry'][0]['Activity_Name']);
+                $('#Purpose1').val(data['theEntry'][0]['Purpose']);
+                $('#Date_Start1').val(data['theEntry'][0]['Date_Start']);
+                $('#Date_End1').val(data['theEntry'][0]['Date_End']);
+                $('#Number_of_Participants1').val(data['theEntry'][0]['Number_of_Participants']);
+                $('#Region_ID1').val(data['theEntry'][0]['Region_ID']);
 
-                var province =
-                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
-                $('#Province_ID').append(province);
+                
 
 
 

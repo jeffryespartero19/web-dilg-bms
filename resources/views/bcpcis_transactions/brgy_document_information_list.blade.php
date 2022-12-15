@@ -133,6 +133,7 @@
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <a class="btn btn-success" href="{{ url('brgy_document_information_details/'.$x->Document_ID) }}">Edit</a>
+                                                <a class="btn btn-success" href="{{ url('view_brgy_document_information_details/'.$x->Document_ID) }}">View</a>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
                                                 <a class="btn btn-success" href="{{ url('brgy_document_information_details/'.$x->Document_ID) }}">View</a>
