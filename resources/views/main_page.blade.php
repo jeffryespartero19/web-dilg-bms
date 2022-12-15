@@ -86,7 +86,6 @@
                         <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Barangay ID</th>
                                     <th>Barangay Name</th>
                                     <th>City/Municipality</th>
                                     <th>Province</th>
@@ -221,7 +220,6 @@
                     data.forEach(function(element) {
 
                         $('#example').DataTable().row.add([
-                            element["Barangay_ID"],
                             element["Barangay_Name"],
                             element["City_Municipality_Name"],
                             element["Province_Name"],

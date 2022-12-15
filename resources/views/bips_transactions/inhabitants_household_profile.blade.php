@@ -106,8 +106,9 @@
                                                 <td class="sm_data_col txtCtr">{{$x->Tenure_of_Lot}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Housing_Unit}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Family_Type_Name}}</td>
-                                                <td class="sm_data_col txtCtr">
-                                                    <a class="btn btn-success" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>
+                                                <td class="sm_data_col txtCtr" style="display: flex;">
+                                                    <a class="btn btn-primary" href="{{ url('inhabitants_household_details_view/'.$x->Household_Profile_ID) }}">View</a>&nbsp;
+                                                    <a class="btn btn-info" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -331,10 +332,9 @@
 </script>
 
 <style>
-    /* table {
-        display: block;
-        overflow-x: scroll;
-    } */
+    .required span:before {
+        content: "*"
+    }
 </style>
 
 @endsection

@@ -55,9 +55,9 @@
                                         <input type="number" class="form-control" id="Ordinance_Violators_ID" name="Ordinance_Violators_ID" value="0" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Name</label>
+                                                <label class="required" for="exampleInputEmail1">Name</label>
                                                 <br>
-                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 100%;">
+                                                <select required class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($resident as $rs)
                                                     <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -67,9 +67,9 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Ordinance</label>
+                                                <label class="required" for="exampleInputEmail1">Ordinance</label>
                                                 <br>
-                                                <select id="Ordinance_ID" class="form-control" name="Ordinance_ID" style="width: 100%;">
+                                                <select required id="Ordinance_ID" class="form-control" name="Ordinance_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($ordinance as $bs)
                                                     <option value="{{ $bs->Ordinance_Resolution_ID }}">{{ $bs->Ordinance_Resolution_Title }}</option>
@@ -77,9 +77,9 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Penalty</label>
+                                                <label class="required" for="exampleInputEmail1">Penalty</label>
                                                 <br>
-                                                <select id="Types_of_Penalties_ID" class="form-control" name="Types_of_Penalties_ID" style="width: 100%;">
+                                                <select required id="Types_of_Penalties_ID" class="form-control" name="Types_of_Penalties_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($penalties as $pt)
                                                     <option value="{{ $pt->Types_of_Penalties_ID }}">{{ $pt->Type_of_Penalties }}</option>
@@ -87,9 +87,9 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Violation Status</label>
+                                                <label class="required" for="exampleInputEmail1">Violation Status</label>
                                                 <br>
-                                                <select id="Violation_Status_ID" class="form-control" name="Violation_Status_ID" style="width: 100%;">
+                                                <select required id="Violation_Status_ID" class="form-control" name="Violation_Status_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($violation_status as $vs)
                                                     <option value="{{ $vs->Violation_Status_ID }}">{{ $vs->Violation_Status }}</option>
@@ -97,7 +97,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Violation Date</label>
+                                                <label class="required" for="exampleInputEmail1">Violation Date</label>
                                                 <input type="datetime-local" class="form-control" id="Vilotation_Date" name="Vilotation_Date" required>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
