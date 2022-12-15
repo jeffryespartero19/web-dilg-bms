@@ -289,9 +289,9 @@
                             <a href="{{route('bins_borrow')}}" class="nav-link EquipBorrow">
                                 <p>Equipment Borrow Request</p>
                             </a>
-                            <a href="{{route('bins_supply_issuance')}}" class="nav-link SuppliesIssuance">
+                            {{-- <a href="{{route('bins_supply_issuance')}}" class="nav-link SuppliesIssuance">
                                 <p>Supplies Issuance</p>
-                            </a>
+                            </a> --}}
                         </li>
                     </ul>
                 </li>

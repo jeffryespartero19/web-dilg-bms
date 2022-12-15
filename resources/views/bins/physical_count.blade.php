@@ -53,7 +53,7 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <!-- <div class="flexer">
-        <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
+        {{-- <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div> --}}
         <div class="twenty_split txtRight"><button data-toggle="modal" data-target="#createXYZ">New</button></div>
     </div> -->
                             <div class="table-responsive">

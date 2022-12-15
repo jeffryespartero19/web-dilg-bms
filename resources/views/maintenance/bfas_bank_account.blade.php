@@ -272,7 +272,7 @@
 
                         <div class="form-group">
                             <label>Region:</label>
-                            <select class="form-control regionX2" name="Region_IDX2">
+                            <select class="form-control regionX2 no_edit" name="Region_IDX2">
                                 <option id="this_region" value='' hidden selected>Select</option>
                                 @foreach($regionX as $rx)
                                 <option value='{{$rx->Region_ID}}'>{{$rx->Region_Name}}</option>
@@ -281,19 +281,19 @@
                         </div>
                         <div class="form-group">
                             <label>Province:</label>
-                            <select class="form-control provX2" name="Province_IDX2">
+                            <select class="form-control provX2 no_edit" name="Province_IDX2">
                                 <option id="this_province" value='' hidden selected>Select</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>City/Municipality:</label>
-                            <select class="form-control cityX2" name="City_Municipality_IDX2">
+                            <select class="form-control cityX2 no_edit" name="City_Municipality_IDX2">
                                 <option id="this_city" value='' hidden selected>Select</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Barangay:</label>
-                            <select class="form-control brgyX2" name="Barangay_IDX2">
+                            <select class="form-control brgyX2 no_edit" name="Barangay_IDX2">
                                 <option id="this_barangay" value='' hidden selected>Select</option>
                             </select>
                         </div>

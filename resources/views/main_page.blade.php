@@ -245,6 +245,13 @@
 
         
     </script>
+
+    @error('email')
+    <script>
+        alert('Login Credentials Incorrect');
+    </script>
+    @enderror
+
 </body>
 
 </html>
