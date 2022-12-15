@@ -1232,7 +1232,7 @@ class bipsController extends Controller
             Mail::to($user[0]->Email_Address)->send(new DisapprovedEmailNotif());
         }
 
-       
+
 
         // Notification::send($user, new SendInhabitantsStatusEmailNotification($details));
 
@@ -1922,7 +1922,7 @@ class bipsController extends Controller
                     'a.Term_From',
                     'a.Term_To',
                 )
-                ->where('b.Application_Status', 1)
+                // ->where('b.Application_Status', 1)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
                 ->paginate(20, ['*'], 'db_entries');
         }
@@ -2032,32 +2032,31 @@ class bipsController extends Controller
         return redirect()->back()->with('alert', 'Updated Entry');
     }
 
-    // //Send Inhabitants Status Email Notif
-    // public function update_Inhabitant_Status(Request $request)
+    //Inhabitants Information List
+    public function inhabitants_household_details_view($id)
+    {
+        $currDATE = Carbon::now();
 
-    // {
-    //     $currDATE = Carbon::now();
-    //     $data = request()->all();
+        $household = DB::table('bips_household_profile')->where('Household_Profile_ID', $id)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->where('Application_Status', 1)->get();
+        $family_position = DB::table('maintenance_bips_family_position')->where('Active', 1)->get();
+        $tenure_of_lot = DB::table('maintenance_bips_tenure_of_lot')->where('Active', 1)->get();
+        $housing_unit = DB::table('maintenance_bips_housing_unit')->where('Active', 1)->get();
+        $family_type = DB::table('maintenance_bips_family_type')->where('Active', 1)->get();
+        $household_members = DB::table('bips_household_profile_members as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'b.Resident_ID', '=', 'a.Resident_ID')
+            ->where('a.Household_Profile_ID', $id)
+            ->get();
 
-    //     $user = DB::table('bips_brgy_inhabitants_information')
-    //         ->where('Resident_ID', $data['Resident_ID']);
-
-    //     $user_status = [
-    //         'Application_Status' => 1,
-    //     ];
-
-    //     DB::table('bips_brgy_inhabitants_information')->update(['Resident_ID' => $data['Resident_ID']], $user_status);
-
-    //     $details = [
-    //         'greeting' => 'Hello Applicant',
-    //         'body' => 'Your application was approved.',
-    //         'actiontext'       => 'Go',
-    //         'actionurl'       => '/',
-    //         'lastline'       => 'Thank you!'
-    //     ];
-
-    //     Notification::send($user, new SendInhabitantsStatusEmailNotification($details));
-
-    //     return redirect()->back()->with('alert', 'Updated Entry');
-    // }
+        return view('bips_transactions.inhabitants_household_profile_details_view', compact(
+            'currDATE',
+            'family_position',
+            'tenure_of_lot',
+            'housing_unit',
+            'family_type',
+            'resident',
+            'household',
+            'household_members',
+        ));
+    }
 }

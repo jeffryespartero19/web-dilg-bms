@@ -56,11 +56,11 @@
                                     <div class="row">
                                         <input type="number" class="form-control" id="Household_Profile_ID" name="Household_Profile_ID" hidden value="{{$household[0]->Household_Profile_ID}}">
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label class="required" for="Household_Name">Household Name</label>
+                                            <label for="Household_Name">Household Name</label>
                                             <input type="text" class="form-control" id="Household_Name" name="Household_Name" required value="{{$household[0]->Household_Name}}">
                                         </div>
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label class="required" for="Family_Type_ID">Family Type</label>
+                                            <label for="Family_Type_ID">Family Type</label>
                                             <select class="form-control" id="Family_Type_ID" name="Family_Type_ID" required>
                                                 <option value='' disabled selected>Select Option</option>
                                                 @foreach($family_type as $fm)
@@ -69,7 +69,6 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-12" style="padding:0 10px" id="HouseholdDetails">
-                                            <button onclick="addrow();" style="float: right; cursor:pointer" type="button" class="btn btn-default">+ Add</button>
                                             <table id="ResidentTBL" class="table table-striped table-bordered" style="width:100%">
                                                 <thead>
                                                     <tr>
@@ -77,7 +76,6 @@
                                                         <th>Name</th>
                                                         <th>Position</th>
                                                         <th>Head</th>
-                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="HSBody">
@@ -106,9 +104,6 @@
                                                                 <option value=0 {{ 0  == $hm->Family_Head  ? "selected" : "" }}>No</option>
                                                                 <option value=1 {{ 1  == $hm->Family_Head  ? "selected" : "" }}>Yes</option>
                                                             </select>
-                                                        </td>
-                                                        <td style="text-align: center;">
-                                                            <button type="button" class="btn btn-danger HRRemove">Remove</button>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -147,12 +142,12 @@
                                         </div>
 
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label class="required" for="Household_Monthly_Income">Household Monthly Income</label>
+                                            <label for="Household_Monthly_Income">Household Monthly Income</label>
                                             <input type="number" class="form-control" id="Household_Monthly_Income" name="Household_Monthly_Income" required value="{{$household[0]->Household_Monthly_Income}}">
                                         </div>
 
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label class="required" for="exampleInputEmail1">Tenure of Lot</label>
+                                            <label for="exampleInputEmail1">Tenure of Lot</label>
                                             <select class="form-control" id="Tenure_of_Lot_ID" name="Tenure_of_Lot_ID" required>
                                                 <option value='' disabled selected>Select Option</option>
                                                 @foreach($tenure_of_lot as $tol)
@@ -161,7 +156,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-6" style="padding:0 10px">
-                                            <label class="required" for="Housing_Unit_ID">Housing Unit</label>
+                                            <label for="Housing_Unit_ID">Housing Unit</label>
                                             <select class="form-control" id="Housing_Unit_ID" name="Housing_Unit_ID" required>
                                                 <option value='' disabled selected>Select Option</option>
                                                 @foreach($housing_unit as $hu)
@@ -170,13 +165,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="col-lg-12" style="margin-bottom: 100px;">
-                                        <center>
-                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
-                                        </center>
-                                    </div>
+
                                 </form>
 
                             </div>
@@ -207,6 +196,7 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+        $("#newHousehold :input").prop("disabled", true);
     });
 
     //Select2

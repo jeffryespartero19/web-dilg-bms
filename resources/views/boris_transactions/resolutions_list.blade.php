@@ -70,6 +70,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                         <div style="text-align: right;">
                             <div class="btn-group">
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createOrdinance_Info" style="width: 100px;">New</button></div>
@@ -100,8 +101,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Approval}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Effectivity}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_ordinance" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <button class="view_ordinance btn btn-primary">View</button>&nbsp;
+                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -142,6 +144,7 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Ordinance_Resolution_ID" name="Ordinance_Resolution_ID" value="" hidden>
                             <input type="text" class="form-control" id="Ordinance_or_Resolution" name="Ordinance_or_Resolution" hidden value=1>
+                            <input type="text" class="form-control btn_action" id="btn_action" name="btn_action" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Resolution No</label>
                                 <input type="text" class="form-control" id="Ordinance_Resolution_No" name="Ordinance_Resolution_No" required>
@@ -451,6 +454,8 @@
     $(document).on('click', ('.edit_ordinance'), function(e) {
 
         var disID = $(this).val();
+        var User_Type_ID = $('#User_Type_ID').val();
+        var btn_action = $('#btn_action').val();
         $('#Modal_Title').text('Edit Ordinance Information');
         $.ajax({
             url: "/get_ordinance_and_resolution_info",
@@ -499,10 +504,18 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
-                data.forEach(element => {
-                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
-                    $('#ordinance_files').append(file);
-                });
+                if (User_Type_ID == 1 && btn_action != 1) {
+                    data.forEach(element => {
+                        var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#ordinance_files').append(file);
+                    });
+                } else {
+                    data.forEach(element => {
+                        var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                        $('#ordinance_files').append(file);
+                    });
+                }
+
             }
         });
 
@@ -650,6 +663,21 @@
         $('.resolution').addClass('active');
         $('.boris_menu').addClass('active');
         $('.boris_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_ordinance'), function() {
+        $("#createOrdinance_Info :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+
+        $(".btn_action").val(1);
+
+        $(this).closest(".sm_data_col").find(".edit_ordinance").trigger('click');
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#createOrdinance_Info').trigger("reset");
+        $("#createOrdinance_Info :input").prop("disabled", false);
+        $(".btn_action").val(0);
     });
 </script>
 

@@ -828,14 +828,25 @@ Route::group(['middleware' => 'auth'], function () {
 
   //Update Inhabitants
   Route::post('/update_inhabitants_application_info', 'InhabitantApplicationController@update_inhabitants_application_info')->name('update_inhabitants_application_info');
+  //Processing Sched
+  Route::get('/processing_sched', 'bipsController@processing_sched')->name('processing_sched');
+  Route::post('/update_processing_sched', 'bipsController@update_processing_sched')->name('update_processing_sched');
 
-   //Processing Sched
-   Route::get('/processing_sched', 'bipsController@processing_sched')->name('processing_sched');
-   Route::post('/update_processing_sched', 'bipsController@update_processing_sched')->name('update_processing_sched');
+  Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
 
-   Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
+  //Household View
+  Route::get('/inhabitants_household_details_view/{id}', 'bipsController@inhabitants_household_details_view');
 
-   //DISASTER TYPE VIEW
+  //Blotter Detail View
+  Route::get('/blotter_details_view/{id}', 'BJISBHController@blotter_details_view');
+  //Summon Details View
+  Route::get('/summon_details_view/{id}', 'BJISBHController@summon_details_view');
+  //Proceeding Details View
+  Route::get('/proceeding_details_view/{id}', 'BJISBHController@proceeding_details_view');
+  //Ordinance Violator Details View
+  Route::get('/ordinance_violator_details_view/{id}', 'BJISBHController@ordinance_violator_details_view');
+
+//DISASTER TYPE VIEW
   Route::get('/view_disaster_type_details/{id}', 'BDRISALController@view_disaster_type_details');
   //EMERGENCY EVACUATION SITE VIEW
   Route::get('/view_emergency_evacuation_site_details/{id}', 'BDRISALController@view_emergency_evacuation_site_details');

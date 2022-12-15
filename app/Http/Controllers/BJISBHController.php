@@ -871,4 +871,106 @@ class BJISBHController extends Controller
             ->get();
         return json_encode($data);
     }
+
+    //Blotter Details
+    public function blotter_details_view($id)
+    {
+        $currDATE = Carbon::now();
+
+        $blotter = DB::table('bjisbh_blotter')->where('Blotter_ID', $id)->get();
+        $case_details = DB::table('bjisbh_case_details')->where('Blotter_ID', $id)->get();
+        $involved_details = DB::table('bjisbh_blotter_involved_parties')->where('Blotter_ID', $id)->get();
+        $file_attachment = DB::table('bjisbh_blotter_file_attachment')->where('Blotter_ID', $id)->get();
+
+        $case = DB::table('maintenance_bjisbh_case')->where('Active', 1)->get();
+        $blotter_status = DB::table('maintenance_bjisbh_blotter_status')->where('Active', 1)->get();
+        // $proceedings_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
+        // $service_rating = DB::table('maintenance_bjisbh_service_rating')->where('Active', 1)->get();
+        // $summons_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
+        // $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+        // $action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
+        $involved_party = DB::table('maintenance_bjisbh_type_of_involved_party')->where('Active', 1)->get();
+        // $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Region_ID', $blotter[0]->Region_ID)->get();
+        $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $blotter[0]->Province_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $blotter[0]->City_Municipality_ID)->get();
+
+        return view('bjisbh_transactions.blotter_details_view', compact(
+            'currDATE',
+            'blotter',
+            'case_details',
+            'involved_details',
+            'case',
+            'blotter_status',
+            'involved_party',
+            'resident',
+            'region',
+            'province',
+            'city_municipality',
+            'barangay',
+            'file_attachment'
+        ));
+    }
+
+    //Summon Details
+    public function summon_details_view($id)
+    {
+        $currDATE = Carbon::now();
+
+        $Blotter_ID = $id;
+        $summon = DB::table('bjisbh_summons')->where('Blotter_ID', $id)->get();
+        $blotter = DB::table('bjisbh_blotter')->get();
+        $summon_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
+
+        return view('bjisbh_transactions.summon_details_view', compact(
+            'currDATE',
+            'blotter',
+            'summon_status',
+            'Blotter_ID',
+            'summon'
+        ));
+    }
+
+    //Proceeding Details
+    public function proceeding_details_view($id)
+    {
+        $currDATE = Carbon::now();
+        $Blotter_ID = $id;
+        $proceeding = DB::table('bjisbh_proceedings')->where('Blotter_ID', $id)->get();
+        $blotter = DB::table('bjisbh_blotter')->get();
+        $proceeding_status = DB::table('maintenance_bjisbh_proceedings_status')->where('Active', 1)->get();
+        $type_of_action = DB::table('maintenance_bjisbh_type_of_action')->where('Active', 1)->get();
+
+        return view('bjisbh_transactions.proceeding_details_view', compact(
+            'currDATE',
+            'blotter',
+            'proceeding_status',
+            'Blotter_ID',
+            'proceeding',
+            'type_of_action'
+        ));
+    }
+
+    //Ordinance Violator Details
+    public function ordinance_violator_details_view($id)
+    {
+        $currDATE = Carbon::now();
+            $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
+            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+            $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
+            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+
+            return view('bjisbh_transactions.ordinance_violator_details_view', compact(
+                'currDATE',
+                'penalties',
+                'ordinance',
+                'violation_status',
+                'resident',
+                'violator'
+            ));
+        
+    }
 }

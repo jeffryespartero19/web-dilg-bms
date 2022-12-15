@@ -98,8 +98,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Deceased_Type}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Cause_of_Death}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="edit_deceased_profile" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <button class="view_deceased_profile btn btn-primary">View</button>&nbsp;
+                                                <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -138,8 +139,8 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_ID">Name</label>
-                                <select class="form-control" id="Resident_IDs" name="Resident_IDs">
+                                <label class="required" for="Resident_ID">Name</label>
+                                <select class="form-control" id="Resident_IDs" name="Resident_IDs" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($name as $bt)
                                     <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -147,8 +148,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Deceased_Type_ID">Deceased Type</label>
-                                <select class="form-control" id="Deceased_Type_ID" name="Deceased_Type_ID">
+                                <label class="required" for="Deceased_Type_ID">Deceased Type</label>
+                                <select class="form-control" id="Deceased_Type_ID" name="Deceased_Type_ID" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($deceased_type as $bt1)
                                     <option value="{{ $bt1->Deceased_Type_ID }}">{{ $bt1->Deceased_Type }}</option>
@@ -161,11 +162,11 @@
                         <br>
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Cause_of_Death">Cause of Death</label>
-                                <input type="text" class="form-control" id="Cause_of_Death" name="Cause_of_Death">
+                                <label class="required" for="Cause_of_Death">Cause of Death</label>
+                                <input type="text" class="form-control" id="Cause_of_Death" name="Cause_of_Death" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Date_of_Death">Date of Death</label>
+                                <label class="required" for="Date_of_Death">Date of Death</label>
                                 <input type="date" class="form-control" id="Date_of_Death" name="Date_of_Death" required>
                             </div>
                         </div>
@@ -190,7 +191,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier">Edit Deceased Profile</h4>
+                <h4 class="modal-title flexer justifier" id="DPTitle">Edit Deceased Profile</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newDeceased_Profile" method="POST" action="{{ route('update_deceased_profile') }}" autocomplete="off" enctype="multipart/form-data">@csrf
@@ -201,8 +202,8 @@
                         <div class="row">
                             <input type="text" class="form-control" id="Resident_ID2" name="Resident_ID2" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_IDs2">Name</label>
-                                <select class="form-control" id="Resident_IDs2" name="Resident_IDs2">
+                                <label class="required" for="Resident_IDs2">Name</label>
+                                <select class="form-control" id="Resident_IDs2" name="Resident_IDs2" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($name as $bt)
                                     <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
@@ -210,8 +211,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Deceased_Type_ID2">Deceased Type</label>
-                                <select class="form-control" id="Deceased_Type_ID2" name="Deceased_Type_ID2">
+                                <label class="required" for="Deceased_Type_ID2">Deceased Type</label>
+                                <select class="form-control" id="Deceased_Type_ID2" name="Deceased_Type_ID2" required>
                                     <option value='' disabled selected>Select Option</option>
                                     @foreach($deceased_type as $bt1)
                                     <option value="{{ $bt1->Deceased_Type_ID }}">{{ $bt1->Deceased_Type }}</option>
@@ -224,11 +225,11 @@
                         <br>
                         <div class="row">
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Cause_of_Death2">Cause of Death</label>
-                                <input type="text" class="form-control" id="Cause_of_Death2" name="Cause_of_Death2">
+                                <label class="required" for="Cause_of_Death2">Cause of Death</label>
+                                <input type="text" class="form-control" id="Cause_of_Death2" name="Cause_of_Death2" required>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Date_of_Death2">Date of Death</label>
+                                <label class="required" for="Date_of_Death2">Date of Death</label>
                                 <input type="date" class="form-control" id="Date_of_Death2" name="Date_of_Death2" required>
                             </div>
                         </div>
@@ -252,13 +253,6 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
-
-    $(document).on('click', '.modal-close', function(e) {
-        $('#newInhabitant').trigger("reset");
-    });
-
-
-
 
     // Edit Button Display Modal
     $(document).on('click', ('.edit_deceased_profile'), function(e) {
@@ -361,6 +355,19 @@
         $('.deceased_profile').addClass('active');
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
+    });
+
+    $(document).on('click', ('.view_deceased_profile'), function() {
+        $("#newDeceased_Profile :input").prop("disabled", true);
+        $(".modal-close").prop("disabled", false);
+        $(this).closest(".sm_data_col").find(".edit_deceased_profile").trigger('click');
+        $("#DPTitle").text("View Deceased Profile");
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#newDeceased_Profile').trigger("reset");
+        $("#newDeceased_Profile :input").prop("disabled", false);
+        $("#DPTitle").text("Edit Deceased Profile");
     });
 </script>
 

@@ -55,13 +55,13 @@
                                     <tbody>
                                         <tr>
                                             <td class="sm_data_col txtCtr">
-                                                {{ round((($db_entries->pluck('speed')->sum()/$db_entries->pluck('speed')->count())/5)*100,2) }}%
+                                                @if(isset($db_entries->speed)) {{ round((($db_entries->pluck('speed')->sum()/$db_entries->pluck('speed')->count())/5)*100,2) }}% @else 0 @endif
                                             </td>
                                             <td class="sm_data_col txtCtr">
-                                                {{ round((($db_entries->pluck('outcome')->sum()/$db_entries->pluck('outcome')->count())/5)*100,2) }}%
+                                                @if(isset($db_entries->outcome)) {{ round((($db_entries->pluck('outcome')->sum()/$db_entries->pluck('outcome')->count())/5)*100,2) }}% @else 0 @endif
                                             </td>
                                             <td class="sm_data_col txtCtr">
-                                                {{ round((($db_entries->pluck('quality')->sum()/$db_entries->pluck('quality')->count())/5)*100,2) }}%
+                                                @if(isset($db_entries->quality)) {{ round((($db_entries->pluck('quality')->sum()/$db_entries->pluck('quality')->count())/5)*100,2) }}% @else 0 @endif
                                             </td>
                                         </tr>
 
