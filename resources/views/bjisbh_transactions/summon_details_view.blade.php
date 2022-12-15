@@ -9,13 +9,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Proceeding Details</h1>
+                    <h1>Summon Details</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
-                        <li class="breadcrumb-item"><a href="{{route('proceeding_list')}}">Proceeding List</a></li>
-                        <li class="breadcrumb-item active">Proceeding Details</li>
+                        <li class="breadcrumb-item"><a href="{{route('summon_list')}}">Summon List</a></li>
+                        <li class="breadcrumb-item active">Summon Details</li>
                     </ol>
                 </div>
             </div>
@@ -49,18 +49,18 @@
                             <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
-                                <form id="newForm" method="POST" action="{{ route('create_proceeding') }}" autocomplete="off" enctype="multipart/form-data">
+                                <form id="newSummon" method="POST" action="{{ route('create_summon') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
                                     <div>
-                                        <input type="number" class="form-control" id="Summons_ID" name="Summons_ID" value="0" hidden>
+                                        <input type="number" class="form-control" id="Summons_ID" name="Summons_ID" value="{{$Blotter_ID}}" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label class="required" for="exampleInputEmail1">Blotter Number</label>
+                                                <label for="exampleInputEmail1">Blotter Number</label>
                                                 <br>
-                                                <select required id="Blotter_ID" class="form-control  js-example-basic-single mySelect2" name="Blotter_ID" style="width: 100%;">
+                                                <select id="Blotter_ID" class="form-control  js-example-basic-single mySelect2" name="Blotter_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($blotter as $bs)
-                                                    <option value="{{ $bs->Blotter_ID }}">{{ $bs->Blotter_Number }}</option>
+                                                    <option value="{{ $bs->Blotter_ID }}" {{ $bs->Blotter_ID == $Blotter_ID  ? "selected" : "" }}>{{ $bs->Blotter_Number }}</option>
                                                     @endforeach
                                                 </select>
 
@@ -68,51 +68,41 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-12">
-                                                <a onclick="addrow();" class="btn btn-success" style="float:right; cursor:pointer;">+ Add</a>
-                                            </div>
                                             <br>
-                                            <br>
-                                            <div class="form-group table-responsive col-lg-12" style="padding:0 10px;" id="CaseDetails">
-
-                                                <table id="CaseTBL" class="table table-striped table-bordered ">
+                                            <div class="form-group col-lg-12 table-responsive" style="padding:0 10px;" id="CaseDetails">
+                                                <table id="CaseTBL" class="table table-striped table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>Proceeding Status</th>
-                                                            <th>Type of Action</th>
-                                                            <th>Proceeding Date</th>
+                                                            <th hidden>Summons_ID</th>
+                                                            <th>Summon Status</th>
+                                                            <th>Request Date</th>
+                                                            <th>Summon Date</th>
                                                             <th>Settlement</th>
-                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="CSBody">
+                                                        @foreach ($summon as $summons)
                                                         <tr class="CSDetails">
+                                                            <td hidden></td>
                                                             <td>
-                                                                <select class="form-control" name="Proceedings_Status_ID[]" style="width: 250px;">
+                                                                <select class="form-control" name="Summons_Status_ID[]" style="width: 250px;">
                                                                     <option value='' disabled selected>Select Option</option>
-                                                                    @foreach($proceeding_status as $ps)
-                                                                    <option value="{{ $ps->Proceedings_Status_ID }}">{{ $ps->Type_of_Action }}</option>
+                                                                    @foreach($summon_status as $ss)
+                                                                    <option value="{{ $ss->Summons_Status_ID }}" {{ $ss->Summons_Status_ID == $summons->Summons_Status_ID  ? "selected" : "" }}>{{ $ss->Type_of_Action }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select class="form-control" name="Type_of_Action_ID[]" style="width: 250px;">
-                                                                    <option value='' disabled selected>Select Option</option>
-                                                                    @foreach($type_of_action as $ta)
-                                                                    <option value="{{ $ta->Type_of_Action_ID }}">{{ $ta->Type_of_Action }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <input type="datetime-local" class="form-control" style="width: 250px;" name="Summons_Request_Date[]" value="{{$summons->Summons_Request_Date}}">
                                                             </td>
                                                             <td>
-                                                                <input type="datetime-local" class="form-control" style="width: 250px;" name="Proceedings_Date[]">
+                                                                <input type="datetime-local" class="form-control" style="width: 250px;" name="Summons_Date[]" value="{{$summons->Summons_Date}}">
                                                             </td>
                                                             <td>
-                                                                <textarea class="form-control" style="width: 400px;" name="Settlement[]"></textarea>
-                                                            </td>
-                                                            <td style="text-align: center; width:10%">
-                                                                <button type="button" class="btn btn-danger CSRemove">Remove</button>
+                                                                <textarea class="form-control" style="width: 400px;" name="Settlement[]">{{$summons->Settlement}}</textarea>
                                                             </td>
                                                         </tr>
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -120,14 +110,6 @@
                                         </div>
 
                                     </div>
-
-                                    <div class="col-lg-12" style="margin-bottom: 100px;">
-                                        <center>
-                                            <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Create</button>
-                                        </center>
-                                    </div>
-
                                 </form>
 
                             </div>
@@ -147,6 +129,7 @@
 <!-- /.content -->
 
 
+
 <!-- Create Announcement_Status END -->
 
 @endsection
@@ -157,6 +140,7 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+        $("#newSummon :input").prop("disabled", true);
     });
 
     //Select2
@@ -193,13 +177,13 @@
     $(document).ready(function() {
         var User_Type_ID = $('#User_Type_ID').val();
         if (User_Type_ID == 3) {
-            $("#newForm :input").prop("disabled", true);
+            $("#newSummon :input").prop("disabled", true);
         }
     });
 
     // Side Bar Active
     $(document).ready(function() {
-        $('.Proceedings').addClass('active');
+        $('.Summons').addClass('active');
         $('.justice_menu').addClass('active');
         $('.justice_main').addClass('menu-open');
     });

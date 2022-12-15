@@ -75,7 +75,7 @@
                                             <td class="sm_data_col txtCtr">
                                                 <!-- <button class="approve_inhabitants btn btn-success" value="{{$x->Resident_ID}}">Approve</button>
                                                 <button class="disapprove_inhabitants  btn btn-danger" value="{{$x->Resident_ID}}">Disapprove</button> -->
-                                                <button class="edit_inhabitants" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>
+                                                <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>
                                             </td>
                                         </tr>
                                         @endforeach

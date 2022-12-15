@@ -297,7 +297,14 @@
                 display: none;
             }
         }
+
+        .required:after {
+        content: " *";
+        color: red;
+    }
+        
     </style>
+
 
     @endif
 </body>

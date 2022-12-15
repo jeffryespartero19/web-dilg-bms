@@ -99,7 +99,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Blotter_Number}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Blotter_Status_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Incident_Date_Time}}</td>
-                                            <td class="sm_data_col txtCtr">
+                                            <td class="sm_data_col txtCtr" style="display: flex;">
+                                                <a class="view_ordinance btn btn-primary" href="{{ url('blotter_details_view/'.$x->Blotter_ID) }}">View</a>&nbsp;
                                                 <a class="btn btn-success" href="{{ url('blotter_details/'.$x->Blotter_ID) }}">Edit</a>
                                             </td>
                                         </tr>
