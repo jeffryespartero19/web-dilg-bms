@@ -846,7 +846,7 @@ Route::group(['middleware' => 'auth'], function () {
   //Ordinance Violator Details View
   Route::get('/ordinance_violator_details_view/{id}', 'BJISBHController@ordinance_violator_details_view');
 
-//DISASTER TYPE VIEW
+  //DISASTER TYPE VIEW
   Route::get('/view_disaster_type_details/{id}', 'BDRISALController@view_disaster_type_details');
   //EMERGENCY EVACUATION SITE VIEW
   Route::get('/view_emergency_evacuation_site_details/{id}', 'BDRISALController@view_emergency_evacuation_site_details');
@@ -868,6 +868,13 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/view_brgy_document_information_details/{id}', 'BCPISController@view_brgy_document_information_details');
   //BRGY BUSINESS VIEW
   Route::get('/view_barangay_business_details/{id}', 'BCPISController@view_barangay_business_details');
+
+  //Search Boris Transaction
+  Route::get('/search_ordinance', 'borisController@search_ordinance')->name('search_ordinance');
+  Route::get('/search_resolution', 'borisController@search_resolution')->name('search_resolution');
+
+  //Search BIPS Transaction
+  Route::get('/search_inhabitants', 'bipsController@search_inhabitants')->name('search_inhabitants');
 });
 
 
@@ -877,11 +884,10 @@ Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
-Route::get('/search_ordinance', 'GlobalController@search_ordinance')->name('search_ordinance');
+
 //Route::get('/search_barangay', 'GlobalController@searchBarangay');
 
 //For Drop Downs
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');
 Route::get('/list_city', 'DropDownsController@list_city')->name('list_city');
 Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
-

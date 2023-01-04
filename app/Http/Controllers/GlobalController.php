@@ -122,12 +122,5 @@ class GlobalController extends Controller
         return json_encode($data);
     }
 
-    public function search_ordinance(Request $request)
-    {
-        $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')
-            ->where('Ordinance_Resolution_Title', 'LIKE', '%' . $request->input('term', '') . '%')
-            ->get(['Ordinance_Resolution_ID as id', 'Ordinance_Resolution_Title as text']);
-
-        return ['results' => $ordinance];
-    }
+   
 }

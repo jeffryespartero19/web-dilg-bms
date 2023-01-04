@@ -76,45 +76,6 @@
                                                 <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required value="{{$blotter[0]->Incident_Date_Time}}">
                                             </div>
                                         </div>
-                                        <!-- <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $region)
-                                                    <option value="{{ $region->Region_ID }}" {{ $region->Region_ID  == $blotter[0]->Region_ID  ? "selected" : "" }}>{{ $region->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($province as $province)
-                                                    <option value="{{ $province->Province_ID }}" {{ $province->Province_ID  == $blotter[0]->Province_ID  ? "selected" : "" }}>{{ $province->Province_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City/Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($city_municipality as $city)
-                                                    <option value="{{ $city->City_Municipality_ID }}" {{ $city->City_Municipality_ID  == $blotter[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $city->City_Municipality_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($barangay as $barangay)
-                                                    <option value="{{ $barangay->Barangay_ID }}" {{ $barangay->Barangay_ID  == $blotter[0]->Barangay_ID  ? "selected" : "" }}>{{ $barangay->Barangay_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                        </div> -->
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px" id="CaseDetails">
                                                 <h3>Case Details</h3>
@@ -342,7 +303,12 @@
         $('.js-example-basic-single').select2();
 
         $(".Resident_Select2").select2({
-            tags: true
+            tags: true,
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
         });
     });
 

@@ -270,7 +270,7 @@ class borisController extends Controller
                     // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
                     $filePath = public_path() . '/files/uploads/ordinance_and_resolution/';
                     $file->move($filePath, $filename);
-                    
+
 
 
 
@@ -523,5 +523,27 @@ class borisController extends Controller
             ->get();
 
         return json_encode($data);
+    }
+
+    public function search_ordinance(Request $request)
+    {
+        $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')
+            ->where('Ordinance_Resolution_Title', 'LIKE', '%' . $request->input('term', '') . '%')
+            ->where('Ordinance_or_Resolution', 0)
+            ->get(['Ordinance_Resolution_ID as id', 'Ordinance_Resolution_Title as text']);
+
+        return ['results' => $ordinance];
+    }
+
+    public function search_resolution(Request $request)
+    {
+        $resolution = DB::table('boris_brgy_ordinances_and_resolutions_information')
+            ->where('Ordinance_Resolution_Title', 'LIKE', '%' . $request->input('term', '') . '%')
+            ->where('Ordinance_or_Resolution', 1)
+            ->get(['Ordinance_Resolution_ID as id', 'Ordinance_Resolution_Title as text']);
+
+        dd($resolution);
+
+        return ['results' => $resolution];
     }
 }

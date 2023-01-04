@@ -132,7 +132,7 @@
 
 <!-- Create Announcement_Status Modal -->
 
-<div class="modal fade" id="createOrdinance_Info" tabindex="-1" role="dialog" aria-labelledby="Create_Ordinance" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="createOrdinance_Info" role="dialog" aria-labelledby="Create_Ordinance" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -175,10 +175,6 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Previous_Related_Ordinance_Resolution_ID">Previous Related Resolution</label>
                                 <select class="form-control" id="Previous_Related_Ordinance_Resolution_ID" name="Previous_Related_Ordinance_Resolution_ID">
-                                    <option value='' selected>Select Option</option>
-                                    @foreach($db_entries as $de)
-                                    <option value="{{ $de->Ordinance_Resolution_ID   }}">{{ $de->Ordinance_Resolution_Title }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -325,6 +321,15 @@
 <script>
     $(document).ready(function() {
         $('.select2').select2();
+
+        //Select2 Lazy Loading Resolution
+        $("#Previous_Related_Ordinance_Resolution_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_resolution',
+                dataType: "json",
+            }
+        });
     });
 
     $(document).ready(function() {
@@ -492,6 +497,10 @@
                 var province =
                     " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
                 $('#Province_ID').append(province);
+
+                var presolution_title =
+                    " <option value='" + data['theEntry'][0]['Previous_Related_Ordinance_Resolution_ID'] + "' selected>" + data['theEntry'][0]['POrdinance_Title'] + "</option>";
+                $('#Previous_Related_Ordinance_Resolution_ID').append(presolution_title);
             }
         });
 
@@ -511,13 +520,13 @@
                 if (User_Type_ID == 1 && btn_action != 1) {
                     data.forEach(element => {
                         $i = $i + 1;
-                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' +  (element['File_Size']/1048576).toFixed(2) +  ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1048576).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
                         $('#ordinance_files').append(file);
                     });
                 } else {
                     data.forEach(element => {
                         $i = $i + 1;
-                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' +  (element['File_Size']/1048576).toFixed(2) +  ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1048576).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
                         $('#ordinance_files').append(file);
                     });
                 }
@@ -684,6 +693,8 @@
         $('#createOrdinance_Info').trigger("reset");
         $("#createOrdinance_Info :input").prop("disabled", false);
         $(".btn_action").val(0);
+        $("#Previous_Related_Ordinance_Resolution_ID ").empty();
+        $("#Attester_ID").val([]).change();
     });
 </script>
 

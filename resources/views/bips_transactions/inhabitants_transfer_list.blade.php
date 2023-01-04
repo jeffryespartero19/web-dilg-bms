@@ -127,7 +127,7 @@
 
 <!-- Create Announcement_Status Modal  -->
 
-<div class="modal fade" id="createInhabitants_Transfer" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="createInhabitants_Transfer"  role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -145,10 +145,6 @@
                             <div class="form-group col-lg-12" style="padding:0 10px">
                                 <label class="required" for="Resident_ID">Name</label>
                                 <select class="form-control" id="Resident_ID" name="Resident_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($name as $bt)
-                                    <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -204,7 +200,7 @@
 
 
 
-<div class="modal fade" id="updateInhabitants_Transfer" tabindex="-1" role="dialog" aria-labelledby="Update_Inhabitants_Transfer" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="updateInhabitants_Transfer"  role="dialog" aria-labelledby="Update_Inhabitants_Transfer" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -223,10 +219,6 @@
                                 <div class="form-group col-lg-12" style="padding:0 10px">
                                     <label class="required" for="Resident_ID1">Name</label>
                                     <select class="form-control" id="Resident_ID1" name="Resident_ID" required>
-                                        <option value='' disabled selected>Select Option</option>
-                                        @foreach($name as $bt)
-                                        <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -514,11 +506,17 @@
             },
             success: function(data) {
                 $('#Inhabitants_Transfer_ID1').val(data['theEntry'][0]['Inhabitants_Transfer_ID']);
-                $('#Resident_ID1').val(data['theEntry'][0]['Resident_ID']);
+                // $('#Resident_ID1').val(data['theEntry'][0]['Resident_ID']);
                 $('#Region_ID1').val(data['theEntry'][0]['Region_ID']);
                 $('#Province_ID1').val(data['theEntry'][0]['Province_ID']);
                 $('#Barangay_ID1').val(data['theEntry'][0]['Barangay_ID']);
                 $('#City_Municipality_ID1').val(data['theEntry'][0]['City_Municipality_ID']);
+                var option = " <option value='" +
+                    data['theEntry'][0]['Resident_ID'] +
+                    "'>" +
+                    data['theEntry'][0]['Last_Name'] + ", " + data['theEntry'][0]['First_Name'] + " " + data['theEntry'][0]['Middle_Name'] +
+                    "</option>";
+                $('#Resident_ID1').append(option);
 
             }
         });
@@ -608,6 +606,25 @@
         $('#newInhabitants_Transfer').trigger("reset");
         $("#newInhabitants_Transfer :input").prop("disabled", false);
         $("#Mtitle").text("Edit");
+    });
+
+    $(document).ready(function() {
+        //Select2 Lazy Loading Inhabitants
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_ID1").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
     });
 </script>
 

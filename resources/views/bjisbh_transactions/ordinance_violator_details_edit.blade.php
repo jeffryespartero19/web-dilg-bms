@@ -57,11 +57,10 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Name</label>
                                                 <br>
-                                                <select required class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 100%;">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($resident as $rs)
-                                                    <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $violator[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                    @endforeach
+                                                <select required class="form-control Resident_Select2" name="Resident_ID" style="width: 100%;">
+                                                    @if($violator[0]->Resident_ID != 0 || $violator[0]->Resident_ID != null)
+                                                    <option value="{{ $violator[0]->Resident_ID }}" selected>{{ $violator[0]->Last_Name }}, {{ $violator[0]->First_Name }} {{ $violator[0]->Middle_Name }}</option>
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -69,7 +68,7 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Ordinance</label>
                                                 <br>
-                                                <selec requiredt id="Ordinance_ID" class="form-control" name="Ordinance_ID" style="width: 100%;">
+                                                <select requiredt id="Ordinance_ID" class="form-control" name="Ordinance_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($ordinance as $bs)
                                                     <option value="{{ $bs->Ordinance_Resolution_ID }}" {{ $bs->Ordinance_Resolution_ID  == $violator[0]->Ordinance_ID  ? "selected" : "" }}>{{ $bs->Ordinance_Resolution_Title }}</option>
@@ -146,13 +145,16 @@
         $('#example').DataTable();
     });
 
-    //Select2
     $(document).ready(function() {
-        $('.js-example-basic-single').select2();
-
-        // $(".Resident_Select2").select2({
-        //     tags: true
-        // });
+        //Select2 Lazy Loading Inhabitants
+        $("#Resident_Select2").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            },
+            tags: true
+        });
     });
 
     function addrow() {
@@ -363,6 +365,28 @@
         $('.OrdinanceViolator').addClass('active');
         $('.justice_menu').addClass('active');
         $('.justice_main').addClass('menu-open');
+    });
+
+    $(document).ready(function() {
+        //Select2 Lazy Loading Inhabitants
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $(document).ready(function() {
+            //Select2 Lazy Loading Inhabitants
+            $(".Resident_Select2").select2({
+                minimumInputLength: 2,
+                ajax: {
+                    url: '/search_inhabitants',
+                    dataType: "json",
+                },
+            });
+        });
     });
 </script>
 

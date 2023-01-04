@@ -46,7 +46,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
-                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+                            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <br>
                             <div class="col-md-12">
                                 <form id="newForm" method="POST" action="{{ route('create_ordinance_violator') }}" autocomplete="off" enctype="multipart/form-data">
@@ -57,11 +57,7 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Name</label>
                                                 <br>
-                                                <select required class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" style="width: 100%;">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($resident as $rs)
-                                                    <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                    @endforeach
+                                                <select required class="form-control Resident_Select2" name="Resident_ID" style="width: 100%;">
                                                 </select>
                                             </div>
                                         </div>
@@ -146,13 +142,16 @@
         $('#example').DataTable();
     });
 
-    //Select2
     $(document).ready(function() {
-        $('.js-example-basic-single').select2();
-
-        // $(".Resident_Select2").select2({
-        //     tags: true
-        // });
+        //Select2 Lazy Loading Inhabitants
+        $(".Resident_Select2").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            },
+            tags: true
+        });
     });
 
     function addrow() {
