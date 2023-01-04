@@ -124,7 +124,7 @@
 
 <!-- Create Announcement_Status Modal  -->
 
-<div class="modal fade" id="createDeceased_Profile" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="createDeceased_Profile" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -141,10 +141,6 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Resident_ID">Name</label>
                                 <select class="form-control" id="Resident_IDs" name="Resident_IDs" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($name as $bt)
-                                    <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -187,7 +183,7 @@
 
 
 
-<div class="modal fade" id="updateDeceased_Profile" tabindex="-1" role="dialog" aria-labelledby="Update_Deceased_Profile" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="updateDeceased_Profile" role="dialog" aria-labelledby="Update_Deceased_Profile" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -204,10 +200,6 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Resident_IDs2">Name</label>
                                 <select class="form-control" id="Resident_IDs2" name="Resident_IDs2" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($name as $bt)
-                                    <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -254,6 +246,25 @@
         $('#example').DataTable();
     });
 
+    $(document).ready(function() {
+        //Select2 Lazy Loading Resolution
+        $("#Resident_IDs").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_IDs2").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+    });
+
     // Edit Button Display Modal
     $(document).on('click', ('.edit_deceased_profile'), function(e) {
 
@@ -269,10 +280,16 @@
             },
             success: function(data) {
                 $('#Resident_ID2').val(data['theEntry'][0]['Resident_ID']);
-                $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']);
+                // $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']);
                 $('#Cause_of_Death2').val(data['theEntry'][0]['Cause_of_Death']);
                 $('#Deceased_Type_ID2').val(data['theEntry'][0]['Deceased_Type_ID']);
                 $('#Date_of_Death2').val(data['theEntry'][0]['Date_of_Death']);
+                var option = " <option value='" +
+                    data['theEntry'][0]['Resident_ID'] +
+                    "'>" +
+                    data['theEntry'][0]['Last_Name'] + ", " + data['theEntry'][0]['First_Name'] + " " + data['theEntry'][0]['Middle_Name'] +
+                    "</option>";
+                $('#Resident_IDs2').append(option);
             }
         });
 

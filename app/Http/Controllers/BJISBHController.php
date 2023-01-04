@@ -727,7 +727,21 @@ class BJISBHController extends Controller
                 'resident',
             ));
         } else {
-            $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
+            $violator = DB::table('bjisbh_ordinance_violators as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->select(
+                    'a.Ordinance_Violators_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Ordinance_ID',
+                    'a.Types_of_Penalties_ID',
+                    'a.Violation_Status_ID',
+                    'a.Vilotation_Date',
+                    'a.Complied_Date'
+                )
+                ->where('a.Ordinance_Violators_ID', $id)->get();
             $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
             $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
             $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
@@ -957,20 +971,19 @@ class BJISBHController extends Controller
     public function ordinance_violator_details_view($id)
     {
         $currDATE = Carbon::now();
-            $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
-            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
-            $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
-            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+        $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
+        $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+        $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
+        $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->get();
 
-            return view('bjisbh_transactions.ordinance_violator_details_view', compact(
-                'currDATE',
-                'penalties',
-                'ordinance',
-                'violation_status',
-                'resident',
-                'violator'
-            ));
-        
+        return view('bjisbh_transactions.ordinance_violator_details_view', compact(
+            'currDATE',
+            'penalties',
+            'ordinance',
+            'violation_status',
+            'resident',
+            'violator'
+        ));
     }
 }

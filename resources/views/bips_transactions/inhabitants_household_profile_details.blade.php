@@ -82,11 +82,7 @@
                                                     <tr class="HRDetails">
                                                         <td hidden></td>
                                                         <td style="width: 30%;">
-                                                            <select class="form-control myselect select2" name="Resident_ID[]">
-                                                                <option value='' disabled selected>Select Option</option>
-                                                                @foreach($resident as $rs)
-                                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                                @endforeach
+                                                            <select class="form-control myselect select2 Resident_Info" name="Resident_ID[]">
                                                             </select>
                                                         </td>
                                                         <td style="width: 30%;">
@@ -178,6 +174,15 @@
     //Select2
     $(document).ready(function() {
         $('.select2').select2();
+
+        //Select2 Lazy Loading Ordinance
+        $(".Resident_Info").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
     });
 
 
@@ -191,9 +196,17 @@
 
         var newrow = row.clone();
 
+        newrow.find(".Resident_Info").empty();
+
         $("#ResidentTBL").append(newrow);
 
-        $("select.select2").select2();
+        $("select.select2").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
     }
 
     // Option Case Remove

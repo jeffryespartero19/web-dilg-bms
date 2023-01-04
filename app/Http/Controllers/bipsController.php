@@ -577,13 +577,17 @@ class bipsController extends Controller
 
 
         $theEntry = DB::table('bips_deceased_profile as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->select(
                 'a.Resident_ID',
                 'a.Deceased_Type_ID',
                 'a.Cause_of_Death',
                 'a.Date_of_Death',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
             )
-            ->where('Resident_ID', $id)->get();
+            ->where('a.Resident_ID', $id)->get();
 
         return (compact('theEntry'));
     }
@@ -592,7 +596,7 @@ class bipsController extends Controller
 
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('bips_deceased_profile')->where('Resident_ID', $data['Resident_ID2'])->update(
             array(
@@ -601,7 +605,6 @@ class bipsController extends Controller
                 'Deceased_Type_ID'  => $data['Deceased_Type_ID2'],
                 'Cause_of_Death'  => $data['Cause_of_Death2'],
                 'Date_of_Death'  => $data['Date_of_Death2'],
-
             )
         );
 
@@ -1855,6 +1858,7 @@ class bipsController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bips_brgy_officials_and_staff as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->select(
                 'a.Brgy_Officials_and_Staff_ID',
                 'a.Resident_ID',
@@ -1862,8 +1866,11 @@ class bipsController extends Controller
                 'a.Term_From',
                 'a.Term_To',
                 'a.monthly_income',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
             )
-            ->where('Brgy_Officials_and_Staff_ID', $id)->get();
+            ->where('a.Brgy_Officials_and_Staff_ID', $id)->get();
 
         return (compact('theEntry'));
     }
@@ -1969,11 +1976,15 @@ class bipsController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bips_brgy_purok_leader as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->select(
                 'a.Brgy_Purok_Leader_ID',
                 'a.Resident_ID',
                 'a.Term_From',
                 'a.Term_To',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
             )
             ->where('Brgy_Purok_Leader_ID', $id)->get();
 
@@ -2058,5 +2069,19 @@ class bipsController extends Controller
             'household',
             'household_members',
         ));
+    }
+
+    public function search_inhabitants(Request $request)
+    {
+        $inhabitants = DB::table('bips_brgy_inhabitants_information')
+            ->select(DB::raw('CONCAT(Last_Name, ", ", First_Name, " ", Middle_Name) AS text'), 'Resident_ID as id',)
+            ->where('Last_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+            ->orWhere('First_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+            ->orWhere('Middle_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+            ->get();
+
+        // dd($inhabitants);
+
+        return ['results' => $inhabitants];
     }
 }
