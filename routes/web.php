@@ -877,9 +877,11 @@ Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
+Route::get('/search_ordinance', 'GlobalController@search_ordinance')->name('search_ordinance');
 //Route::get('/search_barangay', 'GlobalController@searchBarangay');
 
 //For Drop Downs
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');
 Route::get('/list_city', 'DropDownsController@list_city')->name('list_city');
 Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
+

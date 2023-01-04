@@ -285,7 +285,7 @@
                                                 <label for="fileattach">File Attachments</label>
                                                 <ul class="list-group list-group-flush" id="ordinance_files">
                                                     @foreach($file_attachment as $fa)
-                                                    <li class="list-group-item">{{$fa->File_Name}}<a href="../files/uploads/bjisbh_transaction/blotter_file_attachments/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
+                                                    <li class="list-group-item"> {{ $loop->iteration }}. {{$fa->File_Name}}<a href="../files/uploads/bjisbh_transaction/blotter_file_attachments/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
                                                     @endforeach
                                                     <br>
                                                     <div class="input-group my-3">
@@ -575,8 +575,8 @@
         }
     });
 
-     // Side Bar Active
-     $(document).ready(function() {
+    // Side Bar Active
+    $(document).ready(function() {
         $('.Blotter').addClass('active');
         $('.justice_menu').addClass('active');
         $('.justice_main').addClass('menu-open');

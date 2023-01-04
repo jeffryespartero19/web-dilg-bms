@@ -202,11 +202,15 @@ class borisController extends Controller
                     // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
                     $filePath = public_path() . '/files/uploads/ordinance_and_resolution/';
                     $file->move($filePath, $filename);
+                    $fileType = $file->getClientOriginalExtension();
+                    $fileSize = $file->getSize();
 
                     $file_data = array(
                         'Ordinance_Resolution_ID' => $Ordinance_Resolution_ID,
                         'File_Name' => $filename,
                         'File_Location' => $filePath,
+                        'File_Type' => $fileType,
+                        'File_Size' => $fileSize,
                         'Encoder_ID'       => Auth::user()->id,
                         'Date_Stamp'       => Carbon::now()
                     );
@@ -257,15 +261,25 @@ class borisController extends Controller
 
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
+
+                    // dd($file->getSize());
+
                     $filename = $file->getClientOriginalName();
+                    $fileType = $file->getClientOriginalExtension();
+                    $fileSize = $file->getSize();
                     // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
                     $filePath = public_path() . '/files/uploads/ordinance_and_resolution/';
                     $file->move($filePath, $filename);
+                    
+
+
 
                     $file_data = array(
                         'Ordinance_Resolution_ID' => $data['Ordinance_Resolution_ID'],
                         'File_Name' => $filename,
                         'File_Location' => $filePath,
+                        'File_Type' => $fileType,
+                        'File_Size' => $fileSize,
                         'Encoder_ID'       => Auth::user()->id,
                         'Date_Stamp'       => Carbon::now()
                     );
@@ -310,6 +324,7 @@ class borisController extends Controller
             ->leftjoin('maintenance_barangay as b', 'a.Barangay_ID', '=', 'b.Barangay_ID')
             ->leftjoin('maintenance_city_municipality as c', 'a.City_Municipality_ID', '=', 'c.City_Municipality_ID')
             ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+            ->leftjoin('boris_brgy_ordinances_and_resolutions_information as e', 'a.Previous_Related_Ordinance_Resolution_ID', '=', 'e.Ordinance_Resolution_ID')
             ->select(
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
@@ -326,7 +341,8 @@ class borisController extends Controller
                 'b.Barangay_Name',
                 'c.City_Municipality_Name',
                 'd.Province_Name',
-                'a.Approver_ID'
+                'a.Approver_ID',
+                'e.Ordinance_Resolution_Title as POrdinance_Title'
             )
             ->where('a.Ordinance_Resolution_ID', $id)
             ->get();

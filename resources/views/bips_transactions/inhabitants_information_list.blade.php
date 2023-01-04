@@ -154,7 +154,7 @@
                                                 <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr" style="display: flex;">
-                                                    <button class="view_inhabitants btn btn-primary">View</button>&nbsp;
+                                                    <button class="view_inhabitants btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
                                                     <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
                                                 </td>
                                             </tr>
@@ -739,6 +739,77 @@
 </div>
 
 
+<div class="modal fade" id="ViewInfo" tabindex="-1" role="dialog" aria-labelledby="ViewInfo" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Inhabitant Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <h4 id="VName"> </h4>
+                    <div class="row">
+                        <div class="col-2">
+                            <strong style="width: 400px;">Name: </strong><br>
+                        </div>
+                        <div class="col-4">
+                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-2">
+                            <strong style="width: 400px;">Name: </strong><br>
+                        </div>
+                        <div class="col-4">
+                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-2">
+                            <strong style="width: 400px;">Name: </strong><br>
+                        </div>
+                        <div class="col-4">
+                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-2">
+                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-4">
+                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-2">
+                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-4">
+                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-2">
+                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        <div class="col-4">
+                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
+                        </div>
+                        
+                        <div class="col-6">
+                            <strong>Birthdate: </strong><span id="VBirthdate"></span><br>
+                            <strong>Birthplace: </strong><span id="VBirthplace"></span><br>
+                            <strong>Age: </strong><span id="VAge"></span><br>
+                            <strong>Sex: </strong><span id="VSex"></span><br>
+                            <strong>Civil Status: </strong><span id="VCivilStatus"></span><br>
+                            <strong>Mobile Number: </strong><span id="VMobile"></span><br>
+                            <strong>Landline Number: </strong><span id="VLandline"></span><br>
+                            <strong>House Number: </strong><span id="VHouseNo"></span><br>
+                            <strong>Street: </strong><span id="VStreet"></span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <!-- Create Announcement_Status END -->
 
 @endsection
@@ -1293,14 +1364,176 @@
         $('.inhabitants_main').addClass('menu-open');
     });
 
-    $(document).on('click', ('.view_inhabitants'), function() {
-        $("#createInhabitants_Info :input").prop("disabled", true);
-        $(".modal-close").prop("disabled", false);
-        $('#Modal_Title').text('View Inhabitant Information');
+    // $(document).on('click', ('.view_inhabitants'), function() {
+    //     $("#createInhabitants_Info :input").prop("disabled", true);
+    //     $(".modal-close").prop("disabled", false);
+    //     $('#Modal_Title').text('View Inhabitant Information');
 
-        $(".btn_action").val(1);
+    //     $(".btn_action").val(1);
 
-        $(this).closest(".sm_data_col").find(".edit_inhabitants").trigger('click');
+    //     $(this).closest(".sm_data_col").find(".edit_inhabitants").trigger('click');
+    // });
+
+
+    // View Details
+    $(document).on('click', ('.view_inhabitants'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_inhabitants_info",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
+                $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
+                $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
+                $('#VAge').html(data['theEntry'][0]['Religion_ID']);
+                $('#VSex').html(data['theEntry'][0]['Blood_Type_ID']);
+                $('#VSex').html(data['theEntry'][0]['Sex']);
+                $('#VCivilStatus').html(data['theEntry'][0]['Weight']);
+                $('#VMobile').html(data['theEntry'][0]['Height']);
+                $('#VLandline').html(data['theEntry'][0]['Civil_Status_ID']);
+                $('#VMobile_No').text(data['theEntry'][0]['Mobile_No']);
+                $('#VTelephone_No').text(data['theEntry'][0]['Telephone_No']);
+                $('#VSalary').text(data['theEntry'][0]['Salary']);
+                $('#VEmail_Address').text(data['theEntry'][0]['Email_Address']);
+                $('#VPhilSys_Card_No').text(data['theEntry'][0]['PhilSys_Card_No']);
+                $('#VCountry_ID').text(data['theEntry'][0]['Country_ID']);
+                $('#VRegion_ID').text(data['theEntry'][0]['Region_ID']);
+                $('#VStreet').text(data['theEntry'][0]['Street']);
+                $('#VHouse_No').text(data['theEntry'][0]['House_No']);
+
+                var barangay =
+                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
+                $('#Barangay_ID').append(barangay);
+
+                var city =
+                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
+                $('#City_Municipality_ID').append(city);
+
+                var province =
+                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
+                $('#VProvince_ID').append(province);
+                $('#VSolo_Parent').val(data['theEntry'][0]['Solo_Parent']);
+                $('#VOFW').val(data['theEntry'][0]['OFW']);
+                $('#VIndigent').val(data['theEntry'][0]['Indigent']);
+                $('#V4Ps_Beneficiary').val(data['theEntry'][0]['4Ps_Beneficiary']);
+                $('#VResident_Status').val(data['theEntry'][0]['Resident_Status']);
+                $('#VVoter_Status').val(data['theEntry'][0]['Voter_Status']);
+                $('#VResident_Voter').val(data['theEntry'][0]['Resident_Voter']);
+                $('#VElection_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#VPhilHealth').val(data['theEntry'][0]['PhilHealth']);
+                $('#VGSIS').val(data['theEntry'][0]['GSIS']);
+                $('#VSSS').val(data['theEntry'][0]['SSS']);
+                $('#VPagIbig').val(data['theEntry'][0]['PagIbig']);
+            }
+        });
+
+        $.ajax({
+            url: "/get_inhabitants_edu_info",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('#EducTBLD').empty();
+                data.forEach(element => {
+                    var option = '<tr>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<select class="form-control" name="Academic_Level_ID[]" style="width: 200px;">' +
+                        '@foreach($academic_level as $al)' +
+                        '<option value="{{ $al->Academic_Level_ID  }}" {{ $al->Academic_Level_ID == "' + element['Academic_Level_ID'] + '" ? "selected" : "" }}>{{ $al->Academic_Level }}</option>' +
+                        '@endforeach' +
+                        '</select>' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="School_Name[]" style="width: 250px;"  value="' + element['School_Name'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="date" class="form-control" name="School_Year_Start[]" style="width: 200px;"  value="' + element['School_Year_Start'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="date" class="form-control" name="School_Year_End[]" style="width: 200px;"  value="' + element['School_Year_End'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Course[]" style="width: 200px;"  value="' + element['Course'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="date" class="form-control" name="Year_Graduated[]" style="width: 200px;"  value="' + element['Year_Graduated'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<button class="removeRow btn btn-danger">Remove</button>' +
+                        '</td>' +
+                        '</tr>';
+                    $('#EducTBLD').append(option);
+                });
+            }
+        });
+
+        $.ajax({
+            url: "/get_inhabitants_epm_info",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('#EmpTBLD').empty();
+                data.forEach(element => {
+                    var option_emp = '<tr>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<select class="form-control" name="Employment_Type_ID[]" style="width: 200px;">' +
+                        '@foreach($employment_type as $et)' +
+                        '<option value="{{ $et->Employment_Type_ID }}" {{ $et->Employment_Type_ID == "' + element['Employment_Type_ID'] + '" ? "selected" : "" }}>{{ $et->Employment_Type }}</option>' +
+                        '@endforeach' +
+                        '</select>' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Company_Name[]" style="width: 250px;" value="' + element['Company_Name'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Employer_Name[]" style="width: 200px;" value="' + element['Employer_Name'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Employer_Address[]" style="width: 200px;" value="' + element['Employer_Address'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Position[]" style="width: 200px;" value="' + element['Position'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="date" class="form-control" name="Start_Date[]" style="width: 200px;" value="' + element['Start_Date'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="date" class="form-control" name="End_Date[]" style="width: 200px;" value="' + element['End_Date'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;" value="' + element['Monthly_Salary'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;" value="' + element['Brief_Description'] + '">' +
+                        '</td>' +
+                        '<td class="sm_data_col txtCtr">' +
+                        '<button class="removeRow btn btn-danger">Remove</button>' +
+                        '</td>' +
+                        '</tr>';
+                    $('#EmpTBLD').append(option_emp);
+                });
+            }
+        });
+
+
     });
 </script>
 
