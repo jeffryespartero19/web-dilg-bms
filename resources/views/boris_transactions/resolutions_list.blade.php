@@ -105,7 +105,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
                                                 <button class="view_ordinance btn btn-primary">View</button>&nbsp;
-                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>
+                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>&nbsp;
+                                                <button class="delete_ordinance btn btn-danger" value="{{$x->Ordinance_Resolution_ID}}">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -695,6 +696,44 @@
         $(".btn_action").val(0);
         $("#Previous_Related_Ordinance_Resolution_ID ").empty();
         $("#Attester_ID").val([]).change();
+    });
+
+    // Delete Ordinance
+    $(document).on('click', ('.delete_ordinance'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this resolution?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_ordinance",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Resolution has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

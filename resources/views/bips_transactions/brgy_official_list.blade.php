@@ -100,7 +100,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Term_To}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
                                                 <button class="view_brgy_official btn btn-primary">View</button>&nbsp;
-                                                <button class="edit_brgy_official btn btn-info" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>
+                                                <button class="edit_brgy_official btn btn-info" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>&nbsp;
+                                                <button class="delete_brgy_official btn btn-danger" value="{{$x->Brgy_Officials_and_Staff_ID}}">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -366,6 +367,44 @@
             ajax: {
                 url: '/search_inhabitants',
                 dataType: "json",
+            }
+        });
+    });
+
+    // Delete Record
+    $(document).on('click', ('.delete_brgy_official'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this official?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_brgy_official",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Record has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
             }
         });
     });

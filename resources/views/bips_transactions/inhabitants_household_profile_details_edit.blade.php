@@ -230,7 +230,7 @@
 
         $("#ResidentTBL").append(newrow);
 
-        $("select.select2").select2({
+        $(".Resident_Info").select2({
             minimumInputLength: 2,
             ajax: {
                 url: '/search_inhabitants',

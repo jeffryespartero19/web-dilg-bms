@@ -155,7 +155,8 @@
                                                 <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
                                                 <td class="sm_data_col txtCtr" style="display: flex;">
                                                     <button class="view_inhabitants btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                    <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>
+                                                    <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>&nbsp;
+                                                    <button class="delete_inhabitants btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -786,7 +787,7 @@
                         <div class="col-4">
                             <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
                         </div>
-                        
+
                         <div class="col-6">
                             <strong>Birthdate: </strong><span id="VBirthdate"></span><br>
                             <strong>Birthplace: </strong><span id="VBirthplace"></span><br>
@@ -1534,6 +1535,44 @@
         });
 
 
+    });
+
+    // Delete Inhabitants
+    $(document).on('click', ('.delete_inhabitants'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this inhabitant?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_inhabitants",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Record has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

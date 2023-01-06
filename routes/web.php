@@ -872,9 +872,21 @@ Route::group(['middleware' => 'auth'], function () {
   //Search Boris Transaction
   Route::get('/search_ordinance', 'borisController@search_ordinance')->name('search_ordinance');
   Route::get('/search_resolution', 'borisController@search_resolution')->name('search_resolution');
-
   //Search BIPS Transaction
   Route::get('/search_inhabitants', 'bipsController@search_inhabitants')->name('search_inhabitants');
+
+  //Delete Ordinance
+  Route::get('/delete_ordinance', 'borisController@delete_ordinance')->name('delete_ordinance');
+  //Delete Inhabitant
+  Route::get('/delete_inhabitants', 'bipsController@delete_inhabitants')->name('delete_inhabitants');
+  //Delete Household
+  Route::get('/delete_household', 'bipsController@delete_household')->name('delete_household');
+  //Delete Deceased Profile
+  Route::get('/delete_deceased_profile', 'bipsController@delete_deceased_profile')->name('delete_deceased_profile');
+  //Delete Brgy Official
+  Route::get('/delete_brgy_official', 'bipsController@delete_brgy_official')->name('delete_brgy_official');
+    //Delete Brgy Purok Leader
+    Route::get('/delete_brgy_purok_leader', 'bipsController@delete_brgy_purok_leader')->name('delete_brgy_purok_leader');
 });
 
 

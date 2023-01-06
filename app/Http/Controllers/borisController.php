@@ -199,11 +199,10 @@ class borisController extends Controller
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
                     $filename = $file->getClientOriginalName();
-                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
-                    $filePath = public_path() . '/files/uploads/ordinance_and_resolution/';
-                    $file->move($filePath, $filename);
                     $fileType = $file->getClientOriginalExtension();
                     $fileSize = $file->getSize();
+                    $filePath = public_path() . '/files/uploads/ordinance_and_resolution/';
+                    $file->move($filePath, $filename);
 
                     $file_data = array(
                         'Ordinance_Resolution_ID' => $Ordinance_Resolution_ID,
@@ -542,8 +541,17 @@ class borisController extends Controller
             ->where('Ordinance_or_Resolution', 1)
             ->get(['Ordinance_Resolution_ID as id', 'Ordinance_Resolution_Title as text']);
 
-        dd($resolution);
+        // dd($resolution);
 
         return ['results' => $resolution];
+    }
+
+    public function delete_ordinance(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_Resolution_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 }

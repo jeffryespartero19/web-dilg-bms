@@ -100,7 +100,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
                                                 <button class="view_deceased_profile btn btn-primary">View</button>&nbsp;
-                                                <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
+                                                <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>&nbsp;
+                                                <button class="delete_deceased_profile btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -385,6 +386,44 @@
         $('#newDeceased_Profile').trigger("reset");
         $("#newDeceased_Profile :input").prop("disabled", false);
         $("#DPTitle").text("Edit Deceased Profile");
+    });
+
+    // Delete Record
+    $(document).on('click', ('.delete_deceased_profile'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this deceased profile?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_deceased_profile",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Record has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 
