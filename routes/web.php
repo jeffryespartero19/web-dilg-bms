@@ -885,8 +885,16 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/delete_deceased_profile', 'bipsController@delete_deceased_profile')->name('delete_deceased_profile');
   //Delete Brgy Official
   Route::get('/delete_brgy_official', 'bipsController@delete_brgy_official')->name('delete_brgy_official');
-    //Delete Brgy Purok Leader
-    Route::get('/delete_brgy_purok_leader', 'bipsController@delete_brgy_purok_leader')->name('delete_brgy_purok_leader');
+  //Delete Brgy Purok Leader
+  Route::get('/delete_brgy_purok_leader', 'bipsController@delete_brgy_purok_leader')->name('delete_brgy_purok_leader');
+  //Delete Blotter
+  Route::get('/delete_blotter', 'BJISBHController@delete_blotter')->name('delete_blotter');
+  //Delete Summons
+  Route::get('/delete_summons', 'BJISBHController@delete_summons')->name('delete_summons');
+  //Delete Proceedings
+  Route::get('/delete_proceedings', 'BJISBHController@delete_proceedings')->name('delete_proceedings');
+  //Delete Ordinance Violator
+  Route::get('/delete_ordinance_violator', 'BJISBHController@delete_ordinance_violator')->name('delete_ordinance_violator');
 });
 
 

@@ -52,7 +52,7 @@
                                 <form id="newSummon" method="POST" action="{{ route('create_summon') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
                                     <div>
-                                        <input type="number" class="form-control" id="Summons_ID" name="Summons_ID" value="{{$Blotter_ID}}" hidden>
+                                        <input type="number" class="form-control" id="Summons_ID" name="Summons_ID" value="{{$Summons_ID}}" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Blotter Number</label>
@@ -60,7 +60,7 @@
                                                 <select required id="Blotter_ID" class="form-control  js-example-basic-single mySelect2" name="Blotter_ID" style="width: 100%;">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($blotter as $bs)
-                                                    <option value="{{ $bs->Blotter_ID }}" {{ $bs->Blotter_ID == $Blotter_ID  ? "selected" : "" }}>{{ $bs->Blotter_Number }}</option>
+                                                    <option value="{{ $bs->Blotter_ID }}" {{ $bs->Blotter_ID == $summon[0]->Blotter_ID  ? "selected" : "" }}>{{ $bs->Blotter_Number }}</option>
                                                     @endforeach
                                                 </select>
 
