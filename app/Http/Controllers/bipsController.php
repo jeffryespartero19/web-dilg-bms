@@ -212,6 +212,7 @@ class bipsController extends Controller
                     'GSIS' => $data['GSIS'],
                     'SSS' => $data['SSS'],
                     'PagIbig' => $data['PagIbig'],
+                    'Application_Status' => 1,
                 )
             );
 
@@ -512,7 +513,6 @@ class bipsController extends Controller
                     'a.Cause_of_Death',
                     'a.Date_of_Death',
                 )
-                ->where('b.Application_Status', 1)
                 ->where('e.Province_ID', Auth::user()->Province_ID)
                 ->paginate(20, ['*'], 'db_entries');
         } elseif (Auth::user()->User_Type_ID == 1) {
@@ -529,7 +529,6 @@ class bipsController extends Controller
                     'a.Cause_of_Death',
                     'a.Date_of_Death',
                 )
-                ->where('b.Application_Status', 1)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
                 ->paginate(20, ['*'], 'db_entries');
         }
@@ -537,13 +536,11 @@ class bipsController extends Controller
         $city1 = DB::table('maintenance_city_municipality')
             ->where('Province_ID', Auth::user()->Province_ID)
             ->get();
-        $name = DB::table('bips_brgy_inhabitants_information')->paginate(20, ['*'], 'name');
         $deceased_type = DB::table('maintenance_bips_deceased_type')->where('Active', 1)->get();
 
         return view('bips_transactions.deceased_profile_list', compact(
             'db_entries',
             'currDATE',
-            'name',
             'deceased_type',
             'city1'
         ));
@@ -554,11 +551,11 @@ class bipsController extends Controller
     public function create_deceased_profile(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
         DB::table('bips_deceased_profile')->insert(
             array(
-                'Resident_ID' => $data['Resident_ID'],
+                'Resident_ID' => $data['Resident_IDs'],
                 'Deceased_Type_ID' => $data['Deceased_Type_ID'],
                 'Cause_of_Death' => $data['Cause_of_Death'],
                 'Date_of_Death' => $data['Date_of_Death'],
@@ -1844,7 +1841,7 @@ class bipsController extends Controller
                 'Term_To' => $data['Term_To'],
                 'monthly_income' => $data['monthly_income'],
                 'Encoder_ID'       => Auth::user()->id,
-                'created_at'       => Carbon::now(),
+                'Date_Stamp'       => Carbon::now(),
                 'Barangay_ID'       => Auth::user()->Barangay_ID,
                 'Active'       => 1,
             )
@@ -2075,13 +2072,65 @@ class bipsController extends Controller
     {
         $inhabitants = DB::table('bips_brgy_inhabitants_information')
             ->select(DB::raw('CONCAT(Last_Name, ", ", First_Name, " ", Middle_Name) AS text'), 'Resident_ID as id',)
-            ->where('Last_Name', 'LIKE', '%' . $request->input('term', '') . '%')
-            ->orWhere('First_Name', 'LIKE', '%' . $request->input('term', '') . '%')
-            ->orWhere('Middle_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Last_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('First_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('Middle_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
             ->get();
 
         // dd($inhabitants);
 
         return ['results' => $inhabitants];
+    }
+
+
+    public function delete_inhabitants(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_household(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bips_household_profile')->where('Household_Profile_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_deceased_profile(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bips_deceased_profile')->where('Resident_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_brgy_official(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_brgy_purok_leader(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bips_brgy_purok_leader')->where('Brgy_Purok_Leader_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 }

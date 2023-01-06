@@ -108,7 +108,8 @@
                                                 <td class="sm_data_col txtCtr">{{$x->Family_Type_Name}}</td>
                                                 <td class="sm_data_col txtCtr" style="display: flex;">
                                                     <a class="btn btn-primary" href="{{ url('inhabitants_household_details_view/'.$x->Household_Profile_ID) }}">View</a>&nbsp;
-                                                    <a class="btn btn-info" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>
+                                                    <a class="btn btn-info" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>&nbsp;
+                                                    <button class="delete_household btn btn-danger" value="{{$x->Household_Profile_ID}}">Delete</button>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -328,6 +329,44 @@
         $('.household').addClass('active');
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
+    });
+
+    // Delete Household
+    $(document).on('click', ('.delete_household'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this household?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_household",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Household has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 
