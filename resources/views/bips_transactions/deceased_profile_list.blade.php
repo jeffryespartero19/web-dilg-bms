@@ -100,7 +100,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
                                                 <button class="view_deceased_profile btn btn-primary">View</button>&nbsp;
-                                                <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>
+                                                <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>&nbsp;
+                                                <button class="delete_deceased_profile btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -124,7 +125,7 @@
 
 <!-- Create Announcement_Status Modal  -->
 
-<div class="modal fade" id="createDeceased_Profile" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="createDeceased_Profile" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -141,10 +142,6 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Resident_ID">Name</label>
                                 <select class="form-control" id="Resident_IDs" name="Resident_IDs" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($name as $bt)
-                                    <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -187,7 +184,7 @@
 
 
 
-<div class="modal fade" id="updateDeceased_Profile" tabindex="-1" role="dialog" aria-labelledby="Update_Deceased_Profile" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="updateDeceased_Profile" role="dialog" aria-labelledby="Update_Deceased_Profile" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -204,10 +201,6 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Resident_IDs2">Name</label>
                                 <select class="form-control" id="Resident_IDs2" name="Resident_IDs2" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($name as $bt)
-                                    <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -254,6 +247,25 @@
         $('#example').DataTable();
     });
 
+    $(document).ready(function() {
+        //Select2 Lazy Loading Resolution
+        $("#Resident_IDs").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_IDs2").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+    });
+
     // Edit Button Display Modal
     $(document).on('click', ('.edit_deceased_profile'), function(e) {
 
@@ -269,10 +281,16 @@
             },
             success: function(data) {
                 $('#Resident_ID2').val(data['theEntry'][0]['Resident_ID']);
-                $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']);
+                // $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']);
                 $('#Cause_of_Death2').val(data['theEntry'][0]['Cause_of_Death']);
                 $('#Deceased_Type_ID2').val(data['theEntry'][0]['Deceased_Type_ID']);
                 $('#Date_of_Death2').val(data['theEntry'][0]['Date_of_Death']);
+                var option = " <option value='" +
+                    data['theEntry'][0]['Resident_ID'] +
+                    "'>" +
+                    data['theEntry'][0]['Last_Name'] + ", " + data['theEntry'][0]['First_Name'] + " " + data['theEntry'][0]['Middle_Name'] +
+                    "</option>";
+                $('#Resident_IDs2').append(option);
             }
         });
 
@@ -368,6 +386,44 @@
         $('#newDeceased_Profile').trigger("reset");
         $("#newDeceased_Profile :input").prop("disabled", false);
         $("#DPTitle").text("Edit Deceased Profile");
+    });
+
+    // Delete Record
+    $(document).on('click', ('.delete_deceased_profile'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this deceased profile?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_deceased_profile",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Record has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

@@ -86,11 +86,8 @@
                                                     <tr class="HRDetails">
                                                         <td hidden></td>
                                                         <td>
-                                                            <select class="form-control js-example-basic-single mySelect2" name="Resident_ID[]" style="width: 100%;">
-                                                                <option value='' disabled selected>Select Option</option>
-                                                                @foreach($resident as $rs)
-                                                                <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $hm->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                                @endforeach
+                                                            <select class="form-control Resident_Info" name="Resident_ID[]" style="width: 100%;">
+                                                                <option value="{{ $hm->Resident_ID }}">{{ $hm->Last_Name }}, {{ $hm->First_Name }} {{ $hm->Middle_Name }}</option>
                                                             </select>
                                                         </td>
                                                         <td>
@@ -116,11 +113,8 @@
                                                     <tr class="HRDetails">
                                                         <td hidden></td>
                                                         <td>
-                                                            <select class="form-control js-example-basic-single mySelect2" name="Resident_ID[]" style="width: 100%;">
-                                                                <option value='' disabled selected>Select Option</option>
-                                                                @foreach($resident as $rs)
-                                                                <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                                @endforeach
+                                                            <select class="form-control Resident_Info" name="Resident_ID[]" style="width: 100%;">
+
                                                             </select>
                                                         </td>
                                                         <td>
@@ -211,24 +205,38 @@
 
     //Select2
     $(document).ready(function() {
-        $('.js-example-basic-single').select2();
+        $('.select2').select2();
+
+        //Select2 Lazy Loading Ordinance
+        $(".Resident_Info").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
     });
 
     function addrow() {
         var row = $("#ResidentTBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
-
 
         var newrow = row.clone();
 
+        newrow.find(".Resident_Info").empty();
+
         $("#ResidentTBL").append(newrow);
 
-        $("select.js-example-basic-single").select2();
-
-
+        $(".Resident_Info").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
     }
 
     // Option Case Remove

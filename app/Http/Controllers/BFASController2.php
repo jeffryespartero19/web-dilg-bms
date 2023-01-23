@@ -25,9 +25,13 @@ class BFASController2 extends Controller
             ->get();
 
         $regionX=DB::table('maintenance_region')->get();
+        $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $brgyX=DB::table('maintenance_barangay')->where('Barangay_ID',Auth::user()->Barangay_ID)->get();
+
         $card_type=DB::table('maintenance_bfas_card_type')->get();
 
-        return view('bfas.card_file',compact('db_entries','currDATE','regionX','card_type'));
+        return view('bfas.card_file',compact('db_entries','currDATE','regionX','card_type','provX','cityX','brgyX'));
     }
 
     public function create_bfas_card_file(Request $request)
@@ -393,11 +397,18 @@ class BFASController2 extends Controller
             ->get();
         
         $regionX=DB::table('maintenance_region')->get();
+
+        $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $brgyX=DB::table('maintenance_barangay')->where('Barangay_ID',Auth::user()->Barangay_ID)->get();
+
         $bank_acc=DB::table('maintenance_bfas_bank_account')->get();
         $journal_type=DB::table('maintenance_bfas_journal_type')->get();
         $fund_type=DB::table('maintenance_bfas_fund_type')->get();
 
-        return view('bfas.jev_collection',compact('db_entries','currDATE','regionX','bank_acc','journal_type','fund_type'));
+        return view('bfas.jev_collection',compact('db_entries','currDATE','regionX','bank_acc','journal_type','fund_type',
+                    'provX','cityX','brgyX'   
+                    ));
     }
 
     public function create_bfas_jev_collection(Request $request)
@@ -547,11 +558,17 @@ class BFASController2 extends Controller
             ->get();
         
         $regionX=DB::table('maintenance_region')->get();
+        $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $brgyX=DB::table('maintenance_barangay')->where('Barangay_ID',Auth::user()->Barangay_ID)->get();
+
         $bank_acc=DB::table('maintenance_bfas_bank_account')->get();
         $journal_type=DB::table('maintenance_bfas_journal_type')->get();
         $fund_type=DB::table('maintenance_bfas_fund_type')->get();
 
-        return view('bfas.jev_disbursement',compact('db_entries','currDATE','regionX','bank_acc','journal_type','fund_type'));
+        return view('bfas.jev_disbursement',compact('db_entries','currDATE','regionX','bank_acc','journal_type','fund_type',
+                    'provX','cityX','brgyX'   
+                    ));
     }
 
     public function create_bfas_jev_disbursement(Request $request)
@@ -724,6 +741,9 @@ class BFASController2 extends Controller
             ->get();
        /// dd($db_entries);
         $regionX=DB::table('maintenance_region')->get();
+        $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $brgyX=DB::table('maintenance_barangay')->where('Barangay_ID',Auth::user()->Barangay_ID)->get();
 
         $app_type=DB::table('maintenance_bfas_appropriation_type')->get();
         $fund_type=DB::table('maintenance_bfas_fund_type')->get();
@@ -732,7 +752,9 @@ class BFASController2 extends Controller
         $tax_code=DB::table('maintenance_bfas_tax_code')->get();
         $obr=DB::table('bfas_obligation_request')->get();
 
-        return view('bfas.disbursement_voucher',compact('db_entries','currDATE','regionX','app_type','fund_type','card_file','dv_status','tax_code','obr'));
+        return view('bfas.disbursement_voucher',compact('db_entries','currDATE','regionX','app_type','fund_type','card_file','dv_status','tax_code','obr',
+                    'provX','cityX','brgyX'
+                    ));
     }
 
     public function create_bfas_disbursement_voucher(Request $request)
@@ -990,12 +1012,18 @@ class BFASController2 extends Controller
         ->get();
         
         $regionX=DB::table('maintenance_region')->get();
+        $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $brgyX=DB::table('maintenance_barangay')->where('Barangay_ID',Auth::user()->Barangay_ID)->get();
+
         $bank_acc=DB::table('maintenance_bfas_bank_account')->get();
         $disbursement_voucher=DB::table('bfas_disbursement_voucher')->get();
         $voucher_status=DB::table('maintenance_bfas_voucher_status')->get();
         $brgy_OS=DB::table('bips_brgy_officials_and_staff')->get();
 
-        return view('bfas.check_preparation',compact('db_entries','currDATE','regionX','bank_acc','disbursement_voucher','voucher_status','brgy_OS'));
+        return view('bfas.check_preparation',compact('db_entries','currDATE','regionX','bank_acc','disbursement_voucher','voucher_status','brgy_OS',
+                    'provX','cityX','brgyX'
+                    ));
     }
 
     public function create_bfas_check_preparation(Request $request)
@@ -1433,6 +1461,9 @@ class BFASController2 extends Controller
             ->get();
         
         $regionX=DB::table('maintenance_region')->get();
+        $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $brgyX=DB::table('maintenance_barangay')->where('Barangay_ID',Auth::user()->Barangay_ID)->get();
 
         $app_type=DB::table('maintenance_bfas_appropriation_type')->get();
         $fund_type=DB::table('maintenance_bfas_fund_type')->get();
@@ -1440,7 +1471,9 @@ class BFASController2 extends Controller
         $accounts=DB::table('bfas_accounts_information')->get();
         
 
-        return view('bfas.budget_appropriation',compact('db_entries','currDATE','regionX','app_type','fund_type','bp_status','accounts'));
+        return view('bfas.budget_appropriation',compact('db_entries','currDATE','regionX','app_type','fund_type','bp_status','accounts',
+                    'provX','cityX','brgyX'
+                    ));
     }
 
     public function create_bfas_budget_appropriation(Request $request)
@@ -1611,6 +1644,9 @@ class BFASController2 extends Controller
             ->get();
         
         $regionX=DB::table('maintenance_region')->get();
+        $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $brgyX=DB::table('maintenance_barangay')->where('Barangay_ID',Auth::user()->Barangay_ID)->get();
 
         $fund_type=DB::table('maintenance_bfas_fund_type')->get();
         $card_file=DB::table('bfas_card_file')->get();
@@ -1620,7 +1656,9 @@ class BFASController2 extends Controller
         $tax_type=DB::table('maintenance_bfas_tax_type')->get();
         $accounts=DB::table('bfas_accounts_information')->get();
 
-        return view('bfas.obligation_request',compact('db_entries','currDATE','regionX','fund_type','card_file','obr_status','b_app','tax_type','accounts'));
+        return view('bfas.obligation_request',compact('db_entries','currDATE','regionX','fund_type','card_file','obr_status','b_app','tax_type','accounts',
+                    'provX','cityX','brgyX'
+                    ));
     }
 
     public function create_bfas_obligation_request(Request $request)

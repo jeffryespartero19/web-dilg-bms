@@ -849,7 +849,6 @@ Route::group(['middleware' => 'auth'], function () {
   //Ordinance Violator Details View
   Route::get('/ordinance_violator_details_view/{id}', 'BJISBHController@ordinance_violator_details_view');
 
-
 //DISASTER TYPE VIEW
   Route::get('/view_disaster_type_details/{id}', 'BDRISALController@view_disaster_type_details');
   //EMERGENCY EVACUATION SITE VIEW
@@ -873,7 +872,6 @@ Route::group(['middleware' => 'auth'], function () {
   //BRGY BUSINESS VIEW
   Route::get('/view_barangay_business_details/{id}', 'BCPISController@view_barangay_business_details');
 
-
   Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
 
   //Household View
@@ -889,6 +887,33 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/ordinance_violator_details_view/{id}', 'BJISBHController@ordinance_violator_details_view');
 
 
+
+  //Search Boris Transaction
+  Route::get('/search_ordinance', 'borisController@search_ordinance')->name('search_ordinance');
+  Route::get('/search_resolution', 'borisController@search_resolution')->name('search_resolution');
+  //Search BIPS Transaction
+  Route::get('/search_inhabitants', 'bipsController@search_inhabitants')->name('search_inhabitants');
+
+  //Delete Ordinance
+  Route::get('/delete_ordinance', 'borisController@delete_ordinance')->name('delete_ordinance');
+  //Delete Inhabitant
+  Route::get('/delete_inhabitants', 'bipsController@delete_inhabitants')->name('delete_inhabitants');
+  //Delete Household
+  Route::get('/delete_household', 'bipsController@delete_household')->name('delete_household');
+  //Delete Deceased Profile
+  Route::get('/delete_deceased_profile', 'bipsController@delete_deceased_profile')->name('delete_deceased_profile');
+  //Delete Brgy Official
+  Route::get('/delete_brgy_official', 'bipsController@delete_brgy_official')->name('delete_brgy_official');
+  //Delete Brgy Purok Leader
+  Route::get('/delete_brgy_purok_leader', 'bipsController@delete_brgy_purok_leader')->name('delete_brgy_purok_leader');
+  //Delete Blotter
+  Route::get('/delete_blotter', 'BJISBHController@delete_blotter')->name('delete_blotter');
+  //Delete Summons
+  Route::get('/delete_summons', 'BJISBHController@delete_summons')->name('delete_summons');
+  //Delete Proceedings
+  Route::get('/delete_proceedings', 'BJISBHController@delete_proceedings')->name('delete_proceedings');
+  //Delete Ordinance Violator
+  Route::get('/delete_ordinance_violator', 'BJISBHController@delete_ordinance_violator')->name('delete_ordinance_violator');
 });
 
 
@@ -898,6 +923,7 @@ Route::get('/get_province/{Region_ID}', 'GlobalController@getProvince');
 Route::get('/get_city/{Province_ID}', 'GlobalController@getCity');
 Route::get('/get_barangay/{City_Municipality_ID}', 'GlobalController@getBarangay');
 Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
+
 //Route::get('/search_barangay', 'GlobalController@searchBarangay');
 
 //For Drop Downs

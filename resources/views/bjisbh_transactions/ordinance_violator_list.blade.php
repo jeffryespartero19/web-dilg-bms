@@ -103,7 +103,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Vilotation_Date}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
                                                 <a class="btn btn-primary" href="{{ url('ordinance_violator_details_view/'.$x->Ordinance_Violators_ID) }}">View</a>&nbsp;
-                                                <a class="btn btn-success" href="{{ url('ordinance_violator_details/'.$x->Ordinance_Violators_ID) }}">Edit</a>
+                                                <a class="btn btn-success" href="{{ url('ordinance_violator_details/'.$x->Ordinance_Violators_ID) }}">Edit</a>&nbsp;
+                                                <button class="delete_ordinance_violator btn btn-danger" value="{{$x->Ordinance_Violators_ID}}">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -212,6 +213,44 @@
         $('.OrdinanceViolator').addClass('active');
         $('.justice_menu').addClass('active');
         $('.justice_main').addClass('menu-open');
+    });
+
+    // Delete Record
+    $(document).on('click', ('.delete_ordinance_violator'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this record?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_ordinance_violator",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Record has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

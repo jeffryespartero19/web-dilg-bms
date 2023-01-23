@@ -76,45 +76,6 @@
                                                 <input type="datetime-local" class="form-control" id="Incident_Date_Time" name="Incident_Date_Time" required value="{{$blotter[0]->Incident_Date_Time}}">
                                             </div>
                                         </div>
-                                        <!-- <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($region as $region)
-                                                    <option value="{{ $region->Region_ID }}" {{ $region->Region_ID  == $blotter[0]->Region_ID  ? "selected" : "" }}>{{ $region->Region_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="exampleInputEmail1">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($province as $province)
-                                                    <option value="{{ $province->Province_ID }}" {{ $province->Province_ID  == $blotter[0]->Province_ID  ? "selected" : "" }}>{{ $province->Province_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="City_Municipality_ID">City/Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($city_municipality as $city)
-                                                    <option value="{{ $city->City_Municipality_ID }}" {{ $city->City_Municipality_ID  == $blotter[0]->City_Municipality_ID  ? "selected" : "" }}>{{ $city->City_Municipality_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($barangay as $barangay)
-                                                    <option value="{{ $barangay->Barangay_ID }}" {{ $barangay->Barangay_ID  == $blotter[0]->Barangay_ID  ? "selected" : "" }}>{{ $barangay->Barangay_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                        </div> -->
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px" id="CaseDetails">
                                                 <h3>Case Details</h3>
@@ -285,7 +246,7 @@
                                                 <label for="fileattach">File Attachments</label>
                                                 <ul class="list-group list-group-flush" id="ordinance_files">
                                                     @foreach($file_attachment as $fa)
-                                                    <li class="list-group-item">{{$fa->File_Name}}<a href="../files/uploads/bjisbh_transaction/blotter_file_attachments/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
+                                                    <li class="list-group-item"> {{ $loop->iteration }}. {{$fa->File_Name}}<a href="../files/uploads/bjisbh_transaction/blotter_file_attachments/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
                                                     @endforeach
                                                     <br>
                                                     <div class="input-group my-3">
@@ -342,7 +303,12 @@
         $('.js-example-basic-single').select2();
 
         $(".Resident_Select2").select2({
-            tags: true
+            tags: true,
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
         });
     });
 
@@ -575,8 +541,8 @@
         }
     });
 
-     // Side Bar Active
-     $(document).ready(function() {
+    // Side Bar Active
+    $(document).ready(function() {
         $('.Blotter').addClass('active');
         $('.justice_menu').addClass('active');
         $('.justice_main').addClass('menu-open');

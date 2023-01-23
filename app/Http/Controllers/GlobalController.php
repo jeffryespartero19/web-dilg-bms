@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 
 class GlobalController extends Controller
 {
@@ -120,4 +121,6 @@ class GlobalController extends Controller
         //dd($data);
         return json_encode($data);
     }
+
+   
 }

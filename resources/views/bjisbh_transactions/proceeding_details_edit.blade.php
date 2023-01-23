@@ -52,7 +52,7 @@
                                 <form id="newForm" method="POST" action="{{ route('create_proceeding') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
                                     <div>
-                                        <input type="number" class="form-control" id="Summons_ID" name="Summons_ID" value="{{$Blotter_ID}}" hidden>
+
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Blotter Number</label>
@@ -206,6 +206,7 @@
         $('.justice_menu').addClass('active');
         $('.justice_main').addClass('menu-open');
     });
+    
 </script>
 
 <style>

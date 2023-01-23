@@ -449,7 +449,8 @@ class BJISBHController extends Controller
                 ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
                 ->select(
                     'b.Blotter_Number',
-                    'b.Blotter_ID'
+                    'b.Blotter_ID',
+                    'a.Summons_ID'
                 )
                 ->where('b.Province_ID', Auth::user()->Province_ID)
                 ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
@@ -459,7 +460,8 @@ class BJISBHController extends Controller
                 ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
                 ->select(
                     'b.Blotter_Number',
-                    'b.Blotter_ID'
+                    'b.Blotter_ID',
+                    'a.Summons_ID'
                 )
                 ->where('b.Barangay_ID', Auth::user()->Barangay_ID)
                 ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
@@ -490,8 +492,8 @@ class BJISBHController extends Controller
                 'summon_status'
             ));
         } else {
-            $Blotter_ID = $id;
-            $summon = DB::table('bjisbh_summons')->where('Blotter_ID', $id)->get();
+            $Summons_ID = $id;
+            $summon = DB::table('bjisbh_summons')->where('Summons_ID', $id)->get();
             $blotter = DB::table('bjisbh_blotter')->get();
             $summon_status = DB::table('maintenance_bjisbh_summons_status')->where('Active', 1)->get();
 
@@ -499,7 +501,7 @@ class BJISBHController extends Controller
                 'currDATE',
                 'blotter',
                 'summon_status',
-                'Blotter_ID',
+                'Summons_ID',
                 'summon'
             ));
         }
@@ -511,7 +513,7 @@ class BJISBHController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
-        DB::table('bjisbh_summons')->where('Blotter_ID', $data['Blotter_ID'])->delete();
+        DB::table('bjisbh_summons')->where('Summons_ID', $data['Summons_ID'])->delete();
 
         if (isset($data['Summons_Status_ID'])) {
             $summon_details = [];
@@ -539,7 +541,7 @@ class BJISBHController extends Controller
             }
         }
 
-        return redirect()->to('summon_details/' . $data['Blotter_ID'])->with('message', 'Record Saved');
+        return redirect()->to('summon_details/' . $data['Summons_ID'])->with('message', 'Record Saved');
     }
 
     //Proceeding List
@@ -552,7 +554,7 @@ class BJISBHController extends Controller
                 ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
                 ->select(
                     'b.Blotter_Number',
-                    'b.Blotter_ID'
+                    'b.Blotter_ID',
                 )
                 ->where('e.Province_ID', Auth::user()->Province_ID)
                 ->groupBy('b.Blotter_Number', 'b.Blotter_ID')
@@ -727,7 +729,21 @@ class BJISBHController extends Controller
                 'resident',
             ));
         } else {
-            $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
+            $violator = DB::table('bjisbh_ordinance_violators as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->select(
+                    'a.Ordinance_Violators_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Ordinance_ID',
+                    'a.Types_of_Penalties_ID',
+                    'a.Violation_Status_ID',
+                    'a.Vilotation_Date',
+                    'a.Complied_Date'
+                )
+                ->where('a.Ordinance_Violators_ID', $id)->get();
             $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
             $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
             $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
@@ -957,20 +973,55 @@ class BJISBHController extends Controller
     public function ordinance_violator_details_view($id)
     {
         $currDATE = Carbon::now();
-            $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
-            $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
-            $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
-            $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+        $violator = DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->get();
+        $penalties = DB::table('maintenance_bjisbh_types_of_penalties')->where('Active', 1)->get();
+        $ordinance = DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_or_Resolution', 0)->get();
+        $violation_status = DB::table('maintenance_bjisbh_violation_status')->where('Active', 1)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->get();
 
-            return view('bjisbh_transactions.ordinance_violator_details_view', compact(
-                'currDATE',
-                'penalties',
-                'ordinance',
-                'violation_status',
-                'resident',
-                'violator'
-            ));
-        
+        return view('bjisbh_transactions.ordinance_violator_details_view', compact(
+            'currDATE',
+            'penalties',
+            'ordinance',
+            'violation_status',
+            'resident',
+            'violator'
+        ));
+    }
+
+    public function delete_blotter(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bjisbh_blotter')->where('Blotter_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_summons(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bjisbh_summons')->where('Summons_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_proceedings(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bjisbh_proceedings')->where('Blotter_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_ordinance_violator(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 }

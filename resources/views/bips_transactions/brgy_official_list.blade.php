@@ -100,7 +100,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Term_To}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
                                                 <button class="view_brgy_official btn btn-primary">View</button>&nbsp;
-                                                <button class="edit_brgy_official btn btn-info" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>
+                                                <button class="edit_brgy_official btn btn-info" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>&nbsp;
+                                                <button class="delete_brgy_official btn btn-danger" value="{{$x->Brgy_Officials_and_Staff_ID}}">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -137,14 +138,9 @@
                         <h3>Resident Information</h3>
                         <br>
                         <div class="row">
-                            <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Resident_ID">Name</label>
-                                <select class="form-control js-example-basic-single" id="Resident_IDs" name="Resident_IDs" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($name as $bt)
-                                    <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                    @endforeach
+                                <select class="form-control Resident_Info" id="Resident_IDs" name="Resident_IDs" required>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -203,11 +199,7 @@
                             <input type="text" class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID" hidden>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Resident_IDs2">Name</label>
-                                <select class="form-control js-example-basic-single" id="Resident_IDs2" name="Resident_IDs2" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($name as $bt)
-                                    <option value="{{ $bt->Resident_ID }}">{{ $bt->Last_Name }} {{ $bt->First_Name }}, {{ $bt->Middle_Name }}</option>
-                                    @endforeach
+                                <select class="form-control Resident_Info" id="Resident_IDs2" name="Resident_IDs2" required>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -278,12 +270,18 @@
             success: function(data) {
                 // alert(data['theEntry'][0]['Term_From']);
                 $('#Brgy_Officials_and_Staff_ID').val(data['theEntry'][0]['Brgy_Officials_and_Staff_ID']);
-                $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']);
-                $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']).trigger('change');
+                // $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']);
+                // $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']).trigger('change');
                 $('#Brgy_Position_ID2').val(data['theEntry'][0]['Barangay_Position_ID']);
                 $('#Term_From2').val(data['theEntry'][0]['Term_From']);
                 $('#Term_To2').val(data['theEntry'][0]['Term_To']);
                 $('#monthly_income2').val(data['theEntry'][0]['monthly_income']);
+                var option = " <option value='" +
+                    data['theEntry'][0]['Resident_ID'] +
+                    "'>" +
+                    data['theEntry'][0]['Last_Name'] + ", " + data['theEntry'][0]['First_Name'] + " " + data['theEntry'][0]['Middle_Name'] +
+                    "</option>";
+                $('#Resident_IDs2').append(option);
             }
         });
 
@@ -352,6 +350,63 @@
         $('#newBrgy_Official').trigger("reset");
         $("#newBrgy_Official :input").prop("disabled", false);
         $(".Mtitle").text("Edit");
+    });
+
+    $(document).ready(function() {
+        //Select2 Lazy Loading Inhabitants
+        $("#Resident_IDs").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_IDs2").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+    });
+
+    // Delete Record
+    $(document).on('click', ('.delete_brgy_official'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this official?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_brgy_official",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Record has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

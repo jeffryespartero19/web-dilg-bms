@@ -66,11 +66,13 @@
                     </div>
                 </div>
             </div>
+            @else
+            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
             @endif
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+
                         <div style="text-align: right;">
                             <div class="btn-group">
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createOrdinance_Info" style="width: 100px;">New</button></div>
@@ -103,7 +105,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
                                                 <button class="view_ordinance btn btn-primary">View</button>&nbsp;
-                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>
+                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>&nbsp;
+                                                <button class="delete_ordinance btn btn-danger" value="{{$x->Ordinance_Resolution_ID}}">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -130,7 +133,7 @@
 
 <!-- Create Announcement_Status Modal -->
 
-<div class="modal fade" id="createOrdinance_Info" tabindex="-1" role="dialog" aria-labelledby="Create_Ordinance" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="createOrdinance_Info" role="dialog" aria-labelledby="Create_Ordinance" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -173,10 +176,6 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Previous_Related_Ordinance_Resolution_ID">Previous Related Resolution</label>
                                 <select class="form-control" id="Previous_Related_Ordinance_Resolution_ID" name="Previous_Related_Ordinance_Resolution_ID">
-                                    <option value='' selected>Select Option</option>
-                                    @foreach($db_entries as $de)
-                                    <option value="{{ $de->Ordinance_Resolution_ID   }}">{{ $de->Ordinance_Resolution_Title }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -323,6 +322,15 @@
 <script>
     $(document).ready(function() {
         $('.select2').select2();
+
+        //Select2 Lazy Loading Resolution
+        $("#Previous_Related_Ordinance_Resolution_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_resolution',
+                dataType: "json",
+            }
+        });
     });
 
     $(document).ready(function() {
@@ -490,6 +498,10 @@
                 var province =
                     " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
                 $('#Province_ID').append(province);
+
+                var presolution_title =
+                    " <option value='" + data['theEntry'][0]['Previous_Related_Ordinance_Resolution_ID'] + "' selected>" + data['theEntry'][0]['POrdinance_Title'] + "</option>";
+                $('#Previous_Related_Ordinance_Resolution_ID').append(presolution_title);
             }
         });
 
@@ -504,14 +516,18 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
+
+                $i = 0;
                 if (User_Type_ID == 1 && btn_action != 1) {
                     data.forEach(element => {
-                        var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1048576).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
                         $('#ordinance_files').append(file);
                     });
                 } else {
                     data.forEach(element => {
-                        var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1048576).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
                         $('#ordinance_files').append(file);
                     });
                 }
@@ -678,6 +694,46 @@
         $('#createOrdinance_Info').trigger("reset");
         $("#createOrdinance_Info :input").prop("disabled", false);
         $(".btn_action").val(0);
+        $("#Previous_Related_Ordinance_Resolution_ID ").empty();
+        $("#Attester_ID").val([]).change();
+    });
+
+    // Delete Ordinance
+    $(document).on('click', ('.delete_ordinance'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this resolution?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_ordinance",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Resolution has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 
