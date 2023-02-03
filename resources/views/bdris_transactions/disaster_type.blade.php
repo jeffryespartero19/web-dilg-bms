@@ -60,37 +60,21 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Emergency_Evacuation_Site_ID">Emergency Evacuation Site</label>
                                                 <select class="form-control" id="Emergency_Evacuation_Site_ID" name="Emergency_Evacuation_Site_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($emergency_evacuation_site as $bt1)
-                                                    <option value="{{ $bt1->Emergency_Evacuation_Site_ID }}">{{ $bt1->Emergency_Evacuation_Site_Name }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Allocated_Fund_ID">Allocated Fund</label>
                                                 <select class="form-control" id="Allocated_Fund_ID" name="Allocated_Fund_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($allocated_fund as $bt1)
-                                                    <option value="{{ $bt1->Allocated_Fund_ID }}">{{ $bt1->Allocated_Fund_Name }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Emergency_Equipment_ID">Emergency Equipment</label>
                                                 <select class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($emergency_equipment as $bt1)
-                                                    <option value="{{ $bt1->Emergency_Equipment_ID }}">{{ $bt1->Emergency_Equipment_Name }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Emergency_Team_ID">Emergency Team</label>
                                                 <select class="form-control" id="Emergency_Team_ID" name="Emergency_Team_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($emergency_team as $bt1)
-                                                    <option value="{{ $bt1->Emergency_Team_ID }}">{{ $bt1->Emergency_Team_Name }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -143,6 +127,40 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+        $('.select2').select2();
+
+        //Select2 Lazy Loading 
+        $("#Emergency_Evacuation_Site_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emereva',
+                dataType: "json",
+            }
+        });
+
+        $("#Allocated_Fund_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_allocated',
+                dataType: "json",
+            }
+        });
+
+        $("#Emergency_Equipment_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emerequip',
+                dataType: "json",
+            }
+        });
+
+        $("#Emergency_Team_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emerteam',
+                dataType: "json",
+            }
+        });
     });
 
     $(document).on('click', '.modal-close', function(e) {

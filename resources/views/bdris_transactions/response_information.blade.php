@@ -59,19 +59,11 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Disaster_Type_ID">Disaster Type</label>
                                                 <select class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($disaster_type as $bt1)
-                                                    <option value="{{ $bt1->Disaster_Type_ID }}">{{ $bt1->Disaster_Type }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Alert_Level_ID">Alert Level</label>
                                                 <select class="form-control" id="Alert_Level_ID" name="Alert_Level_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($alert_level as $bt1)
-                                                    <option value="{{ $bt1->Alert_Level_ID }}">{{ $bt1->Alert_Level }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -98,20 +90,19 @@
                                                 <label for="Action_Taken">Action Taken</label>
                                                 <input type="text" class="form-control" id="Action_Taken" name="Action_Taken">
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <div class="input-group my-3">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="fileattach">File Attachments</label>
+                                                <ul class="list-group list-group-flush" id="response_files">
 
-                                                    </div>
+                                                </ul>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                                                 </div>
-                                                Selected files:
-                                                <div id="fileList"></div>
                                             </div>
                                             <div class="col-lg-12" style="padding:0 10px;">
                                                 <h3>Evacuee Information</h3>
-                                                <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                                                <a onclick="addResident();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                                 <br>
                                                 <div class="table-responsive" id="CasualtiesDetails">
                                                     <table id="ResidentTBL" class="table table-striped table-bordered">
@@ -128,12 +119,8 @@
                                                         <tbody class="HSBody">
                                                             <tr class="HRDetails">
                                                                 <td hidden></td>
-                                                                <td>
-                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
-                                                                        <option value='' disabled selected>Select Option</option>
-                                                                        @foreach($resident as $rs)
-                                                                        <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                                        @endforeach
+                                                                <td style="width: 30%;">
+                                                                    <select class="form-control myselect select2 Resident_Info" name="Resident_ID[]">
                                                                     </select>
                                                                 </td>
                                                                 <td>
@@ -194,22 +181,41 @@
 
         $('.js-example-basic-single').select2();
 
-        $(".Resident_Select2").select2({
-            tags: true
+        // $(".Resident_Select2").select2({
+        //     tags: true
+        // });
+
+        $('.select2').select2();
+
+        
+         //Select2 Lazy Loading 
+         $("#Disaster_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disastertype',
+                dataType: "json",
+            }
+        });
+
+        $("#Alert_Level_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_alertlevel',
+                dataType: "json",
+            }
+        });
+
+        
+        $(".Resident_Info").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
         });
     });
 
-    // Show File Name
-    updateList = function() {
-        var input = document.getElementById('file');
-        var output = document.getElementById('fileList');
-
-        output.innerHTML = '<ul>';
-        for (var i = 0; i < input.files.length; ++i) {
-            output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
-        }
-        output.innerHTML += '</ul>';
-    }
+    
     // Populate Province
     $(document).on("change", "#Region_ID", function() {
         // alert('test');
@@ -321,27 +327,33 @@
     function addResident() {
         var row = $("#ResidentTBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Resident_Info").empty();
+
         $("#ResidentTBL").append(newrow);
+
+        $(".Resident_Info").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
 
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(3) input")).val('');
 
-        $("select.js-example-basic-single").select2();
-
-        $(".Resident_Select2").select2({
-            tags: true
-        });
+       
     }
 
 
     // Resident Casualties Change 
-    $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
+    $('#CasualtiesDetails').on("change", ".Resident_Info", function() {
         var Resident_Select2 = $(this).val();
         var Type = $.isNumeric(Resident_Select2);
         var disID = Resident_Select2;
@@ -391,6 +403,37 @@
         height: 32px !important;
         padding: 3px 3px;
         font: 13px;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 

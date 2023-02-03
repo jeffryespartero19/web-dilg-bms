@@ -119,8 +119,9 @@
                                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
-                                                <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">Edit</button>
-                                                <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
+                                                <button class="edit_contractor btn btn-info" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">Edit</button>
+                                                <button class="edit_contractor btn btn-primary" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
+                                                <button class="delete_contractor btn btn-danger" value="{{$x->Contractor_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
                                                 <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">View</button>
@@ -524,6 +525,44 @@
         $('.projectcContractor').addClass('active');
         $('.project_menu').addClass('active');
         $('.project_main').addClass('menu-open');
+    });
+
+    // Delete Contractor
+    $(document).on('click', ('.delete_contractor'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this contrator?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_contractor",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Contractor has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

@@ -108,11 +108,12 @@
                                             <td class="sm_data_col txtCtr">{{$x->Disaster_Name}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-success" href="{{ url('recovery_information_details/'.$x->Disaster_Recovery_ID) }}">Edit</a>
-                                                <a class="btn btn-success" href="{{ url('view_recovery_information_details/'.$x->Disaster_Recovery_ID) }}">View</a>
+                                                <a class="btn btn-info" href="{{ url('recovery_information_details/'.$x->Disaster_Recovery_ID) }}">Edit</a>
+                                                <a class="btn btn-primary" href="{{ url('view_recovery_information_details/'.$x->Disaster_Recovery_ID) }}">View</a>
+                                                <button class="delete_recovery btn btn-danger" value="{{$x->Disaster_Recovery_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-success" href="{{ url('recovery_information_details/'.$x->Disaster_Recovery_ID) }}">View</a>
+                                                <a class="btn btn-primary" href="{{ url('recovery_information_details/'.$x->Disaster_Recovery_ID) }}">View</a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -280,6 +281,44 @@
         $('.recoveryInfo').addClass('active');
         $('.disaster_menu').addClass('active');
         $('.disaster_main').addClass('menu-open');
+    });
+
+    // Delete Recovery
+    $(document).on('click', ('.delete_recovery'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this recovery information?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_recovery",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Recovery Information has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

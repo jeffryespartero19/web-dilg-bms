@@ -914,6 +914,68 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/delete_proceedings', 'BJISBHController@delete_proceedings')->name('delete_proceedings');
   //Delete Ordinance Violator
   Route::get('/delete_ordinance_violator', 'BJISBHController@delete_ordinance_violator')->name('delete_ordinance_violator');
+
+  //Delete Contractor
+  Route::get('/delete_contractor', 'BPMSController@delete_contractor')->name('delete_contractor');
+  //Delete Business Permit
+  Route::get('/delete_businesspermit', 'BCPISController@delete_businesspermit')->name('delete_businesspermit');
+  //Delete Brgy Document
+  Route::get('/delete_document', 'BCPISController@delete_document')->name('delete_document');
+  //Delete Brgy Business
+  Route::get('/delete_business', 'BCPISController@delete_business')->name('delete_business');
+  //Delete Disaster Type
+  Route::get('/delete_disaster', 'BDRISALController@delete_disaster')->name('delete_disaster');
+  //Delete Emergency Evacuation
+  Route::get('/delete_emereva', 'BDRISALController@delete_emereva')->name('delete_emereva');
+  //Delete Allocated Fund
+  Route::get('/delete_allocated', 'BDRISALController@delete_allocated')->name('delete_allocated');
+  //Delete Disaster Supplies
+  Route::get('/delete_disastersupp', 'BDRISALController@delete_disastersupp')->name('delete_disastersupp');
+  //Delete Emergency Team
+  Route::get('/delete_emerteam', 'BDRISALController@delete_emerteam')->name('delete_emerteam');
+  //Delete Emergency Equipment
+  Route::get('/delete_emerequip', 'BDRISALController@delete_emerequip')->name('delete_emerequip');
+  //Delete Disaster Related Activities
+  Route::get('/delete_disasterrelated', 'BDRISALController@delete_disasterrelated')->name('delete_disasterrelated');
+  //Delete Response Information
+  Route::get('/delete_response', 'BDRISALController@delete_response')->name('delete_response');
+  //Delete Recovery Information
+  Route::get('/delete_recovery', 'BDRISALController@delete_recovery')->name('delete_recovery');
+  //Delete Projects Monitoring
+  Route::get('/delete_projects', 'BPMSController@delete_projects')->name('delete_projects');
+
+
+  //Search BCPCIS Transaction
+  Route::get('/search_businesstype', 'BCPISController@search_businesstype')->name('search_businesstype');
+  Route::get('/search_business', 'BCPISController@search_business')->name('search_business');
+  Route::get('/search_businessresident', 'BCPISController@search_businessresident')->name('search_businessresident');
+  Route::get('/search_documenttype', 'BCPISController@search_documenttype')->name('search_documenttype');
+  Route::get('/search_documentpurpose', 'BCPISController@search_documentpurpose')->name('search_documentpurpose');
+  Route::get('/search_documentresident', 'BCPISController@search_documentresident')->name('search_documentresident');
+
+  //Search,Loda Attachment, and Delete Attachment BDRIS Transaction 
+  Route::get('/search_emereva', 'BDRISALController@search_emereva')->name('search_emereva');
+  Route::get('/search_allocated', 'BDRISALController@search_allocated')->name('search_allocated');
+  Route::get('/search_emerequip', 'BDRISALController@search_emerequip')->name('search_emerequip');
+  Route::get('/search_emerteam', 'BDRISALController@search_emerteam')->name('search_emerteam');
+  Route::get('/search_disastertype', 'BDRISALController@search_disastertype')->name('search_disastertype');
+  Route::get('/search_alertlevel', 'BDRISALController@search_alertlevel')->name('search_alertlevel');
+  Route::get('/search_disasterresponse', 'BDRISALController@search_disasterresponse')->name('search_disasterresponse');
+  Route::get('/search_household', 'BDRISALController@search_household')->name('search_household');
+  Route::get('/search_leveldamage', 'BDRISALController@search_leveldamage')->name('search_leveldamage');
+  Route::get('/get_response_attachments', 'BDRISALController@get_response_attachments')->name('get_response_attachments');
+  Route::get('/delete_response_attachments', 'BDRISALController@delete_response_attachments')->name('delete_response_attachments');
+  Route::get('/get_recovery_attachments', 'BDRISALController@get_recovery_attachments')->name('get_recovery_attachments');
+  Route::get('/delete_recovery_attachments', 'BDRISALController@delete_recovery_attachments')->name('delete_recovery_attachments');
+
+  //BPMS TRANSACTION
+  Route::get('/brgy_project_monitoring_details/{id}', 'BPMSController@brgy_project_monitoring_details');
+  Route::get('/search_contractor', 'BPMSController@search_contractor')->name('search_contractor');
+  Route::get('/search_projecttype', 'BPMSController@search_projecttype')->name('search_projecttype');
+  Route::get('/search_projectstatus', 'BPMSController@search_projectstatus')->name('search_projectstatus');
+  Route::get('/get_project_monitoring_list/{Barangay_ID}', 'BPMSController@get_project_monitoring_list');
+  Route::get('/search_accomplishment', 'BPMSController@search_accomplishment')->name('search_accomplishment');
+
 });
 
 

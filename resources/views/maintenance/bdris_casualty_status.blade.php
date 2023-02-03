@@ -58,10 +58,10 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Casualty Status ID </th>
+                                            <th hidden>Casualty Status ID </th>
                                             <th>Casualty Status</th>
                                             <th>Active</th>
-                                            <th>Encoder ID</th>
+                                            <th hidden>Encoder ID</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -69,13 +69,13 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Casualty_Status_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Casualty_Status_ID}}</td>
                                             <td>{{$x->Casualty_Status}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_casualty_status" value="{{$x->Casualty_Status_ID}}" data-toggle="modal" data-target="#updateCasualty_Status">Edit</button>
+                                                <button class="edit_casualty_status btn btn-info" value="{{$x->Casualty_Status_ID}}" data-toggle="modal" data-target="#updateCasualty_Status">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

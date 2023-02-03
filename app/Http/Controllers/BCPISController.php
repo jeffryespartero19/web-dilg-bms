@@ -616,7 +616,7 @@ class BCPISController extends Controller
             $province = DB::table('maintenance_province')->where('Region_ID', $permit[0]->Region_ID)->get();
             $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $permit[0]->Province_ID)->get();
             $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $permit[0]->City_Municipality_ID)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $resident = DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $permit[0]->Resident_ID)->get();
             $payment_docu = DB::table('bcpcis_brgy_payment_collected')->where('Barangay_Permits_ID', $id)->get();
             return view('bcpcis_transactions.brgy_business_permit_edit', compact(
                 'currDATE',
@@ -2000,4 +2000,107 @@ class BCPISController extends Controller
         return json_encode($data);
     }
 
+    public function delete_businesspermit(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bcpcis_brgy_business_permits')->where('Barangay_Permits_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+
+    public function delete_document(Request $request)
+    {
+        $id = $_GET['id'];
+        
+        DB::table('bcpcis_brgy_document_information')->where('Document_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_business(Request $request)
+    {
+        $id = $_GET['id'];
+        
+        DB::table('maintenance_bcpcis_barangay_business')->where('Business_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function search_businesstype(Request $request)
+    {
+        $business_type = DB::table('maintenance_bcpcis_business_type')
+            ->where('Active', 1)
+            ->get(['Business_Type_ID as id', 'Business_Type as text']);
+
+        return ['results' => $business_type];
+    }
+
+    public function search_business(Request $request)
+    {
+        $business = DB::table('maintenance_bcpcis_barangay_business')
+            ->where('Active', 1)
+            ->get(['Business_ID as id', 'Business_Name as text']);
+
+        return ['results' => $business];
+    }
+
+    public function search_businessresident(Request $request)
+    {
+        $inhabitants = DB::table('bips_brgy_inhabitants_information')
+            ->select(DB::raw('CONCAT(Last_Name, ", ", First_Name, " ", Middle_Name) AS text'), 'Resident_ID as id',)
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Last_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('First_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('Middle_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
+            ->get();
+
+        // dd($inhabitants);
+
+        return ['results' => $inhabitants];
+    }
+
+    public function search_documentresident(Request $request)
+    {
+        $inhabitants = DB::table('bips_brgy_inhabitants_information')
+            ->select(DB::raw('CONCAT(Last_Name, ", ", First_Name, " ", Middle_Name) AS text'), 'Resident_ID as id',)
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Last_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('First_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('Middle_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
+            ->get();
+
+        // dd($inhabitants);
+
+        return ['results' => $inhabitants];
+    }
+
+    public function search_documenttype(Request $request)
+    {
+        $document = DB::table('maintenance_bcpcis_document_type')
+            ->where('Active', 1)
+            ->get(['Document_Type_ID as id', 'Document_Type_Name as text']);
+
+        return ['results' => $document];
+    }
+
+    public function search_documentpurpose(Request $request)
+    {
+        $purpose = DB::table('maintenance_bcpcis_purpose_of_document')
+            ->where('Active', 1)
+            ->get(['Purpose_of_Document_ID as id', 'Purpose_of_Document as text']);
+
+        return ['results' => $purpose];
+    }
 }
