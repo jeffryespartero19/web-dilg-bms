@@ -278,7 +278,7 @@
         <!-- /.card-tools -->
     </div>
     <div class="card-body col-lg-12" style="margin-bottom: 5px;">
-        <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]">
+        <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]"  >
         <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
             <div class="form-group col-lg-12">
                 <label>Description</label>
