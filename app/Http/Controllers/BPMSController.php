@@ -204,6 +204,70 @@ class BPMSController extends Controller
     }
 
 
+    //Brgy Project Monitoring Details
+    public function brgy_project_monitoring_details($id)
+    {
+        $currDATE = Carbon::now();
+
+        if ($id == 0) {
+            $contractor = DB::table('bpms_contractor')->paginate(20, ['*'], 'contractor');
+            $project_type = DB::table('maintenance_bpms_project_type')->paginate(20, ['*'], 'project_type');
+            $project_status = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'project_status');
+            $accomplishment = DB::table('maintenance_bpms_accomplishment_status')->paginate(20, ['*'], 'accomplishment');
+            return view('bpms_transactions.brgy_projects_monitoring', compact(
+                'currDATE',
+                'contractor',
+                'project_type',
+                'project_status',
+                'accomplishment',
+               
+            ));
+        } else {
+            $project = DB::table('bpms_brgy_projects_monitoring')->where('Brgy_Projects_ID', $id)->get();
+            $contractor = DB::table('bpms_contractor')->paginate(20, ['*'], 'contractor');
+            $project_type = DB::table('maintenance_bpms_project_type')->paginate(20, ['*'], 'project_type');
+            $project_status = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'project_status');
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $project[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $project[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $project[0]->City_Municipality_ID)->get();
+            $accomplishment = DB::table('maintenance_bpms_accomplishment_status')->paginate(20, ['*'], 'accomplishment');
+            $milestone = DB::table('bpms_milestone_status as a')
+            ->leftjoin('maintenance_bpms_accomplishment_status as b', 'a.Accomplishment_Status_ID', '=', 'b.Accomplishment_Status_ID')
+            ->select(
+                'a.Milestone_Status_ID',
+                'b.Accomplishment_Status_ID',
+                'b.Accomplishment_Status_Name',
+                'a.Brgy_Projects_ID',
+                'a.Milestone_Title',
+                'a.Milestone_Description',
+                'a.Milestone_Date',
+                'a.Milestone_Status',
+                'a.Milestone_Percentage',
+                'a.Obligation_Amount',
+                'a.Disbursement_Amount',
+                'a.Male_Employed',
+                'a.Female_Employed',
+            )
+            ->where('a.Brgy_Projects_ID', $id)
+            ->get();
+            return view('bpms_transactions.brgy_projects_monitoring_edit', compact(
+                'currDATE',
+                'project',
+                'contractor',
+                'project_type',
+                'project_status',
+                'region',
+                'province',
+                'barangay',
+                'city_municipality',
+                'accomplishment',
+                'milestone',
+            ));
+        }
+    }
+
+
     //Save Brgy Projects Monitoring
     public function create_brgy_projects_monitoring(Request $request)
     {
@@ -269,10 +333,10 @@ class BPMSController extends Controller
                         DB::table('bpms_milestone_status')->updateOrInsert(['Milestone_Status_ID' => $id], $milestone);
                     }
                 }
-            }
-
-
-            return redirect()->back()->with('message', 'New Entry Created');
+            } 
+                
+            return redirect()->to('brgy_project_monitoring_details/' . $Brgy_Projects_ID)->with('message', 'New Brgy Projects Monitoring Created');
+            
         } else {
             DB::table('bpms_brgy_projects_monitoring')->where('Brgy_Projects_ID', $data['Brgy_Projects_ID'])->update(
                 array(
@@ -335,7 +399,7 @@ class BPMSController extends Controller
                 }
             }
 
-            return redirect()->back()->with('message', 'Brgy Projects Monitoring Info Updated');
+            return redirect()->back()->with('message', 'Information Updated');
         }
     }
 
@@ -433,7 +497,8 @@ class BPMSController extends Controller
         if ($request->hasfile('fileattach')) {
             foreach ($request->file('fileattach') as $file) {
                 $filename = $file->getClientOriginalName();
-                // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                $fileType = $file->getClientOriginalExtension();
+                $fileSize = $file->getSize();
                 $filePath = public_path() . '/files/uploads/brgy_projects_monitoring_milestone/';
                 $file->move($filePath, $filename);
 
@@ -441,12 +506,15 @@ class BPMSController extends Controller
                     'Milestone_Status_ID' => $data['Milestone_Status_ID'],
                     'File_Name' => $filename,
                     'File_Location' => $filePath,
+                    'File_Type' => $fileType,
+                    'File_Size' => $fileSize,
                     'Encoder_ID'       => Auth::user()->id,
                     'Date_Stamp'       => Carbon::now()
                 );
                 DB::table('bpms_file_attachment')->insert($file_data);
             }
         }
+        
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
@@ -563,4 +631,97 @@ class BPMSController extends Controller
             ->get();
         return json_encode($data);
     }    
+
+    public function delete_contractor(Request $request)
+    {
+        $id = $_GET['id'];
+        
+        DB::table('bpms_contractor')->where('Contractor_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_projects(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bpms_brgy_projects_monitoring')->where('Brgy_Projects_ID', $id)->delete();
+        DB::table('bpms_milestone_status')->where('Brgy_Projects_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function search_contractor(Request $request)
+    {
+        $contractor = DB::table('bpms_contractor')
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->get(['Contractor_ID as id', 'Contractor_Name as text']);
+
+        return ['results' => $contractor];
+    }
+
+    public function search_projecttype(Request $request)
+    {
+        $projecttype = DB::table('maintenance_bpms_project_type')
+            ->where('Active', 1)
+            ->get(['Project_Type_ID as id', 'Project_Type_Name as text']);
+
+        return ['results' => $projecttype];
+    }
+
+    public function search_projectstatus(Request $request)
+    {
+        $projectstatus = DB::table('maintenance_bpms_project_status')
+            ->where('Active', 1)
+            ->get(['Project_Status_ID as id', 'Project_Status_Name as text']);
+
+        return ['results' => $projectstatus];
+    }
+
+    public function get_project_monitoring_list($Barangay_ID)
+    {
+
+        $data = DB::table('bpms_brgy_projects_monitoring as a')
+            ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+            ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+            ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+            ->select(
+                'a.Brgy_Projects_ID',
+                'a.Project_Number',
+                'a.Project_Name',
+                'a.Total_Project_Cost',
+                'a.Exact_Location',
+                'a.Actual_Project_Start',
+                'b.Contractor_Name',
+                'c.Project_Type_Name',
+                'd.Project_Status_Name',
+
+            ) 
+            ->where('a.Barangay_ID', $Barangay_ID)
+            ->get();
+        return json_encode($data);
+    }
+
+    public function search_accomplishment(Request $request)
+    {
+        $accomplishment = DB::table('maintenance_bpms_accomplishment_status')
+            ->where('Active', 1)
+            ->get(['Accomplishment_Status_ID as id', 'Accomplishment_Status_Name as text']);
+
+        return ['results' => $accomplishment];
+    }
+
+    // public function delete_milestone_attachments(Request $request)
+    // {
+    //     $id = $_GET['id'];
+
+    //     $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+    //     if (File::exists('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name)) {
+    //         unlink(public_path('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name));
+    //     }
+    //     DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+    //     return response()->json(array('success' => true));
+    // }
+
 }

@@ -64,7 +64,7 @@
                                                     <option value="{{ $bt1->Disaster_Type_ID }}" {{ $bt1->Disaster_Type_ID  == $response[0]->Disaster_Type_ID  ? "selected" : "" }}>{{ $bt1->Disaster_Type }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
+                                            </div> 
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Alert_Level_ID">Alert Level</label>
                                                 <select class="form-control" id="Alert_Level_ID" name="Alert_Level_ID">
@@ -100,20 +100,17 @@
                                             </div>
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="fileattach">File Attachments</label>
-                                                <ul class="list-group list-group-flush" id="ordinance_files">
-                                                    @foreach($attachment as $fa)
-                                                    <li class="list-group-item">{{$fa->File_Name}}<a href="../files/uploads/response_information/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
-                                                    @endforeach
-                                                    <br>
-                                                    <div class="input-group my-3">
-                                                        <div class="custom-file">
-                                                            <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                                        </div>
-                                                    </div>
+                                                <ul class="list-group list-group-flush" id="response_files">
+
+                                                </ul>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                                                </div>
                                             </div>
                                             <div class="form-group col-lg-12" style="padding:0 10px;">
                                                 <h3>Evacuee Information</h3>
-                                                <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                                                <a onclick="addResident();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                                 <br>
                                                 <div class="table-responsive" id="CasualtiesDetails">
 
@@ -133,8 +130,8 @@
                                                             @foreach ($evacuee as $id)
                                                             <tr class="HRDetails">
                                                                 <td hidden></td>
-                                                                <td>
-                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                                <td style="width: 30%;">
+                                                                    <select class="form-control Resident_Info" name="Resident_ID[]" >
                                                                         <option value='' disabled selected>Select Option</option>
                                                                         @if($id->Resident_ID == 0)
                                                                         <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -170,7 +167,7 @@
                                                             <tr class="HRDetails">
                                                                 <td hidden></td>
                                                                 <td>
-                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                                    <select class="form-control Resident_Info" name="Resident_ID[]" style="width: 350px;">
                                                                         <option value='' disabled selected>Select Option</option>
                                                                         @foreach($resident as $rs)
                                                                         <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -237,24 +234,70 @@
 
         $('.js-example-basic-single').select2();
 
-        $(".Resident_Select2").select2({
-            tags: true
-        });
-    });
-    // Show File Name
-    updateList = function() {
-        var input = document.getElementById('file');
-        var output = document.getElementById('fileList');
+        // $(".Resident_Select2").select2({
+        //     tags: true
+        // });
 
-        output.innerHTML = '<ul>';
-        for (var i = 0; i < input.files.length; ++i) {
-            output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
-        }
-        output.innerHTML += '</ul>';
-    }
-    // Data Table
-    $(document).ready(function() {
-        $('#example').DataTable();
+        $('.select2').select2();
+
+        
+         //Select2 Lazy Loading 
+         $("#Disaster_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disastertype',
+                dataType: "json",
+            }
+        });
+
+        $("#Alert_Level_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_alertlevel',
+                dataType: "json",
+            }
+        });
+
+        $(".Resident_Info").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        var disID = $('#Disaster_Response_ID').val();
+        var User_Type_ID = $('#User_Type_ID').val();
+        $.ajax({
+            url: "/get_response_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $i = 0;
+                if (User_Type_ID == 1) {
+
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="/files/uploads/response_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn res_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#response_files').append(file);
+
+                    });
+                } else {
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/response_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                        $('#response_files').append(file);
+                    });
+                }
+
+            }
+        });
     });
 
 
@@ -366,46 +409,10 @@
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
-    // File Attachments Modal
-    $(document).on('click', ('.att_del'), function(e) {
-        var disID = $(this).val();
-
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/delete_response_information_attachments",
-                    type: 'GET',
-                    data: {
-                        id: disID
-                    },
-                    fail: function() {
-                        alert('request failed');
-                    },
-                    success: function(data) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                        )
-                        location.reload();
-                    }
-                });
-
-            }
-        });
-
-    });
+    
 
     // Resident Casualties Change 
-    $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
+    $('#CasualtiesDetails').on("change", ".Resident_Info", function() {
         var Resident_Select2 = $(this).val();
         var Type = $.isNumeric(Resident_Select2);
         var disID = Resident_Select2;
@@ -445,23 +452,33 @@
     function addResident() {
         var row = $("#ResidentTBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Resident_Info").empty();
+
         $("#ResidentTBL").append(newrow);
+
+        $(".Resident_Info").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
 
         $(newrow.find("td:eq(1) input")).val('');
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(3) input")).val('');
 
-        $("select.js-example-basic-single").select2();
+        // $("select.js-example-basic-single").select2();
 
-        $(".Resident_Select2").select2({
-            tags: true
-        });
+        // $(".Resident_Select2").select2({
+        //     tags: true
+        // });
     }
 
      // Disable Form if DILG USER
@@ -478,12 +495,81 @@
         $('.disaster_menu').addClass('active');
         $('.disaster_main').addClass('menu-open');
     });
+
+    $(document).on('click', ('.res_del'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_response_attachments",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+
+    });
+
 </script>
 
 <style>
     table {
         display: block;
         overflow-x: scroll;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 

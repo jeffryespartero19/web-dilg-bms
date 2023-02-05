@@ -58,10 +58,10 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Level of Damage ID </th>
+                                            <th hidden>Level of Damage ID </th>
                                             <th>Level of Damage</th>
                                             <th>Active</th>
-                                            <th>Encoder ID</th>
+                                            <th hidden>Encoder ID</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -69,13 +69,13 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Level_of_Damage_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Level_of_Damage_ID}}</td>
                                             <td>{{$x->Level_of_Damage}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_level_of_damage" value="{{$x->Level_of_Damage_ID}}" data-toggle="modal" data-target="#updateLevel_of_Damage">Edit</button>
+                                                <button class="edit_level_of_damage btn btn-info" value="{{$x->Level_of_Damage_ID}}" data-toggle="modal" data-target="#updateLevel_of_Damage">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

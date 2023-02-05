@@ -121,11 +121,12 @@
                                             <td class="sm_data_col txtCtr">{{$x->Barangay_Business_Permit_Expiration_Date}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-success" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">Edit</a>
-                                                <a class="btn btn-success" href="{{ url('view_brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a>
+                                                <a class="btn btn-info" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">Edit</a>
+                                                <a class="btn btn-primary" href="{{ url('view_brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a>
+                                                <button class="delete_businesspermit btn btn-danger" value="{{$x->Barangay_Permits_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-success" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a>
+                                                <a class="btn btn-primary" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -295,6 +296,45 @@ $(document).on("change", "#P_ID", function() {
         $('.businessPermit').addClass('active');
         $('.certification_menu').addClass('active');
         $('.certification_main').addClass('menu-open');
+    });
+
+
+    // Delete Contractor
+    $(document).on('click', ('.delete_businesspermit'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this business permit?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_businesspermit",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Business permit has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

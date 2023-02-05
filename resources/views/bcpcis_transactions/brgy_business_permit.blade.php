@@ -55,10 +55,6 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Business_ID">Business</label>
                                                 <select class="form-control" id="Business_ID" name="Business_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($business as $bt1)
-                                                    <option value="{{ $bt1->Business_ID }}">{{ $bt1->Business_Name }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -67,11 +63,7 @@
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Resident_ID">Resident</label>
-                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($resident as $rs)
-                                                    <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                    @endforeach
+                                                <select class="form-control" id="Resident_ID" name="Resident_ID">
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -112,7 +104,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="CTC_Details">CTC_Details</label>
+                                                <label for="CTC_Details">CTC Details</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_Details" value="{{old('CTC_Details')}}">
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -177,6 +169,24 @@
 
         $(".Resident_Select2").select2({
             tags: true
+        });
+
+        $('.select2').select2();
+         //Select2 Lazy Loading Business Type
+         $("#Business_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_business',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_businessresident',
+                dataType: "json",
+            }
         });
     });
 

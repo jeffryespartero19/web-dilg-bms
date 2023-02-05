@@ -19,7 +19,7 @@
                     </ol>
                 </div>
             </div>
-        </div> 
+        </div>
         <!-- /.container-fluid -->
     </section>
 </div>
@@ -38,17 +38,16 @@
 </div>
 @endif
 <div class="tableX_row col-md-12 up_marg5">
-<input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+    <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
     <br>
     <div class="col-md-12">
         <form id="newRecovery_Information" method="POST" action="{{ route('create_recovery_information') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="row">
-                
+
                 <input type="text" class="form-control" id="Disaster_Recovery_ID" name="Disaster_Recovery_ID" value="{{$recovery[0]->Disaster_Recovery_ID}}" hidden>
                 <div class="row">
-
-                    <div class="form-group col-lg-8" style="padding:0 10px">
+                    <div class="form-group col-lg-12" style="padding:0 10px">
                         <label for="Disaster_Response_ID">Disaster Response</label>
                         <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
                             <option value='' disabled selected>Select Option</option>
@@ -59,16 +58,13 @@
                     </div>
                     <div class="form-group col-lg-12" style="padding:0 10px">
                         <label for="fileattach">File Attachments</label>
-                        <ul class="list-group list-group-flush" id="recovery_information_files">
-                            @foreach($attachment as $fa)
-                            <li class="list-group-item">{{$fa->File_Name}}<a href="../files/uploads/recovery_information/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
-                            @endforeach
-                            <br>
-                            <div class="input-group my-3">
-                                <div class="custom-file">
-                                    <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                </div>
-                            </div>
+                        <ul class="list-group list-group-flush" id="recovery_files">
+
+                        </ul>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                            <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,7 +72,7 @@
             <div class="row">
                 <div class="form-group col-lg-12" style="padding:0 10px" id="AffectedDetails">
                     <h3>Affected Household and Infrastructure</h3>
-                    <a onclick="addrow();" style="float: right; cursor:pointer">+ Add</a>
+                    <a onclick="addrow();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                     <table id="AffectedTBL" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -96,7 +92,7 @@
                             <tr class="AffectedDetails">
                                 <td hidden></td>
                                 <td>
-                                    <select class="form-control js-example-basic-single mySelect2" name="Household_Profile_ID[]" style="width: 250px;">
+                                    <select class="form-control myselect select2 Household_Profile_ID" id="Household_Profile_ID" name="Household_Profile_ID[]" style="width: 250px;">
                                         <option value='' disabled selected>Select Option</option>
                                         @foreach($household_profile as $bt1)
                                         <option value="{{ $bt1->Household_Profile_ID }}" {{ $bt1->Household_Profile_ID == $cd->Household_Profile_ID  ? "selected" : "" }}>{{ $bt1->Household_Name }}</option>
@@ -104,7 +100,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select class="form-control js-example-basic-single mySelect2" name="Level_of_Damage_ID[]" style="width: 250px;">
+                                    <select class="form-control myselect select2 Level_of_Damage_ID" id="Level_of_Damage_ID" name="Level_of_Damage_ID[]" style="width: 250px;">
                                         <option value='' disabled selected>Select Option</option>
                                         @foreach($level_of_damage as $bt1)
                                         <option value="{{ $bt1->Level_of_Damage_ID }}" {{ $bt1->Level_of_Damage_ID == $cd->Level_of_Damage_ID  ? "selected" : "" }}>{{ $bt1->Level_of_Damage }}</option>
@@ -132,7 +128,7 @@
                             <tr class="AffectedDetails">
                                 <td hidden></td>
                                 <td>
-                                    <select class="form-control js-example-basic-single mySelect2" name="Household_Profile_ID[]" style="width: 250px;">
+                                    <select class="form-control myselect select2 Household_Profile_ID" id="Household_Profile_ID" name="Household_Profile_ID[]" style="width: 250px;">
                                         <option value=0 disabled selected>Select Option</option>
                                         @foreach($household_profile as $bt1)
                                         <option value="{{ $bt1->Household_Profile_ID }}">{{ $bt1->Household_Name }}</option>
@@ -140,7 +136,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select class="form-control js-example-basic-single mySelect2" name="Level_of_Damage_ID[]" style="width: 250px;">
+                                    <select class="form-control myselect select2 Level_of_Damage_ID" id="Level_of_Damage_ID" name="Level_of_Damage_ID[]" style="width: 250px;">
                                         <option value=0 disabled selected>Select Option</option>
                                         @foreach($level_of_damage as $bt1)
                                         <option value="{{ $bt1->Level_of_Damage_ID }}">{{ $bt1->Level_of_Damage }}</option>
@@ -170,7 +166,7 @@
                 <hr>
                 <div class="form-group col-lg-12" style="padding:0 10px" id="RecoveryDetails">
                     <h3>Recovery Damage Loss</h3>
-                    <a onclick="addrow2();" style="float: right; cursor:pointer">+ Add</a>
+                    <a onclick="addrow2();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                     <table id="RecoveryTBL" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -232,7 +228,8 @@
 
                 <div class="form-group col-lg-12" style="padding:0 10px;">
                     <h3>Casualties and Injured</h3>
-                    <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                    <a onclick="addResident();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                    <br>
                     <br>
                     <div style="overflow-x:auto;" id="CasualtiesDetails">
 
@@ -254,7 +251,7 @@
                                 <tr class="HRDetails">
                                     <td hidden></td>
                                     <td>
-                                        <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                        <select class="form-control myselect select2 Casualties_Resident" id="Casualties_Resident" name="Resident_ID[]" style="width: 350px;">
                                             <option value='' disabled selected>Select Option</option>
                                             @if($id->Resident_ID == 0)
                                             <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -298,7 +295,7 @@
                                 <tr class="HRDetails">
                                     <td hidden></td>
                                     <td>
-                                        <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                        <select class="form-control myselect select2 Casualties_Resident" id="Casualties_Resident" name="Resident_ID[]" style="width: 350px;">
                                             <option value='' disabled selected>Select Option</option>
                                             @foreach($resident as $rs)
                                             <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -339,7 +336,8 @@
 
                 <div class="form-group col-lg-12" style="padding:0 10px;">
                     <h3>Missing</h3>
-                    <a onclick="addResident2();" style="float: right; cursor:pointer">+ Add</a>
+                    <a onclick="addResident2();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                    <br>
                     <br>
                     <div style="overflow-x:auto;" id="MissingDetails">
 
@@ -362,7 +360,7 @@
                                 <tr class="HR2Details">
                                     <td hidden></td>
                                     <td>
-                                        <select class="form-control js-example-basic-single Resident_Select3 mySelect3" name="Resident_Missing_ID[]" style="width: 350px;">
+                                        <select class="form-control myselect select2 Missing_Resident" id="Missing_Resident" name="Resident_Missing_ID[]" style="width: 350px;">
                                             <option value='' disabled selected>Select Option</option>
                                             @if($id->Resident_ID == 0)
                                             <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -408,7 +406,7 @@
                                 <tr class="HR2Details">
                                     <td hidden></td>
                                     <td>
-                                        <select class="form-control js-example-basic-single Resident_Select3 mySelect3" name="Resident_Missing_ID[]" style="width: 350px;">
+                                        <select class="form-control myselect select2 Missing_Resident" id="Missing_Resident" name="Resident_Missing_ID[]" style="width: 350px;">
                                             <option value='' disabled selected>Select Option</option>
                                             @foreach($resident2 as $rs)
                                             <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -471,75 +469,191 @@
 @section('scripts')
 
 <script>
-    
     $(document).ready(function() {
+        $('#example').DataTable();
+    
         $('.js-example-basic-single').select2();
-
+        $('.select2').select2();
        
+         //Select2 Lazy Loading 
+         $("#Disaster_Response_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disasterresponse',
+                dataType: "json",
+            }
+        });
+
+        $("#Household_Profile_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_household',
+                dataType: "json",
+            }
+        });
+
+        $("#Level_of_Damage_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_leveldamage',
+                dataType: "json",
+            }
+        });
+
+        $(".Casualties_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $(".Missing_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        
+        var disID = $('#Disaster_Recovery_ID').val();
+        var User_Type_ID = $('#User_Type_ID').val();
+        $.ajax({
+            url: "/get_recovery_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $i = 0;
+                if (User_Type_ID == 1) {
+
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="./files/uploads/recovery_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn res_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#recovery_files').append(file);
+
+                    });
+                } else {
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/response_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                        $('#recovery_files').append(file);
+                    });
+                }
+
+            }
+        });
     });
 
     function addResident2() {
         var row = $("#Resident2TBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Missing_Resident").empty();
+
         $("#Resident2TBL").append(newrow);
-        $(newrow.find("td:eq(1) input")).val('');
-        $(newrow.find("td:eq(2) input")).val('');
+
+        $(".Missing_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
         $(newrow.find("td:eq(3) input")).val('');
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(5) input")).val('');
         $(newrow.find("td:eq(6) input")).val('');
 
-        $("select.js-example-basic-single").select2();
+        // $("select.js-example-basic-single").select2();
 
-       
+        // $(".Resident_Select3").select2({
+        //     tags: true
+        // });
     }
 
     function addResident() {
         var row = $("#ResidentTBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Casualties_Resident").empty();
+
         $("#ResidentTBL").append(newrow);
+
+        $(".Casualties_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
 
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(5) input")).val('');
 
-        $("select.js-example-basic-single").select2();
+        // $("select.js-example-basic-single").select2();
 
-        $(".Resident_Select2").select2({
-            tags: true
-        });
+        // $(".Resident_Select2").select2({
+        //     tags: true
+        // });
     }
 
     function addrow() {
         var row = $("#AffectedTBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Household_Profile_ID").empty();
+        newrow.find(".Level_of_Damage_ID").empty();
+
         $("#AffectedTBL").append(newrow);
-        
-        $(newrow.find("td:eq(1) input")).val(0);
-        $(newrow.find("td:eq(2) input")).val(0);
+
+        $("#Household_Profile_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_household',
+                dataType: "json",
+            }
+        });
+
+        $("#Level_of_Damage_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_leveldamage',
+                dataType: "json",
+            }
+        });
+
+        // $(newrow.find("td:eq(1) input")).val(0);
+        // $(newrow.find("td:eq(2) input")).val(0);
         $(newrow.find("td:eq(3) input")).val('');
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(5) input")).val('');
         $(newrow.find("td:eq(6) input")).val('');
+        
 
-        $("select.js-example-basic-single").select2();
+        
 
     }
 
@@ -562,28 +676,7 @@
         $("select.js-example-basic-single").select2();
     }
 
-    // Data Table
-    $(document).ready(function() {
-        $('#example').DataTable();
-        var disID = $(this).val();
-        $.ajax({
-            url: "/get_recovery_information_attachments",
-            type: 'GET',
-            data: {
-                id: disID
-            },
-            fail: function() {
-                alert('request failed');
-            },
-            success: function(data) {
-                var data = JSON.parse(data);
-                data.forEach(element => {
-                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/recovery_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
-                    $('#recovery_information_files').append(file);
-                });
-            }
-        });
-    });
+   
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newRecovery_Information').trigger("reset");
@@ -789,8 +882,7 @@
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
-    // File Attachments Modal
-    $(document).on('click', ('.att_del'), function(e) {
+    $(document).on('click', ('.res_del'), function(e) {
         var disID = $(this).val();
 
         Swal.fire({
@@ -804,7 +896,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/delete_recovery_information_attachments",
+                    url: "/delete_recovery_attachments",
                     type: 'GET',
                     data: {
                         id: disID
@@ -846,7 +938,7 @@
     });
 
     // Resident Casualties Change 
-    $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
+    $('#CasualtiesDetails').on("change", ".Casualties_Resident", function() {
         var Resident_Select2 = $(this).val();
         var Type = $.isNumeric(Resident_Select2);
         var disID = Resident_Select2;
@@ -879,7 +971,7 @@
     });
 
     // Resident Missing Change
-    $('#MissingDetails').on("change", ".Resident_Select3", function() {
+    $('#MissingDetails').on("change", ".Missing_Resident", function() {
         var Resident_Select3 = $(this).val();
         var Type = $.isNumeric(Resident_Select3);
         var disID = Resident_Select3;
@@ -913,8 +1005,8 @@
         }
     });
 
-     // Disable Form if DILG USER
-     $(document).ready(function() {
+    // Disable Form if DILG USER
+    $(document).ready(function() {
         var User_Type_ID = $('#User_Type_ID').val();
         if (User_Type_ID == 3 || User_Type_ID == 4) {
             $("#newRecovery_Information :input").prop("disabled", true);
@@ -946,6 +1038,38 @@
         padding: 3px 3px;
         font: 13px;
     }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
+    }
 </style>
+
 
 @endsection

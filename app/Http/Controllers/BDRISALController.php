@@ -691,7 +691,8 @@ class BDRISALController extends Controller
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
                     $filename = $file->getClientOriginalName();
-                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $fileType = $file->getClientOriginalExtension();
+                    $fileSize = $file->getSize();
                     $filePath = public_path() . '/files/uploads/response_information/';
                     $file->move($filePath, $filename);
 
@@ -699,6 +700,8 @@ class BDRISALController extends Controller
                         'Disaster_Response_ID' => $Disaster_Response_ID,
                         'File_Name' => $filename,
                         'File_Location' => $filePath,
+                        'File_Type' => $fileType,
+                        'File_Size' => $fileSize,
                         'Encoder_ID'       => Auth::user()->id,
                         'Date_Stamp'       => Carbon::now()
                     );
@@ -768,7 +771,12 @@ class BDRISALController extends Controller
 
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
+
+                    // dd($file->getSize());
+
                     $filename = $file->getClientOriginalName();
+                    $fileType = $file->getClientOriginalExtension();
+                    $fileSize = $file->getSize();
                     // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
                     $filePath = public_path() . '/files/uploads/response_information/';
                     $file->move($filePath, $filename);
@@ -777,6 +785,8 @@ class BDRISALController extends Controller
                         'Disaster_Response_ID' => $data['Disaster_Response_ID'],
                         'File_Name' => $filename,
                         'File_Location' => $filePath,
+                        'File_Type' => $fileType,
+                        'File_Size' => $fileSize,
                         'Encoder_ID'       => Auth::user()->id,
                         'Date_Stamp'       => Carbon::now()
                     );
@@ -1032,7 +1042,7 @@ class BDRISALController extends Controller
             $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->where('Active', 1)->get();
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
             $resident2 = DB::table('bips_brgy_inhabitants_information')->get();
-            // $missing = DB::table('bdris_missing')->where('Disaster_Recovery_ID', $id)->get();
+            $missing = DB::table('bdris_missing')->where('Disaster_Recovery_ID', $id)->get();
             $casualty = DB::table('maintenance_bdris_casualty_status')->where('Active', 1)->get();
             $injured = DB::table('bdris_casualties_and_injured as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
@@ -2072,7 +2082,8 @@ class BDRISALController extends Controller
                  'a.Emergency_Team_ID',
                  'e.Emergency_Team_Name',
                  'a.Emergency_Equipment_ID',
-                 'd.Emergency_Equipment_Name',      
+                 'd.Emergency_Equipment_Name',  
+                 DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
  
              )
              ->paginate(20, ['*'], 'db_entries');
@@ -2096,7 +2107,8 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',  
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
 
             )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2105,6 +2117,25 @@ class BDRISALController extends Controller
 
         //ALLOCATED FUND
         $db_entries3 = DB::table('bdris_allocated_fund_source as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+            'a.Allocated_Fund_ID',
+            'a.Allocated_Fund_Name',
+            'a.Amount',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',  
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
+
+        )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries');
         //ALLOCATED FUND        
@@ -2137,6 +2168,7 @@ class BDRISALController extends Controller
                 'g.First_Name',
                 'g.Middle_Name',
                 'h.Disaster_Name',
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
                   
             )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2160,7 +2192,8 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',  
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
 
             )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2184,7 +2217,8 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',  
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
 
             )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2220,7 +2254,8 @@ class BDRISALController extends Controller
                  'a.Emergency_Team_ID',
                  'e.Emergency_Team_Name',
                  'a.Emergency_Equipment_ID',
-                 'd.Emergency_Equipment_Name',      
+                 'd.Emergency_Equipment_Name',     
+                 DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'), 
  
              )
              ->paginate(20, ['*'], 'db_entries');
@@ -2244,7 +2279,8 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name', 
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),     
 
             )
             ->where('a.Region_ID', Auth::user()->Region_ID)
@@ -2253,6 +2289,21 @@ class BDRISALController extends Controller
 
         //ALLOCATED FUND
         $db_entries3 = DB::table('bdris_allocated_fund_source as a')
+        ->select(
+            'a.Allocated_Fund_ID',
+            'a.Allocated_Fund_Name',
+            'a.Amount',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',  
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
+
+        )
             ->where('a.Region_ID', Auth::user()->Region_ID)
             ->paginate(20, ['*'], 'db_entries');
         //ALLOCATED FUND        
@@ -2285,6 +2336,7 @@ class BDRISALController extends Controller
                 'g.First_Name',
                 'g.Middle_Name',
                 'h.Disaster_Name',
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),   
                   
             )
             ->where('a.Region_ID', Auth::user()->Region_ID)
@@ -2308,7 +2360,8 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',    
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),     
 
             )
             ->where('a.Region_ID', Auth::user()->Region_ID)
@@ -2332,7 +2385,8 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',  
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),       
 
             )
             ->where('a.Region_ID', Auth::user()->Region_ID)
@@ -3195,5 +3249,214 @@ class BDRISALController extends Controller
             ->get();
         return json_encode($data);
     }
+
+    public function delete_disaster(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('maintenance_bdris_disaster_type')->where('Disaster_Type_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_emereva(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_emergency_evacuation_site')->where('Emergency_Evacuation_Site_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_allocated(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_allocated_fund_source')->where('Allocated_Fund_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_disastersupp(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_disaster_supplies')->where('Disaster_Supplies_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_emerteam(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_emergency_team')->where('Emergency_Team_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_emerequip(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_emergency_equipment')->where('Emergency_Equipment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_disasterrelated(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_disaster_related_activities')->where('Disaster_Related_Activities_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_response(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_response_information')->where('Disaster_Response_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function delete_recovery(Request $request)
+    {
+        $id = $_GET['id'];
+
+        DB::table('bdris_recovery_information')->where('Disaster_Recovery_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function search_emereva(Request $request)
+    {
+        $purpose = DB::table('bdris_emergency_evacuation_site')
+            ->where('Active', 1)
+            ->get(['Emergency_Evacuation_Site_ID as id', 'Emergency_Evacuation_Site_Name as text']);
+
+        return ['results' => $purpose];
+    }
+
+    public function search_allocated(Request $request)
+    {
+        $purpose = DB::table('bdris_allocated_fund_source')
+            ->where('Active', 1)
+            ->get(['Allocated_Fund_ID as id', 'Allocated_Fund_Name as text']);
+
+        return ['results' => $purpose];
+    }
+
+    public function search_emerequip(Request $request)
+    {
+        $purpose = DB::table('bdris_emergency_equipment')
+            ->where('Active', 1)
+            ->get(['Emergency_Equipment_ID as id', 'Emergency_Equipment_Name as text']);
+
+        return ['results' => $purpose];
+    }
+
+    public function search_emerteam(Request $request)
+    {
+        $purpose = DB::table('bdris_emergency_team')
+            ->where('Active', 1)
+            ->get(['Emergency_Team_ID as id', 'Emergency_Team_Name as text']);
+
+        return ['results' => $purpose];
+    }
+
+    public function search_disastertype(Request $request)
+    {
+        $disastertype = DB::table('maintenance_bdris_disaster_type')
+            ->where('Active', 1)
+            ->get(['Disaster_Type_ID as id', 'Disaster_Type as text']);
+
+        return ['results' => $disastertype];
+    }
+
+    public function search_alertlevel(Request $request)
+    {
+        $alertlevel = DB::table('maintenance_bdris_alert_level')
+            ->where('Active', 1)
+            ->get(['Alert_Level_ID as id', 'Alert_Level as text']);
+
+        return ['results' => $alertlevel];
+    }
+
+    public function search_disasterresponse(Request $request)
+    {
+        $disaster = DB::table('bdris_response_information')
+            // ->where('Active', 1)
+            ->get(['Disaster_Response_ID as id', 'Disaster_Name as text']);
+
+        return ['results' => $disaster];
+    }
+
+    public function search_household(Request $request)
+    {
+        $household = DB::table('bips_household_profile')
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->get(['Household_Profile_ID as id', 'Household_Name as text']);
+
+        return ['results' => $household];
+    }
+
+    public function search_leveldamage(Request $request)
+    {
+        $leveldamage = DB::table('maintenance_bdris_level_of_damage')
+            ->where('Active', 1)
+            ->get(['Level_of_Damage_ID as id', 'Level_of_Damage as text']);
+
+        return ['results' => $leveldamage];
+    }
    
+    public function get_response_attachments(Request $request)
+    {
+        
+        $id = $_GET['id'];
+        $Reponse_Attach = DB::table('bdris_file_attachment')
+            ->where('Disaster_Response_ID', $id)
+            ->get();
+        return json_encode($Reponse_Attach);
+
+    }
+
+    public function delete_response_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/response_information/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/response_information/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
+
+    public function get_recovery_attachments(Request $request)
+    {
+        
+        $id = $_GET['id'];
+        $Reponse_Attach = DB::table('bdris_file_attachment')
+            ->where('Disaster_Recovery_ID', $id)
+            ->get();
+        return json_encode($Reponse_Attach);
+
+    }
+
+    public function delete_recovery_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
 }

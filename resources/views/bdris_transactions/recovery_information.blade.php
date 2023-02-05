@@ -5,7 +5,7 @@
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
 
 <div class="page_title_row col-md-12">
-    <section class="content-header">
+    <section class="content-header"> 
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -57,19 +57,16 @@
                                             <div class="form-group col-lg-8" style="padding:0 10px">
                                                 <label for="Disaster_Response_ID">Disaster Response</label>
                                                 <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($response_information as $bt1)
-                                                    <option value="{{ $bt1->Disaster_Response_ID }}">{{ $bt1->Disaster_Name }}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <div class="input-group my-3">
-                                                    <div class="custom-file">
-                                                        <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                                        <br />Selected files:
-                                                        <div id="fileList"></div>
-                                                    </div>
+                                                <label for="fileattach">File Attachments</label>
+                                                <ul class="list-group list-group-flush" id="response_files">
+
+                                                </ul>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                                                 </div>
                                             </div>
 
@@ -79,12 +76,12 @@
                                     <div class="row">
                                         <div class="form-group col-lg-12" style="padding:0 10px" id="AffectedDetails">
                                             <h3>Affected Household and Infrastructure</h3>
-                                            <a onclick="addrow();" style="float: right; cursor:pointer">+ Add</a>
+                                            <a onclick="addrow();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                             <div class="table-responsive">
                                                 <table id="AffectedTBL" class="table table-striped table-bordered" style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th hidden>Resident_ID</th>
+                                                            <th hidden>Affected_Household_ID</th>
                                                             <th>Household Name</th>
                                                             <th>Level of Damage</th>
                                                             <th>Affected Infrastructure Name</th>
@@ -98,19 +95,11 @@
                                                         <tr class="AffectedDetails">
                                                             <td hidden></td>
                                                             <td>
-                                                                <select class="form-control js-example-basic-single mySelect2" name="Household_Profile_ID[]" style="width: 100%;">
-                                                                    <option value='' disabled selected>Select Option</option>
-                                                                    @foreach($household_profile as $et)
-                                                                    <option value="{{ $et->Household_Profile_ID }}">{{ $et->Household_Name }}</option>
-                                                                    @endforeach
+                                                                <select class="form-control myselect select2 Household_Profile_ID" id="Household_Profile_ID" name="Household_Profile_ID[]" style="width: 200px;">
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select class="form-control js-example-basic-single mySelect2" name="Level_of_Damage_ID[]" style="width: 100%;">
-                                                                    <option value='' disabled selected>Select Option</option>
-                                                                    @foreach($level_of_damage as $et)
-                                                                    <option value="{{ $et->Level_of_Damage_ID }}">{{ $et->Level_of_Damage }}</option>
-                                                                    @endforeach
+                                                                <select class="form-control myselect select2 Level_of_Damage_ID" id="Level_of_Damage_ID" name="Level_of_Damage_ID[]" style="width: 200px;"> 
                                                                 </select>
                                                             </td>
                                                             <td class="sm_data_col txtCtr">
@@ -137,7 +126,7 @@
                                         <hr>
                                         <div class="form-group col-lg-12" style="padding:0 10px" id="RecoveryDetails">
                                             <h3>Recovery Damage Loss</h3>
-                                            <a onclick="addrow2();" style="float: right; cursor:pointer">+ Add</a>
+                                            <a onclick="addrow2();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                             <div class="table-responsive">
                                                 <table id="RecoveryTBL" class="table table-striped table-bordered" style="width:100%">
                                                     <thead>
@@ -179,7 +168,7 @@
 
                                         <div class="form-group col-lg-12" style="padding:0 10px;">
                                             <h3>Casualties and Injured</h3>
-                                            <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                                            <a onclick="addResident();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                             <br>
                                             <div class="table-responsive" id="CasualtiesDetails">
                                                 <table id="ResidentTBL" class="table table-striped table-bordered">
@@ -198,11 +187,7 @@
                                                         <tr class="HRDetails">
                                                             <td hidden></td>
                                                             <td>
-                                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
-                                                                    <option value='' disabled selected>Select Option</option>
-                                                                    @foreach($resident as $rs)
-                                                                    <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                                    @endforeach
+                                                                <select class="form-control myselect select2 Casualties_Resident" id="Casualties_Resident" name="Resident_ID[]" style="width: 300px;" >
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -240,7 +225,7 @@
 
                                         <div class="form-group col-lg-12" style="padding:0 10px;">
                                             <h3>Missing</h3>
-                                            <a onclick="addResident2();" style="float: right; cursor:pointer">+ Add</a>
+                                            <a onclick="addResident2();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                             <br>
                                             <div class="table-responsive" id="MissingDetails">
 
@@ -261,11 +246,7 @@
                                                         <tr class="HR2Details">
                                                             <td hidden></td>
                                                             <td>
-                                                                <select class="form-control js-example-basic-single Resident_Select3 mySelect3" name="Resident_Missing_ID[]" style="width: 350px;">
-                                                                    <option value='' disabled selected>Select Option</option>
-                                                                    @foreach($resident2 as $rs)
-                                                                    <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                                    @endforeach
+                                                                <select class="form-control myselect select2 Missing_Resident" id="Missing_Resident" name="Resident_Missing_ID[]" style="width: 300px;" >
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -336,46 +317,75 @@
     function addResident2() {
         var row = $("#Resident2TBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Missing_Resident").empty();
+
         $("#Resident2TBL").append(newrow);
+
+        $(".Missing_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
 
         $(newrow.find("td:eq(3) input")).val('');
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(5) input")).val('');
         $(newrow.find("td:eq(6) input")).val('');
 
-        $("select.js-example-basic-single").select2();
+        // $("select.js-example-basic-single").select2();
 
-        $(".Resident_Select3").select2({
-            tags: true
-        });
+        // $(".Resident_Select3").select2({
+        //     tags: true
+        // });
     }
 
 
     function addrow() {
         var row = $("#AffectedTBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Household_Profile_ID").empty();
+        newrow.find(".Level_of_Damage_ID").empty();
+
         $("#AffectedTBL").append(newrow);
 
-        $(newrow.find("td:eq(1) input")).val(0);
-        $(newrow.find("td:eq(2) input")).val(0);
-        $(newrow.find("td:eq(3) input")).val('');
-        $(newrow.find("td:eq(4) input")).val('');
-        $(newrow.find("td:eq(5) input")).val('');
-        $(newrow.find("td:eq(5) input")).val('');
+        $("#Household_Profile_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_household',
+                dataType: "json",
+            }
+        });
 
-        $("select.js-example-basic-single").select2();
+        $("#Level_of_Damage_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_leveldamage',
+                dataType: "json",
+            }
+        });
+
+        // $(newrow.find("td:eq(1) input")).val(0);
+        // $(newrow.find("td:eq(2) input")).val(0);
+        // $(newrow.find("td:eq(3) input")).val('');
+        // $(newrow.find("td:eq(4) input")).val('');
+        // $(newrow.find("td:eq(5) input")).val('');
+        // $(newrow.find("td:eq(5) input")).val('');
+
+        
 
     }
 
@@ -383,22 +393,32 @@
     function addResident() {
         var row = $("#ResidentTBL tr:last");
 
-        row.find(".js-example-basic-single").each(function(index) {
-            $(this).select2('destroy');
+        row.find(".select2").each(function(index) {
+            $("select.select2-hidden-accessible").select2('destroy');
         });
 
         var newrow = row.clone();
 
+        newrow.find(".Casualties_Resident").empty();
+
         $("#ResidentTBL").append(newrow);
+
+        $(".Casualties_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
 
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(5) input")).val('');
 
-        $("select.js-example-basic-single").select2();
+        // $("select.js-example-basic-single").select2();
 
-        $(".Resident_Select2").select2({
-            tags: true
-        });
+        // $(".Resident_Select2").select2({
+        //     tags: true
+        // });
     }
 
 
@@ -426,15 +446,58 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+       
 
         $('.js-example-basic-single').select2();
 
-        $(".Resident_Select2").select2({
-            tags: true
+        // $(".Resident_Select2").select2({
+        //     tags: true
+        // });
+
+        // $(".Resident_Select3").select2({
+        //     tags: true
+        // });
+        $('.select2').select2();
+       
+         //Select2 Lazy Loading 
+         $("#Disaster_Response_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disasterresponse',
+                dataType: "json",
+            }
         });
 
-        $(".Resident_Select3").select2({
-            tags: true
+        $("#Household_Profile_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_household',
+                dataType: "json",
+            }
+        });
+
+        $("#Level_of_Damage_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_leveldamage',
+                dataType: "json",
+            }
+        });
+
+        $(".Casualties_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $(".Missing_Resident").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
         });
     });
 
@@ -630,7 +693,7 @@
     });
 
     // Resident Casualties Change 
-    $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
+    $('#CasualtiesDetails').on("change", ".Casualties_Resident", function() {
         var Resident_Select2 = $(this).val();
         var Type = $.isNumeric(Resident_Select2);
         var disID = Resident_Select2;
@@ -663,7 +726,7 @@
     });
 
     // Resident Missing Change
-    $('#MissingDetails').on("change", ".Resident_Select3", function() {
+    $('#MissingDetails').on("change", ".Missing_Resident", function() {
         var Resident_Select3 = $(this).val();
         var Type = $.isNumeric(Resident_Select3);
         var disID = Resident_Select3;
@@ -726,6 +789,37 @@
         height: 32px !important;
         padding: 3px 3px;
         font: 13px;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 

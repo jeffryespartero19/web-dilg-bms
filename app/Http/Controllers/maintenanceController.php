@@ -769,7 +769,17 @@ class maintenanceController extends Controller
     public function project_type_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bpms_project_type')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bpms_project_type')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bpms_project_type as a')
+        ->select(
+            'a.Project_Type_ID',
+            'a.Project_Type_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bpms_project_type', compact('db_entries', 'currDATE'));
     }
@@ -819,7 +829,17 @@ class maintenanceController extends Controller
     public function accomplishment_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bpms_accomplishment_status')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bpms_accomplishment_status')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bpms_accomplishment_status as a')
+        ->select(
+            'a.Accomplishment_Status_ID',
+            'a.Accomplishment_Status_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bpms_accomplishment_status', compact('db_entries', 'currDATE'));
     }
@@ -869,7 +889,17 @@ class maintenanceController extends Controller
     public function project_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bpms_project_status as a')
+        ->select(
+            'a.Project_Status_ID',
+            'a.Project_Status_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bpms_project_status', compact('db_entries', 'currDATE'));
     }
@@ -1069,7 +1099,17 @@ class maintenanceController extends Controller
     public function alert_level_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bdris_alert_level as a')
+        ->select(
+            'a.Alert_Level_ID',
+            'a.Alert_Level',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bdris_alert_level', compact('db_entries', 'currDATE'));
     }
@@ -1119,7 +1159,17 @@ class maintenanceController extends Controller
     public function level_of_damage_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bdris_level_of_damage')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bdris_level_of_damage')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bdris_level_of_damage as a')
+        ->select(
+            'a.Level_of_Damage_ID',
+            'a.Level_of_Damage',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bdris_level_of_damage', compact('db_entries', 'currDATE'));
     }
@@ -1169,7 +1219,17 @@ class maintenanceController extends Controller
     public function casualty_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bdris_casualty_status')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bdris_casualty_status')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bdris_casualty_status as a')
+        ->select(
+            'a.Casualty_Status_ID',
+            'a.Casualty_Status',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
         return view('maintenance.bdris_casualty_status', compact('db_entries', 'currDATE'));
     }
 

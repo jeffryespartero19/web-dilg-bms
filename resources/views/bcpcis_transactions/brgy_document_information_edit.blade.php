@@ -72,7 +72,7 @@
                                             </div>
                                             <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Resident_ID">Resident</label>
-                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" >
+                                                <select class="form-control" name="Resident_ID" >
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($resident as $rs)
                                                     <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $document[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -211,6 +211,33 @@
 
         $(".Resident_Select2").select2({
             tags: true
+        });
+
+        $('.select2').select2();
+
+        //Select2 Lazy Loading 
+        $("#Document_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentresident',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
         });
     });
 

@@ -101,6 +101,7 @@
                             <th>Allocated Fund</th>
                             <th>Emergency Equipment</th>
                             <th>Emergency Team</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -113,9 +114,11 @@
                             <td class="sm_data_col txtCtr">{{$x->Allocated_Fund_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Equipment_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Name}}</td>
+                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                             <td class="sm_data_col txtCtr">
-                                <a class="btn btn-success" href="{{ url('disaster_type_details/'.$x->Disaster_Type_ID) }}">Edit</a>
-                                <a class="btn btn-success" href="{{ url('view_disaster_type_details/'.$x->Disaster_Type_ID) }}">View</a>
+                                <a class="btn btn-info" href="{{ url('disaster_type_details/'.$x->Disaster_Type_ID) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ url('view_disaster_type_details/'.$x->Disaster_Type_ID) }}">View</a>
+                                <button class="delete_disaster btn btn-danger" value="{{$x->Disaster_Type_ID}}">Delete</button>
                             </td>
                         </tr>
                         @endforeach
@@ -147,6 +150,7 @@
                             <th>Emergency Evacuation_Site Name </th>
                             <th>Address </th>
                             <th>Capacity </th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -157,13 +161,15 @@
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Evacuation_Site_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Address}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Capacity}}</td>
+                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-success" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">Edit</a>
-                                <a class="btn btn-success" href="{{ url('view_emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a>
+                                <a class="btn btn-info" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ url('view_emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a>
+                                <button class="delete_emereva btn btn-danger" value="{{$x->Emergency_Evacuation_Site_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-success" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a>
+                                <a class="btn btn-primary" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a>
                                 @endif
                             </td>
                         </tr>
@@ -193,6 +199,7 @@
 
                             <th>Allocated Fund Name </th>
                             <th>Amount </th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -202,13 +209,15 @@
 
                             <td class="sm_data_col txtCtr">{{$x->Allocated_Fund_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Amount}}</td>
+                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-success" href="{{ url('allocated_fund_details/'.$x->Allocated_Fund_ID) }}">Edit</a>
-                                <a class="btn btn-success" href="{{ url('view_allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a>
+                                <a class="btn btn-info" href="{{ url('allocated_fund_details/'.$x->Allocated_Fund_ID) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ url('view_allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a>
+                                <button class="delete_allocated btn btn-danger" value="{{$x->Allocated_Fund_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-success" href="{{ url('allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a>
+                                <a class="btn btn-primary" href="{{ url('allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a>
                                 @endif
                             </td>
                         </tr>
@@ -240,6 +249,7 @@
                             <th>Disaster Supplies Quantity </th>
                             <th>Location </th>
                             <th>Remarks </th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -252,13 +262,15 @@
                             <td class="sm_data_col txtCtr">{{$x->Disaster_Supplies_Quantity}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Location}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
+                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-success" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">Edit</a>
-                                <a class="btn btn-success" href="{{ url('view_disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a>
+                                <a class="btn btn-info" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ url('view_disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a>
+                                <button class="delete_disastersupp btn btn-danger" value="{{$x->Disaster_Supplies_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-success" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a>
+                                <a class="btn btn-primary" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a>
                                 @endif
                             </td>
                         </tr>
@@ -287,6 +299,7 @@
 
                             <th>Emergency Team Name </th>
                             <th>Emergency Team Hotline </th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -296,13 +309,15 @@
 
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Hotline}}</td>
+                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-success" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">Edit</a>
-                                <a class="btn btn-success" href="{{ url('view_emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a>
+                                <a class="btn btn-info" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ url('view_emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a>
+                                <button class="delete_emerteam btn btn-danger" value="{{$x->Emergency_Team_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-success" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a>
+                                <a class="btn btn-primary" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a>
                                 @endif
                             </td>
                         </tr>
@@ -331,6 +346,7 @@
 
                             <th>Emergency Equipment Name </th>
                             <th>Location </th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -340,13 +356,15 @@
 
                             <td class="sm_data_col txtCtr">{{$x->Emergency_Equipment_Name}}</td>
                             <td class="sm_data_col txtCtr">{{$x->Location}}</td>
+                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-success" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">Edit</a>
-                                <a class="btn btn-success" href="{{ url('view_emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a>
+                                <a class="btn btn-info" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">Edit</a>
+                                <a class="btn btn-primary" href="{{ url('view_emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a>
+                                <button class="delete_emerequip btn btn-danger" value="{{$x->Emergency_Equipment_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-success" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a>
+                                <a class="btn btn-primary" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a>
                                 @endif
                             </td>
                         </tr>
@@ -608,6 +626,236 @@
         $('.otherTrans').addClass('active');
         $('.disaster_menu').addClass('active');
         $('.disaster_main').addClass('menu-open');
+    });
+
+    // Delete Contractor
+    $(document).on('click', ('.delete_disaster'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this disater type?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_disaster",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Disaster Type has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+    });
+
+    // Delete Contractor
+    $(document).on('click', ('.delete_emereva'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this emergency evacuation site?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_emereva",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Emergency Evacuation Site has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+    });
+
+    // Delete Allocated
+    $(document).on('click', ('.delete_allocated'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this allocated fund?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_allocated",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Allocated Fund has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+    });
+
+
+    // Delete Disaster Supplies
+    $(document).on('click', ('.delete_disastersupp'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this disaster supplies?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_disastersupp",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Disaster Supplies has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+    });
+
+
+    // Delete Disaster Supplies
+    $(document).on('click', ('.delete_emerteam'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this emergency team?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_emerteam",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Emergency Team has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+    });
+
+    // Delete Emergency Equipment
+    $(document).on('click', ('.delete_emerequip'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this emergency equipment?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_emerequip",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Emergency Equipment has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 

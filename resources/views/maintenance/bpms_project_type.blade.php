@@ -58,10 +58,10 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Project Type ID </th>
+                                            <th hidden>Project Type ID </th>
                                             <th>Project Type Name</th>
                                             <th>Active</th>
-                                            <th>Encoder ID</th>
+                                            <th hidden>Encoder ID</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -69,13 +69,13 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Type_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Project_Type_ID}}</td>
                                             <td>{{$x->Project_Type_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_project_type" value="{{$x->Project_Type_ID}}" data-toggle="modal" data-target="#updateProject_Type">Edit</button>
+                                                <button class="edit_project_type btn btn-btninfo" value="{{$x->Project_Type_ID}}" data-toggle="modal" data-target="#updateProject_Type">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
