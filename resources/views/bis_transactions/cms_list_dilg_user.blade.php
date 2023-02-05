@@ -44,7 +44,7 @@
                     <div class="card-body">
                         <div style="text-align: right;">
                             <div class="btn-group">
-                                <div style="padding: 2px;"><a href="{{ url('cms_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
+                                <!-- <div style="padding: 2px;"><a href="{{ url('cms_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div> -->
                                 <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
