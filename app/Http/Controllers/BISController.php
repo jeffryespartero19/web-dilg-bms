@@ -652,9 +652,6 @@ class BISController extends Controller
 
                             if ($data['Answer'][$data['Indicator_ID'][$i]][$ii] != NULL) {
 
-
-
-
                                 if ($datas->Widget == 'RADIO' || $datas->Widget == 'SELECT' || $datas->Widget == 'CHECKBOX') {
                                     DB::table('bis_cms_indicator_answer')->insert(
                                         array(
