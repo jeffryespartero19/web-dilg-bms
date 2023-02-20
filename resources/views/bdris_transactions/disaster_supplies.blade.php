@@ -55,10 +55,6 @@
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Disaster_Response_ID">Disaster Response</label>
                                                 <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($disaster_response as $bt1)
-                                                    <option value="{{ $bt1->Disaster_Response_ID }}">{{ $bt1->Disaster_Name }} </option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -139,6 +135,18 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        $('.select2').select2();
+
+        
+         //Select2 Lazy Loading Business Type
+         $("#Disaster_Response_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disasterresponse',
+                dataType: "json",
+            }
+        });
     });
 
 

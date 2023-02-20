@@ -52,7 +52,7 @@
                                     <div class="row">
                                         <input type="text" class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID" value="{{$disaster_type[0]->Disaster_Type_ID}}" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-9" style="padding:0 10px">
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Disaster_Type">Disaster Type</label>
                                                 <input type="text" class="form-control" id="Disaster_Type" name="Disaster_Type" value="{{$disaster_type[0]->Disaster_Type}}">
                                             </div>
@@ -141,6 +141,40 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+        $('.select2').select2();
+
+        //Select2 Lazy Loading 
+        $("#Emergency_Evacuation_Site_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emereva',
+                dataType: "json",
+            }
+        });
+
+        $("#Allocated_Fund_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_allocated',
+                dataType: "json",
+            }
+        });
+
+        $("#Emergency_Equipment_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emerequip',
+                dataType: "json",
+            }
+        });
+
+        $("#Emergency_Team_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emerteam',
+                dataType: "json",
+            }
+        });
     });
 
     $(document).on('click', '.modal-close', function(e) {

@@ -59,10 +59,6 @@
                                             <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Business_Type_ID">Business Type</label>
                                                 <select class="form-control" id="Business_Type_ID" name="Business_Type_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                        @foreach($business_type as $bt1)
-                                                        <option value="{{ $bt1->Business_Type_ID }}">{{ $bt1->Business_Type }}</option>
-                                                        @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -71,11 +67,11 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                            <div class="form-group col-lg-5" style="padding:0 10px">
                                                 <label for="Business_Owner">Business Owner</label>
                                                 <input type="text" class="form-control" id="Business_Owner" name="Business_Owner">
                                             </div>
-                                            <div class="form-group col-lg-8" style="padding:0 10px">
+                                            <div class="form-group col-lg-7" style="padding:0 10px">
                                                 <label for="Business_Address">Business Address</label>
                                                 <input type="text" class="form-control" id="Business_Address" name="Business_Address">
                                             </div>
@@ -128,8 +124,17 @@
    // Data Table
    $(document).ready(function() {
         $('#example').DataTable();
+        $('.select2').select2();
 
         
+         //Select2 Lazy Loading Business Type
+         $("#Business_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_businesstype',
+                dataType: "json",
+            }
+        });
     });
 
     

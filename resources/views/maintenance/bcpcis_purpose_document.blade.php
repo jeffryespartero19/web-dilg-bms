@@ -41,10 +41,10 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Purpose of Document ID </th>
+                                            <th hidden>Purpose of Document ID </th>
                                             <th>Purpose of Document</th>
                                             <th>Active</th>
-                                            <th>Encoder ID</th>
+                                            <th hidden>Encoder ID</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -52,13 +52,13 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Purpose_of_Document_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Purpose_of_Document_ID}}</td>
                                             <td>{{$x->Purpose_of_Document}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_purpose_of_document" value="{{$x->Purpose_of_Document_ID}}" data-toggle="modal" data-target="#updatePurpose_of_Document">Edit</button>
+                                                <button class="edit_purpose_of_document btn btn-info" value="{{$x->Purpose_of_Document_ID}}" data-toggle="modal" data-target="#updatePurpose_of_Document">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

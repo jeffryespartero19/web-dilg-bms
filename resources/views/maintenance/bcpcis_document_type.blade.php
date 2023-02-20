@@ -40,11 +40,11 @@
                             <div class="col-md-12 table-responsive">
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
-                                        <tr>
+                                        <tr>hidden
                                             <th hidden>Document Type ID </th>
                                             <th>Document Type</th>
                                             <th>Active</th>
-                                            <th>Encoder ID</th>
+                                            <th hidden>Encoder ID</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -55,10 +55,10 @@
                                             <td class="sm_data_col txtCtr" hidden>{{$x->Document_Type_ID}} </td>
                                             <td>{{$x->Document_Type_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_document_type" value="{{$x->Document_Type_ID}}" data-toggle="modal" data-target="#updateDocument_Type">Edit</button>
+                                                <button class="edit_document_type btn btn-info" value="{{$x->Document_Type_ID}}" data-toggle="modal" data-target="#updateDocument_Type">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

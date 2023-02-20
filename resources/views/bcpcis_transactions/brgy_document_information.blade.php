@@ -58,20 +58,12 @@
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Document_Type_ID">Document Type</label>
-                                                <select class="form-control" id="Document_Type_ID" name="Document_Type_ID" >
-                                                    <option value=''  selected>Select Option</option>
-                                                        @foreach($document_type as $bt1)
-                                                        <option value="{{ $bt1->Document_Type_ID }}">{{ $bt1->Document_Type_Name }}</option>
-                                                        @endforeach
+                                                <select class="form-control" id="Document_Type_ID" name="Document_Type_ID">
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Resident_ID">Resident</label>
-                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID" >
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($resident as $rs)
-                                                    <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
-                                                    @endforeach
+                                                <select class="form-control" id="Resident_ID" name="Resident_ID">
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-2" style="padding:0 10px">
@@ -90,10 +82,6 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Purpose_of_Document_ID">Purpose of Document</label>
                                                 <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                        @foreach($purpose as $bt1)
-                                                        <option value="{{ $bt1->Purpose_of_Document_ID }}">{{ $bt1->Purpose_of_Document }}</option>
-                                                        @endforeach 
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -201,6 +189,33 @@
 
         $(".Resident_Select2").select2({
             tags: true
+        });
+
+        $('.select2').select2();
+
+        //Select2 Lazy Loading 
+        $("#Document_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentresident',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
         });
     });
 

@@ -140,6 +140,15 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        //Select2 Lazy Loading Business Type
+        $("#Disaster_Response_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disasterresponse',
+                dataType: "json",
+            }
+        });
     });
 
 

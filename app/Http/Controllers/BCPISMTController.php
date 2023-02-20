@@ -14,7 +14,17 @@ class BCPISMTController extends Controller
     public function business_type_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bcpcis_business_type')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bcpcis_business_type')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bcpcis_business_type as a')
+        ->select(
+            'a.Business_Type_ID',
+            'a.Business_Type',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bcpcis_business_type', compact('db_entries', 'currDATE'));
     }
@@ -61,10 +71,21 @@ class BCPISMTController extends Controller
     }
     //end Business Type
     //start Purpose of Document
-    public function purpose_document_list(Request $request)
+    public function purpose_document_list(Request $request) 
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bcpcis_purpose_of_document as a')
+        ->select(
+            'a.Purpose_of_Document_ID',
+            'a.Purpose_of_Document',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
+
+        // $db_entries = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bcpcis_purpose_document', compact('db_entries', 'currDATE'));
     }
@@ -114,7 +135,17 @@ class BCPISMTController extends Controller
     public function document_type_list(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'db_entries');
+        // $db_entries = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_bcpcis_document_type as a')
+        ->select(
+            'a.Document_Type_ID',
+            'a.Document_Type_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+            'a.Encoder_ID',
+            'a.Date_Stamp',
+
+        )
+        ->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.bcpcis_document_type', compact('db_entries', 'currDATE'));
     }

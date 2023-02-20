@@ -118,11 +118,12 @@
                                             <td class="sm_data_col txtCtr" >{{$x->Mobile_No}}</td>
                                             <td class="sm_data_col txtCtr">
                                             @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-success" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">Edit</a>
-                                                <a class="btn btn-success" href="{{ url('view_barangay_business_details/'.$x->Business_ID) }}">View</a>
+                                                <a class="btn btn-info" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">Edit</a>
+                                                <a class="btn btn-primary" href="{{ url('view_barangay_business_details/'.$x->Business_ID) }}">View</a>
+                                                <button class="delete_business btn btn-danger" value="{{$x->Business_ID}}">Delete</button>
                                             @endif
                                             @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-success" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">View</a>
+                                                <a class="btn btn-primary" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">View</a>
                                             @endif
                                             </td>
                                         </tr>
@@ -286,6 +287,43 @@ $.ajax({
 });
 });
     
+    // Delete Brgy Business
+    $(document).on('click', ('.delete_business'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this brgy business?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_business",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Brgy Business has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+    });
 </script>
 
 <style>

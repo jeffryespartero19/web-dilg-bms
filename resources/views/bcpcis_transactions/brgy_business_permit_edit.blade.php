@@ -71,7 +71,7 @@
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Resident_ID">Resident</label>
-                                                <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID">
+                                                <select class="form-control" id="Resident_ID" name="Resident_ID">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($resident as $rs)
                                                     <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID  == $permit[0]->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -192,11 +192,31 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
-
+        
         $('.js-example-basic-single').select2();
 
         $(".Resident_Select2").select2({
             tags: true
+        });
+
+        
+
+        $('.select2').select2();
+         //Select2 Lazy Loading Business Type
+         $("#Business_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_business',
+                dataType: "json",
+            }
+        });
+
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_businessresident',
+                dataType: "json",
+            }
         });
     });
 

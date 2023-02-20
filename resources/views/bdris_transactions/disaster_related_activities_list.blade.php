@@ -118,11 +118,12 @@
                                             <td class="sm_data_col txtCtr">{{$x->Number_of_Participants}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
-                                                <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">Edit</button>
-                                                <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#viewDisaster_Related_Activities">View</button>
+                                                <button class="edit_disaster_related_activities btn btn-info" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">Edit</button>
+                                                <button class="edit_disaster_related_activities btn btn-primary" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#viewDisaster_Related_Activities">View</button>
+                                                <button class="delete_disasterrelated btn btn-danger" value="{{$x->Disaster_Related_Activities_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <button class="edit_disaster_related_activities" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">View</button>
+                                                <button class="edit_disaster_related_activities btn btn-primary" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">View</button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -667,6 +668,45 @@
         $('.disasterActivities').addClass('active');
         $('.disaster_menu').addClass('active');
         $('.disaster_main').addClass('menu-open');
+    });
+
+
+    // Delete Contractor
+    $(document).on('click', ('.delete_disasterrelated'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this disaster related activities?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_disasterrelated",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            text: "Disaster Related Activities has been deleted.",
+                            icon: 'success',
+                            showConfirmButton: false,
+                        });
+                        location.reload();
+                    }
+                });
+
+            }
+        });
     });
 </script>
 
