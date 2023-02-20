@@ -171,6 +171,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             success: function (data) { 
                 $('#this_rci_idX').empty();
                 $('#this_rci_idX').val(data['theRC_item'][0]['Received_Item_ID']);
+                $('#this_rci_idX').append(data['the_item'][0]['Inventory_Name']);
 
                 $('#this_markingsX').val(data['theEntry'][0]['Markings']);
                 $('#this_serial_noX').val(data['theEntry'][0]['Serial_No']);
@@ -197,6 +198,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
 
                 $('#this_item_idX').empty();
                 $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
+                $('#this_item_idX').append(data['the_item'][0]['Inventory_Name']);
 
                 $('#this_item_status_idX').empty();
                 $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
@@ -212,7 +214,8 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 }
 
                 $('#this_rc_byX').empty();
-                $('#this_rc_byX').val(data['thestaff'][0]['Brgy_Officials_and_Staff_ID']);
+                $('#this_rc_byX').val(data['thestaff'][0]['id']);
+                $('#this_rc_byX').append(data['thestaff'][0]['name']);
 
                 $('#this_received_qtyX').val(data['theEntry'][0]['Received_Quantity']);
            
@@ -231,9 +234,12 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             },
             success: function (data) { 
                 $('#this_physical_count_IdX').val(data['theEntry'][0]['Physical_Count_ID']);
-
+                $('#this_TRno').text(data['theEntry'][0]['Transaction_No']);
+                
                 $('#this_p_inv').empty();
                 $('#this_p_inv').val(data['theP_inventory'][0]['Physical_Count_Inventory_ID']);
+                $('#this_p_inv').append(data['theP_inventory'][0]['Inventory_Name']);
+
 
                 $('#this_item_category').empty();
                 $('#this_item_category').val(data['theitem_category'][0]['Item_Category_ID']);
@@ -242,9 +248,9 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 $('#this_particulars').empty();
                 $('#this_particulars').append(data['theEntry'][0]['Particulars']);
                 
-
                 $('#this_oic').empty();
-                $('#this_oic').val(data['thestaff'][0]['Brgy_Officials_and_Staff_ID']);
+                $('#this_oic').val(data['thestaff'][0]['id']);
+                $('#this_oic').append(data['thestaff'][0]['name']);
            
             }
         });
@@ -264,6 +270,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
 
                 $('#this_item_idX').empty();
                 $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
+                $('#this_item_idX').append(data['the_item'][0]['Inventory_Name']);
 
                 $('#this_item_status_idX').empty();
                 $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
@@ -274,7 +281,8 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 
 
                 $('#this_oic').empty();
-                $('#this_oic').val(data['thestaff'][0]['Brgy_Officials_and_Staff_ID']);
+                $('#this_oic').val(data['thestaff'][0]['id']);
+                $('#this_oic').append(data['thestaff'][0]['name']);
            
             }
         });
@@ -290,10 +298,12 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 alert('request failed');
             },
             success: function (data) { 
-                $('#this_inv_disposal_IdX').val(data['theEntry'][0]['Borrowed_Equipment_ID ']);
+                $('#this_borrow_IdX').val(data['theEntry'][0]['Borrowed_Equipment_ID']);
 
                 $('#this_item_idX').empty();
                 $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
+                $('#this_item_idX').append(data['the_item'][0]['Inventory_Name']);
+                
 
                 $('#this_item_status_idX').empty();
                 $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
@@ -355,6 +365,12 @@ $(document).on('click',('.edit_XYZ'),function(e) {
     }
 
     
+});
+
+$(document).on('click',('.delRec'),function(e) {
+    var disVal = $(this).val(); 
+    $('#delFile').val(disVal); 
+    $('#deleteFile').modal('show');           
 });
 
 

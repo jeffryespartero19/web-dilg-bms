@@ -60,8 +60,8 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Supply Issuance ID </th>
-                                            <th>Item ID</th>
+                                            {{-- <th>Supply Issuance ID </th> --}}
+                                            <th hidden>Item ID</th>
                                             <th>Item Name</th>
                                             <th>Item Status ID</th>
                                             <th>Donation</th>
@@ -76,8 +76,8 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Received_Item_ID }}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Inventory_ID }}</td>
+                                            {{-- <td class="sm_data_col txtCtr">{{$x->Received_Item_ID }}</td> --}}
+                                            <td class="sm_data_col txtCtr" hidden>{{$x->Inventory_ID }}</td>
                                             <td></td>
                                             <td class="sm_data_col txtCtr">{{$x->Item_Status_ID}}</td>
                                             <td class="sm_data_col txtCtr">@if($x->Donation==1)Yes @else No @endif</td>

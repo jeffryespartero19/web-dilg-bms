@@ -992,3 +992,6 @@ Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');
 Route::get('/list_city', 'DropDownsController@list_city')->name('list_city');
 Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
+
+//For Deletions
+Route::post('/del_rec', 'DeleterController@del_rec')->name('del_rec');

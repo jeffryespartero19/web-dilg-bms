@@ -56,12 +56,12 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Borrowed Equipment ID</th>
-                                            <th>Equipment Request ID</th>
-                                            <th>Inventory ID</th>
+                                            {{-- <th>Borrowed Equipment ID</th> --}}
+                                            {{-- <th>Equipment Request ID</th> --}}
+                                            <th>Item</th>
                                             <th>Quantity Borrowed</th>
-                                            <th>Borrowed Equipmnet Status ID</th>
-                                            <th>Encoder ID</th>
+                                            <th>Borrowed Equipmnet Status</th>
+                                            <th>Encoder</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -69,15 +69,16 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Borrowed_Equipment_ID }}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Equipment_Request_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Inventory_ID}}</td>
+                                            {{-- <td class="sm_data_col txtCtr">{{$x->Borrowed_Equipment_ID }}</td> --}}
+                                            {{-- <td class="sm_data_col txtCtr">{{$x->Equipment_Request_ID}}</td> --}}
+                                            <td class="sm_data_col txtCtr">{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Quantity_Borrowed}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Borrowed_Equipmnet_Status_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Item_Status}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->name}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Borrowed_Equipment_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Borrowed_Equipment_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -116,7 +117,7 @@
                             <select class="form-control" name="item_ID">
                                 <option value=1 hidden selected>Select</option>
                                 @foreach($inventory_list as $inv)
-                                <option value="{{$inv->Inventory_ID}}">Sample</option>
+                                    <option value="{{$inv->Inventory_ID}}">{{$inv->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -192,13 +193,13 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <input id="this_identifier" value="11" hidden>
-                        <input id="this_borrow_IdX" class="form-control" name="Equipment_Request_ID" hidden>
+                        <input id="this_borrow_IdX" class="form-control" name="Equipment_Request_ID" value="" hidden>
                         <div class="form-group">
                             <label>Item to Borrow:</label>
                             <select class="form-control" name="item_ID2">
-                                <option value=1 hidden selected>Select</option>
+                                <option id="this_item_idX" value="" hidden selected></option>
                                 @foreach($inventory_list as $inv)
-                                <option value="{{$inv->Inventory_ID}}">Sample</option>
+                                    <option value="{{$inv->Inventory_ID}}">{{$inv->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -259,6 +260,32 @@
 </div>
 
 <!-- Edit/Update  END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="11" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

@@ -686,9 +686,6 @@ class BFASController2 extends Controller
             ->join('maintenance_bfas_voucher_status as e','e.Voucher_Status_ID','=','a.Disbursement_Voucher_Status_ID')
             ->join('maintenance_bfas_tax_code as f','f.Tax_Code_ID','=','a.Tax_Code_ID')
             ->join('bfas_card_file as g','g.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
-            ->leftjoin('bfas_dv_obligation_request as h','h.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
-            ->leftjoin('bfas_obligation_request as i','i.Obligation_Request_ID','=','h.Obligation_Request_ID')
-            ->leftjoin('bfas_obr_accounts as j','j.Obligation_Request_ID','=','i.Obligation_Request_ID')
 
             ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
             ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
@@ -719,11 +716,6 @@ class BFASController2 extends Controller
                 'g.Card_File_ID',
                 'g.Last_Name as Last_Name2','g.First_Name as First_Name2','g.Middle_Name as Middle_Name2',
 
-                'h.Multiple_OBR_ID',
-
-                'i.Obligation_Request_No',
-                
-                'j.Amount',
 
                 'brgy.Barangay_ID',
                 'brgy.Barangay_Name',
@@ -740,6 +732,21 @@ class BFASController2 extends Controller
             )
             ->get();
        /// dd($db_entries);
+        
+       $accountsX=DB::table('bfas_dv_obligation_request as h')
+                ->leftjoin('bfas_obligation_request as i','i.Obligation_Request_ID','=','h.Obligation_Request_ID')
+                ->leftjoin('bfas_obr_accounts as j','j.Obligation_Request_ID','=','i.Obligation_Request_ID')
+                ->select(
+                    'h.Disbursement_Voucher_ID',
+                    'h.Multiple_OBR_ID',
+                    'h.Obligation_Request_ID',
+
+                    'i.Obligation_Request_No',
+                    
+                    'j.Amount',
+                )
+                ->get();
+
         $regionX=DB::table('maintenance_region')->get();
         $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
         $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
@@ -753,7 +760,7 @@ class BFASController2 extends Controller
         $obr=DB::table('bfas_obligation_request')->get();
 
         return view('bfas.disbursement_voucher',compact('db_entries','currDATE','regionX','app_type','fund_type','card_file','dv_status','tax_code','obr',
-                    'provX','cityX','brgyX'
+                    'provX','cityX','brgyX','accountsX'
                     ));
     }
 
@@ -983,7 +990,7 @@ class BFASController2 extends Controller
         ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
         
         ->join('bfas_disbursement_voucher as dv','dv.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
-        ->join('bips_brgy_officials_and_staff as brgy_OS','brgy_OS.Brgy_Officials_and_Staff_ID','=','a.Brgy_Officials_and_Staff_ID')
+        ->join('users as brgy_OS','brgy_OS.id','=','a.Brgy_Officials_and_Staff_ID')
         ->join('maintenance_bfas_voucher_status as vs','vs.Voucher_Status_ID','=','a.Voucher_Status_ID')
 
         ->select(
@@ -995,6 +1002,7 @@ class BFASController2 extends Controller
             'a.Amount',
             
             'brgy.Barangay_ID',
+            'brgy.Barangay_Name',
             'city.City_Municipality_ID',
             'city.City_Municipality_Name',
             'prov.Province_ID',
@@ -1002,8 +1010,11 @@ class BFASController2 extends Controller
             'reg.Region_ID',
             'reg.Region_Name',
             'dv.Disbursement_Voucher_ID',
-            'brgy_OS.Brgy_Officials_and_Staff_ID',
+            'dv.Voucher_No',
+            'brgy_OS.id',
+            'brgy_OS.name',
             'vs.Voucher_Status_ID',
+            'vs.Voucher_Status',
 
             'a.Encoder_ID',
             'a.Date_Stamp'
@@ -1072,7 +1083,7 @@ class BFASController2 extends Controller
             ->join('maintenance_region as reg','reg.Region_ID','=','a.Region_ID')
             
             ->join('bfas_disbursement_voucher as dv','dv.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
-            ->join('bips_brgy_officials_and_staff as brgy_OS','brgy_OS.Brgy_Officials_and_Staff_ID','=','a.Brgy_Officials_and_Staff_ID')
+            ->join('users as brgy_OS','brgy_OS.id','=','a.Brgy_Officials_and_Staff_ID')
             ->join('maintenance_bfas_voucher_status as vs','vs.Voucher_Status_ID','=','a.Voucher_Status_ID')
 
             ->select(
@@ -1084,6 +1095,7 @@ class BFASController2 extends Controller
                 'a.Amount',
 
                 'brgy.Barangay_ID',
+                'brgy.Barangay_Name',
                 'city.City_Municipality_ID',
                 'city.City_Municipality_Name',
                 'prov.Province_ID',
@@ -1091,8 +1103,10 @@ class BFASController2 extends Controller
                 'reg.Region_ID',
                 'reg.Region_Name',
                 'dv.Disbursement_Voucher_ID',
-                'brgy_OS.Brgy_Officials_and_Staff_ID',
+                'dv.Voucher_No',
+                'brgy_OS.name',
                 'vs.Voucher_Status_ID',
+                'vs.Voucher_Status',
 
                 'a.Encoder_ID',
                 'a.Date_Stamp'
@@ -1138,18 +1152,29 @@ class BFASController2 extends Controller
         $currDATE = Carbon::now();
         $db_entries = DB::table('bfas_check_status_cleared as a')
             ->join('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+            ->join('bfas_disbursement_voucher as c','c.Disbursement_Voucher_ID','=','b.Disbursement_Voucher_ID')
+            ->join('users as d','d.id','=','a.Encoder_ID')
             ->select(
                 'a.Check_Status_Cleared_ID',
                 'a.Check_Preparation_ID',
                 'a.Cleared_Date',
                 'a.Remarks',
                 'a.Encoder_ID',
-                'a.Date_Stamp'
+                'a.Date_Stamp',
+                'c.Voucher_No',
+                'd.name',
 
             )
             ->get();
         
-        $check_prep=DB::table('bfas_check_preparation')->get();
+        $check_prep=DB::table('bfas_check_preparation as a')
+                ->join('bfas_disbursement_voucher as b','b.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
+                ->select(
+                    'a.Check_Preparation_ID',
+                    'a.Disbursement_Voucher_ID',
+                    'b.Voucher_No',
+                )
+                ->get();
 
         return view('bfas.check_status',compact('db_entries','currDATE','check_prep',));
     }
@@ -1182,13 +1207,16 @@ class BFASController2 extends Controller
 
         $theEntry=DB::table('bfas_check_status_cleared as a')
         ->join('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+        ->join('bfas_disbursement_voucher as c','c.Disbursement_Voucher_ID','=','b.Disbursement_Voucher_ID')
         ->select(
             'a.Check_Preparation_ID',
             'a.Check_Status_Cleared_ID',
             'a.Cleared_Date',
             'a.Remarks',
             'a.Encoder_ID',
-            'a.Date_Stamp'
+            'a.Date_Stamp',
+            'b.Disbursement_Voucher_ID',
+            'c.Voucher_No',
 
             )
             ->where('a.Check_Status_Cleared_ID',$id)
@@ -1222,6 +1250,7 @@ class BFASController2 extends Controller
         $currDATE = Carbon::now();
         $db_entries = DB::table('bfas_check_status_released as a')
             ->leftjoin('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+            ->join('bfas_disbursement_voucher as c','c.Disbursement_Voucher_ID','=','b.Disbursement_Voucher_ID')
 
             ->select(
                 'a.Check_Preparation_ID',
@@ -1231,13 +1260,21 @@ class BFASController2 extends Controller
                 'a.ID_Presented',
                 'a.ID_Number',
                 'a.Received_by',
-                'a.Released_Date'
+                'a.Released_Date',
+                'c.Voucher_No'
 
 
             )
             ->get();
         
-        $check_prep=DB::table('bfas_check_preparation')->get();
+        $check_prep=DB::table('bfas_check_preparation as a')
+            ->join('bfas_disbursement_voucher as b','b.Disbursement_Voucher_ID','=','a.Disbursement_Voucher_ID')
+            ->select(
+                'a.Check_Preparation_ID',
+                'a.Disbursement_Voucher_ID',
+                'b.Voucher_No',
+            )
+            ->get();
 
         return view('bfas.check_status_released',compact('db_entries','currDATE', 'check_prep'));
     }
@@ -1270,6 +1307,7 @@ class BFASController2 extends Controller
 
         $theEntry=DB::table('bfas_check_status_released as a')
             ->join('bfas_check_preparation as b','b.Check_Preparation_ID','=','a.Check_Preparation_ID')
+            ->join('bfas_disbursement_voucher as c','c.Disbursement_Voucher_ID','=','b.Disbursement_Voucher_ID')
 
             ->select(
                 'a.Check_Status_Released_ID',
@@ -1279,7 +1317,9 @@ class BFASController2 extends Controller
                 'a.Received_by',
                 'a.Released_Date',
                 'a.Encoder_ID',
-                'a.Date_Stamp'
+                'a.Date_Stamp',
+                'c.Voucher_No'
+
             )
             ->where('a.Check_Status_Released_ID',$id)
             ->get();
@@ -1416,8 +1456,6 @@ class BFASController2 extends Controller
             ->join('maintenance_bfas_budget_appropriation_status as b','b.Budget_Appropriation_Status_ID','=','a.Budget_Appropriation_Status_ID')
             ->join('maintenance_bfas_fund_type as c','c.Fund_Type_ID','=','a.Fund_Type_ID')
             ->join('maintenance_bfas_appropriation_type as d','d.Appropriation_Type_ID','=','a.Appropriation_Type_ID')
-            ->leftjoin('bfas_budget_appropriation_accounts as e','e.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
-            ->leftjoin('bfas_accounts_information as f','f.Accounts_Information_ID','=','e.Accounts_Information_ID')
 
             ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
             ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
@@ -1448,18 +1486,15 @@ class BFASController2 extends Controller
                 'reg.Region_ID',
                 'reg.Region_Name',
 
-                'e.Accounts_Information_ID',
-                'e.Appropriation_Amount',
-
-                'f.Account_Name',
-                'f.Account_Number',
-
                 'a.Encoder_ID',
                 'a.Date_Stamp'
 
             )
             ->get();
-        
+
+        $accountsX=DB::table('bfas_budget_appropriation_accounts as a')
+            ->join('bfas_accounts_information as b','b.Accounts_Information_ID','=','a.Accounts_Information_ID')
+            ->get();            
         $regionX=DB::table('maintenance_region')->get();
         $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
         $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
@@ -1472,7 +1507,7 @@ class BFASController2 extends Controller
         
 
         return view('bfas.budget_appropriation',compact('db_entries','currDATE','regionX','app_type','fund_type','bp_status','accounts',
-                    'provX','cityX','brgyX'
+                    'provX','cityX','brgyX','accountsX'
                     ));
     }
 
@@ -1598,8 +1633,6 @@ class BFASController2 extends Controller
             ->join('maintenance_bfas_obligation_request_status as e','e.Obligation_Request_Status_ID','=','a.Obligation_Request_Status_ID')
             ->join('bfas_budget_appropriation as f','f.Budget_Appropriation_ID','=','a.Budget_Appropriation_ID')
             ->join('bfas_card_file as g','g.Card_File_ID','=','a.Brgy_Officials_and_Staff_ID')
-            ->leftjoin('bfas_obr_accounts as h','h.Obligation_Request_ID','=','a.Obligation_Request_ID')
-            ->leftjoin('bfas_accounts_information as i','i.Accounts_Information_ID','=','h.Accounts_Information_ID')
 
             ->join('maintenance_barangay as brgy','brgy.Barangay_ID','=','a.Barangay_ID')
             ->join('maintenance_city_municipality as city','city.City_Municipality_ID','=','a.City_Municipality_ID')
@@ -1622,11 +1655,6 @@ class BFASController2 extends Controller
                 'f.Appropriation_No',
                 'g.Card_File_ID',
                 'g.Last_Name as Last_Name2','g.First_Name as First_Name2','g.Middle_Name as Middle_Name2',
-                'h.Accounts_Information_ID',
-                'h.Amount',
-                'h.Adjustment_Amount',
-                'i.Account_Number',
-                'i.Account_Name',
 
                 'brgy.Barangay_ID',
                 'brgy.Barangay_Name',
@@ -1642,7 +1670,11 @@ class BFASController2 extends Controller
 
             )
             ->get();
-        
+
+            $accountsX=DB::table('bfas_obr_accounts as a')
+                ->join('bfas_accounts_information as b','b.Accounts_Information_ID','=','a.Accounts_Information_ID')
+                ->get();
+
         $regionX=DB::table('maintenance_region')->get();
         $provX=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
         $cityX=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
@@ -1657,7 +1689,7 @@ class BFASController2 extends Controller
         $accounts=DB::table('bfas_accounts_information')->get();
 
         return view('bfas.obligation_request',compact('db_entries','currDATE','regionX','fund_type','card_file','obr_status','b_app','tax_type','accounts',
-                    'provX','cityX','brgyX'
+                    'provX','cityX','brgyX','accountsX'
                     ));
     }
 
