@@ -58,13 +58,13 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Type of <br>Fee ID</th>
-                                            <th>Account<br>Information ID</th>
-                                            <th>Type_of_Fee</th>
+                                            {{-- <th>Type of <br>Fee ID</th> --}}
+                                            <th>Account<br>Information</th>
+                                            <th>Type of Fee</th>
                                             <th>Amount</th>
                                             <th style="width:35%;">Location</th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
+                                            <th>Encoder</th>
                                             <th>Date_Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -72,8 +72,8 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Type_of_Fee_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Account_Information_ID}}</td>
+                                            {{-- <td class="sm_data_col txtCtr">{{$x->Type_of_Fee_ID}}</td> --}}
+                                            <td class="sm_data_col txtCtr">{{$x->Account_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Type_of_Fee}}</td>
                                             <td class="sm_data_col txtCtr">{{number_format($x->Amount, 2, '.', '')}}</td>
                                             <td>
@@ -102,6 +102,7 @@
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Type_of_Fee_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Type_of_Fee_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -143,7 +144,7 @@
                             <select class="form-control" name="Account_Information_IDX">
                                 <option value=1 hidden selected>Select</option>
                                 @foreach($Account_InfoX as $aix)
-                                <option value={{$aix->Account_Information_ID}}>{{$aix->Account_Name}}-{{$aix->Account_Number}}</option>
+                                <option value={{$aix->Accounts_Information_ID}}>{{$aix->Account_Name}}-{{$aix->Account_Number}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -201,7 +202,7 @@
                             <select class="form-control" name="Account_Information_IDX2">
                                 <option class="this_acc_info" value=1 hidden selected>Select</option>
                                 @foreach($Account_InfoX as $aix)
-                                <option value={{$aix->Account_Information_ID}}>{{$aix->Account_Name}}, {{$aix->Account_Number}}</option>
+                                <option value={{$aix->Accounts_Information_ID}}>{{$aix->Account_Name}}, {{$aix->Account_Number}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -237,6 +238,32 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="14" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

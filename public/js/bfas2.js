@@ -482,16 +482,16 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 $('#this_particulars').val(data['theEntry'][0]['Particulars']);
                 
                 $('#this_brgy_OS').empty();
-                $('#this_brgy_OS').val(data['theEntry'][0]['Brgy_Officials_and_Staff_ID']);
-                $('#this_brgy_OS').append(data['theEntry'][0]['Brgy_Officials_and_Staff_ID']);
+                $('#this_brgy_OS').val(data['theEntry'][0]['id']);
+                $('#this_brgy_OS').append(data['theEntry'][0]['name']);
 
                 $('#this_disbursement_voucher').empty();
                 $('#this_disbursement_voucher').val(data['theEntry'][0]['Disbursement_Voucher_ID']);
-                $('#this_disbursement_voucher').append(data['theEntry'][0]['Disbursement_Voucher_ID']);
+                $('#this_disbursement_voucher').append(data['theEntry'][0]['Voucher_No']);
                 
                 $('#this_voucher_status').empty();
                 $('#this_voucher_status').val(data['theEntry'][0]['Voucher_Status_ID']);
-                $('#this_voucher_status').append(data['theEntry'][0]['Voucher_Status_ID']);
+                $('#this_voucher_status').append(data['theEntry'][0]['Voucher_Status']);
 
                 $('#this_amount').val(data['theEntry'][0]['Amount']);
 
@@ -534,7 +534,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
 
                 $('#this_check_prep').empty();
                 $('#this_check_prep').val(data['theEntry'][0]['Check_Preparation_ID']);
-                $('#this_check_prep').append(data['theEntry'][0]['Check_Preparation_ID']);
+                $('#this_check_prep').append(data['theEntry'][0]['Voucher_No']);
 
                 $('#this_cleared_date').val(data['theEntry'][0]['Cleared_Date']);
                 $('#this_remarks').val(data['theEntry'][0]['Remarks']);
@@ -558,7 +558,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
 
                 $('#this_check_preparation_id').empty();
                 $('#this_check_preparation_id').val(data['theEntry'][0]['Check_Preparation_ID']);
-                $('#this_check_preparation_id').append(data['theEntry'][0]['Check_Preparation_ID']);
+                $('#this_check_preparation_id').append(data['theEntry'][0]['Voucher_No']);
 
                 $('#this_released_date').val(data['theEntry'][0]['Released_Date']);
                 $('#this_received_by').val(data['theEntry'][0]['Received_by']);
@@ -786,5 +786,17 @@ $(document).on('change',('#acc_lvl2'),function(e) {
             });
         }
     });
+});
+
+$(document).on('click',('.delRec'),function(e) {
+    var disVal = $(this).val(); 
+    $('#delFile').val(disVal); 
+    $('#deleteFile').modal('show');           
+});
+
+$(document).on('click',('.delRec2'),function(e) {
+    var disVal = $(this).val(); 
+    $('#delFile2').val(disVal); 
+    $('#deleteFile2').modal('show');           
 });
 
