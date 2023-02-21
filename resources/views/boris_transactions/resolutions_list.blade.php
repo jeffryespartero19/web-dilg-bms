@@ -81,6 +81,35 @@
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Search</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control SearchResolution" name="q" placeholder="Search Resolution">
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date From</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="date_from" name="date_from" type="date" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date To</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="date_to" name="date_to" type="date" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="padding: 2px; float:right"><button class="btn btn-success SearchResolutionBTN" style="width: 100px;">Search</button></div>
+                        <br>
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
@@ -95,23 +124,11 @@
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Ordinance_Resolution_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Ordinance_Resolution_Title}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_of_Approval}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_of_Effectivity}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
-                                            <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_ordinance btn btn-primary" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>&nbsp;
-                                                <button class="delete_ordinance btn btn-danger" value="{{$x->Ordinance_Resolution_ID}}">Delete</button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                    <tbody id="resolution_list">
+                                        @include('boris_transactions.resolution_data')
                                     </tbody>
                                 </table>
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                         </div>
                     </div>
@@ -881,6 +898,31 @@
         });
 
     });
+
+    $(".SearchResolutionBTN").on("click", function() {
+        SearchResolution();
+    });
+
+    function SearchResolution() {
+        // alert('test');
+        var param = $('.SearchResolution').val();
+        var date_from = $('#date_from').val();
+        var date_to = $('#date_to').val();
+        var page = $('#hidden_page').val();
+        if (date_from == '' || date_from == null) {
+            date_from = 0;
+        }
+        if (date_to == '' || date_to == null) {
+            date_to = 0;
+        }
+        $.ajax({
+            url: "/search_resolution?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+            success: function(data) {
+                $('#resolution_list').html('');
+                $('#resolution_list').html(data);
+            }
+        });
+    }
 </script>
 
 

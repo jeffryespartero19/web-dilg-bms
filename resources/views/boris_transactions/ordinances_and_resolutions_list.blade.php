@@ -914,8 +914,8 @@
         $.ajax({
             url: "/search_ordinance?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
             success: function(data) {
-                $('tbody').html('');
-                $('tbody').html(data);
+                $('#ordinance_list').html('');
+                $('#ordinance_list').html(data);
             }
         });
     }
