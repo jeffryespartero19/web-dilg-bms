@@ -18,10 +18,10 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('bdris_emergency_evacuation_site as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
             ->select(
                 'a.Emergency_Evacuation_Site_ID',
                 'a.Emergency_Evacuation_Site_Name',
@@ -34,15 +34,15 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',
 
             )
             ->paginate(20, ['*'], 'db_entries');
 
-            $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-            $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-            $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-            $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
+        $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
+        $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
+        $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
+        $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
 
 
         return view('bdris_transactions.emergency_evacuation_site_list', compact(
@@ -56,7 +56,7 @@ class BDRISALController extends Controller
         ));
     }
 
-     
+
 
 
     // Display Emergency Evacuation Site
@@ -65,11 +65,11 @@ class BDRISALController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bdris_emergency_evacuation_site as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->select(
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
                 'a.Emergency_Evacuation_Site_ID',
                 'a.Emergency_Evacuation_Site_Name',
                 'a.Address',
@@ -81,9 +81,9 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                'a.Active',     
-        )
+                'd.City_Municipality_Name',
+                'a.Active',
+            )
             ->where('Emergency_Evacuation_Site_ID', $id)->get();
 
         return (compact('theEntry'));
@@ -93,11 +93,11 @@ class BDRISALController extends Controller
     public function viewEmergency_Evacuation_SitePDF(Request $request)
     {
         $details = DB::table('bdris_emergency_evacuation_site as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->select(
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
                 'a.Emergency_Evacuation_Site_ID',
                 'a.Emergency_Evacuation_Site_Name',
                 'a.Address',
@@ -109,12 +109,12 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                'a.Active',     
-        )
+                'd.City_Municipality_Name',
+                'a.Active',
+            )
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bdris_transactions.emergency_evacuation_sitePDF', compact('details'))->setPaper('a4','landscape');
+        $pdf = PDF::loadView('bdris_transactions.emergency_evacuation_sitePDF', compact('details'))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 
@@ -125,7 +125,7 @@ class BDRISALController extends Controller
         $db_entries = DB::table('bdris_allocated_fund_source as a')
             ->paginate(20, ['*'], 'db_entries');
 
-            
+
 
         return view('bdris_transactions.allocated_fund_source_list', compact(
             'db_entries',
@@ -134,9 +134,9 @@ class BDRISALController extends Controller
         ));
     }
 
-     
 
-     // Display Allocated Fund Source
+
+    // Display Allocated Fund Source
     public function get_allocated_fund_source(Request $request)
     {
         $id = $_GET['id'];
@@ -151,7 +151,7 @@ class BDRISALController extends Controller
     public function viewAllocated_FundPDF(Request $request)
     {
         $details = DB::table('bdris_allocated_fund_source as a')
-     
+
             ->paginate(20, ['*'], 'details');
 
         $pdf = PDF::loadView('bdris_transactions.allocated_fundPDF', compact('details'));
@@ -163,10 +163,10 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('bdris_emergency_equipment as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
             ->select(
                 'a.Emergency_Equipment_ID',
                 'a.Emergency_Equipment_Name',
@@ -178,15 +178,15 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',
 
             )
             ->paginate(20, ['*'], 'db_entries');
 
-            $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-            $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-            $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-            $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
+        $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
+        $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
+        $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
+        $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
 
 
         return view('bdris_transactions.emergency_equipment_list', compact(
@@ -200,32 +200,32 @@ class BDRISALController extends Controller
         ));
     }
 
-     
 
-     // Display Emergency Equipment
+
+    // Display Emergency Equipment
     public function get_emergency_equipment(Request $request)
     {
         $id = $_GET['id'];
 
         $theEntry = DB::table('bdris_emergency_equipment as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->select(
-            'a.Emergency_Equipment_ID',
-            'a.Emergency_Equipment_Name',
-            'a.Location',
-            'a.Region_ID',
-            'b.Region_Name',
-            'a.Province_ID',
-            'c.Province_Name',
-            'a.Barangay_ID',
-            'e.Barangay_Name',
-            'a.City_Municipality_ID',
-            'd.City_Municipality_Name',      
-            'a.Active',     
-        )
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
+                'a.Emergency_Equipment_ID',
+                'a.Emergency_Equipment_Name',
+                'a.Location',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',
+                'a.Active',
+            )
             ->where('Emergency_Equipment_ID', $id)->get();
 
         return (compact('theEntry'));
@@ -235,24 +235,24 @@ class BDRISALController extends Controller
     public function viewEmergency_EquipmentPDF(Request $request)
     {
         $details = DB::table('bdris_emergency_equipment as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->select(
-            'a.Emergency_Equipment_ID',
-            'a.Emergency_Equipment_Name',
-            'a.Location',
-            'a.Region_ID',
-            'b.Region_Name',
-            'a.Province_ID',
-            'c.Province_Name',
-            'a.Barangay_ID',
-            'e.Barangay_Name',
-            'a.City_Municipality_ID',
-            'd.City_Municipality_Name',      
-            'a.Active',     
-        )
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
+                'a.Emergency_Equipment_ID',
+                'a.Emergency_Equipment_Name',
+                'a.Location',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',
+                'a.Active',
+            )
             ->paginate(20, ['*'], 'details');
 
         $pdf = PDF::loadView('bdris_transactions.emergency_equipmentPDF', compact('details'));
@@ -264,10 +264,10 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('bdris_emergency_team as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
             ->select(
                 'a.Emergency_Team_ID',
                 'a.Emergency_Team_Name',
@@ -279,15 +279,15 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',
 
             )
             ->paginate(20, ['*'], 'db_entries');
 
-            $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-            $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-            $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-            $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
+        $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
+        $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
+        $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
+        $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
 
 
         return view('bdris_transactions.emergency_team_list', compact(
@@ -301,7 +301,7 @@ class BDRISALController extends Controller
         ));
     }
 
-    
+
 
     // Display Emergency Team
     public function get_emergency_team(Request $request)
@@ -309,11 +309,11 @@ class BDRISALController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bdris_emergency_team as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->select(
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
                 'a.Emergency_Team_ID',
                 'a.Emergency_Team_Name',
                 'a.Emergency_Team_Hotline',
@@ -324,9 +324,9 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                'a.Active',     
-        )
+                'd.City_Municipality_Name',
+                'a.Active',
+            )
             ->where('Emergency_Team_ID', $id)->get();
 
         return (compact('theEntry'));
@@ -336,11 +336,11 @@ class BDRISALController extends Controller
     public function viewEmergency_TeamPDF(Request $request)
     {
         $details = DB::table('bdris_emergency_team as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->select(
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->select(
                 'a.Emergency_Team_ID',
                 'a.Emergency_Team_Name',
                 'a.Emergency_Team_Hotline',
@@ -351,9 +351,9 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                'a.Active',     
-        )
+                'd.City_Municipality_Name',
+                'a.Active',
+            )
             ->paginate(20, ['*'], 'details');
 
         $pdf = PDF::loadView('bdris_transactions.emergency_teamPDF', compact('details'));
@@ -365,10 +365,10 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('maintenance_bdris_disaster_type as a')
-        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
-        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
-        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
-        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+            ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+            ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+            ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
             ->select(
                 'a.Disaster_Type_ID',
                 'a.Disaster_Type',
@@ -379,15 +379,15 @@ class BDRISALController extends Controller
                 'a.Emergency_Team_ID',
                 'e.Emergency_Team_Name',
                 'a.Emergency_Equipment_ID',
-                'd.Emergency_Equipment_Name',      
+                'd.Emergency_Equipment_Name',
 
             )
             ->paginate(20, ['*'], 'db_entries');
 
-            $emergency_evacuation_site = DB::table('bdris_emergency_evacuation_site')->paginate(20, ['*'], 'Emergency_evacuation_site');
-            $allocated_fund = DB::table('bdris_allocated_fund_source')->paginate(20, ['*'], 'allocated_fund');
-            $emergency_equipment = DB::table('bdris_emergency_equipment')->paginate(20, ['*'], 'emergency_equipment');
-            $emergency_team = DB::table('bdris_emergency_team')->paginate(20, ['*'], 'emergency_team');
+        $emergency_evacuation_site = DB::table('bdris_emergency_evacuation_site')->paginate(20, ['*'], 'Emergency_evacuation_site');
+        $allocated_fund = DB::table('bdris_allocated_fund_source')->paginate(20, ['*'], 'allocated_fund');
+        $emergency_equipment = DB::table('bdris_emergency_equipment')->paginate(20, ['*'], 'emergency_equipment');
+        $emergency_team = DB::table('bdris_emergency_team')->paginate(20, ['*'], 'emergency_team');
 
 
         return view('bdris_transactions.disaster_type_list', compact(
@@ -401,16 +401,16 @@ class BDRISALController extends Controller
         ));
     }
 
-    
+
 
     //Disaster Type PDF
     public function viewDisaster_TypePDF(Request $request)
     {
         $details = DB::table('maintenance_bdris_disaster_type as a')
-        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
-        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
-        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
-        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+            ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+            ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+            ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
             ->select(
                 'a.Disaster_Type_ID',
                 'a.Disaster_Type',
@@ -421,12 +421,12 @@ class BDRISALController extends Controller
                 'a.Emergency_Team_ID',
                 'e.Emergency_Team_Name',
                 'a.Emergency_Equipment_ID',
-                'd.Emergency_Equipment_Name',      
+                'd.Emergency_Equipment_Name',
 
             )
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bdris_transactions.disaster_typePDF', compact('details'))->setPaper('a4','landscape');
+        $pdf = PDF::loadView('bdris_transactions.disaster_typePDF', compact('details'))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 
@@ -436,10 +436,10 @@ class BDRISALController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('maintenance_bdris_disaster_type as a')
-        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
-        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
-        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
-        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+            ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+            ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+            ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
             ->select(
                 'a.Disaster_Type_ID',
                 'a.Disaster_Type',
@@ -450,7 +450,7 @@ class BDRISALController extends Controller
                 'a.Emergency_Team_ID',
                 'e.Emergency_Team_Name',
                 'a.Emergency_Equipment_ID',
-                'd.Emergency_Equipment_Name',  
+                'd.Emergency_Equipment_Name',
                 'a.Active',
 
             )
@@ -465,87 +465,87 @@ class BDRISALController extends Controller
         $currDATE = Carbon::now();
 
         if (Auth::user()->User_Type_ID == 1) {
-        $db_entries = DB::table('bdris_response_information as a')
-        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
-        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
-        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
-        ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
-        ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
-            ->select(
-                'a.Disaster_Response_ID',
-                'a.Disaster_Name',
-                'a.Disaster_Type_ID',
-                'a.Alert_Level_ID',
-                'a.Damaged_Location',
-                'a.Disaster_Date_Start',
-                'a.Disaster_Date_End',
-                'a.GPS_Coordinates',
-                'a.Risk_Assesment',
-                'a.Action_Taken',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Province_ID',
-                'a.Region_ID',
-                'b.Disaster_Type',
-                'c.Alert_Level',
-                'd.Region_Name',
-                'e.Province_Name',
-                'f.City_Municipality_Name',
-                'g.Barangay_Name',
+            $db_entries = DB::table('bdris_response_information as a')
+                ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+                ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+                ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+                ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
+                ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
+                ->select(
+                    'a.Disaster_Response_ID',
+                    'a.Disaster_Name',
+                    'a.Disaster_Type_ID',
+                    'a.Alert_Level_ID',
+                    'a.Damaged_Location',
+                    'a.Disaster_Date_Start',
+                    'a.Disaster_Date_End',
+                    'a.GPS_Coordinates',
+                    'a.Risk_Assesment',
+                    'a.Action_Taken',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'b.Disaster_Type',
+                    'c.Alert_Level',
+                    'd.Region_Name',
+                    'e.Province_Name',
+                    'f.City_Municipality_Name',
+                    'g.Barangay_Name',
 
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries');
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
 
-        return view('bdris_transactions.response_information_list', compact(
-            'db_entries',
-            'currDATE'
+            return view('bdris_transactions.response_information_list', compact(
+                'db_entries',
+                'currDATE'
 
-        ));
-    }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+            ));
+        } elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
 
-        $db_entries = DB::table('bdris_response_information as a')
-        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
-        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
-        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
-        ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
-        ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
-            ->select(
-                'a.Disaster_Response_ID',
-                'a.Disaster_Name',
-                'a.Disaster_Type_ID',
-                'a.Alert_Level_ID',
-                'a.Damaged_Location',
-                'a.Disaster_Date_Start',
-                'a.Disaster_Date_End',
-                'a.GPS_Coordinates',
-                'a.Risk_Assesment',
-                'a.Action_Taken',
-                'a.Barangay_ID',
-                'a.City_Municipality_ID',
-                'a.Province_ID',
-                'a.Region_ID',
-                'b.Disaster_Type',
-                'c.Alert_Level',
-                'd.Region_Name',
-                'e.Province_Name',
-                'f.City_Municipality_Name',
-                'g.Barangay_Name',
+            $db_entries = DB::table('bdris_response_information as a')
+                ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+                ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+                ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+                ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
+                ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
+                ->select(
+                    'a.Disaster_Response_ID',
+                    'a.Disaster_Name',
+                    'a.Disaster_Type_ID',
+                    'a.Alert_Level_ID',
+                    'a.Damaged_Location',
+                    'a.Disaster_Date_Start',
+                    'a.Disaster_Date_End',
+                    'a.GPS_Coordinates',
+                    'a.Risk_Assesment',
+                    'a.Action_Taken',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'b.Disaster_Type',
+                    'c.Alert_Level',
+                    'd.Region_Name',
+                    'e.Province_Name',
+                    'f.City_Municipality_Name',
+                    'g.Barangay_Name',
 
-            )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries');
-        
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries');
+
             $region1 = DB::table('maintenance_region')->where('Active', 1)->get();
-        return view('bdris_transactions.response_information_list', compact(
-            'db_entries',
-            'currDATE',
-            'region1',
+            return view('bdris_transactions.response_information_list', compact(
+                'db_entries',
+                'currDATE',
+                'region1',
 
-        ));
-    }
+            ));
+        }
     }
 
     //Response Infomation Details
@@ -577,21 +577,21 @@ class BDRISALController extends Controller
             $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
             $evacuee = DB::table('bdris_evacuee_information as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
-            ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
-            ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
-            ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
-            ->select(
-                        'a.Evacuee_ID'
-                        ,'a.Resident_ID'
-                        ,'a.Residency_Status'
-                        ,'a.Disaster_Response_ID'
-                        ,'a.Non_Resident_Name'
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
-                        )
-            ->where('a.Disaster_Response_ID', $id)->get();
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
+                ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
+                ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Evacuee_ID',
+                    'a.Resident_ID',
+                    'a.Residency_Status',
+                    'a.Disaster_Response_ID',
+                    'a.Non_Resident_Name',
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate'),
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+                )
+                ->where('a.Disaster_Response_ID', $id)->get();
 
 
             return view('bdris_transactions.response_information_edit', compact(
@@ -609,15 +609,15 @@ class BDRISALController extends Controller
             ));
         }
     }
-//aldren
+    //aldren
     public function get_responseinfo(Request $request)
     {
         $id = $_GET['id'];
 
 
         $theEntry = DB::table('bdris_response_information as a')
-        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
-        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+            ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+            ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
             ->select(
                 'a.Disaster_Response_ID',
                 'a.Disaster_Name',
@@ -639,48 +639,47 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $response = DB::table('bdris_response_information')->where('Disaster_Response_ID', $id)->get();
-            $disaster_type = DB::table('maintenance_bdris_disaster_type')->paginate(20, ['*'], 'disaster_type');
-            $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->where('Region_ID', $response[0]->Region_ID)->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $response[0]->Province_ID)->get();
-            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $response[0]->City_Municipality_ID)->get();
-            $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->get();
-            $evacuee = DB::table('bdris_evacuee_information as a')
+
+        $response = DB::table('bdris_response_information')->where('Disaster_Response_ID', $id)->get();
+        $disaster_type = DB::table('maintenance_bdris_disaster_type')->paginate(20, ['*'], 'disaster_type');
+        $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Region_ID', $response[0]->Region_ID)->get();
+        $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $response[0]->Province_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $response[0]->City_Municipality_ID)->get();
+        $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->get();
+        $evacuee = DB::table('bdris_evacuee_information as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
             ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
             ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
             ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
             ->select(
-                        'a.Evacuee_ID'
-                        ,'a.Resident_ID'
-                        ,'a.Residency_Status'
-                        ,'a.Disaster_Response_ID'
-                        ,'a.Non_Resident_Name'
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
-                        )
+                'a.Evacuee_ID',
+                'a.Resident_ID',
+                'a.Residency_Status',
+                'a.Disaster_Response_ID',
+                'a.Non_Resident_Name',
+                DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate'),
+                DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+            )
             ->where('a.Disaster_Response_ID', $id)->get();
 
 
-            return view('bdris_transactions.response_information_view', compact(
-                'currDATE',
-                'disaster_type',
-                'alert_level',
-                'region',
-                'province',
-                'barangay',
-                'response',
-                'attachment',
-                'city_municipality',
-                'resident',
-                'evacuee'
-            ));
-       
+        return view('bdris_transactions.response_information_view', compact(
+            'currDATE',
+            'disaster_type',
+            'alert_level',
+            'region',
+            'province',
+            'barangay',
+            'response',
+            'attachment',
+            'city_municipality',
+            'resident',
+            'evacuee'
+        ));
     }
 
     // Save Emergency Evacuation Site
@@ -769,7 +768,7 @@ class BDRISALController extends Controller
                     }
                 }
             }
- 
+
             return redirect()->to('response_information_details/' . $Disaster_Response_ID)->with('message', 'New Recovery Information Created');
         } else {
             DB::table('bdris_response_information')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->update(
@@ -854,7 +853,7 @@ class BDRISALController extends Controller
                     }
                 }
             }
-         
+
             return redirect()->back()->with('message', 'Response Information Updated');
         }
     }
@@ -865,12 +864,12 @@ class BDRISALController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bdris_response_information as a')
-        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
-        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
-        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
-        ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
-        ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
+            ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+            ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+            ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+            ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
+            ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
             ->select(
                 'a.Disaster_Response_ID',
                 'a.Disaster_Name',
@@ -903,12 +902,12 @@ class BDRISALController extends Controller
     public function viewResponse_InformationPDF(Request $request)
     {
         $details = DB::table('bdris_response_information as a')
-        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
-        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
-        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
-        ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
-        ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
+            ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+            ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+            ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+            ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
+            ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
             ->select(
                 'a.Disaster_Response_ID',
                 'a.Disaster_Name',
@@ -934,7 +933,7 @@ class BDRISALController extends Controller
             )
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bdris_transactions.response_informationPDF', compact('details'))->setPaper('a4','landscape');
+        $pdf = PDF::loadView('bdris_transactions.response_informationPDF', compact('details'))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 
@@ -968,65 +967,65 @@ class BDRISALController extends Controller
         $currDATE = Carbon::now();
 
         if (Auth::user()->User_Type_ID == 1) {
-        $db_entries = DB::table('bdris_recovery_information as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
-            ->select(
-                'a.Disaster_Recovery_ID',
-                'a.Disaster_Response_ID',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                'f.Disaster_Name',  
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries');
+            $db_entries = DB::table('bdris_recovery_information as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
+                ->select(
+                    'a.Disaster_Recovery_ID',
+                    'a.Disaster_Response_ID',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    'f.Disaster_Name',
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
 
 
-        return view('bdris_transactions.recovery_information_list', compact(
-            'db_entries',
-            'currDATE',
-            
-        ));
-    }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+            return view('bdris_transactions.recovery_information_list', compact(
+                'db_entries',
+                'currDATE',
 
-        $db_entries = DB::table('bdris_recovery_information as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
-            ->select(
-                'a.Disaster_Recovery_ID',
-                'a.Disaster_Response_ID',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                'f.Disaster_Name',  
-            )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries');
-        $region1 = DB::table('maintenance_region')->where('Active', 1)->get();        
+            ));
+        } elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
 
-        return view('bdris_transactions.recovery_information_list', compact(
-            'db_entries',
-            'currDATE',
-            'region1',
-        ));
-    }
+            $db_entries = DB::table('bdris_recovery_information as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
+                ->select(
+                    'a.Disaster_Recovery_ID',
+                    'a.Disaster_Response_ID',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    'f.Disaster_Name',
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries');
+            $region1 = DB::table('maintenance_region')->where('Active', 1)->get();
+
+            return view('bdris_transactions.recovery_information_list', compact(
+                'db_entries',
+                'currDATE',
+                'region1',
+            ));
+        }
     }
 
     //Recovery Infomation Details
@@ -1070,40 +1069,40 @@ class BDRISALController extends Controller
             $missing = DB::table('bdris_missing')->where('Disaster_Recovery_ID', $id)->get();
             $casualty = DB::table('maintenance_bdris_casualty_status')->where('Active', 1)->get();
             $injured = DB::table('bdris_casualties_and_injured as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
-            ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
-            ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
-            ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
-            ->select(
-                        'a.Casualties_ID'
-                        ,'a.Resident_ID'
-                        ,'a.Residency_Status'
-                        ,'a.Casualty_Status_ID'
-                        ,'a.Disaster_Recovery_ID'
-                        ,'a.Non_Resident_Name'
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
-                        )
-            ->where('a.Disaster_Recovery_ID', $id)->get();
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
+                ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
+                ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Casualties_ID',
+                    'a.Resident_ID',
+                    'a.Residency_Status',
+                    'a.Casualty_Status_ID',
+                    'a.Disaster_Recovery_ID',
+                    'a.Non_Resident_Name',
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate'),
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+                )
+                ->where('a.Disaster_Recovery_ID', $id)->get();
             $missing = DB::table('bdris_missing as a')
-            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
-            ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
-            ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
-            ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
-            ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
-            ->select(
-                        'a.Missing_ID'
-                        ,'a.Resident_ID'
-                        ,'a.Residency_Status'
-                        ,'a.Disaster_Recovery_ID'
-                        ,'a.Individual_Found'
-                        ,'a.Date_Found'
-                        ,'a.Non_Resident_Name'
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
-                        )
-            ->where('a.Disaster_Recovery_ID', $id)->get();
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
+                ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
+                ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Missing_ID',
+                    'a.Resident_ID',
+                    'a.Residency_Status',
+                    'a.Disaster_Recovery_ID',
+                    'a.Individual_Found',
+                    'a.Date_Found',
+                    'a.Non_Resident_Name',
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate'),
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+                )
+                ->where('a.Disaster_Recovery_ID', $id)->get();
 
             return view('bdris_transactions.recovery_information_edit', compact(
                 'currDATE',
@@ -1131,78 +1130,77 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $recovery = DB::table('bdris_recovery_information')->where('Disaster_Recovery_ID', $id)->get();
-            $attachment = DB::table('bdris_file_attachment')->where('Disaster_Recovery_ID', $id)->get();
-            $affected = DB::table('bdris_affected_household_and_infra')->where('Disaster_Recovery_ID', $id)->get();
-            $damage = DB::table('bdris_recovery_damage_loss')->where('Disaster_Recovery_ID', $id)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->where('Region_ID', $recovery[0]->Region_ID)->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $recovery[0]->Province_ID)->get();
-            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $recovery[0]->City_Municipality_ID)->get();
-            $response_information = DB::table('bdris_response_information')->paginate(20, ['*'], 'response_information');
-            $household_profile = DB::table('bips_household_profile')->paginate(20, ['*'], 'household_profile');
-            $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->where('Active', 1)->get();
-            $resident = DB::table('bips_brgy_inhabitants_information')->get();
-            $resident2 = DB::table('bips_brgy_inhabitants_information')->get();
-            // $missing = DB::table('bdris_missing')->where('Disaster_Recovery_ID', $id)->get();
-            $casualty = DB::table('maintenance_bdris_casualty_status')->where('Active', 1)->get();
-            $injured = DB::table('bdris_casualties_and_injured as a')
+
+        $recovery = DB::table('bdris_recovery_information')->where('Disaster_Recovery_ID', $id)->get();
+        $attachment = DB::table('bdris_file_attachment')->where('Disaster_Recovery_ID', $id)->get();
+        $affected = DB::table('bdris_affected_household_and_infra')->where('Disaster_Recovery_ID', $id)->get();
+        $damage = DB::table('bdris_recovery_damage_loss')->where('Disaster_Recovery_ID', $id)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Region_ID', $recovery[0]->Region_ID)->get();
+        $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $recovery[0]->Province_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $recovery[0]->City_Municipality_ID)->get();
+        $response_information = DB::table('bdris_response_information')->paginate(20, ['*'], 'response_information');
+        $household_profile = DB::table('bips_household_profile')->paginate(20, ['*'], 'household_profile');
+        $level_of_damage = DB::table('maintenance_bdris_level_of_damage')->where('Active', 1)->get();
+        $resident = DB::table('bips_brgy_inhabitants_information')->get();
+        $resident2 = DB::table('bips_brgy_inhabitants_information')->get();
+        // $missing = DB::table('bdris_missing')->where('Disaster_Recovery_ID', $id)->get();
+        $casualty = DB::table('maintenance_bdris_casualty_status')->where('Active', 1)->get();
+        $injured = DB::table('bdris_casualties_and_injured as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
             ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
             ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
             ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
             ->select(
-                        'a.Casualties_ID'
-                        ,'a.Resident_ID'
-                        ,'a.Residency_Status'
-                        ,'a.Casualty_Status_ID'
-                        ,'a.Disaster_Recovery_ID'
-                        ,'a.Non_Resident_Name'
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
-                        )
+                'a.Casualties_ID',
+                'a.Resident_ID',
+                'a.Residency_Status',
+                'a.Casualty_Status_ID',
+                'a.Disaster_Recovery_ID',
+                'a.Non_Resident_Name',
+                DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate'),
+                DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+            )
             ->where('a.Disaster_Recovery_ID', $id)->get();
-            $missing = DB::table('bdris_missing as a')
+        $missing = DB::table('bdris_missing as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
             ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
             ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
             ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
             ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
             ->select(
-                        'a.Missing_ID'
-                        ,'a.Resident_ID'
-                        ,'a.Residency_Status'
-                        ,'a.Disaster_Recovery_ID'
-                        ,'a.Individual_Found'
-                        ,'a.Date_Found'
-                        ,'a.Non_Resident_Name'
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate')
-                        ,DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
-                        )
+                'a.Missing_ID',
+                'a.Resident_ID',
+                'a.Residency_Status',
+                'a.Disaster_Recovery_ID',
+                'a.Individual_Found',
+                'a.Date_Found',
+                'a.Non_Resident_Name',
+                DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate'),
+                DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+            )
             ->where('a.Disaster_Recovery_ID', $id)->get();
 
-            return view('bdris_transactions.recovery_information_view', compact(
-                'currDATE',
-                'recovery',
-                'attachment',
-                'affected',
-                'damage',
-                'level_of_damage',
-                'household_profile',
-                'response_information',
-                'region',
-                'province',
-                'city_municipality',
-                'resident',
-                'casualty',
-                'injured',
-                'resident2',
-                'missing',
-                'barangay'
-            ));
-       
+        return view('bdris_transactions.recovery_information_view', compact(
+            'currDATE',
+            'recovery',
+            'attachment',
+            'affected',
+            'damage',
+            'level_of_damage',
+            'household_profile',
+            'response_information',
+            'region',
+            'province',
+            'city_municipality',
+            'resident',
+            'casualty',
+            'injured',
+            'resident2',
+            'missing',
+            'barangay'
+        ));
     }
 
     //Save Recovery Information
@@ -1259,7 +1257,7 @@ class BDRISALController extends Controller
                 }
             }
 
-            
+
             if (isset($data['Livestock_Loss_Estimated_Value'])) {
                 $recovery_damage_loss = [];
 
@@ -1272,9 +1270,9 @@ class BDRISALController extends Controller
                         if ($data['Livestock_Loss_Estimated_Value'][$i] != null) {
                             $recovery_damage_loss = [
                                 'Disaster_Recovery_ID'          => $Disaster_Recovery_ID,
-                                'Livestock_Loss_Estimated_Value'=> $data['Livestock_Loss_Estimated_Value'][$i],
+                                'Livestock_Loss_Estimated_Value' => $data['Livestock_Loss_Estimated_Value'][$i],
                                 'Poultry_Loss_Estimated_Value'  => $data['Poultry_Loss_Estimated_Value'][$i],
-                                'Fisheries_Loss_Estimated_Value'=> $data['Fisheries_Loss_Estimated_Value'][$i],
+                                'Fisheries_Loss_Estimated_Value' => $data['Fisheries_Loss_Estimated_Value'][$i],
                                 'Crops_Loss_Estimated_Value'    => $data['Crops_Loss_Estimated_Value'][$i],
                                 'Encoder_ID'                    => Auth::user()->id,
                                 'Date_Stamp'                    => Carbon::now()
@@ -1325,7 +1323,7 @@ class BDRISALController extends Controller
                 }
             }
 
-            
+
             if (isset($data['Resident_Missing_ID'])) {
                 $resident_details2 = [];
 
@@ -1385,7 +1383,7 @@ class BDRISALController extends Controller
             }
 
 
- 
+
             return redirect()->to('recovery_information_details/' . $Disaster_Recovery_ID)->with('message', 'New Recovery Information Created');
         } else {
             DB::table('bdris_recovery_information')->where('Disaster_Recovery_ID', $data['Disaster_Recovery_ID'])->update(
@@ -1445,9 +1443,9 @@ class BDRISALController extends Controller
                         if ($data['Livestock_Loss_Estimated_Value'][$i] != null) {
                             $recovery_damage_loss = [
                                 'Disaster_Recovery_ID'          => $data['Disaster_Recovery_ID'],
-                                'Livestock_Loss_Estimated_Value'=> $data['Livestock_Loss_Estimated_Value'][$i],
+                                'Livestock_Loss_Estimated_Value' => $data['Livestock_Loss_Estimated_Value'][$i],
                                 'Poultry_Loss_Estimated_Value'  => $data['Poultry_Loss_Estimated_Value'][$i],
-                                'Fisheries_Loss_Estimated_Value'=> $data['Fisheries_Loss_Estimated_Value'][$i],
+                                'Fisheries_Loss_Estimated_Value' => $data['Fisheries_Loss_Estimated_Value'][$i],
                                 'Crops_Loss_Estimated_Value'    => $data['Crops_Loss_Estimated_Value'][$i],
                                 'Encoder_ID'                    => Auth::user()->id,
                                 'Date_Stamp'                    => Carbon::now()
@@ -1459,7 +1457,7 @@ class BDRISALController extends Controller
                 }
             }
 
-          
+
 
             if (isset($data['Resident_ID'])) {
                 $resident_details = [];
@@ -1557,7 +1555,7 @@ class BDRISALController extends Controller
                 }
             }
 
-         
+
             return redirect()->back()->with('message', 'Recovery Information Info Updated');
         }
     }
@@ -1569,24 +1567,24 @@ class BDRISALController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bdris_recovery_information as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
-        ->select(
-            'a.Disaster_Recovery_ID',
-            'a.Disaster_Response_ID',
-            'a.Region_ID',
-            'b.Region_Name',
-            'a.Province_ID',
-            'c.Province_Name',
-            'a.Barangay_ID',
-            'e.Barangay_Name',
-            'a.City_Municipality_ID',
-            'd.City_Municipality_Name',    
-            'f.Disaster_Name',  
-        )
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
+            ->select(
+                'a.Disaster_Recovery_ID',
+                'a.Disaster_Response_ID',
+                'a.Region_ID',
+                'b.Region_Name',
+                'a.Province_ID',
+                'c.Province_Name',
+                'a.Barangay_ID',
+                'e.Barangay_Name',
+                'a.City_Municipality_ID',
+                'd.City_Municipality_Name',
+                'f.Disaster_Name',
+            )
             ->where('Disaster_Recovery_ID', $id)->get();
 
         return (compact('theEntry'));
@@ -1652,7 +1650,7 @@ class BDRISALController extends Controller
             unlink(public_path('./files/uploads/recovery_information/' . $fileinfo[0]->File_Name));
         }
         DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
-        
+
         return response()->json(array('success' => true));
     }
 
@@ -1662,103 +1660,103 @@ class BDRISALController extends Controller
         $currDATE = Carbon::now();
 
         if (Auth::user()->User_Type_ID == 1) {
-        $db_entries = DB::table('bdris_disaster_related_activities as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-            ->select(
-                'a.Disaster_Related_Activities_ID',
-                'a.Activity_Name',
-                'a.Purpose',
-                'a.Date_Start',
-                'a.Date_End',
-                'a.Number_of_Participants',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                'g.Last_Name',
-                'g.First_Name',
-                'g.Middle_Name',
-                  
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries');
+            $db_entries = DB::table('bdris_disaster_related_activities as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+                ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+                ->select(
+                    'a.Disaster_Related_Activities_ID',
+                    'a.Activity_Name',
+                    'a.Purpose',
+                    'a.Date_Start',
+                    'a.Date_End',
+                    'a.Number_of_Participants',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    'g.Last_Name',
+                    'g.First_Name',
+                    'g.Middle_Name',
+
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
 
             $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
-            ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
-            ->select(   
-                'aa.Resident_ID',
-                'aa.Last_Name',
-                'aa.First_Name',
-                'aa.Middle_Name',
-            )
-            ->paginate(20, ['*'], 'brgy_officials_and_staff');
+                ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
+                ->select(
+                    'aa.Resident_ID',
+                    'bb.Last_Name',
+                    'bb.First_Name',
+                    'bb.Middle_Name',
+                )
+                ->paginate(20, ['*'], 'brgy_officials_and_staff');
 
-        return view('bdris_transactions.disaster_related_activities_list', compact(
-            'db_entries',
-            'currDATE',
-            'brgy_officials_and_staff',
+            return view('bdris_transactions.disaster_related_activities_list', compact(
+                'db_entries',
+                'currDATE',
+                'brgy_officials_and_staff',
 
-        ));
-    }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
-        
-        $db_entries = DB::table('bdris_disaster_related_activities as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-            ->select(
-                'a.Disaster_Related_Activities_ID',
-                'a.Activity_Name',
-                'a.Purpose',
-                'a.Date_Start',
-                'a.Date_End',
-                'a.Number_of_Participants',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                'g.Last_Name',
-                'g.First_Name',
-                'g.Middle_Name',
-                  
-            )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries');
-            
-            $region1 = DB::table('maintenance_region')->where('Active', 1)->get();        
+            ));
+        } elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+
+            $db_entries = DB::table('bdris_disaster_related_activities as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+                ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+                ->select(
+                    'a.Disaster_Related_Activities_ID',
+                    'a.Activity_Name',
+                    'a.Purpose',
+                    'a.Date_Start',
+                    'a.Date_End',
+                    'a.Number_of_Participants',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    'g.Last_Name',
+                    'g.First_Name',
+                    'g.Middle_Name',
+
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries');
+
+            $region1 = DB::table('maintenance_region')->where('Active', 1)->get();
             $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
-            ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
-            ->select(   
-                'aa.Resident_ID',
-                'aa.Last_Name',
-                'aa.First_Name',
-                'aa.Middle_Name',
-            )
-            ->paginate(20, ['*'], 'brgy_officials_and_staff');
+                ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
+                ->select(
+                    'aa.Resident_ID',
+                    'bb.Last_Name',
+                    'bb.First_Name',
+                    'bb.Middle_Name',
+                )
+                ->paginate(20, ['*'], 'brgy_officials_and_staff');
 
-        return view('bdris_transactions.disaster_related_activities_list', compact(
-            'db_entries',
-            'currDATE',
-            'brgy_officials_and_staff',
-            'region1',
+            return view('bdris_transactions.disaster_related_activities_list', compact(
+                'db_entries',
+                'currDATE',
+                'brgy_officials_and_staff',
+                'region1',
 
-        ));
-    }
+            ));
+        }
     }
 
     //Save Disaster Related Activities
@@ -1775,7 +1773,7 @@ class BDRISALController extends Controller
                     'Date_Start'                        => $data['Date_Start'],
                     'Date_End'                          => $data['Date_End'],
                     'Number_of_Participants'            => $data['Number_of_Participants'],
-                   
+
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -1803,7 +1801,7 @@ class BDRISALController extends Controller
                     DB::table('bdris_file_attachment')->insert($file_data);
                 }
             }
- 
+
             return redirect()->back()->with('message', 'New Entry Created');
         } else {
             DB::table('bdris_disaster_related_activities')->where('Disaster_Related_Activities_ID', $data['Disaster_Related_Activities_ID'])->update(
@@ -1813,7 +1811,7 @@ class BDRISALController extends Controller
                     'Date_Start'                        => $data['Date_Start'],
                     'Date_End'                          => $data['Date_End'],
                     'Number_of_Participants'            => $data['Number_of_Participants'],
-                    
+
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -1840,7 +1838,7 @@ class BDRISALController extends Controller
                     DB::table('bdris_file_attachment')->insert($file_data);
                 }
             }
-         
+
             return redirect()->back()->with('message', 'Disaster Related Activities Info Updated');
         }
     }
@@ -1851,12 +1849,12 @@ class BDRISALController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bdris_disaster_related_activities as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
             ->select(
                 'a.Disaster_Related_Activities_ID',
                 'a.Activity_Name',
@@ -1871,11 +1869,11 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
+                'd.City_Municipality_Name',
                 'g.Last_Name',
                 'g.First_Name',
                 'g.Middle_Name',
-                  
+
             )
             ->where('Disaster_Related_Activities_ID', $id)->get();
 
@@ -1910,12 +1908,12 @@ class BDRISALController extends Controller
     public function viewDisaster_Related_ActivitiesPDF(Request $request)
     {
         $details = DB::table('bdris_disaster_related_activities as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
             ->select(
                 'a.Disaster_Related_Activities_ID',
                 'a.Activity_Name',
@@ -1930,15 +1928,15 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
+                'd.City_Municipality_Name',
                 'g.Last_Name',
                 'g.First_Name',
                 'g.Middle_Name',
-                  
+
             )
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bdris_transactions.disaster_related_activitiesPDF', compact('details'))->setPaper('a4','landscape');
+        $pdf = PDF::loadView('bdris_transactions.disaster_related_activitiesPDF', compact('details'))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 
@@ -1947,13 +1945,13 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
         $db_entries = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
             ->select(
                 'a.Disaster_Supplies_ID',
                 'a.Disaster_Response_ID',
@@ -1968,27 +1966,27 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
+                'd.City_Municipality_Name',
                 'g.Last_Name',
                 'g.First_Name',
                 'g.Middle_Name',
                 'h.Disaster_Name',
-                  
+
             )
             ->paginate(20, ['*'], 'db_entries');
 
-            $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
-            $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
-            $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
-            $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
-            $disaster_response = DB::table('bdris_response_information')->paginate(20, ['*'], 'disaster_response');
-            $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
+        $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
+        $province = DB::table('maintenance_province')->paginate(20, ['*'], 'province');
+        $barangay = DB::table('maintenance_barangay')->paginate(20, ['*'], 'barangay');
+        $city = DB::table('maintenance_city_municipality')->paginate(20, ['*'], 'city');
+        $disaster_response = DB::table('bdris_response_information')->paginate(20, ['*'], 'disaster_response');
+        $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
             ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
-            ->select(   
+            ->select(
                 'aa.Resident_ID',
-                'aa.Last_Name',
-                'aa.First_Name',
-                'aa.Middle_Name',
+                'bb.Last_Name',
+                'bb.First_Name',
+                'bb.Middle_Name',
             )
             ->paginate(20, ['*'], 'brgy_officials_and_staff');
 
@@ -2005,7 +2003,7 @@ class BDRISALController extends Controller
         ));
     }
 
-    
+
 
     // Display Disaster Supplies
     public function get_disaster_supplies(Request $request)
@@ -2013,13 +2011,13 @@ class BDRISALController extends Controller
         $id = $_GET['id'];
 
         $theEntry = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
             ->select(
                 'a.Disaster_Supplies_ID',
                 'a.Disaster_Response_ID',
@@ -2035,12 +2033,12 @@ class BDRISALController extends Controller
                 'a.Active',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
+                'd.City_Municipality_Name',
                 'g.Last_Name',
                 'g.First_Name',
                 'g.Middle_Name',
                 'h.Disaster_Name',
-                 
+
             )
             ->where('Disaster_Supplies_ID', $id)->get();
 
@@ -2051,13 +2049,13 @@ class BDRISALController extends Controller
     public function viewDisaster_SuppliesPDF(Request $request)
     {
         $details = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
             ->select(
                 'a.Disaster_Supplies_ID',
                 'a.Disaster_Response_ID',
@@ -2073,16 +2071,16 @@ class BDRISALController extends Controller
                 'a.Active',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
+                'd.City_Municipality_Name',
                 'g.Last_Name',
                 'g.First_Name',
                 'g.Middle_Name',
                 'h.Disaster_Name',
-                 
+
             )
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bdris_transactions.disaster_suppliesPDF', compact('details'))->setPaper('a4','landscape');
+        $pdf = PDF::loadView('bdris_transactions.disaster_suppliesPDF', compact('details'))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 
@@ -2092,18 +2090,18 @@ class BDRISALController extends Controller
 
 
         $theEntry = DB::table('maintenance_bdris_disaster_type as a')
-        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
-        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
-        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
-        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+            ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+            ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+            ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
             ->select(
                 'a.Disaster_Type_ID',
                 'a.Disaster_Type',
                 'b.Emergency_Evacuation_Site_Name',
                 'c.Allocated_Fund_Name',
                 'e.Emergency_Team_Name',
-                'd.Emergency_Equipment_Name',  
-                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+                'd.Emergency_Equipment_Name',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
             )
             ->where('Disaster_Type_ID', $id)->get();
@@ -2112,7 +2110,7 @@ class BDRISALController extends Controller
     }
 
     public function disastertype_downloadPDF(Request $request)
-    {   
+    {
         // $id = $_GET['id'];
         $data = request()->all();
 
@@ -2125,18 +2123,18 @@ class BDRISALController extends Controller
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
         $db_entries = DB::table('maintenance_bdris_disaster_type as a')
-        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
-        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
-        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
-        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+            ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+            ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+            ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
             ->select(
                 'a.Disaster_Type_ID',
                 'a.Disaster_Type',
                 'b.Emergency_Evacuation_Site_Name',
                 'c.Allocated_Fund_Name',
                 'e.Emergency_Team_Name',
-                'd.Emergency_Equipment_Name',  
-                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+                'd.Emergency_Equipment_Name',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
             )
             // ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2167,8 +2165,8 @@ class BDRISALController extends Controller
                 'a.Emergency_Evacuation_Site_ID',
                 'a.Emergency_Evacuation_Site_Name',
                 'a.Address',
-                'a.Capacity', 
-                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+                'a.Capacity',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
             )
             ->where('Emergency_Evacuation_Site_ID', $id)->get();
@@ -2177,7 +2175,7 @@ class BDRISALController extends Controller
     }
 
     public function emerevac_downloadPDF(Request $request)
-    {   
+    {
         // $id = $_GET['id'];
         $data = request()->all();
 
@@ -2188,14 +2186,14 @@ class BDRISALController extends Controller
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
         $db_entries = DB::table('bdris_emergency_evacuation_site as a')
-        ->select(
-            'a.Emergency_Evacuation_Site_ID',
-            'a.Emergency_Evacuation_Site_Name',
-            'a.Address',
-            'a.Capacity', 
-            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+            ->select(
+                'a.Emergency_Evacuation_Site_ID',
+                'a.Emergency_Evacuation_Site_Name',
+                'a.Address',
+                'a.Capacity',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
-        )
+            )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'details');
 
@@ -2218,20 +2216,20 @@ class BDRISALController extends Controller
 
 
         $theEntry = DB::table('bdris_allocated_fund_source as a')
-        ->select(
-            'a.Allocated_Fund_ID',
-            'a.Allocated_Fund_Name',
-            'a.Amount',
-            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+            ->select(
+                'a.Allocated_Fund_ID',
+                'a.Allocated_Fund_Name',
+                'a.Amount',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
-        )
+            )
             ->where('Allocated_Fund_ID', $id)->get();
 
         return (compact('theEntry'));
     }
 
     public function allofund_downloadPDF(Request $request)
-    {   
+    {
         // $id = $_GET['id'];
         $data = request()->all();
 
@@ -2241,13 +2239,13 @@ class BDRISALController extends Controller
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
         $db_entries = DB::table('bdris_allocated_fund_source as a')
-        ->select(
-            'a.Allocated_Fund_ID',
-            'a.Allocated_Fund_Name',
-            'a.Amount',
-            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+            ->select(
+                'a.Allocated_Fund_ID',
+                'a.Allocated_Fund_Name',
+                'a.Amount',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
-        )
+            )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'details');
 
@@ -2270,19 +2268,19 @@ class BDRISALController extends Controller
 
 
         $theEntry = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
             ->select(
                 'a.Disaster_Supplies_ID',
                 'a.Disaster_Supplies_Name',
                 'a.Disaster_Supplies_Quantity',
                 'a.Location',
-                'a.Remarks', 
+                'a.Remarks',
                 'h.Disaster_Name',
                 DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
                 DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
-                  
+
             )
             ->where('Disaster_Supplies_ID', $id)->get();
 
@@ -2290,7 +2288,7 @@ class BDRISALController extends Controller
     }
 
     public function dissupp_downloadPDF(Request $request)
-    {   
+    {
         // $id = $_GET['id'];
         $data = request()->all();
 
@@ -2303,19 +2301,19 @@ class BDRISALController extends Controller
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
         $db_entries = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
             ->select(
                 'a.Disaster_Supplies_ID',
                 'a.Disaster_Supplies_Name',
                 'a.Disaster_Supplies_Quantity',
                 'a.Location',
-                'a.Remarks', 
+                'a.Remarks',
                 'h.Disaster_Name',
                 DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
                 DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
-                  
+
             )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'details');
@@ -2346,8 +2344,8 @@ class BDRISALController extends Controller
             ->select(
                 'a.Emergency_Team_ID',
                 'a.Emergency_Team_Name',
-                'a.Emergency_Team_Hotline',  
-                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+                'a.Emergency_Team_Hotline',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
             )
             ->where('Emergency_Team_ID', $id)->get();
@@ -2356,7 +2354,7 @@ class BDRISALController extends Controller
     }
 
     public function emerteam_downloadPDF(Request $request)
-    {   
+    {
         // $id = $_GET['id'];
         $data = request()->all();
 
@@ -2365,14 +2363,14 @@ class BDRISALController extends Controller
         $chk_Emergency_Team_Hotline = isset($data['chk_Emergency_Team_Hotline']) ? 1 : 0;
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
-        $db_entries =DB::table('bdris_emergency_team as a')
-        ->select(
-            'a.Emergency_Team_ID',
-            'a.Emergency_Team_Name',  
-            'a.Emergency_Team_Hotline',  
-            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+        $db_entries = DB::table('bdris_emergency_team as a')
+            ->select(
+                'a.Emergency_Team_ID',
+                'a.Emergency_Team_Name',
+                'a.Emergency_Team_Hotline',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
-        )
+            )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'details');
 
@@ -2398,8 +2396,8 @@ class BDRISALController extends Controller
             ->select(
                 'a.Emergency_Equipment_ID',
                 'a.Emergency_Equipment_Name',
-                'a.Location',  
-                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+                'a.Location',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
             )
             ->where('Emergency_Equipment_ID', $id)->get();
@@ -2408,7 +2406,7 @@ class BDRISALController extends Controller
     }
 
     public function emerequip_downloadPDF(Request $request)
-    {   
+    {
         // $id = $_GET['id'];
         $data = request()->all();
 
@@ -2416,14 +2414,14 @@ class BDRISALController extends Controller
         $chk_Location = isset($data['chk_Location']) ? 1 : 0;
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
-        $db_entries =DB::table('bdris_emergency_equipment as a')
-        ->select(
-            'a.Emergency_Equipment_ID',
-            'a.Emergency_Equipment_Name',
-            'a.Location',  
-            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+        $db_entries = DB::table('bdris_emergency_equipment as a')
+            ->select(
+                'a.Emergency_Equipment_ID',
+                'a.Emergency_Equipment_Name',
+                'a.Location',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
-        )
+            )
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'details');
 
@@ -2439,357 +2437,357 @@ class BDRISALController extends Controller
         return $pdf->download($daFileNeym);
     }
 
-     //OTHER TRANSACTION 
-     public function other_transaction_list(Request $request)
-     {
-         $currDATE = Carbon::now();
-         //DISASTER TYPE
-         if (Auth::user()->User_Type_ID == 1) {
-         $db_entries = DB::table('maintenance_bdris_disaster_type as a')
-         ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
-         ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
-         ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
-         ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
-             ->select(
-                 'a.Disaster_Type_ID',
-                 'a.Disaster_Type',
-                 'a.Emergency_Evacuation_Site_ID',
-                 'b.Emergency_Evacuation_Site_Name',
-                 'a.Allocated_Fund_ID',
-                 'c.Allocated_Fund_Name',
-                 'a.Emergency_Team_ID',
-                 'e.Emergency_Team_Name',
-                 'a.Emergency_Equipment_ID',
-                 'd.Emergency_Equipment_Name',  
-                 DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
- 
-             )
-             ->paginate(20, ['*'], 'db_entries');
+    //OTHER TRANSACTION 
+    public function other_transaction_list(Request $request)
+    {
+        $currDATE = Carbon::now();
         //DISASTER TYPE
+        if (Auth::user()->User_Type_ID == 1) {
+            $db_entries = DB::table('maintenance_bdris_disaster_type as a')
+                ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+                ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+                ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+                ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+                ->select(
+                    'a.Disaster_Type_ID',
+                    'a.Disaster_Type',
+                    'a.Emergency_Evacuation_Site_ID',
+                    'b.Emergency_Evacuation_Site_Name',
+                    'a.Allocated_Fund_ID',
+                    'c.Allocated_Fund_Name',
+                    'a.Emergency_Team_ID',
+                    'e.Emergency_Team_Name',
+                    'a.Emergency_Equipment_ID',
+                    'd.Emergency_Equipment_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //EMERGENCY EVACUATION SITE
-        $db_entries2 = DB::table('bdris_emergency_evacuation_site as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-            ->select(
-                'a.Emergency_Evacuation_Site_ID',
-                'a.Emergency_Evacuation_Site_Name',
-                'a.Address',
-                'a.Capacity',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
+                )
+                ->paginate(20, ['*'], 'db_entries');
+            //DISASTER TYPE
 
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries2');
-        //EMERGENCY EVACUATION SITE
+            //EMERGENCY EVACUATION SITE
+            $db_entries2 = DB::table('bdris_emergency_evacuation_site as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Emergency_Evacuation_Site_ID',
+                    'a.Emergency_Evacuation_Site_Name',
+                    'a.Address',
+                    'a.Capacity',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //ALLOCATED FUND
-        $db_entries3 = DB::table('bdris_allocated_fund_source as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->select(
-            'a.Allocated_Fund_ID',
-            'a.Allocated_Fund_Name',
-            'a.Amount',
-            'a.Region_ID',
-            'b.Region_Name',
-            'a.Province_ID',
-            'c.Province_Name',
-            'a.Barangay_ID',
-            'e.Barangay_Name',
-            'a.City_Municipality_ID',
-            'd.City_Municipality_Name',  
-            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries2');
+            //EMERGENCY EVACUATION SITE
 
-        )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries');
-        //ALLOCATED FUND        
-        
-        //Disaster SUpplies
-        $db_entries4 = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
-            ->select(
-                'a.Disaster_Supplies_ID',
-                'a.Disaster_Response_ID',
-                'a.Disaster_Supplies_Name',
-                'a.Disaster_Supplies_Quantity',
-                'a.Location',
-                'a.Remarks',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                'g.Last_Name',
-                'g.First_Name',
-                'g.Middle_Name',
-                'h.Disaster_Name',
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
-                  
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries4');
-        //Disaster SUpplies
+            //ALLOCATED FUND
+            $db_entries3 = DB::table('bdris_allocated_fund_source as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Allocated_Fund_ID',
+                    'a.Allocated_Fund_Name',
+                    'a.Amount',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //EMERGENCY TEAM
-        $db_entries5 = DB::table('bdris_emergency_team as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-            ->select(
-                'a.Emergency_Team_ID',
-                'a.Emergency_Team_Name',
-                'a.Emergency_Team_Hotline',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries');
+            //ALLOCATED FUND        
 
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries5');
-        //EMERGENCY TEAM
+            //Disaster SUpplies
+            $db_entries4 = DB::table('bdris_disaster_supplies as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+                ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+                ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+                ->select(
+                    'a.Disaster_Supplies_ID',
+                    'a.Disaster_Response_ID',
+                    'a.Disaster_Supplies_Name',
+                    'a.Disaster_Supplies_Quantity',
+                    'a.Location',
+                    'a.Remarks',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    'g.Last_Name',
+                    'g.First_Name',
+                    'g.Middle_Name',
+                    'h.Disaster_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //EMERGENCY EQUIPMENT
-        $db_entries6 = DB::table('bdris_emergency_equipment as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-            ->select(
-                'a.Emergency_Equipment_ID',
-                'a.Emergency_Equipment_Name',
-                'a.Location',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries4');
+            //Disaster SUpplies
 
-            )
-            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-            ->paginate(20, ['*'], 'db_entries6');
-        //EMERGENCY EQUIPMENT
-       
- 
- 
-         return view('bdris_transactions.other_transaction_list', compact(
-             'db_entries',
-             'db_entries2',
-             'db_entries3',
-             'db_entries4',
-             'db_entries5',
-             'db_entries6',
-             'currDATE',
- 
-         ));
-        }elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
+            //EMERGENCY TEAM
+            $db_entries5 = DB::table('bdris_emergency_team as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Emergency_Team_ID',
+                    'a.Emergency_Team_Name',
+                    'a.Emergency_Team_Hotline',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries5');
+            //EMERGENCY TEAM
+
+            //EMERGENCY EQUIPMENT
+            $db_entries6 = DB::table('bdris_emergency_equipment as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Emergency_Equipment_ID',
+                    'a.Emergency_Equipment_Name',
+                    'a.Location',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20, ['*'], 'db_entries6');
+            //EMERGENCY EQUIPMENT
+
+
+
+            return view('bdris_transactions.other_transaction_list', compact(
+                'db_entries',
+                'db_entries2',
+                'db_entries3',
+                'db_entries4',
+                'db_entries5',
+                'db_entries6',
+                'currDATE',
+
+            ));
+        } elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
 
             $db_entries = DB::table('maintenance_bdris_disaster_type as a')
-         ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
-         ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
-         ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
-         ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
-             ->select(
-                 'a.Disaster_Type_ID',
-                 'a.Disaster_Type',
-                 'a.Emergency_Evacuation_Site_ID',
-                 'b.Emergency_Evacuation_Site_Name',
-                 'a.Allocated_Fund_ID',
-                 'c.Allocated_Fund_Name',
-                 'a.Emergency_Team_ID',
-                 'e.Emergency_Team_Name',
-                 'a.Emergency_Equipment_ID',
-                 'd.Emergency_Equipment_Name',     
-                 DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'), 
- 
-             )
-             ->paginate(20, ['*'], 'db_entries');
-        //DISASTER TYPE
+                ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+                ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+                ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+                ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+                ->select(
+                    'a.Disaster_Type_ID',
+                    'a.Disaster_Type',
+                    'a.Emergency_Evacuation_Site_ID',
+                    'b.Emergency_Evacuation_Site_Name',
+                    'a.Allocated_Fund_ID',
+                    'c.Allocated_Fund_Name',
+                    'a.Emergency_Team_ID',
+                    'e.Emergency_Team_Name',
+                    'a.Emergency_Equipment_ID',
+                    'd.Emergency_Equipment_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //EMERGENCY EVACUATION SITE
-        $db_entries2 = DB::table('bdris_emergency_evacuation_site as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-            ->select(
-                'a.Emergency_Evacuation_Site_ID',
-                'a.Emergency_Evacuation_Site_Name',
-                'a.Address',
-                'a.Capacity',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name', 
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),     
+                )
+                ->paginate(20, ['*'], 'db_entries');
+            //DISASTER TYPE
 
-            )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries2');
-        //EMERGENCY EVACUATION SITE
+            //EMERGENCY EVACUATION SITE
+            $db_entries2 = DB::table('bdris_emergency_evacuation_site as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Emergency_Evacuation_Site_ID',
+                    'a.Emergency_Evacuation_Site_Name',
+                    'a.Address',
+                    'a.Capacity',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //ALLOCATED FUND
-        $db_entries3 = DB::table('bdris_allocated_fund_source as a')
-        ->select(
-            'a.Allocated_Fund_ID',
-            'a.Allocated_Fund_Name',
-            'a.Amount',
-            'a.Region_ID',
-            'b.Region_Name',
-            'a.Province_ID',
-            'c.Province_Name',
-            'a.Barangay_ID',
-            'e.Barangay_Name',
-            'a.City_Municipality_ID',
-            'd.City_Municipality_Name',  
-            DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),    
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries2');
+            //EMERGENCY EVACUATION SITE
 
-        )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries');
-        //ALLOCATED FUND        
-        
-        //Disaster SUpplies
-        $db_entries4 = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
-            ->select(
-                'a.Disaster_Supplies_ID',
-                'a.Disaster_Response_ID',
-                'a.Disaster_Supplies_Name',
-                'a.Disaster_Supplies_Quantity',
-                'a.Location',
-                'a.Remarks',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                'g.Last_Name',
-                'g.First_Name',
-                'g.Middle_Name',
-                'h.Disaster_Name',
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),   
-                  
-            )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries4');
-        //Disaster SUpplies
+            //ALLOCATED FUND
+            $db_entries3 = DB::table('bdris_allocated_fund_source as a')
+                ->select(
+                    'a.Allocated_Fund_ID',
+                    'a.Allocated_Fund_Name',
+                    'a.Amount',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //EMERGENCY TEAM
-        $db_entries5 = DB::table('bdris_emergency_team as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-            ->select(
-                'a.Emergency_Team_ID',
-                'a.Emergency_Team_Name',
-                'a.Emergency_Team_Hotline',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),     
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries');
+            //ALLOCATED FUND        
 
-            )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries5');
-        //EMERGENCY TEAM
+            //Disaster SUpplies
+            $db_entries4 = DB::table('bdris_disaster_supplies as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+                ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+                ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+                ->select(
+                    'a.Disaster_Supplies_ID',
+                    'a.Disaster_Response_ID',
+                    'a.Disaster_Supplies_Name',
+                    'a.Disaster_Supplies_Quantity',
+                    'a.Location',
+                    'a.Remarks',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    'g.Last_Name',
+                    'g.First_Name',
+                    'g.Middle_Name',
+                    'h.Disaster_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
 
-        //EMERGENCY EQUIPMENT
-        $db_entries6 = DB::table('bdris_emergency_equipment as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-            ->select(
-                'a.Emergency_Equipment_ID',
-                'a.Emergency_Equipment_Name',
-                'a.Location',
-                'a.Region_ID',
-                'b.Region_Name',
-                'a.Province_ID',
-                'c.Province_Name',
-                'a.Barangay_ID',
-                'e.Barangay_Name',
-                'a.City_Municipality_ID',
-                'd.City_Municipality_Name',  
-                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),       
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries4');
+            //Disaster SUpplies
 
-            )
-            ->where('a.Region_ID', Auth::user()->Region_ID)
-            ->paginate(20, ['*'], 'db_entries6');
-        //EMERGENCY EQUIPMENT
-       
-        $region1 = DB::table('maintenance_region')->where('Active', 1)->get();
- 
-         return view('bdris_transactions.other_transaction_list', compact(
-             'db_entries',
-             'db_entries2',
-             'db_entries3',
-             'db_entries4',
-             'db_entries5',
-             'db_entries6',
-             'currDATE',
-             'region1',
- 
-         ));
+            //EMERGENCY TEAM
+            $db_entries5 = DB::table('bdris_emergency_team as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Emergency_Team_ID',
+                    'a.Emergency_Team_Name',
+                    'a.Emergency_Team_Hotline',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries5');
+            //EMERGENCY TEAM
+
+            //EMERGENCY EQUIPMENT
+            $db_entries6 = DB::table('bdris_emergency_equipment as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Emergency_Equipment_ID',
+                    'a.Emergency_Equipment_Name',
+                    'a.Location',
+                    'a.Region_ID',
+                    'b.Region_Name',
+                    'a.Province_ID',
+                    'c.Province_Name',
+                    'a.Barangay_ID',
+                    'e.Barangay_Name',
+                    'a.City_Municipality_ID',
+                    'd.City_Municipality_Name',
+                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+
+                )
+                ->where('a.Region_ID', Auth::user()->Region_ID)
+                ->paginate(20, ['*'], 'db_entries6');
+            //EMERGENCY EQUIPMENT
+
+            $region1 = DB::table('maintenance_region')->where('Active', 1)->get();
+
+            return view('bdris_transactions.other_transaction_list', compact(
+                'db_entries',
+                'db_entries2',
+                'db_entries3',
+                'db_entries4',
+                'db_entries5',
+                'db_entries6',
+                'currDATE',
+                'region1',
+
+            ));
         }
-     }
+    }
 
-     //OTHER TRANSACTION DISASTER TYPE LIST
-     //DISASTER TYPE
-     public function disaster_type_details($id)
+    //OTHER TRANSACTION DISASTER TYPE LIST
+    //DISASTER TYPE
+    public function disaster_type_details($id)
     {
         $currDATE = Carbon::now();
 
@@ -2799,14 +2797,14 @@ class BDRISALController extends Controller
             $emergency_equipment = DB::table('bdris_emergency_equipment')->paginate(20, ['*'], 'emergency_equipment');
             $emergency_team = DB::table('bdris_emergency_team')->paginate(20, ['*'], 'emergency_team');
 
-           
+
             return view('bdris_transactions.disaster_type', compact(
                 'currDATE',
                 'emergency_evacuation_site',
                 'allocated_fund',
                 'emergency_equipment',
                 'emergency_team',
-               
+
             ));
         } else {
             $disaster_type = DB::table('maintenance_bdris_disaster_type')->where('Disaster_Type_ID', $id)->get();
@@ -2821,7 +2819,7 @@ class BDRISALController extends Controller
                 'allocated_fund',
                 'emergency_equipment',
                 'emergency_team',
-                
+
             ));
         }
     }
@@ -2831,22 +2829,21 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $disaster_type = DB::table('maintenance_bdris_disaster_type')->where('Disaster_Type_ID', $id)->get();
-            $emergency_evacuation_site = DB::table('bdris_emergency_evacuation_site')->paginate(20, ['*'], 'Emergency_evacuation_site');
-            $allocated_fund = DB::table('bdris_allocated_fund_source')->paginate(20, ['*'], 'allocated_fund');
-            $emergency_equipment = DB::table('bdris_emergency_equipment')->paginate(20, ['*'], 'emergency_equipment');
-            $emergency_team = DB::table('bdris_emergency_team')->paginate(20, ['*'], 'emergency_team');
-            return view('bdris_transactions.disaster_type_view', compact(
-                'currDATE',
-                'disaster_type',
-                'emergency_evacuation_site',
-                'allocated_fund',
-                'emergency_equipment',
-                'emergency_team',
-                
-            ));
-        
+
+        $disaster_type = DB::table('maintenance_bdris_disaster_type')->where('Disaster_Type_ID', $id)->get();
+        $emergency_evacuation_site = DB::table('bdris_emergency_evacuation_site')->paginate(20, ['*'], 'Emergency_evacuation_site');
+        $allocated_fund = DB::table('bdris_allocated_fund_source')->paginate(20, ['*'], 'allocated_fund');
+        $emergency_equipment = DB::table('bdris_emergency_equipment')->paginate(20, ['*'], 'emergency_equipment');
+        $emergency_team = DB::table('bdris_emergency_team')->paginate(20, ['*'], 'emergency_team');
+        return view('bdris_transactions.disaster_type_view', compact(
+            'currDATE',
+            'disaster_type',
+            'emergency_evacuation_site',
+            'allocated_fund',
+            'emergency_equipment',
+            'emergency_team',
+
+        ));
     }
     //DISASTER TYPE
     //EVACUATION SITE
@@ -2860,7 +2857,7 @@ class BDRISALController extends Controller
                 'currDATE',
                 'region',
 
-               
+
             ));
         } else {
             $emergency_evacuation = DB::table('bdris_emergency_evacuation_site')->where('Emergency_Evacuation_Site_ID', $id)->get();
@@ -2875,7 +2872,7 @@ class BDRISALController extends Controller
                 'province',
                 'city_municipality',
                 'barangay',
-                
+
             ));
         }
     }
@@ -2884,22 +2881,21 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $emergency_evacuation = DB::table('bdris_emergency_evacuation_site')->where('Emergency_Evacuation_Site_ID', $id)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->where('Region_ID', $emergency_evacuation[0]->Region_ID)->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $emergency_evacuation[0]->Province_ID)->get();
-            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $emergency_evacuation[0]->City_Municipality_ID)->get();
-            return view('bdris_transactions.emergency_evacuation_site_view', compact(
-                'currDATE',
-                'emergency_evacuation',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                
-            ));
-       
+
+        $emergency_evacuation = DB::table('bdris_emergency_evacuation_site')->where('Emergency_Evacuation_Site_ID', $id)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Region_ID', $emergency_evacuation[0]->Region_ID)->get();
+        $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $emergency_evacuation[0]->Province_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $emergency_evacuation[0]->City_Municipality_ID)->get();
+        return view('bdris_transactions.emergency_evacuation_site_view', compact(
+            'currDATE',
+            'emergency_evacuation',
+            'region',
+            'province',
+            'city_municipality',
+            'barangay',
+
+        ));
     }
     //EVACUATION SITE
 
@@ -2909,19 +2905,19 @@ class BDRISALController extends Controller
         $currDATE = Carbon::now();
 
         if ($id == 0) {
-            
+
             return view('bdris_transactions.allocated_fund', compact(
                 'currDATE',
 
             ));
         } else {
             $allocated_fund = DB::table('bdris_allocated_fund_source')->where('Allocated_Fund_ID', $id)->get();
-            
+
             return view('bdris_transactions.allocated_fund_edit', compact(
                 'currDATE',
                 'allocated_fund',
-                
-                
+
+
             ));
         }
     }
@@ -2930,16 +2926,15 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $allocated_fund = DB::table('bdris_allocated_fund_source')->where('Allocated_Fund_ID', $id)->get();
-            
-            return view('bdris_transactions.allocated_fund_edit', compact(
-                'currDATE',
-                'allocated_fund',
-                
-                
-            ));
-        
+
+        $allocated_fund = DB::table('bdris_allocated_fund_source')->where('Allocated_Fund_ID', $id)->get();
+
+        return view('bdris_transactions.allocated_fund_edit', compact(
+            'currDATE',
+            'allocated_fund',
+
+
+        ));
     }
     //ALLOCATED FUND
 
@@ -2952,13 +2947,14 @@ class BDRISALController extends Controller
             $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
             $disaster_response = DB::table('bdris_response_information')->paginate(20, ['*'], 'disaster_response');
             $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
-            ->select(   
-                'aa.Resident_ID',
-                'aa.Last_Name',
-                'aa.First_Name',
-                'aa.Middle_Name',
-            )
-            ->paginate(20, ['*'], 'brgy_officials_and_staff');
+                ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
+                ->select(
+                    'aa.Resident_ID',
+                    'bb.Last_Name',
+                    'bb.First_Name',
+                    'bb.Middle_Name',
+                )
+                ->paginate(20, ['*'], 'brgy_officials_and_staff');
 
             return view('bdris_transactions.disaster_supplies', compact(
                 'region',
@@ -2971,18 +2967,19 @@ class BDRISALController extends Controller
             $disaster_supplies = DB::table('bdris_disaster_supplies')->where('Disaster_Supplies_ID', $id)->get();
             $disaster_response = DB::table('bdris_response_information')->paginate(20, ['*'], 'disaster_response');
             $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
-            ->select(   
-                'aa.Resident_ID',
-                'aa.Last_Name',
-                'aa.First_Name',
-                'aa.Middle_Name',
-            )
-            ->paginate(20, ['*'], 'brgy_officials_and_staff');
+                ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
+                ->select(
+                    'aa.Resident_ID',
+                    'bb.Last_Name',
+                    'bb.First_Name',
+                    'bb.Middle_Name',
+                )
+                ->paginate(20, ['*'], 'brgy_officials_and_staff');
             $region = DB::table('maintenance_region')->where('Active', 1)->get();
             $province = DB::table('maintenance_province')->where('Region_ID', $disaster_supplies[0]->Region_ID)->get();
             $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $disaster_supplies[0]->Province_ID)->get();
             $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $disaster_supplies[0]->City_Municipality_ID)->get();
-            
+
             return view('bdris_transactions.disaster_supplies_edit', compact(
                 'currDATE',
                 'disaster_supplies',
@@ -2992,8 +2989,8 @@ class BDRISALController extends Controller
                 'province',
                 'city_municipality',
                 'barangay',
-                
-                
+
+
             ));
         }
     }
@@ -3002,35 +2999,35 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $disaster_supplies = DB::table('bdris_disaster_supplies')->where('Disaster_Supplies_ID', $id)->get();
-            $disaster_response = DB::table('bdris_response_information')->paginate(20, ['*'], 'disaster_response');
-            $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
-            ->select(   
+
+        $disaster_supplies = DB::table('bdris_disaster_supplies')->where('Disaster_Supplies_ID', $id)->get();
+        $disaster_response = DB::table('bdris_response_information')->paginate(20, ['*'], 'disaster_response');
+        $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
+            ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
+            ->select(
                 'aa.Resident_ID',
-                'aa.Last_Name',
-                'aa.First_Name',
-                'aa.Middle_Name',
+                'bb.Last_Name',
+                'bb.First_Name',
+                'bb.Middle_Name',
             )
             ->paginate(20, ['*'], 'brgy_officials_and_staff');
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->where('Region_ID', $disaster_supplies[0]->Region_ID)->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $disaster_supplies[0]->Province_ID)->get();
-            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $disaster_supplies[0]->City_Municipality_ID)->get();
-            
-            return view('bdris_transactions.disaster_supplies_view', compact(
-                'currDATE',
-                'disaster_supplies',
-                'disaster_response',
-                'brgy_officials_and_staff',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                
-                
-            ));
-        
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Region_ID', $disaster_supplies[0]->Region_ID)->get();
+        $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $disaster_supplies[0]->Province_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $disaster_supplies[0]->City_Municipality_ID)->get();
+
+        return view('bdris_transactions.disaster_supplies_view', compact(
+            'currDATE',
+            'disaster_supplies',
+            'disaster_response',
+            'brgy_officials_and_staff',
+            'region',
+            'province',
+            'city_municipality',
+            'barangay',
+
+
+        ));
     }
     //Disaster Supplies
 
@@ -3045,7 +3042,7 @@ class BDRISALController extends Controller
                 'currDATE',
                 'region',
 
-               
+
             ));
         } else {
             $emergency_team = DB::table('bdris_emergency_team')->where('Emergency_Team_ID', $id)->get();
@@ -3060,7 +3057,7 @@ class BDRISALController extends Controller
                 'province',
                 'city_municipality',
                 'barangay',
-                
+
             ));
         }
     }
@@ -3069,22 +3066,21 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $emergency_team = DB::table('bdris_emergency_team')->where('Emergency_Team_ID', $id)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->where('Region_ID', $emergency_team[0]->Region_ID)->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $emergency_team[0]->Province_ID)->get();
-            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $emergency_team[0]->City_Municipality_ID)->get();
-            return view('bdris_transactions.emergency_team_view', compact(
-                'currDATE',
-                'emergency_team',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                
-            ));
-        
+
+        $emergency_team = DB::table('bdris_emergency_team')->where('Emergency_Team_ID', $id)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Region_ID', $emergency_team[0]->Region_ID)->get();
+        $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $emergency_team[0]->Province_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $emergency_team[0]->City_Municipality_ID)->get();
+        return view('bdris_transactions.emergency_team_view', compact(
+            'currDATE',
+            'emergency_team',
+            'region',
+            'province',
+            'city_municipality',
+            'barangay',
+
+        ));
     }
     //EMERGENCY TEAM
 
@@ -3099,7 +3095,7 @@ class BDRISALController extends Controller
                 'currDATE',
                 'region',
 
-               
+
             ));
         } else {
             $emergency_equipment = DB::table('bdris_emergency_equipment')->where('Emergency_Equipment_ID', $id)->get();
@@ -3114,7 +3110,7 @@ class BDRISALController extends Controller
                 'province',
                 'city_municipality',
                 'barangay',
-                
+
             ));
         }
     }
@@ -3123,27 +3119,26 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
 
-        
-            $emergency_equipment = DB::table('bdris_emergency_equipment')->where('Emergency_Equipment_ID', $id)->get();
-            $region = DB::table('maintenance_region')->where('Active', 1)->get();
-            $province = DB::table('maintenance_province')->where('Region_ID', $emergency_equipment[0]->Region_ID)->get();
-            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $emergency_equipment[0]->Province_ID)->get();
-            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $emergency_equipment[0]->City_Municipality_ID)->get();
-            return view('bdris_transactions.emergency_equipment_view', compact(
-                'currDATE',
-                'emergency_equipment',
-                'region',
-                'province',
-                'city_municipality',
-                'barangay',
-                
-            ));
-        
+
+        $emergency_equipment = DB::table('bdris_emergency_equipment')->where('Emergency_Equipment_ID', $id)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->get();
+        $province = DB::table('maintenance_province')->where('Region_ID', $emergency_equipment[0]->Region_ID)->get();
+        $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $emergency_equipment[0]->Province_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $emergency_equipment[0]->City_Municipality_ID)->get();
+        return view('bdris_transactions.emergency_equipment_view', compact(
+            'currDATE',
+            'emergency_equipment',
+            'region',
+            'province',
+            'city_municipality',
+            'barangay',
+
+        ));
     }
     //EMERGENCY EQUIPMENT
 
-    
-    
+
+
     //OTHER TRANSACTION SAVING
     //DISASTER TYPE
     public function create_disaster_type(Request $request)
@@ -3181,8 +3176,8 @@ class BDRISALController extends Controller
                 )
             );
 
-            
-         
+
+
             return redirect()->back()->with('message', 'Response Information Updated');
         }
     }
@@ -3192,7 +3187,7 @@ class BDRISALController extends Controller
     {
         $currDATE = Carbon::now();
         $data = $data = request()->all();
-        
+
         if ($data['Emergency_Evacuation_Site_ID'] == null || $data['Emergency_Evacuation_Site_ID'] == 0) {
             $Emergency_Evacuation_Site_ID = DB::table('bdris_emergency_evacuation_site')->insertGetId(
                 array(
@@ -3209,7 +3204,7 @@ class BDRISALController extends Controller
                     'Active'                            => (int)$data['Active']
                 )
             );
- 
+
             return redirect()->to('emergency_evacuation_site_details/' . $Emergency_Evacuation_Site_ID)->with('message', 'Emergency Evacuation Site Created');
         } else {
             DB::table('bdris_emergency_evacuation_site')->where('Emergency_Evacuation_Site_ID', $data['Emergency_Evacuation_Site_ID'])->update(
@@ -3226,7 +3221,7 @@ class BDRISALController extends Controller
                     'Active'                            => (int)$data['Active']
                 )
             );
-         
+
             return redirect()->back()->with('message', 'Emergency Evacuation Site Info Updated');
         }
     }
@@ -3252,7 +3247,7 @@ class BDRISALController extends Controller
                     'Active'               => (int)$data['Active']
                 )
             );
- 
+
             return redirect()->to('allocated_fund_details/' . $Allocated_Fund_ID)->with('message', 'New Recovery Information Created');
         } else {
             DB::table('bdris_allocated_fund_source')->where('Allocated_Fund_ID', $data['Allocated_Fund_ID'])->update(
@@ -3268,7 +3263,7 @@ class BDRISALController extends Controller
                     'Active'               => (int)$data['Active']
                 )
             );
-         
+
             return redirect()->back()->with('message', 'Allocated Fund Source info Updated');
         }
     }
@@ -3288,7 +3283,7 @@ class BDRISALController extends Controller
                     'Disaster_Supplies_Quantity'        => $data['Disaster_Supplies_Quantity'],
                     'Location'                          => $data['Location'],
                     'Remarks'                           => $data['Remarks'],
-                   
+
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -3298,7 +3293,7 @@ class BDRISALController extends Controller
                     'Active'                            => (int)$data['Active']
                 )
             );
- 
+
             return redirect()->to('disaster_supplies_details/' . $Disaster_Supplies_ID)->with('message', 'New Disaster Supplies Information Created');
         } else {
             DB::table('bdris_disaster_supplies')->where('Disaster_Supplies_ID', $data['Disaster_Supplies_ID'])->update(
@@ -3308,7 +3303,7 @@ class BDRISALController extends Controller
                     'Disaster_Supplies_Quantity'        => $data['Disaster_Supplies_Quantity'],
                     'Location'                          => $data['Location'],
                     'Remarks'                           => $data['Remarks'],
-                   
+
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -3318,12 +3313,12 @@ class BDRISALController extends Controller
                     'Active'                            => (int)$data['Active']
                 )
             );
-         
+
             return redirect()->back()->with('message', 'Disaster Supplies Info Updated');
         }
     }
     // Disaster Suuplies
-    
+
     // Emergency Team
     public function create_emergency_team(Request $request)
     {
@@ -3332,7 +3327,7 @@ class BDRISALController extends Controller
 
         if ($data['Emergency_Team_ID'] == null || $data['Emergency_Team_ID'] == 0) {
             $Emergency_Team_ID = DB::table('bdris_emergency_team')->insertGetId(
-                array( 
+                array(
                     'Emergency_Team_Name'               => $data['Emergency_Team_Name'],
                     'Emergency_Team_Hotline'            => $data['Emergency_Team_Hotline'],
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
@@ -3344,7 +3339,7 @@ class BDRISALController extends Controller
                     'Active'                            => (int)$data['Active']
                 )
             );
- 
+
             return redirect()->to('emergency_team_details/' . $Emergency_Team_ID)->with('message', 'New Emergency Team Information Created');
         } else {
             DB::table('bdris_emergency_team')->where('Emergency_Team_ID', $data['Emergency_Team_ID'])->update(
@@ -3360,7 +3355,7 @@ class BDRISALController extends Controller
                     'Active'                            => (int)$data['Active']
                 )
             );
-         
+
             return redirect()->back()->with('message', 'Emergency Team Info Updated');
         }
     }
@@ -3386,35 +3381,35 @@ class BDRISALController extends Controller
                     'Active'                    => (int)$data['Active']
                 )
             );
- 
+
             return redirect()->to('emergency_equipment_details/' . $Emergency_Equipment_ID)->with('message', 'New Emergency Equipment Information Created');
         } else {
             DB::table('bdris_emergency_equipment')->where('Emergency_Equipment_ID', $data['Emergency_Equipment_ID'])->update(
                 array(
-                   'Emergency_Equipment_Name' => $data['Emergency_Equipment_Name'],
-                   'Location'                 => $data['Location'],
-                   'Barangay_ID'               => Auth::user()->Barangay_ID,
+                    'Emergency_Equipment_Name' => $data['Emergency_Equipment_Name'],
+                    'Location'                 => $data['Location'],
+                    'Barangay_ID'               => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'      => Auth::user()->City_Municipality_ID,
                     'Province_ID'               => Auth::user()->Province_ID,
                     'Region_ID'                 => Auth::user()->Region_ID,
-                   'Encoder_ID'               => Auth::user()->id,
-                   'Date_Stamp'               => Carbon::now(),
-                   'Active'                   => (int)$data['Active']
+                    'Encoder_ID'               => Auth::user()->id,
+                    'Date_Stamp'               => Carbon::now(),
+                    'Active'                   => (int)$data['Active']
                 )
             );
-         
+
             return redirect()->back()->with('message', 'Emergency Equipment Info Updated');
         }
     }
 
     public function get_recovery_information_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_recovery_information as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
             ->select(
                 'a.Disaster_Recovery_ID',
                 'a.Disaster_Response_ID',
@@ -3425,24 +3420,24 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
-                'f.Disaster_Name',  
+                'd.City_Municipality_Name',
+                'f.Disaster_Name',
             )
-            
+
             ->where('a.Barangay_ID', $Barangay_ID)
             ->get();
         return json_encode($data);
     }
 
     public function get_response_information_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_response_information as a')
-        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
-        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
-        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
-        ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
-        ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
+            ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+            ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+            ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+            ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
+            ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
             ->select(
                 'a.Disaster_Response_ID',
                 'a.Disaster_Name',
@@ -3472,14 +3467,14 @@ class BDRISALController extends Controller
     }
 
     public function get_disaster_related_activities_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_disaster_related_activities as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
             ->select(
                 'a.Disaster_Related_Activities_ID',
                 'a.Activity_Name',
@@ -3494,26 +3489,26 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
+                'd.City_Municipality_Name',
                 'g.Last_Name',
                 'g.First_Name',
                 'g.Middle_Name',
-                  
+
             )
             ->where('a.Barangay_ID', $Barangay_ID)
             ->get();
         return json_encode($data);
     }
 
-   
+
     public function get_disaster_related_activities_view(Request $request)
     {
         $id = $_GET['id'];
 
 
         $theEntry = DB::table('bdris_disaster_related_activities as a')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
             ->select(
                 'a.Disaster_Related_Activities_ID',
                 'a.Activity_Name',
@@ -3522,7 +3517,7 @@ class BDRISALController extends Controller
                 'a.Date_End',
                 'a.Number_of_Participants',
                 DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Brgy_Official_Name'),
-                  
+
             )
             ->where('a.Disaster_Related_Activities_ID', $id)->get();
 
@@ -3530,12 +3525,12 @@ class BDRISALController extends Controller
     }
 
     public function get_emergency_evacuation_site_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_emergency_evacuation_site as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
             ->select(
                 'a.Emergency_Evacuation_Site_ID',
                 'a.Emergency_Evacuation_Site_Name',
@@ -3548,7 +3543,7 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',
 
             )
             ->where('a.Barangay_ID', $Barangay_ID)
@@ -3557,7 +3552,7 @@ class BDRISALController extends Controller
     }
 
     public function get_allocated_fund_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_allocated_fund_source as a')
             ->where('a.Barangay_ID', $Barangay_ID)
             ->get();
@@ -3565,15 +3560,15 @@ class BDRISALController extends Controller
     }
 
     public function get_disaster_supplies_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_disaster_supplies as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
-        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
-        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
-        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
             ->select(
                 'a.Disaster_Supplies_ID',
                 'a.Disaster_Response_ID',
@@ -3588,12 +3583,12 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',    
+                'd.City_Municipality_Name',
                 'g.Last_Name',
                 'g.First_Name',
                 'g.Middle_Name',
                 'h.Disaster_Name',
-                  
+
             )
             ->where('a.Barangay_ID', $Barangay_ID)
             ->get();
@@ -3601,12 +3596,12 @@ class BDRISALController extends Controller
     }
 
     public function get_emergency_team_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_emergency_team as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
             ->select(
                 'a.Emergency_Team_ID',
                 'a.Emergency_Team_Name',
@@ -3618,7 +3613,7 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',
 
             )
             ->where('a.Barangay_ID', $Barangay_ID)
@@ -3627,12 +3622,12 @@ class BDRISALController extends Controller
     }
 
     public function get_emergency_equipment_list($Barangay_ID)
-    {   
+    {
         $data = DB::table('bdris_emergency_equipment as a')
-        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
-        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
-        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
-        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+            ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+            ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
             ->select(
                 'a.Emergency_Equipment_ID',
                 'a.Emergency_Equipment_Name',
@@ -3644,7 +3639,7 @@ class BDRISALController extends Controller
                 'a.Barangay_ID',
                 'e.Barangay_Name',
                 'a.City_Municipality_ID',
-                'd.City_Municipality_Name',      
+                'd.City_Municipality_Name',
 
             )
             ->where('a.Barangay_ID', $Barangay_ID)
@@ -3813,16 +3808,15 @@ class BDRISALController extends Controller
 
         return ['results' => $leveldamage];
     }
-   
+
     public function get_response_attachments(Request $request)
     {
-        
+
         $id = $_GET['id'];
         $Reponse_Attach = DB::table('bdris_file_attachment')
             ->where('Disaster_Response_ID', $id)
             ->get();
         return json_encode($Reponse_Attach);
-
     }
 
     public function delete_response_attachments(Request $request)
@@ -3840,13 +3834,12 @@ class BDRISALController extends Controller
 
     public function get_recovery_attachments(Request $request)
     {
-        
+
         $id = $_GET['id'];
         $Reponse_Attach = DB::table('bdris_file_attachment')
             ->where('Disaster_Recovery_ID', $id)
             ->get();
         return json_encode($Reponse_Attach);
-
     }
 
     public function delete_recovery_attachments(Request $request)

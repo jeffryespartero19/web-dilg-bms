@@ -32,7 +32,7 @@ class borisController extends Controller
                 )
                 ->where('a.Ordinance_or_Resolution', 0)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
         } elseif (Auth::user()->User_Type_ID == 1) {
             $db_entries = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
                 ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
@@ -49,7 +49,7 @@ class borisController extends Controller
                 )
                 ->where('a.Ordinance_or_Resolution', 0)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
         }
 
         $city1 = DB::table('maintenance_city_municipality')

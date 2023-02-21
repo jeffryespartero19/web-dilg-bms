@@ -87,6 +87,34 @@
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Search</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control SearchOrdinance" name="q" placeholder="Search Ordinance">
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date From</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="operation_date" name="operation_date" type="date" class="form-control @error('operation') is-invalid @enderror" value="{{ old('operation_date') }}" autocomplete="off">
+
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date To</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="operation_date_to" name="operation_date_to" type="date" class="form-control @error('operation') is-invalid @enderror" value="{{ old('operation_date_to') }}" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -100,25 +128,11 @@
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Ordinance_Resolution_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Ordinance_Resolution_Title}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_of_Approval}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_of_Effectivity}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
-                                            <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_ordinance btn btn-primary" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>&nbsp;
-                                                <button class="delete_ordinance btn btn-danger" value="{{$x->Ordinance_Resolution_ID}}">Delete</button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-
+                                    <tbody id="ordinance_list">
+                                        @include('boris_transactions.ordinance_data')
                                     </tbody>
                                 </table>
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                         </div>
                     </div>
@@ -289,6 +303,7 @@
 
                     <div class="modal-body">
                         <div class="row">
+                            <div class="form-group col-lg-12"><input class="form-control" type="date" name="DateFilter2"></div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="number" id="1chk_Ordinance" name="chk_Ordinance" hidden value=0>
                                 <input type="checkbox" id="1chk_Ordinance_No" name="chk_Ordinance_No">
