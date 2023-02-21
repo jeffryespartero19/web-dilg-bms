@@ -85,7 +85,7 @@
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12">
                                 <div>
-                                    <table id="example" class="table table-striped table-bordered" style="table-layout:fixed;">
+                                    <table id="example" class="example11 table table-striped table-bordered" style="table-layout:fixed;">
                                         <thead>
                                             <tr>
                                                 <th style="width: 300px;">Name</th>
@@ -287,7 +287,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Age</label>
-                                <input type="number" class="form-control" id="Age" name="Age">
+                                <input type="number" class="form-control" id="Age" name="Age" readonly>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Birthplace">Birthplace</label>
@@ -313,19 +313,22 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="exampleInputEmail1">Sex</label>
-                                <select class="form-control  " id="Sex" name="Sex" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    <option value='1'>Male</option>
-                                    <option value='2'>Female</option>
-                                </select>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" id="Sex" value="1" name="Sex" required>
+                                    <label for="Sex" class="custom-control-label">Male</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" id="Sex2" value="2" name="Sex" required>
+                                    <label for="Sex2" class="custom-control-label">Female</label>
+                                </div>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Weight">Weight</label>
-                                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kilo">
+                                <input type="number" step="any" class="form-control" id="Weight" name="Weight" placeholder="kilo">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Height">Height</label>
-                                <input type="number" class="form-control" id="Height" name="Height" placeholder="meter">
+                                <input type="number" step="any" class="form-control" id="Height" name="Height" placeholder="meter">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="exampleInputEmail1">Civil Status</label>
@@ -338,7 +341,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Mobile Number</label>
-                                <input type="text" class="form-control" id="Mobile_No" name="Mobile_No">
+                                <input type="number" class="form-control" id="Mobile_No" name="Mobile_No" type="number" onKeyDown="if(this.value.length>=11 && event.keyCode!=8) return false;">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Landline Number</label>
@@ -346,7 +349,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Salary">Monthly Income</label>
-                                <input type="text" class="form-control" id="Salary" name="Salary">
+                                <input type="text" step="any" class="form-control" id="Salary" name="Salary">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Email">Email</label>
@@ -542,7 +545,7 @@
                                                 <input type="date" class="form-control" name="End_Date[]" style="width: 200px;">
                                             </td>
                                             <td class="sm_data_col txtCtr" s>
-                                                <input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;">
+                                                <input type="number" class="form-control" step="any" name="Monthly_Salary[]" style="width: 200px;">
                                             </td>
                                             <td class="sm_data_col txtCtr" s>
                                                 <input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;">
@@ -744,67 +747,134 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Inhabitant Information</h4>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Ordinance Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <h4 id="VName"> </h4>
-                    <div class="row">
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
+                <h4 id="VName"> </h4>
 
-                        <div class="col-6">
-                            <strong>Birthdate: </strong><span id="VBirthdate"></span><br>
-                            <strong>Birthplace: </strong><span id="VBirthplace"></span><br>
-                            <strong>Age: </strong><span id="VAge"></span><br>
-                            <strong>Sex: </strong><span id="VSex"></span><br>
-                            <strong>Civil Status: </strong><span id="VCivilStatus"></span><br>
-                            <strong>Mobile Number: </strong><span id="VMobile"></span><br>
-                            <strong>Landline Number: </strong><span id="VLandline"></span><br>
-                            <strong>House Number: </strong><span id="VHouseNo"></span><br>
-                            <strong>Street: </strong><span id="VStreet"></span><br>
-                        </div>
-                    </div>
-                </div>
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Address: </strong></td>
+                        <td><span id="VAddress"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Birthdate: </strong></td>
+                        <td><span id="VBirthdate"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Birthplace: </strong></td>
+                        <td><span id="VBirthplace"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Religion: </strong></td>
+                        <td><span id="Status_of_Ordinance_or_Resolution_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Blood Type: </strong></td>
+                        <td><span id="Previous_Related_Ordinance_Resolution_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Sex: </strong></td>
+                        <td><span id="VSex"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Weight: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Height: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Civil Status: </strong></td>
+                        <td><span id="VCivilStatus"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Mobile Number: </strong></td>
+                        <td><span id="VMobile_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Landline Number: </strong></td>
+                        <td><span id="VLandline"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Monthly Income: </strong></td>
+                        <td><span id="VSalary"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Email: </strong></td>
+                        <td><span id="VEmail_Address"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>PhilSys Card Number: </strong></td>
+                        <td><span id="VPhilSys_Card_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Resident Information</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Resident Status: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Voter Status: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Election Year Last Voted: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Resident Voter: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Additional Information</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Solo Parent: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>OFW: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Indigent: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>4Ps Beneficiary: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>PhilHealth: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>GSIS: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>SSS: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>PagIbig: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Email: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
+                    </tr>
+                </table>
+
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -1048,7 +1118,8 @@
                 $('#Birthplace').val(data['theEntry'][0]['Birthplace']);
                 $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
                 $('#Blood_Type_ID').val(data['theEntry'][0]['Blood_Type_ID']);
-                $('#Sex').val(data['theEntry'][0]['Sex']);
+                // $('#Sex').val(data['theEntry'][0]['Sex']);
+                $("input[name=Sex][value='" + data["theEntry"][0]["Sex"] + "']").prop("checked",true);
                 $('#Weight').val(data['theEntry'][0]['Weight']);
                 $('#Height').val(data['theEntry'][0]['Height']);
                 $('#Civil_Status_ID').val(data['theEntry'][0]['Civil_Status_ID']);
@@ -1365,16 +1436,6 @@
         $('.inhabitants_main').addClass('menu-open');
     });
 
-    // $(document).on('click', ('.view_inhabitants'), function() {
-    //     $("#createInhabitants_Info :input").prop("disabled", true);
-    //     $(".modal-close").prop("disabled", false);
-    //     $('#Modal_Title').text('View Inhabitant Information');
-
-    //     $(".btn_action").val(1);
-
-    //     $(this).closest(".sm_data_col").find(".edit_inhabitants").trigger('click');
-    // });
-
 
     // View Details
     $(document).on('click', ('.view_inhabitants'), function(e) {
@@ -1391,6 +1452,7 @@
             },
             success: function(data) {
                 $('#VName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
+                $('#VAddress').html(data['theEntry'][0]['House_No'] + ', ' + data['theEntry'][0]['Street'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name'] + ', ' + data['theEntry'][0]['Region_Name']);
                 $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
                 $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
                 $('#VAge').html(data['theEntry'][0]['Religion_ID']);
@@ -1577,7 +1639,7 @@
 </script>
 
 <style>
-    table {
+    .example11 {
         display: block;
         overflow-x: auto;
         white-space: nowrap;

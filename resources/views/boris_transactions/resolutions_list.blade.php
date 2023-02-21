@@ -104,7 +104,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Effectivity}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_ordinance btn btn-primary">View</button>&nbsp;
+                                                <button class="view_ordinance btn btn-primary" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
                                                 <button class="edit_ordinance btn btn-info" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#createOrdinance_Info">Edit</button>&nbsp;
                                                 <button class="delete_ordinance btn btn-danger" value="{{$x->Ordinance_Resolution_ID}}">Delete</button>
                                             </td>
@@ -312,6 +312,72 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="ViewInfo" tabindex="-1" role="dialog" aria-labelledby="ViewInfo" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Ordinance Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <h4 id="VName"> </h4>
+                    <div class="row">
+
+                    </div>
+                    <div class="col-12">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <tr>
+                                <td style="width:300px"><strong>Resolution No.: </strong></td>
+                                <td><span id="Ordinance_Resolution_No2"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Title: </strong></td>
+                                <td><span id="Ordinance_Resolution_Title2"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Date Approval: </strong></td>
+                                <td><span id="Date_of_Approval2"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Date of Effectivity: </strong></td>
+                                <td><span id="Date_of_Effectivity2"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Status: </strong></td>
+                                <td><span id="Status_of_Ordinance_or_Resolution_ID2"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Previous Related Ordinance: </strong></td>
+                                <td><span id="Previous_Related_Ordinance_Resolution_ID2"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Approver: </strong></td>
+                                <td><span id="Approver_ID2"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Attester: </strong></td>
+                                <td><span id="Attester_ID2"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="form-group col-lg-12" style="padding:0 10px">
+                        <label for="fileattach">File Attachments</label>
+                        <ul class="list-group list-group-flush" id="ordinance_files2">
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
 
 <!-- Create Announcement_Status END -->
 
@@ -681,14 +747,6 @@
         $('.boris_main').addClass('menu-open');
     });
 
-    $(document).on('click', ('.view_ordinance'), function() {
-        $("#createOrdinance_Info :input").prop("disabled", true);
-        $(".modal-close").prop("disabled", false);
-
-        $(".btn_action").val(1);
-
-        $(this).closest(".sm_data_col").find(".edit_ordinance").trigger('click');
-    });
 
     $(document).on('click', '.modal-close', function(e) {
         $('#createOrdinance_Info').trigger("reset");
@@ -734,6 +792,95 @@
 
             }
         });
+    });
+
+    // View Info
+    $(document).on('click', ('.view_ordinance'), function(e) {
+
+        var disID = $(this).val();
+        var User_Type_ID = $('#User_Type_ID').val();
+        $.ajax({
+            url: "/get_ordinance_and_resolution_info",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#Ordinance_Resolution_ID2').text(data['theEntry'][0]['Ordinance_Resolution_ID']);
+                $('#Ordinance_or_Resolution2').text(data['theEntry'][0]['Ordinance_or_Resolution']);
+                $('#Ordinance_Resolution_No2').text(data['theEntry'][0]['Ordinance_Resolution_No']);
+                $('#Date_of_Approval2').text(data['theEntry'][0]['Date_of_Approval']);
+                $('#Date_of_Effectivity2').text(data['theEntry'][0]['Date_of_Effectivity']);
+                $('#Ordinance_Resolution_Title2').text(data['theEntry'][0]['Ordinance_Resolution_Title']);
+                $('#Status_of_Ordinance_or_Resolution_ID2').text(data['theEntry'][0]['Name_of_Status']);
+                if (data['theEntry'][0]['Approver_ID'] != null && data['theEntry'][0]['Approver_ID'] != 0) {
+                    $('#Approver_ID2').text(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
+                } else {
+                    $('#Approver_ID2').text('');
+                }
+
+                $('#Previous_Related_Ordinance_Resolution_ID2').text(data['theEntry'][0]['POrdinance_Title']);
+            }
+        });
+
+        $.ajax({
+            url: "/get_ordinance_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('#ordinance_files2').empty();
+
+                $i = 0;
+                if (User_Type_ID == 1) {
+
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#ordinance_files2').append(file);
+
+                    });
+                } else {
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                        $('#ordinance_files2').append(file);
+                    });
+                }
+
+            }
+        });
+
+        $.ajax({
+            url: "/get_ordinance_and_resolution_attester",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data);
+
+                var arr = new Array();
+                // or var arr = [];
+                $('#Attester_ID2').empty();
+                data.forEach(element => {
+                    $('#Attester_ID2').append(element['Last_Name'] + ', ' + element['First_Name'] + ' ' + element['Middle_Name'] + '<br>');
+                });
+            }
+        });
+
     });
 </script>
 

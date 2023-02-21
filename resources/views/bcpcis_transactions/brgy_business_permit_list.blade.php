@@ -89,6 +89,7 @@
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a href="{{ url('brgy_business_permit_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                                 @endif
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                                 <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
@@ -122,11 +123,12 @@
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <a class="btn btn-info" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('view_brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a>
+                                                <!-- <a class="btn btn-primary" href="{{ url('view_brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a> -->
+                                                <button class="view_businesspermit btn btn-primary" value="{{$x->Barangay_Permits_ID}}" data-toggle="modal" data-target="#viewBusinessPermit">View</button>
                                                 <button class="delete_businesspermit btn btn-danger" value="{{$x->Barangay_Permits_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a>
+                                                <button class="view_businesspermit btn btn-primary" value="{{$x->Barangay_Permits_ID}}" data-toggle="modal" data-target="#viewBusinessPermit">View</button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -150,12 +152,91 @@
 <!-- /.content -->
 
 
+<div class="modal fade" id="viewBusinessPermit" tabindex="-1" role="dialog" aria-labelledby="viewBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy Business Permit Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Transaction_No: </strong><span id="VTransaction_No"></span><br>
+                            <strong>Business_Name: </strong><span id="VBusiness_Name"></span><br>
+                            <strong>Resident_Name: </strong><span id="VResident_Name"></span><br>
+                            <strong>Occupation: </strong><span id="VOccupation"></span><br>
+                            <strong>CTC No: </strong><span id="VCTC_No"></span><br>
+                            <strong>New or Renewal: </strong><span id="VNew_or_Renewal"></span><br>
+                            <strong>Owned or Rented: </strong><span id="VOwned_or_Rented"></span><br>
+                            <strong>Barangay Business Permit Expiration Date: </strong><span id="VBarangay_Business_Permit_Expiration_Date"></span><br>
+                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('businesspermit_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Transaction_No" name="chk_Transaction_No">
+                                <label for="chk_Transaction_No">Transaction_No</label><br>
+                                <input type="checkbox" id="chk_Business_Name" name="chk_Business_Name">
+                                <label for="chk_Business_Name">Business Name</label><br>
+                                <input type="checkbox" id="chk_Resident_Name" name="chk_Resident_Name">
+                                <label for="chk_Resident_Name">Resident Name</label><br>
+                                <input type="checkbox" id="chk_New_or_Renewal" name="chk_New_or_Renewal">
+                                <label for="chk_New_or_Renewal">New or Renewal</label><br>
+                                <input type="checkbox" id="chk_Owned_or_Rented" name="chk_Owned_or_Rented">
+                                <label for="chk_Owned_or_Rented">Owned or Rented</label><br>
+                                <input type="checkbox" id="chk_Occupation" name="chk_Occupation">
+                                <label for="chk_Occupation">Occupation</label><br>
+                                <input type="checkbox" id="chk_CTC_No" name="chk_CTC_No">
+                                <label for="chk_CTC_No">CTC No</label><br>
+                                <input type="checkbox" id="chk_Barangay_Business_Permit_Expiration_Date" name="chk_Barangay_Business_Permit_Expiration_Date">
+                                <label for="chk_Barangay_Business_Permit_Expiration_Date">Business Permit Expiration Date</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
 @section('scripts')
 
 <script>
+     $(document).on('click', '.modal-close', function(e) {
+        $('#viewBusinessPermit').trigger("reset");
+    });
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
@@ -333,6 +414,32 @@ $(document).on("change", "#P_ID", function() {
                     }
                 });
 
+            }
+        });
+    });
+
+    $(document).on('click', ('.view_businesspermit'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_businesspermit",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VTransaction_No').html(data['theEntry'][0]['Transaction_No']);
+                $('#VOccupation').html(data['theEntry'][0]['Occupation']);
+                $('#VBarangay_Business_Permit_Expiration_Date').html(data['theEntry'][0]['Barangay_Business_Permit_Expiration_Date']);
+                $('#VCTC_No').html(data['theEntry'][0]['CTC_No']);
+                $('#VBusiness_Name').html(data['theEntry'][0]['Business_Name']);
+                $('#VResident_Name').html(data['theEntry'][0]['Resident_Name']);
+                $('#VNew_or_Renewal').html(data['theEntry'][0]['New_or_Renewal']);
+                $('#VOwned_or_Rented').html(data['theEntry'][0]['Owned_or_Rented']);
+            
             }
         });
     });

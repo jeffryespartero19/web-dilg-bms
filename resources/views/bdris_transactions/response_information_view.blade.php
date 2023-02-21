@@ -52,65 +52,22 @@
                                     <div>
                                         <input type="text" class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID" value="{{$response[0]->Disaster_Response_ID}}" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Disaster_Name">Disaster Name</label>
-                                                <input type="text" class="form-control" id="Disaster_Name" name="Disaster_Name" value="{{$response[0]->Disaster_Name}}">
+                                            <div class="col-6">
+                                                <strong>Disaster Name: </strong><span id="VDisaster_Name"></span><br>
+                                                <strong>Damaged Location: </strong><span id="VDamaged_Location"></span><br>
+                                                <strong>Disaster Date Start: </strong><span id="VDisaster_Date_Start"></span><br>
+                                                <strong>Disaster Date End: </strong><span id="VDisaster_Date_End"></span><br>
+                                                <strong>GPS Coordinates: </strong><span id="VGPS_Coordinates"></span><br>
+                                                <strong>Risk Assesment: </strong><span id="VRisk_Assesment"></span><br>
+                                                <strong>Action Taken: </strong><span id="VAction_Taken"></span><br>
+                                                <strong>Disaster Type: </strong><span id="VDisaster_Type"></span><br>
+                                                <strong>Alert Level: </strong><span id="VAlert_Level"></span><br>
+                                                <!-- buban -->
+                                                <br>
+                                                <br>
+                                                <br>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Disaster_Type_ID">Disaster Type</label>
-                                                <select class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($disaster_type as $bt1)
-                                                    <option value="{{ $bt1->Disaster_Type_ID }}" {{ $bt1->Disaster_Type_ID  == $response[0]->Disaster_Type_ID  ? "selected" : "" }}>{{ $bt1->Disaster_Type }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Alert_Level_ID">Alert Level</label>
-                                                <select class="form-control" id="Alert_Level_ID" name="Alert_Level_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($alert_level as $bt1)
-                                                    <option value="{{ $bt1->Alert_Level_ID }}" {{ $bt1->Alert_Level_ID  == $response[0]->Alert_Level_ID  ? "selected" : "" }}>{{ $bt1->Alert_Level }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Disaster_Date_Start">Disaster Date Start</label>
-                                                <input type="datetime-local" class="form-control" id="Disaster_Date_Start" name="Disaster_Date_Start" value="{{$response[0]->Disaster_Date_Start}}" required>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Disaster_Date_End">Disaster Date End</label>
-                                                <input type="datetime-local" class="form-control" id="Disaster_Date_End" name="Disaster_Date_End" value="{{$response[0]->Disaster_Date_End}}" required>
-                                            </div>
-                                            <div class="form-group col-lg-9" style="padding:0 10px">
-                                                <label for="Damaged_Location">Damaged Location</label>
-                                                <input type="text" class="form-control" id="Damaged_Location" name="Damaged_Location" value="{{$response[0]->Damaged_Location}}">
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="GPS_Coordinates">GPS Coordinates</label>
-                                                <input type="text" class="form-control" id="GPS_Coordinates" name="GPS_Coordinates" value="{{$response[0]->GPS_Coordinates}}">
-                                            </div>
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Risk_Assesment">Risk Assesment</label>
-                                                <input type="text" class="form-control" id="Risk_Assesment" name="Risk_Assesment" value="{{$response[0]->Risk_Assesment}}">
-                                            </div>
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Action_Taken">Action Taken</label>
-                                                <input type="text" class="form-control" id="Action_Taken" name="Action_Taken" value="{{$response[0]->Action_Taken}}">
-                                            </div>
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="fileattach">File Attachments</label>
-                                                <ul class="list-group list-group-flush" id="ordinance_files">
-                                                    @foreach($attachment as $fa)
-                                                    <li class="list-group-item">{{$fa->File_Name}}<a href="../files/uploads/response_information/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
-                                                    @endforeach
-                                                    <br>
-                                                    <div class="input-group my-3">
-                                                        <div class="custom-file">
-                                                            <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                                        </div>
-                                                    </div>
-                                            </div>
+                                           
                                             <div class="form-group col-lg-12" style="padding:0 10px;">
                                                 <h3>Evacuee Information</h3>
                                                 <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
@@ -205,7 +162,8 @@
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
                                             <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                            <!-- <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button> -->
+                                            <a class="btn btn-info" href="{{route('brgy_projects_monitoring_list')}}" id="btnback">Back</a>
                                         </center>
                                     </div>
                                 </form>
@@ -231,8 +189,10 @@
 @section('scripts')
 
 <script>
-    // Data Table
+    // Data Table aldren
     $(document).ready(function() {
+        $("#newResponse_Information :input").prop("disabled", true);
+        $("#btnback").prop("disabled", false);
         $('#example').DataTable();
 
         $('.js-example-basic-single').select2();
@@ -240,6 +200,31 @@
         $(".Resident_Select2").select2({
             tags: true
         });
+
+        var disID = $('#Disaster_Response_ID').val();
+        $.ajax({
+            url: "/get_responseinfo",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VDisaster_Name').html(data['theEntry'][0]['Disaster_Name']);
+                $('#VDamaged_Location').html(data['theEntry'][0]['Damaged_Location']);
+                $('#VDisaster_Date_Start').html(data['theEntry'][0]['Disaster_Date_Start']);
+                $('#VDisaster_Date_End').html(data['theEntry'][0]['Disaster_Date_End']);
+                $('#VGPS_Coordinates').html(data['theEntry'][0]['GPS_Coordinates']);
+                $('#VRisk_Assesment').html(data['theEntry'][0]['Risk_Assesment']);
+                $('#VAction_Taken').html(data['theEntry'][0]['Action_Taken']);
+                $('#VDisaster_Type').html(data['theEntry'][0]['Disaster_Type']);
+                $('#VAlert_Level').html(data['theEntry'][0]['Alert_Level']);
+                
+            }
+        });
+
     });
     // Show File Name
     updateList = function() {
