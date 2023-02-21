@@ -609,6 +609,31 @@ class BDRISALController extends Controller
             ));
         }
     }
+//aldren
+    public function get_responseinfo(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bdris_response_information as a')
+        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+            ->select(
+                'a.Disaster_Response_ID',
+                'a.Disaster_Name',
+                'a.Damaged_Location',
+                'a.Disaster_Date_Start',
+                'a.Disaster_Date_End',
+                'a.GPS_Coordinates',
+                'a.Risk_Assesment',
+                'a.Action_Taken',
+                'b.Disaster_Type',
+                'c.Alert_Level',
+            )
+            ->where('a.Disaster_Response_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
 
     public function view_response_information_details($id)
     {
@@ -2061,6 +2086,359 @@ class BDRISALController extends Controller
         return $pdf->stream();
     }
 
+    public function get_disastertype(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('maintenance_bdris_disaster_type as a')
+        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->select(
+                'a.Disaster_Type_ID',
+                'a.Disaster_Type',
+                'b.Emergency_Evacuation_Site_Name',
+                'c.Allocated_Fund_Name',
+                'e.Emergency_Team_Name',
+                'd.Emergency_Equipment_Name',  
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+            )
+            ->where('Disaster_Type_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+    public function disastertype_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+
+        $chk_Disaster_Type = isset($data['chk_Disaster_Type']) ? 1 : 0;
+        $chk_Emergency_Evacuation_Site_Name = isset($data['chk_Emergency_Evacuation_Site_Name']) ? 1 : 0;
+        $chk_Allocated_Fund_Name = isset($data['chk_Allocated_Fund_Name']) ? 1 : 0;
+        $chk_Emergency_Team_Name = isset($data['chk_Emergency_Team_Name']) ? 1 : 0;
+        $chk_Emergency_Equipment_Name = isset($data['chk_Emergency_Equipment_Name']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        $db_entries = DB::table('maintenance_bdris_disaster_type as a')
+        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+            ->select(
+                'a.Disaster_Type_ID',
+                'a.Disaster_Type',
+                'b.Emergency_Evacuation_Site_Name',
+                'c.Allocated_Fund_Name',
+                'e.Emergency_Team_Name',
+                'd.Emergency_Equipment_Name',  
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+            )
+            // ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bdris_transactions.disaster_type_List_PDF', compact(
+            'chk_Disaster_Type',
+            'chk_Emergency_Evacuation_Site_Name',
+            'chk_Allocated_Fund_Name',
+            'chk_Emergency_Team_Name',
+            'chk_Emergency_Equipment_Name',
+            'chk_Active',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Disaster_Type_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+    public function get_emerevacsite(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bdris_emergency_evacuation_site as a')
+            ->select(
+                'a.Emergency_Evacuation_Site_ID',
+                'a.Emergency_Evacuation_Site_Name',
+                'a.Address',
+                'a.Capacity', 
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+            )
+            ->where('Emergency_Evacuation_Site_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+    public function emerevac_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+
+        $chk_Emergency_Evacuation_Site_Name = isset($data['chk_Emergency_Evacuation_Site_Name']) ? 1 : 0;
+        $chk_Address = isset($data['chk_Address']) ? 1 : 0;
+        $chk_Capacity = isset($data['chk_Capacity']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        $db_entries = DB::table('bdris_emergency_evacuation_site as a')
+        ->select(
+            'a.Emergency_Evacuation_Site_ID',
+            'a.Emergency_Evacuation_Site_Name',
+            'a.Address',
+            'a.Capacity', 
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+        )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bdris_transactions.emerevac_List_PDF', compact(
+            'chk_Emergency_Evacuation_Site_Name',
+            'chk_Address',
+            'chk_Capacity',
+            'chk_Active',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Emergency_Evacuation_Site_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+    public function get_allofund(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bdris_allocated_fund_source as a')
+        ->select(
+            'a.Allocated_Fund_ID',
+            'a.Allocated_Fund_Name',
+            'a.Amount',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+        )
+            ->where('Allocated_Fund_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+    public function allofund_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+
+        $chk_Allocated_Fund_Name = isset($data['chk_Allocated_Fund_Name']) ? 1 : 0;
+        $chk_Amount = isset($data['chk_Amount']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        $db_entries = DB::table('bdris_allocated_fund_source as a')
+        ->select(
+            'a.Allocated_Fund_ID',
+            'a.Allocated_Fund_Name',
+            'a.Amount',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+        )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bdris_transactions.allofund_List_PDF', compact(
+            'chk_Allocated_Fund_Name',
+            'chk_Amount',
+            'chk_Active',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Allocated_Fund_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+
+    public function get_dissupp(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bdris_disaster_supplies as a')
+        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->select(
+                'a.Disaster_Supplies_ID',
+                'a.Disaster_Supplies_Name',
+                'a.Disaster_Supplies_Quantity',
+                'a.Location',
+                'a.Remarks', 
+                'h.Disaster_Name',
+                DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                  
+            )
+            ->where('Disaster_Supplies_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+    public function dissupp_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+        $chk_Disaster_Supplies_Name = isset($data['chk_Disaster_Supplies_Name']) ? 1 : 0;
+        $chk_Disaster_Supplies_Quantity = isset($data['chk_Disaster_Supplies_Quantity']) ? 1 : 0;
+        $chk_Location = isset($data['chk_Location']) ? 1 : 0;
+        $chk_Remarks = isset($data['chk_Remarks']) ? 1 : 0;
+        $chk_Disaster_Name = isset($data['chk_Disaster_Name']) ? 1 : 0;
+        $chk_Resident_Name = isset($data['chk_Resident_Name']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        $db_entries = DB::table('bdris_disaster_supplies as a')
+        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+            ->select(
+                'a.Disaster_Supplies_ID',
+                'a.Disaster_Supplies_Name',
+                'a.Disaster_Supplies_Quantity',
+                'a.Location',
+                'a.Remarks', 
+                'h.Disaster_Name',
+                DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
+                DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                  
+            )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bdris_transactions.dissupp_List_PDF', compact(
+            'chk_Disaster_Supplies_Name',
+            'chk_Disaster_Supplies_Quantity',
+            'chk_Location',
+            'chk_Remarks',
+            'chk_Disaster_Name',
+            'chk_Resident_Name',
+            'chk_Active',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Disaster_Supplies_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+
+    public function get_emerteam(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bdris_emergency_team as a')
+            ->select(
+                'a.Emergency_Team_ID',
+                'a.Emergency_Team_Name',
+                'a.Emergency_Team_Hotline',  
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+            )
+            ->where('Emergency_Team_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+    public function emerteam_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+
+        $chk_Emergency_Team_Name = isset($data['chk_Emergency_Team_Name']) ? 1 : 0;
+        $chk_Emergency_Team_Hotline = isset($data['chk_Emergency_Team_Hotline']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        $db_entries =DB::table('bdris_emergency_team as a')
+        ->select(
+            'a.Emergency_Team_ID',
+            'a.Emergency_Team_Name',  
+            'a.Emergency_Team_Hotline',  
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+        )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bdris_transactions.emerteam_List_PDF', compact(
+            'chk_Emergency_Team_Name',
+            'chk_Emergency_Team_Hotline',
+            'chk_Active',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Emergency_Team_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+
+    public function get_emerequip(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bdris_emergency_equipment as a')
+            ->select(
+                'a.Emergency_Equipment_ID',
+                'a.Emergency_Equipment_Name',
+                'a.Location',  
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+            )
+            ->where('Emergency_Equipment_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+    public function emerequip_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+        $chk_Emergency_Equipment_Name = isset($data['chk_Emergency_Equipment_Name']) ? 1 : 0;
+        $chk_Location = isset($data['chk_Location']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        $db_entries =DB::table('bdris_emergency_equipment as a')
+        ->select(
+            'a.Emergency_Equipment_ID',
+            'a.Emergency_Equipment_Name',
+            'a.Location',  
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),    
+
+        )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bdris_transactions.emerequip_List_PDF', compact(
+            'chk_Emergency_Equipment_Name',
+            'chk_Location',
+            'chk_Active',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Emergency_Equipment_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
      //OTHER TRANSACTION 
      public function other_transaction_list(Request $request)
      {
@@ -3125,6 +3503,30 @@ class BDRISALController extends Controller
             ->where('a.Barangay_ID', $Barangay_ID)
             ->get();
         return json_encode($data);
+    }
+
+   
+    public function get_disaster_related_activities_view(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bdris_disaster_related_activities as a')
+        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+            ->select(
+                'a.Disaster_Related_Activities_ID',
+                'a.Activity_Name',
+                'a.Purpose',
+                'a.Date_Start',
+                'a.Date_End',
+                'a.Number_of_Participants',
+                DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Brgy_Official_Name'),
+                  
+            )
+            ->where('a.Disaster_Related_Activities_ID', $id)->get();
+
+        return (compact('theEntry'));
     }
 
     public function get_emergency_evacuation_site_list($Barangay_ID)

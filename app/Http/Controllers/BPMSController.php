@@ -91,6 +91,46 @@ class BPMSController extends Controller
         return (compact('theEntry'));
     }
 
+    public function contractor_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+        $chk_Contractor_Name = isset($data['chk_Contractor_Name']) ? 1 : 0;
+        $chk_Contact_Person = isset($data['chk_Contact_Person']) ? 1 : 0;
+        $chk_Contact_No = isset($data['chk_Contact_No']) ? 1 : 0;
+        $chk_Contractor_Address = isset($data['chk_Contractor_Address']) ? 1 : 0;
+        $chk_Contractor_TIN = isset($data['chk_Contractor_TIN']) ? 1 : 0;
+        $chk_Remarks = isset($data['chk_Remarks']) ? 1 : 0;
+
+        $db_entries =DB::table('bpms_contractor as a')
+        ->select(
+            'a.Contractor_ID',
+            'a.Contractor_Name',
+            'a.Contact_Person',
+            'a.Contact_No',
+            'a.Contractor_Address',
+            'a.Contractor_TIN',
+            'a.Remarks',
+        )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bpms_transactions.contractor_List_PDF', compact(
+            'chk_Contractor_Name',
+            'chk_Contact_Person',
+            'chk_Contact_No',
+            'chk_Contractor_Address',
+            'chk_Contractor_TIN',
+            'chk_Remarks',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Contractor_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
     //updating Contractor
     public function update_contractor(Request $request)
 
@@ -203,7 +243,7 @@ class BPMSController extends Controller
     }
     }
 
-
+    
     //Brgy Project Monitoring Details
     public function brgy_project_monitoring_details($id)
     {
@@ -265,6 +305,87 @@ class BPMSController extends Controller
                 'milestone',
             ));
         }
+    }
+
+    public function get_brgyprojects(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bpms_brgy_projects_monitoring as a')
+        ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+        ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+        ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+            ->select(
+                'a.Brgy_Projects_ID',
+                'a.Project_Number',
+                'a.Project_Name',
+                'a.Description',
+                'a.Estimated_Start_Date',
+                'a.Estimated_End_Date',
+                'a.Total_Project_Cost',
+                'a.Brgy_Projects_ID',
+                'a.Funding_Year',
+                'a.Exact_Location',
+                'a.Type_of_Beneficiary',
+                'a.Number_of_Beneficiaries',
+                'a.Actual_Project_Start',
+                'a.Project_Completion_Date',
+                'b.Contractor_Name',
+                'c.Project_Type_Name',
+                
+            )
+            ->where('a.Brgy_Projects_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    public function brgy_project_monitoring_details_view($id)
+    {
+        $currDATE = Carbon::now();
+
+        
+            $project = DB::table('bpms_brgy_projects_monitoring')->where('Brgy_Projects_ID', $id)->get();
+            $contractor = DB::table('bpms_contractor')->paginate(20, ['*'], 'contractor');
+            $project_type = DB::table('maintenance_bpms_project_type')->paginate(20, ['*'], 'project_type');
+            $project_status = DB::table('maintenance_bpms_project_status')->paginate(20, ['*'], 'project_status');
+            $region = DB::table('maintenance_region')->where('Active', 1)->get();
+            $province = DB::table('maintenance_province')->where('Region_ID', $project[0]->Region_ID)->get();
+            $city_municipality = DB::table('maintenance_city_municipality')->where('Province_ID', $project[0]->Province_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $project[0]->City_Municipality_ID)->get();
+            $accomplishment = DB::table('maintenance_bpms_accomplishment_status')->paginate(20, ['*'], 'accomplishment');
+            $milestone = DB::table('bpms_milestone_status as a')
+            ->leftjoin('maintenance_bpms_accomplishment_status as b', 'a.Accomplishment_Status_ID', '=', 'b.Accomplishment_Status_ID')
+            ->select(
+                'a.Milestone_Status_ID',
+                'b.Accomplishment_Status_ID',
+                'b.Accomplishment_Status_Name',
+                'a.Brgy_Projects_ID',
+                'a.Milestone_Title',
+                'a.Milestone_Description',
+                'a.Milestone_Date',
+                'a.Milestone_Status',
+                'a.Milestone_Percentage',
+                'a.Obligation_Amount',
+                'a.Disbursement_Amount',
+                'a.Male_Employed',
+                'a.Female_Employed',
+            )
+            ->where('a.Brgy_Projects_ID', $id)
+            ->get();
+            return view('bpms_transactions.brgy_projects_monitoring_view', compact(
+                'currDATE',
+                'project',
+                'contractor',
+                'project_type',
+                'project_status',
+                'region',
+                'province',
+                'barangay',
+                'city_municipality',
+                'accomplishment',
+                'milestone',
+            ));
+        
     }
 
 
@@ -701,6 +822,58 @@ class BPMSController extends Controller
             ->get();
         return json_encode($data);
     }
+
+    public function promon_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+
+        $chk_Project_Number = isset($data['chk_Project_Number']) ? 1 : 0;
+        $chk_Project_Name = isset($data['chk_Project_Name']) ? 1 : 0;
+        $chk_Total_Project_Cost = isset($data['chk_Total_Project_Cost']) ? 1 : 0;
+        $chk_Exact_Location = isset($data['chk_Exact_Location']) ? 1 : 0;
+        $chk_Actual_Project_Start = isset($data['chk_Actual_Project_Start']) ? 1 : 0;
+        $chk_Contractor_Name = isset($data['chk_Contractor_Name']) ? 1 : 0;
+        $chk_Project_Type_Name = isset($data['chk_Project_Type_Name']) ? 1 : 0;
+        $chk_Project_Status_Name = isset($data['chk_Project_Status_Name']) ? 1 : 0;
+
+        $db_entries = DB::table('bpms_brgy_projects_monitoring as a')
+        ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+        ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+        ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+        ->select(
+            'a.Brgy_Projects_ID',
+            'a.Project_Number',
+            'a.Project_Name',
+            'a.Total_Project_Cost',
+            'a.Exact_Location',
+            'a.Actual_Project_Start',
+            'b.Contractor_Name',
+            'c.Project_Type_Name',
+            'd.Project_Status_Name',
+
+        ) 
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bpms_transactions.promon_List_PDF', compact(
+            'chk_Project_Number',
+            'chk_Project_Name',
+            'chk_Total_Project_Cost',
+            'chk_Exact_Location',
+            'chk_Actual_Project_Start',
+            'chk_Contractor_Name',
+            'chk_Project_Type_Name',
+            'chk_Project_Status_Name',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Project_Monitoring_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
 
     public function search_accomplishment(Request $request)
     {

@@ -12,7 +12,117 @@ use PDF;
 
 class BCPISController extends Controller
 {
-    //Brgy Document Information List BUBAN
+        public function get_brgydocument(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('bcpcis_brgy_payment_collected as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as c', 'a.Purpose_of_Document_ID', '=', 'c.Purpose_of_Document_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as e', 'a.Resident_ID', '=', 'e.Resident_ID')
+            ->select(
+                'a.Document_ID',
+                'a.Transaction_No',
+                'a.Brgy_Cert_No', 
+                'd.Document_Type_Name',
+                'c.Purpose_of_Document',  
+                DB::raw('CONCAT(e.First_Name, " ",LEFT(e.Middle_Name,1),". ",e.Last_Name) AS Resident_Name'),
+                'a.Request_Date',
+                'a.Remarks',
+                'a.Salutation_Name',
+                'a.SecondResident_Name', 
+                 DB::raw('(CASE WHEN a.Released = false THEN "No" ELSE "Yes" END) AS Released'),
+                'a.Issued_On',
+                'a.Issued_At',
+                'b.OR_Date',
+                'b.OR_No',
+                'b.Cash_Tendered',
+                'b.CTC_No',
+                'b.CTC_Details',
+                'b.CTC_Date_Issued',
+                'b.CTC_Amount',
+                'b.Place_Issued',
+            )
+            ->where('a.Document_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+
+   
+    public function brgydocument_downloadPDF(Request $request)
+    {   
+        
+        $data = request()->all();
+
+
+        $chk_Transaction_No = isset($data['chk_Transaction_No']) ? 1 : 0;
+        $chk_Request_Date = isset($data['chk_Request_Date']) ? 1 : 0;
+        $chk_Resident_Name = isset($data['chk_Resident_Name']) ? 1 : 0;
+        $chk_Released = isset($data['chk_Released']) ? 1 : 0;
+        $chk_Remarks = isset($data['chk_Remarks']) ? 1 : 0;
+        $chk_Purpose_of_Document = isset($data['chk_Purpose_of_Document']) ? 1 : 0;
+        $chk_Salutation_Name = isset($data['chk_Salutation_Name']) ? 1 : 0;
+        $chk_Issued_On = isset($data['chk_Issued_On']) ? 1 : 0;
+        $chk_Issued_At = isset($data['chk_Issued_At']) ? 1 : 0;
+        $chk_Brgy_Cert_No = isset($data['chk_Brgy_Cert_No']) ? 1 : 0;
+        $chk_Document_Type_Name = isset($data['chk_Document_Type_Name']) ? 1 : 0;
+        $chk_SecondResident_Name = isset($data['chk_SecondResident_Name']) ? 1 : 0;
+        $chk_OR_No = isset($data['chk_OR_No']) ? 1 : 0;
+        $chk_Cash_Tendered = isset($data['chk_Cash_Tendered']) ? 1 : 0;
+
+        $db_entries = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('bcpcis_brgy_payment_collected as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as c', 'a.Purpose_of_Document_ID', '=', 'c.Purpose_of_Document_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as e', 'a.Resident_ID', '=', 'e.Resident_ID')
+            ->select(
+                'a.Document_ID',
+                'a.Transaction_No',
+                'a.Brgy_Cert_No', 
+                'd.Document_Type_Name',
+                'c.Purpose_of_Document',  
+                DB::raw('CONCAT(e.First_Name, " ",LEFT(e.Middle_Name,1),". ",e.Last_Name) AS Resident_Name'),
+                'a.Request_Date',
+                'a.Remarks',
+                'a.Salutation_Name',
+                'a.SecondResident_Name', 
+                 DB::raw('(CASE WHEN a.Released = false THEN "No" ELSE "Yes" END) AS Released'),
+                'a.Issued_On',
+                'a.Issued_At',
+                'b.OR_Date',
+                'b.OR_No',
+                'b.Cash_Tendered',
+            )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bcpcis_transactions.brgy_document_List_PDF', compact(
+            'chk_Transaction_No',
+            'chk_Request_Date',
+            'chk_Resident_Name',
+            'chk_Released',
+            'chk_Remarks',
+            'chk_Purpose_of_Document',
+            'chk_Salutation_Name',
+            'chk_Issued_On',
+            'chk_Issued_At',
+            'chk_Brgy_Cert_No',
+            'chk_Document_Type_Name',
+            'chk_SecondResident_Name',
+            'chk_OR_No',
+            'chk_Cash_Tendered',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Brgy_Document_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
+    //Brgy Document Information List 
     public function brgy_document_information_list(Request $request)
     {
         $currDATE = Carbon::now();
@@ -314,6 +424,90 @@ class BCPISController extends Controller
         }
     }
 
+    
+    public function get_brgybusiness(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('maintenance_bcpcis_barangay_business as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_business_type as f', 'a.Business_Type_ID', '=', 'f.Business_Type_ID')
+            ->select(
+                'a.Business_ID',
+                'a.Business_Name',
+                'a.Business_Type_ID',
+                'a.Business_Tin',
+                'a.Business_Owner',
+                'a.Business_Address',
+                'a.Mobile_No',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'f.Business_Type',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active')
+
+            )
+            ->where('Business_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    
+    public function brgybusiness_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+        $chk_Business_Name = isset($data['chk_Business_Name']) ? 1 : 0;
+        $chk_Business_Type = isset($data['chk_Business_Type']) ? 1 : 0;
+        $chk_Business_Tin = isset($data['chk_Business_Tin']) ? 1 : 0;
+        $chk_Business_Owner = isset($data['chk_Business_Owner']) ? 1 : 0;
+        $chk_Business_Address = isset($data['chk_Business_Address']) ? 1 : 0;
+        $chk_Mobile_No = isset($data['chk_Mobile_No']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        $db_entries = DB::table('maintenance_bcpcis_barangay_business as a')
+        ->leftjoin('maintenance_bcpcis_business_type as b', 'a.Business_Type_ID', '=', 'b.Business_Type_ID')
+            ->select(
+                'a.Business_ID',
+                'a.Business_Name',
+                'a.Business_Tin',
+                'a.Business_Owner',
+                'a.Business_Address',
+                'a.Mobile_No',    
+                'b.Business_Type',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active')
+
+            )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bcpcis_transactions.brgy_business_List_PDF', compact(
+            'chk_Business_Type',
+            'chk_Business_Name',
+            'chk_Business_Tin',
+            'chk_Business_Owner',
+            'chk_Business_Address',
+            'chk_Mobile_No',
+            'chk_Active',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Brgy_Business_List.pdf";
+        return $pdf->download($daFileNeym);
+    }
+
     //Barangay Business List
     public function barangay_business_list(Request $request)
     {
@@ -503,6 +697,88 @@ class BCPISController extends Controller
          
             return redirect()->back()->with('message', 'Information Updated');
         }
+    }
+
+    // Display Contractor buban
+    public function get_businesspermit(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('bcpcis_brgy_business_permits as a')
+            ->leftjoin('bcpcis_brgy_payment_collected as b', 'a.Barangay_Permits_ID', '=', 'b.Barangay_Permits_ID')
+            ->leftjoin('maintenance_bcpcis_barangay_business as f', 'a.Business_ID', '=', 'f.Business_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Resident_ID', '=', 'g.Resident_ID')
+           
+                ->select(
+                    'a.Barangay_Permits_ID',
+                    'a.Transaction_No',
+                    'a.Occupation',
+                    'a.Barangay_Business_Permit_Expiration_Date',
+                    'b.CTC_No', 
+                    'f.Business_Name',
+                    DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
+                    DB::raw('(CASE WHEN a.New_or_Renewal = false THEN "Renewal" ELSE "New" END) AS New_or_Renewal'),
+                    DB::raw('(CASE WHEN a.Owned_or_Rented = false THEN "Rented" ELSE "Owned" END) AS Owned_or_Rented'),
+                    
+    
+                )
+            ->where('a.Barangay_Permits_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+    
+    //aldren
+    public function businesspermit_downloadPDF(Request $request)
+    {   
+        // $id = $_GET['id'];
+        $data = request()->all();
+
+
+        $chk_Transaction_No = isset($data['chk_Transaction_No']) ? 1 : 0;
+        $chk_Business_Name = isset($data['chk_Business_Name']) ? 1 : 0;
+        $chk_Resident_Name = isset($data['chk_Resident_Name']) ? 1 : 0;
+        $chk_New_or_Renewal = isset($data['chk_New_or_Renewal']) ? 1 : 0;
+        $chk_Owned_or_Rented = isset($data['chk_Owned_or_Rented']) ? 1 : 0;
+        $chk_Occupation = isset($data['chk_Occupation']) ? 1 : 0;
+        $chk_CTC_No = isset($data['chk_CTC_No']) ? 1 : 0;
+        $chk_Barangay_Business_Permit_Expiration_Date = isset($data['chk_Barangay_Business_Permit_Expiration_Date']) ? 1 : 0;
+
+        $db_entries = DB::table('bcpcis_brgy_business_permits as a')
+        ->leftjoin('bcpcis_brgy_payment_collected as b', 'a.Barangay_Permits_ID', '=', 'b.Barangay_Permits_ID')
+        ->leftjoin('maintenance_bcpcis_barangay_business as f', 'a.Business_ID', '=', 'f.Business_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Resident_ID', '=', 'g.Resident_ID')
+       
+            ->select(
+                'a.Barangay_Permits_ID',
+                'a.Transaction_No',
+                'a.Occupation',
+                'a.Barangay_Business_Permit_Expiration_Date',
+                'b.CTC_No', 
+                'f.Business_Name',
+                DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
+                DB::raw('(CASE WHEN a.New_or_Renewal = false THEN "Renewal" ELSE "New" END) AS New_or_Renewal'),
+                DB::raw('(CASE WHEN a.Owned_or_Rented = false THEN "Rented" ELSE "Owned" END) AS Owned_or_Rented'),
+            
+            )
+            ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+            ->paginate(20, ['*'], 'details');
+
+        //dd($detail);
+
+        $pdf = PDF::loadView('bcpcis_transactions.brgy_business_permit_List_PDF', compact(
+            'chk_Transaction_No',
+            'chk_Business_Name',
+            'chk_Resident_Name',
+            'chk_New_or_Renewal',
+            'chk_Owned_or_Rented',
+            'chk_Occupation',
+            'chk_CTC_No',
+            'chk_Barangay_Business_Permit_Expiration_Date',
+            'db_entries',
+        ))->setPaper('a4', 'landscape');
+        $daFileNeym = "Brgy_Business_Permit_List.pdf";
+        return $pdf->download($daFileNeym);
     }
 
     //Brgy Business Permit List
@@ -1506,7 +1782,7 @@ class BCPISController extends Controller
          
     }
 
-     // Save Brgy Document Information Request aldren
+     // Save Brgy Document Information Request 
      public function create_brgy_document_information_request(Request $request)
      {
          $currDATE = Carbon::now();
@@ -1964,6 +2240,8 @@ class BCPISController extends Controller
             ->get();
         return json_encode($data);
     }
+
+    
 
     public function get_brgy_business_list($Barangay_ID)
     {   
