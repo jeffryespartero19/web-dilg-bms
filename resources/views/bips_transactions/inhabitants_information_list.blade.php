@@ -85,7 +85,7 @@
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12">
                                 <div>
-                                    <table id="example" class="table table-striped table-bordered" style="table-layout:fixed;">
+                                    <table id="example" class="example11 table table-striped table-bordered" style="table-layout:fixed;">
                                         <thead>
                                             <tr>
                                                 <th style="width: 300px;">Name</th>
@@ -744,67 +744,145 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Inhabitant Information</h4>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Ordinance Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <h4 id="VName"> </h4>
-                    <div class="row">
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-2">
-                            <strong style="width: 400px;">Name: </strong><span id="VBirthdate"></span><br>
-                        </div>
-                        <div class="col-4">
-                            <strong style="width: 400px;">: </strong><span id="VBirthdate"></span><br>
-                        </div>
+                <h4 id="VName"> </h4>
 
-                        <div class="col-6">
-                            <strong>Birthdate: </strong><span id="VBirthdate"></span><br>
-                            <strong>Birthplace: </strong><span id="VBirthplace"></span><br>
-                            <strong>Age: </strong><span id="VAge"></span><br>
-                            <strong>Sex: </strong><span id="VSex"></span><br>
-                            <strong>Civil Status: </strong><span id="VCivilStatus"></span><br>
-                            <strong>Mobile Number: </strong><span id="VMobile"></span><br>
-                            <strong>Landline Number: </strong><span id="VLandline"></span><br>
-                            <strong>House Number: </strong><span id="VHouseNo"></span><br>
-                            <strong>Street: </strong><span id="VStreet"></span><br>
-                        </div>
-                    </div>
-                </div>
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Name: </strong></td>
+                        <td style="width:auto"><span id="VName"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Address: </strong></td>
+                        <td style="width:auto"><span id="Ordinance_Resolution_Title2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Birthdate: </strong></td>
+                        <td style="width:auto"><span id="VBirthdate"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Birthplace: </strong></td>
+                        <td style="width:auto"><span id="VBirthplace"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Religion: </strong></td>
+                        <td style="width:auto"><span id="Status_of_Ordinance_or_Resolution_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Blood Type: </strong></td>
+                        <td style="width:auto"><span id="Previous_Related_Ordinance_Resolution_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Sex: </strong></td>
+                        <td style="width:auto"><span id="VSex"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Weight: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Height: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Civil Status: </strong></td>
+                        <td style="width:auto"><span id="VCivilStatus"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Mobile Number: </strong></td>
+                        <td style="width:auto"><span id="VMobile_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Landline Number: </strong></td>
+                        <td style="width:auto"><span id="VLandline"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Monthly Income: </strong></td>
+                        <td style="width:auto"><span id="VSalary"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Email: </strong></td>
+                        <td style="width:auto"><span id="VEmail_Address"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>PhilSys Card Number: </strong></td>
+                        <td style="width:auto"><span id="VPhilSys_Card_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Resident Information</td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Resident Status: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Voter Status: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Election Year Last Voted: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Resident Voter: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Additional Information</td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Solo Parent: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>OFW: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Indigent: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>4Ps Beneficiary: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>PhilHealth: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>GSIS: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>SSS: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>PagIbig: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Email: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:auto"><strong>Email: </strong></td>
+                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                    </tr>
+                </table>
+
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
-            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
         </div>
     </div>
 </div>
@@ -1365,16 +1443,6 @@
         $('.inhabitants_main').addClass('menu-open');
     });
 
-    // $(document).on('click', ('.view_inhabitants'), function() {
-    //     $("#createInhabitants_Info :input").prop("disabled", true);
-    //     $(".modal-close").prop("disabled", false);
-    //     $('#Modal_Title').text('View Inhabitant Information');
-
-    //     $(".btn_action").val(1);
-
-    //     $(this).closest(".sm_data_col").find(".edit_inhabitants").trigger('click');
-    // });
-
 
     // View Details
     $(document).on('click', ('.view_inhabitants'), function(e) {
@@ -1577,10 +1645,11 @@
 </script>
 
 <style>
-    table {
+    .example11 {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
+    
 </style>
 @endsection

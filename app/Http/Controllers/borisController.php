@@ -324,6 +324,8 @@ class borisController extends Controller
             ->leftjoin('maintenance_city_municipality as c', 'a.City_Municipality_ID', '=', 'c.City_Municipality_ID')
             ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
             ->leftjoin('boris_brgy_ordinances_and_resolutions_information as e', 'a.Previous_Related_Ordinance_Resolution_ID', '=', 'e.Ordinance_Resolution_ID')
+            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as f', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'f.Status_of_Ordinance_or_Resolution_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Approver_ID', '=', 'g.Resident_ID')
             ->select(
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
@@ -341,7 +343,11 @@ class borisController extends Controller
                 'c.City_Municipality_Name',
                 'd.Province_Name',
                 'a.Approver_ID',
-                'e.Ordinance_Resolution_Title as POrdinance_Title'
+                'e.Ordinance_Resolution_Title as POrdinance_Title',
+                'f.Name_of_Status',
+                'g.Last_Name',
+                'g.First_Name',
+                'g.Middle_Name'
             )
             ->where('a.Ordinance_Resolution_ID', $id)
             ->get();
@@ -517,8 +523,10 @@ class borisController extends Controller
     {
         $id = $_GET['id'];
 
-        $data = DB::table('boris_attester')
-            ->where('Ordinance_Resolution_ID', $id)
+        $data = DB::table('boris_attester as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->select('a.Resident_ID', 'b.Last_Name', 'b.First_Name', 'b.Middle_Name')
+            ->where('a.Ordinance_Resolution_ID', $id)
             ->get();
 
         return json_encode($data);
