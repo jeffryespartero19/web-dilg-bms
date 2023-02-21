@@ -9,12 +9,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Begining Balance</h1>
+                    <h1>Beginning Balance</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
-                        <li class="breadcrumb-item active">Begining Balance</li>
+                        <li class="breadcrumb-item active">Beginning Balance</li>
                     </ol>
                 </div>
             </div>
@@ -56,28 +56,27 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Inventory_BegBal_ID</th>
-                                            <th>Inventory_ID</th>
+                                            {{-- <th>Inventory_BegBal_ID</th> --}}
                                             <th>Item Name</th>
-                                            <th>Unit_Cost</th>
+                                            <th>Unit Cost</th>
                                             <th>Quantity</th>
-                                            <th>Encoder_ID</th>
-                                            <th>Date_Stamp</th>
+                                            <th>Encoder</th>
+                                            <th>Datestamp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Inventory_BegBal_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Inventory_ID}}</td>
-                                            <td></td>
+                                            {{-- <td class="sm_data_col txtCtr">{{$x->Inventory_BegBal_ID}}</td> --}}
+                                            <td class="sm_data_col" >{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Unit_Cost}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Quantity}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->name}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Inventory_BegBal_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Inventory_BegBal_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -117,9 +116,10 @@
                         <div class="form-group">
                             <label>Inventory Item:</label>
                             <select class="form-control" name="item_inv_ID">
-                                <option value=1 hidden selected>Select</option>
-                                <option value="">Sample 1</option>
-                                <option value="">Sample 2</option>
+                                <option value=0 hidden selected>Select</option>
+                                    @foreach($inventoryX as $ix)
+                                        <option value="{{$ix->Inventory_ID}}" >{{$ix->Inventory_Name}}</option>
+                                    @endforeach
                             </select>
                         </div>
 
@@ -193,6 +193,32 @@
 </div>
 
 <!-- Edit/Update  END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="6" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

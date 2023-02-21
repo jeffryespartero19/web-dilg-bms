@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Barangay Projects Monitoring</h1>
+                    <h1>Barangay Projects Monitoring Information</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -49,97 +49,35 @@
                             <br>
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_brgy_projects_monitoring') }}" autocomplete="off" enctype="multipart/form-data">
-                                    @csrf
+                                    
+                                @csrf
                                     <div>
                                         <input type="text" class="form-control" id="Brgy_Projects_ID" name="Brgy_Projects_ID" value="{{$project[0]->Brgy_Projects_ID}}" hidden>
+                                        
                                         <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Project_Number">Project Number</label>
-                                                <input type="text" class="form-control" id="Project_Number" name="Project_Number" value="{{$project[0]->Project_Number}}">
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Project_Name">Project Name</label>
-                                                <input type="text" class="form-control" id="Project_Name" name="Project_Name" value="{{$project[0]->Project_Name}}">
+                                            <div class="col-6">
+                                                <strong>Project Number: </strong><span id="VProject_Number"></span><br>
+                                                <strong>Project Name: </strong><span id="VProject_Name"></span><br>
+                                                <strong>Description: </strong><span id="VDescription"></span><br>
+                                                <strong>Estimated Start Date: </strong><span id="VEstimated_Start_Date"></span><br>
+                                                <strong>Estimated End Date: </strong><span id="VEstimated_End_Date"></span><br>
+                                                <strong>Total Project Cost: </strong><span id="VTotal_Project_Cost"></span><br>
+                                                <strong>Funding Year: </strong><span id="VFunding_Year"></span><br>
+                                                <strong>Exact Location: </strong><span id="VExact_Location"></span><br>
+                                                <strong>Type of Beneficiary: </strong><span id="VType_of_Beneficiary"></span><br>
+                                                <strong>Number of Beneficiaries: </strong><span id="VNumber_of_Beneficiaries"></span><br>
+                                                <strong>Actual Project Start: </strong><span id="VActual_Project_Start"></span><br>
+                                                <strong>Project Completion Date: </strong><span id="VProject_Completion_Date"></span><br>
+                                                <strong>Contractor Name: </strong><span id="VContractor_Name"></span><br>
+                                                <strong>Project Type Name: </strong><span id="VProject_Type_Name"></span><br>
+                                                <!-- buban -->
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Description">Description</label>
-                                                <input type="text" class="form-control" id="Description" name="Description" value="{{$project[0]->Description}}">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Estimated_Start_Date">Estimated Start Date</label>
-                                                <input type="date" class="form-control" id="Estimated_Start_Date" name="Estimated_Start_Date" value="{{$project[0]->Estimated_Start_Date}}" required>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Estimated_End_Date">Estimated End Date</label>
-                                                <input type="date" class="form-control" id="Estimated_End_Date" name="Estimated_End_Date" value="{{$project[0]->Estimated_End_Date}}" required>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Total_Project_Cost">Total Project Cost</label>
-                                                <input type="number" class="form-control" id="Total_Project_Cost" name="Total_Project_Cost" value="{{$project[0]->Total_Project_Cost}}">
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Funding_Year">Funding Year</label>
-                                                <input type="text" class="form-control" id="Funding_Year" name="Funding_Year" value="{{$project[0]->Funding_Year}}">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Exact_Location">Exact Location</label>
-                                                <input type="text" class="form-control" id="Exact_Location" name="Exact_Location" value="{{$project[0]->Exact_Location}}">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Type_of_Beneficiary">Type of Beneficiary</label>
-                                                <input type="text" class="form-control" id="Type_of_Beneficiary" name="Type_of_Beneficiary" value="{{$project[0]->Type_of_Beneficiary}}">
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Number_of_Beneficiaries">Number of Beneficiaries</label>
-                                                <input type="number" class="form-control" id="Number_of_Beneficiaries" name="Number_of_Beneficiaries" value="{{$project[0]->Number_of_Beneficiaries}}">
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Actual_Project_Start">Actual Project Start</label>
-                                                <input type="date" class="form-control" id="Actual_Project_Start" name="Actual_Project_Start" value="{{$project[0]->Actual_Project_Start}}" required>
-                                            </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Project_Completion_Date">Actual Project Completion Date</label>
-                                                <input type="date" class="form-control" id="Project_Completion_Date" name="Project_Completion_Date"  value="{{$project[0]->Project_Completion_Date}}" required>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Contractor_ID">Contractor</label>
-                                                <select class="form-control" id="Contractor_ID" name="Contractor_ID">
-                                                    @foreach($contractor as $bt1)
-                                                    <option value="{{ $bt1->Contractor_ID }}" {{ $bt1->Contractor_ID  == $project[0]->Contractor_ID  ? "selected" : "" }}>{{ $bt1->Contractor_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Project_Type_ID">Project Type</label>
-                                                <select class="form-control" id="Project_Type_ID" name="Project_Type_ID">
-                                                    @foreach($project_type as $bt1)
-                                                    <option value="{{ $bt1->Project_Type_ID }}" {{ $bt1->Project_Type_ID  == $project[0]->Project_Type_ID  ? "selected" : "" }}>{{ $bt1->Project_Type_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Project_Status_ID">Project Status</label>
-                                                <select class="form-control" id="Project_Status_ID" name="Project_Status_ID">    
-                                                    @foreach($project_status as $bt1)
-                                                    <option value="{{ $bt1->Project_Status_ID }}" {{ $bt1->Project_Status_ID  == $project[0]->Project_Status_ID  ? "selected" : "" }}>{{ $bt1->Project_Status_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <br>
                                         <div class="row">
                                             <div class="col-lg-12" style="padding:0 10px;">
                                                 <h3>Milestone Information</h3>
-                                                <a onclick="addMilestones();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                                                <!-- <a onclick="addMilestones();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a> -->
                                                 <br>
                                                 <div class="table-responsive" id="MilestonesDetails">
                                                     <table id="MilestonesTBL" class="table table-striped table-bordered">
@@ -156,7 +94,7 @@
                                                                 <th>Disbursement Amount</th>
                                                                 <th>Male Employed</th>
                                                                 <th>Female Employed</th>
-                                                                <th>Actions</th>
+                                                                <!-- <th>Actions</th> -->
                                                             </tr>
                                                         </thead>
                                                         <tbody class="HSBody">
@@ -201,10 +139,10 @@
                                                             <td>
                                                                 <input type="number" class="form-control" style="width: 200px;" name="Female_Employed[]" value="{{$cd->Female_Employed}}">
                                                             </td>
-                                                            <td style="text-align: center;">
+                                                            <!-- <td style="text-align: center;">
                                                                 <button style="width: 100px;" type="button" class="btn btn-success fileAttBTN" data-toggle="modal" data-target="#createFile_Attachment" value="{{$cd->Milestone_Status_ID}}">Attachment</button>
                                                                 <button style="width: 100px;" type="button" class="btn btn-danger removeRow">Remove</button>
-                                                            </td>
+                                                            </td> -->
                                                         </tr>
                                                         @endforeach
                                                         @else
@@ -243,9 +181,9 @@
                                                             <td>
                                                                 <input type="number" class="form-control" style="width: 200px;" name="Female_Employed[]">
                                                             </td>
-                                                            <td style="text-align: center; width:10%">
+                                                            <!-- <td style="text-align: center; width:10%">
                                                                 <button type="button" class="btn btn-danger removeRow">Remove</button>
-                                                            </td>
+                                                            </td> -->
                                                         </tr>
                                                         @endif
                                                     </tbody>
@@ -257,7 +195,8 @@
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
                                             <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                                            <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                                            <a class="btn btn-info" href="{{route('brgy_projects_monitoring_list')}}" id="btnback">Back</a>
+                                            <!-- <button href="{{route('brgy_projects_monitoring_list')}}" type="button" class="btn btn-primary" style="width: 200px;" id="btnback">Back</button> -->
                                         </center>
                                     </div>
                                 </form>
@@ -329,45 +268,43 @@
 
     // Disable Form if DILG USER
     $(document).ready(function() {
-        var User_Type_ID = $('#User_Type_ID').val();
-        if (User_Type_ID == 3 || User_Type_ID == 4) {
+        // var User_Type_ID = $('#User_Type_ID').val();
+        // if (User_Type_ID == 3 || User_Type_ID == 4) {
             $("#newBrgy_Document_Information :input").prop("disabled", true);
-        }
+            $("#btnback").prop("disabled", false);
+        // } aldren
         $('#example').DataTable();
-
-        // $('.select2').select2();
-         //Select2 Lazy Loading Business Type
-         $("#Contractor_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_contractor',
-                dataType: "json",
-            }
-        });
         
-        $("#Project_Type_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_projecttype',
-                dataType: "json",
+        var disID = $('#Brgy_Projects_ID').val();
+        $.ajax({
+            url: "/get_brgyprojects",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VProject_Number').html(data['theEntry'][0]['Project_Number']);
+                $('#VProject_Name').html(data['theEntry'][0]['Project_Name']);
+                $('#VDescription').html(data['theEntry'][0]['Description']);
+                $('#VEstimated_Start_Date').html(data['theEntry'][0]['Estimated_Start_Date']);
+                $('#VEstimated_End_Date').html(data['theEntry'][0]['Estimated_End_Date']);
+                $('#VTotal_Project_Cost').html(data['theEntry'][0]['Total_Project_Cost']);
+                $('#VBrgy_Projects_ID').html(data['theEntry'][0]['Brgy_Projects_ID']);
+                $('#VFunding_Year').html(data['theEntry'][0]['Funding_Year']);
+                $('#VExact_Location').html(data['theEntry'][0]['Exact_Location']);
+                $('#VType_of_Beneficiary').html(data['theEntry'][0]['Type_of_Beneficiary']);
+                $('#VNumber_of_Beneficiaries').html(data['theEntry'][0]['Number_of_Beneficiaries']);
+                $('#VActual_Project_Start').html(data['theEntry'][0]['Actual_Project_Start']);
+                $('#VProject_Completion_Date').html(data['theEntry'][0]['Project_Completion_Date']);
+                $('#VContractor_Name').html(data['theEntry'][0]['Contractor_Name']);
+                $('#VProject_Type_Name').html(data['theEntry'][0]['Project_Type_Name']);
+                
             }
         });
-
-        $("#Project_Status_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_projectstatus',
-                dataType: "json",
-            }
-        });
-
-        $("#Accomplishment_Status_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_accomplishment',
-                dataType: "json",
-            }
-        });
+        $("#btnback").prop("disabled", false);
     });
 
     function addMilestones() {

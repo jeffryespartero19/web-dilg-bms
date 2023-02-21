@@ -87,6 +87,7 @@
                             <div class="btn-group">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a href="{{ url('brgy_document_information_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                                 @endif
                                 <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
@@ -133,11 +134,12 @@
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <a class="btn btn-info" href="{{ url('brgy_document_information_details/'.$x->Document_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('view_brgy_document_information_details/'.$x->Document_ID) }}">View</a>
+                                                <button class="view_brgydocument btn btn-primary" value="{{$x->Document_ID}}" data-toggle="modal" data-target="#viewBrgyDocument">View</button>
+                                                <!-- <a class="btn btn-primary" href="{{ url('view_brgy_document_information_details/'.$x->Document_ID) }}">View</a> -->
                                                 <button class="delete_document btn btn-danger" value="{{$x->Document_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('brgy_document_information_details/'.$x->Document_ID) }}">View</a>
+                                                <button class="view_brgydocument btn btn-primary" value="{{$x->Document_ID}}" data-toggle="modal" data-target="#viewBrgyDocument">View</button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -160,12 +162,117 @@
 </section>
 <!-- /.content -->
 
+<div class="modal fade" id="viewBrgyDocument" tabindex="-1" role="dialog" aria-labelledby="viewBrgyDocument" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy Document Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Transaction No: </strong><span id="VTransaction_No"></span><br>
+                            <strong>Brgy Cert No: </strong><span id="VBrgy_Cert_No"></span><br>
+                            <strong>Document Type Name : </strong><span id="VDocument_Type_Name"></span><br>
+                            <strong>Purpose of Document : </strong><span id="VPurpose_of_Document"></span><br>
+                            <strong>Resident Name : </strong><span id="VResident_Name"></span><br>
+                            <strong>Request Date : </strong><span id="VRequest_Date"></span><br>
+                            <strong>Remarks : </strong><span id="VRemarks"></span><br>
+                            <strong>Salutation Name : </strong><span id="VSalutation_Name"></span><br>
+                            <strong>SecondResident Name : </strong><span id="VSecondResident_Name"></span><br>
+                            <strong>is Released? : </strong><span id="VReleased"></span><br>
+                            <strong>Issued On : </strong><span id="VIssued_On"></span><br>
+                            <strong>Issued At : </strong><span id="VIssued_At"></span><br>
+                            <strong>OR Date : </strong><span id="VOR_Date"></span><br>
+                            <strong>OR No : </strong><span id="VOR_No"></span><br>
+                            <strong>Cash Tendered : </strong><span id="VCash_Tendered"></span><br>
+                            <strong>CTC No : </strong><span id="VCTC_No"></span><br>
+                            <strong>CTC Details : </strong><span id="VCTC_Details"></span><br>
+                            <strong>CTC Date Issued : </strong><span id="VCTC_Date_Issued"></span><br>
+                            <strong>CTC Amount : </strong><span id="VCTC_Amount"></span><br>
+                            <strong>Place Issued : </strong><span id="VPlace_Issued"></span><br>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('brgydocument_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Transaction_No" name="chk_Transaction_No">
+                                <label for="chk_Transaction_No">Transaction_No</label><br>
+                                <input type="checkbox" id="chk_Request_Date" name="chk_Request_Date">
+                                <label for="chk_Request_Date">Request Date</label><br>
+                                <input type="checkbox" id="chk_Resident_Name" name="chk_Resident_Name">
+                                <label for="chk_Resident_Name">Resident Name</label><br>
+                                <input type="checkbox" id="chk_Released" name="chk_Released">
+                                <label for="chk_Released">Released</label><br>
+                                <input type="checkbox" id="chk_Remarks" name="chk_Remarks">
+                                <label for="chk_Remarks">Remarks</label><br>
+                                <input type="checkbox" id="chk_Purpose_of_Document" name="chk_Purpose_of_Document">
+                                <label for="chk_Purpose_of_Document">Purpose of Document</label><br>
+                                <input type="checkbox" id="chk_Salutation_Name" name="chk_Salutation_Name">
+                                <label for="chk_Salutation_Name">Salutation Name</label><br>
+                                <input type="checkbox" id="chk_Issued_On" name="chk_Issued_On">
+                                <label for="chk_Issued_On">Issued On</label><br>
+                                <input type="checkbox" id="chk_Issued_At" name="chk_Issued_At">
+                                <label for="chk_Issued_At">Issued At</label><br>
+                                <input type="checkbox" id="chk_Brgy_Cert_No" name="chk_Brgy_Cert_No">
+                                <label for="chk_Brgy_Cert_No">Brgy Cert No</label><br>
+                                <input type="checkbox" id="chk_Document_Type_Name" name="chk_Document_Type_Name">
+                                <label for="chk_Document_Type_Name">Document Type Name</label><br>
+                                <input type="checkbox" id="chk_SecondResident_Name" name="chk_SecondResident_Name">
+                                <label for="chk_SecondResident_Name">SecondResident Name</label><br>
+                                <input type="checkbox" id="chk_OR_No" name="chk_OR_No">
+                                <label for="chk_OR_No">OR No</label><br>
+                                <input type="checkbox" id="chk_Cash_Tendered" name="chk_Cash_Tendered">
+                                <label for="chk_Cash_Tendered">Cash Tendered</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
 @section('scripts')
 
 <script>
+
+$(document).on('click', '.modal-close', function(e) {
+        $('#viewBrgyDocument').trigger("reset");
+    });
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
@@ -352,6 +459,44 @@
 
             }
         });
+    });
+
+    $(document).on('click', ('.view_brgydocument'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_brgydocument",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VTransaction_No').html(data['theEntry'][0]['Transaction_No']);
+                $('#VBrgy_Cert_No').html(data['theEntry'][0]['Brgy_Cert_No']);
+                $('#VDocument_Type_Name').html(data['theEntry'][0]['Document_Type_Name']);
+                $('#VPurpose_of_Document').html(data['theEntry'][0]['Purpose_of_Document']);
+                $('#VResident_Name').html(data['theEntry'][0]['Resident_Name']);
+                $('#VRequest_Date').html(data['theEntry'][0]['Request_Date']);
+                $('#VRemarks').html(data['theEntry'][0]['Remarks']);
+                $('#VSalutation_Name').html(data['theEntry'][0]['Salutation_Name']);
+                $('#VSecondResident_Name').html(data['theEntry'][0]['SecondResident_Name']);
+                $('#VReleased').html(data['theEntry'][0]['Released']);
+                $('#VIssued_On').html(data['theEntry'][0]['Issued_On']);
+                $('#VIssued_At').html(data['theEntry'][0]['Issued_At']);
+                $('#VOR_Date').html(data['theEntry'][0]['OR_Date']);
+                $('#VOR_No').html(data['theEntry'][0]['OR_No']);
+                $('#VCash_Tendered').html(data['theEntry'][0]['Cash_Tendered']);
+                $('#VCTC_No').html(data['theEntry'][0]['CTC_No']);
+                $('#VCTC_Details').html(data['theEntry'][0]['CTC_Details']);
+                $('#VCTC_Date_Issued').html(data['theEntry'][0]['CTC_Date_Issued']);
+                $('#VCTC_Amount').html(data['theEntry'][0]['CTC_Amount']);
+                $('#VPlace_Issued').html(data['theEntry'][0]['Place_Issued']);
+            }
+        });
+
     });
 </script>
 

@@ -57,7 +57,7 @@
                                 <table id="example" class="table table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Check Preparation <br>ID</th>
+                                            <th>Voucher No</th>
                                             <th>Released <br>Date</th>
                                             <th>Received <br>By</th>
                                             <th>ID <br> Presented</th>
@@ -68,7 +68,7 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Check_Preparation_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Voucher_No}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Released_Date}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Received_by}}</td>
 
@@ -77,6 +77,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->ID_Number}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Check_Status_Released_ID }}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Check_Status_Released_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -118,13 +119,13 @@
                             <select class="form-control" name="Check_Preparation_ID">
                                 <option value='' hidden selected>Select</option>
                                 @foreach($check_prep as $check)
-                                <option value={{$check->Check_Preparation_ID}}>{{$check->Check_Preparation_ID}}</option>
+                                <option value={{$check->Check_Preparation_ID}}>{{$check->Voucher_No}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Released Date:</label>
-                            <input class="form-control" name="Released_Date" type="date"></input>
+                            <input class="form-control" name="Released_Date" type="date">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Received By:</label>
@@ -174,13 +175,13 @@
                             <select class="form-control" name="Check_Preparation_ID2">
                                 <option id="this_check_preparation_id" value='' hidden selected>Select</option>
                                 @foreach($check_prep as $check)
-                                <option value={{$check->Check_Preparation_ID}}>{{$check->Check_Preparation_ID}}</option>
+                                <option value={{$check->Check_Preparation_ID}}>{{$check->Voucher_No}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Released Date:</label>
-                            <input id="this_released_date" class="form-control" name="Released_Date2" type="date"></input>
+                            <input id="this_released_date" class="form-control" name="Released_Date2" type="date">
                         </div>
 
                         <div class="form-group col-lg-6">
@@ -210,6 +211,32 @@
 
 
 <!-- Edit/Update END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="34" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

@@ -87,9 +87,10 @@
                             <div class="btn-group">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a href="{{ url('brgy_project_monitoring_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
-                                <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Project') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
-                                <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Project') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div>
+                                <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Project') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
+                                <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Project') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div> -->
                                 @endif
+                                <div><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
                         <br>
@@ -125,11 +126,11 @@
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <a class="btn btn-info" href="{{ url('brgy_project_monitoring_details/'.$x->Brgy_Projects_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details/'.$x->Brgy_Projects_ID) }}">View</a>
+                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details_view/'.$x->Brgy_Projects_ID) }}">View</a>
                                                 <button class="delete_projects btn btn-danger" value="{{$x->Brgy_Projects_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details/'.$x->Brgy_Projects_ID) }}">View</a>
+                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details_view/'.$x->Brgy_Projects_ID) }}">View</a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -153,6 +154,49 @@
 <!-- /.content -->
 
 
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('promon_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Project_Number" name="chk_Project_Number">
+                                <label for="chk_Project_Number">Project Number</label><br>
+                                <input type="checkbox" id="chk_Project_Name" name="chk_Project_Name">
+                                <label for="chk_Project_Name">Project Name</label><br>
+                                <input type="checkbox" id="chk_Total_Project_Cost" name="chk_Total_Project_Cost">
+                                <label for="chk_Total_Project_Cost">Total Project Cost</label><br>
+                                <input type="checkbox" id="chk_Exact_Location" name="chk_Exact_Location">
+                                <label for="chk_Exact_Location">Exact Location</label><br>
+                                <input type="checkbox" id="chk_Actual_Project_Start" name="chk_Actual_Project_Start">
+                                <label for="chk_Actual_Project_Start">Actual Project Start</label><br>
+                                <input type="checkbox" id="chk_Contractor_Name" name="chk_Contractor_Name">
+                                <label for="chk_Contractor_Name">Contractor Name</label><br>
+                                <input type="checkbox" id="chk_Project_Type_Name" name="chk_Project_Type_Name">
+                                <label for="chk_Project_Type_Name">Project Type Name</label><br>
+                                <input type="checkbox" id="chk_Project_Status_Name" name="chk_Project_Status_Name">
+                                <label for="chk_Project_Status_Name">Project Status Name</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 

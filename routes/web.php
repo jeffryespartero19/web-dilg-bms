@@ -976,6 +976,30 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_project_monitoring_list/{Barangay_ID}', 'BPMSController@get_project_monitoring_list');
   Route::get('/search_accomplishment', 'BPMSController@search_accomplishment')->name('search_accomplishment');
 
+  Route::get('/get_brgybusiness', 'BCPISController@get_brgybusiness')->name('get_brgybusiness');
+  Route::get('/get_businesspermit', 'BCPISController@get_businesspermit')->name('get_businesspermit');
+  Route::get('/get_brgydocument', 'BCPISController@get_brgydocument')->name('get_brgydocument');
+  Route::get('/get_disastertype', 'BDRISALController@get_disastertype')->name('get_disastertype');
+  Route::get('/get_emerevacsite', 'BDRISALController@get_emerevacsite')->name('get_emerevacsite');
+  Route::get('/get_allofund', 'BDRISALController@get_allofund')->name('get_allofund');
+  Route::get('/get_dissupp', 'BDRISALController@get_dissupp')->name('get_dissupp');
+  Route::get('/get_emerteam', 'BDRISALController@get_emerteam')->name('get_emerteam');
+  Route::get('/get_emerequip', 'BDRISALController@get_emerequip')->name('get_emerequip');
+  Route::get('/brgy_project_monitoring_details_view/{id}', 'BPMSController@brgy_project_monitoring_details_view');
+  Route::get('/get_brgyprojects', 'BPMSController@get_brgyprojects')->name('get_brgyprojects');
+  Route::get('/get_disaster_related_activities_view', 'BDRISALController@get_disaster_related_activities_view')->name('get_disaster_related_activities_view');
+  Route::get('/get_responseinfo', 'BDRISALController@get_responseinfo')->name('get_responseinfo');
+  Route::post('/businesspermit_downloadPDF', 'BCPISController@businesspermit_downloadPDF')->name('businesspermit_downloadPDF');
+  Route::post('/brgydocument_downloadPDF', 'BCPISController@brgydocument_downloadPDF')->name('brgydocument_downloadPDF');
+  Route::post('/brgybusiness_downloadPDF', 'BCPISController@brgybusiness_downloadPDF')->name('brgybusiness_downloadPDF');
+  Route::post('/disastertype_downloadPDF', 'BDRISALController@disastertype_downloadPDF')->name('disastertype_downloadPDF');
+  Route::post('/emerevac_downloadPDF', 'BDRISALController@emerevac_downloadPDF')->name('emerevac_downloadPDF');
+  Route::post('/allofund_downloadPDF', 'BDRISALController@allofund_downloadPDF')->name('allofund_downloadPDF');
+  Route::post('/dissupp_downloadPDF', 'BDRISALController@dissupp_downloadPDF')->name('dissupp_downloadPDF');
+  Route::post('/emerteam_downloadPDF', 'BDRISALController@emerteam_downloadPDF')->name('emerteam_downloadPDF');
+  Route::post('/emerequip_downloadPDF', 'BDRISALController@emerequip_downloadPDF')->name('emerequip_downloadPDF');
+  Route::post('/contractor_downloadPDF', 'BPMSController@contractor_downloadPDF')->name('contractor_downloadPDF');
+  Route::post('/promon_downloadPDF', 'BPMSController@promon_downloadPDF')->name('promon_downloadPDF');
 });
 
 
@@ -992,3 +1016,6 @@ Route::get('/search_barangay/{text}', 'GlobalController@searchBarangay');
 Route::get('/list_province', 'DropDownsController@list_province')->name('list_province');
 Route::get('/list_city', 'DropDownsController@list_city')->name('list_city');
 Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
+
+//For Deletions
+Route::post('/del_rec', 'DeleterController@del_rec')->name('del_rec');

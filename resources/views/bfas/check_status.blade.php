@@ -57,8 +57,8 @@
                                 <table id="example" class="table table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Check Status Cleared <br>ID</th>
-                                            <th>Check Preparation <br>ID</th>
+                                            {{-- <th>Check Status Cleared <br>ID</th> --}}
+                                            <th>Voucher No</th>
                                             <th>Cleared Date</th>
                                             <th>Remarks</th>
                                             <th>Encoder ID</th>
@@ -69,14 +69,15 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Check_Status_Cleared_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Check_Preparation_ID}}</td>
+                                            {{-- <td class="sm_data_col txtCtr">{{$x->Check_Status_Cleared_ID}}</td> --}}
+                                            <td class="sm_data_col txtCtr">{{$x->Voucher_No}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Cleared_Date}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Check_Status_Cleared_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Check_Status_Cleared_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -114,11 +115,11 @@
 
                     <div class="modal_input_container row">
                         <div class="form-group col-lg-6">
-                            <label>Check Preparation ID:</label>
+                            <label>Voucher No :</label>
                             <select class="form-control" name="Check_Preparation_ID">
                                 <option value='' hidden selected>Select</option>
                                 @foreach($check_prep as $c_prep)
-                                <option value={{$c_prep->Check_Preparation_ID}}>{{$c_prep->Check_Preparation_ID}}</option>
+                                <option value={{$c_prep->Check_Preparation_ID}}>{{$c_prep->Voucher_No}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -163,11 +164,11 @@
 
                     <div class="modal_input_container row">
                         <div class="form-group col-lg-6">
-                            <label>Check Preparation ID:</label>
+                            <label>Voucher No:</label>
                             <select class="form-control" name="Check_Preparation_ID2">
                                 <option id="this_check_prep" value='' hidden selected>Select</option>
                                 @foreach($check_prep as $c_prep)
-                                <option value={{$c_prep->Check_Preparation_ID}}>{{$c_prep->Check_Preparation_ID}}</option>
+                                <option value={{$c_prep->Check_Preparation_ID}}>{{$c_prep->Voucher_No}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -195,6 +196,32 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="33" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

@@ -88,6 +88,7 @@
                 <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
 
                 <div class="twenty_split txtRight"><a href="{{ url('disaster_type_details/0') }}" class="btn btn-success" style="width: 100px;">New </a></div>
+                &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_disty_filter" style="width: 100px;">Download</button></div>
 
             </div>
             <br>
@@ -117,7 +118,8 @@
                             <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                             <td class="sm_data_col txtCtr">
                                 <a class="btn btn-info" href="{{ url('disaster_type_details/'.$x->Disaster_Type_ID) }}">Edit</a>
-                                <a class="btn btn-primary" href="{{ url('view_disaster_type_details/'.$x->Disaster_Type_ID) }}">View</a>
+                                <!-- <a class="btn btn-primary" href="{{ url('view_disaster_type_details/'.$x->Disaster_Type_ID) }}">View</a> -->
+                                <button class="view_disastertype btn btn-primary" value="{{$x->Disaster_Type_ID}}" data-toggle="modal" data-target="#viewDisasterType">View</button>
                                 <button class="delete_disaster btn btn-danger" value="{{$x->Disaster_Type_ID}}">Delete</button>
                             </td>
                         </tr>
@@ -140,6 +142,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_evacuation_site_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_emerevac_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
             <div class="table-responsive">
@@ -165,11 +168,12 @@
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <a class="btn btn-info" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">Edit</a>
-                                <a class="btn btn-primary" href="{{ url('view_emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a>
+                                <button class="view_emerevacsite btn btn-primary" value="{{$x->Emergency_Evacuation_Site_ID}}" data-toggle="modal" data-target="#viewEmerEvacSite">View</button>
+                                <!-- <a class="btn btn-primary" href="{{ url('view_emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a> -->
                                 <button class="delete_emereva btn btn-danger" value="{{$x->Emergency_Evacuation_Site_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-primary" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a>
+                                <button class="view_emerevacsite btn btn-primary" value="{{$x->Emergency_Evacuation_Site_ID}}" data-toggle="modal" data-target="#viewEmerEvacSite">View</button>
                                 @endif
                             </td>
                         </tr>
@@ -190,6 +194,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('allocated_fund_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_allofund_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
             <div class="table-responsive">
@@ -213,11 +218,12 @@
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <a class="btn btn-info" href="{{ url('allocated_fund_details/'.$x->Allocated_Fund_ID) }}">Edit</a>
-                                <a class="btn btn-primary" href="{{ url('view_allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a>
+                                <button class="view_allofund btn btn-primary" value="{{$x->Allocated_Fund_ID}}" data-toggle="modal" data-target="#viewAlloFund">View</button>
+                                <!-- <a class="btn btn-primary" href="{{ url('view_allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a> -->
                                 <button class="delete_allocated btn btn-danger" value="{{$x->Allocated_Fund_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-primary" href="{{ url('allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a>
+                                <button class="view_allofund btn btn-primary" value="{{$x->Allocated_Fund_ID}}" data-toggle="modal" data-target="#viewAlloFund">View</button>
                                 @endif
                             </td>
                         </tr>
@@ -237,6 +243,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('disaster_supplies_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_dissupp_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
             <div class="table-responsive">
@@ -266,11 +273,12 @@
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <a class="btn btn-info" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">Edit</a>
-                                <a class="btn btn-primary" href="{{ url('view_disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a>
+                                <button class="view_dissupp btn btn-primary" value="{{$x->Disaster_Supplies_ID}}" data-toggle="modal" data-target="#viewDisSupp">View</button>
+                                <!-- <a class="btn btn-primary" href="{{ url('view_disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a> -->
                                 <button class="delete_disastersupp btn btn-danger" value="{{$x->Disaster_Supplies_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-primary" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a>
+                                <button class="view_dissupp btn btn-primary" value="{{$x->Disaster_Supplies_ID}}" data-toggle="modal" data-target="#viewDisSupp">View</button>
                                 @endif
                             </td>
                         </tr>
@@ -290,6 +298,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_team_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_emerteam_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
             <div class="table-responsive">
@@ -313,11 +322,12 @@
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <a class="btn btn-info" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">Edit</a>
-                                <a class="btn btn-primary" href="{{ url('view_emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a>
+                                <button class="view_emerteam btn btn-primary" value="{{$x->Emergency_Team_ID}}" data-toggle="modal" data-target="#viewEmerTeam">View</button>
+                                <!-- <a class="btn btn-primary" href="{{ url('view_emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a> -->
                                 <button class="delete_emerteam btn btn-danger" value="{{$x->Emergency_Team_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-primary" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a>
+                                <button class="view_emerteam btn btn-primary" value="{{$x->Emergency_Team_ID}}" data-toggle="modal" data-target="#viewEmerTeam">View</button>
                                 @endif
                             </td>
                         </tr>
@@ -337,6 +347,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_equipment_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_emerequip_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
             <div class="table-responsive">
@@ -360,11 +371,12 @@
                             <td class="sm_data_col txtCtr">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <a class="btn btn-info" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">Edit</a>
-                                <a class="btn btn-primary" href="{{ url('view_emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a>
+                                <button class="view_emerequip btn btn-primary" value="{{$x->Emergency_Equipment_ID}}" data-toggle="modal" data-target="#viewEmerEquip">View</button>
+                                <!-- <a class="btn btn-primary" href="{{ url('view_emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a> -->
                                 <button class="delete_emerequip btn btn-danger" value="{{$x->Emergency_Equipment_ID}}">Delete</button>
                                 @endif
                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <a class="btn btn-primary" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a>
+                                <button class="view_emerequip btn btn-primary" value="{{$x->Emergency_Equipment_ID}}" data-toggle="modal" data-target="#viewEmerEquip">View</button>
                                 @endif
                             </td>
                         </tr>
@@ -379,6 +391,395 @@
 </div>
 
 
+
+<div class="modal fade" id="viewDisasterType" tabindex="-1" role="dialog" aria-labelledby="viewDisasterType" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Disaster Type Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Disaster Type: </strong><span id="VDisaster_Type"></span><br>
+                            <strong>Emergency Evacuation Site Name: </strong><span id="VEmergency_Evacuation_Site_Name"></span><br>
+                            <strong>Allocated Fund Name: </strong><span id="VAllocated_Fund_Name"></span><br>
+                            <strong>Emergency Team Name: </strong><span id="VEmergency_Team_Name"></span><br>
+                            <strong>Emergency Equipment Name: </strong><span id="VEmergency_Equipment_Name"></span><br>
+                            <strong>is Active?: </strong><span id="VActive"></span><br>
+                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewEmerEvacSite" tabindex="-1" role="dialog" aria-labelledby="viewEmerEvacSite" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Emergency Evacuation Site Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Emergency Evacuation Site Name: </strong><span id="V2Emergency_Evacuation_Site_Name"></span><br>
+                            <strong>Address: </strong><span id="VAddress"></span><br>
+                            <strong>Capacity: </strong><span id="VCapacity"></span><br>
+                            <strong>is Active?: </strong><span id="V2Active"></span><br>
+                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewAlloFund" tabindex="-1" role="dialog" aria-labelledby="viewAlloFund" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Allocated Fund Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Allocated Fund Name: </strong><span id="V2Allocated_Fund_Name"></span><br>
+                            <strong>Amount: </strong><span id="VAmount"></span><br>
+                            <strong>is Active?: </strong><span id="V3Active"></span><br>
+                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewDisSupp" tabindex="-1" role="dialog" aria-labelledby="viewDisSupp" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Disaster Supplies Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Disaster Supplies Name: </strong><span id="VDisaster_Supplies_Name"></span><br>
+                            <strong>Disaster Supplies Quantity: </strong><span id="VDisaster_Supplies_Quantity"></span><br>
+                            <strong>Location: </strong><span id="VLocation"></span><br>
+                            <strong>Remarks: </strong><span id="VRemarks"></span><br>
+                            <strong>Disaster Name: </strong><span id="V3Disaster_Name"></span><br>
+                            <strong>Brgy Official Name: </strong><span id="V3Resident_Name"></span><br>
+                            <strong>is Active?: </strong><span id="V4Active"></span><br>
+                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewEmerTeam" tabindex="-1" role="dialog" aria-labelledby="viewEmerTeam" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Emergency Team Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Emergency Team Name: </strong><span id="V2Emergency_Team_Name"></span><br>
+                            <strong>Emergency Team Hotline: </strong><span id="VEmergency_Team_Hotline"></span><br>
+                            <strong>is Active?: </strong><span id="V5Active"></span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewEmerEquip" tabindex="-1" role="dialog" aria-labelledby="viewEmerEquip" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Emergency Equip Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Emergency Equipment Name: </strong><span id="V3Emergency_Equipment_Name"></span><br>
+                            <strong>Location: </strong><span id="V2Location"></span><br>
+                            <strong>is Active?: </strong><span id="V6Active"></span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- buban -->
+<div class="modal fade" id="download_disty_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('disastertype_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Disaster_Type" name="chk_Disaster_Type">
+                                <label for="chk_Disaster_Type">Disaster Type</label><br>
+                                <input type="checkbox" id="chk_Emergency_Evacuation_Site_Name" name="chk_Emergency_Evacuation_Site_Name">
+                                <label for="chk_Emergency_Evacuation_Site_Name">Emergency Evacuation Site Name</label><br>
+                                <input type="checkbox" id="chk_Allocated_Fund_Name" name="chk_Allocated_Fund_Name">
+                                <label for="chk_Allocated_Fund_Name">Allocated Fund Name</label><br>
+                                <input type="checkbox" id="chk_Emergency_Team_Name" name="chk_Emergency_Team_Name">
+                                <label for="chk_Emergency_Team_Name">Emergency Team Name</label><br>
+                                <input type="checkbox" id="chk_Emergency_Equipment_Name" name="chk_Emergency_Equipment_Name">
+                                <label for="chk_Emergency_Equipment_Name">Emergency Equipment Name</label><br>
+                                <input type="checkbox" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_emerevac_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('emerevac_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Emergency_Evacuation_Site_Name" name="chk_Emergency_Evacuation_Site_Name">
+                                <label for="chk_Emergency_Evacuation_Site_Name">Emergency Evacuation Site Name</label><br>
+                                <input type="checkbox" id="chk_Address" name="chk_Address">
+                                <label for="chk_Address">Address</label><br>
+                                <input type="checkbox" id="chk_Capacity" name="chk_Capacity">
+                                <label for="chk_Capacity">Capacity</label><br>
+                                <input type="checkbox" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_allofund_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('allofund_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Allocated_Fund_Name" name="chk_Allocated_Fund_Name">
+                                <label for="chk_Allocated_Fund_Name">Allocated Fund Name</label><br>
+                                <input type="checkbox" id="chk_Amount" name="chk_Amount">
+                                <label for="chk_Amount">Amount</label><br>
+                                <input type="checkbox" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_dissupp_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('dissupp_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Disaster_Supplies_Name" name="chk_Disaster_Supplies_Name">
+                                <label for="chk_Disaster_Supplies_Name">Disaster Supplies Name</label><br>
+                                <input type="checkbox" id="chk_Disaster_Supplies_Quantity" name="chk_Disaster_Supplies_Quantity">
+                                <label for="chk_Disaster_Supplies_Quantity">Disaster Supplies Quantity</label><br>
+                                <input type="checkbox" id="chk_Location" name="chk_Location">
+                                <label for="chk_Location">Location</label><br>
+                                <input type="checkbox" id="chk_Remarks" name="chk_Remarks">
+                                <label for="chk_Remarks">Remarks</label><br>
+                                <input type="checkbox" id="chk_Disaster_Name" name="chk_Disaster_Name">
+                                <label for="chk_Disaster_Name">Disaster Name</label><br>
+                                <input type="checkbox" id="chk_Resident_Name" name="chk_Resident_Name">
+                                <label for="chk_Resident_Name">Brgy Offiicial</label><br>
+                                <input type="checkbox" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_emerteam_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('emerteam_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Emergency_Team_Name" name="chk_Emergency_Team_Name">
+                                <label for="chk_Emergency_Team_Name">Emergency Team Name</label><br>
+                                <input type="checkbox" id="chk_Emergency_Team_Hotline" name="chk_Emergency_Team_Hotline">
+                                <label for="chk_Emergency_Team_Hotline">Emergency Team Hotline</label><br>
+                                <input type="checkbox" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="download_emerequip_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('emerequip_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Emergency_Equipment_Name" name="chk_Emergency_Equipment_Name">
+                                <label for="chk_Emergency_Equipment_Name">Emergency Equipment Name</label><br>
+                                <input type="checkbox" id="chk_Location" name="chk_Location">
+                                <label for="chk_Location">Location</label><br>
+                                <input type="checkbox" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -856,6 +1257,149 @@
 
             }
         });
+    });
+
+    
+    $(document).on('click', '.modal-close', function(e) {
+        $('#viewDisasterType').trigger("reset");
+        $('#viewEmerEvacSite').trigger("reset");
+        $('#viewAlloFund').trigger("reset");
+        $('#viewDisSupp').trigger("reset");
+        $('#viewEmerTeam').trigger("reset");
+        $('#viewEmerEquip').trigger("reset");
+    });
+//aldren
+    $(document).on('click', ('.view_disastertype'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_disastertype",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VDisaster_Type').html(data['theEntry'][0]['Disaster_Type']);
+                $('#VEmergency_Evacuation_Site_Name').html(data['theEntry'][0]['Emergency_Evacuation_Site_Name']);
+                $('#VAllocated_Fund_Name').html(data['theEntry'][0]['Allocated_Fund_Name']);
+                $('#VEmergency_Team_Name').html(data['theEntry'][0]['Emergency_Team_Name']);
+                $('#VEmergency_Equipment_Name').html(data['theEntry'][0]['Emergency_Equipment_Name']);
+                $('#VActive').html(data['theEntry'][0]['Active']);
+            }
+        });
+
+    });
+
+    $(document).on('click', ('.view_emerevacsite'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_emerevacsite",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#V2Emergency_Evacuation_Site_Name').html(data['theEntry'][0]['Emergency_Evacuation_Site_Name']);
+                $('#VAddress').html(data['theEntry'][0]['Address']);
+                $('#VCapacity').html(data['theEntry'][0]['Capacity']);
+                $('#V2Active').html(data['theEntry'][0]['Active']);
+            }
+        });
+
+    });
+
+    $(document).on('click', ('.view_allofund'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_allofund",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#V2Allocated_Fund_Name').html(data['theEntry'][0]['Allocated_Fund_Name']);
+                $('#VAmount').html(data['theEntry'][0]['Amount']);
+                $('#V3Active').html(data['theEntry'][0]['Active']);
+            }
+        });
+
+    });
+
+    $(document).on('click', ('.view_dissupp'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_dissupp",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VDisaster_Supplies_Name').html(data['theEntry'][0]['Disaster_Supplies_Name']);
+                $('#VDisaster_Supplies_Quantity').html(data['theEntry'][0]['Disaster_Supplies_Quantity']);
+                $('#VLocation').html(data['theEntry'][0]['Location']);
+                $('#VRemarks').html(data['theEntry'][0]['Remarks']);
+                $('#V3Disaster_Name').html(data['theEntry'][0]['Disaster_Name']);
+                $('#V3Resident_Name').html(data['theEntry'][0]['Resident_Name']);
+                $('#V4Active').html(data['theEntry'][0]['Active']);
+            }
+        });
+    });
+
+    $(document).on('click', ('.view_emerteam'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_emerteam",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#V2Emergency_Team_Name').html(data['theEntry'][0]['Emergency_Team_Name']);
+                $('#VEmergency_Team_Hotline').html(data['theEntry'][0]['Emergency_Team_Hotline']);
+                $('#V5Active').html(data['theEntry'][0]['Active']);
+            }
+        });
+
+    });
+
+    $(document).on('click', ('.view_emerequip'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_emerequip",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#V3Emergency_Equipment_Name').html(data['theEntry'][0]['Emergency_Equipment_Name']);
+                $('#V2Location').html(data['theEntry'][0]['Location']);
+                $('#V6Active').html(data['theEntry'][0]['Active']);
+            }
+        });
+
     });
 </script>
 

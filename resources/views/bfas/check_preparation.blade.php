@@ -57,18 +57,18 @@
                                 <table id="example" class="table table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Check Preparation <br>ID</th>
+                                            {{-- <th>Check Preparation <br>ID</th> --}}
                                             <th>Particulars</th>
-                                            <th>Baranggay Officials <br>and Staff ID</th>
-                                            <th>Disbursement Voucher <br>ID</th>
-                                            <th>Voucher Status<br>ID</th>
+                                            <th>Baranggay Officials <br>and Staff </th>
+                                            <th>Disbursement Voucher </th>
+                                            <th>Voucher Status</th>
                                             <th>Amount</th>
-                                            <th>Bank Account <br>ID</th>
-                                            <th>Baranggay <br>ID</th>
-                                            <th>City Municipality <br>ID</th>
-                                            <th>Province <br>ID</th>
-                                            <th>Region <br>ID</th>
-                                            <th>Encoder ID</th>
+                                            <th>Bank Account</th>
+                                            <th>Barangay</th>
+                                            <th>City Municipality</th>
+                                            <th>Province</th>
+                                            <th>Region</th>
+                                            <th>Encoder</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -76,21 +76,22 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Check_Preparation_ID }}</td>
+                                            {{-- <td class="sm_data_col txtCtr">{{$x->Check_Preparation_ID }}</td> --}}
                                             <td class="sm_data_col txtCtr">{{$x->Particulars}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Brgy_Officials_and_Staff_ID }}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Disbursement_Voucher_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Voucher_Status_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Voucher_No}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Voucher_Status}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Amount}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Bank_Account_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Barangay_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Province_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Region_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Bank_Account_No}} <br> {{$x->Bank_Account_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Check_Preparation_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Check_Preparation_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -137,9 +138,9 @@
                         </div>
 
                         <div class="form-group col-lg-6">
-                            <label>Baranggay and Staff ID:</label>
+                            <label>Baranggay and Staff:</label>
                             <select class="form-control" name="Brgy_Officials_and_Staff_ID">
-                                <option value='' hidden selected>Select</option>
+                                <option value='{{Auth::user()->id}}' hidden selected>Select</option>
                                 @foreach($brgy_OS as $brgy_os)
                                 <option value={{$brgy_os->Brgy_Officials_and_Staff_ID}}>{{$brgy_os->Brgy_Officials_and_Staff_ID}}</option>
                                 @endforeach
@@ -148,21 +149,21 @@
 
 
                         <div class="form-group col-lg-6">
-                            <label>Disbursement Voucher ID:</label>
+                            <label>Disbursement Voucher:</label>
                             <select class="form-control" name="Disbursement_Voucher_ID">
                                 <option value='' hidden selected>Select</option>
                                 @foreach($disbursement_voucher as $dv)
-                                <option value={{$dv->Disbursement_Voucher_ID}}>{{$dv->Disbursement_Voucher_ID}}</option>
+                                <option value={{$dv->Disbursement_Voucher_ID}}>{{$dv->Voucher_No}}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group col-lg-6">
-                            <label>Voucher_Status_ID :</label>
+                            <label>Voucher Status :</label>
                             <select class="form-control" name="Voucher_Status_ID">
                                 <option value='' hidden selected>Select</option>
                                 @foreach($voucher_status as $vs)
-                                <option value={{$vs->Voucher_Status_ID}}>{{$vs->Voucher_Status_ID }}</option>
+                                <option value={{$vs->Voucher_Status_ID}}>{{$vs->Voucher_Status}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -173,7 +174,7 @@
                         </div>
 
                         <div class="form-group col-lg-6">
-                            <label>Bank Account ID:</label>
+                            <label>Bank Account:</label>
                             <select class="form-control" name="Bank_Account_ID">
                                 <option value='' hidden selected>Select</option>
                                 @foreach($bank_acc as $bac)
@@ -262,7 +263,7 @@
                         </div>
 
                         <div class="form-group col-lg-6">
-                            <label>Baranggay and Staff ID:</label>
+                            <label>Baranggay and Staff:</label>
                             <select class="form-control" name="Brgy_Officials_and_Staff_ID2">
                                 <option id="this_brgy_OS" value='' hidden selected>Select</option>
                                 @foreach($brgy_OS as $brgy_os)
@@ -273,7 +274,7 @@
 
 
                         <div class="form-group col-lg-6">
-                            <label>Disbursement Voucher ID:</label>
+                            <label>Disbursement Voucher:</label>
                             <select class="form-control" name="Disbursement_Voucher_ID2">
                                 <option id="this_disbursement_voucher" value='' hidden selected>Select</option>
                                 @foreach($disbursement_voucher as $dv)
@@ -283,7 +284,7 @@
                         </div>
 
                         <div class="form-group col-lg-6">
-                            <label>Voucher_Status_ID :</label>
+                            <label>Voucher Status :</label>
                             <select class="form-control" name="Voucher_Status_ID2">
                                 <option id="this_voucher_status" value='' hidden selected>Select</option>
                                 @foreach($voucher_status as $vs)
@@ -298,7 +299,7 @@
                         </div>
 
                         <div class="form-group col-lg-6">
-                            <label>Bank Account ID:</label>
+                            <label>Bank Account:</label>
                             <select class="form-control" name="Bank_Account_ID2">
                                 <option id="this_bank_account" value='' hidden selected>Select</option>
                                 @foreach($bank_acc as $bac)
@@ -360,6 +361,32 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="32" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 
