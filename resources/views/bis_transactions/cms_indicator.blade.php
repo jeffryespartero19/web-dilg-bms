@@ -278,7 +278,8 @@
         <!-- /.card-tools -->
     </div>
     <div class="card-body col-lg-12" style="margin-bottom: 5px;">
-        <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
+
+        <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]">
         <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
             <div class="form-group col-lg-12">
                 <label>Description</label>
@@ -686,8 +687,8 @@
         div_main.find('.Answers_hidden').prop('hidden', false).removeClass('Answers_hidden')
     });
 
-     // Side Bar Active
-     $(document).ready(function() {
+    // Side Bar Active
+    $(document).ready(function() {
         $('.contentManage').addClass('active');
         $('.cms_menu').addClass('active');
         $('.cms_main').addClass('menu-open');

@@ -79,6 +79,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Payment_Collection_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Payment_Collection_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -139,15 +140,15 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label>OR Number:</label>
-                            <input class="form-control" name="OR_No"></input>
+                            <input class="form-control" name="OR_No">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>OR Date:</label>
-                            <input class="form-control" name="OR_Date" type="date"></input>
+                            <input class="form-control" name="OR_Date" type="date">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Cash Tendered:</label>
-                            <input class="form-control" name="Cash_Tendered"></input>
+                            <input class="form-control" name="Cash_Tendered">
                         </div>
                         <div class="form-group col-lg-12">
                             <label>Remarks:</label>
@@ -204,15 +205,15 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label>OR Number:</label>
-                            <input id="this_or_number" class="form-control" name="OR_No2"></input>
+                            <input id="this_or_number" class="form-control" name="OR_No2">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>OR Date:</label>
-                            <input id="this_or_date" class="form-control" name="OR_Date2" type="date"></input>
+                            <input id="this_or_date" class="form-control" name="OR_Date2" type="date">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Cash Tendered:</label>
-                            <input id="this_cash_tendered" class="form-control" name="Cash_Tendered2"></input>
+                            <input id="this_cash_tendered" class="form-control" name="Cash_Tendered2">
                         </div>
                         <div class="form-group col-lg-12">
                             <label>Remarks:</label>
@@ -230,9 +231,33 @@
 </div>
 
 
-
-
 <!-- Edit/Update END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="35" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

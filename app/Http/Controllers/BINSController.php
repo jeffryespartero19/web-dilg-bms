@@ -17,7 +17,9 @@ class BINSController extends Controller
     public function bins_uom_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_unit_of_measure')->get();
+        $db_entries = DB::table('maintenance_bins_unit_of_measure as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bins_unit_of_measure',compact('db_entries','currDATE'));
     }
@@ -69,7 +71,9 @@ class BINSController extends Controller
     public function bins_bes_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_borrowed_equipment_status')->get();
+        $db_entries = DB::table('maintenance_bins_borrowed_equipment_status as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bins_borrowed_equipment_status',compact('db_entries','currDATE'));
     }
@@ -121,7 +125,9 @@ class BINSController extends Controller
     public function bins_item_class_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_item_classification')->get();
+        $db_entries = DB::table('maintenance_bins_item_classification as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bins_item_classification',compact('db_entries','currDATE'));
     }
@@ -172,7 +178,9 @@ class BINSController extends Controller
     public function bins_item_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_item_status')->get();
+        $db_entries = DB::table('maintenance_bins_item_status as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bins_item_status',compact('db_entries','currDATE'));
     }
@@ -223,7 +231,10 @@ class BINSController extends Controller
     public function bins_item_category_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bins_item_category')->get();
+        $db_entries = DB::table('maintenance_bins_item_category as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->join('maintenance_bins_item_classification as c','c.Item_Classification_ID','=','a.Item_Classification_ID')
+            ->get();
 
         $item_class_list=DB::table('maintenance_bins_item_classification')->get();
 
@@ -284,7 +295,18 @@ class BINSController extends Controller
     public function bins_begbal(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_inventory_begbal')->get();
+        $db_entries = DB::table('bins_inventory_begbal as a')
+                        ->join('bins_brgy_inventory as b','b.Inventory_ID','=','a.Inventory_ID')
+                        ->join('users as c','c.id','=','a.Encoder_ID')
+                        ->select(
+                                'a.Inventory_BegBal_ID',
+                                'a.Unit_Cost',
+                                'a.Quantity',
+                                'a.Date_Stamp',
+                                'b.Inventory_Name',
+                                'c.name',
+                                )
+                        ->get();
 
         $inventoryX=DB::table('bins_brgy_inventory')->get();
 
@@ -342,9 +364,31 @@ class BINSController extends Controller
     public function bins_item_inspection(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_item_inspection')->get();
+        $db_entries = DB::table('bins_item_inspection as a')
+                        ->join('bins_received_item as b','b.Received_Item_ID','=','a.Received_Item_ID')
+                        ->join('users as c','c.id','=','a.Encoder_ID')
+                        ->join('bins_brgy_inventory as d','d.Inventory_ID','=','b.Inventory_ID')
+                        ->join('maintenance_bins_item_status as e','e.Item_Status_ID','=','a.Item_Status_ID')
+                        ->select(
+                                'a.Item_Inspection_ID',
+                                'a.Received_Item_ID',
+                                'a.Inspection_Date',
+                                'a.Markings',
+                                'a.Serial_No',
+                                'a.Date_Stamp',
+                                'c.name',
+                                'd.Inventory_Name',
+                                'e.Item_Status',
+                                )
+                        ->get();
 
-        $RC_item_list=DB::table('bins_received_item')->get();
+        $RC_item_list=DB::table('bins_received_item as a')
+            ->join('bins_brgy_inventory as b','b.Inventory_ID','=','a.Inventory_ID')
+            ->select(
+                'a.Received_Item_ID',
+                'b.Inventory_Name',
+                )
+            ->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
 
         return view('bins.item_inspection',compact('db_entries','currDATE','RC_item_list','item_status_list'));
@@ -378,11 +422,12 @@ class BINSController extends Controller
         $theEntry=DB::table('bins_item_inspection')->where('Item_Inspection_ID',$id)->get();
 
         $theRC_item=DB::table('bins_received_item')->where('Received_Item_ID',$theEntry[0]->Received_Item_ID)->get();
+        $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theRC_item[0]->Inventory_ID)->get();
         $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Item_Status_ID)->get();
 
         // dd($theEntry,$theRC_item,$theitem_status);
 
-        return(compact('theEntry','theRC_item','theitem_status'));
+        return(compact('theEntry','theRC_item','theitem_status','the_item'));
     }
     public function update_bins_item_inspection(Request $request)
     {
@@ -409,7 +454,21 @@ class BINSController extends Controller
     public function bins_received_item(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_received_item')->get();
+        $db_entries = DB::table('bins_received_item as a')
+                        ->join('bins_brgy_inventory as b','b.Inventory_ID','=','a.Inventory_ID')
+                        ->join('users as c','c.id','=','a.Encoder_ID')
+                        ->join('maintenance_bins_item_status as e','e.Item_Status_ID','=','a.Item_Status_ID')
+                        ->select(
+                                'a.Received_Item_ID',
+                                'a.Donation',
+                                'a.Received_Quantity',
+                                'a.Date_Received',
+                                'a.Date_Stamp',
+                                'b.Inventory_Name',
+                                'c.name',
+                                'e.Item_Status',
+                                )
+                        ->get();
 
         $inventory_list=DB::table('bins_brgy_inventory')->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
@@ -448,7 +507,7 @@ class BINSController extends Controller
 
         $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theEntry[0]->Inventory_ID)->get();
         $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Item_Status_ID)->get();
-        $thestaff=DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
+        $thestaff=DB::table('users')->where('id',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
 
         //dd($theEntry,$the_item,$theitem_status);
 
@@ -480,9 +539,31 @@ class BINSController extends Controller
     public function bins_physical_count(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_physical_count')->get();
+        $db_entries = DB::table('bins_physical_count as a')
+                    ->join('maintenance_bins_item_category as b','b.Item_Category_ID','=','a.Item_Category_ID')
+                    ->join('users as c','c.id','=','a.Encoder_ID')
+                    ->join('bins_physical_count_inventory as d','d.Physical_Count_Inventory_ID','=','a.Physical_Count_Inventory_ID')
+                    ->join('bins_brgy_inventory as e','e.Inventory_ID','=','d.Inventory_ID')
+                    ->select(
+                            'a.Physical_Count_ID',
+                            'a.Transaction_No',
+                            'a.Particulars',
+                            'a.Date_Stamp',
+                            'b.Item_Category_Name',
+                            'c.name',
+                            'e.Inventory_Name',
+                            )
+                    ->get();
 
-        $P_inventory_list=DB::table('bins_physical_count_inventory')->get();
+        $P_inventory_list=DB::table('bins_physical_count_inventory as a')
+            ->join('bins_brgy_inventory as b','b.Inventory_ID','=','a.Inventory_ID')
+            ->select(
+                'a.Physical_Count_Inventory_ID',
+                'a.On_Hand_Per_Count',
+                'a.Remarks',
+                'b.Inventory_Name',
+                )
+            ->get();
         $item_category_list=DB::table('maintenance_bins_item_category')->get();
         $staff_list=DB::table('bips_brgy_officials_and_staff')->get();
 
@@ -494,12 +575,21 @@ class BINSController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 10; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        $TR_no = $randomString;
+
         DB::table('bins_physical_count')->insert(
             array(
                 'Encoder_ID'         => Auth::user()->id,
                 'Date_Stamp'         => Carbon::now(),
                 'Item_Category_ID'   => $data['item_category_ID'],
                 'Physical_Count_Inventory_ID' => $data['P_item_ID'],
+                'Transaction_No'   => $TR_no,
                 'Particulars'                    => $data['particulars'],
                 'Brgy_Officials_and_Staff_ID'    => $data['oic']
                 
@@ -515,9 +605,12 @@ class BINSController extends Controller
 
         $theEntry=DB::table('bins_physical_count')->where('Physical_Count_ID',$id)->get();
 
-        $theP_inventory=DB::table('bins_physical_count_inventory')->where('Physical_Count_Inventory_ID',$theEntry[0]->Physical_Count_Inventory_ID)->get();
+        $theP_inventory=DB::table('bins_physical_count_inventory as a')
+                            ->where('Physical_Count_Inventory_ID',$theEntry[0]->Physical_Count_Inventory_ID)
+                            ->join('bins_brgy_inventory as e','e.Inventory_ID','=','a.Inventory_ID')
+                            ->get();
         $theitem_category=DB::table('maintenance_bins_item_category')->where('Item_Category_ID',$theEntry[0]->Item_Category_ID)->get();
-        $thestaff=DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
+        $thestaff=DB::table('users')->where('id',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
 
         //dd($theEntry,$theP_inventory,$theitem_category,$thestaff);
 
@@ -547,7 +640,20 @@ class BINSController extends Controller
     public function bins_inv_disposal(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_inventory_for_disposal')->get();
+        $db_entries = DB::table('bins_inventory_for_disposal as a')
+                        ->join('bins_brgy_inventory as b','b.Inventory_ID','=','a.Inventory_ID')
+                        ->join('users as c','c.id','=','a.Encoder_ID')
+                        ->join('maintenance_bins_item_status as d','d.Item_Status_ID','=','a.Item_Status_ID')
+                        ->select(
+                                'a.Disposal_Inventory_ID',
+                                'a.Date_Disposed',
+                                'a.Remarks',
+                                'a.Date_Stamp',
+                                'b.Inventory_Name',
+                                'c.name',
+                                'd.Item_Status',
+                                )
+                        ->get();
 
         $inventory_list=DB::table('bins_brgy_inventory')->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
@@ -584,7 +690,7 @@ class BINSController extends Controller
 
         $the_item=DB::table('bins_brgy_inventory')->where('Inventory_ID',$theEntry[0]->Inventory_ID)->get();
         $theitem_status=DB::table('maintenance_bins_item_status')->where('Item_Status_ID',$theEntry[0]->Item_Status_ID)->get();
-        $thestaff=DB::table('bips_brgy_officials_and_staff')->where('Brgy_Officials_and_Staff_ID',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
+        $thestaff=DB::table('users')->where('id',$theEntry[0]->Brgy_Officials_and_Staff_ID)->get();
 
         //dd($theEntry,$the_item,$theitem_status);
 
@@ -615,7 +721,19 @@ class BINSController extends Controller
     public function bins_borrow(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('bins_equipment_borrowed')->get();
+        $db_entries = DB::table('bins_equipment_borrowed as a')
+                    ->join('bins_brgy_inventory as b','b.Inventory_ID','=','a.Inventory_ID')
+                    ->join('users as c','c.id','=','a.Encoder_ID')
+                    ->join('maintenance_bins_item_status as d','d.Item_Status_ID','=','a.Borrowed_Equipmnet_Status_ID')
+                    ->select(
+                            'a.Borrowed_Equipment_ID',
+                            'a.Quantity_Borrowed',
+                            'a.Date_Stamp',
+                            'b.Inventory_Name',
+                            'c.name',
+                            'd.Item_Status',
+                            )
+                    ->get();
 
         $request_list = DB::table('bins_inhabitants_equipment_borrow_request')->get();
 
@@ -813,9 +931,9 @@ class BINSController extends Controller
         $bgry_ID=Auth::user()->Barangay_ID;
 
         $theBrgy=DB::table('maintenance_barangay')->where('Barangay_ID',$bgry_ID)->get();
-        $theCity=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',$theBrgy[0]->City_Municipality_ID)->get();
-        $theProv=DB::table('maintenance_province')->where('Province_ID',$theCity[0]->Province_ID)->get();
-        $theRegion=DB::table('maintenance_region')->where('Region_ID',$theProv[0]->Region_ID)->get();
+        $theCity=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',Auth::user()->City_Municipality_ID)->get();
+        $theProv=DB::table('maintenance_province')->where('Province_ID',Auth::user()->Province_ID)->get();
+        $theRegion=DB::table('maintenance_region')->where('Region_ID',Auth::user()->Region_ID)->get();
 
         DB::table('bins_brgy_inventory')->insert(
             array(

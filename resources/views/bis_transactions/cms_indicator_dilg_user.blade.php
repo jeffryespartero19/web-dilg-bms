@@ -43,87 +43,102 @@
     <br>
     <div class="col-md-12">
 
-        <div class="card listDIV">
+        <div class="listDIV">
 
             @foreach ($title as $titles)
             @if($titles->Date_Start <= $currDATE && $titles->Date_End >= $currDATE)
-                <div class="card-body LabelDIV" style="margin-bottom: 30px;">
+                <div class="LabelDIV" style="margin-bottom: 30px;">
                     <form method="POST" action="{{ route('create_indicator_answer') }}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         <input type="text" name="CMS_Barangay_Profile_ID" hidden value="{{$id}}">
                         <input type="text" name="Categories_ID" hidden value="{{$cat_id}}">
-                        <div class="container" style="background-color: #5bc0de; width: 100%; padding: 10px 15px">
-                            <a href="#" class="BTNCollapse"><span style="font-size: 18px; color:white; font-weight:bold">Title: {{$titles->Title}}</span></a>
-                            <div style="float: right;">
-                                <button class="btn btn-success" type="submit"><i class="fa fa-save" aria-hidden="true"></i> Save</button>
-                            </div>
-                        </div>
-                        <div class="container row LblData collapse" style="background-color: white; margin: 0px; width:100%; padding:20px">
-                            <input type="text" name="Title_ID[]" hidden value="{{$titles->Title_ID}}">
-                            <div class="form-group col-lg-12">
-                                <label>Instructions</label>
-                                <textarea class="form-control" name="Instructions[]" disabled>{{$titles->Instructions}}</textarea>
-                            </div>
-                            @foreach ($indicator as $indicators)
-                            @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
-                            <div style="padding: 20px; width:100%" class="INDetails">
+                        <div class="card card-info collapsed-card">
+                            <div class="card-header pc-view">
+                                <h3 class="card-title" data-card-widget="collapse">Title: {{$titles->Title}}</h3>
 
-                                <input type="number" name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}" hidden>
-                                <input type="number" class="Max_Answer" name="Max_Answer[]" value="{{$indicators->Max_Answer}}" hidden>
-                                <input type="number" class="Min_Answer" name="Min_Answer[]" value="{{$indicators->Min_Answer}}" hidden>
-                                <table class="table table-striped table-bordered" style="width:100%">
-                                    <tbody>
-                                        <tr>
-                                            <td style="width: 50%;">{{$indicators->Indicator_Description}}</td>
-                                            <td style="width: 50%;">
+                                <div class="card-tools">
 
-                                                @if($indicators->Widget == 'RADIO')
-                                                @foreach ($answer_classification as $ac)
-                                                @if($ac->Indicator_ID == $indicators->Indicator_ID)
-                                                <label>
-                                                    <input type="radio" name="Answer[{{$indicators->Indicator_ID}}][]" value="{{$ac->Answer_Classification_ID}}">
-                                                    {{$ac->Answer}}
-                                                </label>
-                                                <br>
-                                                @endif
-                                                @endforeach
-                                                @elseif($indicators->Widget == 'CHECKBOX')
-                                                @foreach ($answer_classification as $ac)
-                                                @if($ac->Indicator_ID == $indicators->Indicator_ID)
-                                                <label>
-                                                    <input type="checkbox" class="Answer_CHK" value="{{$ac->Answer_Classification_ID}}" name="Answer[{{$indicators->Indicator_ID}}][]">
-                                                    {{$ac->Answer}}
-                                                </label>
-                                                <br>
-                                                @endif
-                                                @endforeach
-                                                @elseif($indicators->Widget == 'TEXTBOX')
-                                                <input type="text" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]">
-                                                @elseif($indicators->Widget == 'TEXTAREA')
-                                                <textarea rows="3" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]"></textarea>
-                                                @elseif($indicators->Widget == 'SELECT')
-                                                <select class="form-control" name="Answer[{{$indicators->Indicator_ID}}][]" style="width: 100%;">
+                                    <button type="submit" class="btn btn-tool">
+                                        <i class="fas fa-save"></i>&nbsp;Save
+                                    </button>
+
+                                </div>
+
+                                <!-- /.card-tools -->
+                            </div>
+                            <div class="card-header mobile-view">
+                                <h3 class="card-title">Title: {{$titles->Title}}</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="form-group col-lg-12">
+                                    <label>Instructions</label>
+                                    <textarea class="form-control" name="Instructions[]" disabled>{{$titles->Instructions}}</textarea>
+                                </div>
+                                @foreach ($indicator as $indicators)
+                                @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
+                                <div style="padding: 20px; width:100%" class="INDetails">
+
+                                    <input type="number" name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}" hidden>
+                                    <input type="number" class="Max_Answer" name="Max_Answer[]" value="{{$indicators->Max_Answer}}" hidden>
+                                    <input type="number" class="Min_Answer" name="Min_Answer[]" value="{{$indicators->Min_Answer}}" hidden>
+                                    <table class="table table-striped table-bordered" style="width:100%">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 50%;">{{$indicators->Indicator_Description}}</td>
+                                                <td style="width: 50%;">
+
+                                                    @if($indicators->Widget == 'RADIO')
                                                     @foreach ($answer_classification as $ac)
                                                     @if($ac->Indicator_ID == $indicators->Indicator_ID)
-                                                    <option value='{{$ac->Answer_Classification_ID}}'>{{$ac->Answer}}</option>
+                                                    <label>
+                                                        <input type="radio" name="Answer[{{$indicators->Indicator_ID}}][]" value="{{$ac->Answer_Classification_ID}}">
+                                                        {{$ac->Answer}}
+                                                    </label>
+                                                    <br>
                                                     @endif
                                                     @endforeach
-                                                </select>
-                                                @elseif($indicators->Widget == 'DATEPICKER')
-                                                <input type="date" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]">
-                                                @elseif($indicators->Widget == 'DATETIMEPICKER')
-                                                <input type="datetime-local" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]">
-                                                @endif
+                                                    @elseif($indicators->Widget == 'CHECKBOX')
+                                                    @foreach ($answer_classification as $ac)
+                                                    @if($ac->Indicator_ID == $indicators->Indicator_ID)
+                                                    <label>
+                                                        <input type="checkbox" class="Answer_CHK" value="{{$ac->Answer_Classification_ID}}" name="Answer[{{$indicators->Indicator_ID}}][]">
+                                                        {{$ac->Answer}}
+                                                    </label>
+                                                    <br>
+                                                    @endif
+                                                    @endforeach
+                                                    @elseif($indicators->Widget == 'TEXTBOX')
+                                                    <input type="text" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]">
+                                                    @elseif($indicators->Widget == 'TEXTAREA')
+                                                    <textarea rows="3" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]"></textarea>
+                                                    @elseif($indicators->Widget == 'SELECT')
+                                                    <select class="form-control" name="Answer[{{$indicators->Indicator_ID}}][]" style="width: 100%;">
+                                                        @foreach ($answer_classification as $ac)
+                                                        @if($ac->Indicator_ID == $indicators->Indicator_ID)
+                                                        <option value='{{$ac->Answer_Classification_ID}}'>{{$ac->Answer}}</option>
+                                                        @endif
+                                                        @endforeach
+                                                    </select>
+                                                    @elseif($indicators->Widget == 'DATEPICKER')
+                                                    <input type="date" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]">
+                                                    @elseif($indicators->Widget == 'DATETIMEPICKER')
+                                                    <input type="datetime-local" style="width: 100%;" name="Answer[{{$indicators->Indicator_ID}}][]">
+                                                    @endif
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
 
+                                </div>
+                                @endif
+                                @endforeach
                             </div>
-                            @endif
-                            @endforeach
-
                         </div>
                     </form>
                 </div>

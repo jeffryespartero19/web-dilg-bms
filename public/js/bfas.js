@@ -479,3 +479,15 @@ $(document).on('click',('.edit_XYZ'),function(e) {
         });
     }
 });
+
+$(document).on('click',('.delRec'),function(e) {
+    var disVal = $(this).val(); 
+    $('#delFile').val(disVal); 
+    $('#deleteFile').modal('show');           
+});
+
+$(document).on('click',('.delRec2'),function(e) {
+    var disVal = $(this).val(); 
+    $('#delFile2').val(disVal); 
+    $('#deleteFile2').modal('show');           
+});

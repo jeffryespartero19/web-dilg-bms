@@ -132,6 +132,7 @@
 
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Card_File_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Card_File_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -168,7 +169,7 @@
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Card Type:</label>
-                            <select class="form-control regionX" name="Card_TypeX">
+                            <select class="form-control" name="Card_TypeX">
                                 <option value='' hidden selected>Select</option>
                                 @foreach($card_type as $ct)
                                 <option value='{{$ct->Card_Type_ID}}'>{{$ct->Card_Type}}</option>
@@ -251,7 +252,7 @@
                             <select class="form-control brgyX no_edit" name="Barangay_IDX">
                                 <option value='@if($brgyX->isNotEmpty()){{$brgyX[0]->Barangay_ID}}@endif' hidden selected>@if($brgyX->isNotEmpty()){{$brgyX[0]->Barangay_Name}}@endif</option>
                             </select>
-                        </div
+                        </div>
 
                         <div class="form-group col-lg-6">
                             <label>Active:</label>
@@ -292,7 +293,7 @@
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Card Type:</label>
-                            <select class="form-control regionX" name="Card_TypeX2">
+                            <select class="form-control" name="Card_TypeX2">
                                 <option id="this_card_type" value='' hidden selected>Select</option>
                                 @foreach($card_type as $ct)
                                 <option value='{{$ct->Card_Type_ID}}'>{{$ct->Card_Type}}</option>
@@ -398,6 +399,32 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="26" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

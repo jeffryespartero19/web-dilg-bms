@@ -58,11 +58,10 @@
                                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>item_Category_ID </th>
-                                            <th>item_Category_Name</th>
-                                            <th>item_Classification_ID</th>
+                                            <th>item Category Name</th>
+                                            <th>item Classification </th>
                                             <th>Active</th>
-                                            <th>Encoder_ID</th>
+                                            <th>Encoder</th>
                                             <th>Date_Stamp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -70,14 +69,20 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Item_Category_ID}}</td>
                                             <td>{{$x->Item_Category_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Item_Classification_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Item_Classification}}</td>
+                                            <td class="sm_data_col txtCtr">
+                                                @if($x->Active==1)
+                                                    Yes
+                                                @else 
+                                                    No
+                                                @endif
+                                            </td>
+                                            <td class="sm_data_col txtCtr">{{$x->name}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
                                                 <button class="edit_XYZ" value="{{$x->Item_Category_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec" value="{{$x->Item_Category_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -200,6 +205,32 @@
 </div>
 
 <!-- Edit/Update END -->
+
+<!-- Delete -->
+<div id="deleteFile" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:30%;">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h5 style="color:salmon;">Are you sure you want to delete this Record ?</h5>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{ route('del_rec') }}"> @csrf
+
+                <input id="del_ident" value="5" class="" name="del_ident" hidden>
+                <input id="delFile" value="" class="" name="id_del" hidden>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+      </div>
+  
+    </div>
+</div>
+<!-- End Delete -->
 
 @endsection
 

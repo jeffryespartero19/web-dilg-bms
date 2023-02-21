@@ -21,6 +21,7 @@ class BFASController extends Controller
             ->join('maintenance_city_municipality','maintenance_city_municipality.City_Municipality_ID','=','maintenance_bfas_type_of_fee.City_Municipality_ID')
             ->join('maintenance_province','maintenance_province.Province_ID','=','maintenance_bfas_type_of_fee.Province_ID')
             ->join('maintenance_region','maintenance_region.Region_ID','=','maintenance_bfas_type_of_fee.Region_ID')
+            ->join('bfas_accounts_information','bfas_accounts_information.Accounts_Information_ID','=','maintenance_bfas_type_of_fee.Account_Information_ID')
             ->get();
         
         $Account_InfoX=DB::table('bfas_accounts_information')->get();
@@ -107,7 +108,9 @@ class BFASController extends Controller
     public function bfas_card_type_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bfas_card_type')->get();
+        $db_entries = DB::table('maintenance_bfas_card_type as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bfas_card_type',compact('db_entries','currDATE'));
     }
@@ -162,7 +165,9 @@ class BFASController extends Controller
     public function bfas_account_type_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bfas_account_type')->get();
+        $db_entries = DB::table('maintenance_bfas_account_type as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bfas_account_type',compact('db_entries','currDATE'));
     }
@@ -217,7 +222,9 @@ class BFASController extends Controller
     public function bfas_fund_type_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bfas_fund_type')->get();
+        $db_entries = DB::table('maintenance_bfas_fund_type as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bfas_fund_type',compact('db_entries','currDATE'));
     }
@@ -277,6 +284,7 @@ class BFASController extends Controller
             ->join('maintenance_city_municipality','maintenance_city_municipality.City_Municipality_ID','=','maintenance_bfas_bank_account.City_Municipality_ID')
             ->join('maintenance_province','maintenance_province.Province_ID','=','maintenance_bfas_bank_account.Province_ID')
             ->join('maintenance_region','maintenance_region.Region_ID','=','maintenance_bfas_bank_account.Region_ID')
+            ->join('users as b','b.id','=','maintenance_bfas_bank_account.Encoder_ID')
             ->get();
         
         $Account_InfoX=DB::table('bfas_accounts_information')->get();
@@ -366,7 +374,9 @@ class BFASController extends Controller
     public function bfas_voucher_status_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bfas_voucher_status')->get();
+        $db_entries = DB::table('maintenance_bfas_voucher_status as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bfas_voucher_status',compact('db_entries','currDATE'));
     }
@@ -421,7 +431,9 @@ class BFASController extends Controller
     public function bfas_tax_code_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bfas_tax_code')->get();
+        $db_entries = DB::table('maintenance_bfas_tax_code as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bfas_tax_code',compact('db_entries','currDATE'));
     }
@@ -483,7 +495,9 @@ class BFASController extends Controller
     public function bfas_tax_type_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_bfas_tax_type')->get();
+        $db_entries = DB::table('maintenance_bfas_tax_type as a')
+            ->join('users as b','b.id','=','a.Encoder_ID')
+            ->get();
 
         return view('maintenance.bfas_tax_type',compact('db_entries','currDATE'));
     }
@@ -538,7 +552,9 @@ class BFASController extends Controller
        public function bfas_journal_type_maint(Request $request)
        {
            $currDATE = Carbon::now();
-           $db_entries = DB::table('maintenance_bfas_journal_type')->get();
+           $db_entries = DB::table('maintenance_bfas_journal_type as a')
+                ->join('users as b','b.id','=','a.Encoder_ID')
+                ->get();
    
            return view('maintenance.bfas_journal_type',compact('db_entries','currDATE'));
        }
@@ -595,6 +611,7 @@ class BFASController extends Controller
             $currDATE = Carbon::now();
             $db_entries = DB::table('maintenance_bfas_account_code')
                 ->join('maintenance_bfas_expenditure_type','maintenance_bfas_expenditure_type.Expenditure_Type_ID','=','maintenance_bfas_account_code.Expenditure_Type_ID')
+                ->join('users as b','b.id','=','maintenance_bfas_account_code.Encoder_ID')
                 ->select(
                         'maintenance_bfas_account_code.Expenditure_Type_ID',
                         'maintenance_bfas_expenditure_type.Expenditure_Type',
@@ -602,7 +619,8 @@ class BFASController extends Controller
                         'maintenance_bfas_account_code.Account_Code',
                         'maintenance_bfas_account_code.Active',
                         'maintenance_bfas_account_code.Encoder_ID',
-                        'maintenance_bfas_account_code.Date_Stamp'
+                        'maintenance_bfas_account_code.Date_Stamp',
+                        'b.name'
                         )
                 ->paginate(20, ['*'], 'db_entries');
 
@@ -663,7 +681,9 @@ class BFASController extends Controller
         public function bfas_expenditure_type_maint(Request $request)
         {
             $currDATE = Carbon::now();
-            $db_entries = DB::table('maintenance_bfas_expenditure_type')->get();
+            $db_entries = DB::table('maintenance_bfas_expenditure_type as a')
+                ->join('users as b','b.id','=','a.Encoder_ID')
+                ->get();
 
             return view('maintenance.bfas_expenditure_type',compact('db_entries','currDATE'));
         }
@@ -719,7 +739,9 @@ class BFASController extends Controller
         public function bfas_appropriation_type_maint(Request $request)
         {
             $currDATE = Carbon::now();
-            $db_entries = DB::table('maintenance_bfas_appropriation_type')->get();
+            $db_entries = DB::table('maintenance_bfas_appropriation_type as a')
+                ->join('users as b','b.id','=','a.Encoder_ID')
+                ->get();
 
             return view('maintenance.bfas_appropriation_type',compact('db_entries','currDATE'));
         }
