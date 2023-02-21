@@ -833,7 +833,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/update_processing_sched', 'bipsController@update_processing_sched')->name('update_processing_sched');
 
 
-   Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
+  Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
 
   Route::get('/update_Inhabitant_Status', 'bipsController@update_Inhabitant_Status')->name('update_Inhabitant_Status');
 
@@ -849,7 +849,7 @@ Route::group(['middleware' => 'auth'], function () {
   //Ordinance Violator Details View
   Route::get('/ordinance_violator_details_view/{id}', 'BJISBHController@ordinance_violator_details_view');
 
-//DISASTER TYPE VIEW
+  //DISASTER TYPE VIEW
   Route::get('/view_disaster_type_details/{id}', 'BDRISALController@view_disaster_type_details');
   //EMERGENCY EVACUATION SITE VIEW
   Route::get('/view_emergency_evacuation_site_details/{id}', 'BDRISALController@view_emergency_evacuation_site_details');
@@ -1000,6 +1000,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/emerequip_downloadPDF', 'BDRISALController@emerequip_downloadPDF')->name('emerequip_downloadPDF');
   Route::post('/contractor_downloadPDF', 'BPMSController@contractor_downloadPDF')->name('contractor_downloadPDF');
   Route::post('/promon_downloadPDF', 'BPMSController@promon_downloadPDF')->name('promon_downloadPDF');
+
+
+  Route::get('/search_ordinance', 'borisController@fetch_data');
 });
 
 

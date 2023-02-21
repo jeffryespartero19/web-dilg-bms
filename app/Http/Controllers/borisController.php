@@ -570,4 +570,43 @@ class borisController extends Controller
 
         return response()->json(array('success' => true));
     }
+
+    public function fetch_data(Request $request)
+    {
+        $data = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Ordinance_or_Resolution',
+                'a.Ordinance_Resolution_No',
+                'a.Date_of_Approval',
+                'a.Date_of_Effectivity',
+                'a.Ordinance_Resolution_Title',
+                'a.Status_of_Ordinance_or_Resolution_ID',
+                'b.Name_of_Status'
+            )
+            ->where('a.Ordinance_or_Resolution', 0);
+
+
+
+        if ($request->get('param') != null) {
+            $data->where('a.Ordinance_Resolution_No', 'LIKE', '%' . $request->get('param') . '%')
+                ->orWhere('a.Ordinance_Resolution_Title', 'LIKE', '%' . $request->get('param') . '%');
+        }
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        if ($request->get('date_from') != 0) {
+            $data->where(DB::raw("(DATE_FORMAT(a.Date_Stamp,'%Y-%m-%d'))"), '>=', $request->get('date_from'));
+        }
+        if ($request->get('date_to') != 0) {
+            $data->where(DB::raw("(DATE_FORMAT(a.Date_Stamp,'%Y-%m-%d'))"), '<=', $request->get('date_to'));
+        }
+
+        $db_entries = $data->orderby('a.Ordinance_Resolution_ID', 'desc')->paginate(20);
+
+        return view('boris_transactions.ordinance_data', compact('db_entries'))->render();
+    }
 }

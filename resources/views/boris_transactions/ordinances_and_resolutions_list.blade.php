@@ -101,8 +101,7 @@
                                     <label for="">Date From</label>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input id="operation_date" name="operation_date" type="date" class="form-control @error('operation') is-invalid @enderror" value="{{ old('operation_date') }}" autocomplete="off">
-
+                                    <input id="date_from" name="date_from" type="date" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group col-4" style="margin: 0px;">
@@ -110,10 +109,13 @@
                                     <label for="">Date To</label>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input id="operation_date_to" name="operation_date_to" type="date" class="form-control @error('operation') is-invalid @enderror" value="{{ old('operation_date_to') }}" autocomplete="off">
+                                    <input id="date_to" name="date_to" type="date" class="form-control" autocomplete="off">
                                 </div>
                             </div>
+
                         </div>
+                        <div style="padding: 2px; float:right"><button class="btn btn-success SearchOrdinanceBTN" style="width: 100px;">Search</button></div>
+                        <br>
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
@@ -892,6 +894,31 @@
         });
 
     });
+
+    $(".SearchOrdinanceBTN").on("click", function() {
+        SearchOrdinance();
+    });
+
+    function SearchOrdinance() {
+        // alert('test');
+        var param = $('.SearchOrdinance').val();
+        var date_from = $('#date_from').val();
+        var date_to = $('#date_to').val();
+        var page = $('#hidden_page').val();
+        if (date_from == '' || date_from == null) {
+            date_from = 0;
+        }
+        if (date_to == '' || date_to == null) {
+            date_to = 0;
+        }
+        $.ajax({
+            url: "/search_ordinance?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+            success: function(data) {
+                $('tbody').html('');
+                $('tbody').html(data);
+            }
+        });
+    }
 </script>
 
 
