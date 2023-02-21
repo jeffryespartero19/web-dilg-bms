@@ -229,6 +229,7 @@
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="row">
+                            <div class="form-group col-lg-12"><input type="date" name="DateFilter"></div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="number" id="chk_Ordinance" name="chk_Ordinance" hidden value=1>
                                 <input type="checkbox" id="chk_Ordinance_No" name="chk_Ordinance_No">
@@ -277,6 +278,7 @@
 
                     <div class="modal-body">
                         <div class="row">
+                            <div class="form-group col-lg-12"><input type="date" name="DateFilter2"></div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="number" id="1chk_Ordinance" name="chk_Ordinance" hidden value=1>
                                 <input type="checkbox" id="1chk_Ordinance_No" name="chk_Ordinance_No">
@@ -372,9 +374,6 @@
                 </div>
 
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
         </div>
     </div>
 </div>

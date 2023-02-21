@@ -247,8 +247,12 @@
                                 <label for="chk_Title">Ordinance Title</label><br>
                                 <input type="checkbox" id="chk_Status" name="chk_Status">
                                 <label for="chk_Status">Status</label><br>
+                                <input type="checkbox" id="chk_Approver" name="chk_Approver">
+                                <label for="chk_Approver">Approver</label><br>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="chk_PROrdinance" name="chk_PROrdinance">
+                                <label for="chk_PROrdinance">Previous Related Ordinance</label><br>
                                 <input type="checkbox" id="chk_Region" name="chk_Region">
                                 <label for="chk_Region">Region</label><br>
                                 <input type="checkbox" id="chk_Province" name="chk_Province">
@@ -257,13 +261,15 @@
                                 <label for="chk_City">City/Municipality</label><br>
                                 <input type="checkbox" id="chk_Barangay" name="chk_Barangay">
                                 <label for="chk_Barangay">Barangay</label><br>
+                                <input type="checkbox" id="chk_Attester" name="chk_Attester">
+                                <label for="chk_Attester">Attester</label><br>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Print</button>
                 </div>
             </form>
         </div>
@@ -295,8 +301,12 @@
                                 <label for="1chk_Title">Ordinance Title</label><br>
                                 <input type="checkbox" id="1chk_Status" name="chk_Status">
                                 <label for="1chk_Status">Status</label><br>
+                                <input type="checkbox" id="1chk_Approver" name="chk_Approver">
+                                <label for="1chk_Approver">Approver</label><br>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" id="1chk_PROrdinance" name="chk_PROrdinance">
+                                <label for="1chk_PROrdinance">Previous Related Ordinance</label><br>
                                 <input type="checkbox" id="1chk_Region" name="chk_Region">
                                 <label for="1chk_Region">Region</label><br>
                                 <input type="checkbox" id="1chk_Province" name="chk_Province">
@@ -305,13 +315,15 @@
                                 <label for="1chk_City">City/Municipality</label><br>
                                 <input type="checkbox" id="1chk_Barangay" name="chk_Barangay">
                                 <label for="1chk_Barangay">Barangay</label><br>
+                                <input type="checkbox" id="1chk_Attester" name="chk_Attester">
+                                <label for="1chk_Attester">Attester</label><br>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Download</button>
                 </div>
             </form>
         </div>
@@ -378,9 +390,6 @@
                 </div>
 
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
         </div>
     </div>
 </div>
@@ -836,21 +845,11 @@
                 $('#ordinance_files2').empty();
 
                 $i = 0;
-                if (User_Type_ID == 1) {
-
-                    data.forEach(element => {
-                        $i = $i + 1;
-                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
-                        $('#ordinance_files2').append(file);
-
-                    });
-                } else {
-                    data.forEach(element => {
-                        $i = $i + 1;
-                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
-                        $('#ordinance_files2').append(file);
-                    });
-                }
+                data.forEach(element => {
+                    $i = $i + 1;
+                    var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                    $('#ordinance_files2').append(file);
+                });
 
             }
         });

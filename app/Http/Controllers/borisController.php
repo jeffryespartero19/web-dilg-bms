@@ -442,11 +442,16 @@ class borisController extends Controller
         $chk_Province = isset($data['chk_Province']) ? 1 : 0;
         $chk_City = isset($data['chk_City']) ? 1 : 0;
         $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+        $chk_Approver = isset($data['chk_Approver']) ? 1 : 0;
+        $chk_Attester = isset($data['chk_Attester']) ? 1 : 0;
+        $chk_PROrdinance = isset($data['chk_PROrdinance']) ? 1 : 0;
 
 
 
         $details = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
             ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Approver_ID', '=', 'g.Resident_ID')
             ->select(
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
@@ -455,7 +460,10 @@ class borisController extends Controller
                 'a.Date_of_Effectivity',
                 'a.Ordinance_Resolution_Title',
                 'a.Status_of_Ordinance_or_Resolution_ID',
-                'b.Name_of_Status'
+                'b.Name_of_Status',
+                'g.Last_Name',
+                'g.First_Name',
+                'g.Middle_Name'
 
             )
             ->where('a.Ordinance_or_Resolution', $chk_Ordinance)
