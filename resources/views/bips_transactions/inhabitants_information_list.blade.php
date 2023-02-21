@@ -287,7 +287,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Age</label>
-                                <input type="number" class="form-control" id="Age" name="Age">
+                                <input type="number" class="form-control" id="Age" name="Age" readonly>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Birthplace">Birthplace</label>
@@ -313,19 +313,22 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="exampleInputEmail1">Sex</label>
-                                <select class="form-control  " id="Sex" name="Sex" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    <option value='1'>Male</option>
-                                    <option value='2'>Female</option>
-                                </select>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" id="Sex" value="1" name="Sex" required>
+                                    <label for="Sex" class="custom-control-label">Male</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="custom-control-input" type="radio" id="Sex2" value="2" name="Sex" required>
+                                    <label for="Sex2" class="custom-control-label">Female</label>
+                                </div>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Weight">Weight</label>
-                                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kilo">
+                                <input type="number" step="any" class="form-control" id="Weight" name="Weight" placeholder="kilo">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Height">Height</label>
-                                <input type="number" class="form-control" id="Height" name="Height" placeholder="meter">
+                                <input type="number" step="any" class="form-control" id="Height" name="Height" placeholder="meter">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="exampleInputEmail1">Civil Status</label>
@@ -338,7 +341,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Mobile Number</label>
-                                <input type="text" class="form-control" id="Mobile_No" name="Mobile_No">
+                                <input type="number" class="form-control" id="Mobile_No" name="Mobile_No" type="number" onKeyDown="if(this.value.length>=11 && event.keyCode!=8) return false;">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="exampleInputEmail1">Landline Number</label>
@@ -346,7 +349,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Salary">Monthly Income</label>
-                                <input type="text" class="form-control" id="Salary" name="Salary">
+                                <input type="text" step="any" class="form-control" id="Salary" name="Salary">
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Email">Email</label>
@@ -542,7 +545,7 @@
                                                 <input type="date" class="form-control" name="End_Date[]" style="width: 200px;">
                                             </td>
                                             <td class="sm_data_col txtCtr" s>
-                                                <input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;">
+                                                <input type="number" class="form-control" step="any" name="Monthly_Salary[]" style="width: 200px;">
                                             </td>
                                             <td class="sm_data_col txtCtr" s>
                                                 <input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;">
@@ -1115,7 +1118,8 @@
                 $('#Birthplace').val(data['theEntry'][0]['Birthplace']);
                 $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
                 $('#Blood_Type_ID').val(data['theEntry'][0]['Blood_Type_ID']);
-                $('#Sex').val(data['theEntry'][0]['Sex']);
+                // $('#Sex').val(data['theEntry'][0]['Sex']);
+                $("input[name=Sex][value='" + data["theEntry"][0]["Sex"] + "']").prop("checked",true);
                 $('#Weight').val(data['theEntry'][0]['Weight']);
                 $('#Height').val(data['theEntry'][0]['Height']);
                 $('#Civil_Status_ID').val(data['theEntry'][0]['Civil_Status_ID']);
@@ -1640,6 +1644,5 @@
         overflow-x: auto;
         white-space: nowrap;
     }
-    
 </style>
 @endsection
