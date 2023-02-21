@@ -752,137 +752,126 @@
 
                 <table class="table table-striped table-bordered" style="width:100%">
                     <tr>
-                        <td colspan="2">Details</td>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Name: </strong></td>
-                        <td style="width:auto"><span id="VName"></span></td>
+                        <td style="width:30%"><strong>Address: </strong></td>
+                        <td><span id="VAddress"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Address: </strong></td>
-                        <td style="width:auto"><span id="Ordinance_Resolution_Title2"></span></td>
+                        <td style="width:30%"><strong>Birthdate: </strong></td>
+                        <td><span id="VBirthdate"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Birthdate: </strong></td>
-                        <td style="width:auto"><span id="VBirthdate"></span></td>
+                        <td style="width:30%"><strong>Birthplace: </strong></td>
+                        <td><span id="VBirthplace"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Birthplace: </strong></td>
-                        <td style="width:auto"><span id="VBirthplace"></span></td>
+                        <td style="width:30%"><strong>Religion: </strong></td>
+                        <td><span id="Status_of_Ordinance_or_Resolution_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Religion: </strong></td>
-                        <td style="width:auto"><span id="Status_of_Ordinance_or_Resolution_ID2"></span></td>
+                        <td style="width:30%"><strong>Blood Type: </strong></td>
+                        <td><span id="Previous_Related_Ordinance_Resolution_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Blood Type: </strong></td>
-                        <td style="width:auto"><span id="Previous_Related_Ordinance_Resolution_ID2"></span></td>
+                        <td style="width:30%"><strong>Sex: </strong></td>
+                        <td><span id="VSex"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Sex: </strong></td>
-                        <td style="width:auto"><span id="VSex"></span></td>
+                        <td style="width:30%"><strong>Weight: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Weight: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>Height: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Height: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>Civil Status: </strong></td>
+                        <td><span id="VCivilStatus"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Civil Status: </strong></td>
-                        <td style="width:auto"><span id="VCivilStatus"></span></td>
+                        <td style="width:30%"><strong>Mobile Number: </strong></td>
+                        <td><span id="VMobile_No"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Mobile Number: </strong></td>
-                        <td style="width:auto"><span id="VMobile_No"></span></td>
+                        <td style="width:30%"><strong>Landline Number: </strong></td>
+                        <td><span id="VLandline"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Landline Number: </strong></td>
-                        <td style="width:auto"><span id="VLandline"></span></td>
+                        <td style="width:30%"><strong>Monthly Income: </strong></td>
+                        <td><span id="VSalary"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Monthly Income: </strong></td>
-                        <td style="width:auto"><span id="VSalary"></span></td>
+                        <td style="width:30%"><strong>Email: </strong></td>
+                        <td><span id="VEmail_Address"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Email: </strong></td>
-                        <td style="width:auto"><span id="VEmail_Address"></span></td>
+                        <td style="width:30%"><strong>PhilSys Card Number: </strong></td>
+                        <td><span id="VPhilSys_Card_No"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>PhilSys Card Number: </strong></td>
-                        <td style="width:auto"><span id="VPhilSys_Card_No"></span></td>
+                        <td colspan="2" style="text-align: center; font-size:large">Resident Information</td>
                     </tr>
                     <tr>
-                        <td colspan="2">Resident Information</td>
+                        <td style="width:30%"><strong>Resident Status: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Resident Status: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>Voter Status: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Voter Status: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>Election Year Last Voted: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Election Year Last Voted: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>Resident Voter: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Resident Voter: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td colspan="2" style="text-align: center; font-size:large">Additional Information</td>
                     </tr>
                     <tr>
-                        <td colspan="2">Additional Information</td>
+                        <td style="width:30%"><strong>Solo Parent: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Solo Parent: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>OFW: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>OFW: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>Indigent: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>Indigent: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>4Ps Beneficiary: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>4Ps Beneficiary: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>PhilHealth: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>PhilHealth: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>GSIS: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>GSIS: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>SSS: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>SSS: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>PagIbig: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                     <tr>
-                        <td style="width:auto"><strong>PagIbig: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
-                    </tr>
-                    <tr>
-                        <td style="width:auto"><strong>Email: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
-                    </tr>
-                    <tr>
-                        <td style="width:auto"><strong>Email: </strong></td>
-                        <td style="width:auto"><span id="Attester_ID2"></span></td>
+                        <td style="width:30%"><strong>Email: </strong></td>
+                        <td><span id="Attester_ID2"></span></td>
                     </tr>
                 </table>
 
             </div>
 
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
         </div>
     </div>
 </div>
@@ -1459,6 +1448,7 @@
             },
             success: function(data) {
                 $('#VName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
+                $('#VAddress').html(data['theEntry'][0]['House_No'] + ', ' + data['theEntry'][0]['Street'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name'] + ', ' + data['theEntry'][0]['Region_Name']);
                 $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
                 $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
                 $('#VAge').html(data['theEntry'][0]['Religion_ID']);

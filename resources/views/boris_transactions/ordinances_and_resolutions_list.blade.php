@@ -795,7 +795,6 @@
 
         var disID = $(this).val();
         var User_Type_ID = $('#User_Type_ID').val();
-        $('#example2').find("td").empty();
         $.ajax({
             url: "/get_ordinance_and_resolution_info",
             type: 'GET',
