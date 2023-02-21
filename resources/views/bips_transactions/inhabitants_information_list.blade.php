@@ -771,11 +771,11 @@
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Religion: </strong></td>
-                        <td><span id="Status_of_Ordinance_or_Resolution_ID2"></span></td>
+                        <td><span id="VReligion"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Blood Type: </strong></td>
-                        <td><span id="Previous_Related_Ordinance_Resolution_ID2"></span></td>
+                        <td><span id="VBloodType"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Sex: </strong></td>
@@ -783,11 +783,11 @@
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Weight: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VWeight"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Height: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VHeight"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Civil Status: </strong></td>
@@ -1119,7 +1119,7 @@
                 $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
                 $('#Blood_Type_ID').val(data['theEntry'][0]['Blood_Type_ID']);
                 // $('#Sex').val(data['theEntry'][0]['Sex']);
-                $("input[name=Sex][value='" + data["theEntry"][0]["Sex"] + "']").prop("checked",true);
+                $("input[name=Sex][value='" + data["theEntry"][0]["Sex"] + "']").prop("checked", true);
                 $('#Weight').val(data['theEntry'][0]['Weight']);
                 $('#Height').val(data['theEntry'][0]['Height']);
                 $('#Civil_Status_ID').val(data['theEntry'][0]['Civil_Status_ID']);
@@ -1456,11 +1456,9 @@
                 $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
                 $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
                 $('#VAge').html(data['theEntry'][0]['Religion_ID']);
-                $('#VSex').html(data['theEntry'][0]['Blood_Type_ID']);
-                $('#VSex').html(data['theEntry'][0]['Sex']);
-                $('#VCivilStatus').html(data['theEntry'][0]['Weight']);
+                $('#VCivilStatus').html(data['theEntry'][0]['Civil_Status']);
                 $('#VMobile').html(data['theEntry'][0]['Height']);
-                $('#VLandline').html(data['theEntry'][0]['Civil_Status_ID']);
+                $('#VLandline').html(data['theEntry'][0]['Telephone_No']);
                 $('#VMobile_No').text(data['theEntry'][0]['Mobile_No']);
                 $('#VTelephone_No').text(data['theEntry'][0]['Telephone_No']);
                 $('#VSalary').text(data['theEntry'][0]['Salary']);
@@ -1470,6 +1468,15 @@
                 $('#VRegion_ID').text(data['theEntry'][0]['Region_ID']);
                 $('#VStreet').text(data['theEntry'][0]['Street']);
                 $('#VHouse_No').text(data['theEntry'][0]['House_No']);
+                $('#VReligion').text(data['theEntry'][0]['Religion']);
+                $('#VBloodType').text(data['theEntry'][0]['Blood_Type']);
+                if (data['theEntry'][0]['Sex'] == 1) {
+                    $('#VSex').text('Male');
+                } else {
+                    $('#VSex').text('Female');
+                }
+                $('#VWeight').text(data['theEntry'][0]['Weight']);
+                $('#VHeight').text(data['theEntry'][0]['Height']);
 
                 var barangay =
                     " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
