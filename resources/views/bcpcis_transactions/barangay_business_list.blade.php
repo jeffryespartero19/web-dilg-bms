@@ -88,6 +88,7 @@
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a href="{{ url('barangay_business_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                                 @endif
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
                         <br>
@@ -119,11 +120,12 @@
                                             <td class="sm_data_col txtCtr">
                                             @if (Auth::user()->User_Type_ID == 1)
                                                 <a class="btn btn-info" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('view_barangay_business_details/'.$x->Business_ID) }}">View</a>
+                                                <!-- <a class="btn btn-primary" href="{{ url('view_barangay_business_details/'.$x->Business_ID) }}">View</a> -->
+                                                <button class="view_brgybusiness btn btn-primary" value="{{$x->Business_ID}}" data-toggle="modal" data-target="#viewBrgyBusiness">View</button>
                                                 <button class="delete_business btn btn-danger" value="{{$x->Business_ID}}">Delete</button>
                                             @endif
                                             @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">View</a>
+                                                <button class="view_brgybusiness btn btn-primary" value="{{$x->Business_ID}}" data-toggle="modal" data-target="#viewBrgyBusiness">View</button>
                                             @endif
                                             </td>
                                         </tr>
@@ -147,6 +149,79 @@
 <!-- /.content -->
 
 
+<div class="modal fade" id="viewBrgyBusiness" tabindex="-1" role="dialog" aria-labelledby="viewBrgyBusiness" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy Business Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Business Name: </strong><span id="VBusiness_Name"></span><br>
+                            <strong>Business_Type: </strong><span id="VBusiness_Type"></span><br>
+                            <strong>Business Tin: </strong><span id="VBusiness_Tin"></span><br>
+                            <strong>Business Owner: </strong><span id="VBusiness_Owner"></span><br>
+                            <strong>Business Address: </strong><span id="VBusiness_Address"></span><br>
+                            <strong>Mobile No: </strong><span id="VMobile_No"></span><br>
+                            <strong>is Active?: </strong><span id="VActive"></span><br>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('brgybusiness_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Business_Name" name="chk_Business_Name">
+                                <label for="chk_Business_Name">Business Name</label><br>
+                                <input type="checkbox" id="chk_Business_Type" name="chk_Business_Type">
+                                <label for="chk_Business_Type">Business Type</label><br>
+                                <input type="checkbox" id="chk_Business_Tin" name="chk_Business_Tin">
+                                <label for="chk_Business_Tin">Business Tin</label><br>
+                                <input type="checkbox" id="chk_Business_Owner" name="chk_Business_Owner">
+                                <label for="chk_Business_Owner">Business Owner</label><br>
+                                <input type="checkbox" id="chk_Business_Address" name="chk_Business_Address">
+                                <label for="chk_Business_Address">Business Address</label><br>
+                                <input type="checkbox" id="chk_Mobile_No" name="chk_Mobile_No">
+                                <label for="chk_Mobile_No">Mobile No</label><br>
+                                <input type="checkbox" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -321,6 +396,36 @@ $.ajax({
                     }
                 });
 
+            }
+        });
+    });
+
+    $(document).on('click', '.modal-close', function(e) {
+        $('#newInhabitant').trigger("reset");
+        $('#viewBrgyBusiness').trigger("reset");
+    });
+
+    $(document).on('click', ('.view_brgybusiness'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_brgybusiness",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VBusiness_Name').html(data['theEntry'][0]['Business_Name']);
+                $('#VBusiness_Tin').html(data['theEntry'][0]['Business_Tin']);
+                $('#VBusiness_Owner').html(data['theEntry'][0]['Business_Owner']);
+                $('#VBusiness_Address').html(data['theEntry'][0]['Business_Address']);
+                $('#VMobile_No').html(data['theEntry'][0]['Mobile_No']);
+                $('#VBusiness_Type').html(data['theEntry'][0]['Business_Type']);
+                $('#VActive').html(data['theEntry'][0]['Active']);
+            
             }
         });
     });

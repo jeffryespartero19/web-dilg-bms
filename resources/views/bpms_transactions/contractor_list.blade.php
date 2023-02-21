@@ -87,8 +87,9 @@
                             <div class="btn-group">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createContractor">New</button></div>
-                                <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewContractorPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
+                                <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewContractorPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
                                 @endif
+                                <div><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
                         <br>
@@ -120,11 +121,11 @@
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <button class="edit_contractor btn btn-info" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">Edit</button>
-                                                <button class="edit_contractor btn btn-primary" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
+                                                <button class="view_contractor btn btn-primary" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
                                                 <button class="delete_contractor btn btn-danger" value="{{$x->Contractor_ID}}">Delete</button>
                                                 @endif
                                                 @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <button class="edit_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">View</button>
+                                                <button class="view_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -267,64 +268,78 @@
 </div>
 
 
-<div class="modal fade" id="viewContractor" tabindex="-1" role="dialog" aria-labelledby="Update_Contractor" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+
+
+<div class="modal fade" id="viewContractor" tabindex="-1" role="dialog" aria-labelledby="viewContractor" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-
-                <h4 class="modal-title flexer justifier">Viewing Contractor Profile</h4>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Contractor Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="newContrator" method="POST" action="{{ route('update_contractor') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-                    <div class="modal-body">
-                        <h3>Contractor Information</h3>
-                        <br>
-                        <div class="row">
-                            <input type="text" class="form-control" id="Contractor_ID2" name="Contractor_ID2" hidden>
-                            <input type="text" class="form-control" id="Contractor_ID" name="Contractor_ID" hidden>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Contractor_Name2">Contractor Name</label>
-                                <input type="text" class="form-control" id="Contractor_Name2" name="Contractor_Name2" disabled>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Contact_Person2">Contact Person</label>
-                                <input type="text" class="form-control" id="Contact_Person2" name="Contact_Person2" disabled>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="Contact_No2">Contact No.</label>
-                                <input type="text" class="form-control" id="Contact_No2" name="Contact_No2" disabled>
-                            </div>
-                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                <label for="Contractor_TIN2">Contractor Tin</label>
-                                <input type="text" class="form-control" id="Contractor_TIN2" name="Contractor_TIN2" disabled>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Remarks2">Remarks</label>
-                                <input type="text" class="form-control" id="Remarks2" name="Remarks2" disabled>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                <label for="Contractor_Address2">Contractor Address</label>
-                                <input type="text" class="form-control" id="Contractor_Address2" name="Contractor_Address2" disabled>
-                            </div>
-
+                <div class="modal-body">
+                    <div class="row">
+                        
+                        <div class="col-6">
+                            <strong>Contractor Name: </strong><span id="VContractor_Name"></span><br>
+                            <strong>Contact Person: </strong><span id="VContact_Person"></span><br>
+                            <strong>Contact No: </strong><span id="VContact_No"></span><br>
+                            <strong>Contractor Address: </strong><span id="VContractor_Address"></span><br>
+                            <strong>Contractor TIN: </strong><span id="VContractor_TIN"></span><br>
+                            <strong>Remarks: </strong><span id="VRemarks"></span><br>
+                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal" disabled>Close</button>
-                        <button type="submit" class="btn btn-primary" style="width: 200px;" disabled>Update</button>
-                    </div>
-                </form>
+                </div>
             </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
 
+
+<div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="download_report" method="POST" action="{{ route('contractor_downloadPDF') }}" autocomplete="off" enctype="multipart/form-data">
+            <!-- <form id="download_report" method="POST"  autocomplete="off" enctype="multipart/form-data"> -->
+                @csrf
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-4" style="padding:0 0px">
+                                <input type="checkbox" id="chk_Contractor_Name" name="chk_Contractor_Name">
+                                <label for="chk_Contractor_Name">Contractor Name</label><br>
+                                <input type="checkbox" id="chk_Contact_Person" name="chk_Contact_Person">
+                                <label for="chk_Contact_Person">Contact Person</label><br>
+                                <input type="checkbox" id="chk_Contact_No" name="chk_Contact_No">
+                                <label for="chk_Contact_No">Contact No</label><br>
+                                <input type="checkbox" id="chk_Contractor_Address" name="chk_Contractor_Address">
+                                <label for="chk_Contractor_Address">Contractor Address</label><br>
+                                <input type="checkbox" id="chk_Contractor_TIN" name="chk_Contractor_TIN">
+                                <label for="chk_Contractor_TIN">Contractor TIN</label><br>
+                                <input type="checkbox" id="chk_Remarks" name="chk_Remarks">
+                                <label for="chk_Remarks">Remarks</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -341,6 +356,7 @@
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
+        $('#viewContractor').trigger("reset");
     });
 
 
@@ -563,6 +579,33 @@
 
             }
         });
+    });
+
+
+    $(document).on('click', ('.view_contractor'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_contractor",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VContractor_Name').html(data['theEntry'][0]['Contractor_Name']);
+                $('#VContact_Person').html(data['theEntry'][0]['Contact_Person']);
+                $('#VContact_No').html(data['theEntry'][0]['Contact_No']);
+                $('#VContractor_Address').html(data['theEntry'][0]['Contractor_Address']);
+                $('#VContractor_TIN').html(data['theEntry'][0]['Contractor_TIN']);
+                $('#VRemarks').html(data['theEntry'][0]['Remarks']);
+               
+            
+            }
+        });
+
     });
 </script>
 
