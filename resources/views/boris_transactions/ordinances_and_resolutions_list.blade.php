@@ -197,7 +197,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Previous_Related_Ordinance_Resolution_ID">Previous Related Ordinance</label>
-                                <select class="form-control" id="Previous_Related_Ordinance_Resolution_ID" name="Previous_Related_Ordinance_Resolution_ID">
+                                <select class="form-control" id="Previous_Related_Ordinance_Resolution_ID" name="Previous_Related_Ordinance_Resolution_ID[]" multiple>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -615,12 +615,7 @@
                 $('#Date_of_Effectivity').val(data['theEntry'][0]['Date_of_Effectivity']);
                 $('#Ordinance_Resolution_Title').val(data['theEntry'][0]['Ordinance_Resolution_Title']);
                 $('#Status_of_Ordinance_or_Resolution_ID').val(data['theEntry'][0]['Status_of_Ordinance_or_Resolution_ID']);
-
                 $('#Approver_ID').val(data['theEntry'][0]['Approver_ID']);
-
-                var pordinance_title =
-                    " <option value='" + data['theEntry'][0]['Previous_Related_Ordinance_Resolution_ID'] + "' selected>" + data['theEntry'][0]['POrdinance_Title'] + "</option>";
-                $('#Previous_Related_Ordinance_Resolution_ID').append(pordinance_title);
             }
         });
 
@@ -657,6 +652,33 @@
         });
 
         $.ajax({
+            url: "/get_ordinance_and_resolution_pro",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data);
+                $('#Previous_Related_Ordinance_Resolution_ID').empty();
+                var arr = new Array();
+                // or var arr = [];
+
+                data.forEach(element => {
+                    var $option = $('<option></option>')
+                        .attr('value', element['Ordinance_Resolution_ID'])
+                        .text(element['Ordinance_Resolution_Title'])
+                        .prop('selected', true);
+
+                    $('#Previous_Related_Ordinance_Resolution_ID').append($option).change();
+                });
+            }
+        });
+
+        $.ajax({
             url: "/get_ordinance_and_resolution_attester",
             type: 'GET',
             data: {
@@ -682,6 +704,8 @@
 
             }
         });
+
+
 
     });
 
@@ -893,6 +917,28 @@
             }
         });
 
+        $.ajax({
+            url: "/get_ordinance_and_resolution_pro",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data);
+
+                var arr = new Array();
+                // or var arr = [];
+                $('#Previous_Related_Ordinance_Resolution_ID2').empty();
+                data.forEach(element => {
+                    $('#Previous_Related_Ordinance_Resolution_ID2').append(element['Ordinance_Resolution_Title'] + '<br>');
+                });
+            }
+        });
+
     });
 
     $(".SearchOrdinanceBTN").on("click", function() {
@@ -912,7 +958,7 @@
             date_to = 0;
         }
         $.ajax({
-            url: "/search_ordinance?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+            url: "/search_ordinances?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
             success: function(data) {
                 $('#ordinance_list').html('');
                 $('#ordinance_list').html(data);

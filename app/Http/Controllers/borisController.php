@@ -175,6 +175,8 @@ class borisController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
+        // dd($data);
+
         if ($data['Ordinance_Resolution_ID'] == null || $data['Ordinance_Resolution_ID'] == 0) {
             $Ordinance_Resolution_ID =  DB::table('boris_brgy_ordinances_and_resolutions_information')->insertGetID(
                 array(
@@ -184,7 +186,7 @@ class borisController extends Controller
                     'Date_of_Effectivity' => $data['Date_of_Effectivity'],
                     'Ordinance_Resolution_Title' => $data['Ordinance_Resolution_Title'],
                     'Status_of_Ordinance_or_Resolution_ID' => $data['Status_of_Ordinance_or_Resolution_ID'],
-                    'Previous_Related_Ordinance_Resolution_ID' => $data['Previous_Related_Ordinance_Resolution_ID'],
+                    'Previous_Related_Ordinance_Resolution_ID' => 0,
                     'Barangay_ID' => Auth::user()->Barangay_ID,
                     'City_Municipality_ID' => Auth::user()->City_Municipality_ID,
                     'Province_ID' => Auth::user()->Province_ID,
@@ -237,6 +239,26 @@ class borisController extends Controller
                 }
             }
 
+            if (isset($data['Previous_Related_Ordinance_Resolution_ID'])) {
+                $pro = [];
+
+                for ($i = 0; $i < count($data['Previous_Related_Ordinance_Resolution_ID']); $i++) {
+                    if ($data['Previous_Related_Ordinance_Resolution_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('boris_pr_ordinance')->max('id');
+                        $id += 1;
+
+                        $pro = [
+                            'Ordinance_Resolution_ID' => $Ordinance_Resolution_ID,
+                            'Previous_Related_Ordinance_Resolution_ID' => $data['Previous_Related_Ordinance_Resolution_ID'][$i],
+                            'created_at'       => Carbon::now()
+                        ];
+
+                        DB::table('boris_pr_ordinance')->updateOrInsert(['id' => $id], $pro);
+                    }
+                }
+            }
+
             return redirect()->back()->with('message', 'New Record Created');
         } else {
             DB::table('boris_brgy_ordinances_and_resolutions_information')->where('Ordinance_Resolution_ID', $data['Ordinance_Resolution_ID'])->update(
@@ -247,7 +269,7 @@ class borisController extends Controller
                     'Date_of_Effectivity' => $data['Date_of_Effectivity'],
                     'Ordinance_Resolution_Title' => $data['Ordinance_Resolution_Title'],
                     'Status_of_Ordinance_or_Resolution_ID' => $data['Status_of_Ordinance_or_Resolution_ID'],
-                    'Previous_Related_Ordinance_Resolution_ID' => $data['Previous_Related_Ordinance_Resolution_ID'],
+                    'Previous_Related_Ordinance_Resolution_ID' => 0,
                     'Barangay_ID' => Auth::user()->Barangay_ID,
                     'City_Municipality_ID' => Auth::user()->City_Municipality_ID,
                     'Province_ID' => Auth::user()->Province_ID,
@@ -306,6 +328,30 @@ class borisController extends Controller
                         ];
 
                         DB::table('boris_attester')->updateOrInsert(['id' => $id], $attester);
+                    }
+                }
+            }
+
+            if (isset($data['Previous_Related_Ordinance_Resolution_ID'])) {
+                $pro = [];
+
+                DB::table('boris_pr_ordinance')
+                    ->where('Ordinance_Resolution_ID', $data['Ordinance_Resolution_ID'])
+                    ->delete();
+
+                for ($i = 0; $i < count($data['Previous_Related_Ordinance_Resolution_ID']); $i++) {
+                    if ($data['Previous_Related_Ordinance_Resolution_ID'][$i] != NULL) {
+
+                        $id = 0 + DB::table('boris_pr_ordinance')->max('id');
+                        $id += 1;
+
+                        $pro = [
+                            'Ordinance_Resolution_ID' => $data['Ordinance_Resolution_ID'],
+                            'Previous_Related_Ordinance_Resolution_ID' => $data['Previous_Related_Ordinance_Resolution_ID'][$i],
+                            'created_at'       => Carbon::now()
+                        ];
+
+                        DB::table('boris_pr_ordinance')->updateOrInsert(['id' => $id], $pro);
                     }
                 }
             }
@@ -647,5 +693,18 @@ class borisController extends Controller
         $db_entries = $data->orderby('a.Ordinance_Resolution_ID', 'desc')->paginate(20);
 
         return view('boris_transactions.resolution_data', compact('db_entries'))->render();
+    }
+
+    public function get_ordinance_and_resolution_pro(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $data = DB::table('boris_pr_ordinance as a')
+            ->leftjoin('boris_brgy_ordinances_and_resolutions_information as b', 'a.Previous_Related_Ordinance_Resolution_ID', '=', 'b.Ordinance_Resolution_ID')
+            ->select('b.Ordinance_Resolution_ID', 'b.Ordinance_Resolution_Title')
+            ->where('a.Ordinance_Resolution_ID', $id)
+            ->get();
+
+        return json_encode($data);
     }
 }
