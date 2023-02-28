@@ -2076,8 +2076,9 @@ class bipsController extends Controller
 
     public function search_inhabitants(Request $request)
     {
+        $currDATE = Carbon::now();
         $inhabitants = DB::table('bips_brgy_inhabitants_information')
-            ->select(DB::raw('CONCAT(Last_Name, ", ", First_Name, " ", Middle_Name) AS text'), 'Resident_ID as id',)
+            ->select(DB::raw('CONCAT(Last_Name, ", ", First_Name, " ", Middle_Name, ", Birthdate:", DATE_FORMAT(Birthdate, "%b-%d-%Y"),", Age:", TIMESTAMPDIFF(YEAR, DATE(Birthdate), current_date),", Sex:", (CASE WHEN Sex="1" THEN "Male" ELSE "Female" END)) AS text'), 'Resident_ID as id',)
             ->where('Barangay_ID', Auth::user()->Barangay_ID)
             ->where(
                 function ($query) use ($request) {
