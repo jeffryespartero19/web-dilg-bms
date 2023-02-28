@@ -1006,7 +1006,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
   Route::get('/search_ordinances', 'borisController@fetch_data');
-  Route::get('/search_resolution', 'borisController@fetch_data_resolution');
+  Route::get('/search_resolutions', 'borisController@fetch_data_resolution');
 });
 
 
