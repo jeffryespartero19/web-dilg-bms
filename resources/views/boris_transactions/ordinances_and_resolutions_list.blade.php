@@ -705,6 +705,38 @@
         });
 
         $.ajax({
+            url: "/get_ordinance_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+
+                $i = 0;
+                if (User_Type_ID == 1) {
+
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#ordinance_files').append(file);
+
+                    });
+                } else {
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                        $('#ordinance_files').append(file);
+                    });
+                }
+
+            }
+        });
+
+        $.ajax({
             url: "/get_ordinance_and_resolution_attester",
             type: 'GET',
             data: {
@@ -894,7 +926,6 @@
                     $('#Approver_ID2').text('');
                 }
 
-                $('#Previous_Related_Ordinance_Resolution_ID2').text(data['theEntry'][0]['POrdinance_Title']);
             }
         });
 
@@ -992,7 +1023,7 @@
         });
     }
 
-    // Populate Province
+    // Populate PRO
     $(document).on("change", ".Previous_Related_Ordinance_Resolution_ID", function() {
         // alert('test');
 

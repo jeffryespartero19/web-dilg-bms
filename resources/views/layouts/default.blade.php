@@ -252,9 +252,9 @@
     </script>
 
     <script>
-        $(function() {
-            bsCustomFileInput.init();
-        });
+        // $(function() {
+        //     bsCustomFileInput.init();
+        // });
     </script>
 
     <style>
