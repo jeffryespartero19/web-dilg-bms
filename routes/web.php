@@ -791,6 +791,8 @@ Route::group(['middleware' => 'auth'], function () {
 
   //Get Boris Attester
   Route::get('/get_ordinance_and_resolution_attester', 'borisController@get_ordinance_and_resolution_attester')->name('get_ordinance_and_resolution_attester');
+  //Get Boris Previous Related Ordinance
+  Route::get('/get_ordinance_and_resolution_pro', 'borisController@get_ordinance_and_resolution_pro')->name('get_ordinance_and_resolution_pro');
 
   Route::get('/get_businsess_permit_list/{Barangay_ID}', 'BCPISController@get_businsess_permit_list');
   Route::get('/get_brgy_document_information_list/{Barangay_ID}', 'BCPISController@get_brgy_document_information_list');
@@ -1002,7 +1004,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/promon_downloadPDF', 'BPMSController@promon_downloadPDF')->name('promon_downloadPDF');
 
 
-  Route::get('/search_ordinance', 'borisController@fetch_data');
+  Route::get('/search_ordinances', 'borisController@fetch_data');
   Route::get('/search_resolution', 'borisController@fetch_data_resolution');
 });
 
