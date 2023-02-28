@@ -195,11 +195,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Previous_Related_Ordinance_Resolution_ID">Previous Related Ordinance</label>
-                                <select class="form-control" id="Previous_Related_Ordinance_Resolution_ID" name="Previous_Related_Ordinance_Resolution_ID[]" multiple>
-                                </select>
-                            </div>
+
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label for="Approver_ID">Approver</label>
                                 <select class="form-control" id="Approver_ID" name="Approver_ID" required>
@@ -217,6 +213,36 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-lg-12">
+                                <label>Previous Related Ordinance</label>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <select class="form-control Previous_Related_Ordinance_Resolution_ID">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="div  table-responsive">
+                                    <table class=" table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th hidden>ID</th>
+                                                <th style='white-space: nowrap;'>Ordinance Number</th>
+                                                <th style='white-space: nowrap;'>Title</th>
+                                                <th style='white-space: nowrap;'>Date of Approval</th>
+                                                <th style='white-space: nowrap;'>Date of Effectivity</th>
+                                                <th style='white-space: nowrap;'>Status</th>
+                                                <th style='white-space: nowrap;'>File Attachments</th>
+                                                <th style='white-space: nowrap;'>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="PROlist">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                                <br>
+                            </div>
+
                             <div class="form-group col-lg-12" style="padding:0 10px">
                                 <label for="fileattach">File Attachments</label>
                                 <ul class="list-group list-group-flush" id="ordinance_files">
@@ -424,7 +450,7 @@
         $('.select2').select2();
 
         //Select2 Lazy Loading Ordinance
-        $("#Previous_Related_Ordinance_Resolution_ID").select2({
+        $(".Previous_Related_Ordinance_Resolution_ID").select2({
             minimumInputLength: 2,
             ajax: {
                 url: '/search_ordinance',
@@ -619,37 +645,6 @@
             }
         });
 
-        $.ajax({
-            url: "/get_ordinance_attachments",
-            type: 'GET',
-            data: {
-                id: disID
-            },
-            fail: function() {
-                alert('request failed');
-            },
-            success: function(data) {
-                var data = JSON.parse(data);
-
-                $i = 0;
-                if (User_Type_ID == 1) {
-
-                    data.forEach(element => {
-                        $i = $i + 1;
-                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
-                        $('#ordinance_files').append(file);
-
-                    });
-                } else {
-                    data.forEach(element => {
-                        $i = $i + 1;
-                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
-                        $('#ordinance_files').append(file);
-                    });
-                }
-
-            }
-        });
 
         $.ajax({
             url: "/get_ordinance_and_resolution_pro",
@@ -662,18 +657,49 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
-                // alert(data);
-                $('#Previous_Related_Ordinance_Resolution_ID').empty();
-                var arr = new Array();
-                // or var arr = [];
-
                 data.forEach(element => {
-                    var $option = $('<option></option>')
-                        .attr('value', element['Ordinance_Resolution_ID'])
-                        .text(element['Ordinance_Resolution_Title'])
-                        .prop('selected', true);
 
-                    $('#Previous_Related_Ordinance_Resolution_ID').append($option).change();
+                    var or_id = element["Ordinance_Resolution_ID"];
+
+                    var row = "<tr>" +
+                        "<td hidden><input name='Previous_Related_Ordinance_Resolution_ID[]' value='" + element["Ordinance_Resolution_ID"] + "'></td>" +
+                        "<td style='white-space: nowrap;'>" + element["Ordinance_Resolution_No"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Ordinance_Resolution_Title"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Date_of_Approval"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Date_of_Effectivity"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Status_of_Ordinance_Name"] + "</td>" +
+                        "<td style='white-space: nowrap;' class='PRO" + element["Ordinance_Resolution_ID"] + "'></td>" +
+                        "<td><button class='btn-danger pro_remove'>Remove</button></td>"
+                    "</tr>";
+                    $('#PROlist').append(row);
+
+                    $.ajax({
+                        url: "/get_ordinance_attachments",
+                        type: 'GET',
+                        data: {
+                            id: or_id
+                        },
+                        fail: function() {
+                            alert('request failed');
+                        },
+                        success: function(data) {
+                            var data = JSON.parse(data);
+                            $i = 0;
+                            if (data.length > 1) {
+                                data.forEach(element => {
+                                    var file = '<span><a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue;">' + element['File_Name'] + '</a>, </span>';
+                                    $('.PRO' + or_id).append(file);
+                                });
+                            } else if (data.length = 1) {
+                                data.forEach(element => {
+                                    var file = '<span><a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">' + element['File_Name'] + '</a></span>';
+                                    $('.PRO' + or_id).append(file);
+                                });
+                            }
+
+                        }
+                    });
+
                 });
             }
         });
@@ -965,6 +991,77 @@
             }
         });
     }
+
+    // Populate Province
+    $(document).on("change", ".Previous_Related_Ordinance_Resolution_ID", function() {
+        // alert('test');
+
+        var Ordinance_ID = $(this).val();
+
+        $.ajax({
+            type: "GET",
+            url: "/get_ordinance_info/" + Ordinance_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                data.forEach(element => {
+
+                    var disID = element["Ordinance_Resolution_ID"];
+
+                    var row = "<tr>" +
+                        "<td hidden><input name='Previous_Related_Ordinance_Resolution_ID[]' value='" + element["Ordinance_Resolution_ID"] + "'></td>" +
+                        "<td style='white-space: nowrap;'>" + element["Ordinance_Resolution_No"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Ordinance_Resolution_Title"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Date_of_Approval"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Date_of_Effectivity"] + "</td>" +
+                        "<td style='white-space: nowrap;'>" + element["Status_of_Ordinance_Name"] + "</td>" +
+                        "<td style='white-space: nowrap;' class='PRO" + element["Ordinance_Resolution_ID"] + "'></td>" +
+                        "<td><button class='btn-danger pro_remove'>Remove</button></td>"
+                    "</tr>";
+                    $('#PROlist').append(row);
+
+                    var disID = element["Ordinance_Resolution_ID"];
+
+                    $.ajax({
+                        url: "/get_ordinance_attachments",
+                        type: 'GET',
+                        data: {
+                            id: disID
+                        },
+                        fail: function() {
+                            alert('request failed');
+                        },
+                        success: function(data) {
+                            var data = JSON.parse(data);
+                            $i = 0;
+                            if (data.length > 1) {
+                                data.forEach(element => {
+                                    var file = '<span><a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue;">' + element['File_Name'] + '</a>, </span>';
+                                    $('.PRO' + disID).append(file);
+                                });
+                            } else if (data.length = 1) {
+                                data.forEach(element => {
+                                    var file = '<span><a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">' + element['File_Name'] + '</a></span>';
+                                    $('.PRO' + disID).append(file);
+                                });
+                            }
+
+                        }
+                    });
+
+                });
+            }
+        });
+
+        $('#Previous_Related_Ordinance_Resolution_ID').empty();
+    });
+
+    //Remove PRO
+    $(document).on('click', '.pro_remove', function() {
+        $(this).closest("tr").remove();
+    });
 </script>
 
 
