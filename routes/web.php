@@ -313,6 +313,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/delete_ordinance_attachments', 'borisController@delete_ordinance_attachments')->name('delete_ordinance_attachments');
   Route::post('/print_Ordinance', 'borisController@downloadPDF')->name('print_Ordinance');
   Route::post('/view_Ordinance', 'borisController@viewPDF')->name('view_Ordinance');
+  Route::get('/get_ordinance_info/{id}', 'borisController@get_ordinance_info');
 
   //contractor
   Route::get('/contractor_list', 'bpmsController@contractor_list')->name('contractor_list');

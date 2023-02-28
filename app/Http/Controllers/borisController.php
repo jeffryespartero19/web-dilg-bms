@@ -701,7 +701,33 @@ class borisController extends Controller
 
         $data = DB::table('boris_pr_ordinance as a')
             ->leftjoin('boris_brgy_ordinances_and_resolutions_information as b', 'a.Previous_Related_Ordinance_Resolution_ID', '=', 'b.Ordinance_Resolution_ID')
-            ->select('b.Ordinance_Resolution_ID', 'b.Ordinance_Resolution_Title')
+            ->leftjoin('maintenance_boris_status_of_ordinance as c', 'b.Status_of_Ordinance_or_Resolution_ID', '=', 'c.Status_of_Ordinance_ID')
+            ->select(
+                'b.Ordinance_Resolution_ID',
+                'b.Ordinance_Resolution_Title',
+                'b.Ordinance_Resolution_No',
+                'b.Date_of_Approval',
+                'b.Date_of_Effectivity',
+                'c.Status_of_Ordinance_Name'
+            )
+            ->where('a.Ordinance_Resolution_ID', $id)
+            ->get();
+
+        return json_encode($data);
+    }
+
+    public function get_ordinance_info($id)
+    {
+        $data = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
+            ->leftjoin('maintenance_boris_status_of_ordinance as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Ordinance_Resolution_Title',
+                'a.Ordinance_Resolution_No',
+                'a.Date_of_Approval',
+                'a.Date_of_Effectivity',
+                'b.Status_of_Ordinance_Name'
+            )
             ->where('a.Ordinance_Resolution_ID', $id)
             ->get();
 
