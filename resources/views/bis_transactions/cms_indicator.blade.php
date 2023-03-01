@@ -168,11 +168,11 @@
                                                     </div>
                                                     <div class="form-group col-lg-4">
                                                         <label>Min. Answer</label>
-                                                        <input type="number" class="form-control" name="Min_Answer[]" value="{{$indicators->Min_Answer}}">
+                                                        <input type="number" class="form-control Min_Answer" name="Min_Answer[]" value="{{$indicators->Min_Answer}}">
                                                     </div>
                                                     <div class="form-group col-lg-4">
                                                         <label>Max Answer</label>
-                                                        <input type="number" class="form-control" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
+                                                        <input type="number" class="form-control Max_Answer" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
                                                     </div>
                                                     <div class="form-group col-lg-12">
                                                         <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
@@ -296,11 +296,11 @@
             </div>
             <div class="form-group col-lg-4">
                 <label>Min. Answer</label>
-                <input type="number" class="form-control" name="Min_Answer[]">
+                <input type="number" class="form-control Min_Answer" name="Min_Answer[]">
             </div>
             <div class="form-group col-lg-4">
                 <label>Max Answer</label>
-                <input type="number" class="form-control" name="Max_Answer[]">
+                <input type="number" class="form-control Max_Answer" name="Max_Answer[]">
             </div>
             <div class="form-group col-lg-12">
                 <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
@@ -421,11 +421,11 @@
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <label>Min. Answer</label>
-                                    <input type="number" class="form-control" name="Min_Answer[]">
+                                    <input type="number" class="form-control Min_Answer" name="Min_Answer[]">
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <label>Max Answer</label>
-                                    <input type="number" class="form-control" name="Max_Answer[]">
+                                    <input type="number" class="form-control Max_Answer" name="Max_Answer[]">
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
@@ -649,6 +649,16 @@
                 } else {
                     div_main.find(".ADD_OPTIONS_modal").prop('hidden', true);
                 }
+
+                if (data["Widget"] == 'RADIO') {
+                    div_main.find('.Min_Answer').val(1).attr('readonly', true);
+                    div_main.find('.Max_Answer').val(1).attr('readonly', true);
+                } else {
+                    div_main.find('.Min_Answer').attr('readonly', false);
+                    div_main.find('.Max_Answer').attr('readonly', false);
+                }
+
+
             }
         });
     });
@@ -692,6 +702,26 @@
         $('.contentManage').addClass('active');
         $('.cms_menu').addClass('active');
         $('.cms_main').addClass('menu-open');
+    });
+
+    $(document).on("change", ".Min_Indicator", function() {
+        $min = $(this).val();
+
+        var div_main = $(this).closest(".LblData");
+
+        div_main.find('.Max_Indicator').attr({
+            "min": $min // values (or variables) here
+        });
+    });
+
+    $(document).on("change", ".Min_Answer", function() {
+        $min = $(this).val();
+
+        var div_main = $(this).closest(".IndicatorDIV");
+
+        div_main.find('.Max_Answer').attr({
+            "min": $min // values (or variables) here
+        });
     });
 </script>
 
