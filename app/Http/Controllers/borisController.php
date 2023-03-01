@@ -438,9 +438,17 @@ class borisController extends Controller
         $chk_Province = isset($data['chk_Province']) ? 1 : 0;
         $chk_City = isset($data['chk_City']) ? 1 : 0;
         $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+        $chk_Approver = isset($data['chk_Approver']) ? 1 : 0;
+        $chk_Attester = isset($data['chk_Attester']) ? 1 : 0;
+        $chk_PROrdinance = isset($data['chk_PROrdinance']) ? 1 : 0;
 
         $details = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
             ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
+            ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Approver_ID', '=', 'g.Resident_ID')
+            ->leftjoin('maintenance_barangay as ab', 'a.Barangay_ID', '=', 'ab.Barangay_ID')
+            ->leftjoin('maintenance_city_municipality as ac', 'a.City_Municipality_ID', '=', 'ac.City_Municipality_ID')
+            ->leftjoin('maintenance_province as ap', 'a.Province_ID', '=', 'ap.Province_ID')
+            ->leftjoin('maintenance_region as ar', 'a.Region_ID', '=', 'ar.Region_ID')
             ->select(
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
@@ -449,12 +457,38 @@ class borisController extends Controller
                 'a.Date_of_Effectivity',
                 'a.Ordinance_Resolution_Title',
                 'a.Status_of_Ordinance_or_Resolution_ID',
-                'b.Name_of_Status'
+                'b.Name_of_Status',
+                'g.Last_Name',
+                'g.First_Name',
+                'g.Middle_Name',
+                'ab.Barangay_Name',
+                'ac.City_Municipality_Name',
+                'ap.Province_Name',
+                'ar.Region_Name',
 
             )
             ->where('a.Ordinance_or_Resolution', $chk_Ordinance)
-            ->paginate(20, ['*'], 'details');
-        //dd($detail);
+            ->get();
+
+        $attester = DB::table('boris_attester as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->select(
+                'b.Last_Name',
+                'b.Middle_Name',
+                'b.First_Name',
+                'a.Ordinance_Resolution_ID'
+            )
+            ->get();
+
+        $pro = DB::table('boris_pr_ordinance as a')
+            ->leftjoin('boris_brgy_ordinances_and_resolutions_information as b', 'a.Previous_Related_Ordinance_Resolution_ID', '=', 'b.Ordinance_Resolution_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Previous_Related_Ordinance_Resolution_ID',
+                'b.Ordinance_Resolution_No',
+                'b.Ordinance_Resolution_Title'
+            )
+            ->get();
 
         $pdf = PDF::loadView('boris_transactions.BorisPDF', compact(
             'chk_Ordinance',
@@ -467,8 +501,13 @@ class borisController extends Controller
             'chk_Province',
             'chk_City',
             'chk_Barangay',
-            'details'
-        ));
+            'details',
+            'chk_Approver',
+            'chk_Attester',
+            'attester',
+            'pro',
+            'chk_PROrdinance'
+        ))->setPaper('a4', 'landscape');
         $daFileNeym = "Ordinance_&_Resolution.pdf";
         return $pdf->download($daFileNeym);
     }
@@ -492,12 +531,17 @@ class borisController extends Controller
         $chk_Attester = isset($data['chk_Attester']) ? 1 : 0;
         $chk_PROrdinance = isset($data['chk_PROrdinance']) ? 1 : 0;
 
+        // dd($chk_Status);
+
 
 
         $details = DB::table('boris_brgy_ordinances_and_resolutions_information as a')
             ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
-            ->leftjoin('maintenance_boris_status_of_ordinance_or_resolution as b', 'a.Status_of_Ordinance_or_Resolution_ID', '=', 'b.Status_of_Ordinance_or_Resolution_ID')
             ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Approver_ID', '=', 'g.Resident_ID')
+            ->leftjoin('maintenance_barangay as ab', 'a.Barangay_ID', '=', 'ab.Barangay_ID')
+            ->leftjoin('maintenance_city_municipality as ac', 'a.City_Municipality_ID', '=', 'ac.City_Municipality_ID')
+            ->leftjoin('maintenance_province as ap', 'a.Province_ID', '=', 'ap.Province_ID')
+            ->leftjoin('maintenance_region as ar', 'a.Region_ID', '=', 'ar.Region_ID')
             ->select(
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
@@ -509,11 +553,35 @@ class borisController extends Controller
                 'b.Name_of_Status',
                 'g.Last_Name',
                 'g.First_Name',
-                'g.Middle_Name'
+                'g.Middle_Name',
+                'ab.Barangay_Name',
+                'ac.City_Municipality_Name',
+                'ap.Province_Name',
+                'ar.Region_Name',
 
             )
             ->where('a.Ordinance_or_Resolution', $chk_Ordinance)
-            ->paginate(20, ['*'], 'details');
+            ->get();
+
+        $attester = DB::table('boris_attester as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->select(
+                'b.Last_Name',
+                'b.Middle_Name',
+                'b.First_Name',
+                'a.Ordinance_Resolution_ID'
+            )
+            ->get();
+
+        $pro = DB::table('boris_pr_ordinance as a')
+            ->leftjoin('boris_brgy_ordinances_and_resolutions_information as b', 'a.Previous_Related_Ordinance_Resolution_ID', '=', 'b.Ordinance_Resolution_ID')
+            ->select(
+                'a.Ordinance_Resolution_ID',
+                'a.Previous_Related_Ordinance_Resolution_ID',
+                'b.Ordinance_Resolution_No',
+                'b.Ordinance_Resolution_Title'
+            )
+            ->get();
 
         $pdf = PDF::loadView('boris_transactions.BorisPDF', compact(
             'chk_Ordinance',
@@ -526,8 +594,13 @@ class borisController extends Controller
             'chk_Province',
             'chk_City',
             'chk_Barangay',
-            'details'
-        ));
+            'details',
+            'chk_Approver',
+            'chk_Attester',
+            'attester',
+            'pro',
+            'chk_PROrdinance'
+        ))->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
 
