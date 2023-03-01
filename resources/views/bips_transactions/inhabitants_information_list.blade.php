@@ -236,37 +236,42 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="exampleInputEmail1">Country</label>
                                 <select class="form-control" id="Country_ID" name="Country_ID" required>
-                                    <option value='' selected>Select Option</option>
+                                    <!-- <option value='' selected>Select Option</option> -->
                                     @foreach($country as $countrys)
-                                    <option value="{{ $countrys->Country_ID }}">{{ $countrys->Country }}</option>
+                                    <option value="{{ $countrys->Country_ID }}" selected>{{ $countrys->Country }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="exampleInputEmail1">Region</label>
                                 <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
                                     @foreach($region as $region)
-                                    <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
+                                    <option value="{{ $region->Region_ID }}" selected>{{ $region->Region_Name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="exampleInputEmail1">Province</label>
                                 <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    @foreach($province as $province)
+                                    <option value="{{ $province->Province_ID }}" selected>{{ $province->Province_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="City_Municipality_ID">City/Municipality</label>
                                 <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    @foreach($city as $city)
+                                    <option value="{{ $city->City_Municipality_ID }}" selected>{{ $city->City_Municipality_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <label class="required" for="Barangay_ID">Barangay</label>
                                 <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
+                                    @foreach($barangay as $barangay)
+                                    <option value="{{ $barangay->Barangay_ID }}" selected>{{ $barangay->Barangay_Name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
@@ -450,7 +455,7 @@
                         <h3>Educational Information</h3>
                         <button type="button" class="btn btn-info" style="width: 100px;" id="btnAddEduc">Add</button>
                         <div class="tableX_row row up_marg5">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table id="Education" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
@@ -500,7 +505,7 @@
                         <h3>Employment History</h3>
                         <button type="button" class="btn btn-info" style="width: 100px;" id="btnAddEmployment">Add</button>
                         <div class="tableX_row row up_marg5">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table id="Employment" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
@@ -747,11 +752,11 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Ordinance Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Ordinance Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <h4 id="VName"> </h4>
+                <!-- <h4 id="VName"> </h4> -->
 
                 <table class="table table-striped table-bordered" style="width:100%">
                     <tr>
@@ -1001,13 +1006,6 @@
 
     $(document).on('click', '.modal-close', function(e) {
         $('#newInhabitant').trigger("reset");
-        $('#Barangay_ID').empty();
-        $('#City_Municipality_ID').empty();
-        $('#Province_ID').empty();
-        var option1 = "<option value='' disabled selected>Select Option</option>";
-        $('#Barangay_ID').append(option1);
-        $('#City_Municipality_ID').append(option1);
-        $('#Province_ID').append(option1);
         $('#createInhabitants_Info').trigger("reset");
         $("#createInhabitants_Info :input").prop("disabled", false);
         $('#Modal_Title').text('Edit Inhabitant');
@@ -1171,36 +1169,68 @@
             success: function(data) {
                 var data = JSON.parse(data);
                 $('#EducTBLD').empty();
-                data.forEach(element => {
+                if (data.length != 0) {
+                    data.forEach(element => {
+                        var option = '<tr>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<select class="form-control" name="Academic_Level_ID[]" style="width: 200px;">' +
+                            '@foreach($academic_level as $al)' +
+                            '<option value="{{ $al->Academic_Level_ID  }}" {{ $al->Academic_Level_ID == "' + element['Academic_Level_ID'] + '" ? "selected" : "" }}>{{ $al->Academic_Level }}</option>' +
+                            '@endforeach' +
+                            '</select>' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="text" class="form-control" name="School_Name[]" style="width: 250px;"  value="' + element['School_Name'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="date" class="form-control" name="School_Year_Start[]" style="width: 200px;"  value="' + element['School_Year_Start'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="date" class="form-control" name="School_Year_End[]" style="width: 200px;"  value="' + element['School_Year_End'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="text" class="form-control" name="Course[]" style="width: 200px;"  value="' + element['Course'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="date" class="form-control" name="Year_Graduated[]" style="width: 200px;"  value="' + element['Year_Graduated'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<button class="removeRow btn btn-danger">Remove</button>' +
+                            '</td>' +
+                            '</tr>';
+                        $('#EducTBLD').append(option);
+                    });
+                } else {
                     var option = '<tr>' +
                         '<td class="sm_data_col txtCtr">' +
                         '<select class="form-control" name="Academic_Level_ID[]" style="width: 200px;">' +
+                        '<option value="" disabled selected>Select Option</option>' +
                         '@foreach($academic_level as $al)' +
-                        '<option value="{{ $al->Academic_Level_ID  }}" {{ $al->Academic_Level_ID == "' + element['Academic_Level_ID'] + '" ? "selected" : "" }}>{{ $al->Academic_Level }}</option>' +
+                        '<option value="{{ $al->Academic_Level_ID  }}">{{ $al->Academic_Level }}</option>' +
                         '@endforeach' +
                         '</select>' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="School_Name[]" style="width: 250px;"  value="' + element['School_Name'] + '">' +
+                        '<input type="text" class="form-control" name="School_Name[]" style="width: 250px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="School_Year_Start[]" style="width: 200px;"  value="' + element['School_Year_Start'] + '">' +
+                        '<input type="date" class="form-control" name="School_Year_Start[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="School_Year_End[]" style="width: 200px;"  value="' + element['School_Year_End'] + '">' +
+                        '<input type="date" class="form-control" name="School_Year_End[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Course[]" style="width: 200px;"  value="' + element['Course'] + '">' +
+                        '<input type="text" class="form-control" name="Course[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="Year_Graduated[]" style="width: 200px;"  value="' + element['Year_Graduated'] + '">' +
+                        '<input type="date" class="form-control" name="Year_Graduated[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
                         '<button class="removeRow btn btn-danger">Remove</button>' +
                         '</td>' +
                         '</tr>';
                     $('#EducTBLD').append(option);
-                });
+                }
             }
         });
 
@@ -1216,45 +1246,87 @@
             success: function(data) {
                 var data = JSON.parse(data);
                 $('#EmpTBLD').empty();
-                data.forEach(element => {
+                if (data.length != 0) {
+                    data.forEach(element => {
+                        var option_emp = '<tr>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<select class="form-control" name="Employment_Type_ID[]" style="width: 200px;">' +
+                            '@foreach($employment_type as $et)' +
+                            '<option value="{{ $et->Employment_Type_ID }}" {{ $et->Employment_Type_ID == "' + element['Employment_Type_ID'] + '" ? "selected" : "" }}>{{ $et->Employment_Type }}</option>' +
+                            '@endforeach' +
+                            '</select>' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="text" class="form-control" name="Company_Name[]" style="width: 250px;" value="' + element['Company_Name'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="text" class="form-control" name="Employer_Name[]" style="width: 200px;" value="' + element['Employer_Name'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="text" class="form-control" name="Employer_Address[]" style="width: 200px;" value="' + element['Employer_Address'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="text" class="form-control" name="Position[]" style="width: 200px;" value="' + element['Position'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="date" class="form-control" name="Start_Date[]" style="width: 200px;" value="' + element['Start_Date'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="date" class="form-control" name="End_Date[]" style="width: 200px;" value="' + element['End_Date'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;" value="' + element['Monthly_Salary'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;" value="' + element['Brief_Description'] + '">' +
+                            '</td>' +
+                            '<td class="sm_data_col txtCtr">' +
+                            '<button class="removeRow btn btn-danger">Remove</button>' +
+                            '</td>' +
+                            '</tr>';
+                        $('#EmpTBLD').append(option_emp);
+                    });
+                } else {
                     var option_emp = '<tr>' +
+                        '<tr>' +
                         '<td class="sm_data_col txtCtr">' +
                         '<select class="form-control" name="Employment_Type_ID[]" style="width: 200px;">' +
+                        '<option value="" disabled selected>Select Option</option>' +
                         '@foreach($employment_type as $et)' +
-                        '<option value="{{ $et->Employment_Type_ID }}" {{ $et->Employment_Type_ID == "' + element['Employment_Type_ID'] + '" ? "selected" : "" }}>{{ $et->Employment_Type }}</option>' +
+                        '<option value="{{ $et->Employment_Type_ID }}">{{ $et->Employment_Type }}</option>' +
                         '@endforeach' +
                         '</select>' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Company_Name[]" style="width: 250px;" value="' + element['Company_Name'] + '">' +
+                        '<input type="text" class="form-control" name="Company_Name[]" style="width: 250px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Employer_Name[]" style="width: 200px;" value="' + element['Employer_Name'] + '">' +
+                        '<input type="text" class="form-control" name="Employer_Name[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Employer_Address[]" style="width: 200px;" value="' + element['Employer_Address'] + '">' +
+                        '<input type="text" class="form-control" name="Employer_Address[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Position[]" style="width: 200px;" value="' + element['Position'] + '">' +
+                        '<input type="text" class="form-control" name="Position[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="Start_Date[]" style="width: 200px;" value="' + element['Start_Date'] + '">' +
+                        '<input type="date" class="form-control" name="Start_Date[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="End_Date[]" style="width: 200px;" value="' + element['End_Date'] + '">' +
+                        '<input type="date" class="form-control" name="End_Date[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;" value="' + element['Monthly_Salary'] + '">' +
+                        '<input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;" value="' + element['Brief_Description'] + '">' +
+                        '<input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;">' +
                         '</td>' +
                         '<td class="sm_data_col txtCtr">' +
                         '<button class="removeRow btn btn-danger">Remove</button>' +
                         '</td>' +
                         '</tr>';
                     $('#EmpTBLD').append(option_emp);
-                });
+                }
             }
         });
 

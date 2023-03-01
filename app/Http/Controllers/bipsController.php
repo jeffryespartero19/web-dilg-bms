@@ -137,10 +137,10 @@ class bipsController extends Controller
         $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
         $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
         $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
-        $region = DB::table('maintenance_region')->where('Active', 1)->get();
-        $province = DB::table('maintenance_province')->where('Active', 1)->get();
-        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->get();
-        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->where('Region_ID', Auth::user()->Region_ID)->get();
+        $province = DB::table('maintenance_province')->where('Active', 1)->where('Province_ID', Auth::user()->Province_ID)->get();
+        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
         $country = DB::table('maintenance_country')->where('Active', 1)->get();
         $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
         $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();

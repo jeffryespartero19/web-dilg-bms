@@ -81,6 +81,7 @@
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="form-group col-4" style="margin: 0px;">
                                 <div>
