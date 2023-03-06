@@ -58,8 +58,10 @@
                                         <tr>
                                             {{-- <th>Borrowed Equipment ID</th> --}}
                                             {{-- <th>Equipment Request ID</th> --}}
+                                            <th>Series</th>
                                             <th>Item</th>
                                             <th>Quantity Borrowed</th>
+                                            <th>Borrowed By</th>
                                             <th>Borrowed Equipmnet Status</th>
                                             <th>Encoder</th>
                                             <th>Date Stamp</th>
@@ -71,9 +73,26 @@
                                         <tr>
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Borrowed_Equipment_ID }}</td> --}}
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Equipment_Request_ID}}</td> --}}
+                                            <td class="sm_data_col txtCtr">{{$x->Stock_No}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Quantity_Borrowed}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Item_Status}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}}</td>
+                                            <td class="sm_data_col txtCtr">
+                                                <table>
+                                                    <tr>
+                                                        <td>Date Borrowed</td>
+                                                        <td>Est. Return Date</td>
+                                                        <td>Item Status</td>
+                                                        <td>Date Returned</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{$x->Date_Borrowed}}</td>
+                                                        <td>{{$x->Expected_Return_Date}}</td>
+                                                        <td>{{$x->Item_Status}}</td>
+                                                        <td>{{$x->Date_Returned}}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
                                             <td class="sm_data_col txtCtr">{{$x->name}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
@@ -113,18 +132,30 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Item to Borrow:</label>
-                            <select class="form-control" name="item_ID">
-                                <option value=1 hidden selected>Select</option>
-                                @foreach($inventory_list as $inv)
-                                    <option value="{{$inv->Inventory_ID}}">{{$inv->Inventory_Name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Quantity:</label>
-                            <input name="Quantity_Borrowed" type="number" style="width:100%">
+                            <i class="fa fa-plus-square thisAdd" style="font-size: 25px"></i>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Item to Borrow</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="multiX">
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" name="item_ID[]">
+                                                <option value=1 hidden selected>Select</option>
+                                                @foreach($inventory_list as $inv)
+                                                    <option value="{{$inv->Inventory_ID}}">({{$inv->Stock_No}}) {{$inv->Inventory_Name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input name="Quantity_Borrowed[]" type="number" style="width:100%" class="form-control">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="form-group">
@@ -212,7 +243,7 @@
                         <div class="form-group">
                             <label>Resident:</label>
                             <select class="form-control" name="Resident_ID2">
-                                <option value=1 hidden selected>Select</option>
+                                <option id="this_ResidentX" value="" hidden selected>Select</option>
                                 @foreach($resident_list as $rl)
                                 <option value="{{$rl->Resident_ID}}">{{$rl->Last_Name}}, {{$rl->First_Name}}</option>
                                 @endforeach
@@ -246,6 +277,10 @@
                         <div class="form-group">
                             <label>Expected Return Date:</label>
                             <input id="thisEstReturnDate" class="dateX_input" name="Expected_Return_Date2" style="width:100%" onfocus="(this.type='date')">
+                        </div>
+                        <div class="form-group">
+                            <label>Date Returned:</label>
+                            <input id="thisDateReturned" class="dateX_input" name="Date_Returned2" style="width:100%" onfocus="(this.type='date')">
                         </div>
                     </div>
 

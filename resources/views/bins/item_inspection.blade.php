@@ -73,9 +73,10 @@
                                         <tr>
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Item_Inspection_ID }}</td> --}}
                                             
+                                            
                                             <td class="sm_data_col" >{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Markings}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Serial_No}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Stock_No}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Item_Status}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Inspection_Date}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->name}}</td>
@@ -122,7 +123,7 @@
                             <select class="form-control" name="item_rc_ID">
                                 <option value=1 hidden selected>Select</option>
                                 @foreach($RC_item_list as $ril)
-                                <option value="{{$ril->Received_Item_ID}}">{{$ril->Inventory_Name}}</option>
+                                <option value="{{$ril->Received_Item_ID}}">({{$ril->Stock_No}}) {{$ril->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -130,11 +131,6 @@
                         <div class="form-group">
                             <label>Markings:</label>
                             <input class="form-control" name="markingsX">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Serial No:</label>
-                            <input class="form-control" name="serialNoX">
                         </div>
 
                         <div class="form-group">
@@ -181,7 +177,7 @@
                             <select class="form-control" name="item_rc_ID2">
                                 <option id="this_rci_idX" value="" hidden selected>Select</option>
                                 @foreach($RC_item_list as $ril)
-                                <option value="{{$ril->Received_Item_ID}}">{{$ril->Inventory_Name}}</option>
+                                <option value="{{$ril->Received_Item_ID}}">({{$ril->Stock_No}}) {{$ril->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -189,11 +185,6 @@
                         <div class="form-group">
                             <label>Markings:</label>
                             <input id="this_markingsX" class="form-control" name="markingsX2">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Serial No:</label>
-                            <input id="this_serial_noX" class="form-control" name="serialNoX2">
                         </div>
 
                         <div class="form-group">

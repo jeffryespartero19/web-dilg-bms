@@ -57,11 +57,13 @@
                                     <thead>
                                         <tr>
                                             {{-- <th>Disposal Inventory ID</th> --}}
-                                            <th>Inventory</th>
+                                            <th>Serial</th>
+                                            <th>Item</th>
+                                            <th>Qty</th>
                                             <th>Date Disposed</th>
                                             <th>Item Status</th>
                                             <th>Remarks</th>
-                                            <th>Brgy Official / Staff</th>
+                                            <th>Disposed By</th>
                                             <th>Encoder</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
@@ -71,7 +73,9 @@
                                         @foreach($db_entries as $x)
                                         <tr>
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Disposal_Inventory_ID}}</td> --}}
+                                            <td class="sm_data_col txtCtr">{{$x->Stock_No}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Inventory_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Quantity_Disposed}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_Disposed}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Item_Status}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
@@ -115,13 +119,32 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Inventory Item:</label>
-                            <select class="form-control" name="item_ID">
-                                <option value=1 hidden selected>Select</option>
-                                @foreach($inventory_list as $inv)
-                                <option value="{{$inv->Inventory_ID}}">{{$inv->Inventory_Name}}</option>
-                                @endforeach
-                            </select>
+                            <i class="fa fa-plus-square thisAdd" style="font-size: 25px"></i>
+                            
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Inventory Item</th>
+                                        <th>Quantity Disposed</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="multiX">
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" name="item_ID[]">
+                                                <option value=1 hidden selected>Select</option>
+                                                @foreach($inventory_list as $inv)
+                                                <option value="{{$inv->Inventory_ID}}">({{$inv->Stock_No}}) {{$inv->Inventory_Name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" name="Quantity_Disposed[]">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                         </div>
 
                         <div class="form-group">
@@ -135,12 +158,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Date Disposed:</label>
+                            <input type="date" class="form-control" name="Date_Disposed">
+                        </div>
+
+                        <div class="form-group">
                             <label>Remarks:</label>
                             <textarea name="remarks" style="width:100%"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label>Officer in Charge:</label>
+                            <label>Disposed By:</label>
                             <select class="form-control" name="oic">
                                 <option value=1 hidden selected>Select</option>
                                 @foreach($staff_list as $sl)
@@ -183,9 +211,14 @@
                             <select class="form-control" name="item_ID2">
                                 <option id="this_item_idX" value=1 hidden selected>Select</option>
                                 @foreach($inventory_list as $inv)
-                                <option value="{{$inv->Inventory_ID}}">Sample</option>
+                                <option value="{{$inv->Inventory_ID}}">({{$inv->Stock_No}}) {{$inv->Inventory_Name}}</option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity Disposed:</label>
+                            <input id="this_quantity_disposed" type="number" class="form-control" name="Quantity_Disposed2">
                         </div>
 
                         <div class="form-group">
@@ -199,12 +232,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Date Disposed:</label>
+                            <input id="this_date_disposed" class="form-control" name="Date_Disposed2" onfocus="(this.type='date')">
+                        </div>
+
+                        <div class="form-group">
                             <label>Remarks:</label>
                             <textarea id="this_remarks" name="remarks2" style="width:100%"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label>Officer in Charge:</label>
+                            <label>Disposed By:</label>
                             <select class="form-control" name="oic2">
                                 <option id="this_oic" value=1 hidden selected>Select</option>
                                 @foreach($staff_list as $sl)

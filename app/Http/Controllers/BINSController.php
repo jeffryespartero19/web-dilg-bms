@@ -304,6 +304,7 @@ class BINSController extends Controller
                                 'a.Quantity',
                                 'a.Date_Stamp',
                                 'b.Inventory_Name',
+                                'b.Stock_No',
                                 'c.name',
                                 )
                         ->get();
@@ -334,6 +335,7 @@ class BINSController extends Controller
     public function get_bins_begbal(Request $request)
     {
         $id=$_GET['id']; 
+        //$id=1;
 
         $theEntry=DB::table('bins_inventory_begbal')->where('Inventory_BegBal_ID',$id)->get();
 
@@ -346,7 +348,7 @@ class BINSController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
-        DB::table('bins_inventory_begbal')->where('Item_Category_ID',$data['item_category_ID'])->update(
+        DB::table('bins_inventory_begbal')->where('Inventory_BegBal_ID',$data['Inventory_BegBal_ID2'])->update(
             array(
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now(),
@@ -374,10 +376,10 @@ class BINSController extends Controller
                                 'a.Received_Item_ID',
                                 'a.Inspection_Date',
                                 'a.Markings',
-                                'a.Serial_No',
                                 'a.Date_Stamp',
                                 'c.name',
                                 'd.Inventory_Name',
+                                'd.Stock_No',
                                 'e.Item_Status',
                                 )
                         ->get();
@@ -387,6 +389,7 @@ class BINSController extends Controller
             ->select(
                 'a.Received_Item_ID',
                 'b.Inventory_Name',
+                'b.Stock_No',
                 )
             ->get();
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
@@ -406,7 +409,7 @@ class BINSController extends Controller
                 'Received_Item_ID'   => $data['item_rc_ID'],
                 'Inspection_Date'    => Carbon::now(),
                 'Markings'           => $data['markingsX'],
-                'Serial_No'          => $data['serialNoX'],
+                // 'Serial_No'          => $data['serialNoX'],
                 'Item_Status_ID'     => $data['item_status_ID']
                 
             )
@@ -441,7 +444,7 @@ class BINSController extends Controller
                 'Received_Item_ID'   => $data['item_rc_ID2'],
                 'Inspection_Date'    => Carbon::now(),
                 'Markings'           => $data['markingsX2'],
-                'Serial_No'          => $data['serialNoX2'],
+                // 'Serial_No'          => $data['serialNoX2'],
                 'Item_Status_ID'     => $data['item_status_ID2']
             )
         );
@@ -465,6 +468,7 @@ class BINSController extends Controller
                                 'a.Date_Received',
                                 'a.Date_Stamp',
                                 'b.Inventory_Name',
+                                'b.Stock_No',
                                 'c.name',
                                 'e.Item_Status',
                                 )
@@ -552,6 +556,7 @@ class BINSController extends Controller
                             'b.Item_Category_Name',
                             'c.name',
                             'e.Inventory_Name',
+                            'e.Stock_No',
                             )
                     ->get();
 
@@ -562,6 +567,7 @@ class BINSController extends Controller
                 'a.On_Hand_Per_Count',
                 'a.Remarks',
                 'b.Inventory_Name',
+                'b.Stock_No',
                 )
             ->get();
         $item_category_list=DB::table('maintenance_bins_item_category')->get();
@@ -647,16 +653,18 @@ class BINSController extends Controller
                         ->select(
                                 'a.Disposal_Inventory_ID',
                                 'a.Date_Disposed',
+                                'a.Quantity_Disposed',
                                 'a.Remarks',
                                 'a.Date_Stamp',
                                 'b.Inventory_Name',
+                                'b.Stock_No',
                                 'c.name',
                                 'd.Item_Status',
                                 )
                         ->get();
 
         $inventory_list=DB::table('bins_brgy_inventory')->get();
-        $item_status_list=DB::table('maintenance_bins_item_status')->get();
+        $item_status_list=DB::table('maintenance_bins_item_status')->where('Item_Status', 'like', '%'.'dispos'.'%')->get();
         $staff_list=DB::table('bips_brgy_officials_and_staff')->get();
 
         return view('bins.inventory_disposal',compact('db_entries','currDATE','inventory_list','item_status_list','staff_list'));
@@ -667,17 +675,24 @@ class BINSController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
-        DB::table('bins_inventory_for_disposal')->insert(
-            array(
-                'Encoder_ID'         => Auth::user()->id,
-                'Date_Stamp'         => Carbon::now(),
-                'Date_Disposed'         => Carbon::now(),
-                'Inventory_ID'       => $data['item_ID'],
-                'Item_Status_ID'     => $data['item_status_ID'],
-                'Remarks'            => $data['remarks'],
-                'Brgy_Officials_and_Staff_ID' => $data['oic']
-            )
-        );
+        $itemLen= count($data['item_ID']);
+
+        for ($i = 0; $i < $itemLen; $i++) {
+            DB::table('bins_inventory_for_disposal')->insert(
+                array(
+                    'Encoder_ID'         => Auth::user()->id,
+                    'Date_Stamp'         => Carbon::now(),
+                    'Date_Disposed'      => $data['Date_Disposed'],
+                    'Inventory_ID'       => $data['item_ID'][$i],
+                    'Quantity_Disposed'  => $data['Quantity_Disposed'][$i],
+                    'Item_Status_ID'     => $data['item_status_ID'],
+                    'Remarks'            => $data['remarks'],
+                    'Brgy_Officials_and_Staff_ID' => $data['oic']
+                )
+            );
+        }
+
+        
 
         return redirect()->back()->with('alert','New Entry Created');
     }
@@ -705,8 +720,9 @@ class BINSController extends Controller
             array(
                 'Encoder_ID'         => Auth::user()->id,
                 'Date_Stamp'         => Carbon::now(),
-                'Date_Disposed'         => Carbon::now(),
+                'Date_Disposed'      => $data['Date_Disposed2'],
                 'Inventory_ID'       => $data['item_ID2'],
+                'Quantity_Disposed'  => $data['Quantity_Disposed2'],
                 'Item_Status_ID'     => $data['item_status_ID2'],
                 'Remarks'            => $data['remarks2'],
                 'Brgy_Officials_and_Staff_ID' => $data['oic2']
@@ -725,13 +741,20 @@ class BINSController extends Controller
                     ->join('bins_brgy_inventory as b','b.Inventory_ID','=','a.Inventory_ID')
                     ->join('users as c','c.id','=','a.Encoder_ID')
                     ->join('maintenance_bins_item_status as d','d.Item_Status_ID','=','a.Borrowed_Equipmnet_Status_ID')
+                    ->join('bins_inhabitants_equipment_borrow_request as e','e.Equipment_Request_ID','=','a.Equipment_Request_ID')
+                    ->join('bips_brgy_inhabitants_information as f','f.Resident_ID','=','e.Resident_ID')
                     ->select(
                             'a.Borrowed_Equipment_ID',
                             'a.Quantity_Borrowed',
                             'a.Date_Stamp',
                             'b.Inventory_Name',
+                            'b.Stock_No',
                             'c.name',
                             'd.Item_Status',
+                            'e.Date_Borrowed',
+                            'e.Expected_Return_Date',
+                            'e.Date_Returned',
+                            'f.Last_Name','f.First_Name','f.Middle_Name',
                             )
                     ->get();
 
@@ -749,37 +772,40 @@ class BINSController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
-        $new_requestID=DB::table('bins_inhabitants_equipment_borrow_request')->insertGetId(
-            array(
-                'Resident_ID'        => $data['Resident_ID'],
-                'Encoder_ID'         => Auth::user()->id,
-                'Date_Stamp'         => Carbon::now(),
-                'Purpose'            => $data['Purpose'],
-                'Remarks'            => $data['Remarks'],
-                'Date_Borrowed'      => $data['Date_Borrowed'],
-                'Expected_Return_Date' => $data['Expected_Return_Date']  
-            )
-        );
+        $itemLen= count($data['item_ID']);
 
-        DB::table('bins_equipment_borrowed')->insert(
-            array(
-                'Encoder_ID'         => Auth::user()->id,
-                'Date_Stamp'         => Carbon::now(),
-                'Equipment_Request_ID'   => $new_requestID,
-                'Inventory_ID'           => $data['item_ID'],
-                'Quantity_Borrowed'      => $data['Quantity_Borrowed'],
-                'Borrowed_Equipmnet_Status_ID' => $data['item_Status_ID'],
-                
-            )
-        );
-
+        for ($i = 0; $i < $itemLen; $i++) {
+            $new_requestID=DB::table('bins_inhabitants_equipment_borrow_request')->insertGetId(
+                array(
+                    'Resident_ID'        => $data['Resident_ID'],
+                    'Encoder_ID'         => Auth::user()->id,
+                    'Date_Stamp'         => Carbon::now(),
+                    'Purpose'            => $data['Purpose'],
+                    'Remarks'            => $data['Remarks'],
+                    'Date_Borrowed'      => $data['Date_Borrowed'],
+                    'Expected_Return_Date' => $data['Expected_Return_Date']  
+                )
+            );
+    
+            DB::table('bins_equipment_borrowed')->insert(
+                array(
+                    'Encoder_ID'         => Auth::user()->id,
+                    'Date_Stamp'         => Carbon::now(),
+                    'Equipment_Request_ID'   => $new_requestID,
+                    'Inventory_ID'           => $data['item_ID'][$i],
+                    'Quantity_Borrowed'      => $data['Quantity_Borrowed'][$i],
+                    'Borrowed_Equipmnet_Status_ID' => $data['item_Status_ID'],
+                    
+                )
+            );
+        }
 
         return redirect()->back()->with('alert','New Entry Created');
     }
     public function get_bins_borrow(Request $request)
     {
         $id=$_GET['id']; 
-        //$id=2; 
+        //$id=1; 
 
         $theEntry=DB::table('bins_equipment_borrowed')->where('Borrowed_Equipment_ID',$id)->get();
         $theRequest=DB::table('bins_inhabitants_equipment_borrow_request')->where('Equipment_Request_ID',$theEntry[0]->Equipment_Request_ID)->get();
@@ -791,7 +817,7 @@ class BINSController extends Controller
 
         //dd($theEntry,$the_item,$theRequest,$theitem_status,$theResident);
 
-        return(compact('theEntry','the_item','theitem_status','theRequest'));
+        return(compact('theEntry','the_item','theitem_status','theRequest','theResident'));
     }
     public function update_bins_borrow(Request $request)
     {
@@ -806,7 +832,8 @@ class BINSController extends Controller
                 'Purpose'            => $data['Purpose2'],
                 'Remarks'            => $data['Remarks2'],
                 'Date_Borrowed'      => $data['Date_Borrowed2'],
-                'Expected_Return_Date' => $data['Expected_Return_Date2']  
+                'Expected_Return_Date' => $data['Expected_Return_Date2'],  
+                'Date_Returned' => $data['Date_Returned2'],
             )
         );
 
@@ -920,7 +947,18 @@ class BINSController extends Controller
         $item_status_list=DB::table('maintenance_bins_item_status')->get();
         $item_inspection=DB::table('bins_item_inspection')->get();
 
-        return view('bins.barangay_inventory',compact('db_entries','currDATE','card_file','item_category_list','uom_list','item_status_list','item_inspection'));
+        $now = Carbon::now();
+
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 6; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        $Stock_Nox= $now->year.'-'.date('m',$now->month).'-'.$randomString;
+
+        return view('bins.barangay_inventory',compact('db_entries','currDATE','card_file','item_category_list','uom_list','item_status_list','item_inspection','Stock_Nox'));
     }
 
     public function create_bins_inventory(Request $request)
