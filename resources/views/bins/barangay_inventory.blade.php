@@ -57,7 +57,7 @@
                                     <thead>
                                         <tr>
                                             {{-- <th style="width:10%;">Inventory <br>ID</th> --}}
-                                            <th>Stock No.</th>
+                                            <th>Serial</th>
                                             <th style="width:10%;">Name</th>
                                             <th>Item <br>Category</th>
                                             <th>Unit of <br>Measure</th>
@@ -72,6 +72,7 @@
                                         @foreach($db_entries as $x)
                                         <tr>
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Inventory_ID}}</td> --}}
+
                                             <td class="sm_data_col txtCtr">{{$x->Stock_No}}</td>
                                             <td>{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Item_Category_Name}}</td>
@@ -123,8 +124,8 @@
                     <div class="modal_input_container">
 
                         <div class="form-group">
-                            <label>Stock No. :</label>
-                            <input class="form-control" name="Stock_No">
+                            <label>Serial:</label>
+                            <input class="form-control no_edit" name="Stock_No" value="{{$Stock_Nox}}">
                         </div>
 
                         <div class="form-group">
@@ -208,8 +209,8 @@
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
-                            <label>Stock No. :</label>
-                            <input id="this_stock_no" class="form-control" name="Stock_No2">
+                            <label>Serial:</label>
+                            <input id="this_stock_no" class="form-control no_edit" name="Stock_No2">
                         </div>
 
                         <div class="form-group">

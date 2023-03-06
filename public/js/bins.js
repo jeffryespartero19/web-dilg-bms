@@ -151,9 +151,18 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 alert('request failed');
             },
             success: function (data) { 
+
+                $('#this_begbal_idX').val(data['theEntry'][0]['Inventory_BegBal_ID']);
+
                 $('#Inventory_BegBal_ID').val(data['theEntry'][0]['Item_Category_ID']);
                 $('#this_item_unit_cost').val(data['theEntry'][0]['Unit_Cost']);
                 $('#this_item_qty').val(data['theEntry'][0]['Quantity']);
+
+                $('#this_item_idX').empty();
+                $('#this_item_idX').val(data['theEntry_inventoryX'][0]['Inventory_ID']);
+                $('#this_item_idX').append('('+data['theEntry_inventoryX'][0]['Stock_No']+')'+' '+data['theEntry_inventoryX'][0]['Inventory_Name']);
+
+
            
             }
         });
@@ -171,7 +180,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             success: function (data) { 
                 $('#this_rci_idX').empty();
                 $('#this_rci_idX').val(data['theRC_item'][0]['Received_Item_ID']);
-                $('#this_rci_idX').append(data['the_item'][0]['Inventory_Name']);
+                $('#this_rci_idX').append('('+data['the_item'][0]['Stock_No']+')'+' '+data['the_item'][0]['Inventory_Name']);
 
                 $('#this_markingsX').val(data['theEntry'][0]['Markings']);
                 $('#this_serial_noX').val(data['theEntry'][0]['Serial_No']);
@@ -198,7 +207,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
 
                 $('#this_item_idX').empty();
                 $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
-                $('#this_item_idX').append(data['the_item'][0]['Inventory_Name']);
+                $('#this_item_idX').append('('+data['the_item'][0]['Stock_No']+')'+' '+data['the_item'][0]['Inventory_Name']);
 
                 $('#this_item_status_idX').empty();
                 $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
@@ -238,7 +247,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 
                 $('#this_p_inv').empty();
                 $('#this_p_inv').val(data['theP_inventory'][0]['Physical_Count_Inventory_ID']);
-                $('#this_p_inv').append(data['theP_inventory'][0]['Inventory_Name']);
+                $('#this_p_inv').append('('+data['theP_inventory'][0]['Stock_No']+')'+' '+data['theP_inventory'][0]['Inventory_Name']);
 
 
                 $('#this_item_category').empty();
@@ -267,10 +276,12 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             },
             success: function (data) { 
                 $('#this_inv_disposal_IdX').val(data['theEntry'][0]['Disposal_Inventory_ID']);
+                $('#this_date_disposed').val(data['theEntry'][0]['Date_Disposed']);
+                $('#this_quantity_disposed').val(data['theEntry'][0]['Quantity_Disposed']);
 
                 $('#this_item_idX').empty();
                 $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
-                $('#this_item_idX').append(data['the_item'][0]['Inventory_Name']);
+                $('#this_item_idX').append('('+ data['the_item'][0]['Stock_No']+')'+' '+data['the_item'][0]['Inventory_Name']);
 
                 $('#this_item_status_idX').empty();
                 $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
@@ -302,12 +313,15 @@ $(document).on('click',('.edit_XYZ'),function(e) {
 
                 $('#this_item_idX').empty();
                 $('#this_item_idX').val(data['the_item'][0]['Inventory_ID']);
-                $('#this_item_idX').append(data['the_item'][0]['Inventory_Name']);
-                
+                $('#this_item_idX').append(data['the_item'][0]['Stock_No']+' '+data['the_item'][0]['Inventory_Name']);
 
                 $('#this_item_status_idX').empty();
                 $('#this_item_status_idX').val(data['theitem_status'][0]['Item_Status_ID']);
                 $('#this_item_status_idX').append(data['theitem_status'][0]['Item_Status']);
+
+                $('#this_ResidentX').empty();
+                $('#this_ResidentX').val(data['theResident'][0]['Resident_ID']);
+                $('#this_ResidentX').append(data['theResident'][0]['Last_Name']+", "+data['theResident'][0]['First_Name']);
 
                 $('#this_remarks').empty();
                 $('#this_remarks').append(data['theRequest'][0]['Remarks']);
@@ -317,6 +331,8 @@ $(document).on('click',('.edit_XYZ'),function(e) {
                 
                 $('#thisBorrowDate').val(data['theRequest'][0]['Date_Borrowed']);
                 $('#thisEstReturnDate').val(data['theRequest'][0]['Expected_Return_Date']);
+
+                $('#thisDateReturned').val(data['theRequest'][0]['Date_Returned']);
 
                 $('#this_qty_borrowed').val(data['theEntry'][0]['Quantity_Borrowed']);
                 
@@ -337,7 +353,7 @@ $(document).on('click',('.edit_XYZ'),function(e) {
             success: function (data) { 
                 $('#this_idX').val(data['theEntry'][0]['Inventory_ID']);
                 $('#this_stock_no').val(data['theEntry'][0]['Stock_No']);
-                $('#this_inventory_name').val(data['theEntry'][0]['Inventory_Name']);
+                $('#this_inventory_name').val('('+data['theEntry'][0]['Stock_No']+')'+data['theEntry'][0]['Inventory_Name']);
 
                 // $('#this_card_file').empty();
                 // $('#this_card_file').val(data['theEntry'][0]['Card_File_ID']);
@@ -371,6 +387,10 @@ $(document).on('click',('.delRec'),function(e) {
     var disVal = $(this).val(); 
     $('#delFile').val(disVal); 
     $('#deleteFile').modal('show');           
+});
+
+$(document).on('click',('.thisAdd'),function(e) {
+    $(this).next().children(':first').next().children(':first').clone().appendTo(".multiX");
 });
 
 

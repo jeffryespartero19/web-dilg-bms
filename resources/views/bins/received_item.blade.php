@@ -62,10 +62,11 @@
                                         <tr>
                                             {{-- <th>Recieved Item ID </th> --}}
                                             
+                                            <th>Serial</th>
                                             <th>Item Name</th>
                                             <th>Item Status</th>
                                             <th>Donation</th>
-                                            <th>Brgy Official / Staff</th>
+                                            <th>Recieved By</th>
                                             <th>Received Quantity</th>
                                             <th>Date Received</th>
                                             <th>Encoder</th>
@@ -78,6 +79,7 @@
                                         <tr>
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Received_Item_ID }}</td> --}}
                                             
+                                            <td class="sm_data_col" >{{$x->Stock_No}}</td>
                                             <td class="sm_data_col" >{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Item_Status}}</td>
                                             <td class="sm_data_col txtCtr">@if($x->Donation==1)Yes @else No @endif</td>
@@ -128,7 +130,7 @@
                             <select class="form-control" name="item_ID">
                                 <option value=1 hidden selected>Select</option>
                                 @foreach($inventory_list as $invl)
-                                <option value="{{$invl->Inventory_ID}}">{{$invl->Inventory_Name}}</option>
+                                <option value="{{$invl->Inventory_ID}}">({{$invl->Stock_No}}) {{$invl->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -200,7 +202,7 @@
                             <select class="form-control" name="item_ID2">
                                 <option id="this_item_idX" value="" hidden selected>Select</option>
                                 @foreach($inventory_list as $invl)
-                                <option value="{{$invl->Inventory_ID}}">{{$invl->Inventory_Name}}</option>
+                                <option value="{{$invl->Inventory_ID}}">({{$invl->Stock_No}}) {{$invl->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -252,7 +254,7 @@
 
 <!-- Edit/Update  END -->
 
-!-- Delete -->
+<!-- Delete -->
 <div id="deleteFile" class="modal fade" role="dialog">
     <div class="modal-dialog" style="width:30%;">
   
