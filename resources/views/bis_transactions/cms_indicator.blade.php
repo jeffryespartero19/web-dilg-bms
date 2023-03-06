@@ -137,20 +137,25 @@
                                             </div>
                                         </div>
                                         @foreach ($indicator as $indicators)
-                                        @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
+                                        @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null && $indicators->Sub_Indicator_ID == null)
+
                                         <div class="card-teal IndicatorDIV">
                                             <div class="card-header">
                                                 <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
-                                                @if (Auth::user()->User_Type_ID == 5)
                                                 <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool AddSubIndicator" value="{{$indicators->Indicator_ID}}">
+                                                        <i class="fas fa-plus"></i>&nbsp;Add Sub Indicator
+                                                    </button>
+                                                    @if (Auth::user()->User_Type_ID == 5)
                                                     <button type="button" class="btn btn-tool IndicatorRemove">
                                                         <i class="fas fa-trash"></i>&nbsp;Delete
                                                     </button>
+                                                    @endif
                                                 </div>
-                                                @endif
                                                 <!-- /.card-tools -->
                                             </div>
-                                            <div class="card-body col-lg-12" style="margin-bottom: 5px;">
+
+                                            <div class="card-body" style="margin-bottom: 5px;">
                                                 <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
                                                 <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
                                                     <div class="form-group col-lg-12">
@@ -180,8 +185,58 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
+                                            @foreach ($indicator as $indicator2)
+                                            @if($indicator2->Sub_Indicator_ID == $indicators->Indicator_ID && $indicator2->Title_ID == $titles->Title_ID && $indicator2->Title_ID != null)
+                                            <div class="card-body SubIndicatorDIV" style="margin-bottom: 5px;">
+
+                                                <div class="card-info">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title" data-card-widget="collapse">Sub-Indicator</h4>
+                                                        <div class="card-tools">
+                                                            @if (Auth::user()->User_Type_ID == 5)
+                                                            <button type="button" class="btn btn-tool SubIndicatorRemove">
+                                                                <i class="fas fa-trash"></i>&nbsp;Delete
+                                                            </button>
+                                                            @endif
+                                                        </div>
+                                                        <!-- /.card-tools -->
+                                                    </div>
+                                                    <div class="card-body col-lg-12" style="margin-bottom: 5px;">
+                                                        <input class="Sub_Indicator_ID" name="Sub_Indicator_ID[]" type="number" hidden value="{{$indicator2->Sub_Indicator_ID}}">
+                                                        <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
+                                                            <div class="form-group col-lg-12">
+                                                                <label>Description</label>
+                                                                <textarea class="form-control" name="Sub_Indicator_Description[{{$indicators->Indicator_ID}}][]">{{$indicator2->Indicator_Description}}</textarea>
+                                                            </div>
+                                                            <div class="form-group col-lg-4">
+                                                                <label>Answer Type</label>
+                                                                <select class="form-control answer_types" name="Sub_Answer_Types_ID[{{$indicators->Indicator_ID}}][]" style="width: 100%;">
+                                                                    <option value='' disabled selected>Select Option</option>
+                                                                    @foreach($answer_type as $at)
+                                                                    <option value="{{ $at->Answer_Type_ID }}" {{ $at->Answer_Type_ID  == $indicator2->Answer_Types_ID  ? "selected" : "" }}>{{ $at->Title }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-lg-4">
+                                                                <label>Min. Answer</label>
+                                                                <input type="number" class="form-control Sub_Min_Answer" name="Sub_Min_Answer[{{$indicators->Indicator_ID}}][]" value="{{$indicator2->Min_Answer}}">
+                                                            </div>
+                                                            <div class="form-group col-lg-4">
+                                                                <label>Max Answer</label>
+                                                                <input type="number" class="form-control Sub_Max_Answer" name="Sub_Max_Answer[{{$indicators->Indicator_ID}}][]" value="{{$indicator2->Max_Answer}}">
+                                                            </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                                                                <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicator2->Widget == 'RADIO' || $indicator2->Widget == 'SELECT' || $indicator2->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+                                            @endforeach
+                                        </div>
                                         @endif
                                         @endforeach
                                     </div>
@@ -266,11 +321,13 @@
 </div>
 
 <!-- Indicator Clone DIV -->
-
 <div class="card-teal IndicatorDIV IndicatorDIVhidden" hidden>
     <div class="card-header">
         <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
         <div class="card-tools">
+            <button type="button" class="btn btn-tool AddSubIndicator" value="0">
+                <i class="fas fa-plus"></i>&nbsp;Add Sub Indicator
+            </button>
             <button type="button" class="btn btn-tool IndicatorRemove">
                 <i class="fas fa-trash"></i>&nbsp;Delete
             </button>
@@ -278,7 +335,7 @@
         <!-- /.card-tools -->
     </div>
     <div class="card-body col-lg-12" style="margin-bottom: 5px;">
-
+        <input class="NIndex" type="text" name="NIndex[]">
         <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]">
         <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
             <div class="form-group col-lg-12">
@@ -304,6 +361,53 @@
             </div>
             <div class="form-group col-lg-12">
                 <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Indicator Clone DIV -->
+<div class="card-body SubIndicatorDIV SubIndicatorDIVHidden" hidden style="margin-bottom: 5px;">
+    <div class="card-info">
+        <div class="card-header">
+            <h4 class="card-title" data-card-widget="collapse">Sub-Indicator</h4>
+            <div class="card-tools">
+                @if (Auth::user()->User_Type_ID == 5)
+                <button type="button" class="btn btn-tool SubIndicatorRemove">
+                    <i class="fas fa-trash"></i>&nbsp;Delete
+                </button>
+                @endif
+            </div>
+            <!-- /.card-tools -->
+        </div>
+        <div class="card-body col-lg-12" style="margin-bottom: 5px;">
+            <input class="Sub_Indicator_ID" name="Sub_Indicator_ID[]" type="number" hidden>
+            <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
+                <div class="form-group col-lg-12">
+                    <label>Description</label>
+                    <textarea class="form-control Sub_Indicator_Description"></textarea>
+                </div>
+                <div class="form-group col-lg-4">
+                    <label>Answer Type</label>
+                    <select class="form-control answer_types Sub_Answer_Types_ID" style="width: 100%;">
+                        <option value='' disabled selected>Select Option</option>
+                        @foreach($answer_type as $at)
+                        <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group col-lg-4">
+                    <label>Min. Answer</label>
+                    <input type="number" class="form-control Sub_Min_Answer">
+                </div>
+                <div class="form-group col-lg-4">
+                    <label>Max Answer</label>
+                    <input type="number" class="form-control Sub_Max_Answer">
+                </div>
+                <div class="form-group col-lg-12">
+                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                    <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
+                </div>
             </div>
         </div>
     </div>
@@ -391,51 +495,6 @@
                             <input type="date" class="form-control" name="Date_End[]" required>
                         </div>
                     </div>
-                    @foreach ($indicator as $indicators)
-                    @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
-                    <div class="card-teal IndicatorDIV">
-                        <div class="card-header">
-                            <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool IndicatorRemove">
-                                    <i class="fas fa-trash"></i>&nbsp;Delete
-                                </button>
-                            </div>
-                            <!-- /.card-tools -->
-                        </div>
-                        <div class="card-body" style="margin-bottom: 5px;">
-                            <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
-                            <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
-                                <div class="form-group col-lg-12">
-                                    <label>Description</label>
-                                    <textarea class="form-control" name="Indicator_Description[]"></textarea>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Answer Type</label>
-                                    <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
-                                        <option value='' disabled selected>Select Option</option>
-                                        @foreach($answer_type as $at)
-                                        <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Min. Answer</label>
-                                    <input type="number" class="form-control Min_Answer" name="Min_Answer[]">
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Max Answer</label>
-                                    <input type="number" class="form-control Max_Answer" name="Max_Answer[]">
-                                </div>
-                                <div class="form-group col-lg-12">
-                                    <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    @endif
-                    @endforeach
                 </div>
 
             </div>
@@ -518,6 +577,10 @@
         $(this).closest(".IndicatorDIV").remove();
     });
 
+    $(document).on("click", ".SubIndicatorRemove", function() {
+        $(this).closest(".SubIndicatorDIV").remove();
+    });
+
     $(document).ready(function() {
         $("#AddLABEL").click(function() {
             var div = $(".LabelDIVhidden");
@@ -549,6 +612,22 @@
         }
 
         // alert(ind_count);
+
+    });
+
+    $(document).on("click", ".AddSubIndicator", function() {
+        var div_main = $(this).closest(".IndicatorDIV");
+        var ind_id = $(this).val();
+
+        var div_child = $(".SubIndicatorDIVHidden");
+        var newdiv = div_child.clone();
+        newdiv.find('.Sub_Indicator_ID').val(ind_id);
+        newdiv.find('.Sub_Indicator_Description').attr('name', 'Sub_Indicator_Description[' + ind_id + '][]');
+        newdiv.find('.Sub_Answer_Types_ID').attr('name', 'Sub_Answer_Types_ID[' + ind_id + '][]');
+        newdiv.find('.Sub_Min_Answer').attr('name', 'Sub_Min_Answer[' + ind_id + '][]');
+        newdiv.find('.Sub_Max_Answer').attr('name', 'Sub_Max_Answer[' + ind_id + '][]');
+        div_main.append(newdiv);
+        div_main.find('.SubIndicatorDIVHidden').prop('hidden', false).removeClass('SubIndicatorDIVHidden');
 
     });
 
@@ -720,6 +799,16 @@
         var div_main = $(this).closest(".IndicatorDIV");
 
         div_main.find('.Max_Answer').attr({
+            "min": $min // values (or variables) here
+        });
+    });
+
+    $(document).on("change", ".Sub_Min_Answer", function() {
+        $min = $(this).val();
+
+        var div_main = $(this).closest(".SubIndicatorDIV");
+
+        div_main.find('.Sub_Max_Answer').attr({
             "min": $min // values (or variables) here
         });
     });
