@@ -162,7 +162,7 @@
                                                         <label>Description</label>
                                                         <textarea class="form-control" name="Indicator_Description[]">{{$indicators->Indicator_Description}}</textarea>
                                                     </div>
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col-lg-3">
                                                         <label>Answer Type</label>
                                                         <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
                                                             <option value='' disabled selected>Select Option</option>
@@ -171,13 +171,27 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col-lg-3">
                                                         <label>Min. Answer</label>
                                                         <input type="number" class="form-control Min_Answer" name="Min_Answer[]" value="{{$indicators->Min_Answer}}">
                                                     </div>
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col-lg-3">
                                                         <label>Max Answer</label>
                                                         <input type="number" class="form-control Max_Answer" name="Max_Answer[]" value="{{$indicators->Max_Answer}}">
+                                                    </div>
+                                                    <div class="form-group col-lg-3">
+                                                        <label>Visible</label>
+                                                        <select class="form-control" name="IndVisible[]" required>
+                                                            <option value=1 selected>Yes</option>
+                                                            <option value=0>No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-lg-3">
+                                                        <label>Required</label>
+                                                        <select class="form-control" name="IndRequired[]" required>
+                                                            <option value=1 selected>Yes</option>
+                                                            <option value=0>No</option>
+                                                        </select>
                                                     </div>
                                                     <div class="form-group col-lg-12">
                                                         <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
@@ -230,6 +244,7 @@
                                                                 <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
                                                                 <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicator2->Widget == 'RADIO' || $indicator2->Widget == 'SELECT' || $indicator2->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -335,14 +350,13 @@
         <!-- /.card-tools -->
     </div>
     <div class="card-body col-lg-12" style="margin-bottom: 5px;">
-        <input class="NIndex" type="text" name="NIndex[]">
         <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]">
         <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
             <div class="form-group col-lg-12">
                 <label>Description</label>
                 <textarea class="form-control" name="Indicator_Description[]"></textarea>
             </div>
-            <div class="form-group col-lg-4">
+            <div class="form-group col-lg-3">
                 <label>Answer Type</label>
                 <select class="form-control answer_types" name="Answer_Types_ID[]" style="width: 100%;">
                     <option value='' disabled selected>Select Option</option>
@@ -351,13 +365,27 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-lg-4">
+            <div class="form-group col-lg-3">
                 <label>Min. Answer</label>
                 <input type="number" class="form-control Min_Answer" name="Min_Answer[]">
             </div>
-            <div class="form-group col-lg-4">
+            <div class="form-group col-lg-3">
                 <label>Max Answer</label>
                 <input type="number" class="form-control Max_Answer" name="Max_Answer[]">
+            </div>
+            <div class="form-group col-lg-3">
+                <label>Visible</label>
+                <select class="form-control" name="IndVisible[]" required>
+                    <option value=1 selected>Yes</option>
+                    <option value=0>No</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-3">
+                <label>Required</label>
+                <select class="form-control" name="IndRequired[]" required>
+                    <option value=1 selected>Yes</option>
+                    <option value=0>No</option>
+                </select>
             </div>
             <div class="form-group col-lg-12">
                 <button class="btn btn-success" type="button" id="AddLABEL" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
