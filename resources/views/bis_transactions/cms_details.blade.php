@@ -89,10 +89,10 @@
                             <label for="Description">Description</label>
                             <textarea class="form-control" rows="4" id="Description" name="Description" required>{{$Barangay_Profile[0]->Description}}</textarea>
                         </div>
-                        <div class="form-group col-lg-6">
+                        <!-- <div class="form-group col-lg-6">
                             <label for="Date_Updated">Date</label>
                             <input type="datetime-local" class="form-control" id="Date_Updated" name="Date_Updated" value="{{$Barangay_Profile[0]->Date_Updated}}" required>
-                        </div>
+                        </div> -->
                         <div class="form-group col-lg-6">
                             <label for="Frequency_ID">Frequency</label>
                             <select class="form-control" id="Frequency_ID" name="Frequency_ID" required>

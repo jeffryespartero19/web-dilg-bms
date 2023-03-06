@@ -66,7 +66,31 @@
 
                                             </div>
                                         </div>
-
+                                        <div class="col-12">
+                                            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                                <tr>
+                                                    <td style="width:300px"><strong>Blotter No.: </strong></td>
+                                                    <td><span id="Blotter_Number"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:300px"><strong>Status: </strong></td>
+                                                    <td><span id="Status"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:300px"><strong>Incident Date: </strong></td>
+                                                    <td><span id="Incident_Date"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:300px"><strong>Case List: </strong></td>
+                                                    <td><span id="Case"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:300px"><strong>Complaint Details: </strong></td>
+                                                    <td><span id="Complaint"></span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+<br>
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <a onclick="addrow();" class="btn btn-success" style="float:right; cursor:pointer;">+ Add</a>
@@ -198,6 +222,27 @@
         $('.Summons').addClass('active');
         $('.justice_menu').addClass('active');
         $('.justice_main').addClass('menu-open');
+    });
+
+    $(document).on("change", "#Blotter_ID", function() {
+        var disID = $(this).val();
+
+        $.ajax({
+            url: "/get_blotter_details",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#Blotter_Number').text(data['theEntry'][0]['Blotter_Number']);
+                $('#Status').text(data['theEntry'][0]['Blotter_Status_Name']);
+                $('#Incident_Date').text(data['theEntry'][0]['Incident_Date_Time']);
+                $('#Complaint').text(data['theEntry'][0]['Complaint_Details']);
+            }
+        });
     });
 </script>
 

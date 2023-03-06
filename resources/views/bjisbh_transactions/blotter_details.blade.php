@@ -54,12 +54,12 @@
                                     @csrf
                                     <div>
                                         <input type="number" class="form-control" id="Blotter_ID" name="Blotter_ID" value="0" hidden>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Blotter Number</label>
                                                 <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Blotter Status</label>

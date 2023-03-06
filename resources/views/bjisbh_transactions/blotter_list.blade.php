@@ -100,7 +100,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Blotter_Status_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Incident_Date_Time}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <a class="btn btn-primary" href="{{ url('blotter_details_view/'.$x->Blotter_ID) }}">View</a>&nbsp;
+                                                <button class="view_info btn btn-primary" value="{{$x->Blotter_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
                                                 <a class="btn btn-success" href="{{ url('blotter_details/'.$x->Blotter_ID) }}">Edit</a>&nbsp;
                                                 <button class="delete_blotter btn btn-danger" value="{{$x->Blotter_ID}}">Delete</button>
                                             </td>
@@ -123,6 +123,58 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+
+<div class="modal fade" id="ViewInfo" tabindex="-1" role="dialog" aria-labelledby="ViewInfo" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Resolution Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <h4 id="VName"> </h4>
+                    <div class="row">
+
+                    </div>
+                    <div class="col-12">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <tr>
+                                <td style="width:300px"><strong>Blotter No.: </strong></td>
+                                <td><span id="Blotter_Number"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Status: </strong></td>
+                                <td><span id="Status"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Incident Date: </strong></td>
+                                <td><span id="Incident_Date"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Case List: </strong></td>
+                                <td><span id="Case"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Complaint Details: </strong></td>
+                                <td><span id="Complaint"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="form-group col-lg-12" style="padding:0 10px">
+                        <label for="fileattach">File Attachments</label>
+                        <ul class="list-group list-group-flush" id="ordinance_files2">
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @endsection
@@ -433,6 +485,101 @@
 
             }
         });
+    });
+
+    // View Info
+    $(document).on('click', ('.view_info'), function(e) {
+
+        var disID = $(this).val();
+
+        // alert(disID);
+
+        $.ajax({
+            url: "/get_blotter_details",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#Blotter_Number').text(data['theEntry'][0]['Blotter_Number']);
+                $('#Status').text(data['theEntry'][0]['Blotter_Status_Name']);
+                $('#Incident_Date').text(data['theEntry'][0]['Incident_Date_Time']);
+                $('#Complaint').text(data['theEntry'][0]['Complaint_Details']);
+            }
+        });
+
+        $.ajax({
+            url: "/get_ordinance_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('#ordinance_files2').empty();
+
+                $i = 0;
+
+                data.forEach(element => {
+                    $i = $i + 1;
+                    var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + '<a href="./files/uploads/ordinance_and_resolution/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                    $('#ordinance_files2').append(file);
+                });
+
+
+            }
+        });
+
+        $.ajax({
+            url: "/get_ordinance_and_resolution_attester",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data);
+
+                var arr = new Array();
+                // or var arr = [];
+                $('#Attester_ID2').empty();
+                data.forEach(element => {
+                    $('#Attester_ID2').append(element['Last_Name'] + ', ' + element['First_Name'] + ' ' + element['Middle_Name'] + '<br>');
+                });
+            }
+        });
+
+        $.ajax({
+            url: "/get_ordinance_and_resolution_pro",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // alert(data);
+
+                var arr = new Array();
+                // or var arr = [];
+                $('#Previous_Related_Ordinance_Resolution_ID2').empty();
+                data.forEach(element => {
+                    $('#Previous_Related_Ordinance_Resolution_ID2').append(element['Ordinance_Resolution_Title'] + '<br>');
+                });
+            }
+        });
+
     });
 </script>
 
