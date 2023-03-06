@@ -57,6 +57,7 @@
                                     <thead>
                                         <tr>
                                             {{-- <th>Inventory_BegBal_ID</th> --}}
+                                            <th>Serial</th>
                                             <th>Item Name</th>
                                             <th>Unit Cost</th>
                                             <th>Quantity</th>
@@ -69,6 +70,7 @@
                                         @foreach($db_entries as $x)
                                         <tr>
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Inventory_BegBal_ID}}</td> --}}
+                                            <td class="sm_data_col" >{{$x->Stock_No}}</td>
                                             <td class="sm_data_col" >{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Unit_Cost}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Quantity}}</td>
@@ -118,7 +120,7 @@
                             <select class="form-control" name="item_inv_ID">
                                 <option value=0 hidden selected>Select</option>
                                     @foreach($inventoryX as $ix)
-                                        <option value="{{$ix->Inventory_ID}}" >{{$ix->Inventory_Name}}</option>
+                                        <option value="{{$ix->Inventory_ID}}" >({{$ix->Stock_No}}) {{$ix->Inventory_Name}}</option>
                                     @endforeach
                             </select>
                         </div>
@@ -153,25 +155,27 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title flexer justifier">Update Entry</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
             </div>
-            <form id="updateEntryXYZ" method="POST" action="{{ route('update_bins_item_status_maint') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+            <form id="updateEntryXYZ" method="POST" action="{{ route('update_bins_begbal') }}" autocomplete="off" enctype="multipart/form-data">@csrf
                 <div class="modal-body Absolute-Center">
                     <div class="modal_input_container">
                         <div class="form-group">
                             <label>Inventory Item:</label>
-                            <select class="form-control" name="item_inv_ID2">
-                                <option id="this_item_status_active" value=1 hidden selected>Select</option>
-                                <option value="">Sample 1</option>
-                                <option value="">Sample 2</option>
+                            <select class="form-control no_edit" name="item_inv_ID2">
+                                <option id="this_item_idX" value="" hidden selected>Select</option>
+                                @foreach($inventoryX as $ix)
+                                    <option value="{{$ix->Inventory_ID}}" >({{$ix->Stock_No}}) {{$ix->Inventory_Name}}</option>
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Unit_Cost:</label>
                             <input id="this_identifier" value="6" hidden>
-                            <input id="this_begbal_idX" class="form-control" name="item_status_ID" hidden>
+                            <input id="this_begbal_idX" class="form-control" name="Inventory_BegBal_ID2" hidden>
 
                             <input id="this_item_unit_cost" class="form-control" name="item_unit_cost2" type="number" step="0.01">
                         </div>

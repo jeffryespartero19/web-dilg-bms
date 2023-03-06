@@ -61,11 +61,12 @@
                                     <thead>
                                         <tr>
                                             {{-- <th>Physical Count ID </th> --}}
+                                            <th>Serial</th>
                                             <th>Item Category</th>
                                             <th>Item</th>
                                             <th>Transaction No</th>
                                             <th>Particulars</th>
-                                            <th>Brgy Official / Staff</th>
+                                            <th>Brgy Official in Charge</th>
                                             <th>Encoder</th>
                                             <th>Date Stamp</th>
                                             <th>Actions</th>
@@ -75,6 +76,7 @@
                                         @foreach($db_entries as $x)
                                         <tr>
                                             {{-- <td class="sm_data_col txtCtr">{{$x->Physical_Count_ID}}</td> --}}
+                                            <td class="sm_data_col txtCtr">{{$x->Stock_No}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Item_Category_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Inventory_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Transaction_No}}</td>
@@ -124,7 +126,7 @@
                             <select class="form-control" name="P_item_ID">
                                 <option value=1 hidden selected>Select</option>
                                 @foreach($P_inventory_list as $P_inv)
-                                    <option value="{{$P_inv->Physical_Count_Inventory_ID}}">{{$P_inv->Inventory_Name}}</option>
+                                    <option value="{{$P_inv->Physical_Count_Inventory_ID}}">({{$P_inv->Stock_No}}) {{$P_inv->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -192,7 +194,7 @@
                             <select class="form-control" name="P_item_ID2">
                                 <option id="this_p_inv" value=1 hidden selected>Select</option>
                                 @foreach($P_inventory_list as $P_inv)
-                                    <option value="{{$P_inv->Physical_Count_Inventory_ID}}">{{$P_inv->Inventory_Name}}</option>
+                                    <option value="{{$P_inv->Physical_Count_Inventory_ID}}">({{$P_inv->Stock_No}}) {{$P_inv->Inventory_Name}}</option>
                                 @endforeach
                             </select>
                         </div>
