@@ -924,8 +924,8 @@
                 $('#Ordinance_Resolution_ID2').text(data['theEntry'][0]['Ordinance_Resolution_ID']);
                 $('#Ordinance_or_Resolution2').text(data['theEntry'][0]['Ordinance_or_Resolution']);
                 $('#Ordinance_Resolution_No2').text(data['theEntry'][0]['Ordinance_Resolution_No']);
-                $('#Date_of_Approval2').text(data['theEntry'][0]['Date_of_Approval']);
-                $('#Date_of_Effectivity2').text(data['theEntry'][0]['Date_of_Effectivity']);
+                $('#Date_of_Approval2').text(data['theEntry'][0]['vDate_of_Approval']);
+                $('#Date_of_Effectivity2').text(data['theEntry'][0]['vDate_of_Effectivity']);
                 $('#Ordinance_Resolution_Title2').text(data['theEntry'][0]['Ordinance_Resolution_Title']);
                 $('#Status_of_Ordinance_or_Resolution_ID2').text(data['theEntry'][0]['Name_of_Status']);
                 if (data['theEntry'][0]['Approver_ID'] != null && data['theEntry'][0]['Approver_ID'] != 0) {
