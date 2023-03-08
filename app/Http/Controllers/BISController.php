@@ -430,7 +430,9 @@ class BISController extends Controller
                                                 'Min_Answer' => $data['Min_Answer'][$ii],
                                                 'Max_Answer' => $data['Max_Answer'][$ii],
                                                 'Encoder_ID' => Auth::user()->id,
-                                                'Date_Stamp' => Carbon::now()
+                                                'Date_Stamp' => Carbon::now(),
+                                                'Visible' => $data['IndVisible'][$ii],
+                                                'Required' => $data['IndRequired'][$ii]
                                             )
                                         );
                                     }
@@ -501,7 +503,9 @@ class BISController extends Controller
                                             'Min_Answer' => $data['Min_Answer'][$i],
                                             'Max_Answer' => $data['Max_Answer'][$i],
                                             'Encoder_ID' => Auth::user()->id,
-                                            'Date_Stamp' => Carbon::now()
+                                            'Date_Stamp' => Carbon::now(),
+                                            'Visible' => $data['IndVisible'][$i],
+                                            'Required' => $data['IndRequired'][$i]
                                         ];
 
                                         DB::table('bis_cms_indicator')->insert($indicator);
@@ -518,7 +522,9 @@ class BISController extends Controller
                                                 'Min_Answer' => $data['Min_Answer'][$i],
                                                 'Max_Answer' => $data['Max_Answer'][$i],
                                                 'Encoder_ID' => Auth::user()->id,
-                                                'Date_Stamp' => Carbon::now()
+                                                'Date_Stamp' => Carbon::now(),
+                                                'Visible' => $data['IndVisible'][$i],
+                                                'Required' => $data['IndRequired'][$i]
                                             )
                                         );
                                     }
