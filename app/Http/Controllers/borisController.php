@@ -332,12 +332,15 @@ class borisController extends Controller
                 }
             }
 
-            if (isset($data['Previous_Related_Ordinance_Resolution_ID'])) {
-                $pro = [];
 
+
+            // dd($data['Ordinance_Resolution_ID']);
+
+            if (isset($data['Previous_Related_Ordinance_Resolution_ID'])) {
                 DB::table('boris_pr_ordinance')
                     ->where('Ordinance_Resolution_ID', $data['Ordinance_Resolution_ID'])
                     ->delete();
+                $pro = [];
 
                 for ($i = 0; $i < count($data['Previous_Related_Ordinance_Resolution_ID']); $i++) {
                     if ($data['Previous_Related_Ordinance_Resolution_ID'][$i] != NULL) {
@@ -380,8 +383,10 @@ class borisController extends Controller
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
                 'a.Ordinance_Resolution_No',
-                DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
-                DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
+                DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as vDate_of_Approval'),
+                DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as vDate_of_Effectivity'),
+                'a.Date_of_Approval',
+                'a.Date_of_Effectivity',
                 'a.Ordinance_Resolution_Title',
                 'a.Status_of_Ordinance_or_Resolution_ID',
                 'a.Previous_Related_Ordinance_Resolution_ID',
