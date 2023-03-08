@@ -139,7 +139,7 @@
                                         @foreach ($indicator as $indicators)
                                         @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null && $indicators->Sub_Indicator_ID == null)
 
-                                        <div class="card-teal IndicatorDIV">
+                                        <div class="card card-teal IndicatorDIV collapsed-card">
                                             <div class="card-header">
                                                 <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
                                                 <div class="card-tools">
@@ -155,7 +155,7 @@
                                                 <!-- /.card-tools -->
                                             </div>
 
-                                            <div class="card-body" style="margin-bottom: 5px;">
+                                            <div class="card-body SINDData" style="margin-bottom: 5px;">
                                                 <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}">
                                                 <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
                                                     <div class="form-group col-lg-12">
@@ -198,13 +198,9 @@
                                                         <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicators->Widget == 'RADIO' || $indicators->Widget == 'SELECT' || $indicators->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            @foreach ($indicator as $indicator2)
-                                            @if($indicator2->Sub_Indicator_ID == $indicators->Indicator_ID && $indicator2->Title_ID == $titles->Title_ID && $indicator2->Title_ID != null)
-                                            <div class="card-body SubIndicatorDIV" style="margin-bottom: 5px;">
-
-                                                <div class="card-info">
+                                                @foreach ($indicator as $indicator2)
+                                                @if($indicator2->Sub_Indicator_ID == $indicators->Indicator_ID && $indicator2->Title_ID == $titles->Title_ID && $indicator2->Title_ID != null)
+                                                <div class="card card-info SubIndicatorDIV collapsed-card" style="margin-bottom: 5px;">
                                                     <div class="card-header">
                                                         <h4 class="card-title" data-card-widget="collapse">Sub-Indicator</h4>
                                                         <div class="card-tools">
@@ -242,15 +238,14 @@
                                                             </div>
                                                             <div class="form-group col-lg-12">
                                                                 <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
-                                                                <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicator2->Widget == 'RADIO' || $indicator2->Widget == 'SELECT' || $indicator2->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
+                                                                <button class="btn btn-warning ADD_SUB_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal" @if($indicator2->Widget == 'RADIO' || $indicator2->Widget == 'SELECT' || $indicator2->Widget == 'CHECKBOX') @else hidden @endif><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @endif
+                                                @endforeach
                                             </div>
-                                            @endif
-                                            @endforeach
                                         </div>
                                         @endif
                                         @endforeach
@@ -336,7 +331,7 @@
 </div>
 
 <!-- Indicator Clone DIV -->
-<div class="card-teal IndicatorDIV IndicatorDIVhidden" hidden>
+<div class="card card-teal IndicatorDIV IndicatorDIVhidden collapsed-card" hidden>
     <div class="card-header">
         <h4 class="card-title" data-card-widget="collapse">Indicator</h4>
         <div class="card-tools">
@@ -349,7 +344,7 @@
         </div>
         <!-- /.card-tools -->
     </div>
-    <div class="card-body col-lg-12" style="margin-bottom: 5px;">
+    <div class="card-body col-lg-12 SINDData" style="margin-bottom: 5px;">
         <input class="Indicator_ID" type="text" hidden name="Indicator_ID[]">
         <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
             <div class="form-group col-lg-12">
@@ -394,48 +389,46 @@
     </div>
 </div>
 
-<!-- Indicator Clone DIV -->
-<div class="card-body SubIndicatorDIV SubIndicatorDIVHidden" hidden style="margin-bottom: 5px;">
-    <div class="card-info">
-        <div class="card-header">
-            <h4 class="card-title" data-card-widget="collapse">Sub-Indicator</h4>
-            <div class="card-tools">
-                @if (Auth::user()->User_Type_ID == 5)
-                <button type="button" class="btn btn-tool SubIndicatorRemove">
-                    <i class="fas fa-trash"></i>&nbsp;Delete
-                </button>
-                @endif
-            </div>
-            <!-- /.card-tools -->
+<!--Sub Indicator Clone DIV -->
+<div class="card card-info SubIndicatorDIV SubIndicatorDIVHidden collapsed-card" hidden style="margin-bottom: 5px;">
+    <div class="card-header">
+        <h4 class="card-title" data-card-widget="collapse">Sub-Indicator</h4>
+        <div class="card-tools">
+            @if (Auth::user()->User_Type_ID == 5)
+            <button type="button" class="btn btn-tool SubIndicatorRemove">
+                <i class="fas fa-trash"></i>&nbsp;Delete
+            </button>
+            @endif
         </div>
-        <div class="card-body col-lg-12" style="margin-bottom: 5px;">
-            <input class="Sub_Indicator_ID" name="Sub_Indicator_ID[]" type="number" hidden>
-            <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
-                <div class="form-group col-lg-12">
-                    <label>Description</label>
-                    <textarea class="form-control Sub_Indicator_Description"></textarea>
-                </div>
-                <div class="form-group col-lg-4">
-                    <label>Answer Type</label>
-                    <select class="form-control answer_types Sub_Answer_Types_ID" style="width: 100%;">
-                        <option value='' disabled selected>Select Option</option>
-                        @foreach($answer_type as $at)
-                        <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-lg-4">
-                    <label>Min. Answer</label>
-                    <input type="number" class="form-control Sub_Min_Answer">
-                </div>
-                <div class="form-group col-lg-4">
-                    <label>Max Answer</label>
-                    <input type="number" class="form-control Sub_Max_Answer">
-                </div>
-                <div class="form-group col-lg-12">
-                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
-                    <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
-                </div>
+        <!-- /.card-tools -->
+    </div>
+    <div class="card-body col-lg-12" style="margin-bottom: 5px;">
+        <input class="Sub_Indicator_ID" name="Sub_Indicator_ID[]" type="number" hidden>
+        <div class="row" style="background-color: white; margin: 0px; width:100%; padding:20px">
+            <div class="form-group col-lg-12">
+                <label>Description</label>
+                <textarea class="form-control Sub_Indicator_Description"></textarea>
+            </div>
+            <div class="form-group col-lg-4">
+                <label>Answer Type</label>
+                <select class="form-control answer_types Sub_Answer_Types_ID" style="width: 100%;">
+                    <option value='' disabled selected>Select Option</option>
+                    @foreach($answer_type as $at)
+                    <option value="{{ $at->Answer_Type_ID }}">{{ $at->Title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-lg-4">
+                <label>Min. Answer</label>
+                <input type="number" class="form-control Sub_Min_Answer">
+            </div>
+            <div class="form-group col-lg-4">
+                <label>Max Answer</label>
+                <input type="number" class="form-control Sub_Max_Answer">
+            </div>
+            <div class="form-group col-lg-12">
+                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#ADD_AT_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD NEW ANSWER TYPE</button>
+                <button class="btn btn-warning ADD_OPTIONS_modal" type="button" data-toggle="modal" data-target="#ADD_OPTIONS_modal"><i class="fa fa-plus" aria-hidden="true"></i> ADD OPTIONS</button>
             </div>
         </div>
     </div>
@@ -654,7 +647,7 @@
         newdiv.find('.Sub_Answer_Types_ID').attr('name', 'Sub_Answer_Types_ID[' + ind_id + '][]');
         newdiv.find('.Sub_Min_Answer').attr('name', 'Sub_Min_Answer[' + ind_id + '][]');
         newdiv.find('.Sub_Max_Answer').attr('name', 'Sub_Max_Answer[' + ind_id + '][]');
-        div_main.append(newdiv);
+        div_main.find(".SINDData").append(newdiv);
         div_main.find('.SubIndicatorDIVHidden').prop('hidden', false).removeClass('SubIndicatorDIVHidden');
 
     });
@@ -662,6 +655,18 @@
     $(document).on("click", ".BTNCollapse", function() {
         var div_main = $(this).closest(".LabelDIV");
         var collapse = div_main.find(".collapse");
+
+        if (collapse.hasClass("in")) {
+            collapse.removeClass('in');
+        } else {
+            collapse.addClass('in');
+        }
+    });
+
+    $(document).on("click", ".INDCollapse", function() {
+        alert('test');
+        var div_main = $(this).closest(".IndicatorDIV");
+        var collapse = div_main.find(".collapsed-card");
 
         if (collapse.hasClass("in")) {
             collapse.removeClass('in');
@@ -773,6 +778,32 @@
     $(document).on("click", ".ADD_OPTIONS_modal", function() {
         var div_main = $(this).closest(".IndicatorDIV");
         var Indicator_ID = div_main.find(".Indicator_ID").val();
+        $('#modal_Indicator_ID').val(Indicator_ID);
+
+        $.ajax({
+            type: "GET",
+            url: "/get_answer_classification/" + Indicator_ID,
+            fail: function() {
+                alert("request failed");
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $('.Answer_list').empty();
+                data.forEach(element => {
+                    var option = '<div class="form-group Answers">' +
+                        '<label for="Answer" class="col-form-label">Option:</label>' +
+                        '<input type="text" class="form-control" name="Answer_Classification_ID[]" hidden value="' + element['Answer_Classification_ID'] + '">' +
+                        '<input type="text" class="form-control" name="Answer[]" required value="' + element['Answer'] + '">' +
+                        '</div>';
+                    $('.Answer_list').append(option);
+                });
+            }
+        });
+    });
+
+    $(document).on("click", ".ADD_SUB_OPTIONS_modal", function() {
+        var div_main = $(this).closest(".SubIndicatorDIV");
+        var Indicator_ID = div_main.find(".Sub_Indicator_ID").val();
         $('#modal_Indicator_ID').val(Indicator_ID);
 
         $.ajax({
