@@ -1049,7 +1049,7 @@ class maintenanceController extends Controller
     public function status_of_ordinance_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $db_entries = DB::table('maintenance_boris_status_of_ordinance')->paginate(20, ['*'], 'db_entries');
+        $db_entries = DB::table('maintenance_boris_status_of_ordinance_or_resolution')->paginate(20, ['*'], 'db_entries');
 
         return view('maintenance.boris_status_of_ordinance', compact('db_entries', 'currDATE'));
     }
@@ -1059,11 +1059,11 @@ class maintenanceController extends Controller
         $currDATE = Carbon::now();
         $data = $data = request()->all();
 
-        DB::table('maintenance_boris_status_of_ordinance')->insert(
+        DB::table('maintenance_boris_status_of_ordinance_or_resolution')->insert(
             array(
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now(),
-                'Status_of_Ordinance_Name'  => $data['Status_of_OrdinanceX'],
+                'Name_of_Status'  => $data['Status_of_OrdinanceX'],
                 'Active'               => (int)$data['ActiveX']
             )
         );
@@ -1074,20 +1074,22 @@ class maintenanceController extends Controller
     {
         $id = $_GET['id'];
 
-        $theEntry = DB::table('maintenance_boris_status_of_ordinance')->where('Status_of_Ordinance_ID', $id)->get();
+        $theEntry = DB::table('maintenance_boris_status_of_ordinance_or_resolution')->where('Status_of_Ordinance_or_Resolution_ID', $id)->get();
 
         return (compact('theEntry'));
     }
     public function update_status_of_ordinance_maint(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
 
-        DB::table('maintenance_boris_status_of_ordinance')->where('Status_of_Ordinance_ID', $data['Status_of_Ordinance_idX'])->update(
+        // dd($data);
+
+        DB::table('maintenance_boris_status_of_ordinance_or_resolution')->where('Status_of_Ordinance_or_Resolution_ID', $data['Status_of_Ordinance_or_Resolution_IDX2'])->update(
             array(
                 'Encoder_ID'       => Auth::user()->id,
                 'Date_Stamp'       => Carbon::now(),
-                'Status_of_Ordinance_Name'  => $data['Status_of_OrdinanceX2'],
+                'Name_of_Status'  => $data['Status_of_OrdinanceX2'],
                 'Active'               => (int)$data['ActiveX2']
             )
         );

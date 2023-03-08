@@ -825,8 +825,8 @@ $(document).on('click', ('.edit_status_of_ordinance'), function(e) {
             alert('request failed');
         },
         success: function(data) {
-            $('#this_status_of_ordinance_idX').val(data['theEntry'][0]['Status_of_Ordinance_ID']);
-            $('#this_status_of_ordinanceX').val(data['theEntry'][0]['Status_of_Ordinance_Name']);
+            $('#this_status_of_ordinance_idX').val(data['theEntry'][0]['Status_of_Ordinance_or_Resolution_ID']);
+            $('#this_status_of_ordinanceX').val(data['theEntry'][0]['Name_of_Status']);
 
             $('#this_status_of_ordinance_active').empty();
             $('#this_status_of_ordinance_active').val(data['theEntry'][0]['Active']);
