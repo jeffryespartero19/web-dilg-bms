@@ -257,7 +257,7 @@ class borisController extends Controller
                         DB::table('boris_pr_ordinance')->updateOrInsert(['id' => $id], $pro);
                     }
                 }
-            }
+            } 
 
             return redirect()->back()->with('message', 'New Record Created');
         } else {
@@ -354,6 +354,10 @@ class borisController extends Controller
                         DB::table('boris_pr_ordinance')->updateOrInsert(['id' => $id], $pro);
                     }
                 }
+            } else {
+                DB::table('boris_pr_ordinance')
+                    ->where('Ordinance_Resolution_ID', $data['Ordinance_Resolution_ID'])
+                    ->delete();
             }
 
             return redirect()->back()->with('message', 'Record Updated');
