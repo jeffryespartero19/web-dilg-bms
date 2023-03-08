@@ -277,33 +277,37 @@
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="number" id="chk_Ordinance" name="chk_Ordinance" hidden value=0>
-                                <input type="checkbox" id="chk_Ordinance_No" name="chk_Ordinance_No">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Ordinance_No" name="chk_Ordinance_No">
                                 <label for="chk_Ordinance_No">Ordinance No.</label><br>
-                                <input type="checkbox" id="chk_Approval" name="chk_Approval">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Approval" name="chk_Approval">
                                 <label for="chk_Approval">Date of Approval</label><br>
-                                <input type="checkbox" id="chk_Effectivity" name="chk_Effectivity">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Effectivity" name="chk_Effectivity">
                                 <label for="chk_Effectivity">Date of Effectivity</label><br>
-                                <input type="checkbox" id="chk_Title" name="chk_Title">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Title" name="chk_Title">
                                 <label for="chk_Title">Ordinance Title</label><br>
-                                <input type="checkbox" id="chk_Status" name="chk_Status">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Status" name="chk_Status">
                                 <label for="chk_Status">Status</label><br>
-                                <input type="checkbox" id="chk_Approver" name="chk_Approver">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Approver" name="chk_Approver">
                                 <label for="chk_Approver">Approver</label><br>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <input type="checkbox" id="chk_PROrdinance" name="chk_PROrdinance">
+                                <input type="checkbox" class="ChkBOX1" id="chk_PROrdinance" name="chk_PROrdinance">
                                 <label for="chk_PROrdinance">Previous Related Ordinance</label><br>
-                                <input type="checkbox" id="chk_Region" name="chk_Region">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Region" name="chk_Region">
                                 <label for="chk_Region">Region</label><br>
-                                <input type="checkbox" id="chk_Province" name="chk_Province">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Province" name="chk_Province">
                                 <label for="chk_Province">Province</label><br>
-                                <input type="checkbox" id="chk_City" name="chk_City">
+                                <input type="checkbox" class="ChkBOX1" id="chk_City" name="chk_City">
                                 <label for="chk_City">City/Municipality</label><br>
-                                <input type="checkbox" id="chk_Barangay" name="chk_Barangay">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Barangay" name="chk_Barangay">
                                 <label for="chk_Barangay">Barangay</label><br>
-                                <input type="checkbox" id="chk_Attester" name="chk_Attester">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Attester" name="chk_Attester">
                                 <label for="chk_Attester">Attester</label><br>
                             </div>
                         </div>
@@ -332,33 +336,37 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-lg-12"><input class="form-control" type="date" name="DateFilter2"></div>
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll2" name="SelectAll2">
+                                <label for="SelectAll2">Select All</label><br>
+                            </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="number" id="1chk_Ordinance" name="chk_Ordinance" hidden value=0>
-                                <input type="checkbox" id="1chk_Ordinance_No" name="chk_Ordinance_No">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Ordinance_No" name="chk_Ordinance_No">
                                 <label for="1chk_Ordinance_No">Ordinance No.</label><br>
-                                <input type="checkbox" id="1chk_Approval" name="chk_Approval">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Approval" name="chk_Approval">
                                 <label for="1chk_Approval">Date of Approval</label><br>
-                                <input type="checkbox" id="1chk_Effectivity" name="chk_Effectivity">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Effectivity" name="chk_Effectivity">
                                 <label for="1chk_Effectivity">Date of Effectivity</label><br>
-                                <input type="checkbox" id="1chk_Title" name="chk_Title">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Title" name="chk_Title">
                                 <label for="1chk_Title">Ordinance Title</label><br>
-                                <input type="checkbox" id="1chk_Status" name="chk_Status">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Status" name="chk_Status">
                                 <label for="1chk_Status">Status</label><br>
-                                <input type="checkbox" id="1chk_Approver" name="chk_Approver">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Approver" name="chk_Approver">
                                 <label for="1chk_Approver">Approver</label><br>
                             </div>
                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_PROrdinance" name="chk_PROrdinance">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_PROrdinance" name="chk_PROrdinance">
                                 <label for="1chk_PROrdinance">Previous Related Ordinance</label><br>
-                                <input type="checkbox" id="1chk_Region" name="chk_Region">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Region" name="chk_Region">
                                 <label for="1chk_Region">Region</label><br>
-                                <input type="checkbox" id="1chk_Province" name="chk_Province">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Province" name="chk_Province">
                                 <label for="1chk_Province">Province</label><br>
-                                <input type="checkbox" id="1chk_City" name="chk_City">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_City" name="chk_City">
                                 <label for="1chk_City">City/Municipality</label><br>
-                                <input type="checkbox" id="1chk_Barangay" name="chk_Barangay">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Barangay" name="chk_Barangay">
                                 <label for="1chk_Barangay">Barangay</label><br>
-                                <input type="checkbox" id="1chk_Attester" name="chk_Attester">
+                                <input type="checkbox" class="ChkBOX2" id="1chk_Attester" name="chk_Attester">
                                 <label for="1chk_Attester">Attester</label><br>
                             </div>
                         </div>
@@ -1092,6 +1100,14 @@
     //Remove PRO
     $(document).on('click', '.pro_remove', function() {
         $(this).closest("tr").remove();
+    });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
+    });
+
+    $(document).on('click', '#SelectAll2', function(e) {
+        $('.ChkBOX2').prop('checked', this.checked);
     });
 </script>
 

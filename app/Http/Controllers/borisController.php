@@ -24,8 +24,8 @@ class borisController extends Controller
                     'a.Ordinance_Resolution_ID',
                     'a.Ordinance_or_Resolution',
                     'a.Ordinance_Resolution_No',
-                    'a.Date_of_Approval',
-                    'a.Date_of_Effectivity',
+                    DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
+                    DB::raw('DATE_FORMAT(a.Date_of_Effectivity,  "%M %d,%Y") as Date_of_Effectivity'),
                     'a.Ordinance_Resolution_Title',
                     'a.Status_of_Ordinance_or_Resolution_ID',
                     'b.Name_of_Status'
@@ -40,8 +40,8 @@ class borisController extends Controller
                     'a.Ordinance_Resolution_ID',
                     'a.Ordinance_or_Resolution',
                     'a.Ordinance_Resolution_No',
-                    'a.Date_of_Approval',
-                    'a.Date_of_Effectivity',
+                    DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
+                    DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
                     'a.Ordinance_Resolution_Title',
                     'a.Status_of_Ordinance_or_Resolution_ID',
                     'b.Name_of_Status'
@@ -103,8 +103,8 @@ class borisController extends Controller
                     'a.Ordinance_or_Resolution',
                     'a.Ordinance_Resolution_No',
                     'a.Date_of_Approval',
-                    'a.Date_of_Effectivity',
-                    'a.Ordinance_Resolution_Title',
+                    DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
+                    DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
                     'a.Status_of_Ordinance_or_Resolution_ID',
                     'b.Name_of_Status'
 
@@ -119,8 +119,8 @@ class borisController extends Controller
                     'a.Ordinance_Resolution_ID',
                     'a.Ordinance_or_Resolution',
                     'a.Ordinance_Resolution_No',
-                    'a.Date_of_Approval',
-                    'a.Date_of_Effectivity',
+                    DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
+                    DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
                     'a.Ordinance_Resolution_Title',
                     'a.Status_of_Ordinance_or_Resolution_ID',
                     'b.Name_of_Status'
@@ -257,7 +257,7 @@ class borisController extends Controller
                         DB::table('boris_pr_ordinance')->updateOrInsert(['id' => $id], $pro);
                     }
                 }
-            } 
+            }
 
             return redirect()->back()->with('message', 'New Record Created');
         } else {
@@ -380,8 +380,8 @@ class borisController extends Controller
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
                 'a.Ordinance_Resolution_No',
-                'a.Date_of_Approval',
-                'a.Date_of_Effectivity',
+                DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
+                DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
                 'a.Ordinance_Resolution_Title',
                 'a.Status_of_Ordinance_or_Resolution_ID',
                 'a.Previous_Related_Ordinance_Resolution_ID',
@@ -457,8 +457,8 @@ class borisController extends Controller
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
                 'a.Ordinance_Resolution_No',
-                'a.Date_of_Approval',
-                'a.Date_of_Effectivity',
+                DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
+                DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
                 'a.Ordinance_Resolution_Title',
                 'a.Status_of_Ordinance_or_Resolution_ID',
                 'b.Name_of_Status',
@@ -550,8 +550,8 @@ class borisController extends Controller
                 'a.Ordinance_Resolution_ID',
                 'a.Ordinance_or_Resolution',
                 'a.Ordinance_Resolution_No',
-                'a.Date_of_Approval',
-                'a.Date_of_Effectivity',
+                DB::raw('DATE_FORMAT(a.Date_of_Approval,  "%M %d,%Y") as Date_of_Approval'),
+                DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
                 'a.Ordinance_Resolution_Title',
                 'a.Status_of_Ordinance_or_Resolution_ID',
                 'b.Name_of_Status',
