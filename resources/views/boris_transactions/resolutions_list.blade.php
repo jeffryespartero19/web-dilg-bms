@@ -570,6 +570,12 @@
         $('#Province_ID').append(option1);
         $('#Modal_Title').text('Create Resolution');
         $('#ordinance_files').empty();
+        $('#createOrdinance_Info').trigger("reset");
+        $("#createOrdinance_Info :input").prop("disabled", false);
+        $(".btn_action").val(0);
+        $("#Previous_Related_Ordinance_Resolution_ID ").empty();
+        $("#Attester_ID").val([]).change();
+        $('#PROlist').empty();
 
     });
 
@@ -655,7 +661,7 @@
                 alert('request failed');
             },
             success: function(data) {
-                var data = JSON.parse(data);
+                              var data = JSON.parse(data);
                 data.forEach(element => {
 
                     var or_id = element["Ordinance_Resolution_ID"];
@@ -848,15 +854,6 @@
         $('.resolution').addClass('active');
         $('.boris_menu').addClass('active');
         $('.boris_main').addClass('menu-open');
-    });
-
-
-    $(document).on('click', '.modal-close', function(e) {
-        $('#createOrdinance_Info').trigger("reset");
-        $("#createOrdinance_Info :input").prop("disabled", false);
-        $(".btn_action").val(0);
-        $("#Previous_Related_Ordinance_Resolution_ID ").empty();
-        $("#Attester_ID").val([]).change();
     });
 
     // Delete Ordinance
