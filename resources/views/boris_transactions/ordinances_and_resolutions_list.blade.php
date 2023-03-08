@@ -623,7 +623,9 @@
         $('#Province_ID').append(option1);
         $('#Modal_Title').text('Create Ordinance');
         $('#ordinance_files').empty();
-
+        $('#PROlist').empty();
+        $('#createOrdinance_Info').trigger("reset");
+        $("#createOrdinance_Info :input").prop("disabled", false);
     });
 
     // Edit Button Display Modal
@@ -665,6 +667,8 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
+
+                $('#PROlist').empty();
                 data.forEach(element => {
 
                     var or_id = element["Ordinance_Resolution_ID"];
@@ -692,6 +696,7 @@
                         },
                         success: function(data) {
                             var data = JSON.parse(data);
+
                             $i = 0;
                             if (data.length > 1) {
                                 data.forEach(element => {
@@ -854,11 +859,6 @@
                 });
             }
         });
-    });
-
-    $(document).on('click', '.modal-close', function(e) {
-        $('#createOrdinance_Info').trigger("reset");
-        $("#createOrdinance_Info :input").prop("disabled", false);
     });
 
     // Side Bar Active
