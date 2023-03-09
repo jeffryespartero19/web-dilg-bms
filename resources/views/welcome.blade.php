@@ -245,6 +245,84 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="card card-info card-outline collapsed-card">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0">Disaster Related Activities</h5>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding: 10px;">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Activity Name</th>
+                                                    <th>Purpose</th>
+                                                    <th>Date Start</th>
+                                                    <th>Date End</th>
+                                                    <th>Number of Participants</th>
+                                                </tr>
+                                            </thead>
+                                            @foreach($disrelact as $disrelact)
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{$disrelact->Activity_Name}}</td>
+                                                    <td>{{$disrelact->Purpose}}</td>
+                                                    <td>{{$disrelact->Date_Start}}</td>
+                                                    <td>{{$disrelact->Date_End}}</td>
+                                                    <td>{{$disrelact->Number_of_Participants}}</td>
+                                                </tr>
+                                            </tbody>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-info card-outline collapsed-card">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0">Brgy Project Monitoring</h5>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding: 10px;">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Project Number</th>
+                                                    <th>Project Name</th>
+                                                    <th>Total Project Cost</th>
+                                                    <th>Exact Location</th>
+                                                    <th>Actual Project Start</th>
+                                                    <th>Contractor Name</th>
+                                                    <th>Project Type Name</th>
+                                                    <th>Project Status Name</th>
+                                                </tr>
+                                            </thead>
+                                            @foreach($projmon as $projmon)
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{$projmon->Project_Number}}</td>
+                                                    <td>{{$projmon->Project_Name}}</td>
+                                                    <td>{{$projmon->Total_Project_Cost}}</td>
+                                                    <td>{{$projmon->Exact_Location}}</td>
+                                                    <td>{{$projmon->Actual_Project_Start}}</td>
+                                                    <td>{{$projmon->Contractor_Name}}</td>
+                                                    <td>{{$projmon->Project_Type_Name}}</td>
+                                                    <td>{{$projmon->Project_Status_Name}}</td>
+                                                </tr>
+                                            </tbody>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /.row -->

@@ -188,16 +188,20 @@
                             <tr class="RecoveryDetails">
                                 <td hidden></td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Livestock_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Poultry_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Fisheries_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Crops_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger RecoveryRemove">Remove</button>
@@ -208,16 +212,20 @@
                             <tr class="RecoveryDetails">
                                 <td hidden></td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat"  value="{{number_format((float)$cd->Livestock_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Poultry_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Fisheries_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Crops_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger RecoveryRemove">Remove</button>

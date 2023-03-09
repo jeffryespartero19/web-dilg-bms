@@ -101,12 +101,13 @@
                                             <th>Disaster Name</th>
                                             <th>Disaster Type</th>
                                             <th>Alert Level</th>
-                                            <th>Damaged Location</th>
+                                            <!-- <th>Damaged Location</th> -->
                                             <th>Disaster Date Start</th>
                                             <th>Disaster Date End</th>
-                                            <th>GPS Coordinates</th>
+                                            <th>Summary</th>
+                                            <!-- <th>GPS Coordinates</th>
                                             <th>Risk Assesment</th>
-                                            <th>Action Taken</th>
+                                            <th>Action Taken</th> -->
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -117,12 +118,13 @@
                                             <td class="sm_data_col txtCtr">{{$x->Disaster_Name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Disaster_Type}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Alert_Level}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Damaged_Location}}</td>
+                                            <!-- <td class="sm_data_col txtCtr">{{$x->Damaged_Location}}</td> -->
                                             <td class="sm_data_col txtCtr">{{$x->Disaster_Date_Start}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Disaster_Date_End}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->GPS_Coordinates}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Summary}}</td>
+                                            <!-- <td class="sm_data_col txtCtr">{{$x->GPS_Coordinates}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Risk_Assesment}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Action_Taken}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Action_Taken}}</td> -->
                                             <td class="sm_data_col txtCtr">
                                                 @if (Auth::user()->User_Type_ID == 1)
                                                 <a class="btn btn-info" href="{{ url('response_information_details/'.$x->Disaster_Response_ID) }}">Edit</a>

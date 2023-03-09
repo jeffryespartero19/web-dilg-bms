@@ -989,7 +989,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_dissupp', 'BDRISALController@get_dissupp')->name('get_dissupp');
   Route::get('/get_emerteam', 'BDRISALController@get_emerteam')->name('get_emerteam');
   Route::get('/get_emerequip', 'BDRISALController@get_emerequip')->name('get_emerequip');
-  Route::get('/brgy_project_monitoring_details_view/{id}', 'BPMSController@brgy_project_monitoring_details_view');
+  Route::get('/brgy_project_monitoring_details_viewing/{id}', 'BPMSController@brgy_project_monitoring_details_viewing');
   Route::get('/get_brgyprojects', 'BPMSController@get_brgyprojects')->name('get_brgyprojects');
   Route::get('/get_disaster_related_activities_view', 'BDRISALController@get_disaster_related_activities_view')->name('get_disaster_related_activities_view');
   Route::get('/get_responseinfo', 'BDRISALController@get_responseinfo')->name('get_responseinfo');
@@ -1008,6 +1008,7 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/search_ordinances', 'borisController@fetch_data');
   Route::get('/search_resolutions', 'borisController@fetch_data_resolution');
+  Route::get('/get_brgyprojects_projcount', 'BPMSController@get_brgyprojects_projcount')->name('get_brgyprojects_projcount');
 });
 
 

@@ -44,9 +44,32 @@
         <form id="newRecovery_Information" method="POST" action="{{ route('create_recovery_information') }}" autocomplete="off" enctype="multipart/form-data">
             @csrf
             <div class="row">
+                
 
                 <input type="text" class="form-control" id="Disaster_Recovery_ID" name="Disaster_Recovery_ID" value="{{$recovery[0]->Disaster_Recovery_ID}}" hidden>
-                <div class="row">
+                
+                    <div class="form-group col-lg-6" style="padding:0 10px">
+                        <label for="Disaster_Response_ID">Disaster Response</label>
+                        <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
+                            <option value='' disabled selected>Select Option</option>
+                            @foreach($response_information as $bt1)
+                            <option value="{{ $bt1->Disaster_Response_ID }}" {{ $bt1->Disaster_Response_ID  == $response_information[0]->Disaster_Response_ID  ? "selected" : "" }}>{{ $bt1->Disaster_Name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+               
+                    <div class="form-group col-lg-12" style="padding:0 10px">
+                        <label for="fileattach">File Attachments</label>
+                        <ul class="list-group list-group-flush" id="recovery_files">
+
+                        </ul>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                            <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                        </div>
+                    </div>
+                
+                <!-- <div class="row">
                     <div class="form-group col-lg-12" style="padding:0 10px">
                         <label for="Disaster_Response_ID">Disaster Response</label>
                         <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
@@ -66,7 +89,7 @@
                             <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <hr>
             <div class="row">
@@ -85,7 +108,7 @@
                                 <th>Remarks</th>
                                 <th>Action</th>
                             </tr>
-                        </thead>
+                        </thead> 
                         <tbody class="AffectedBody">
                             @if($affected->count() > 0)
                             @foreach ($affected as $cd)
@@ -184,16 +207,20 @@
                             <tr class="RecoveryDetails">
                                 <td hidden></td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Livestock_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Poultry_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Fisheries_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Crops_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger RecoveryRemove">Remove</button>
@@ -204,16 +231,20 @@
                             <tr class="RecoveryDetails">
                                 <td hidden></td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat"  value="{{number_format((float)$cd->Livestock_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Livestock_Loss_Estimated_Value[]" value="{{$cd->Livestock_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Poultry_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Poultry_Loss_Estimated_Value[]" value="{{$cd->Poultry_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Fisheries_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Fisheries_Loss_Estimated_Value[]" value="{{$cd->Fisheries_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Crops_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger RecoveryRemove">Remove</button>
@@ -251,7 +282,20 @@
                                 <tr class="HRDetails">
                                     <td hidden></td>
                                     <td>
-                                        <select class="form-control myselect select2 Casualties_Resident" id="Casualties_Resident" name="Resident_ID[]" style="width: 350px;">
+                                        <!-- <select class="form-control myselect select2 Casualties_Resident" id="Casualties_Resident" name="Resident_ID[]" style="width: 350px;">
+                                            <option value='' disabled selected>Select Option</option>
+                                            @if($id->Resident_ID == 0)
+                                            <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
+                                            @foreach($resident as $rs)
+                                            <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                            @endforeach
+                                            @else
+                                            @foreach($resident as $rs)
+                                            <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID == $id->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                            @endforeach
+                                            @endif
+                                        </select> -->
+                                        <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
                                             <option value='' disabled selected>Select Option</option>
                                             @if($id->Resident_ID == 0)
                                             <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -360,7 +404,7 @@
                                 <tr class="HR2Details">
                                     <td hidden></td>
                                     <td>
-                                        <select class="form-control myselect select2 Missing_Resident" id="Missing_Resident" name="Resident_Missing_ID[]" style="width: 350px;">
+                                        <select class="form-control js-example-basic-single Resident_Select3 mySelect2" name="Resident_Missing_ID[]" style="width: 350px;">
                                             <option value='' disabled selected>Select Option</option>
                                             @if($id->Resident_ID == 0)
                                             <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -406,7 +450,7 @@
                                 <tr class="HR2Details">
                                     <td hidden></td>
                                     <td>
-                                        <select class="form-control myselect select2 Missing_Resident" id="Missing_Resident" name="Resident_Missing_ID[]" style="width: 350px;">
+                                        <select class="form-control js-example-basic-single Resident_Select3 mySelect2" name="Resident_Missing_ID[]" style="width: 350px;">
                                             <option value='' disabled selected>Select Option</option>
                                             @foreach($resident2 as $rs)
                                             <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -469,14 +513,25 @@
 @section('scripts')
 
 <script>
-    $(document).ready(function() {
+     // Data Table
+     $(document).ready(function() {
         $('#example').DataTable();
-    
+    });
+
+    //Select2
+    $(document).ready(function() {
         $('.js-example-basic-single').select2();
-        $('.select2').select2();
-       
-         //Select2 Lazy Loading 
-         $("#Disaster_Response_ID").select2({
+
+        $(".Resident_Select2").select2({
+            tags: true,
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $("#Disaster_Response_ID").select2({
             minimumInputLength: 2,
             ajax: {
                 url: '/search_disasterresponse',
@@ -484,31 +539,24 @@
             }
         });
 
-        $("#Household_Profile_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_household',
-                dataType: "json",
-            }
-        });
+        // $("#Household_Profile_ID").select2({
+        //     minimumInputLength: 2,
+        //     ajax: {
+        //         url: '/search_household',
+        //         dataType: "json",
+        //     }
+        // });
 
-        $("#Level_of_Damage_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_leveldamage',
-                dataType: "json",
-            }
-        });
+        // $("#Level_of_Damage_ID").select2({
+        //     minimumInputLength: 2,
+        //     ajax: {
+        //         url: '/search_leveldamage',
+        //         dataType: "json",
+        //     }
+        // });
 
-        $(".Casualties_Resident").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_inhabitants',
-                dataType: "json",
-            }
-        });
-
-        $(".Missing_Resident").select2({
+        $(".Resident_Select3").select2({
+            tags: true,
             minimumInputLength: 2,
             ajax: {
                 url: '/search_inhabitants',
@@ -516,8 +564,7 @@
             }
         });
 
-        
-        var disID = $('#Disaster_Recovery_ID').val();
+            var disID = $('#Disaster_Recovery_ID').val();
         var User_Type_ID = $('#User_Type_ID').val();
         $.ajax({
             url: "/get_recovery_attachments",
@@ -549,7 +596,9 @@
 
             }
         });
+        
     });
+   
 
     function addResident2() {
         var row = $("#Resident2TBL tr:last");
@@ -560,11 +609,12 @@
 
         var newrow = row.clone();
 
-        newrow.find(".Missing_Resident").empty();
+        newrow.find(".Resident_Select3").empty();
 
         $("#Resident2TBL").append(newrow);
 
-        $(".Missing_Resident").select2({
+        $(".Resident_Select3").select2({
+            tags: true,
             minimumInputLength: 2,
             ajax: {
                 url: '/search_inhabitants',
@@ -593,11 +643,12 @@
 
         var newrow = row.clone();
 
-        newrow.find(".Casualties_Resident").empty();
+        newrow.find(".Resident_Select2").empty();
 
         $("#ResidentTBL").append(newrow);
 
-        $(".Casualties_Resident").select2({
+        $(".Resident_Select2").select2({
+            tags: true,
             minimumInputLength: 2,
             ajax: {
                 url: '/search_inhabitants',
@@ -605,6 +656,7 @@
             }
         });
 
+        $(newrow.find("td:eq(3) input")).val(0);
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(5) input")).val('');
 
@@ -629,21 +681,21 @@
 
         $("#AffectedTBL").append(newrow);
 
-        $("#Household_Profile_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_household',
-                dataType: "json",
-            }
-        });
+        // $("#Household_Profile_ID").select2({
+        //     minimumInputLength: 2,
+        //     ajax: {
+        //         url: '/search_household',
+        //         dataType: "json",
+        //     }
+        // });
 
-        $("#Level_of_Damage_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_leveldamage',
-                dataType: "json",
-            }
-        });
+        // $("#Level_of_Damage_ID").select2({
+        //     minimumInputLength: 2,
+        //     ajax: {
+        //         url: '/search_leveldamage',
+        //         dataType: "json",
+        //     }
+        // });
 
         // $(newrow.find("td:eq(1) input")).val(0);
         // $(newrow.find("td:eq(2) input")).val(0);
@@ -938,7 +990,7 @@
     });
 
     // Resident Casualties Change 
-    $('#CasualtiesDetails').on("change", ".Casualties_Resident", function() {
+    $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
         var Resident_Select2 = $(this).val();
         var Type = $.isNumeric(Resident_Select2);
         var disID = Resident_Select2;
@@ -971,7 +1023,7 @@
     });
 
     // Resident Missing Change
-    $('#MissingDetails').on("change", ".Missing_Resident", function() {
+    $('#MissingDetails').on("change", ".Resident_Select3", function() {
         var Resident_Select3 = $(this).val();
         var Type = $.isNumeric(Resident_Select3);
         var disID = Resident_Select3;
@@ -1019,6 +1071,27 @@
         $('.disaster_menu').addClass('active');
         $('.disaster_main').addClass('menu-open');
     });
+    
+    $(document).on("focusout",'.fancyformat', function(e) {
+            var disVal=$(this).val();
+            var num2 = parseFloat(disVal).toLocaleString();
+            var num3 =  parseFloat(disVal);
+            
+            $(this).val(num2);
+            $(this).next().val(num3);
+            //alert(num2);
+        });
+     
+    function validate(evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode( key );
+        var regex = /[0-9]|\./;
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
 </script>
 
 <style>

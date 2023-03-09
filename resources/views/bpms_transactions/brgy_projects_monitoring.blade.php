@@ -52,9 +52,12 @@
                                     <div>
                                         <input type="text" class="form-control" id="Brgy_Projects_ID" name="Brgy_Projects_ID" hidden>
                                         <div class="row">
+                                           
+                                            <strong hidden>Project Number: </strong><span id="VProject_Number" name="VProject_Number" hidden></span><br>
+                                            
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Project_Number">Project Number</label>
-                                                <input type="text" class="form-control" id="Project_Number" name="Project_Number">
+                                                <input type="text" class="form-control valpronum" id="Project_Number" name="Project_Number">
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Project_Name">Project Name</label>
@@ -167,7 +170,7 @@
                                                                     <input type="text" class="form-control" style="width: 200px;" name="Milestone_Status[]">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" style="width: 200px;" name="Milestone_Percentage[]">
+                                                                    <input type="number" min="0" max="100" class="form-control fancyformat" style="width: 200px;" name="Milestone_Percentage[]">
                                                                 </td>
                                                                 <td>
                                                                     <input type="number" class="form-control" style="width: 200px;" name="Obligation_Amount[]">
@@ -267,6 +270,13 @@
     });
 
     function addMilestones() {
+        
+        
+        
+
+        
+
+       
         var row = $("#MilestonesTBL tr:last");
 
         row.find(".select2").each(function(index) {
@@ -286,6 +296,32 @@
                 dataType: "json",
             }
         });
+
+        $("#Project_Status_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_projectstatus',
+                dataType: "json",
+            }
+        });
+
+        $("#Project_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_projecttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Contractor_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_contractor',
+                dataType: "json",
+            }
+        });
+
+        
         $(newrow.find("td:eq(1) input")).val('');
         $(newrow.find("td:eq(2) input")).val('');
         $(newrow.find("td:eq(3) input")).val('');
@@ -296,8 +332,60 @@
         $(newrow.find("td:eq(8) input")).val('');
         $(newrow.find("td:eq(9) input")).val('');
 
-       
+        
     }
+
+    $(document).on("focusout",'.fancyformat', function(e) {
+            var disVal=$(this).val();
+            // var num2 = parseFloat(disVal).toLocaleString();
+            // var num3 =  parseFloat(disVal);
+            
+            // $(this).val(num2);
+            // $(this).next().val(num3);
+            //alert(num2);
+            if (disVal > 100){
+                alert("Please input a number between 0-100 only");
+                $(this).val(0);
+            }
+        });
+
+        $(document).on("focusout",'.valpronum', function(e) {
+            var disVal=$(this).val(); 
+            var num=0
+            
+            // alert(disVal);
+            
+            // var num2 = parseFloat(disVal).toLocaleString();
+            // var num3 =  parseFloat(disVal);
+            
+            // $(this).val(num2);
+            // $(this).next().val(num3);
+            //alert(num2);
+
+            $.ajax({
+            url: "/get_brgyprojects_projcount",
+            type: 'GET',
+            data: {
+                id: disVal
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VProject_Number').html(data['theEntry'][0]['Project_Count']);
+                // var num=data['theEntry'][0]['Project_Count'];
+              
+                // alert(num);
+
+                if (data['theEntry'][0]['Project_Count'] >= 1){
+                    alert("This Project Number has already in the database, try another project number.");
+                    $('#Project_Number').val('');
+                    document.getElementById("Project_Number").focus();
+                }
+            }
+        });
+            
+        });
 </script>
 <style>
     table {
