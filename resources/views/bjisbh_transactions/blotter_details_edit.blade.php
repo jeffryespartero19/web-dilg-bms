@@ -56,7 +56,7 @@
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Blotter Number</label>
-                                                <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required value="{{$blotter[0]->Blotter_Number}}">
+                                                <input type="text" class="form-control" id="Blotter_Number" name="Blotter_Number" required value="{{$blotter[0]->Blotter_Number}}" readonly>
                                             </div>
                                         </div>
                                         <div class="row">

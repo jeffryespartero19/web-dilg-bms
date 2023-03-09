@@ -71,7 +71,7 @@ class BISController extends Controller
 
                 $bp_indicator = DB::table('bis_cms_indicator as a')
                     ->leftjoin('bis_cms_title as b', 'a.Title_ID', '=', 'b.Title_ID')
-                    ->select('a.Indicator_Description', 'a.Indicator_ID', 'b.Categories_ID', 'b.Title_ID', 'a.Sub_Indicator_ID')
+                    ->select('a.Indicator_Description', 'a.Indicator_ID', 'b.Categories_ID', 'b.Title_ID')
                     ->where('b.CMS_Barangay_Profile_ID', $id)
                     ->get();
 
@@ -180,7 +180,7 @@ class BISController extends Controller
                 array(
                     'Title' => $data['Title'],
                     'Description' => $data['Description'],
-                    'Date_Updated' => $currDATE,
+                    'Date_Updated' => $data['Date_Updated'],
                     'Frequency_ID' => $data['Frequency_ID'],
                     'Status' => $data['Status'],
                     'Barangay_ID' => $data['Barangay_ID'],
@@ -219,7 +219,7 @@ class BISController extends Controller
                 array(
                     'Title' => $data['Title'],
                     'Description' => $data['Description'],
-                    'Date_Updated' => $currDATE,
+                    'Date_Updated' => $data['Date_Updated'],
                     'Frequency_ID' => $data['Frequency_ID'],
                     'Status' => $data['Status'],
                     'Barangay_ID' => $data['Barangay_ID'],
@@ -280,8 +280,7 @@ class BISController extends Controller
                         'a.Indicator_Description',
                         'a.Min_Answer',
                         'a.Max_Answer',
-                        'c.Widget',
-                        'a.Sub_Indicator_ID'
+                        'c.Widget'
                     )
                     ->where('b.CMS_Barangay_Profile_ID', $id)
                     ->get();
@@ -366,8 +365,7 @@ class BISController extends Controller
                         'a.Indicator_Description',
                         'a.Min_Answer',
                         'a.Max_Answer',
-                        'c.Widget',
-                        'a.Sub_Indicator_ID'
+                        'c.Widget'
                     )
                     ->where('b.CMS_Barangay_Profile_ID', $id)
                     ->get();
@@ -417,47 +415,75 @@ class BISController extends Controller
                         );
 
                         if (isset($data['Indicator_ID'])) {
-                            for ($ii = 0; $ii < count($data['Indicator_ID']); $ii++) {
-                                if ($data['Indicator_ID'][$ii] == 0 && $data['Indicator_ID'][$ii] == null) {
+                            $indicator = [];
 
-                                    if ($data['Indicator_Description'][$ii] != null) {
+                            for ($i = 0; $i < count($data['Indicator_ID']); $i++) {
+                                if ($data['Indicator_ID'][$i] == 0 && $data['Indicator_ID'][$i] == null) {
+
+                                    if ($data['Indicator_Description'][$i] != null) {
                                         $Indicator_ID = DB::table('bis_cms_indicator')->insertGetId(
                                             array(
                                                 'Title_ID' => $Title_ID,
                                                 'Active' => 1,
-                                                'Answer_Types_ID' => $data['Answer_Types_ID'][$ii],
-                                                'Indicator_Description' => $data['Indicator_Description'][$ii],
-                                                'Min_Answer' => $data['Min_Answer'][$ii],
-                                                'Max_Answer' => $data['Max_Answer'][$ii],
+                                                'Answer_Types_ID' => $data['Answer_Types_ID'][$i],
+                                                'Indicator_Description' => $data['Indicator_Description'][$i],
+                                                'Min_Answer' => $data['Min_Answer'][$i],
+                                                'Max_Answer' => $data['Max_Answer'][$i],
                                                 'Encoder_ID' => Auth::user()->id,
-                                                'Date_Stamp' => Carbon::now(),
-                                                'Visible' => $data['IndVisible'][$ii],
-                                                'Required' => $data['IndRequired'][$ii]
+                                                'Date_Stamp' => Carbon::now()
                                             )
                                         );
+
+                                        // if (isset($data['Answer'])) {
+                                        //     $answer = [];
+
+                                        //     for ($ii = 0; $ii < count($data['Answer']); $ii++) {
+                                        //         if ($data['Answer'][$ii][$i] != null) {
+
+                                        //             if ($data['Answer'][$ii][$i] != null) {
+                                        //                 $answer = [
+                                        //                     'Indicator_ID' => $Indicator_ID,
+                                        //                     'Answer' => $data['Answer'][$ii][$i]
+                                        //                 ];
+
+                                        //                 DB::table('bis_cms_answer_classification')->insert($answer);
+                                        //             }
+                                        //         }
+                                        //     }
+                                        // }
                                     }
-                                }
-                            }
-                        }
+                                } else {
+                                    if ($data['Indicator_Description'][$i] != null) {
+                                        $indicator = [
+                                            'Title_ID' => $Title_ID,
+                                            'Active' => 1,
+                                            'Answer_Types_ID' => $data['Answer_Types_ID'][$i],
+                                            'Indicator_Description' => $data['Indicator_Description'][$i],
+                                            'Min_Answer' => $data['Min_Answer'][$i],
+                                            'Max_Answer' => $data['Max_Answer'][$i],
+                                            'Encoder_ID' => Auth::user()->id,
+                                            'Date_Stamp' => Carbon::now()
+                                        ];
 
-                        if (isset($data['Sub_Indicator_ID'])) {
-                            for ($iii = 0; $iii < count($data['Sub_Indicator_ID']); $iii++) {
-                                if ($data['Sub_Indicator_ID'][$iii] == 0 && $data['Sub_Indicator_ID'][$iii] == null) {
+                                        DB::table('bis_cms_indicator')->update(['Indicator_ID' => $data['Indicator_ID']], $indicator);
 
-                                    if ($data['Sub_Indicator_Description'][$iii] != null) {
-                                        $Sub_Indicator_ID = DB::table('bis_cms_indicator')->insertGetId(
-                                            array(
-                                                'Title_ID' => $Title_ID,
-                                                'Active' => 1,
-                                                'Answer_Types_ID' => $data['Sub_Answer_Types_ID'][$iii],
-                                                'Indicator_Description' => $data['Sub_Indicator_Description'][$iii],
-                                                'Min_Answer' => $data['Sub_Min_Answer'][$iii],
-                                                'Max_Answer' => $data['Sub_Max_Answer'][$iii],
-                                                'Encoder_ID' => Auth::user()->id,
-                                                'Date_Stamp' => Carbon::now(),
-                                                'Sub_Indicator_ID' => $Indicator_ID,
-                                            )
-                                        );
+                                        // if (isset($data['Answer'])) {
+                                        //     $answer = [];
+
+                                        //     for ($ii = 0; $ii < count($data['Answer']); $ii++) {
+                                        //         if ($data['Answer'][$ii][$i] != null) {
+
+                                        //             if ($data['Answer'][$ii][$i] != null) {
+                                        //                 $answer = [
+                                        //                     'Indicator_ID' => $data['Indicator_ID'],
+                                        //                     'Answer' => $data['Answer'][$ii][$i]
+                                        //                 ];
+
+                                        //                 DB::table('bis_cms_answer_classification')->insert($answer);
+                                        //             }
+                                        //         }
+                                        //     }
+                                        // }
                                     }
                                 }
                             }
@@ -465,7 +491,6 @@ class BISController extends Controller
                     }
                 } else {
                     if ($data['Title'][$i] != null) {
-
 
                         DB::table('bis_cms_title')->where('Title_ID', $ID)->update(
                             array(
@@ -483,11 +508,6 @@ class BISController extends Controller
                             )
                         );
 
-                        // dd($data['Indicator_ID']);
-
-                        // DB::table('bis_cms_indicator')->where('Title_ID', $data['Title'][$i])->delete();
-
-
                         if (isset($data['Indicator_ID'])) {
                             $indicator = [];
 
@@ -503,9 +523,7 @@ class BISController extends Controller
                                             'Min_Answer' => $data['Min_Answer'][$i],
                                             'Max_Answer' => $data['Max_Answer'][$i],
                                             'Encoder_ID' => Auth::user()->id,
-                                            'Date_Stamp' => Carbon::now(),
-                                            'Visible' => $data['IndVisible'][$i],
-                                            'Required' => $data['IndRequired'][$i]
+                                            'Date_Stamp' => Carbon::now()
                                         ];
 
                                         DB::table('bis_cms_indicator')->insert($indicator);
@@ -522,68 +540,9 @@ class BISController extends Controller
                                                 'Min_Answer' => $data['Min_Answer'][$i],
                                                 'Max_Answer' => $data['Max_Answer'][$i],
                                                 'Encoder_ID' => Auth::user()->id,
-                                                'Date_Stamp' => Carbon::now(),
-                                                'Visible' => $data['IndVisible'][$i],
-                                                'Required' => $data['IndRequired'][$i]
+                                                'Date_Stamp' => Carbon::now()
                                             )
                                         );
-                                    }
-                                }
-                            }
-                        }
-
-                        if (isset($data['Sub_Indicator_ID'])) {
-                            for ($iii = 0; $iii < count($data['Sub_Indicator_ID']); $iii++) {
-
-                                DB::table('bis_cms_indicator')->where('Sub_Indicator_ID', $data['Sub_Indicator_ID'][$iii])->delete();
-
-                                if ($data['Sub_Indicator_ID'][$iii] == 0 && $data['Sub_Indicator_ID'][$iii] == null) {
-
-                                     for ($k = 0; $k < count($data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]]); $k++) {
-
-                                        dd($data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]][$k]);
-
-                                        if ($data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]][$k] != null) {
-
-                                            $Indicator_ID = DB::table('bis_cms_indicator')->insertGetId(
-                                                array(
-                                                    'Title_ID' => $ID,
-                                                    'Active' => 1,
-                                                    'Answer_Types_ID' => $data['Sub_Answer_Types_ID'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Indicator_Description' => $data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Min_Answer' => $data['Sub_Min_Answer'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Max_Answer' => $data['Sub_Max_Answer'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Encoder_ID' => Auth::user()->id,
-                                                    'Date_Stamp' => Carbon::now(),
-                                                    'Sub_Indicator_ID' => $data['Sub_Indicator_ID'][$iii]
-                                                )
-                                            );
-                                        }
-                                    }
-                                } else {
-
-
-
-                                    for ($k = 0; $k < count($data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]]); $k++) {
-
-                                        // dd($data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]][$k]);
-
-                                        if ($data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]][$k] != null) {
-
-                                            $Indicator_ID = DB::table('bis_cms_indicator')->insertGetId(
-                                                array(
-                                                    'Title_ID' => $ID,
-                                                    'Active' => 1,
-                                                    'Answer_Types_ID' => $data['Sub_Answer_Types_ID'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Indicator_Description' => $data['Sub_Indicator_Description'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Min_Answer' => $data['Sub_Min_Answer'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Max_Answer' => $data['Sub_Max_Answer'][$data['Sub_Indicator_ID'][$iii]][$k],
-                                                    'Encoder_ID' => Auth::user()->id,
-                                                    'Date_Stamp' => Carbon::now(),
-                                                    'Sub_Indicator_ID' => $data['Sub_Indicator_ID'][$iii]
-                                                )
-                                            );
-                                        }
                                     }
                                 }
                             }
