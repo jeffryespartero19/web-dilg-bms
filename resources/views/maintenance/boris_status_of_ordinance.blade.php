@@ -52,13 +52,13 @@
                                     <tbody>
                                         @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Status_of_Ordinance_ID}}</td>
-                                            <td>{{$x->Status_of_Ordinance_Name}}</td>
+                                            <td class="sm_data_col txtCtr">{{$x->Status_of_Ordinance_or_Resolution_ID}}</td>
+                                            <td>{{$x->Name_of_Status}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Active}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_status_of_ordinance" value="{{$x->Status_of_Ordinance_ID}}" data-toggle="modal" data-target="#updateStatus_of_Ordinance">Edit</button>
+                                                <button class="edit_status_of_ordinance" value="{{$x->Status_of_Ordinance_or_Resolution_ID}}" data-toggle="modal" data-target="#updateStatus_of_Ordinance">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -136,7 +136,7 @@
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>Status of Ordinance:</label>
-                            <input id="this_status_of_ordinance_idX" class="form-control" name="Status_of_Ordinance_idX" hidden>
+                            <input id="this_status_of_ordinance_idX" class="form-control" name="Status_of_Ordinance_or_Resolution_IDX2" hidden>
                             <input id="this_status_of_ordinanceX" class="form-control" name="Status_of_OrdinanceX2">
                         </div>
 

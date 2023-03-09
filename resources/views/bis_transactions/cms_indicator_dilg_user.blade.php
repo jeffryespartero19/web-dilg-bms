@@ -80,8 +80,8 @@
                                     <textarea class="form-control" name="Instructions[]" disabled>{{$titles->Instructions}}</textarea>
                                 </div>
                                 @foreach ($indicator as $indicators)
-                                @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null)
-                                <div style="padding: 20px; width:100%" class="INDetails">
+                                @if($indicators->Title_ID == $titles->Title_ID && $indicators->Title_ID != null && $indicators->Sub_Indicator_ID == null)
+                                <div style="padding: 0 20px; width:100%" class="INDetails">
 
                                     <input type="number" name="Indicator_ID[]" value="{{$indicators->Indicator_ID}}" hidden>
                                     <input type="number" class="Max_Answer" name="Max_Answer[]" value="{{$indicators->Max_Answer}}" hidden>
@@ -132,9 +132,55 @@
 
                                                 </td>
                                             </tr>
+                                            @foreach ($indicator as $indicator2)
+                                            @if($indicator2->Sub_Indicator_ID == $indicators->Indicator_ID && $indicator2->Title_ID == $titles->Title_ID && $indicator2->Title_ID != null)
+                                            <tr>
+                                                <td style="width: 50%;">{{$indicator2->Indicator_Description}}</td>
+                                                <td style="width: 50%;">
+                                                    @if($indicator2->Widget == 'RADIO')
+                                                    @foreach ($answer_classification as $ac)
+                                                    @if($ac->Indicator_ID == $indicator2->Indicator_ID)
+                                                    <label>
+                                                        <input type="radio" name="Answer[{{$indicator2->Indicator_ID}}][]" value="{{$ac->Answer_Classification_ID}}">
+                                                        {{$ac->Answer}}
+                                                    </label>
+                                                    <br>
+                                                    @endif
+                                                    @endforeach
+                                                    @elseif($indicator2->Widget == 'CHECKBOX')
+                                                    @foreach ($answer_classification as $ac)
+                                                    @if($ac->Indicator_ID == $indicator2->Indicator_ID)
+                                                    <label>
+                                                        <input type="checkbox" class="Answer_CHK" value="{{$ac->Answer_Classification_ID}}" name="Answer[{{$indicator2->Indicator_ID}}][]">
+                                                        {{$ac->Answer}}
+                                                    </label>
+                                                    <br>
+                                                    @endif
+                                                    @endforeach
+                                                    @elseif($indicator2->Widget == 'TEXTBOX')
+                                                    <input type="text" style="width: 100%;" name="Answer[{{$indicator2->Indicator_ID}}][]">
+                                                    @elseif($indicator2->Widget == 'TEXTAREA')
+                                                    <textarea rows="3" style="width: 100%;" name="Answer[{{$indicator2->Indicator_ID}}][]"></textarea>
+                                                    @elseif($indicator2->Widget == 'SELECT')
+                                                    <select class="form-control" name="Answer[{{$indicator2->Indicator_ID}}][]" style="width: 100%;">
+                                                        @foreach ($answer_classification as $ac)
+                                                        @if($ac->Indicator_ID == $indicator2->Indicator_ID)
+                                                        <option value='{{$ac->Answer_Classification_ID}}'>{{$ac->Answer}}</option>
+                                                        @endif
+                                                        @endforeach
+                                                    </select>
+                                                    @elseif($indicator2->Widget == 'DATEPICKER')
+                                                    <input type="date" style="width: 100%;" name="Answer[{{$indicator2->Indicator_ID}}][]">
+                                                    @elseif($indicator2->Widget == 'DATETIMEPICKER')
+                                                    <input type="datetime-local" style="width: 100%;" name="Answer[{{$indicator2->Indicator_ID}}][]">
+                                                    @endif
+                                                </td>
+
+                                            </tr>
+                                            @endif
+                                            @endforeach
                                         </tbody>
                                     </table>
-
                                 </div>
                                 @endif
                                 @endforeach

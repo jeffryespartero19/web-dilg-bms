@@ -180,13 +180,18 @@ class BJISBHController extends Controller
     // Save Blotter Info
     public function create_blotter(Request $request)
     {
-        $currDATE = Carbon::now();
+        $currDATE = Carbon::now()->format('Y-m-d');
         $data = request()->all();
+
+        $bid = 0 + DB::table('bjisbh_blotter')->max('Blotter_ID');
+        $bid += 1;
+
+        $blotter_number = $currDATE . '-' . $bid;
 
         if ($data['Blotter_ID'] == 0) {
             $Blotter_ID = DB::table('bjisbh_blotter')->insertGetId(
                 array(
-                    'Blotter_Number' => $data['Blotter_Number'],
+                    'Blotter_Number' => $blotter_number,
                     'Blotter_Status_ID' => $data['Blotter_Status_ID'],
                     'Incident_Date_Time' => $data['Incident_Date_Time'],
                     'Complaint_Details' => $data['Complaint_Details'],
@@ -289,7 +294,7 @@ class BJISBHController extends Controller
         } else {
             DB::table('bjisbh_blotter')->where('Blotter_ID', $data['Blotter_ID'])->update(
                 array(
-                    'Blotter_Number'            => $data['Blotter_Number'],
+                    // 'Blotter_Number'            => $data['Blotter_Number'],
                     'Blotter_Status_ID'              => $data['Blotter_Status_ID'],
                     'Incident_Date_Time'               => $data['Incident_Date_Time'],
                     'Complaint_Details'      => $data['Complaint_Details'],
@@ -1023,5 +1028,21 @@ class BJISBHController extends Controller
         DB::table('bjisbh_ordinance_violators')->where('Ordinance_Violators_ID', $id)->delete();
 
         return response()->json(array('success' => true));
+    }
+
+    //Blotter Details
+    public function get_blotter_details(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('bjisbh_blotter as a')
+            ->leftjoin('maintenance_bjisbh_blotter_status as b', 'a.Blotter_Status_ID', '=', 'b.Blotter_Status_ID')
+            ->where('a.Blotter_ID', $id)
+            ->get();
+
+        // dd($theEntry);
+
+        return (compact('theEntry'));
     }
 }

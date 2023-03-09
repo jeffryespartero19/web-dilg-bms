@@ -1,5 +1,6 @@
 @foreach($db_entries as $x)
 <tr>
+    <td hidden><input type="number" name="Previous_Related_Ordinance_Resolution_ID[]" value="{{$x->Ordinance_Resolution_ID}}"></td>
     <td class="sm_data_col txtCtr">{{$x->Ordinance_Resolution_No}}</td>
     <td class="sm_data_col txtCtr">{{$x->Ordinance_Resolution_Title}}</td>
     <td class="sm_data_col txtCtr">{{$x->Date_of_Approval}}</td>
