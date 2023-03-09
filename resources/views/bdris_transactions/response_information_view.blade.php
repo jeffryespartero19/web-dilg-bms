@@ -54,14 +54,15 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <strong>Disaster Name: </strong><span id="VDisaster_Name"></span><br>
-                                                <strong>Damaged Location: </strong><span id="VDamaged_Location"></span><br>
+                                                <!-- <strong>Damaged Location: </strong><span id="VDamaged_Location"></span><br> -->
                                                 <strong>Disaster Date Start: </strong><span id="VDisaster_Date_Start"></span><br>
                                                 <strong>Disaster Date End: </strong><span id="VDisaster_Date_End"></span><br>
-                                                <strong>GPS Coordinates: </strong><span id="VGPS_Coordinates"></span><br>
+                                                <!-- <strong>GPS Coordinates: </strong><span id="VGPS_Coordinates"></span><br>
                                                 <strong>Risk Assesment: </strong><span id="VRisk_Assesment"></span><br>
-                                                <strong>Action Taken: </strong><span id="VAction_Taken"></span><br>
+                                                <strong>Action Taken: </strong><span id="VAction_Taken"></span><br> -->
                                                 <strong>Disaster Type: </strong><span id="VDisaster_Type"></span><br>
                                                 <strong>Alert Level: </strong><span id="VAlert_Level"></span><br>
+                                                <strong>Summary: </strong><span id="VSummary"></span><br>
                                                 <!-- buban -->
                                                 <br>
                                                 <br>
@@ -221,6 +222,7 @@
                 $('#VAction_Taken').html(data['theEntry'][0]['Action_Taken']);
                 $('#VDisaster_Type').html(data['theEntry'][0]['Disaster_Type']);
                 $('#VAlert_Level').html(data['theEntry'][0]['Alert_Level']);
+                $('#VSummary').html(data['theEntry'][0]['Summary']);
                 
             }
         });

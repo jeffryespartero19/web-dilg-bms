@@ -38,9 +38,29 @@ class Public_LandingController extends Controller
             ->where('Ordinance_or_Resolution', 1)
             ->where('Barangay_ID', $b_id)
             ->get();
+        $disrelact = DB::table('bdris_disaster_related_activities')
+            ->where('Barangay_ID', $b_id)
+            ->get();
+        $projmon = DB::table('bpms_brgy_projects_monitoring as a')
+            ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+            ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+            ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+            ->select(
+                'a.Brgy_Projects_ID',
+                'a.Project_Number',
+                'a.Project_Name',
+                'a.Total_Project_Cost',
+                'a.Exact_Location',
+                'a.Actual_Project_Start',
+                'b.Contractor_Name',
+                'c.Project_Type_Name',
+                'd.Project_Status_Name',
+            )
+            ->where('a.Barangay_ID', $b_id)
+            ->get();
 
 
-        return view('welcome', compact('posts', 'uploads', 'currDATE', 'EV_AN', 'usersX', 'b_id', 'b_details', 'ordinance', 'resolution'));
+        return view('welcome', compact('posts', 'uploads', 'currDATE', 'EV_AN', 'usersX', 'b_id', 'b_details', 'ordinance', 'resolution', 'disrelact', 'projmon'));
     }
 
     public function viewAnnouncement(Request $request)

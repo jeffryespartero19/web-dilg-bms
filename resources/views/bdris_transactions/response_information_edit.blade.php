@@ -82,7 +82,7 @@
                                                 <label for="Disaster_Date_End">Disaster Date End</label>
                                                 <input type="datetime-local" class="form-control" id="Disaster_Date_End" name="Disaster_Date_End" value="{{$response[0]->Disaster_Date_End}}" required>
                                             </div>
-                                            <div class="form-group col-lg-9" style="padding:0 10px">
+                                            <!-- <div class="form-group col-lg-9" style="padding:0 10px">
                                                 <label for="Damaged_Location">Damaged Location</label>
                                                 <input type="text" class="form-control" id="Damaged_Location" name="Damaged_Location" value="{{$response[0]->Damaged_Location}}">
                                             </div>
@@ -97,6 +97,170 @@
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Action_Taken">Action Taken</label>
                                                 <input type="text" class="form-control" id="Action_Taken" name="Action_Taken" value="{{$response[0]->Action_Taken}}">
+                                            </div> -->
+                                            <div class="col-lg-6" style="padding:0 10px;">
+                                                <a onclick="addDamage();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                                                <br><br>
+                                                <div class="table-responsive" id="DamageDetails">
+                                                    <table id="DamageTBL" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th hidden>Damage_Location_ID</th>
+                                                                <th>Damage Location</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="DAMAGEBody">
+                                                            @if($damage->count() > 0)
+                                                            @foreach ($damage as $id)
+                                                            <tr class="DAMAGEDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="Damage_Location[]" value="{{$id->Damage_Location}}">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger DamageRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                            @else
+                                                            <tr class="DAMAGEDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="Damage_Location[]">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger DamageRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6" style="padding:0 10px;">
+                                                <a onclick="addGPS();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                                                <br><br>
+                                                <div class="table-responsive" id="GPSDetails">
+                                                    <table id="GPSTBL" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th hidden>GPS_Coordinates_ID</th>
+                                                                <th>GPS Coordinates</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="GPSBody">
+                                                            @if($gps->count() > 0)
+                                                            @foreach ($gps as $id)
+                                                            <tr class="GPSDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="GPS_Coordinates[]" value="{{$id->GPS_Coordinates}}">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger GPSRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                            @else
+                                                            <tr class="GPSDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="GPS_Coordinates[]">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger GPSRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6" style="padding:0 10px;">
+                                                <a onclick="addRisk();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                                                <br><br>
+                                                <div class="table-responsive" id="RiskDetails">
+                                                    <table id="RiskTBL" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th hidden>Risk_Assessment_ID</th>
+                                                                <th>Risk Assessment</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="RiskBody">
+                                                            @if($risk->count() > 0)
+                                                            @foreach ($risk as $id)
+                                                            <tr class="RiskDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="Risk_Assessment[]" value="{{$id->Risk_Assessment}}">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger RiskRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                            @else
+                                                            <tr class="RiskDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="Risk_Assessment[]">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger RiskRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6" style="padding:0 10px;">
+                                                <a onclick="addAction();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
+                                                <br><br>
+                                                <div class="table-responsive" id="ActionDetails">
+                                                    <table id="ActionTBL" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th hidden>Action_Taken_ID</th>
+                                                                <th>Action Taken</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="ActionBody">
+                                                            @if($action->count() > 0)
+                                                            @foreach ($action as $id)
+                                                            <tr class="ActionDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="Action_Taken[]" value="{{$id->Action_Taken}}">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger ActionRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                            @else
+                                                            <tr class="ActionDetails">
+                                                                <td hidden></td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 600px;" name="Action_Taken[]">
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="btn btn-danger ActionRemove">Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Summary">Summary</label>
+                                                <input type="text" class="form-control" id="Summary" name="Summary" value="{{$response[0]->Summary}}">
                                             </div>
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="fileattach">File Attachments</label>
@@ -131,7 +295,20 @@
                                                             <tr class="HRDetails">
                                                                 <td hidden></td>
                                                                 <td style="width: 30%;">
-                                                                    <select class="form-control Resident_Info" name="Resident_ID[]" >
+                                                                    <!-- <select class="form-control Resident_Info" name="Resident_ID[]" >
+                                                                        <option value='' disabled selected>Select Option</option>
+                                                                        @if($id->Resident_ID == 0)
+                                                                        <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
+                                                                        @foreach($resident as $rs)
+                                                                        <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                                        @endforeach
+                                                                        @else
+                                                                        @foreach($resident as $rs)
+                                                                        <option value="{{ $rs->Resident_ID }}" {{ $rs->Resident_ID == $id->Resident_ID  ? "selected" : "" }}>{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
+                                                                        @endforeach
+                                                                        @endif
+                                                                    </select> -->
+                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
                                                                         <option value='' disabled selected>Select Option</option>
                                                                         @if($id->Resident_ID == 0)
                                                                         <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -167,7 +344,7 @@
                                                             <tr class="HRDetails">
                                                                 <td hidden></td>
                                                                 <td>
-                                                                    <select class="form-control Resident_Info" name="Resident_ID[]" style="width: 350px;">
+                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
                                                                         <option value='' disabled selected>Select Option</option>
                                                                         @foreach($resident as $rs)
                                                                         <option value="{{ $rs->Resident_ID }}">{{ $rs->Last_Name }}, {{ $rs->First_Name }} {{ $rs->Middle_Name }}</option>
@@ -197,7 +374,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
@@ -228,21 +404,16 @@
 @section('scripts')
 
 <script>
-    // Data Table
-    $(document).ready(function() {
+     // Data Table
+     $(document).ready(function() {
         $('#example').DataTable();
+    });
 
+    //Select2
+    $(document).ready(function() {
         $('.js-example-basic-single').select2();
 
-        // $(".Resident_Select2").select2({
-        //     tags: true
-        // });
-
-        $('.select2').select2();
-
-        
-         //Select2 Lazy Loading 
-         $("#Disaster_Type_ID").select2({
+        $("#Disaster_Type_ID").select2({
             minimumInputLength: 2,
             ajax: {
                 url: '/search_disastertype',
@@ -250,15 +421,8 @@
             }
         });
 
-        $("#Alert_Level_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_alertlevel',
-                dataType: "json",
-            }
-        });
-
-        $(".Resident_Info").select2({
+        $(".Resident_Select2").select2({
+            tags: true,
             minimumInputLength: 2,
             ajax: {
                 url: '/search_inhabitants',
@@ -299,6 +463,7 @@
             }
         });
     });
+    
 
 
     // Populate Province
@@ -412,7 +577,7 @@
     
 
     // Resident Casualties Change 
-    $('#CasualtiesDetails').on("change", ".Resident_Info", function() {
+    $('#CasualtiesDetails').on("change", ".Resident_Select2", function() {
         var Resident_Select2 = $(this).val();
         var Type = $.isNumeric(Resident_Select2);
         var disID = Resident_Select2;
@@ -432,7 +597,7 @@
                     id: disID
                 },
                 fail: function() {
-                    alert('request failed');
+                    alert('request failed'); 
                 },
                 success: function(data) {
                     $($row.find('td:eq(4) input')).val(data['theEntry'][0]['Birthdate']);
@@ -449,6 +614,39 @@
         $(this).closest(".HRDetails").remove();
     });
 
+    // function addResident() {
+    //     var row = $("#ResidentTBL tr:last");
+
+    //     row.find(".select2").each(function(index) {
+    //         $("select.select2-hidden-accessible").select2('destroy');
+    //     });
+
+    //     var newrow = row.clone();
+
+    //     newrow.find(".Resident_Info").empty();
+
+    //     $("#ResidentTBL").append(newrow);
+
+    //     $(".Resident_Select2").select2({
+    //         tags: true,
+    //         minimumInputLength: 2,
+    //         ajax: {
+    //             url: '/search_inhabitants',
+    //             dataType: "json",
+    //         }
+    //     });
+
+    //     $(newrow.find("td:eq(1) input")).val('');
+    //     $(newrow.find("td:eq(4) input")).val('');
+    //     $(newrow.find("td:eq(3) input")).val('');
+
+    //     // $("select.js-example-basic-single").select2();
+
+    //     // $(".Resident_Select2").select2({
+    //     //     tags: true
+    //     // });
+    // }
+
     function addResident() {
         var row = $("#ResidentTBL tr:last");
 
@@ -458,11 +656,12 @@
 
         var newrow = row.clone();
 
-        newrow.find(".Resident_Info").empty();
+        newrow.find(".Resident_Select2").empty();
 
         $("#ResidentTBL").append(newrow);
 
-        $(".Resident_Info").select2({
+        $(".Resident_Select2").select2({
+            tags: true,
             minimumInputLength: 2,
             ajax: {
                 url: '/search_inhabitants',
@@ -470,15 +669,10 @@
             }
         });
 
-        $(newrow.find("td:eq(1) input")).val('');
         $(newrow.find("td:eq(4) input")).val('');
         $(newrow.find("td:eq(3) input")).val('');
 
-        // $("select.js-example-basic-single").select2();
-
-        // $(".Resident_Select2").select2({
-        //     tags: true
-        // });
+       
     }
 
      // Disable Form if DILG USER
@@ -533,9 +727,101 @@
 
     });
 
+    $(".DAMAGEBody").on("click", ".DamageRemove", function() {
+        $(this).closest(".DAMAGEDetails").remove();
+    });
+
+    function addDamage() {
+        var row = $("#DamageTBL tr:last");
+
+        // row.find(".select2").each(function(index) {
+        //     $("select.select2-hidden-accessible").select2('destroy');
+        // });
+
+        var newrow = row.clone();
+
+        // newrow.find(".Resident_Info").empty();
+
+        $("#DamageTBL").append(newrow);
+
+
+        $(newrow.find("td:eq(1) input")).val('');
+    
+       
+    }
+
+    $(".GPSBody").on("click", ".GPSRemove", function() {
+        $(this).closest(".GPSDetails").remove();
+    });
+
+    $(".RiskBody").on("click", ".RiskRemove", function() {
+        $(this).closest(".RiskDetails").remove();
+    });
+
+    $(".ActionBody").on("click", ".ActionRemove", function() {
+        $(this).closest(".ActionDetails").remove();
+    });
+
+    function addRisk() {
+        var row = $("#RiskTBL tr:last");
+
+        // row.find(".select2").each(function(index) {
+        //     $("select.select2-hidden-accessible").select2('destroy');
+        // });
+
+        var newrow = row.clone();
+
+        // newrow.find(".Resident_Info").empty();
+
+        $("#RiskTBL").append(newrow);
+
+
+        $(newrow.find("td:eq(1) input")).val('');
+    }
+
+    function addAction() {
+        var row = $("#ActionTBL tr:last");
+
+        // row.find(".select2").each(function(index) {
+        //     $("select.select2-hidden-accessible").select2('destroy');
+        // });
+
+        var newrow = row.clone();
+
+        // newrow.find(".Resident_Info").empty();
+
+        $("#ActionTBL").append(newrow);
+
+
+        $(newrow.find("td:eq(1) input")).val('');
+    }
+
+    function addGPS() {
+        var row = $("#GPSTBL tr:last");
+
+        // row.find(".select2").each(function(index) {
+        //     $("select.select2-hidden-accessible").select2('destroy');
+        // });
+
+        var newrow = row.clone();
+
+        // newrow.find(".Resident_Info").empty();
+
+        $("#GPSTBL").append(newrow);
+
+
+        $(newrow.find("td:eq(1) input")).val('');
+    }
+
 </script>
 
 <style>
+    .select2-selection {
+        height: 32px !important;
+        padding: 3px 3px;
+        font: 13px;
+    }
+
     table {
         display: block;
         overflow-x: scroll;
