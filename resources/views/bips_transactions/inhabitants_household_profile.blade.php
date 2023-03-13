@@ -107,7 +107,7 @@
                                                 <td class="sm_data_col txtCtr">{{$x->Housing_Unit}}</td>
                                                 <td class="sm_data_col txtCtr">{{$x->Family_Type_Name}}</td>
                                                 <td class="sm_data_col txtCtr" style="display: flex;">
-                                                    <a class="btn btn-primary" href="{{ url('inhabitants_household_details_view/'.$x->Household_Profile_ID) }}">View</a>&nbsp;
+                                                    <button class="view_info btn btn-primary" value="{{$x->Household_Profile_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
                                                     <a class="btn btn-info" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>&nbsp;
                                                     <button class="delete_household btn btn-danger" value="{{$x->Household_Profile_ID}}">Delete</button>
                                                 </td>
@@ -211,6 +211,59 @@
     </div>
 </div>
 
+<div class="modal fade" id="ViewInfo" tabindex="-1" role="dialog" aria-labelledby="ViewInfo" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="VName">Household Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tbody id="HHMembers">
+                        <tr>
+                            <td colspan="3" style="text-align: center; font-size:large">Details</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><strong>Household Name: </strong></td>
+                            <td colspan="2"><span id="vHousehold_Name"></span></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><strong>Family Type: </strong></td>
+                            <td colspan="2"><span id="vFamily_Type_Name"></span></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><strong>Monthly Income: </strong></td>
+                            <td colspan="2"><span id="vHousehold_Monthly_Income"></span></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><strong>Tenure of Lot: </strong></td>
+                            <td colspan="2"><span id="vTenure_of_Lot"></span></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><strong>Housing Unit: </strong></td>
+                            <td colspan="2"><span id="vHousing_Unit"></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center; font-size:large">Members</td>
+                        </tr>
+                        <tr>
+                            <th style="width:30%"><strong>Name</strong></th>
+                            <th style="width:30%"><strong>Position</strong></th>
+                            <th style="width:30%"><strong>Head</strong></th>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 
 <!-- Create Announcement_Status END -->
 
@@ -227,6 +280,7 @@
     $(document).on('click', '.modal-close', function(e) {
         $('#newHousehold').trigger("reset");
         $('#Modal_Title').text('Create Household Profile');
+        $('.HHM').remove();
     });
 
     // Edit Button Display Modal
@@ -367,6 +421,57 @@
 
             }
         });
+    });
+
+    // View Details
+    $(document).on('click', ('.view_info'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_household_info",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#vHousehold_Name').html(data['theEntry'][0]['Household_Name']);
+                $('#vHousehold_Monthly_Income').html(data['theEntry'][0]['Household_Monthly_Income']);
+                $('#vFamily_Type_Name').html(data['theEntry'][0]['Family_Type_Name']);
+                $('#vHousing_Unit').html(data['theEntry'][0]['Housing_Unit']);
+                $('#vTenure_of_Lot').html(data['theEntry'][0]['Tenure_of_Lot']);
+
+                $.ajax({
+                    url: "/get_houshold_members",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        data.forEach(element => {
+                            if (element['Family_Head'] == 1) {
+                                $head = 'Yes';
+                            } else {
+                                $head = 'No';
+                            }
+                            var list = '<tr class="HHM">' +
+                                '<td>' + element['Last_Name'] + ', ' + element['First_Name'] + ' ' + element['Middle_Name'] + '</td>' +
+                                '<td>' + element['Family_Position'] + '</td>' +
+                                '<td>' + $head + '</td></tr>';
+                            $('#HHMembers').append(list);
+                        });
+                    }
+                });
+            }
+        });
+
+
     });
 </script>
 

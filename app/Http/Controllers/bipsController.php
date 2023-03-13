@@ -2140,4 +2140,53 @@ class bipsController extends Controller
 
         return response()->json(array('success' => true));
     }
+
+    // Display Household Details
+    public function get_household_info(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+
+        $theEntry = DB::table('bips_household_profile as a')
+            ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+            ->leftjoin('maintenance_bips_housing_unit as c', 'a.Housing_Unit_ID', '=', 'c.Housing_Unit_ID')
+            ->leftjoin('maintenance_bips_tenure_of_lot as d', 'a.Tenure_of_Lot_ID', '=', 'd.Tenure_of_Lot_ID')
+            ->select(
+                'a.Household_Profile_ID',
+                'a.Household_Monthly_Income',
+                'a.Household_Name',
+                'a.Barangay_ID',
+                'a.Date_Stamp',
+                'b.Family_Type_ID',
+                'b.Family_Type_Name',
+                'c.Housing_Unit_ID',
+                'c.Housing_Unit',
+                'd.Tenure_of_Lot_ID',
+                'd.Tenure_of_Lot',
+
+            )
+            ->where('a.Household_Profile_ID', $id)->get();
+        return (compact('theEntry'));
+    }
+
+    // Display Household Members
+    public function get_houshold_members(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $data = DB::table('bips_household_profile_members as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_family_position as c', 'a.Family_Position_ID', '=', 'c.Family_Position_ID')
+            ->select(
+                'a.Household_Profile_ID',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'c.Family_Position',
+                'a.Family_Head'
+            )
+            ->where('a.Household_Profile_ID', $id)->get();
+        return json_encode($data);
+    }
 }
