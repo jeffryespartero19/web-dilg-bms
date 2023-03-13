@@ -82,8 +82,8 @@
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createOrdinance_Info" style="width: 100px;">New</button></div>
                                 @endif
                                 <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
                         </div>
                         <br>
@@ -272,7 +272,7 @@
                 <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
-            <form id="print_report" method="POST" action="{{ route('view_Ordinance') }}" autocomplete="off" enctype="multipart/form-data">
+            <form id="print_report" method="GET" action="{{ route('ordinance.export') }}" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="modal-body">
@@ -315,7 +315,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Print</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
                 </div>
             </form>
         </div>

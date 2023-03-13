@@ -285,6 +285,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/inhabitants_household_profile', 'bipsController@inhabitants_household_profile')->name('inhabitants_household_profile');
   Route::post('/create_household_information', 'bipsController@create_household_information')->name('create_household_information');
   Route::get('/get_household_info', 'bipsController@get_household_info')->name('get_household_info');
+  Route::get('/get_houshold_members', 'bipsController@get_houshold_members')->name('get_houshold_members');
   Route::get('/inhabitants_household_details/{id}', 'bipsController@inhabitants_household_details');
   //BIPS Resident
   Route::get('/inhabitants_resident_profile', 'bipsController@inhabitants_resident_profile')->name('inhabitants_resident_profile');
@@ -1028,3 +1029,7 @@ Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
 
 //For Deletions
 Route::post('/del_rec', 'DeleterController@del_rec')->name('del_rec');
+
+
+
+Route::get('ordinance/export', 'borisController@export')->name('ordinance.export');
