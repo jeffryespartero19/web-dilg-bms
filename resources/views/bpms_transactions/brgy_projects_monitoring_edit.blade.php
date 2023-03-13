@@ -80,7 +80,8 @@
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Total_Project_Cost">Total Project Cost</label>
-                                                <input type="number" class="form-control" id="Total_Project_Cost" name="Total_Project_Cost" value="{{$project[0]->Total_Project_Cost}}">
+                                                <input type="text"  onkeypress="validate(event)" class="form-control fancyformat1" value="{{number_format((float)$project[0]->Total_Project_Cost, 2, '.', ',')}}">
+                                                <input type="number" step="0.01" class="form-control fancyformat1" id="Total_Project_Cost" name="Total_Project_Cost" value="{{$project[0]->Total_Project_Cost}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Funding_Year">Funding Year</label>
@@ -191,10 +192,12 @@
                                                                 <input type="number" min="0" max="100" class="form-control fancyformat" style="width: 200px;" name="Milestone_Percentage[]" value="{{$cd->Milestone_Percentage}}">
                                                             </td>
                                                             <td>
-                                                                <input type="number" class="form-control" style="width: 200px;" name="Obligation_Amount[]" value="{{$cd->Obligation_Amount}}">
+                                                                <input type="text" onkeypress="validate(event)" style="width: 200px;" class="form-control fancyformat1" value="{{number_format((float)$cd->Obligation_Amount, 2, '.', ',')}}">
+                                                                <input type="number" step="0.01" class="form-control fancyformat1" style="width: 200px;" name="Obligation_Amount[]" value="{{$cd->Obligation_Amount}}" hidden>
                                                             </td>
                                                             <td>
-                                                                <input type="number" class="form-control" style="width: 200px;" name="Disbursement_Amount[]" value="{{$cd->Disbursement_Amount}}">
+                                                                <input type="text" onkeypress="validate(event)" style="width: 200px;" class="form-control fancyformat1" value="{{number_format((float)$cd->Disbursement_Amount, 2, '.', ',')}}">
+                                                                <input type="number" step="0.01" class="form-control" style="width: 200px;" name="Disbursement_Amount[]" value="{{$cd->Disbursement_Amount}}" hidden>
                                                             </td>
                                                             <td>
                                                                 <input type="number" class="form-control" style="width: 200px;" name="Male_Employed[]" value="{{$cd->Male_Employed}}">
@@ -233,10 +236,12 @@
                                                                 <input type="number" min="0" max="100" class="form-control fancyformat" style="width: 200px;" name="Milestone_Percentage[]">
                                                             </td>
                                                             <td>
-                                                                <input type="number" class="form-control" style="width: 200px;" name="Obligation_Amount[]">
+                                                                <input type="text" onkeypress="validate(event)" class="form-control fancyformat1" style="width: 200px;" value="{{number_format((float)$cd->Obligation_Amount, 2, '.', ',')}}">
+                                                                <input type="number" step="0.01" class="form-control fancyformat1" style="width: 200px;" name="Obligation_Amount[]" hidden>
                                                             </td>
                                                             <td>
-                                                                <input type="number" class="form-control" style="width: 200px;" name="Disbursement_Amount[]">
+                                                                <input type="text" onkeypress="validate(event)" class="form-control fancyformat1" style="width: 200px;" value="{{number_format((float)$cd->Disbursement_Amount, 2, '.', ',')}}">
+                                                                <input type="number" step="0.01" class="form-control fancyformat1" style="width: 200px;" name="Disbursement_Amount[]" hidden>
                                                             </td>
                                                             <td>
                                                                 <input type="number" class="form-control" style="width: 200px;" name="Male_Employed[]">
@@ -533,7 +538,7 @@
             
             // $(this).val(num2);
             // $(this).next().val(num3);
-            //alert(num2);
+            //alert(num2); 
             if (disVal > 100){
                 alert("Please input a number between 0-100 only");
                 $(this).val(0);
@@ -570,6 +575,27 @@
         });
             
         });
+
+        $(document).on("focusout",'.fancyformat1', function(e) {
+            var disVal=$(this).val();
+            var num2 = parseFloat(disVal).toLocaleString();
+            var num3 =  parseFloat(disVal);
+            
+            $(this).val(num2);
+            $(this).next().val(num3);
+            //alert(num2);
+        });
+     
+    function validate(evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode( key );
+        var regex = /[0-9]|\./;
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
 </script>
 <style>
     table {

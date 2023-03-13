@@ -123,7 +123,8 @@
                                                                 <input type="text" class="form-control" name="Address[]" style="width: 300px;">
                                                             </td>
                                                             <td class="sm_data_col txtCtr">
-                                                                <input type="number" class="form-control" name="Estimated_Damage_Value[]" style="width: 200px;">
+                                                                <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" style="width: 250px;">
+                                                                <input type="number" step="0.01" class="form-control fancyformat" name="Estimated_Damage_Value[]" style="width: 250px;" hidden>
                                                             </td>
                                                             <td class="sm_data_col txtCtr">
                                                                 <input type="text" class="form-control" name="Remarks[]" style="width: 300px;">

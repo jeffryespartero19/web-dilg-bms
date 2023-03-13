@@ -150,7 +150,7 @@
                     <thead>
                         <tr>
 
-                            <th>Emergency Evacuation_Site Name </th>
+                            <th>Emergency Evacuation Site Name </th>
                             <th>Address </th>
                             <th>Capacity </th>
                             <th>Active</th>
