@@ -77,8 +77,8 @@
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success create_new" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
                                 @endif
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
                         </div>
                         <br>
@@ -583,70 +583,74 @@
                 <h4 class="modal-title flexer justifier">Filter</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
-            <form id="print_report" method="POST" action="{{ route('view_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
+            <form id="print_report" method="GET" action="{{ route('inhabitants.export') }}" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
 
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Name" name="chk_Name">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Name" name="chk_Name">
                                 <label for="1chk_Name">Name</label><br>
-                                <input type="checkbox" id="1chk_Birthplace" name="chk_Birthplace">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Birthplace" name="chk_Birthplace">
                                 <label for="1chk_Birthplace">Birthplace</label><br>
-                                <input type="checkbox" id="1chk_Birthdate" name="chk_Birthdate">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Birthdate" name="chk_Birthdate">
                                 <label for="1chk_Birthdate">Birthdate</label><br>
-                                <input type="checkbox" id="1chk_Age" name="chk_Age">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Age" name="chk_Age">
                                 <label for="1chk_Age">Age</label><br>
-                                <input type="checkbox" id="1chk_Sex" name="chk_Sex">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Sex" name="chk_Sex">
                                 <label for="1chk_Sex">Sex</label><br>
-                                <input type="checkbox" id="1chk_Civil_Status" name="chk_Civil_Status">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Civil_Status" name="chk_Civil_Status">
                                 <label for="1chk_Civil_Status">Civil Status</label><br>
-                                <input type="checkbox" id="1chk_Mobile" name="chk_Mobile">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Mobile" name="chk_Mobile">
                                 <label for="1chk_Mobile">Mobile Number</label><br>
-                                <input type="checkbox" id="1chk_Landline" name="chk_Landline">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Landline" name="chk_Landline">
                                 <label for="1chk_Landline">Landline Number</label><br>
-                                <input type="checkbox" id="1chk_House_No" name="chk_House_No">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_House_No" name="chk_House_No">
                                 <label for="1chk_House_No">House Number</label><br>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Street" name="chk_Street">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Street" name="chk_Street">
                                 <label for="1chk_Street">Street</label><br>
-                                <input type="checkbox" id="1chk_Barangay" name="chk_Barangay">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Barangay" name="chk_Barangay">
                                 <label for="1chk_Barangay">Barangay</label><br>
-                                <input type="checkbox" id="1chk_City_Municipality" name="chk_City_Municipality">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_City_Municipality" name="chk_City_Municipality">
                                 <label for="1chk_City_Municipality">City/Municipality</label><br>
-                                <input type="checkbox" id="1chk_Province" name="chk_Province">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Province" name="chk_Province">
                                 <label for="1chk_Province">Province</label><br>
-                                <input type="checkbox" id="1chk_Region" name="chk_Region">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Region" name="chk_Region">
                                 <label for="1chk_Region">Region</label><br>
-                                <input type="checkbox" id="1chk_Religion" name="chk_Religion">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Religion" name="chk_Religion">
                                 <label for="1chk_Religion">Religion</label><br>
-                                <input type="checkbox" id="1chk_Blood_Type" name="chk_Blood_Type">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Blood_Type" name="chk_Blood_Type">
                                 <label for="1chk_Blood_Type">Blood Type</label><br>
-                                <input type="checkbox" id="1chk_Weight" name="chk_Weight">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Weight" name="chk_Weight">
                                 <label for="1chk_Weight">Weight</label><br>
-                                <input type="checkbox" id="1chk_Height" name="chk_Height">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Height" name="chk_Height">
                                 <label for="1chk_Height">Height</label><br>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Email" name="chk_Email">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Email" name="chk_Email">
                                 <label for="1chk_Email">Email</label><br>
-                                <input type="checkbox" id="1chk_Philsys_Number" name="chk_Philsys_Number">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Philsys_Number" name="chk_Philsys_Number">
                                 <label for="1chk_Philsys_Number">Philsys_Number</label><br>
-                                <input type="checkbox" id="1chk_Resident_Status" name="chk_Resident_Status">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Resident_Status" name="chk_Resident_Status">
                                 <label for="1chk_Resident_Status">Resident Status</label><br>
-                                <input type="checkbox" id="1chk_Voter" name="chk_Voter">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Voter" name="chk_Voter">
                                 <label for="1chk_Voter">Voter</label><br>
-                                <input type="checkbox" id="1chk_Year_Last_Voted" name="chk_Year_Last_Voted">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Year_Last_Voted" name="chk_Year_Last_Voted">
                                 <label for="1chk_Year_Last_Voted">Year Last Voted</label><br>
-                                <input type="checkbox" id="1chk_Resident_Voter" name="chk_Resident_Voter">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Resident_Voter" name="chk_Resident_Voter">
                                 <label for="1chk_Resident_Voter">Resident Voter</label><br>
-                                <input type="checkbox" id="1chk_Solo_Parent" name="chk_Solo_Parent">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Solo_Parent" name="chk_Solo_Parent">
                                 <label for="1chk_Solo_Parent">Solo Parent</label><br>
-                                <input type="checkbox" id="1chk_Indigent" name="chk_Indigent">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Indigent" name="chk_Indigent">
                                 <label for="1chk_Indigent">Indigent</label><br>
-                                <input type="checkbox" id="1chk_Beneficiary" name="chk_Beneficiary">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Beneficiary" name="chk_Beneficiary">
                                 <label for="1chk_Beneficiary">4P's Beneficiary</label><br>
                             </div>
                         </div>
@@ -842,39 +846,35 @@
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Solo Parent: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VSolo_Parent"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>OFW: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VOFW"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Indigent: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VIndigent"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>4Ps Beneficiary: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="V4Ps_Beneficiary"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>PhilHealth: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VPhilHealth"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>GSIS: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VGSIS"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>SSS: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VSSS"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>PagIbig: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
-                    </tr>
-                    <tr>
-                        <td style="width:30%"><strong>Email: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VPagIbig"></span></td>
                     </tr>
                 </table>
 
@@ -1116,7 +1116,7 @@
                 $('#Birthplace').val(data['theEntry'][0]['Birthplace']);
                 $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
                 $('#Blood_Type_ID').val(data['theEntry'][0]['Blood_Type_ID']);
-                // $('#Sex').val(data['theEntry'][0]['Sex']);
+                $('#Age').val(data['theEntry'][0]['Age']);
                 $("input[name=Sex][value='" + data["theEntry"][0]["Sex"] + "']").prop("checked", true);
                 $('#Weight').val(data['theEntry'][0]['Weight']);
                 $('#Height').val(data['theEntry'][0]['Height']);
@@ -1524,7 +1524,18 @@
             },
             success: function(data) {
                 $('#VName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
-                $('#VAddress').html(data['theEntry'][0]['House_No'] + ', ' + data['theEntry'][0]['Street'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name'] + ', ' + data['theEntry'][0]['Region_Name']);
+                if (data['theEntry'][0]['House_No'] != null && data['theEntry'][0]['House_No'] != "") {
+                    $HS = data['theEntry'][0]['House_No'] + ' ';
+                } else {
+                    $HS = ' ';
+                }
+
+                if (data['theEntry'][0]['Street'] != null && data['theEntry'][0]['Street'] != "") {
+                    $SS = data['theEntry'][0]['Street'] + ', ';
+                } else {
+                    $SS = ' ';
+                }
+                $('#VAddress').html($HS + $SS + data['theEntry'][0]['Barangay_Name'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name']);
                 $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
                 $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
                 $('#VAge').html(data['theEntry'][0]['Religion_ID']);
@@ -1550,29 +1561,47 @@
                 $('#VWeight').text(data['theEntry'][0]['Weight']);
                 $('#VHeight').text(data['theEntry'][0]['Height']);
 
-                var barangay =
-                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
-                $('#Barangay_ID').append(barangay);
+                if (data['theEntry'][0]['Solo_Parent'] == 1) {
+                    $('#VSolo_Parent').html('Yes');
+                } else {
+                    $('#VSolo_Parent').html('No');
+                }
+                if (data['theEntry'][0]['OFW'] == 1) {
+                    $('#VOFW').html('Yes');
+                } else {
+                    $('#VOFW').html('No');
+                }
+                if (data['theEntry'][0]['Indigent'] == 1) {
+                    $('#VIndigent').html('Yes');
+                } else {
+                    $('#VIndigent').html('No');
+                }
+                if (data['theEntry'][0]['4Ps_Beneficiary'] == 1) {
+                    $('#V4Ps_Beneficiary').html('Yes');
+                } else {
+                    $('#V4Ps_Beneficiary').html('No');
+                }
 
-                var city =
-                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
-                $('#City_Municipality_ID').append(city);
-
-                var province =
-                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
-                $('#VProvince_ID').append(province);
-                $('#VSolo_Parent').val(data['theEntry'][0]['Solo_Parent']);
-                $('#VOFW').val(data['theEntry'][0]['OFW']);
-                $('#VIndigent').val(data['theEntry'][0]['Indigent']);
-                $('#V4Ps_Beneficiary').val(data['theEntry'][0]['4Ps_Beneficiary']);
-                $('#VResident_Status').val(data['theEntry'][0]['Resident_Status']);
-                $('#VVoter_Status').val(data['theEntry'][0]['Voter_Status']);
-                $('#VResident_Voter').val(data['theEntry'][0]['Resident_Voter']);
-                $('#VElection_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
-                $('#VPhilHealth').val(data['theEntry'][0]['PhilHealth']);
-                $('#VGSIS').val(data['theEntry'][0]['GSIS']);
-                $('#VSSS').val(data['theEntry'][0]['SSS']);
-                $('#VPagIbig').val(data['theEntry'][0]['PagIbig']);
+                if (data['theEntry'][0]['Resident_Status'] == 1) {
+                    $('#VResident_Status').html('Yes');
+                } else {
+                    $('#VResident_Status').html('No');
+                }
+                if (data['theEntry'][0]['Voter_Status'] == 1) {
+                    $('#VVoter_Status').html('Yes');
+                } else {
+                    $('#VVoter_Status').html('No');
+                }
+                if (data['theEntry'][0]['Resident_Voter'] == 1) {
+                    $('#VResident_Voter').html('Yes');
+                } else {
+                    $('#VResident_Voter').html('No');
+                }
+                $('#VElection_Year_Last_Voted').html(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#VPhilHealth').html(data['theEntry'][0]['PhilHealth']);
+                $('#VGSIS').html(data['theEntry'][0]['GSIS']);
+                $('#VSSS').html(data['theEntry'][0]['SSS']);
+                $('#VPagIbig').html(data['theEntry'][0]['PagIbig']);
             }
         });
 
@@ -1714,6 +1743,10 @@
 
             }
         });
+    });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
     });
 </script>
 

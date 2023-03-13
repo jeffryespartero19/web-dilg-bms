@@ -340,7 +340,7 @@
                 }
 
                 if (data['theEntry'][0]['Street'] != null && data['theEntry'][0]['Street'] != "") {
-                    $SS = data['theEntry'][0]['House_No'] + ', ';
+                    $SS = data['theEntry'][0]['Street'] + ', ';
                 } else {
                     $SS = ' ';
                 }

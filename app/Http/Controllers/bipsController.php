@@ -13,6 +13,8 @@ use Notification;
 use App\Mail\ApprovedEmailNotif;
 use App\Mail\DisapprovedEmailNotif;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InhabitantsExportView;
 
 class bipsController extends Controller
 {
@@ -2216,5 +2218,43 @@ class bipsController extends Controller
             )
             ->where('a.Resident_ID', $id)->get();
         return (compact('theEntry'));
+    }
+
+    public function inhabitants_export(Request $request)
+    {
+        $data = request()->all();
+
+        $chk_Name = isset($data['chk_Name']) ? 1 : 0;
+        $chk_Birthplace = isset($data['chk_Birthplace']) ? 1 : 0;
+        $chk_Birthdate = isset($data['chk_Birthdate']) ? 1 : 0;
+        $chk_Age = isset($data['chk_Age']) ? 1 : 0;
+        $chk_Street = isset($data['chk_Street']) ? 1 : 0;
+        $chk_Civil_Status = isset($data['chk_Civil_Status']) ? 1 : 0;
+        $chk_Mobile = isset($data['chk_Mobile']) ? 1 : 0;
+        $chk_Landline = isset($data['chk_Landline']) ? 1 : 0;
+        $chk_Resident_Status = isset($data['chk_Resident_Status']) ? 1 : 0;
+        $chk_Solo_Parent = isset($data['chk_Solo_Parent']) ? 1 : 0;
+        $chk_Indigent = isset($data['chk_Indigent']) ? 1 : 0;
+        $chk_Beneficiary = isset($data['chk_Beneficiary']) ? 1 : 0;
+        $chk_Sex = isset($data['chk_Sex']) ? 1 : 0;
+        $chk_House_No = isset($data['chk_House_No']) ? 1 : 0;
+        $chk_Street = isset($data['chk_Street']) ? 1 : 0;
+        $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+        $chk_City_Municipality = isset($data['chk_City_Municipality']) ? 1 : 0;
+        $chk_Province = isset($data['chk_Province']) ? 1 : 0;
+        $chk_Region = isset($data['chk_Region']) ? 1 : 0;
+        $chk_Religion = isset($data['chk_Religion']) ? 1 : 0;
+        $chk_Blood_Type = isset($data['chk_Blood_Type']) ? 1 : 0;
+        $chk_Weight = isset($data['chk_Weight']) ? 1 : 0;
+        $chk_Height = isset($data['chk_Height']) ? 1 : 0;
+        $chk_Email = isset($data['chk_Email']) ? 1 : 0;
+        $chk_Philsys_Number = isset($data['chk_Philsys_Number']) ? 1 : 0;
+        $chk_Voter = isset($data['chk_Voter']) ? 1 : 0;
+        $chk_Year_Last_Voted = isset($data['chk_Year_Last_Voted']) ? 1 : 0;
+        $chk_Resident_Voter = isset($data['chk_Resident_Voter']) ? 1 : 0;
+
+        $title = 'inhabitants.xlsx';
+
+        return Excel::download(new InhabitantsExportView($chk_Name, $chk_Birthplace, $chk_Birthdate, $chk_Age, $chk_Street, $chk_Civil_Status, $chk_Mobile, $chk_Landline, $chk_Resident_Status, $chk_Solo_Parent, $chk_Indigent, $chk_Beneficiary, $chk_Sex, $chk_House_No, $chk_Barangay, $chk_City_Municipality, $chk_Province, $chk_Region, $chk_Religion, $chk_Blood_Type, $chk_Weight, $chk_Height, $chk_Email, $chk_Philsys_Number, $chk_Voter, $chk_Year_Last_Voted, $chk_Resident_Voter), $title);
     }
 }
