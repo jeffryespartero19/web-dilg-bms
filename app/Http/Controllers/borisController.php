@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrdinanceExportView;
 use Illuminate\Http\Request;
 use Auth;
 use App\User;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\File;
 use PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class borisController extends Controller
 {
@@ -517,6 +519,7 @@ class borisController extends Controller
             'pro',
             'chk_PROrdinance'
         ))->setPaper('a4', 'landscape');
+
         $daFileNeym = "Ordinance_&_Resolution.pdf";
         return $pdf->download($daFileNeym);
     }
@@ -814,5 +817,26 @@ class borisController extends Controller
             ->get();
 
         return json_encode($data);
+    }
+
+    public function export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Ordinance = $data['chk_Ordinance'];
+        $chk_Ordinance_No = isset($data['chk_Ordinance_No']) ? 1 : 0;
+        $chk_Approval = isset($data['chk_Approval']) ? 1 : 0;
+        $chk_Effectivity = isset($data['chk_Effectivity']) ? 1 : 0;
+        $chk_Title = isset($data['chk_Title']) ? 1 : 0;
+        $chk_Status = isset($data['chk_Status']) ? 1 : 0;
+        $chk_Region = isset($data['chk_Region']) ? 1 : 0;
+        $chk_Province = isset($data['chk_Province']) ? 1 : 0;
+        $chk_City = isset($data['chk_City']) ? 1 : 0;
+        $chk_Barangay = isset($data['chk_Barangay']) ? 1 : 0;
+        $chk_Approver = isset($data['chk_Approver']) ? 1 : 0;
+        $chk_Attester = isset($data['chk_Attester']) ? 1 : 0;
+        $chk_PROrdinance = isset($data['chk_PROrdinance']) ? 1 : 0;
+
+        return Excel::download(new OrdinanceExportView($chk_Ordinance, $chk_Ordinance_No, $chk_Approval, $chk_Effectivity, $chk_Title, $chk_Status, $chk_Region, $chk_Province, $chk_City, $chk_Barangay, $chk_Approver, $chk_Attester, $chk_PROrdinance), 'ordinance.xlsx');
     }
 }
