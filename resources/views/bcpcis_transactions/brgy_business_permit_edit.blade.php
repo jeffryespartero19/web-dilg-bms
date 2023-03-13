@@ -111,7 +111,8 @@
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Cash_Tendered">Cash Tendered</label>
-                                                <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" value="{{$payment_docu[0]->Cash_Tendered}}">
+                                                <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$payment_docu[0]->Cash_Tendered, 2, '.', ',')}}">
+                                                <input type="number" step="0.01" class="form-control fancyformat" id="Cash_Tendered" name="Cash_Tendered" value="{{$payment_docu[0]->Cash_Tendered}}" hidden>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -129,7 +130,8 @@
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Amount">CTC Amount</label>
-                                                <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}">
+                                                <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$payment_docu[0]->CTC_Amount, 2, '.', ',')}}">
+                                                <input type="number" step="0.01" class="form-control fancyformat" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}" hidden>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -208,7 +210,7 @@
             ajax: {
                 url: '/search_business',
                 dataType: "json",
-            }
+            } 
         });
 
         $("#Resident_ID").select2({
@@ -333,6 +335,27 @@
         $('.certification_menu').addClass('active');
         $('.certification_main').addClass('menu-open');
     });
+
+    $(document).on("focusout",'.fancyformat', function(e) {
+            var disVal=$(this).val();
+            var num2 = parseFloat(disVal).toLocaleString();
+            var num3 =  parseFloat(disVal);
+            
+            $(this).val(num2);
+            $(this).next().val(num3);
+            //alert(num2);
+        });
+     
+    function validate(evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode( key );
+        var regex = /[0-9]|\./;
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
 </script>
 
 <style>

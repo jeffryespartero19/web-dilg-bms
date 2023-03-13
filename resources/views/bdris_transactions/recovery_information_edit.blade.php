@@ -137,7 +137,8 @@
                                     <input type="text" class="form-control" name="Address[]" value="{{$affected[0]->Address}}" style="width: 300px;">
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Estimated_Damage_Value[]" value="{{$affected[0]->Estimated_Damage_Value}}" style="width: 200px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Estimated_Damage_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Estimated_Damage_Value[]" value="{{$cd->Estimated_Damage_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
                                     <input type="text" class="form-control" name="Remarks[]" value="{{$affected[0]->Remarks}}" style="width: 300px;">
@@ -173,7 +174,8 @@
                                     <input type="text" class="form-control" name="Address[]" value="{{$affected[0]->Address}}" style="width: 300px;">
                                 </td>
                                 <td class="sm_data_col txtCtr">
-                                    <input type="number" class="form-control" name="Estimated_Damage_Value[]" value="{{$affected[0]->Estimated_Damage_Value}}" style="width: 200px;">
+                                    <input type="text"  onkeypress="validate(event)" class="form-control fancyformat"  value="{{number_format((float)$cd->Estimated_Damage_Value, 2, '.', ',')}}" style="width: 250px;">
+                                    <input type="number" step="0.01" class="form-control fancyformat" name="Estimated_Damage_Value[]" value="{{$cd->Estimated_Damage_Value}}" style="width: 250px;" hidden>
                                 </td>
                                 <td class="sm_data_col txtCtr">
                                     <input type="text" class="form-control" name="Remarks[]" value="{{$affected[0]->Remarks}}" style="width: 300px;">
@@ -186,7 +188,7 @@
                         </tbody>
                     </table>
                 </div>
-                <hr>
+                <hr> 
                 <div class="form-group col-lg-12" style="padding:0 10px" id="RecoveryDetails">
                     <h3>Recovery Damage Loss</h3>
                     <a onclick="addrow2();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
