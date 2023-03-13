@@ -483,6 +483,7 @@ class BDRISALController extends Controller
                     'a.GPS_Coordinates',
                     'a.Risk_Assesment',
                     'a.Action_Taken',
+                    'a.Summary',
                     'a.Barangay_ID',
                     'a.City_Municipality_ID',
                     'a.Province_ID',
@@ -558,13 +559,30 @@ class BDRISALController extends Controller
             $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
             $region = DB::table('maintenance_region')->paginate(20, ['*'], 'region');
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $evacuee = DB::table('bdris_evacuee_information as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
+                ->leftjoin('maintenance_province as d', 'b.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_region as e', 'b.Region_ID', '=', 'e.Region_ID')
+                ->leftjoin('maintenance_barangay as f', 'b.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Evacuee_ID',
+                    'a.Resident_ID',
+                    'a.Residency_Status',
+                    'a.Disaster_Response_ID',
+                    'a.Non_Resident_Name',
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Birthdate ELSE b.Birthdate END) AS Non_Resident_Birthdate'),
+                    DB::raw('(CASE WHEN A.Resident_ID = 0 THEN a.Non_Resident_Address ELSE concat(f.Barangay_Name, " ",c.City_Municipality_Name," ",d.Province_Name," ",e.Region_Name) END) AS Non_Resident_Address')
+                )
+                ->where('a.Disaster_Response_ID', 0)->get();
 
             return view('bdris_transactions.response_information', compact(
                 'currDATE',
                 'disaster_type',
                 'alert_level',
                 'region',
-                'resident'
+                'resident',
+                'evacuee',
             ));
         } else {
             $response = DB::table('bdris_response_information')->where('Disaster_Response_ID', $id)->get();
@@ -576,6 +594,10 @@ class BDRISALController extends Controller
             $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $response[0]->City_Municipality_ID)->get();
             $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
+            $damage = DB::table('bdris_Disaster_Response_Damage_Location')->where('Disaster_Response_ID', $id)->get();
+            $gps = DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $id)->get();
+            $risk = DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $id)->get();
+            $action = DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $id)->get();
             $evacuee = DB::table('bdris_evacuee_information as a')
                 ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
                 ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
@@ -605,11 +627,15 @@ class BDRISALController extends Controller
                 'attachment',
                 'city_municipality',
                 'resident',
-                'evacuee'
+                'evacuee',
+                'damage',
+                'gps',
+                'risk',
+                'action',
             ));
         }
     }
-    //aldren
+    
     public function get_responseinfo(Request $request)
     {
         $id = $_GET['id'];
@@ -627,6 +653,7 @@ class BDRISALController extends Controller
                 'a.GPS_Coordinates',
                 'a.Risk_Assesment',
                 'a.Action_Taken',
+                'a.Summary',
                 'b.Disaster_Type',
                 'c.Alert_Level',
             )
@@ -694,12 +721,13 @@ class BDRISALController extends Controller
                     'Disaster_Name'         => $data['Disaster_Name'],
                     'Disaster_Type_ID'      => $data['Disaster_Type_ID'],
                     'Alert_Level_ID'        => $data['Alert_Level_ID'],
-                    'Damaged_Location'      => $data['Damaged_Location'],
                     'Disaster_Date_Start'   => $data['Disaster_Date_Start'],
                     'Disaster_Date_End'     => $data['Disaster_Date_End'],
-                    'GPS_Coordinates'       => $data['GPS_Coordinates'],
-                    'Risk_Assesment'        => $data['Risk_Assesment'],
-                    'Action_Taken'          => $data['Action_Taken'],
+                    'Summary'               => $data['Summary'],
+                    // 'Damaged_Location'      => $data['Damaged_Location'],
+                    // 'GPS_Coordinates'       => $data['GPS_Coordinates'],
+                    // 'Risk_Assesment'        => $data['Risk_Assesment'],
+                    // 'Action_Taken'          => $data['Action_Taken'],
                     'Barangay_ID'           => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
                     'Province_ID'           => Auth::user()->Province_ID,
@@ -711,6 +739,10 @@ class BDRISALController extends Controller
             );
 
             DB::table('bdris_evacuee_information')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            DB::table('bdris_Disaster_Response_Damage_Location')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
 
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
@@ -733,7 +765,7 @@ class BDRISALController extends Controller
                 }
             }
 
-            if (isset($data['Resident_ID'])) {
+            if (isset($data['Resident_ID'])) { //aldren
                 $resident_details = [];
 
                 for ($i = 0; $i < count($data['Resident_ID']); $i++) {
@@ -769,6 +801,90 @@ class BDRISALController extends Controller
                 }
             }
 
+            if (isset($data['Damage_Location'])) {
+                $damage_location = [];
+
+                for ($i = 0; $i < count($data['Damage_Location']); $i++) {
+                    if ($data['Damage_Location'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_Disaster_Response_Damage_Location')->max('Damage_Location_ID');
+                        $id += 1;
+
+                        if ($data['Damage_Location'][$i] != null) {
+                            $damage_location = [
+                                'Disaster_Response_ID' => $Disaster_Response_ID,
+                                'Damage_Location' => $data['Damage_Location'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_Disaster_Response_Damage_Location')->updateOrInsert(['Damage_Location_ID' => $id], $damage_location);
+                    }
+                }
+            }
+
+            if (isset($data['GPS_Coordinates'])) {
+                $GPS_coordinates = [];
+
+                for ($i = 0; $i < count($data['GPS_Coordinates']); $i++) {
+                    if ($data['GPS_Coordinates'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_Disaster_Response_GPS_Coordinates')->max('GPS_Coordinates_ID');
+                        $id += 1;
+
+                        if ($data['GPS_Coordinates'][$i] != null) {
+                            $GPS_coordinates = [
+                                'Disaster_Response_ID' => $Disaster_Response_ID,
+                                'GPS_Coordinates' => $data['GPS_Coordinates'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_Disaster_Response_GPS_Coordinates')->updateOrInsert(['GPS_Coordinates_ID' => $id], $GPS_coordinates);
+                    }
+                }
+            }
+
+            if (isset($data['Risk_Assessment'])) {
+                $risk_assessment = [];
+
+                for ($i = 0; $i < count($data['Risk_Assessment']); $i++) {
+                    if ($data['Risk_Assessment'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_Disaster_Response_Risk_Assessment')->max('Risk_Assessment_ID');
+                        $id += 1;
+
+                        if ($data['Risk_Assessment'][$i] != null) {
+                            $risk_assessment = [
+                                'Disaster_Response_ID' => $Disaster_Response_ID,
+                                'Risk_Assessment' => $data['Risk_Assessment'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_Disaster_Response_Risk_Assessment')->updateOrInsert(['Risk_Assessment_ID' => $id], $risk_assessment);
+                    }
+                }
+            }
+
+            if (isset($data['Action_Taken'])) {
+                $action_taken = [];
+
+                for ($i = 0; $i < count($data['Action_Taken']); $i++) {
+                    if ($data['Action_Taken'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_Disaster_Response_Action_Taken')->max('Action_Taken_ID');
+                        $id += 1;
+
+                        if ($data['Action_Taken'][$i] != null) {
+                            $action_taken = [
+                                'Disaster_Response_ID' => $Disaster_Response_ID,
+                                'Action_Taken' => $data['Action_Taken'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_Disaster_Response_Action_Taken')->updateOrInsert(['Action_Taken_ID' => $id], $action_taken);
+                    }
+                }
+            }
+
             return redirect()->to('response_information_details/' . $Disaster_Response_ID)->with('message', 'New Recovery Information Created');
         } else {
             DB::table('bdris_response_information')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->update(
@@ -776,12 +892,13 @@ class BDRISALController extends Controller
                     'Disaster_Name'         => $data['Disaster_Name'],
                     'Disaster_Type_ID'      => $data['Disaster_Type_ID'],
                     'Alert_Level_ID'        => $data['Alert_Level_ID'],
-                    'Damaged_Location'      => $data['Damaged_Location'],
                     'Disaster_Date_Start'   => $data['Disaster_Date_Start'],
                     'Disaster_Date_End'     => $data['Disaster_Date_End'],
-                    'GPS_Coordinates'       => $data['GPS_Coordinates'],
-                    'Risk_Assesment'        => $data['Risk_Assesment'],
-                    'Action_Taken'          => $data['Action_Taken'],
+                    'Summary'               => $data['Summary'],
+                    // 'Damaged_Location'      => $data['Damaged_Location'],
+                    // 'GPS_Coordinates'       => $data['GPS_Coordinates'],
+                    // 'Risk_Assesment'        => $data['Risk_Assesment'],
+                    // 'Action_Taken'          => $data['Action_Taken'],
                     'Barangay_ID'           => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'  => Auth::user()->City_Municipality_ID,
                     'Province_ID'           => Auth::user()->Province_ID,
@@ -792,6 +909,10 @@ class BDRISALController extends Controller
             );
 
             DB::table('bdris_evacuee_information')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            DB::table('bdris_Disaster_Response_Damage_Location')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
 
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
@@ -850,6 +971,91 @@ class BDRISALController extends Controller
                             ];
                         }
                         DB::table('bdris_evacuee_information')->insert($resident_details);
+                    }
+                }
+            }
+
+
+            if (isset($data['Damage_Location'])) {
+                $damage_location = [];
+
+                for ($i = 0; $i < count($data['Damage_Location']); $i++) {
+                    if ($data['Damage_Location'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_disaster_response_damage_location')->max('Damage_Location_ID');
+                        $id += 1;
+
+                        if ($data['Damage_Location'][$i] != null) {
+                            $damage_location = [
+                                'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
+                                'Damage_Location'       => $data['Damage_Location'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_disaster_response_damage_location')->updateOrInsert(['Damage_Location_ID' => $id], $damage_location);
+                    }
+                }
+            }
+
+            if (isset($data['GPS_Coordinates'])) {
+                $GPS_coordinates = [];
+
+                for ($i = 0; $i < count($data['GPS_Coordinates']); $i++) {
+                    if ($data['GPS_Coordinates'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_Disaster_Response_GPS_Coordinates')->max('GPS_Coordinates_ID');
+                        $id += 1;
+
+                        if ($data['GPS_Coordinates'][$i] != null) {
+                            $GPS_coordinates = [
+                                'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
+                                'GPS_Coordinates'       => $data['GPS_Coordinates'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_Disaster_Response_GPS_Coordinates')->updateOrInsert(['GPS_Coordinates_ID' => $id], $GPS_coordinates);
+                    }
+                }
+            }
+
+            if (isset($data['Risk_Assessment'])) {
+                $risk_assessment = [];
+
+                for ($i = 0; $i < count($data['Risk_Assessment']); $i++) {
+                    if ($data['Risk_Assessment'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_Disaster_Response_Risk_Assessment')->max('Risk_Assessment_ID');
+                        $id += 1;
+
+                        if ($data['GPS_Coordinates'][$i] != null) {
+                            $risk_assessment = [
+                                'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
+                                'Risk_Assessment'       => $data['Risk_Assessment'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_Disaster_Response_Risk_Assessment')->updateOrInsert(['Risk_Assessment_ID' => $id], $risk_assessment);
+                    }
+                }
+            }
+
+            if (isset($data['Action_Taken'])) {
+                $action_taken = [];
+
+                for ($i = 0; $i < count($data['Action_Taken']); $i++) {
+                    if ($data['Action_Taken'][$i] != NULL) {
+
+                        $id = 0 + DB::table('bdris_Disaster_Response_Action_Taken')->max('Action_Taken_ID');
+                        $id += 1;
+
+                        if ($data['GPS_Coordinates'][$i] != null) {
+                            $action_taken = [
+                                'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
+                                'Action_Taken'       => $data['Action_Taken'][$i],
+                            ];
+                        }
+
+                        DB::table('bdris_Disaster_Response_Action_Taken')->updateOrInsert(['Action_Taken_ID' => $id], $action_taken);
                     }
                 }
             }
@@ -1285,7 +1491,7 @@ class BDRISALController extends Controller
             }
 
 
-            if (isset($data['Resident_ID'])) {
+            if (isset($data['Resident_ID'])) { //buban
                 $resident_details = [];
 
                 for ($i = 0; $i < count($data['Resident_ID']); $i++) {
@@ -3449,6 +3655,7 @@ class BDRISALController extends Controller
                 'a.GPS_Coordinates',
                 'a.Risk_Assesment',
                 'a.Action_Taken',
+                
                 'a.Barangay_ID',
                 'a.City_Municipality_ID',
                 'a.Province_ID',
