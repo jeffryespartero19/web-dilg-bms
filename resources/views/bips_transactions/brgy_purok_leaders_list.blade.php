@@ -97,7 +97,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Term_From}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Term_To}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_brgy_purok_leader btn btn-primary">View</button>&nbsp;
+                                                <button class="view_info  btn btn-primary" value="{{$x->Brgy_Purok_Leader_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>&nbsp;
                                                 <button class="edit_brgy_purok_leader btn btn-info" value="{{$x->Brgy_Purok_Leader_ID}}" data-toggle="modal" data-target="#Update_Brgy_Purok_Leader">Edit</button>&nbsp;
                                                 <button class="delete_brgy_purok_leader btn btn-danger" value="{{$x->Brgy_Purok_Leader_ID}}">Delete</button>
                                             </td>
@@ -204,6 +204,45 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createInhabitants_Info" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-m" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy. Purok Leader Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="newInhabitant">@csrf
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered" style="width:100%">
+                        <tbody id="HHMembers">
+                            <tr>
+                                <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Name: </strong></td>
+                                <td><span id="vName"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Term From: </strong></td>
+                                <td><span id="vTermFrom"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Term To: </strong></td>
+                                <td><span id="vTermTo"></span></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default modal-close btn-modal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
@@ -382,6 +421,28 @@
                     }
                 });
 
+            }
+        });
+    });
+
+    // View Info
+    $(document).on('click', ('.view_info'), function(e) {
+
+        var disID = $(this).val();
+        // $('#Modal_Title').text('Edit Inhabitant Information');
+        $.ajax({
+            url: "/get_brgy_purok_leader",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#vName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
+                $('#vTermFrom').html(data['theEntry'][0]['Term_From']);
+                $('#vTermTo').html(data['theEntry'][0]['Term_To']);
             }
         });
     });

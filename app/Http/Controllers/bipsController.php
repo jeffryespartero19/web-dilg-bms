@@ -424,6 +424,7 @@ class bipsController extends Controller
             ->leftjoin('maintenance_bips_religion as g', 'a.Religion_ID', '=', 'g.Religion_ID')
             ->leftjoin('maintenance_bips_blood_type as h', 'a.Blood_Type_ID', '=', 'h.Blood_Type_ID')
             ->leftjoin('maintenance_bips_civil_status as i', 'a.Civil_Status_ID', '=', 'i.Civil_Status_ID')
+            ->leftjoin('maintenance_bips_name_suffix as j', 'a.Name_Suffix_ID', '=', 'j.Name_Suffix_ID')
             ->select(
                 'a.Resident_ID',
                 'a.Name_Prefix_ID',
@@ -471,7 +472,9 @@ class bipsController extends Controller
                 'a.PagIbig',
                 'g.Religion',
                 'h.Blood_Type',
-                'i.Civil_Status'
+                'i.Civil_Status',
+                'j.Name_Suffix',
+                DB::raw('floor(DATEDIFF(CURDATE(),a.Birthdate) /365) as Age')
             )
             ->where('a.Resident_ID', $id)->get();
         return (compact('theEntry'));
@@ -1862,16 +1865,18 @@ class bipsController extends Controller
 
         $theEntry = DB::table('bips_brgy_officials_and_staff as a')
             ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
             ->select(
                 'a.Brgy_Officials_and_Staff_ID',
                 'a.Resident_ID',
                 'a.Barangay_Position_ID',
-                'a.Term_From',
-                'a.Term_To',
+                'a.Term_from',
+                'a.Term_to',
                 'a.monthly_income',
                 'b.Last_Name',
                 'b.First_Name',
                 'b.Middle_Name',
+                'c.Brgy_Position',
             )
             ->where('a.Brgy_Officials_and_Staff_ID', $id)->get();
 
@@ -2188,5 +2193,28 @@ class bipsController extends Controller
             )
             ->where('a.Household_Profile_ID', $id)->get();
         return json_encode($data);
+    }
+
+    // Display Household Details
+    public function get_deceased_info(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $theEntry = DB::table('bips_deceased_profile as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_deceased_type as c', 'a.Deceased_Type_ID', '=', 'c.Deceased_Type_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Cause_of_Death',
+                'a.Date_of_Death',
+                'a.Barangay_ID',
+                'a.Date_Stamp',
+                'b.Last_Name',
+                'b.First_Name',
+                'b.Middle_Name',
+                'c.Deceased_Type',
+            )
+            ->where('a.Resident_ID', $id)->get();
+        return (compact('theEntry'));
     }
 }
