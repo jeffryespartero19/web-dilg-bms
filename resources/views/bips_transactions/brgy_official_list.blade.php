@@ -99,7 +99,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Term_From}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Term_To}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_brgy_official btn btn-primary">View</button>&nbsp;
+                                                <button class="view_info  btn btn-primary" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>&nbsp;
                                                 <button class="edit_brgy_official btn btn-info" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>&nbsp;
                                                 <button class="delete_brgy_official btn btn-danger" value="{{$x->Brgy_Officials_and_Staff_ID}}">Delete</button>
                                             </td>
@@ -235,6 +235,54 @@
     </div>
 </div>
 
+<div class="modal fade" id="createInhabitants_Info" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-m" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy. Official/Staff Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="newInhabitant">@csrf
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered" style="width:100%">
+                        <tbody id="HHMembers">
+                            <tr>
+                                <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Name: </strong></td>
+                                <td><span id="vName"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Position: </strong></td>
+                                <td><span id="vPosition"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Term From: </strong></td>
+                                <td><span id="vTermFrom"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Term To: </strong></td>
+                                <td><span id="vTermTo"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Monthly Income: </strong></td>
+                                <td><span id="vMonthlyIncome"></span></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default modal-close btn-modal" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 @section('scripts')
@@ -273,8 +321,8 @@
                 // $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']);
                 // $('#Resident_IDs2').val(data['theEntry'][0]['Resident_ID']).trigger('change');
                 $('#Brgy_Position_ID2').val(data['theEntry'][0]['Barangay_Position_ID']);
-                $('#Term_From2').val(data['theEntry'][0]['Term_From']);
-                $('#Term_To2').val(data['theEntry'][0]['Term_To']);
+                $('#Term_From2').val(data['theEntry'][0]['Term_from']);
+                $('#Term_To2').val(data['theEntry'][0]['Term_to']);
                 $('#monthly_income2').val(data['theEntry'][0]['monthly_income']);
                 var option = " <option value='" +
                     data['theEntry'][0]['Resident_ID'] +
@@ -404,6 +452,32 @@
                         location.reload();
                     }
                 });
+
+            }
+        });
+    });
+
+    // View Info
+    $(document).on('click', ('.view_info'), function(e) {
+
+        var disID = $(this).val();
+        // $('#Modal_Title').text('Edit Inhabitant Information');
+        $.ajax({
+            url: "/get_brgy_official",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#vName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
+                $('#vPosition').html(data['theEntry'][0]['Brgy_Position']);
+                $('#vTermFrom').html(data['theEntry'][0]['Term_from']);
+                $('#vTermTo').html(data['theEntry'][0]['Term_to']);
+                $('#Religion').html(data['theEntry'][0]['Religion']);
+                $('#vMonthlyIncome').html(data['theEntry'][0]['monthly_income']);
 
             }
         });

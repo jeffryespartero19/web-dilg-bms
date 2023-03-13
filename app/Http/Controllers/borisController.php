@@ -837,6 +837,12 @@ class borisController extends Controller
         $chk_Attester = isset($data['chk_Attester']) ? 1 : 0;
         $chk_PROrdinance = isset($data['chk_PROrdinance']) ? 1 : 0;
 
-        return Excel::download(new OrdinanceExportView($chk_Ordinance, $chk_Ordinance_No, $chk_Approval, $chk_Effectivity, $chk_Title, $chk_Status, $chk_Region, $chk_Province, $chk_City, $chk_Barangay, $chk_Approver, $chk_Attester, $chk_PROrdinance), 'ordinance.xlsx');
+        if($chk_Ordinance == 0) {
+            $title = 'ordinance.xlsx';
+        } else {
+            $title = 'resolution.xlsx';
+        }
+
+        return Excel::download(new OrdinanceExportView($chk_Ordinance, $chk_Ordinance_No, $chk_Approval, $chk_Effectivity, $chk_Title, $chk_Status, $chk_Region, $chk_Province, $chk_City, $chk_Barangay, $chk_Approver, $chk_Attester, $chk_PROrdinance), $title);
     }
 }
