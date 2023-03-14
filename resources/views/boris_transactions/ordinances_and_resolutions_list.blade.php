@@ -41,10 +41,10 @@
 
 
         <div class="row">
-            @if (Auth::user()->User_Type_ID == 3)
-            <div class="col-md-12">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        @if (Auth::user()->User_Type_ID == 3)
                         <div class="row">
                             <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <div class="form-group col-lg-6">
@@ -65,28 +65,9 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            @else
-            <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
-            @endif
-
-
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div style="text-align: right;">
-                            <div class="btn-group">
-                                @if (Auth::user()->User_Type_ID == 1)
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createOrdinance_Info" style="width: 100px;">New</button></div>
-                                @endif
-                                <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
-                                <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
-                            </div>
-                        </div>
-                        <br>
+                        @else
+                        <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
+                        @endif
                         <div class="row">
                             <div class="form-group col-4" style="margin: 0px;">
                                 <div>
@@ -115,7 +96,22 @@
 
                         </div>
                         <div style="padding: 2px; float:right"><button class="btn btn-success SearchOrdinanceBTN" style="width: 100px;">Search</button></div>
-                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="text-align: right;">
+                            <div class="btn-group">
+                                @if (Auth::user()->User_Type_ID == 1)
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createOrdinance_Info" style="width: 100px;">New</button></div>
+                                @endif
+                                <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Ordinance') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
+                            </div>
+                        </div>
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">

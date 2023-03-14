@@ -41,10 +41,11 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            @if (Auth::user()->User_Type_ID == 3 )
+
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
+                        @if (Auth::user()->User_Type_ID == 3 )
                         <div class="row">
                             <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <div class="form-group col-lg-6">
@@ -65,10 +66,39 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
+                        <div class="row">
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Search</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control SearchData" name="q" placeholder="Search Inhabitant">
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date From</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="date_from" name="date_from" type="date" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date To</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="date_to" name="date_to" type="date" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="padding: 2px; float:right"><button class="btn btn-success SearchDataBTN" style="width: 100px;">Search</button></div>
                     </div>
                 </div>
             </div>
-            @endif
+
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -85,12 +115,12 @@
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12">
                                 <div>
-                                    <table id="example" class="example11 table table-striped table-bordered" style="table-layout:fixed;">
+                                    <table class="example11 table table-striped table-bordered" style="table-layout:fixed;">
                                         <thead>
                                             <tr>
                                                 <th style="width: 300px;">Name</th>
                                                 <th style="width: 200px;">Birthdate</th>
-                                                <th style="width: 200px;">Birthplace</th>
+                                                <!-- <th style="width: 200px;">Birthplace</th> -->
                                                 <th style="width: 200px;">Age</th>
                                                 <th style="width: 200px;">Sex</th>
                                                 <th style="width: 200px;">Civil Status</th>
@@ -102,7 +132,7 @@
                                                 <th style="width: 200px;">City/Municipality</th>
                                                 <th style="width: 200px;">Province</th>
                                                 <th style="width: 200px;">Region</th>
-                                                <th style="width: 200px;">Religion</th>
+                                                <!-- <th style="width: 200px;">Religion</th>
                                                 <th style="width: 200px;">Blood Type</th>
                                                 <th style="width: 200px;">Weight</th>
                                                 <th style="width: 200px;">Height</th>
@@ -114,54 +144,15 @@
                                                 <th style="width: 200px;">Resident Voter</th>
                                                 <th style="width: 200px;">Solo Parent</th>
                                                 <th style="width: 200px;">Indigent</th>
-                                                <th style="width: 200px;">4P's Beneficiary</th>
+                                                <th style="width: 200px;">4P's Beneficiary</th> -->
                                                 <th style="width: 200px;">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @foreach($db_entries as $x)
-                                            <tr>
-                                                <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
-                                                <td class="sm_data_col txtCtr">
-                                                    <?php
-                                                    $age = date_diff(date_create($x->Birthdate), date_create('now'))->y;
-                                                    echo $age;
-                                                    ?>
-                                                </td>
-                                                <td class="sm_data_col txtCtr">@if($x->Sex == 1) Male @else Female @endif</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->House_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Street}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Religion}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Blood_Type}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Weight}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Height}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Email_Address}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Resident_Status == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Voter_Status == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Resident_Voter == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr" style="display: flex;">
-                                                    <button class="view_inhabitants btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                    <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>&nbsp;
-                                                    <button class="delete_inhabitants btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
-                                                </td>
-                                            </tr>
-                                            @endforeach
+                                        <tbody id="ListData">
+                                            @include('bips_transactions.inhabitants_information_data')
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                                 </div>
 
                             </div>
@@ -827,19 +818,19 @@
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Resident Status: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VResident_Status"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Voter Status: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VVoter_Status"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Election Year Last Voted: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VElection_Year_Last_Voted"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Resident Voter: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VResident_Voter"></span></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center; font-size:large">Additional Information</td>
@@ -1748,6 +1739,31 @@
     $(document).on('click', '#SelectAll', function(e) {
         $('.ChkBOX1').prop('checked', this.checked);
     });
+
+    $(".SearchDataBTN").on("click", function() {
+        SearchData();
+    });
+
+    function SearchData() {
+        // alert('test');
+        var param = $('.SearchData').val();
+        var date_from = $('#date_from').val();
+        var date_to = $('#date_to').val();
+        var page = $('#hidden_page').val();
+        if (date_from == '' || date_from == null) {
+            date_from = 0;
+        }
+        if (date_to == '' || date_to == null) {
+            date_to = 0;
+        }
+        $.ajax({
+            url: "/search_inhabitants_list?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

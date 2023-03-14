@@ -2257,4 +2257,82 @@ class bipsController extends Controller
 
         return Excel::download(new InhabitantsExportView($chk_Name, $chk_Birthplace, $chk_Birthdate, $chk_Age, $chk_Street, $chk_Civil_Status, $chk_Mobile, $chk_Landline, $chk_Resident_Status, $chk_Solo_Parent, $chk_Indigent, $chk_Beneficiary, $chk_Sex, $chk_House_No, $chk_Barangay, $chk_City_Municipality, $chk_Province, $chk_Region, $chk_Religion, $chk_Blood_Type, $chk_Weight, $chk_Height, $chk_Email, $chk_Philsys_Number, $chk_Voter, $chk_Year_Last_Voted, $chk_Resident_Voter), $title);
     }
+
+    public function fetch_inhabitants_data(Request $request)
+    {
+        $data = DB::table('bips_brgy_inhabitants_information as a')
+            ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+            ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+            ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+            ->leftjoin('bips_resident_profile as e', 'a.Resident_ID', '=', 'e.Resident_ID')
+            ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+            ->leftjoin('maintenance_city_municipality as g', 'a.City_Municipality_ID', '=', 'g.City_Municipality_ID')
+            ->leftjoin('maintenance_province as h', 'a.Province_ID', '=', 'h.Province_ID')
+            ->leftjoin('maintenance_region as i', 'a.Region_ID', '=', 'i.Region_ID')
+            ->leftjoin('maintenance_bips_religion as j', 'a.Religion_ID', '=', 'j.Religion_ID')
+            ->leftjoin('maintenance_bips_blood_type as k', 'a.Blood_Type_ID', '=', 'k.Blood_Type_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Name_Prefix_ID',
+                'a.Last_Name',
+                'a.First_Name',
+                'a.Middle_Name',
+                'a.Name_Suffix_ID',
+                'a.Birthplace',
+                'a.Weight',
+                'a.Height',
+                'a.Civil_Status_ID',
+                'a.Birthdate',
+                'a.Country_ID',
+                'j.Religion',
+                'k.Blood_Type',
+                'a.Sex',
+                'a.Mobile_No',
+                'a.Telephone_No',
+                'f.Barangay_Name',
+                'g.City_Municipality_Name',
+                'h.Province_Name',
+                'i.Region_Name',
+                'a.Street',
+                'a.House_No',
+                'a.Salary',
+                'a.Email_Address',
+                'a.PhilSys_Card_No',
+                'a.Solo_Parent',
+                'a.OFW',
+                'a.Indigent',
+                'a.4Ps_Beneficiary as Beneficiary',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Name_Prefix',
+                'c.Name_Suffix',
+                'd.Civil_Status',
+                'e.Resident_Status',
+                'e.Voter_Status',
+                'e.Election_Year_Last_Voted',
+                'e.Resident_Voter'
+            )
+            ->where('a.Application_Status', 1);
+
+        if ($request->get('param') != null) {
+            $data->where('a.Last_Name', 'LIKE', '%' . $request->get('param') . '%')
+                ->orWhere('a.First_Name', 'LIKE', '%' . $request->get('param') . '%')
+                ->orWhere('a.Middle_Name', 'LIKE', '%' . $request->get('param') . '%');
+        }
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        if ($request->get('date_from') != 0) {
+            $data->where(DB::raw("(DATE_FORMAT(a.Date_Stamp,'%Y-%m-%d'))"), '>=', $request->get('date_from'));
+        }
+        if ($request->get('date_to') != 0) {
+            $data->where(DB::raw("(DATE_FORMAT(a.Date_Stamp,'%Y-%m-%d'))"), '<=', $request->get('date_to'));
+        }
+
+        $db_entries = $data->orderby('a.Last_Name', 'desc')->paginate(20);
+
+        return view('bips_transactions.inhabitants_information_data', compact('db_entries'))->render();
+    }
 }

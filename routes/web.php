@@ -1009,6 +1009,7 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/search_ordinances', 'borisController@fetch_data');
   Route::get('/search_resolutions', 'borisController@fetch_data_resolution');
+  Route::get('/search_inhabitants_list', 'bipsController@fetch_inhabitants_data');
 
   // Get Deceased Profile
   Route::get('/get_deceased_info', 'bipsController@get_deceased_info')->name('get_deceased_info');
