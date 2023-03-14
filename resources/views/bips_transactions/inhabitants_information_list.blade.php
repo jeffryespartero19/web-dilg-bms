@@ -41,11 +41,11 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-
+        @if (Auth::user()->User_Type_ID == 3 )
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        @if (Auth::user()->User_Type_ID == 3 )
+                       
                         <div class="row">
                             <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <div class="form-group col-lg-6">
@@ -66,39 +66,11 @@
                                 </select>
                             </div>
                         </div>
-                        @endif
-                        <div class="row">
-                            <div class="form-group col-4" style="margin: 0px;">
-                                <div>
-                                    <label for="">Search</label>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control SearchData" name="q" placeholder="Search Inhabitant">
-                                </div>
-                            </div>
-                            <div class="form-group col-4" style="margin: 0px;">
-                                <div>
-                                    <label for="">Date From</label>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input id="date_from" name="date_from" type="date" class="form-control" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="form-group col-4" style="margin: 0px;">
-                                <div>
-                                    <label for="">Date To</label>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input id="date_to" name="date_to" type="date" class="form-control" autocomplete="off">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div style="padding: 2px; float:right"><button class="btn btn-success SearchDataBTN" style="width: 100px;">Search</button></div>
+                        
                     </div>
                 </div>
             </div>
-
+            @endif
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -120,38 +92,104 @@
                                             <tr>
                                                 <th style="width: 300px;">Name</th>
                                                 <th style="width: 200px;">Birthdate</th>
-                                                <!-- <th style="width: 200px;">Birthplace</th> -->
                                                 <th style="width: 200px;">Age</th>
                                                 <th style="width: 200px;">Sex</th>
                                                 <th style="width: 200px;">Civil Status</th>
-                                                <th style="width: 200px;">Mobile Number</th>
-                                                <th style="width: 200px;">Landline Number</th>
-                                                <th style="width: 200px;">House Number</th>
                                                 <th style="width: 200px;">Street</th>
-                                                <th style="width: 200px;">Barangay</th>
-                                                <th style="width: 200px;">City/Municipality</th>
-                                                <th style="width: 200px;">Province</th>
-                                                <th style="width: 200px;">Region</th>
-                                                <!-- <th style="width: 200px;">Religion</th>
-                                                <th style="width: 200px;">Blood Type</th>
-                                                <th style="width: 200px;">Weight</th>
-                                                <th style="width: 200px;">Height</th>
-                                                <th style="width: 200px;">Email</th>
-                                                <th style="width: 200px;">PhilSys Card Number</th>
-                                                <th style="width: 200px;">Resident</th>
+                                                <th style="width: 200px;">Resident Status</th>
                                                 <th style="width: 200px;">Voter</th>
-                                                <th style="width: 200px;">Election Year Last Voted</th>
                                                 <th style="width: 200px;">Resident Voter</th>
                                                 <th style="width: 200px;">Solo Parent</th>
                                                 <th style="width: 200px;">Indigent</th>
-                                                <th style="width: 200px;">4P's Beneficiary</th> -->
+                                                <th style="width: 200px;">4P's Beneficiary</th>
+                                                <th style="width: 200px;">OFW</th>
                                                 <th style="width: 200px;">Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="number"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter4" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter5" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        @foreach($civil_status as $cs)
+                                                        <option value="{{ $cs->Civil_Status_ID }}">{{ $cs->Civil_Status }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="text"></td>
+
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter7" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter8" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter9" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter10" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter11" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter12" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter13" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                         <tbody id="ListData">
                                             @include('bips_transactions.inhabitants_information_data')
                                         </tbody>
                                     </table>
+                                    {!! $db_entries->links() !!}
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                                 </div>
 
@@ -868,6 +906,44 @@
                         <td><span id="VPagIbig"></span></td>
                     </tr>
                 </table>
+                <table class="table table-striped table-bordered" style="width:100%; margin-bottom:0px">
+                    <tr>
+                        <td style="text-align: center; font-size:large">Educational Information</td>
+                    </tr>
+                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered EducList example11" style="width:100%">
+                        <tr>
+                            <th>Academic Level</th>
+                            <th>School Name</th>
+                            <th>Year Start</th>
+                            <th>Year End</th>
+                            <th>Course</th>
+                            <th>Year Graduated</th>
+                        </tr>
+                    </table>
+                </div>
+                <table class="table table-striped table-bordered" style="width:100%; margin-bottom:0px">
+                    <tr>
+                        <td style="text-align: center; font-size:large">Employment Information</td>
+                    </tr>
+                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered EmpList example11" style="width:100%">
+                        <tr>
+                            <th>Employment Type</th>
+                            <th>Company Name</th>
+                            <th>Employer Name</th>
+                            <th>Employer Address</th>
+                            <th>Position</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Monthly Salary</th>
+                            <th>Brief Description</th>
+                        </tr>
+                    </table>
+                </div>
+
 
             </div>
 
@@ -1000,6 +1076,9 @@
         $('#createInhabitants_Info').trigger("reset");
         $("#createInhabitants_Info :input").prop("disabled", false);
         $('#Modal_Title').text('Edit Inhabitant');
+        $('.EducData').remove();
+        $('.EmpData').remove();
+
 
 
         // Reset Education Table
@@ -1607,36 +1686,17 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
-                $('#EducTBLD').empty();
+                // $('#EducList').empty();
                 data.forEach(element => {
-                    var option = '<tr>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<select class="form-control" name="Academic_Level_ID[]" style="width: 200px;">' +
-                        '@foreach($academic_level as $al)' +
-                        '<option value="{{ $al->Academic_Level_ID  }}" {{ $al->Academic_Level_ID == "' + element['Academic_Level_ID'] + '" ? "selected" : "" }}>{{ $al->Academic_Level }}</option>' +
-                        '@endforeach' +
-                        '</select>' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="School_Name[]" style="width: 250px;"  value="' + element['School_Name'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="School_Year_Start[]" style="width: 200px;"  value="' + element['School_Year_Start'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="School_Year_End[]" style="width: 200px;"  value="' + element['School_Year_End'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Course[]" style="width: 200px;"  value="' + element['Course'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="Year_Graduated[]" style="width: 200px;"  value="' + element['Year_Graduated'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<button class="removeRow btn btn-danger">Remove</button>' +
-                        '</td>' +
+                    var option = '<tr class="EducData">' +
+                        '<td style="min-width: 200px;">' + element['Academic_Level'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Name'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Year_Start'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Year_End'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Course'] + '</td>' +
+                        '<td>' + element['Year_Graduated'] + '</td>' +
                         '</tr>';
-                    $('#EducTBLD').append(option);
+                    $('.EducList').append(option);
                 });
             }
         });
@@ -1654,43 +1714,18 @@
                 var data = JSON.parse(data);
                 $('#EmpTBLD').empty();
                 data.forEach(element => {
-                    var option_emp = '<tr>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<select class="form-control" name="Employment_Type_ID[]" style="width: 200px;">' +
-                        '@foreach($employment_type as $et)' +
-                        '<option value="{{ $et->Employment_Type_ID }}" {{ $et->Employment_Type_ID == "' + element['Employment_Type_ID'] + '" ? "selected" : "" }}>{{ $et->Employment_Type }}</option>' +
-                        '@endforeach' +
-                        '</select>' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Company_Name[]" style="width: 250px;" value="' + element['Company_Name'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Employer_Name[]" style="width: 200px;" value="' + element['Employer_Name'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Employer_Address[]" style="width: 200px;" value="' + element['Employer_Address'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Position[]" style="width: 200px;" value="' + element['Position'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="Start_Date[]" style="width: 200px;" value="' + element['Start_Date'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="End_Date[]" style="width: 200px;" value="' + element['End_Date'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;" value="' + element['Monthly_Salary'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;" value="' + element['Brief_Description'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<button class="removeRow btn btn-danger">Remove</button>' +
-                        '</td>' +
+                    var option = '<tr class="EmpData">' +
+                        '<td style="min-width: 200px;">' + element['Employment_Type'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Company_Name'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Employer_Name'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Employer_Address'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Position'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Start_Date'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['End_Date'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Monthly_Salary'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Brief_Description'] + '</td>' +
                         '</tr>';
-                    $('#EmpTBLD').append(option_emp);
+                    $('.EmpList').append(option);
                 });
             }
         });
@@ -1740,24 +1775,54 @@
         $('.ChkBOX1').prop('checked', this.checked);
     });
 
-    $(".SearchDataBTN").on("click", function() {
-        SearchData();
+    // $(".SearchDataBTN").on("click", function() {
+    //     SearchData();
+    // });
+
+    // function SearchData() {
+    //     // alert('test');
+    //     var param = $('.SearchData').val();
+    //     var date_from = $('#date_from').val();
+    //     var date_to = $('#date_to').val();
+    //     var page = $('#hidden_page').val();
+    //     if (date_from == '' || date_from == null) {
+    //         date_from = 0;
+    //     }
+    //     if (date_to == '' || date_to == null) {
+    //         date_to = 0;
+    //     }
+    //     $.ajax({
+    //         url: "/search_inhabitants_list?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+    //         success: function(data) {
+    //             $('#ListData').html('');
+    //             $('#ListData').html(data);
+    //         }
+    //     });
+    // }
+
+    $(".searchFilter").change(function() {
+        SearchData2();
     });
 
-    function SearchData() {
+    function SearchData2() {
         // alert('test');
-        var param = $('.SearchData').val();
-        var date_from = $('#date_from').val();
-        var date_to = $('#date_to').val();
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var param7 = $('.searchFilter7').val();
+        var param8 = $('.searchFilter8').val();
+        var param9 = $('.searchFilter9').val();
+        var param10 = $('.searchFilter10').val();
+        var param11 = $('.searchFilter11').val();
+        var param12 = $('.searchFilter12').val();
+        var param13 = $('.searchFilter13').val();
         var page = $('#hidden_page').val();
-        if (date_from == '' || date_from == null) {
-            date_from = 0;
-        }
-        if (date_to == '' || date_to == null) {
-            date_to = 0;
-        }
+
         $.ajax({
-            url: "/search_inhabitants_list?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+            url: "/search_inhabitants_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12 + "&param13=" + param13,
             success: function(data) {
                 $('#ListData').html('');
                 $('#ListData').html(data);
