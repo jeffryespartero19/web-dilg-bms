@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\OrdinanceExportView;
+
 use Illuminate\Http\Request;
 use Auth;
 use App\User;
@@ -11,6 +11,7 @@ use DB;
 use Illuminate\Support\Facades\File;
 use PDF;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OrdinanceExportView;
 
 class borisController extends Controller
 {
@@ -822,7 +823,7 @@ class borisController extends Controller
     public function export(Request $request)
     {
         $data = request()->all();
-        
+
         $chk_Ordinance = $data['chk_Ordinance'];
         $chk_Ordinance_No = isset($data['chk_Ordinance_No']) ? 1 : 0;
         $chk_Approval = isset($data['chk_Approval']) ? 1 : 0;
@@ -837,7 +838,7 @@ class borisController extends Controller
         $chk_Attester = isset($data['chk_Attester']) ? 1 : 0;
         $chk_PROrdinance = isset($data['chk_PROrdinance']) ? 1 : 0;
 
-        if($chk_Ordinance == 0) {
+        if ($chk_Ordinance == 0) {
             $title = 'ordinance.xlsx';
         } else {
             $title = 'resolution.xlsx';

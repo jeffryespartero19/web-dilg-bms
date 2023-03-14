@@ -41,10 +41,11 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            @if (Auth::user()->User_Type_ID == 3 )
+
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
+                        @if (Auth::user()->User_Type_ID == 3 )
                         <div class="row">
                             <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <div class="form-group col-lg-6">
@@ -65,10 +66,39 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
+                        <div class="row">
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Search</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control SearchData" name="q" placeholder="Search Inhabitant">
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date From</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="date_from" name="date_from" type="date" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group col-4" style="margin: 0px;">
+                                <div>
+                                    <label for="">Date To</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="date_to" name="date_to" type="date" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="padding: 2px; float:right"><button class="btn btn-success SearchDataBTN" style="width: 100px;">Search</button></div>
                     </div>
                 </div>
             </div>
-            @endif
+
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -77,20 +107,20 @@
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success create_new" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
                                 @endif
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
                         </div>
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12">
                                 <div>
-                                    <table id="example" class="example11 table table-striped table-bordered" style="table-layout:fixed;">
+                                    <table class="example11 table table-striped table-bordered" style="table-layout:fixed;">
                                         <thead>
                                             <tr>
                                                 <th style="width: 300px;">Name</th>
                                                 <th style="width: 200px;">Birthdate</th>
-                                                <th style="width: 200px;">Birthplace</th>
+                                                <!-- <th style="width: 200px;">Birthplace</th> -->
                                                 <th style="width: 200px;">Age</th>
                                                 <th style="width: 200px;">Sex</th>
                                                 <th style="width: 200px;">Civil Status</th>
@@ -102,7 +132,7 @@
                                                 <th style="width: 200px;">City/Municipality</th>
                                                 <th style="width: 200px;">Province</th>
                                                 <th style="width: 200px;">Region</th>
-                                                <th style="width: 200px;">Religion</th>
+                                                <!-- <th style="width: 200px;">Religion</th>
                                                 <th style="width: 200px;">Blood Type</th>
                                                 <th style="width: 200px;">Weight</th>
                                                 <th style="width: 200px;">Height</th>
@@ -114,54 +144,15 @@
                                                 <th style="width: 200px;">Resident Voter</th>
                                                 <th style="width: 200px;">Solo Parent</th>
                                                 <th style="width: 200px;">Indigent</th>
-                                                <th style="width: 200px;">4P's Beneficiary</th>
+                                                <th style="width: 200px;">4P's Beneficiary</th> -->
                                                 <th style="width: 200px;">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @foreach($db_entries as $x)
-                                            <tr>
-                                                <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
-                                                <td class="sm_data_col txtCtr">
-                                                    <?php
-                                                    $age = date_diff(date_create($x->Birthdate), date_create('now'))->y;
-                                                    echo $age;
-                                                    ?>
-                                                </td>
-                                                <td class="sm_data_col txtCtr">@if($x->Sex == 1) Male @else Female @endif</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->House_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Street}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Religion}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Blood_Type}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Weight}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Height}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Email_Address}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Resident_Status == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Voter_Status == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Resident_Voter == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr" style="display: flex;">
-                                                    <button class="view_inhabitants btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                    <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>&nbsp;
-                                                    <button class="delete_inhabitants btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
-                                                </td>
-                                            </tr>
-                                            @endforeach
+                                        <tbody id="ListData">
+                                            @include('bips_transactions.inhabitants_information_data')
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                                 </div>
 
                             </div>
@@ -583,70 +574,74 @@
                 <h4 class="modal-title flexer justifier">Filter</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
-            <form id="print_report" method="POST" action="{{ route('view_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
+            <form id="print_report" method="GET" action="{{ route('inhabitants.export') }}" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
 
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Name" name="chk_Name">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Name" name="chk_Name">
                                 <label for="1chk_Name">Name</label><br>
-                                <input type="checkbox" id="1chk_Birthplace" name="chk_Birthplace">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Birthplace" name="chk_Birthplace">
                                 <label for="1chk_Birthplace">Birthplace</label><br>
-                                <input type="checkbox" id="1chk_Birthdate" name="chk_Birthdate">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Birthdate" name="chk_Birthdate">
                                 <label for="1chk_Birthdate">Birthdate</label><br>
-                                <input type="checkbox" id="1chk_Age" name="chk_Age">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Age" name="chk_Age">
                                 <label for="1chk_Age">Age</label><br>
-                                <input type="checkbox" id="1chk_Sex" name="chk_Sex">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Sex" name="chk_Sex">
                                 <label for="1chk_Sex">Sex</label><br>
-                                <input type="checkbox" id="1chk_Civil_Status" name="chk_Civil_Status">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Civil_Status" name="chk_Civil_Status">
                                 <label for="1chk_Civil_Status">Civil Status</label><br>
-                                <input type="checkbox" id="1chk_Mobile" name="chk_Mobile">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Mobile" name="chk_Mobile">
                                 <label for="1chk_Mobile">Mobile Number</label><br>
-                                <input type="checkbox" id="1chk_Landline" name="chk_Landline">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Landline" name="chk_Landline">
                                 <label for="1chk_Landline">Landline Number</label><br>
-                                <input type="checkbox" id="1chk_House_No" name="chk_House_No">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_House_No" name="chk_House_No">
                                 <label for="1chk_House_No">House Number</label><br>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Street" name="chk_Street">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Street" name="chk_Street">
                                 <label for="1chk_Street">Street</label><br>
-                                <input type="checkbox" id="1chk_Barangay" name="chk_Barangay">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Barangay" name="chk_Barangay">
                                 <label for="1chk_Barangay">Barangay</label><br>
-                                <input type="checkbox" id="1chk_City_Municipality" name="chk_City_Municipality">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_City_Municipality" name="chk_City_Municipality">
                                 <label for="1chk_City_Municipality">City/Municipality</label><br>
-                                <input type="checkbox" id="1chk_Province" name="chk_Province">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Province" name="chk_Province">
                                 <label for="1chk_Province">Province</label><br>
-                                <input type="checkbox" id="1chk_Region" name="chk_Region">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Region" name="chk_Region">
                                 <label for="1chk_Region">Region</label><br>
-                                <input type="checkbox" id="1chk_Religion" name="chk_Religion">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Religion" name="chk_Religion">
                                 <label for="1chk_Religion">Religion</label><br>
-                                <input type="checkbox" id="1chk_Blood_Type" name="chk_Blood_Type">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Blood_Type" name="chk_Blood_Type">
                                 <label for="1chk_Blood_Type">Blood Type</label><br>
-                                <input type="checkbox" id="1chk_Weight" name="chk_Weight">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Weight" name="chk_Weight">
                                 <label for="1chk_Weight">Weight</label><br>
-                                <input type="checkbox" id="1chk_Height" name="chk_Height">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Height" name="chk_Height">
                                 <label for="1chk_Height">Height</label><br>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Email" name="chk_Email">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Email" name="chk_Email">
                                 <label for="1chk_Email">Email</label><br>
-                                <input type="checkbox" id="1chk_Philsys_Number" name="chk_Philsys_Number">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Philsys_Number" name="chk_Philsys_Number">
                                 <label for="1chk_Philsys_Number">Philsys_Number</label><br>
-                                <input type="checkbox" id="1chk_Resident_Status" name="chk_Resident_Status">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Resident_Status" name="chk_Resident_Status">
                                 <label for="1chk_Resident_Status">Resident Status</label><br>
-                                <input type="checkbox" id="1chk_Voter" name="chk_Voter">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Voter" name="chk_Voter">
                                 <label for="1chk_Voter">Voter</label><br>
-                                <input type="checkbox" id="1chk_Year_Last_Voted" name="chk_Year_Last_Voted">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Year_Last_Voted" name="chk_Year_Last_Voted">
                                 <label for="1chk_Year_Last_Voted">Year Last Voted</label><br>
-                                <input type="checkbox" id="1chk_Resident_Voter" name="chk_Resident_Voter">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Resident_Voter" name="chk_Resident_Voter">
                                 <label for="1chk_Resident_Voter">Resident Voter</label><br>
-                                <input type="checkbox" id="1chk_Solo_Parent" name="chk_Solo_Parent">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Solo_Parent" name="chk_Solo_Parent">
                                 <label for="1chk_Solo_Parent">Solo Parent</label><br>
-                                <input type="checkbox" id="1chk_Indigent" name="chk_Indigent">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Indigent" name="chk_Indigent">
                                 <label for="1chk_Indigent">Indigent</label><br>
-                                <input type="checkbox" id="1chk_Beneficiary" name="chk_Beneficiary">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Beneficiary" name="chk_Beneficiary">
                                 <label for="1chk_Beneficiary">4P's Beneficiary</label><br>
                             </div>
                         </div>
@@ -823,58 +818,54 @@
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Resident Status: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VResident_Status"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Voter Status: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VVoter_Status"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Election Year Last Voted: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VElection_Year_Last_Voted"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Resident Voter: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VResident_Voter"></span></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center; font-size:large">Additional Information</td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Solo Parent: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VSolo_Parent"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>OFW: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VOFW"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Indigent: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VIndigent"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>4Ps Beneficiary: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="V4Ps_Beneficiary"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>PhilHealth: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VPhilHealth"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>GSIS: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VGSIS"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>SSS: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VSSS"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>PagIbig: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
-                    </tr>
-                    <tr>
-                        <td style="width:30%"><strong>Email: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VPagIbig"></span></td>
                     </tr>
                 </table>
 
@@ -1116,7 +1107,7 @@
                 $('#Birthplace').val(data['theEntry'][0]['Birthplace']);
                 $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
                 $('#Blood_Type_ID').val(data['theEntry'][0]['Blood_Type_ID']);
-                // $('#Sex').val(data['theEntry'][0]['Sex']);
+                $('#Age').val(data['theEntry'][0]['Age']);
                 $("input[name=Sex][value='" + data["theEntry"][0]["Sex"] + "']").prop("checked", true);
                 $('#Weight').val(data['theEntry'][0]['Weight']);
                 $('#Height').val(data['theEntry'][0]['Height']);
@@ -1524,7 +1515,18 @@
             },
             success: function(data) {
                 $('#VName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
-                $('#VAddress').html(data['theEntry'][0]['House_No'] + ', ' + data['theEntry'][0]['Street'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name'] + ', ' + data['theEntry'][0]['Region_Name']);
+                if (data['theEntry'][0]['House_No'] != null && data['theEntry'][0]['House_No'] != "") {
+                    $HS = data['theEntry'][0]['House_No'] + ' ';
+                } else {
+                    $HS = ' ';
+                }
+
+                if (data['theEntry'][0]['Street'] != null && data['theEntry'][0]['Street'] != "") {
+                    $SS = data['theEntry'][0]['Street'] + ', ';
+                } else {
+                    $SS = ' ';
+                }
+                $('#VAddress').html($HS + $SS + data['theEntry'][0]['Barangay_Name'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name']);
                 $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
                 $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
                 $('#VAge').html(data['theEntry'][0]['Religion_ID']);
@@ -1550,29 +1552,47 @@
                 $('#VWeight').text(data['theEntry'][0]['Weight']);
                 $('#VHeight').text(data['theEntry'][0]['Height']);
 
-                var barangay =
-                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
-                $('#Barangay_ID').append(barangay);
+                if (data['theEntry'][0]['Solo_Parent'] == 1) {
+                    $('#VSolo_Parent').html('Yes');
+                } else {
+                    $('#VSolo_Parent').html('No');
+                }
+                if (data['theEntry'][0]['OFW'] == 1) {
+                    $('#VOFW').html('Yes');
+                } else {
+                    $('#VOFW').html('No');
+                }
+                if (data['theEntry'][0]['Indigent'] == 1) {
+                    $('#VIndigent').html('Yes');
+                } else {
+                    $('#VIndigent').html('No');
+                }
+                if (data['theEntry'][0]['4Ps_Beneficiary'] == 1) {
+                    $('#V4Ps_Beneficiary').html('Yes');
+                } else {
+                    $('#V4Ps_Beneficiary').html('No');
+                }
 
-                var city =
-                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
-                $('#City_Municipality_ID').append(city);
-
-                var province =
-                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
-                $('#VProvince_ID').append(province);
-                $('#VSolo_Parent').val(data['theEntry'][0]['Solo_Parent']);
-                $('#VOFW').val(data['theEntry'][0]['OFW']);
-                $('#VIndigent').val(data['theEntry'][0]['Indigent']);
-                $('#V4Ps_Beneficiary').val(data['theEntry'][0]['4Ps_Beneficiary']);
-                $('#VResident_Status').val(data['theEntry'][0]['Resident_Status']);
-                $('#VVoter_Status').val(data['theEntry'][0]['Voter_Status']);
-                $('#VResident_Voter').val(data['theEntry'][0]['Resident_Voter']);
-                $('#VElection_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
-                $('#VPhilHealth').val(data['theEntry'][0]['PhilHealth']);
-                $('#VGSIS').val(data['theEntry'][0]['GSIS']);
-                $('#VSSS').val(data['theEntry'][0]['SSS']);
-                $('#VPagIbig').val(data['theEntry'][0]['PagIbig']);
+                if (data['theEntry'][0]['Resident_Status'] == 1) {
+                    $('#VResident_Status').html('Yes');
+                } else {
+                    $('#VResident_Status').html('No');
+                }
+                if (data['theEntry'][0]['Voter_Status'] == 1) {
+                    $('#VVoter_Status').html('Yes');
+                } else {
+                    $('#VVoter_Status').html('No');
+                }
+                if (data['theEntry'][0]['Resident_Voter'] == 1) {
+                    $('#VResident_Voter').html('Yes');
+                } else {
+                    $('#VResident_Voter').html('No');
+                }
+                $('#VElection_Year_Last_Voted').html(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#VPhilHealth').html(data['theEntry'][0]['PhilHealth']);
+                $('#VGSIS').html(data['theEntry'][0]['GSIS']);
+                $('#VSSS').html(data['theEntry'][0]['SSS']);
+                $('#VPagIbig').html(data['theEntry'][0]['PagIbig']);
             }
         });
 
@@ -1715,6 +1735,35 @@
             }
         });
     });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
+    });
+
+    $(".SearchDataBTN").on("click", function() {
+        SearchData();
+    });
+
+    function SearchData() {
+        // alert('test');
+        var param = $('.SearchData').val();
+        var date_from = $('#date_from').val();
+        var date_to = $('#date_to').val();
+        var page = $('#hidden_page').val();
+        if (date_from == '' || date_from == null) {
+            date_from = 0;
+        }
+        if (date_to == '' || date_to == null) {
+            date_to = 0;
+        }
+        $.ajax({
+            url: "/search_inhabitants_list?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

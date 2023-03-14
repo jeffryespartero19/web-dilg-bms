@@ -10,9 +10,6 @@ use Carbon\Carbon;
 
 class OrdinanceExportView implements FromView
 {
-
-
-
     protected $chk_Ordinance, $chk_Ordinance_No, $chk_Approval, $chk_Effectivity, $chk_Title, $chk_Status, $chk_Region, $chk_Province, $chk_City, $chk_Barangay, $chk_Approver, $chk_Attester, $chk_PROrdinance;
 
     function __construct($chk_Ordinance, $chk_Ordinance_No, $chk_Approval, $chk_Effectivity, $chk_Title, $chk_Status, $chk_Region, $chk_Province, $chk_City, $chk_Barangay, $chk_Approver, $chk_Attester, $chk_PROrdinance)
