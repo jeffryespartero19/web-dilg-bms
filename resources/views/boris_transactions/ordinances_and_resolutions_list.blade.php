@@ -130,6 +130,7 @@
                                         @include('boris_transactions.ordinance_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries->links() !!}
                                 <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                         </div>
