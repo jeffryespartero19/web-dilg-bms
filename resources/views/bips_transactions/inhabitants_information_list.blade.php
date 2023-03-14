@@ -41,11 +41,11 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-        @if (Auth::user()->User_Type_ID == 3 )
+            @if (Auth::user()->User_Type_ID == 3 )
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                       
+
                         <div class="row">
                             <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <div class="form-group col-lg-6">
@@ -66,7 +66,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
