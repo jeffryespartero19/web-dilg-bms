@@ -315,6 +315,7 @@
                         </li>
                     </ul>
                 </li>
+                @elseif (Auth::user()->User_Type_ID == 3)
                 <li class="nav-item cms_main">
                     <a href="#" class="nav-link cms_menu">
                         <img src="{{ asset('css/logos/BIS.png') }}" style="opacity: .8;" height="28" width="28">
