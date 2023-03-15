@@ -98,7 +98,7 @@
                                                 <label for="Action_Taken">Action Taken</label>
                                                 <input type="text" class="form-control" id="Action_Taken" name="Action_Taken" value="{{$response[0]->Action_Taken}}">
                                             </div> -->
-                                            <div class="col-lg-6" style="padding:0 10px;">
+                                            <div class="col-lg-12" style="padding:0 10px;">
                                                 <a onclick="addDamage();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                                 <br><br>
                                                 <div class="table-responsive" id="DamageDetails">
@@ -107,6 +107,9 @@
                                                             <tr>
                                                                 <th hidden>Damage_Location_ID</th>
                                                                 <th>Damage Location</th>
+                                                                <th>GPS Coordinates</th>
+                                                                <th>Risk Assessment</th>
+                                                                <th>Action Taken</th>
                                                                 <th>Actions</th>
                                                             </tr>
                                                         </thead>
@@ -116,7 +119,16 @@
                                                             <tr class="DAMAGEDetails">
                                                                 <td hidden></td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="Damage_Location[]" value="{{$id->Damage_Location}}">
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Damage_Location[]" value="{{$id->Damage_Location}}">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="GPS_Coordinates[]" value="{{$id->GPS_Coordinates}}">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Risk_Assessment[]" value="{{$id->Risk_Assessment}}">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Action_Taken[]" value="{{$id->Action_Taken}}">
                                                                 </td>
                                                                 <td style="text-align: center;">
                                                                     <button type="button" class="btn btn-danger DamageRemove">Remove</button>
@@ -127,7 +139,16 @@
                                                             <tr class="DAMAGEDetails">
                                                                 <td hidden></td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="Damage_Location[]">
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Damage_Location[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="GPS_Coordinates[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Risk_Assessment[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 350px;" name="Action_Taken[]">
                                                                 </td>
                                                                 <td style="text-align: center;">
                                                                     <button type="button" class="btn btn-danger DamageRemove">Remove</button>
@@ -138,127 +159,8 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6" style="padding:0 10px;">
-                                                <a onclick="addGPS();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
-                                                <br><br>
-                                                <div class="table-responsive" id="GPSDetails">
-                                                    <table id="GPSTBL" class="table table-striped table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th hidden>GPS_Coordinates_ID</th>
-                                                                <th>GPS Coordinates</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="GPSBody">
-                                                            @if($gps->count() > 0)
-                                                            @foreach ($gps as $id)
-                                                            <tr class="GPSDetails">
-                                                                <td hidden></td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="GPS_Coordinates[]" value="{{$id->GPS_Coordinates}}">
-                                                                </td>
-                                                                <td style="text-align: center;">
-                                                                    <button type="button" class="btn btn-danger GPSRemove">Remove</button>
-                                                                </td>
-                                                            </tr>
-                                                            @endforeach
-                                                            @else
-                                                            <tr class="GPSDetails">
-                                                                <td hidden></td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="GPS_Coordinates[]">
-                                                                </td>
-                                                                <td style="text-align: center;">
-                                                                    <button type="button" class="btn btn-danger GPSRemove">Remove</button>
-                                                                </td>
-                                                            </tr>
-                                                            @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6" style="padding:0 10px;">
-                                                <a onclick="addRisk();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
-                                                <br><br>
-                                                <div class="table-responsive" id="RiskDetails">
-                                                    <table id="RiskTBL" class="table table-striped table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th hidden>Risk_Assessment_ID</th>
-                                                                <th>Risk Assessment</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="RiskBody">
-                                                            @if($risk->count() > 0)
-                                                            @foreach ($risk as $id)
-                                                            <tr class="RiskDetails">
-                                                                <td hidden></td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="Risk_Assessment[]" value="{{$id->Risk_Assessment}}">
-                                                                </td>
-                                                                <td style="text-align: center;">
-                                                                    <button type="button" class="btn btn-danger RiskRemove">Remove</button>
-                                                                </td>
-                                                            </tr>
-                                                            @endforeach
-                                                            @else
-                                                            <tr class="RiskDetails">
-                                                                <td hidden></td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="Risk_Assessment[]">
-                                                                </td>
-                                                                <td style="text-align: center;">
-                                                                    <button type="button" class="btn btn-danger RiskRemove">Remove</button>
-                                                                </td>
-                                                            </tr>
-                                                            @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6" style="padding:0 10px;">
-                                                <a onclick="addAction();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
-                                                <br><br>
-                                                <div class="table-responsive" id="ActionDetails">
-                                                    <table id="ActionTBL" class="table table-striped table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th hidden>Action_Taken_ID</th>
-                                                                <th>Action Taken</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="ActionBody">
-                                                            @if($action->count() > 0)
-                                                            @foreach ($action as $id)
-                                                            <tr class="ActionDetails">
-                                                                <td hidden></td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="Action_Taken[]" value="{{$id->Action_Taken}}">
-                                                                </td>
-                                                                <td style="text-align: center;">
-                                                                    <button type="button" class="btn btn-danger ActionRemove">Remove</button>
-                                                                </td>
-                                                            </tr>
-                                                            @endforeach
-                                                            @else
-                                                            <tr class="ActionDetails">
-                                                                <td hidden></td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="Action_Taken[]">
-                                                                </td>
-                                                                <td style="text-align: center;">
-                                                                    <button type="button" class="btn btn-danger ActionRemove">Remove</button>
-                                                                </td>
-                                                            </tr>
-                                                            @endif
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Summary">Summary</label>
                                                 <input type="text" class="form-control" id="Summary" name="Summary" value="{{$response[0]->Summary}}">
                                             </div>
@@ -308,7 +210,7 @@
                                                                         @endforeach
                                                                         @endif
                                                                     </select> -->
-                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 400px;">
                                                                         <option value='' disabled selected>Select Option</option>
                                                                         @if($id->Resident_ID == 0)
                                                                         <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -330,7 +232,7 @@
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]" value="{{$id->Non_Resident_Address}}">
+                                                                    <input type="text" class="form-control" style="width: 500px;" name="Non_Resident_Address[]" value="{{$id->Non_Resident_Address}}">
                                                                 </td>
                                                                 <td>
                                                                     <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]" value="{{$id->Non_Resident_Birthdate}}">
@@ -359,7 +261,7 @@
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
+                                                                    <input type="text" class="form-control" style="width: 500px;" name="Non_Resident_Address[]">
                                                                 </td>
                                                                 <td>
                                                                     <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
@@ -746,6 +648,12 @@
 
 
         $(newrow.find("td:eq(1) input")).val('');
+        $(newrow.find("td:eq(2) input")).val('');
+        $(newrow.find("td:eq(3) input")).val('');
+    
+        $(newrow.find("td:eq(4) input")).val('');
+    
+
     
        
     }

@@ -9,6 +9,10 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\File;
 use PDF;
+use App\Exports\BusinessPermitExportView;
+use App\Exports\DocumentInformationExportView;
+use App\Exports\BrgyBusinessExportView;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BCPISController extends Controller
 {
@@ -2380,5 +2384,58 @@ class BCPISController extends Controller
             ->get(['Purpose_of_Document_ID as id', 'Purpose_of_Document as text']);
 
         return ['results' => $purpose];
+    }
+
+    public function businesspermit_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Transaction_No = isset($data['chk_Transaction_No']) ? 1 : 0;
+        $chk_Business_Name = isset($data['chk_Business_Name']) ? 1 : 0;
+        $chk_Resident_Name = isset($data['chk_Resident_Name']) ? 1 : 0;
+        $chk_New_or_Renewal = isset($data['chk_New_or_Renewal']) ? 1 : 0;
+        $chk_Owned_or_Rented = isset($data['chk_Owned_or_Rented']) ? 1 : 0;
+        $chk_Occupation = isset($data['chk_Occupation']) ? 1 : 0;
+        $chk_CTC_No = isset($data['chk_CTC_No']) ? 1 : 0;
+        $chk_Barangay_Business_Permit_Expiration_Date = isset($data['chk_Barangay_Business_Permit_Expiration_Date']) ? 1 : 0;
+
+        return Excel::download(new BusinessPermitExportView($chk_Transaction_No, $chk_Business_Name, $chk_Resident_Name, $chk_New_or_Renewal, $chk_Owned_or_Rented, $chk_Occupation, $chk_CTC_No, $chk_Barangay_Business_Permit_Expiration_Date,), 'businesspermit.xlsx');
+    }
+
+    public function documentinformation_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Transaction_No = isset($data['chk_Transaction_No']) ? 1 : 0;
+        $chk_Request_Date = isset($data['chk_Request_Date']) ? 1 : 0;
+        $chk_Resident_Name = isset($data['chk_Resident_Name']) ? 1 : 0;
+        $chk_Released = isset($data['chk_Released']) ? 1 : 0;
+        $chk_Remarks = isset($data['chk_Remarks']) ? 1 : 0;
+        $chk_Purpose_of_Document = isset($data['chk_Purpose_of_Document']) ? 1 : 0;
+        $chk_Salutation_Name = isset($data['chk_Salutation_Name']) ? 1 : 0;
+        $chk_Issued_On = isset($data['chk_Issued_On']) ? 1 : 0;
+        $chk_Issued_At = isset($data['chk_Issued_At']) ? 1 : 0;
+        $chk_Brgy_Cert_No = isset($data['chk_Brgy_Cert_No']) ? 1 : 0;
+        $chk_Document_Type_Name = isset($data['chk_Document_Type_Name']) ? 1 : 0;
+        $chk_SecondResident_Name = isset($data['chk_SecondResident_Name']) ? 1 : 0;
+        $chk_OR_No = isset($data['chk_OR_No']) ? 1 : 0;
+        $chk_Cash_Tendered = isset($data['chk_Cash_Tendered']) ? 1 : 0;
+
+        return Excel::download(new DocumentInformationExportView($chk_Cash_Tendered,$chk_OR_No,$chk_SecondResident_Name,$chk_Document_Type_Name,$chk_Brgy_Cert_No,$chk_Issued_At,$chk_Issued_On,$chk_Salutation_Name,$chk_Purpose_of_Document,$chk_Remarks,$chk_Released,$chk_Resident_Name,$chk_Request_Date,$chk_Transaction_No,), 'documentinformation.xlsx');
+    }
+
+    public function brgybusiness_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Business_Name = isset($data['chk_Business_Name']) ? 1 : 0;
+        $chk_Business_Type = isset($data['chk_Business_Type']) ? 1 : 0;
+        $chk_Business_Tin = isset($data['chk_Business_Tin']) ? 1 : 0;
+        $chk_Business_Owner = isset($data['chk_Business_Owner']) ? 1 : 0;
+        $chk_Business_Address = isset($data['chk_Business_Address']) ? 1 : 0;
+        $chk_Mobile_No = isset($data['chk_Mobile_No']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new BrgyBusinessExportView($chk_Active,$chk_Mobile_No,$chk_Business_Address,$chk_Business_Owner,$chk_Business_Tin,$chk_Business_Type,$chk_Business_Name,), 'brgybusinessinfo.xlsx');
     }
 }

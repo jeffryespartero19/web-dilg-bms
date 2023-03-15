@@ -89,6 +89,7 @@
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a href="{{ url('brgy_business_permit_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                                 @endif
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                                 <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
@@ -222,6 +223,55 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('businesspermit_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Transaction_No" name="chk_Transaction_No">
+                                <label for="chk_Transaction_No">Transaction No.</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Business_Name" name="chk_Business_Name">
+                                <label for="chk_Business_Name">Business Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Resident_Name" name="chk_Resident_Name">
+                                <label for="chk_Resident_Name">Resident Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_New_or_Renewal" name="chk_New_or_Renewal">
+                                <label for="chk_New_or_Renewal">New or Renewal</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Owned_or_Rented" name="chk_Owned_or_Rented">
+                                <label for="chk_Owned_or_Rented">Owned or Rented</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Occupation" name="chk_Occupation">
+                                <label for="chk_Occupation">Occupation</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_CTC_No" name="chk_CTC_No">
+                                <label for="chk_CTC_No">CTC No.</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Barangay_Business_Permit_Expiration_Date" name="chk_Barangay_Business_Permit_Expiration_Date">
+                                <label for="chk_Barangay_Business_Permit_Expiration_Date">Expiration Date</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
                 </div>
             </form>
         </div>
@@ -442,6 +492,10 @@ $(document).on("change", "#P_ID", function() {
             
             }
         });
+    });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
     });
 </script>
 

@@ -1033,3 +1033,9 @@ Route::post('/del_rec', 'DeleterController@del_rec')->name('del_rec');
 
 
 Route::get('ordinance/export', 'borisController@export')->name('ordinance.export');
+Route::get('businesspermit_export', 'BCPISController@businesspermit_export')->name('businesspermit_export');
+Route::get('documentinformation_export', 'BCPISController@documentinformation_export')->name('documentinformation_export');
+Route::get('brgybusiness_export', 'BCPISController@brgybusiness_export')->name('brgybusiness_export');
+Route::get('disty_export', 'BDRISALController@disty_export')->name('disty_export');
+Route::get('emerevac_export', 'BDRISALController@emerevac_export')->name('emerevac_export');
+Route::get('allofund_export', 'BDRISALController@allofund_export')->name('allofund_export');

@@ -741,7 +741,7 @@
                     <a href="#" class="nav-link uICert_main">
                         <img src="{{ asset('css/logos/Certification & Permits.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
-                            BCPCIS
+                            Certification and Permits
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
