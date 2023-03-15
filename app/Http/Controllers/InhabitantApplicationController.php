@@ -150,7 +150,7 @@ class InhabitantApplicationController extends Controller
                 'Login_Status' => 1,
             ]);
 
-            return redirect()->back()->with('success', 'Application Submitted');
+            return redirect()->back()->with('success', 'Application Submitted. Before proceeding, please check your email for a verification link.');
         }
     }
 
