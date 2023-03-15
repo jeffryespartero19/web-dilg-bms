@@ -596,7 +596,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Download</button>
                 </div>
             </form>
 
@@ -687,7 +687,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Download</button>
                 </div>
             </form>
         </div>
