@@ -99,7 +99,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Cause_of_Death}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
                                             <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_deceased_profile btn btn-primary">View</button>&nbsp;
+                                                <button class="view_info btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
                                                 <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>&nbsp;
                                                 <button class="delete_deceased_profile btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
                                             </td>
@@ -236,6 +236,47 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ViewInfo" tabindex="-1" role="dialog" aria-labelledby="ViewInfo" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Ordinance Information</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <h4 id="VName"> </h4>
+                    <div class="row">
+
+                    </div>
+                    <div class="col-12">
+                        <table id="example2" class="table table-striped table-bordered" style="width:100%">
+                            <tr>
+                                <td style="width:300px"><strong>Name: </strong></td>
+                                <td><span id="vName"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Deceased Type: </strong></td>
+                                <td><span id="vDeceased_Type"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Cause of Death: </strong></td>
+                                <td><span id="vCause_of_Death"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:300px"><strong>Date of Death: </strong></td>
+                                <td><span id="vDate_of_Death"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
@@ -424,6 +465,31 @@
 
             }
         });
+    });
+
+
+    // View Details
+    $(document).on('click', ('.view_info'), function(e) {
+
+        var disID = $(this).val();
+        $.ajax({
+            url: "/get_deceased_info",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#vCause_of_Death').html(data['theEntry'][0]['Cause_of_Death']);
+                $('#vDate_of_Death').html(data['theEntry'][0]['Date_of_Death']);
+                $('#vDeceased_Type').html(data['theEntry'][0]['Deceased_Type']);
+                $('#vName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
+            }
+        });
+
+
     });
 </script>
 

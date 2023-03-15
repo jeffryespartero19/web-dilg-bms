@@ -19,7 +19,7 @@
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <!-- Messages Dropdown Menu -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="nav-link" href="{{ route('*') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('registers') }}" class="nav-link">Register</a>

@@ -1009,7 +1009,17 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/search_ordinances', 'borisController@fetch_data');
   Route::get('/search_resolutions', 'borisController@fetch_data_resolution');
+  Route::get('/search_inhabitants_list', 'bipsController@fetch_inhabitants_data');
+  Route::get('/search_inhabitants_fields', 'bipsController@search_inhabitants_fields');
+
+  // Get Deceased Profile
+  Route::get('/get_deceased_info', 'bipsController@get_deceased_info')->name('get_deceased_info');
+
   Route::get('/get_brgyprojects_projcount', 'BPMSController@get_brgyprojects_projcount')->name('get_brgyprojects_projcount');
+
+  // Export to Excel
+  Route::get('ordinance/export', 'borisController@export')->name('ordinance.export');
+  Route::get('inhabitants/export', 'bipsController@inhabitants_export')->name('inhabitants.export');
 });
 
 
@@ -1039,3 +1049,4 @@ Route::get('brgybusiness_export', 'BCPISController@brgybusiness_export')->name('
 Route::get('disty_export', 'BDRISALController@disty_export')->name('disty_export');
 Route::get('emerevac_export', 'BDRISALController@emerevac_export')->name('emerevac_export');
 Route::get('allofund_export', 'BDRISALController@allofund_export')->name('allofund_export');
+

@@ -16,13 +16,18 @@
         {{ session()->get('success') }}
     </div>
     @endif
+    @if(session()->has('message'))
+    <div class="alert alert-warning">
+        {{ session()->get('message') }}
+    </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form id="newInhabitant" method="POST" action="{{ route('create_inhabitants_user') }}" autocomplete="off" enctype="multipart/form-data">
+                    <form id="newInhabitant" method="POST" action="{{ route('register') }}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
 
                         <h3>Login Credentials</h3>

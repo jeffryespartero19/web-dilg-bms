@@ -45,6 +45,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
+
                         <div class="row">
                             <input type="number" id="User_Type_ID" value="{{Auth::user()->User_Type_ID}}" hidden>
                             <div class="form-group col-lg-6">
@@ -65,6 +66,7 @@
                                 </select>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -77,91 +79,118 @@
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success create_new" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
                                 @endif
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
                         </div>
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12">
                                 <div>
-                                    <table id="example" class="example11 table table-striped table-bordered" style="table-layout:fixed;">
+                                    <table class="example11 table table-striped table-bordered" style="table-layout:fixed;">
                                         <thead>
                                             <tr>
                                                 <th style="width: 300px;">Name</th>
                                                 <th style="width: 200px;">Birthdate</th>
-                                                <th style="width: 200px;">Birthplace</th>
                                                 <th style="width: 200px;">Age</th>
                                                 <th style="width: 200px;">Sex</th>
                                                 <th style="width: 200px;">Civil Status</th>
-                                                <th style="width: 200px;">Mobile Number</th>
-                                                <th style="width: 200px;">Landline Number</th>
-                                                <th style="width: 200px;">House Number</th>
                                                 <th style="width: 200px;">Street</th>
-                                                <th style="width: 200px;">Barangay</th>
-                                                <th style="width: 200px;">City/Municipality</th>
-                                                <th style="width: 200px;">Province</th>
-                                                <th style="width: 200px;">Region</th>
-                                                <th style="width: 200px;">Religion</th>
-                                                <th style="width: 200px;">Blood Type</th>
-                                                <th style="width: 200px;">Weight</th>
-                                                <th style="width: 200px;">Height</th>
-                                                <th style="width: 200px;">Email</th>
-                                                <th style="width: 200px;">PhilSys Card Number</th>
-                                                <th style="width: 200px;">Resident</th>
+                                                <th style="width: 200px;">Resident Status</th>
                                                 <th style="width: 200px;">Voter</th>
-                                                <th style="width: 200px;">Election Year Last Voted</th>
                                                 <th style="width: 200px;">Resident Voter</th>
                                                 <th style="width: 200px;">Solo Parent</th>
                                                 <th style="width: 200px;">Indigent</th>
                                                 <th style="width: 200px;">4P's Beneficiary</th>
+                                                <th style="width: 200px;">OFW</th>
                                                 <th style="width: 200px;">Actions</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($db_entries as $x)
                                             <tr>
-                                                <td class="sm_data_col txtCtr">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}} {{$x->Name_Suffix}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Birthdate}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Birthplace}}</td>
-                                                <td class="sm_data_col txtCtr">
-                                                    <?php
-                                                    $age = date_diff(date_create($x->Birthdate), date_create('now'))->y;
-                                                    echo $age;
-                                                    ?>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="number"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter4" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                    </select>
                                                 </td>
-                                                <td class="sm_data_col txtCtr">@if($x->Sex == 1) Male @else Female @endif</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Civil_Status}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Mobile_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Telephone_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->House_No}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Street}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Barangay_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->City_Municipality_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Province_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Region_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Religion}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Blood_Type}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Weight}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Height}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Email_Address}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Resident_Status == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Voter_Status == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Election_Year_Last_Voted}}</td>
-                                                <td class="sm_data_col txtCtr">@if($x->Resident_Voter == 1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Solo_Parent==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Indigent==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr">@if ($x->Beneficiary==1) Yes @else No @endif</td>
-                                                <td class="sm_data_col txtCtr" style="display: flex;">
-                                                    <button class="view_inhabitants btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                    <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>&nbsp;
-                                                    <button class="delete_inhabitants btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter5" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        @foreach($civil_status as $cs)
+                                                        <option value="{{ $cs->Civil_Status_ID }}">{{ $cs->Civil_Status }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </td>
+                                                <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="text"></td>
+
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter7" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter8" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter9" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter10" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter11" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter12" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter13" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+                                                </td>
+                                                <td></td>
                                             </tr>
-                                            @endforeach
+                                        </thead>
+                                        <tbody id="ListData">
+                                            @include('bips_transactions.inhabitants_information_data')
                                         </tbody>
                                     </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                                 </div>
 
                             </div>
@@ -583,70 +612,74 @@
                 <h4 class="modal-title flexer justifier">Filter</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
-            <form id="print_report" method="POST" action="{{ route('view_Inhabitants') }}" autocomplete="off" enctype="multipart/form-data">
+            <form id="print_report" method="GET" action="{{ route('inhabitants.export') }}" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
 
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Name" name="chk_Name">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Name" name="chk_Name">
                                 <label for="1chk_Name">Name</label><br>
-                                <input type="checkbox" id="1chk_Birthplace" name="chk_Birthplace">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Birthplace" name="chk_Birthplace">
                                 <label for="1chk_Birthplace">Birthplace</label><br>
-                                <input type="checkbox" id="1chk_Birthdate" name="chk_Birthdate">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Birthdate" name="chk_Birthdate">
                                 <label for="1chk_Birthdate">Birthdate</label><br>
-                                <input type="checkbox" id="1chk_Age" name="chk_Age">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Age" name="chk_Age">
                                 <label for="1chk_Age">Age</label><br>
-                                <input type="checkbox" id="1chk_Sex" name="chk_Sex">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Sex" name="chk_Sex">
                                 <label for="1chk_Sex">Sex</label><br>
-                                <input type="checkbox" id="1chk_Civil_Status" name="chk_Civil_Status">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Civil_Status" name="chk_Civil_Status">
                                 <label for="1chk_Civil_Status">Civil Status</label><br>
-                                <input type="checkbox" id="1chk_Mobile" name="chk_Mobile">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Mobile" name="chk_Mobile">
                                 <label for="1chk_Mobile">Mobile Number</label><br>
-                                <input type="checkbox" id="1chk_Landline" name="chk_Landline">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Landline" name="chk_Landline">
                                 <label for="1chk_Landline">Landline Number</label><br>
-                                <input type="checkbox" id="1chk_House_No" name="chk_House_No">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_House_No" name="chk_House_No">
                                 <label for="1chk_House_No">House Number</label><br>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Street" name="chk_Street">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Street" name="chk_Street">
                                 <label for="1chk_Street">Street</label><br>
-                                <input type="checkbox" id="1chk_Barangay" name="chk_Barangay">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Barangay" name="chk_Barangay">
                                 <label for="1chk_Barangay">Barangay</label><br>
-                                <input type="checkbox" id="1chk_City_Municipality" name="chk_City_Municipality">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_City_Municipality" name="chk_City_Municipality">
                                 <label for="1chk_City_Municipality">City/Municipality</label><br>
-                                <input type="checkbox" id="1chk_Province" name="chk_Province">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Province" name="chk_Province">
                                 <label for="1chk_Province">Province</label><br>
-                                <input type="checkbox" id="1chk_Region" name="chk_Region">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Region" name="chk_Region">
                                 <label for="1chk_Region">Region</label><br>
-                                <input type="checkbox" id="1chk_Religion" name="chk_Religion">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Religion" name="chk_Religion">
                                 <label for="1chk_Religion">Religion</label><br>
-                                <input type="checkbox" id="1chk_Blood_Type" name="chk_Blood_Type">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Blood_Type" name="chk_Blood_Type">
                                 <label for="1chk_Blood_Type">Blood Type</label><br>
-                                <input type="checkbox" id="1chk_Weight" name="chk_Weight">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Weight" name="chk_Weight">
                                 <label for="1chk_Weight">Weight</label><br>
-                                <input type="checkbox" id="1chk_Height" name="chk_Height">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Height" name="chk_Height">
                                 <label for="1chk_Height">Height</label><br>
                             </div>
                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                <input type="checkbox" id="1chk_Email" name="chk_Email">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Email" name="chk_Email">
                                 <label for="1chk_Email">Email</label><br>
-                                <input type="checkbox" id="1chk_Philsys_Number" name="chk_Philsys_Number">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Philsys_Number" name="chk_Philsys_Number">
                                 <label for="1chk_Philsys_Number">Philsys_Number</label><br>
-                                <input type="checkbox" id="1chk_Resident_Status" name="chk_Resident_Status">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Resident_Status" name="chk_Resident_Status">
                                 <label for="1chk_Resident_Status">Resident Status</label><br>
-                                <input type="checkbox" id="1chk_Voter" name="chk_Voter">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Voter" name="chk_Voter">
                                 <label for="1chk_Voter">Voter</label><br>
-                                <input type="checkbox" id="1chk_Year_Last_Voted" name="chk_Year_Last_Voted">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Year_Last_Voted" name="chk_Year_Last_Voted">
                                 <label for="1chk_Year_Last_Voted">Year Last Voted</label><br>
-                                <input type="checkbox" id="1chk_Resident_Voter" name="chk_Resident_Voter">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Resident_Voter" name="chk_Resident_Voter">
                                 <label for="1chk_Resident_Voter">Resident Voter</label><br>
-                                <input type="checkbox" id="1chk_Solo_Parent" name="chk_Solo_Parent">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Solo_Parent" name="chk_Solo_Parent">
                                 <label for="1chk_Solo_Parent">Solo Parent</label><br>
-                                <input type="checkbox" id="1chk_Indigent" name="chk_Indigent">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Indigent" name="chk_Indigent">
                                 <label for="1chk_Indigent">Indigent</label><br>
-                                <input type="checkbox" id="1chk_Beneficiary" name="chk_Beneficiary">
+                                <input type="checkbox" class="ChkBOX1" id="1chk_Beneficiary" name="chk_Beneficiary">
                                 <label for="1chk_Beneficiary">4P's Beneficiary</label><br>
                             </div>
                         </div>
@@ -823,60 +856,94 @@
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Resident Status: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VResident_Status"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Voter Status: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VVoter_Status"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Election Year Last Voted: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VElection_Year_Last_Voted"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Resident Voter: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VResident_Voter"></span></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center; font-size:large">Additional Information</td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Solo Parent: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VSolo_Parent"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>OFW: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VOFW"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Indigent: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VIndigent"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>4Ps Beneficiary: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="V4Ps_Beneficiary"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>PhilHealth: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VPhilHealth"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>GSIS: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VGSIS"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>SSS: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VSSS"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>PagIbig: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
-                    </tr>
-                    <tr>
-                        <td style="width:30%"><strong>Email: </strong></td>
-                        <td><span id="Attester_ID2"></span></td>
+                        <td><span id="VPagIbig"></span></td>
                     </tr>
                 </table>
+                <table class="table table-striped table-bordered" style="width:100%; margin-bottom:0px">
+                    <tr>
+                        <td style="text-align: center; font-size:large">Educational Information</td>
+                    </tr>
+                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered EducList example11" style="width:100%">
+                        <tr>
+                            <th>Academic Level</th>
+                            <th>School Name</th>
+                            <th>Year Start</th>
+                            <th>Year End</th>
+                            <th>Course</th>
+                            <th>Year Graduated</th>
+                        </tr>
+                    </table>
+                </div>
+                <table class="table table-striped table-bordered" style="width:100%; margin-bottom:0px">
+                    <tr>
+                        <td style="text-align: center; font-size:large">Employment Information</td>
+                    </tr>
+                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered EmpList example11" style="width:100%">
+                        <tr>
+                            <th>Employment Type</th>
+                            <th>Company Name</th>
+                            <th>Employer Name</th>
+                            <th>Employer Address</th>
+                            <th>Position</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Monthly Salary</th>
+                            <th>Brief Description</th>
+                        </tr>
+                    </table>
+                </div>
+
 
             </div>
 
@@ -1009,6 +1076,9 @@
         $('#createInhabitants_Info').trigger("reset");
         $("#createInhabitants_Info :input").prop("disabled", false);
         $('#Modal_Title').text('Edit Inhabitant');
+        $('.EducData').remove();
+        $('.EmpData').remove();
+
 
 
         // Reset Education Table
@@ -1116,7 +1186,7 @@
                 $('#Birthplace').val(data['theEntry'][0]['Birthplace']);
                 $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
                 $('#Blood_Type_ID').val(data['theEntry'][0]['Blood_Type_ID']);
-                // $('#Sex').val(data['theEntry'][0]['Sex']);
+                $('#Age').val(data['theEntry'][0]['Age']);
                 $("input[name=Sex][value='" + data["theEntry"][0]["Sex"] + "']").prop("checked", true);
                 $('#Weight').val(data['theEntry'][0]['Weight']);
                 $('#Height').val(data['theEntry'][0]['Height']);
@@ -1524,7 +1594,18 @@
             },
             success: function(data) {
                 $('#VName').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name']);
-                $('#VAddress').html(data['theEntry'][0]['House_No'] + ', ' + data['theEntry'][0]['Street'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name'] + ', ' + data['theEntry'][0]['Region_Name']);
+                if (data['theEntry'][0]['House_No'] != null && data['theEntry'][0]['House_No'] != "") {
+                    $HS = data['theEntry'][0]['House_No'] + ' ';
+                } else {
+                    $HS = ' ';
+                }
+
+                if (data['theEntry'][0]['Street'] != null && data['theEntry'][0]['Street'] != "") {
+                    $SS = data['theEntry'][0]['Street'] + ', ';
+                } else {
+                    $SS = ' ';
+                }
+                $('#VAddress').html($HS + $SS + data['theEntry'][0]['Barangay_Name'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name']);
                 $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
                 $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
                 $('#VAge').html(data['theEntry'][0]['Religion_ID']);
@@ -1550,29 +1631,47 @@
                 $('#VWeight').text(data['theEntry'][0]['Weight']);
                 $('#VHeight').text(data['theEntry'][0]['Height']);
 
-                var barangay =
-                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
-                $('#Barangay_ID').append(barangay);
+                if (data['theEntry'][0]['Solo_Parent'] == 1) {
+                    $('#VSolo_Parent').html('Yes');
+                } else {
+                    $('#VSolo_Parent').html('No');
+                }
+                if (data['theEntry'][0]['OFW'] == 1) {
+                    $('#VOFW').html('Yes');
+                } else {
+                    $('#VOFW').html('No');
+                }
+                if (data['theEntry'][0]['Indigent'] == 1) {
+                    $('#VIndigent').html('Yes');
+                } else {
+                    $('#VIndigent').html('No');
+                }
+                if (data['theEntry'][0]['4Ps_Beneficiary'] == 1) {
+                    $('#V4Ps_Beneficiary').html('Yes');
+                } else {
+                    $('#V4Ps_Beneficiary').html('No');
+                }
 
-                var city =
-                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
-                $('#City_Municipality_ID').append(city);
-
-                var province =
-                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
-                $('#VProvince_ID').append(province);
-                $('#VSolo_Parent').val(data['theEntry'][0]['Solo_Parent']);
-                $('#VOFW').val(data['theEntry'][0]['OFW']);
-                $('#VIndigent').val(data['theEntry'][0]['Indigent']);
-                $('#V4Ps_Beneficiary').val(data['theEntry'][0]['4Ps_Beneficiary']);
-                $('#VResident_Status').val(data['theEntry'][0]['Resident_Status']);
-                $('#VVoter_Status').val(data['theEntry'][0]['Voter_Status']);
-                $('#VResident_Voter').val(data['theEntry'][0]['Resident_Voter']);
-                $('#VElection_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
-                $('#VPhilHealth').val(data['theEntry'][0]['PhilHealth']);
-                $('#VGSIS').val(data['theEntry'][0]['GSIS']);
-                $('#VSSS').val(data['theEntry'][0]['SSS']);
-                $('#VPagIbig').val(data['theEntry'][0]['PagIbig']);
+                if (data['theEntry'][0]['Resident_Status'] == 1) {
+                    $('#VResident_Status').html('Yes');
+                } else {
+                    $('#VResident_Status').html('No');
+                }
+                if (data['theEntry'][0]['Voter_Status'] == 1) {
+                    $('#VVoter_Status').html('Yes');
+                } else {
+                    $('#VVoter_Status').html('No');
+                }
+                if (data['theEntry'][0]['Resident_Voter'] == 1) {
+                    $('#VResident_Voter').html('Yes');
+                } else {
+                    $('#VResident_Voter').html('No');
+                }
+                $('#VElection_Year_Last_Voted').html(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#VPhilHealth').html(data['theEntry'][0]['PhilHealth']);
+                $('#VGSIS').html(data['theEntry'][0]['GSIS']);
+                $('#VSSS').html(data['theEntry'][0]['SSS']);
+                $('#VPagIbig').html(data['theEntry'][0]['PagIbig']);
             }
         });
 
@@ -1587,36 +1686,17 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
-                $('#EducTBLD').empty();
+                // $('#EducList').empty();
                 data.forEach(element => {
-                    var option = '<tr>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<select class="form-control" name="Academic_Level_ID[]" style="width: 200px;">' +
-                        '@foreach($academic_level as $al)' +
-                        '<option value="{{ $al->Academic_Level_ID  }}" {{ $al->Academic_Level_ID == "' + element['Academic_Level_ID'] + '" ? "selected" : "" }}>{{ $al->Academic_Level }}</option>' +
-                        '@endforeach' +
-                        '</select>' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="School_Name[]" style="width: 250px;"  value="' + element['School_Name'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="School_Year_Start[]" style="width: 200px;"  value="' + element['School_Year_Start'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="School_Year_End[]" style="width: 200px;"  value="' + element['School_Year_End'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Course[]" style="width: 200px;"  value="' + element['Course'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="Year_Graduated[]" style="width: 200px;"  value="' + element['Year_Graduated'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<button class="removeRow btn btn-danger">Remove</button>' +
-                        '</td>' +
+                    var option = '<tr class="EducData">' +
+                        '<td style="min-width: 200px;">' + element['Academic_Level'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Name'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Year_Start'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Year_End'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Course'] + '</td>' +
+                        '<td>' + element['Year_Graduated'] + '</td>' +
                         '</tr>';
-                    $('#EducTBLD').append(option);
+                    $('.EducList').append(option);
                 });
             }
         });
@@ -1634,43 +1714,18 @@
                 var data = JSON.parse(data);
                 $('#EmpTBLD').empty();
                 data.forEach(element => {
-                    var option_emp = '<tr>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<select class="form-control" name="Employment_Type_ID[]" style="width: 200px;">' +
-                        '@foreach($employment_type as $et)' +
-                        '<option value="{{ $et->Employment_Type_ID }}" {{ $et->Employment_Type_ID == "' + element['Employment_Type_ID'] + '" ? "selected" : "" }}>{{ $et->Employment_Type }}</option>' +
-                        '@endforeach' +
-                        '</select>' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Company_Name[]" style="width: 250px;" value="' + element['Company_Name'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Employer_Name[]" style="width: 200px;" value="' + element['Employer_Name'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Employer_Address[]" style="width: 200px;" value="' + element['Employer_Address'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Position[]" style="width: 200px;" value="' + element['Position'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="Start_Date[]" style="width: 200px;" value="' + element['Start_Date'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="date" class="form-control" name="End_Date[]" style="width: 200px;" value="' + element['End_Date'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="number" class="form-control" name="Monthly_Salary[]" style="width: 200px;" value="' + element['Monthly_Salary'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<input type="text" class="form-control" name="Brief_Description[]" style="width: 200px;" value="' + element['Brief_Description'] + '">' +
-                        '</td>' +
-                        '<td class="sm_data_col txtCtr">' +
-                        '<button class="removeRow btn btn-danger">Remove</button>' +
-                        '</td>' +
+                    var option = '<tr class="EmpData">' +
+                        '<td style="min-width: 200px;">' + element['Employment_Type'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Company_Name'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Employer_Name'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Employer_Address'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Position'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Start_Date'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['End_Date'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Monthly_Salary'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Brief_Description'] + '</td>' +
                         '</tr>';
-                    $('#EmpTBLD').append(option_emp);
+                    $('.EmpList').append(option);
                 });
             }
         });
@@ -1715,6 +1770,65 @@
             }
         });
     });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
+    });
+
+    // $(".SearchDataBTN").on("click", function() {
+    //     SearchData();
+    // });
+
+    // function SearchData() {
+    //     // alert('test');
+    //     var param = $('.SearchData').val();
+    //     var date_from = $('#date_from').val();
+    //     var date_to = $('#date_to').val();
+    //     var page = $('#hidden_page').val();
+    //     if (date_from == '' || date_from == null) {
+    //         date_from = 0;
+    //     }
+    //     if (date_to == '' || date_to == null) {
+    //         date_to = 0;
+    //     }
+    //     $.ajax({
+    //         url: "/search_inhabitants_list?page=" + page + "&param=" + param + "&date_from=" + date_from + "&date_to=" + date_to,
+    //         success: function(data) {
+    //             $('#ListData').html('');
+    //             $('#ListData').html(data);
+    //         }
+    //     });
+    // }
+
+    $(".searchFilter").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var param7 = $('.searchFilter7').val();
+        var param8 = $('.searchFilter8').val();
+        var param9 = $('.searchFilter9').val();
+        var param10 = $('.searchFilter10').val();
+        var param11 = $('.searchFilter11').val();
+        var param12 = $('.searchFilter12').val();
+        var param13 = $('.searchFilter13').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_inhabitants_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12 + "&param13=" + param13,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

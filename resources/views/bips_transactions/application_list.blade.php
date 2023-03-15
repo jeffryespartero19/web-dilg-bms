@@ -75,7 +75,7 @@
                                             <td class="sm_data_col txtCtr">
                                                 <!-- <button class="approve_inhabitants btn btn-success" value="{{$x->Resident_ID}}">Approve</button>
                                                 <button class="disapprove_inhabitants  btn btn-danger" value="{{$x->Resident_ID}}">Disapprove</button> -->
-                                                <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>
+                                                <button class="view_info btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -111,261 +111,131 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Create Inhabitant</h4>
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Applicant Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <form id="newInhabitant">@csrf
                 <div class="modal-body">
+                    <table class="table table-striped table-bordered" style="width:100%">
+                        <tbody id="HHMembers">
+                            <tr>
+                                <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Name: </strong></td>
+                                <td><span id="Name"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Address: </strong></td>
+                                <td><span id="Address"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Birthdate: </strong></td>
+                                <td><span id="Birthdate"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Birthplace: </strong></td>
+                                <td><span id="Birthplace"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Age: </strong></td>
+                                <td><span id="Age"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Blood Type: </strong></td>
+                                <td><span id="Blood_Type"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Sex: </strong></td>
+                                <td><span id="Sex"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Weight: </strong></td>
+                                <td><span id="Weight"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Height: </strong></td>
+                                <td><span id="Height"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Civil Status: </strong></td>
+                                <td><span id="Civil_Status"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Mobile Number: </strong></td>
+                                <td><span id="Mobile_No"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Landline number: </strong></td>
+                                <td><span id="Telephone_No"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Monthly Income: </strong></td>
+                                <td><span id="Salary"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>PhilSys Card Number: </strong></td>
+                                <td><span id="PhilSys_Card_No"></span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center; font-size:large">Resident Information</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Resident Status: </strong></td>
+                                <td><span id="Resident_Status"></span></td>
+                            </tr>
 
-                    <div class="modal-body">
-                        <h3>Name</h3>
-                        <div class="row">
+                            <tr>
+                                <td style="width:30%"><strong>Voter Status: </strong></td>
+                                <td><span id="Voter_Status"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Election Year Last Voted: </strong></td>
+                                <td><span id="Election_Year_Last_Voted"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Resident Voter: </strong></td>
+                                <td><span id="Resident_Voter"></span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center; font-size:large">Additional Information</td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Solo Parent: </strong></td>
+                                <td><span id="Solo_Parent"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>OFW: </strong></td>
+                                <td><span id="OFW"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>Indigent: </strong></td>
+                                <td><span id="Indigent"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>4Ps Beneficiary: </strong></td>
+                                <td><span id="4Ps_Beneficiary"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>PhilHealth: </strong></td>
+                                <td><span id="PhilHealth"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>GSIS: </strong></td>
+                                <td><span id="GSIS"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>SSS: </strong></td>
+                                <td><span id="SSS"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width:30%"><strong>PagIbig: </strong></td>
+                                <td><span id="PagIbig"></span></td>
+                            </tr>
 
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Prefix</label>
-                                <select class="form-control" id="Name_Prefix_ID" name="Name_Prefix_ID">
-                                    <option value='' selected>Select Option</option>
-                                    @foreach($name_prefix as $bt)
-                                    <option value="{{ $bt->Name_Prefix_ID }}">{{ $bt->Name_Prefix }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Last Name</label>
-                                <input type="text" class="form-control" id="Last_Name" name="Last_Name" required>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="First_Name">First Name</label>
-                                <input type="text" class="form-control" id="First_Name" name="First_Name" required>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Middle_Name">Middle Name</label>
-                                <input type="text" class="form-control" id="Middle_Name" name="Middle_Name" required>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Name_Suffix_ID">Suffix</label>
-                                <select class="form-control" id="Name_Suffix_ID" name="Name_Suffix_ID">
-                                    <option value='' selected>Select Option</option>
-                                    @foreach($suffix as $bt)
-                                    <option value="{{ $bt->Name_Suffix_ID }}">{{ $bt->Name_Suffix }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <hr>
-                        <h3>Address</h3>
-                        <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Country</label>
-                                <select class="form-control" id="Country_ID" name="Country_ID" required>
-                                    <option value='' selected>Select Option</option>
-                                    @foreach($country as $countrys)
-                                    <option value="{{ $countrys->Country_ID }}">{{ $countrys->Country }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Region</label>
-                                <select class="form-control" id="Region_ID" name="Region_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($region as $region)
-                                    <option value="{{ $region->Region_ID }}">{{ $region->Region_Name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Province</label>
-                                <select class="form-control" id="Province_ID" name="Province_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="City_Municipality_ID">City/Municipality</label>
-                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Barangay_ID">Barangay</label>
-                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Street">Street</label>
-                                <input type="text" class="form-control" id="Street" name="Street" required>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="House_No">House Number</label>
-                                <input type="text" class="form-control" id="House_No" name="House_No">
-                            </div>
-                        </div>
-                        <hr>
-                        <h3>Personal Information</h3>
-                        <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Birthdate</label>
-                                <input type="date" class="form-control" id="Birthdate" name="Birthdate" required>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Age</label>
-                                <input type="number" class="form-control" id="Age" name="Age">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Birthplace">Birthplace</label>
-                                <input type="text" class="form-control" id="Birthplace" name="Birthplace">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Religion_ID">Religion</label>
-                                <select class="form-control" id="Religion_ID" name="Religion_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($religion as $religions)
-                                    <option value="{{ $religions->Religion_ID }}">{{ $religions->Religion }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Blood Type</label>
-                                <select class="form-control" id="Blood_Type_ID" name="Blood_Type_ID" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    @foreach($blood_type as $bt)
-                                    <option value="{{ $bt->Blood_Type_ID }}">{{ $bt->Blood_Type }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Sex</label>
-                                <select class="form-control" id="Sex" name="Sex" required>
-                                    <option value='' disabled selected>Select Option</option>
-                                    <option value='1'>Male</option>
-                                    <option value='2'>Female</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Weight">Weight</label>
-                                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="kilo">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Height">Height</label>
-                                <input type="number" class="form-control" id="Height" name="Height" placeholder="meter">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Civil Status</label>
-                                <select class="form-control" id="Civil_Status_ID" name="Civil_Status_ID" required>
-                                    <option value='0' selected>Select Option</option>
-                                    @foreach($civil_status as $cs)
-                                    <option value="{{ $cs->Civil_Status_ID }}">{{ $cs->Civil_Status }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Mobile Number</label>
-                                <input type="text" class="form-control" id="Mobile_No" name="Mobile_No">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Landline Number</label>
-                                <input type="text" class="form-control" id="Telephone_No" name="Telephone_No">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Salary">Monthly Income</label>
-                                <input type="text" class="form-control" id="Salary" name="Salary">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Email">Email</label>
-                                <input type="email" class="form-control" id="Email_Address" name="Email_Address" required>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="PhilSys_Card_No">PhilSys Card Number</label>
-                                <input type="text" class="form-control" id="PhilSys_Card_No" name="PhilSys_Card_No">
-                            </div>
-                        </div>
-                        <hr>
-                        <h3>Resident Information</h3>
-                        <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_Status">Resident Status</label>
-                                <select class="form-control" id="Resident_Status" name="Resident_Status">
-                                    <option value='' selected>Select Option</option>
-                                    <option value=1>Yes</option>
-                                    <option value=0>No</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Voter_Status">Voter Status</label>
-                                <select class="form-control" id="Voter_Status" name="Voter_Status">
-                                    <option value='' selected>Select Option</option>
-                                    <option value=1>Yes</option>
-                                    <option value=0>No</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Election_Year_Last_Voted">Election Year Last Voted</label>
-                                <input type="date" class="form-control" id="Election_Year_Last_Voted" name="Election_Year_Last_Voted">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="Resident_Voter">Resident Voter</label>
-                                <select class="form-control" id="Resident_Voter" name="Resident_Voter">
-                                    <option value='' selected>Select Option</option>
-                                    <option value=1>Yes</option>
-                                    <option value=0>No</option>
-                                </select>
-                            </div>
+                        </tbody>
 
-                        </div>
-
-                        <hr>
-                        <h3>Additional Information</h3>
-                        <div class="row">
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Solo Parent</label>
-                                <select class="form-control" id="Solo_Parent" name="Solo_Parent">
-                                    <option value='' selected>Select Option</option>
-                                    <option value=1>Yes</option>
-                                    <option value=0>No</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">OFW</label>
-                                <select class="form-control" id="OFW" name="OFW">
-                                    <option value='' selected>Select Option</option>
-                                    <option value=1>Yes</option>
-                                    <option value=0>No</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">Indigent</label>
-                                <select class="form-control" id="Indigent" name="Indigent">
-                                    <option value='' selected>Select Option</option>
-                                    <option value=1>Yes</option>
-                                    <option value=0>No</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="exampleInputEmail1">4Ps Beneficiary</label>
-                                <select class="form-control" id="4Ps_Beneficiary" name="4Ps_Beneficiary">
-                                    <option value='' selected>Select Option</option>
-                                    <option value=1>Yes</option>
-                                    <option value=0>No</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="PhilHealth">PhilHealth</label>
-                                <input type="text" class="form-control" id="PhilHealth" name="PhilHealth">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="GSIS">GSIS</label>
-                                <input type="text" class="form-control" id="GSIS" name="GSIS">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="SSS">SSS</label>
-                                <input type="text" class="form-control" id="SSS" name="SSS">
-                            </div>
-                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                <label for="PagIbig">PagIbig</label>
-                                <input type="text" class="form-control" id="PagIbig" name="PagIbig">
-                            </div>
-                        </div>
-                    </div>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success approve_inhabitants btn-modal" value="{{$x->Resident_ID}}">Approve</button>
@@ -445,11 +315,11 @@
         $('#Approved_Inhabitant').submit();
     });
 
-    // Edit Button Display Modal
-    $(document).on('click', ('.edit_inhabitants'), function(e) {
+    // View Info
+    $(document).on('click', ('.view_info'), function(e) {
 
         var disID = $(this).val();
-        $('#Modal_Title').text('Edit Inhabitant Information');
+        // $('#Modal_Title').text('Edit Inhabitant Information');
         $.ajax({
             url: "/get_inhabitants_info",
             type: 'GET',
@@ -460,56 +330,91 @@
                 alert('request failed');
             },
             success: function(data) {
-                $('#Resident_ID').val(data['theEntry'][0]['Resident_ID']);
-                $('#Name_Prefix_ID').val(data['theEntry'][0]['Name_Prefix_ID']);
-                $('#Last_Name').val(data['theEntry'][0]['Last_Name']);
-                $('#First_Name').val(data['theEntry'][0]['First_Name']);
-                $('#Middle_Name').val(data['theEntry'][0]['Middle_Name']);
-                $('#Name_Suffix_ID').val(data['theEntry'][0]['Name_Suffix_ID']);
-                $('#Birthdate').val(data['theEntry'][0]['Birthdate']);
-                $('#Birthplace').val(data['theEntry'][0]['Birthplace']);
-                $('#Religion_ID').val(data['theEntry'][0]['Religion_ID']);
-                $('#Blood_Type_ID').val(data['theEntry'][0]['Blood_Type_ID']);
-                $('#Sex').val(data['theEntry'][0]['Sex']);
-                $('#Weight').val(data['theEntry'][0]['Weight']);
-                $('#Height').val(data['theEntry'][0]['Height']);
-                $('#Civil_Status_ID').val(data['theEntry'][0]['Civil_Status_ID']);
-                $('#Mobile_No').val(data['theEntry'][0]['Mobile_No']);
-                $('#Telephone_No').val(data['theEntry'][0]['Telephone_No']);
-                $('#Salary').val(data['theEntry'][0]['Salary']);
-                $('#Email_Address').val(data['theEntry'][0]['Email_Address']);
-                $('#PhilSys_Card_No').val(data['theEntry'][0]['PhilSys_Card_No']);
-                $('#Country_ID').val(data['theEntry'][0]['Country_ID']);
-                $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
-                $('#Street').val(data['theEntry'][0]['Street']);
-                $('#House_No').val(data['theEntry'][0]['House_No']);
+                $('#Resident_ID').html(data['theEntry'][0]['Resident_ID']);
+                $('#Name').html(data['theEntry'][0]['Last_Name'] + ', ' + data['theEntry'][0]['First_Name'] + ' ' + data['theEntry'][0]['Middle_Name'] + ' ' + data['theEntry'][0]['Name_Suffix']);
 
-                var barangay =
-                    " <option value='" + data['theEntry'][0]['Barangay_ID'] + "' selected>" + data['theEntry'][0]['Barangay_Name'] + "</option>";
-                $('#Barangay_ID').append(barangay);
+                if (data['theEntry'][0]['House_No'] != null && data['theEntry'][0]['House_No'] != "") {
+                    $HS = data['theEntry'][0]['House_No'] + ' ';
+                } else {
+                    $HS = ' ';
+                }
 
-                var city =
-                    " <option value='" + data['theEntry'][0]['City_Municipality_ID'] + "' selected>" + data['theEntry'][0]['City_Municipality_Name'] + "</option>";
-                $('#City_Municipality_ID').append(city);
+                if (data['theEntry'][0]['Street'] != null && data['theEntry'][0]['Street'] != "") {
+                    $SS = data['theEntry'][0]['Street'] + ', ';
+                } else {
+                    $SS = ' ';
+                }
 
-                var province =
-                    " <option value='" + data['theEntry'][0]['Province_ID'] + "' selected>" + data['theEntry'][0]['Province_Name'] + "</option>";
-                $('#Province_ID').append(province);
-                $('#Solo_Parent').val(data['theEntry'][0]['Solo_Parent']);
-                $('#OFW').val(data['theEntry'][0]['OFW']);
-                $('#Indigent').val(data['theEntry'][0]['Indigent']);
-                $('#4Ps_Beneficiary').val(data['theEntry'][0]['4Ps_Beneficiary']);
-                $('#Resident_Status').val(data['theEntry'][0]['Resident_Status']);
-                $('#Voter_Status').val(data['theEntry'][0]['Voter_Status']);
-                $('#Resident_Voter').val(data['theEntry'][0]['Resident_Voter']);
-                $('#Election_Year_Last_Voted').val(data['theEntry'][0]['Election_Year_Last_Voted']);
-                $('#PhilHealth').val(data['theEntry'][0]['PhilHealth']);
-                $('#GSIS').val(data['theEntry'][0]['GSIS']);
-                $('#SSS').val(data['theEntry'][0]['SSS']);
-                $('#PagIbig').val(data['theEntry'][0]['PagIbig']);
+                $('#Address').html($HS + $SS + data['theEntry'][0]['Barangay_Name'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name']);
+                $('#Birthdate').html(data['theEntry'][0]['Birthdate']);
+                $('#Age').html(data['theEntry'][0]['Age']);
+                $('#Birthplace').html(data['theEntry'][0]['Birthplace']);
+                $('#Religion').html(data['theEntry'][0]['Religion']);
+                $('#Blood_Type').html(data['theEntry'][0]['Blood_Type']);
+
+                if (data['theEntry'][0]['Sex'] == 1) {
+                    $('#Sex').html('Male');
+                } else {
+                    $('#Sex').html('Female');
+                }
+                $('#Weight').html(data['theEntry'][0]['Weight'] + ' kg');
+                $('#Height').html(data['theEntry'][0]['Height'] + ' meters');
+                $('#Civil_Status').html(data['theEntry'][0]['Civil_Status']);
+                $('#Mobile_No').html(data['theEntry'][0]['Mobile_No']);
+                $('#Telephone_No').html(data['theEntry'][0]['Telephone_No']);
+                $('#Salary').html(data['theEntry'][0]['Salary']);
+                $('#Email_Address').html(data['theEntry'][0]['Email_Address']);
+                $('#PhilSys_Card_No').html(data['theEntry'][0]['PhilSys_Card_No']);
+                $('#Country_ID').html(data['theEntry'][0]['Country_ID']);
+                $('#Region_ID').html(data['theEntry'][0]['Region_ID']);
+                $('#Street').html(data['theEntry'][0]['Street']);
+                $('#House_No').html(data['theEntry'][0]['House_No']);
+
+                if (data['theEntry'][0]['Solo_Parent'] == 1) {
+                    $('#Solo_Parent').html('Yes');
+                } else {
+                    $('#Solo_Parent').html('No');
+                }
+                if (data['theEntry'][0]['OFW'] == 1) {
+                    $('#OFW').html('Yes');
+                } else {
+                    $('#OFW').html('No');
+                }
+                if (data['theEntry'][0]['Indigent'] == 1) {
+                    $('#Indigent').html('Yes');
+                } else {
+                    $('#Indigent').html('No');
+                }
+                if (data['theEntry'][0]['4Ps_Beneficiary'] == 1) {
+                    $('#4Ps_Beneficiary').html('Yes');
+                } else {
+                    $('#4Ps_Beneficiary').html('No');
+                }
+                
+                if (data['theEntry'][0]['Resident_Status'] == 1) {
+                    $('#Resident_Status').html('Yes');
+                } else {
+                    $('#Resident_Status').html('No');
+                }
+                if (data['theEntry'][0]['Voter_Status'] == 1) {
+                    $('#Voter_Status').html('Yes');
+                } else {
+                    $('#Voter_Status').html('No');
+                }
+                if (data['theEntry'][0]['Resident_Voter'] == 1) {
+                    $('#Resident_Voter').html('Yes');
+                } else {
+                    $('#Resident_Voter').html('No');
+                }
+                $('#Election_Year_Last_Voted').html(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#PhilHealth').html(data['theEntry'][0]['PhilHealth']);
+                $('#GSIS').html(data['theEntry'][0]['GSIS']);
+                $('#SSS').html(data['theEntry'][0]['SSS']);
+                $('#PagIbig').html(data['theEntry'][0]['PagIbig']);
+
+
             }
         });
-
     });
 
     // Side Bar Active

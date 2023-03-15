@@ -131,17 +131,27 @@ class InhabitantApplicationController extends Controller
         $currDATE = Carbon::now();
         $data = request()->all();
 
-        User::create([
-            'name' => '',
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'User_Type_ID' => 2,
-            'Barangay_ID' => '',
-            'Resident_ID' => '',
-            'Login_Status' => 1,
-        ]);
+        $inputValues['email'] = $data['email'];
+        // checking if email exists in ‘email’ in the ‘users’ table
+        $rules = array('email' => 'unique:users,email');
 
-        return redirect()->back()->with('success', 'Application Submitted');
+        $validator = Validator::make($inputValues, $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('message', 'Email already exist.');
+        } else {
+            User::create([
+                'name' => '',
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'User_Type_ID' => 2,
+                'Barangay_ID' => '',
+                'Resident_ID' => '',
+                'Login_Status' => 1,
+            ]);
+
+            return redirect()->back()->with('success', 'Application Submitted. Before proceeding, please check your email for a verification link.');
+        }
     }
 
 
