@@ -27,7 +27,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form id="newInhabitant" method="POST" action="{{ route('create_inhabitants_user') }}" autocomplete="off" enctype="multipart/form-data">
+                    <form id="newInhabitant" method="POST" action="{{ route('register') }}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
 
                         <h3>Login Credentials</h3>
