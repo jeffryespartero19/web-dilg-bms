@@ -16,6 +16,11 @@
         {{ session()->get('success') }}
     </div>
     @endif
+    @if(session()->has('message'))
+    <div class="alert alert-warning">
+        {{ session()->get('message') }}
+    </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-9">
             <div class="card">
