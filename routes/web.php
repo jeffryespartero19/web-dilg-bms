@@ -1020,6 +1020,9 @@ Route::group(['middleware' => 'auth'], function () {
   // Export to Excel
   Route::get('ordinance/export', 'borisController@export')->name('ordinance.export');
   Route::get('inhabitants/export', 'bipsController@inhabitants_export')->name('inhabitants.export');
+
+  Route::get('/get_documenttype', 'BCPISController@get_documenttype')->name('get_documenttype');
+  Route::get('/get_purposedocument', 'BCPISController@get_purposedocument')->name('get_purposedocument');
 });
 
 
