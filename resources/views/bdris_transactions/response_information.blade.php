@@ -99,15 +99,18 @@
                                                 <label for="Action_Taken">Action Taken</label>
                                                 <input type="text" class="form-control" id="Action_Taken" name="Action_Taken">
                                             </div> -->
-                                            <div class="col-lg-6" style="padding:0 10px;">
+                                            <div class="col-lg-12" style="padding:0 10px;">
                                                 <a onclick="addDamage();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                                 <br>
                                                 <div class="table-responsive" id="DamageDetails">
                                                     <table id="DamageTBL" class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th hidden>Damage_Location_ID</th>
+                                                                <th hidden>Disaster_Response_OtherInfo_ID</th>
                                                                 <th>Damage Location</th>
+                                                                <th>GPS Coordinates</th>
+                                                                <th>Risk Assessment</th>
+                                                                <th>Action Taken</th>
                                                                 <th>Actions</th>
                                                             </tr>
                                                         </thead>
@@ -115,7 +118,16 @@
                                                             <tr class="DAMAGEDetails">
                                                                 <td hidden></td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" style="width: 600px;" name="Damage_Location[]">
+                                                                    <input type="text" class="form-control" style="width: 300px;" name="Damage_Location[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 300px;" name="GPS_Coordinates[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 300px;" name="Risk_Assessment[]">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" style="width: 300px;" name="Action_Taken[]">
                                                                 </td>
                                                                 <td style="text-align: center;">
                                                                     <button type="button" class="btn btn-danger DamageRemove">Remove</button>
@@ -126,7 +138,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6" style="padding:0 10px;">
+                                            <!-- <div class="col-lg-6" style="padding:0 10px;">
                                                 <a onclick="addGPS();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                                 <br>
                                                 <div class="table-responsive" id="GPSDetails">
@@ -152,8 +164,8 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-6" style="padding:0 10px;">
+                                            </div> -->
+                                            <!-- <div class="col-lg-6" style="padding:0 10px;">
                                                 <a onclick="addRisk();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                                 <br>
                                                 <div class="table-responsive" id="RiskDetails">
@@ -179,8 +191,8 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-6" style="padding:0 10px;">
+                                            </div> -->
+                                            <!-- <div class="col-lg-6" style="padding:0 10px;">
                                                 <a onclick="addAction();" style="float: right; cursor:pointer" class="btn btn-default">+ Add</a>
                                                 <br>
                                                 <div class="table-responsive" id="ActionDetails">
@@ -206,7 +218,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Summary">Summary</label>
                                                 <input type="text" class="form-control" id="Summary" name="Summary">
@@ -578,6 +590,9 @@
 
 
         $(newrow.find("td:eq(1) input")).val('');
+        $(newrow.find("td:eq(2) input")).val('');
+        $(newrow.find("td:eq(3) input")).val('');
+        $(newrow.find("td:eq(4) input")).val('');
       
     }
 

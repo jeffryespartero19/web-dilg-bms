@@ -88,6 +88,7 @@
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a href="{{ url('barangay_business_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                                 @endif
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
@@ -217,6 +218,52 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('brgybusiness_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Business_Name" name="chk_Business_Name">
+                                <label for="chk_Business_Name">Business Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Business_Type" name="chk_Business_Type">
+                                <label for="chk_Business_Type">Business Type</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Business_Tin" name="chk_Business_Tin">
+                                <label for="chk_Business_Tin">Business Tin</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Business_Owner" name="chk_Business_Owner">
+                                <label for="chk_Business_Owner">Business Owner</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Business_Address" name="chk_Business_Address">
+                                <label for="chk_Business_Address">Business Address</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Mobile_No" name="chk_Mobile_No">
+                                <label for="chk_Mobile_No">Mobile No.</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
                 </div>
             </form>
         </div>
@@ -428,6 +475,10 @@ $.ajax({
             
             }
         });
+    });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
     });
 </script>
 

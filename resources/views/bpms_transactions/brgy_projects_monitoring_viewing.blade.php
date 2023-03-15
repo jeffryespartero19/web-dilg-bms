@@ -320,7 +320,7 @@
                             <div class="custom-file">
                                 @csrf
                                 <input type="text" class="form-control" id="Milestone_Status_ID" name="Milestone_Status_ID" value="{{$cd->Milestone_Status_ID}}">
-                                <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                <input type="file" class="custom-file-input" accept="image/*" id="fileattach" name="fileattach[]" multiple>
                                 <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                             </div>
                         </div>

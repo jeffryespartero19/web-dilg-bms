@@ -51,8 +51,11 @@
                                     <div>
                                         <input type="text" class="form-control" id="Document_ID" name="Document_ID" hidden>
                                         <div class="row">
+                                            <h6 style="color: red" for="Note">Note: Select the Document Type and Purpose of Document you want to request </h6>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Document_Type_ID">Document Type</label>
+                                                <label for="Document_Type_ID">Document Type<label style="color: red">*</label></label>
                                                 <select class="form-control" id="Document_Type_ID" name="Document_Type_ID" >
                                                     <option value=''  selected>Select Option</option>
                                                         @foreach($document_type as $bt1)
@@ -61,7 +64,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Purpose_of_Document_ID">Purpose of Document</label>
+                                                <label for="Purpose_of_Document_ID">Purpose of Document<label style="color: red">*</label></label>
                                                 <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
                                                     <option value='' disabled selected>Select Option</option>
                                                         @foreach($purpose as $bt1)

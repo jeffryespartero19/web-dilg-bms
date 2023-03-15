@@ -86,8 +86,10 @@
         <div class="card-body">
             <div class="flexer">
                 <div class="eighty_split">{{$db_entries->appends(['db_entries' => $db_entries->currentPage()])->links()}}</div>
-
+                @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('disaster_type_details/0') }}" class="btn btn-success" style="width: 100px;">New </a></div>
+                @endif
+                &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_disty_filter" style="width: 100px;">Export</button></div>
                 &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_disty_filter" style="width: 100px;">Download</button></div>
 
             </div>
@@ -142,6 +144,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_evacuation_site_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_emerevac_filter" style="width: 100px;">Export</button></div>
                 &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_emerevac_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
@@ -194,6 +197,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('allocated_fund_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_allofund_filter" style="width: 100px;">Export</button></div>
                 &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_allofund_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
@@ -243,6 +247,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('disaster_supplies_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                <!-- &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_dissupp_filter" style="width: 100px;">Export</button></div> -->
                 &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_dissupp_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
@@ -601,6 +606,49 @@
     </div>
 </div>
 
+<div class="modal fade" id="print_disty_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('disty_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Disaster_Type" name="chk_Disaster_Type">
+                                <label for="chk_Disaster_Type">Disaster Type</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Emergency_Evacuation_Site_Name" name="chk_Emergency_Evacuation_Site_Name">
+                                <label for="chk_Emergency_Evacuation_Site_Name">Emergency Evacuation Site</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Allocated_Fund_Name" name="chk_Allocated_Fund_Name">
+                                <label for="chk_Allocated_Fund_Name">Allocated Fund</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Emergency_Team_Name" name="chk_Emergency_Team_Name">
+                                <label for="chk_Emergency_Team_Name">Emergency Team</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Emergency_Equipment_Name" name="chk_Emergency_Equipment_Name">
+                                <label for="chk_Emergency_Equipment_Name">Emergency Equipment</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="download_emerevac_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -637,6 +685,46 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="print_emerevac_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('emerevac_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Emergency_Evacuation_Site_Name" name="chk_Emergency_Evacuation_Site_Name">
+                                <label for="chk_Emergency_Evacuation_Site_Name">Emergency Evacuation Site</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Address" name="chk_Address">
+                                <label for="chk_Address">Address</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Capacity" name="chk_Capacity">
+                                <label for="chk_Capacity">Capacity</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="download_allofund_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -665,6 +753,43 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="print_allofund_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('allofund_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Allocated_Fund_Name" name="chk_Allocated_Fund_Name">
+                                <label for="chk_Allocated_Fund_Name">Allocated Fund</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Amount" name="chk_Amount">
+                                <label for="chk_Amount">Amount</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
                 </div>
             </form>
         </div>
@@ -712,6 +837,43 @@
         </div>
     </div>
 </div>
+
+<!-- <div class="modal fade" id="print_dissupp_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('allofund_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Allocated_Fund_Name" name="chk_Allocated_Fund_Name">
+                                <label for="chk_Allocated_Fund_Name">Allocated Fund</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Amount" name="chk_Amount">
+                                <label for="chk_Amount">Amount</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
 
 <div class="modal fade" id="download_emerteam_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
@@ -1400,6 +1562,10 @@
             }
         });
 
+    });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
     });
 </script>
 
