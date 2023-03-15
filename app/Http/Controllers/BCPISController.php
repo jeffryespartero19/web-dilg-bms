@@ -1835,14 +1835,23 @@ class BCPISController extends Controller
             $for_modal=1;
             $Queue_Ticket_Number=$randomNumber;
             $Requested_Date_and_Time= $data['Requested_Date_and_Time'];
+            $Name= Auth::user()->name;
 
             $purpose = DB::table('maintenance_bcpcis_purpose_of_document')->paginate(20, ['*'], 'purpose');
             $document_type = DB::table('maintenance_bcpcis_document_type')->paginate(20, ['*'], 'document_type');
+            $Document_Type_Name=$data['VDocument_Type'];
+            $Purpose_Document_Name=$data['VPurpose_Document'];
+            // $document_type_name = DB::table('maintenance_bcpcis_document_type')
+            // ->select(
+            //     'Document_Type_Name',
+            // )
+            // ->where('Document_Type_ID', $data['Document_Type_ID'])->get();
+            // $document_type_name_answer=$document_type_name;
 //dd($data['Document_Type_ID']);
              return view('bcpcis_transactions.brgy_document_information_request', compact(
                 'Queue_Ticket_Number',
                 'Requested_Date_and_Time',
-                'for_modal','purpose','document_type','data'
+                'for_modal','purpose','document_type','data','Name','Document_Type_Name','Purpose_Document_Name',
             ));
             
          } 
@@ -2437,5 +2446,33 @@ class BCPISController extends Controller
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
         return Excel::download(new BrgyBusinessExportView($chk_Active,$chk_Mobile_No,$chk_Business_Address,$chk_Business_Owner,$chk_Business_Tin,$chk_Business_Type,$chk_Business_Name,), 'brgybusinessinfo.xlsx');
+    }
+
+    public function get_documenttype(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('maintenance_bcpcis_document_type as a')
+        ->select(
+           'a.Document_Type_Name',
+        )
+            ->where('a.Document_Type_ID', $id)->get();
+
+        return (compact('theEntry'));
+    }
+
+    public function get_purposedocument(Request $request)
+    {
+        $id = $_GET['id'];
+
+
+        $theEntry = DB::table('maintenance_bcpcis_purpose_of_document as a')
+        ->select(
+           'a.Purpose_of_Document',
+        )
+            ->where('a.Purpose_of_Document_ID', $id)->get();
+
+        return (compact('theEntry'));
     }
 }
