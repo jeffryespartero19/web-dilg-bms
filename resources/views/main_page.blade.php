@@ -73,7 +73,7 @@
                     <div class="col-12">
                         <center>
                             <div class="input-group" style="width: 50%;">
-                                <input class="form-control" id="search" type="search" placeholder="Search City/Municipality" aria-label="Search" style="font-size: 40px; height:60px; width:600px">
+                                <input class="form-control" id="search" type="search" placeholder="Search" aria-label="Search" style="font-size: 40px; height:60px; width:600px">
                             </div>
                         </center>
                     </div>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="container">
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <table class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Barangay Name</th>
@@ -94,9 +94,11 @@
                                 </tr>
                             </thead>
                             <tbody class="BRGY_list">
-
+                                @include('main_page_data')
                             </tbody>
                         </table>
+
+                        <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                     </div>
                 </div>
             </div>
@@ -199,38 +201,11 @@
             $('#example').DataTable();
         });
 
-        $("#search").keyup(function() {
-
-            var text = $(this).val();
-            // alert(text);
-            $.ajax({
-                type: "GET",
-                url: "/search_barangay/" + text,
-                fail: function() {
-                    alert("request failed");
-                },
-                success: function(data) {
-                    var data = JSON.parse(data);
-
-                    // alert(data);
-                    $('#example').dataTable().fnClearTable();
-                    $('#example').dataTable().fnDraw();
-                    $('#example').dataTable().fnDestroy();
-
-                    data.forEach(function(element) {
-
-                        $('#example').DataTable().row.add([
-                            element["Barangay_Name"],
-                            element["City_Municipality_Name"],
-                            element["Province_Name"],
-                            element["Region_Name"],
-                            "<button class='btn btn-success EnterLink' value='" + element["Barangay_ID"] + "'>Visit</button>",
-                        ]).draw();
-
-                    });
-                }
-            });
-
+        $("#search").keydown(function(event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                BrgyFilter();
+            }
         });
 
         $(document).on("click", ".EnterLink", function() {
@@ -241,7 +216,27 @@
 
         });
 
-        
+        $(document).on('click', ".pagination a", function(event) {
+            event.preventDefault();
+
+            var page = $(this).attr('href').split('page=')[1];
+            $('#hidden_page').val(page);
+
+            BrgyFilter();
+        });
+
+        function BrgyFilter() {
+            var page = $('#hidden_page').val();
+            var text = $('#search').val();
+
+            $.ajax({
+                url: "/search_barangay_main?page=" + page + "&param1=" + text,
+                success: function(data) {
+                    $('.BRGY_list').html('');
+                    $('.BRGY_list').html(data);
+                }
+            });
+        }
     </script>
 
     @error('email')

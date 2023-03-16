@@ -1039,3 +1039,5 @@ Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
 
 //For Deletions
 Route::post('/del_rec', 'DeleterController@del_rec')->name('del_rec');
+
+Route::get('/search_barangay_main', 'Public_LandingController@search_barangay_main');

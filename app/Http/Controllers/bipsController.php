@@ -68,7 +68,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Application_Status', 1)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
-                ->paginate(20);
+                ->paginate(2);
         } elseif (Auth::user()->User_Type_ID == 1) {
 
             $db_entries = DB::table('bips_brgy_inhabitants_information as a')
@@ -131,7 +131,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Application_Status', 1)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-                ->paginate(20);
+                ->paginate(2);
         }
 
         $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
