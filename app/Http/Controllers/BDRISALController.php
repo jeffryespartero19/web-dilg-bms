@@ -9,7 +9,10 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\File;
 use PDF;
-
+use App\Exports\DisasterTypeExportView;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EmergencyEvacuationSiteExportView;
+use App\Exports\AllocatedFundExportView;
 
 class BDRISALController extends Controller
 {
@@ -594,10 +597,10 @@ class BDRISALController extends Controller
             $barangay = DB::table('maintenance_barangay')->where('City_Municipality_ID', $response[0]->City_Municipality_ID)->get();
             $attachment = DB::table('bdris_file_attachment')->where('Disaster_Response_ID', $id)->get();
             $resident = DB::table('bips_brgy_inhabitants_information')->get();
-            $damage = DB::table('bdris_Disaster_Response_Damage_Location')->where('Disaster_Response_ID', $id)->get();
-            $gps = DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $id)->get();
-            $risk = DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $id)->get();
-            $action = DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $id)->get();
+            $damage = DB::table('bdris_disaster_response_otherinfo')->where('Disaster_Response_ID', $id)->get();
+            // $gps = DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $id)->get();
+            // $risk = DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $id)->get();
+            // $action = DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $id)->get();
             $evacuee = DB::table('bdris_evacuee_information as a')
                 ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
                 ->leftjoin('maintenance_city_municipality as c', 'b.City_Municipality_ID', '=', 'c.City_Municipality_ID')
@@ -629,9 +632,6 @@ class BDRISALController extends Controller
                 'resident',
                 'evacuee',
                 'damage',
-                'gps',
-                'risk',
-                'action',
             ));
         }
     }
@@ -739,10 +739,10 @@ class BDRISALController extends Controller
             );
 
             DB::table('bdris_evacuee_information')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
-            DB::table('bdris_Disaster_Response_Damage_Location')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
-            DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
-            DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
-            DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            DB::table('bdris_Disaster_Response_OtherInfo')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            // DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            // DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
+            // DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $Disaster_Response_ID)->delete();
 
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
@@ -807,83 +807,86 @@ class BDRISALController extends Controller
                 for ($i = 0; $i < count($data['Damage_Location']); $i++) {
                     if ($data['Damage_Location'][$i] != NULL) {
 
-                        $id = 0 + DB::table('bdris_Disaster_Response_Damage_Location')->max('Damage_Location_ID');
+                        $id = 0 + DB::table('bdris_Disaster_Response_OtherInfo')->max('Disaster_Response_OtherInfo_ID');
                         $id += 1;
 
                         if ($data['Damage_Location'][$i] != null) {
                             $damage_location = [
                                 'Disaster_Response_ID' => $Disaster_Response_ID,
                                 'Damage_Location' => $data['Damage_Location'][$i],
-                            ];
-                        }
-
-                        DB::table('bdris_Disaster_Response_Damage_Location')->updateOrInsert(['Damage_Location_ID' => $id], $damage_location);
-                    }
-                }
-            }
-
-            if (isset($data['GPS_Coordinates'])) {
-                $GPS_coordinates = [];
-
-                for ($i = 0; $i < count($data['GPS_Coordinates']); $i++) {
-                    if ($data['GPS_Coordinates'][$i] != NULL) {
-
-                        $id = 0 + DB::table('bdris_Disaster_Response_GPS_Coordinates')->max('GPS_Coordinates_ID');
-                        $id += 1;
-
-                        if ($data['GPS_Coordinates'][$i] != null) {
-                            $GPS_coordinates = [
-                                'Disaster_Response_ID' => $Disaster_Response_ID,
                                 'GPS_Coordinates' => $data['GPS_Coordinates'][$i],
-                            ];
-                        }
-
-                        DB::table('bdris_Disaster_Response_GPS_Coordinates')->updateOrInsert(['GPS_Coordinates_ID' => $id], $GPS_coordinates);
-                    }
-                }
-            }
-
-            if (isset($data['Risk_Assessment'])) {
-                $risk_assessment = [];
-
-                for ($i = 0; $i < count($data['Risk_Assessment']); $i++) {
-                    if ($data['Risk_Assessment'][$i] != NULL) {
-
-                        $id = 0 + DB::table('bdris_Disaster_Response_Risk_Assessment')->max('Risk_Assessment_ID');
-                        $id += 1;
-
-                        if ($data['Risk_Assessment'][$i] != null) {
-                            $risk_assessment = [
-                                'Disaster_Response_ID' => $Disaster_Response_ID,
                                 'Risk_Assessment' => $data['Risk_Assessment'][$i],
-                            ];
-                        }
-
-                        DB::table('bdris_Disaster_Response_Risk_Assessment')->updateOrInsert(['Risk_Assessment_ID' => $id], $risk_assessment);
-                    }
-                }
-            }
-
-            if (isset($data['Action_Taken'])) {
-                $action_taken = [];
-
-                for ($i = 0; $i < count($data['Action_Taken']); $i++) {
-                    if ($data['Action_Taken'][$i] != NULL) {
-
-                        $id = 0 + DB::table('bdris_Disaster_Response_Action_Taken')->max('Action_Taken_ID');
-                        $id += 1;
-
-                        if ($data['Action_Taken'][$i] != null) {
-                            $action_taken = [
-                                'Disaster_Response_ID' => $Disaster_Response_ID,
                                 'Action_Taken' => $data['Action_Taken'][$i],
                             ];
                         }
 
-                        DB::table('bdris_Disaster_Response_Action_Taken')->updateOrInsert(['Action_Taken_ID' => $id], $action_taken);
+                        DB::table('bdris_Disaster_Response_OtherInfo')->updateOrInsert(['Disaster_Response_OtherInfo_ID' => $id], $damage_location);
                     }
                 }
             }
+
+            // if (isset($data['GPS_Coordinates'])) {
+            //     $GPS_coordinates = [];
+
+            //     for ($i = 0; $i < count($data['GPS_Coordinates']); $i++) {
+            //         if ($data['GPS_Coordinates'][$i] != NULL) {
+
+            //             $id = 0 + DB::table('bdris_Disaster_Response_GPS_Coordinates')->max('GPS_Coordinates_ID');
+            //             $id += 1;
+
+            //             if ($data['GPS_Coordinates'][$i] != null) {
+            //                 $GPS_coordinates = [
+            //                     'Disaster_Response_ID' => $Disaster_Response_ID,
+            //                     'GPS_Coordinates' => $data['GPS_Coordinates'][$i],
+            //                 ];
+            //             }
+
+            //             DB::table('bdris_Disaster_Response_GPS_Coordinates')->updateOrInsert(['GPS_Coordinates_ID' => $id], $GPS_coordinates);
+            //         }
+            //     }
+            // }
+
+            // if (isset($data['Risk_Assessment'])) {
+            //     $risk_assessment = [];
+
+            //     for ($i = 0; $i < count($data['Risk_Assessment']); $i++) {
+            //         if ($data['Risk_Assessment'][$i] != NULL) {
+
+            //             $id = 0 + DB::table('bdris_Disaster_Response_Risk_Assessment')->max('Risk_Assessment_ID');
+            //             $id += 1;
+
+            //             if ($data['Risk_Assessment'][$i] != null) {
+            //                 $risk_assessment = [
+            //                     'Disaster_Response_ID' => $Disaster_Response_ID,
+            //                     'Risk_Assessment' => $data['Risk_Assessment'][$i],
+            //                 ];
+            //             }
+
+            //             DB::table('bdris_Disaster_Response_Risk_Assessment')->updateOrInsert(['Risk_Assessment_ID' => $id], $risk_assessment);
+            //         }
+            //     }
+            // }
+
+            // if (isset($data['Action_Taken'])) {
+            //     $action_taken = [];
+
+            //     for ($i = 0; $i < count($data['Action_Taken']); $i++) {
+            //         if ($data['Action_Taken'][$i] != NULL) {
+
+            //             $id = 0 + DB::table('bdris_Disaster_Response_Action_Taken')->max('Action_Taken_ID');
+            //             $id += 1;
+
+            //             if ($data['Action_Taken'][$i] != null) {
+            //                 $action_taken = [
+            //                     'Disaster_Response_ID' => $Disaster_Response_ID,
+            //                     'Action_Taken' => $data['Action_Taken'][$i],
+            //                 ];
+            //             }
+
+            //             DB::table('bdris_Disaster_Response_Action_Taken')->updateOrInsert(['Action_Taken_ID' => $id], $action_taken);
+            //         }
+            //     }
+            // }
 
             return redirect()->to('response_information_details/' . $Disaster_Response_ID)->with('message', 'New Recovery Information Created');
         } else {
@@ -909,10 +912,10 @@ class BDRISALController extends Controller
             );
 
             DB::table('bdris_evacuee_information')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
-            DB::table('bdris_Disaster_Response_Damage_Location')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
-            DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
-            DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
-            DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            DB::table('bdris_Disaster_Response_OtherInfo')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            // DB::table('bdris_Disaster_Response_GPS_Coordinates')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            // DB::table('bdris_Disaster_Response_Risk_Assessment')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
+            // DB::table('bdris_Disaster_Response_Action_Taken')->where('Disaster_Response_ID', $data['Disaster_Response_ID'])->delete();
 
             if ($request->hasfile('fileattach')) {
                 foreach ($request->file('fileattach') as $file) {
@@ -982,83 +985,86 @@ class BDRISALController extends Controller
                 for ($i = 0; $i < count($data['Damage_Location']); $i++) {
                     if ($data['Damage_Location'][$i] != NULL) {
 
-                        $id = 0 + DB::table('bdris_disaster_response_damage_location')->max('Damage_Location_ID');
+                        $id = 0 + DB::table('bdris_Disaster_Response_OtherInfo')->max('Disaster_Response_OtherInfo_ID');
                         $id += 1;
 
                         if ($data['Damage_Location'][$i] != null) {
                             $damage_location = [
                                 'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
                                 'Damage_Location'       => $data['Damage_Location'][$i],
-                            ];
-                        }
-
-                        DB::table('bdris_disaster_response_damage_location')->updateOrInsert(['Damage_Location_ID' => $id], $damage_location);
-                    }
-                }
-            }
-
-            if (isset($data['GPS_Coordinates'])) {
-                $GPS_coordinates = [];
-
-                for ($i = 0; $i < count($data['GPS_Coordinates']); $i++) {
-                    if ($data['GPS_Coordinates'][$i] != NULL) {
-
-                        $id = 0 + DB::table('bdris_Disaster_Response_GPS_Coordinates')->max('GPS_Coordinates_ID');
-                        $id += 1;
-
-                        if ($data['GPS_Coordinates'][$i] != null) {
-                            $GPS_coordinates = [
-                                'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
                                 'GPS_Coordinates'       => $data['GPS_Coordinates'][$i],
-                            ];
-                        }
-
-                        DB::table('bdris_Disaster_Response_GPS_Coordinates')->updateOrInsert(['GPS_Coordinates_ID' => $id], $GPS_coordinates);
-                    }
-                }
-            }
-
-            if (isset($data['Risk_Assessment'])) {
-                $risk_assessment = [];
-
-                for ($i = 0; $i < count($data['Risk_Assessment']); $i++) {
-                    if ($data['Risk_Assessment'][$i] != NULL) {
-
-                        $id = 0 + DB::table('bdris_Disaster_Response_Risk_Assessment')->max('Risk_Assessment_ID');
-                        $id += 1;
-
-                        if ($data['GPS_Coordinates'][$i] != null) {
-                            $risk_assessment = [
-                                'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
                                 'Risk_Assessment'       => $data['Risk_Assessment'][$i],
-                            ];
-                        }
-
-                        DB::table('bdris_Disaster_Response_Risk_Assessment')->updateOrInsert(['Risk_Assessment_ID' => $id], $risk_assessment);
-                    }
-                }
-            }
-
-            if (isset($data['Action_Taken'])) {
-                $action_taken = [];
-
-                for ($i = 0; $i < count($data['Action_Taken']); $i++) {
-                    if ($data['Action_Taken'][$i] != NULL) {
-
-                        $id = 0 + DB::table('bdris_Disaster_Response_Action_Taken')->max('Action_Taken_ID');
-                        $id += 1;
-
-                        if ($data['GPS_Coordinates'][$i] != null) {
-                            $action_taken = [
-                                'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
                                 'Action_Taken'       => $data['Action_Taken'][$i],
                             ];
                         }
 
-                        DB::table('bdris_Disaster_Response_Action_Taken')->updateOrInsert(['Action_Taken_ID' => $id], $action_taken);
+                        DB::table('bdris_Disaster_Response_OtherInfo')->updateOrInsert(['Disaster_Response_OtherInfo_ID' => $id], $damage_location);
                     }
                 }
             }
+
+            // if (isset($data['GPS_Coordinates'])) {
+            //     $GPS_coordinates = [];
+
+            //     for ($i = 0; $i < count($data['GPS_Coordinates']); $i++) {
+            //         if ($data['GPS_Coordinates'][$i] != NULL) {
+
+            //             $id = 0 + DB::table('bdris_Disaster_Response_GPS_Coordinates')->max('GPS_Coordinates_ID');
+            //             $id += 1;
+
+            //             if ($data['GPS_Coordinates'][$i] != null) {
+            //                 $GPS_coordinates = [
+            //                     'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
+            //                     'GPS_Coordinates'       => $data['GPS_Coordinates'][$i],
+            //                 ];
+            //             }
+
+            //             DB::table('bdris_Disaster_Response_GPS_Coordinates')->updateOrInsert(['GPS_Coordinates_ID' => $id], $GPS_coordinates);
+            //         }
+            //     }
+            // }
+
+            // if (isset($data['Risk_Assessment'])) {
+            //     $risk_assessment = [];
+
+            //     for ($i = 0; $i < count($data['Risk_Assessment']); $i++) {
+            //         if ($data['Risk_Assessment'][$i] != NULL) {
+
+            //             $id = 0 + DB::table('bdris_Disaster_Response_Risk_Assessment')->max('Risk_Assessment_ID');
+            //             $id += 1;
+
+            //             if ($data['GPS_Coordinates'][$i] != null) {
+            //                 $risk_assessment = [
+            //                     'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
+            //                     'Risk_Assessment'       => $data['Risk_Assessment'][$i],
+            //                 ];
+            //             }
+
+            //             DB::table('bdris_Disaster_Response_Risk_Assessment')->updateOrInsert(['Risk_Assessment_ID' => $id], $risk_assessment);
+            //         }
+            //     }
+            // }
+
+            // if (isset($data['Action_Taken'])) {
+            //     $action_taken = [];
+
+            //     for ($i = 0; $i < count($data['Action_Taken']); $i++) {
+            //         if ($data['Action_Taken'][$i] != NULL) {
+
+            //             $id = 0 + DB::table('bdris_Disaster_Response_Action_Taken')->max('Action_Taken_ID');
+            //             $id += 1;
+
+            //             if ($data['GPS_Coordinates'][$i] != null) {
+            //                 $action_taken = [
+            //                     'Disaster_Response_ID'  => $data['Disaster_Response_ID'],
+            //                     'Action_Taken'       => $data['Action_Taken'][$i],
+            //                 ];
+            //             }
+
+            //             DB::table('bdris_Disaster_Response_Action_Taken')->updateOrInsert(['Action_Taken_ID' => $id], $action_taken);
+            //         }
+            //     }
+            // }
 
             return redirect()->back()->with('message', 'Response Information Updated');
         }
@@ -4060,5 +4066,42 @@ class BDRISALController extends Controller
         DB::table('bdris_file_attachment')->where('Attachment_ID', $id)->delete();
 
         return response()->json(array('success' => true));
+    }
+
+    public function disty_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Disaster_Type = isset($data['chk_Disaster_Type']) ? 1 : 0;
+        $chk_Emergency_Evacuation_Site_Name = isset($data['chk_Emergency_Evacuation_Site_Name']) ? 1 : 0;
+        $chk_Allocated_Fund_Name = isset($data['chk_Allocated_Fund_Name']) ? 1 : 0;
+        $chk_Emergency_Team_Name = isset($data['chk_Emergency_Team_Name']) ? 1 : 0;
+        $chk_Emergency_Equipment_Name = isset($data['chk_Emergency_Equipment_Name']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new DisasterTypeExportView($chk_Active,$chk_Emergency_Equipment_Name,$chk_Emergency_Team_Name,$chk_Allocated_Fund_Name,$chk_Emergency_Evacuation_Site_Name,$chk_Disaster_Type,), 'disastertype.xlsx');
+    }
+
+    public function emerevac_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Emergency_Evacuation_Site_Name = isset($data['chk_Emergency_Evacuation_Site_Name']) ? 1 : 0;
+        $chk_Address = isset($data['chk_Address']) ? 1 : 0;
+        $chk_Capacity = isset($data['chk_Capacity']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new EmergencyEvacuationSiteExportView($chk_Active,$chk_Emergency_Evacuation_Site_Name,$chk_Address,$chk_Capacity,), 'emergencyevacuationsite.xlsx');
+    }
+
+    public function allofund_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Allocated_Fund_Name = isset($data['chk_Allocated_Fund_Name']) ? 1 : 0;
+        $chk_Amount = isset($data['chk_Amount']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new AllocatedFundExportView($chk_Active,$chk_Allocated_Fund_Name,$chk_Amount,), 'allocatedfund.xlsx');
     }
 }

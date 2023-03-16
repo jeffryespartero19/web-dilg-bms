@@ -87,8 +87,10 @@
                             <div class="btn-group">
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><a href="{{ url('brgy_document_information_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
-                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                
                                 @endif
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                                 <!-- <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Print</button></div>
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div> -->
                             </div>
@@ -257,6 +259,67 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('documentinformation_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Transaction_No" name="chk_Transaction_No">
+                                <label for="chk_Transaction_No">Transaction No.</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Request_Date" name="chk_Request_Date">
+                                <label for="chk_Request_Date">Request Date</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Resident_Name" name="chk_Resident_Name">
+                                <label for="chk_Resident_Name">Resident Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Released" name="chk_Released">
+                                <label for="chk_Released">Released</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Remarks" name="chk_Remarks">
+                                <label for="chk_Remarks">Remarks</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Purpose_of_Document" name="chk_Purpose_of_Document">
+                                <label for="chk_Purpose_of_Document">Purpose of Document</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Salutation_Name" name="chk_Salutation_Name">
+                                <label for="chk_Salutation_Name">Salutation Name</label><br>
+                            </div>
+                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Issued_On" name="chk_Issued_On">
+                                <label for="chk_Issued_On">Issued On</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Issued_At" name="chk_Issued_At">
+                                <label for="chk_Issued_At">Issued At</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Brgy_Cert_No" name="chk_Brgy_Cert_No">
+                                <label for="chk_Brgy_Cert_No">Cert No.</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Document_Type_Name" name="chk_Document_Type_Name">
+                                <label for="chk_Document_Type_Name">Document Type Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_SecondResident_Name" name="chk_SecondResident_Name">
+                                <label for="chk_SecondResident_Name">Second Resident Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_OR_No" name="chk_OR_No">
+                                <label for="chk_OR_No">Or No</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Cash_Tendered" name="chk_Cash_Tendered">
+                                <label for="chk_Cash_Tendered">Cash Tendered</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
                 </div>
             </form>
         </div>
@@ -497,6 +560,10 @@ $(document).on('click', '.modal-close', function(e) {
             }
         });
 
+    });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
     });
 </script>
 

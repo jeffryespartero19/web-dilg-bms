@@ -61,7 +61,7 @@
             <td style="width:30%"></td>
             <td style="width:70%; font-size: 13px; font-weight:700; "><b>Marital Status : {{ $dtl->{"Civil_Status"} }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Birthdate : {{ $dtl->{"Birthdate"} }}</b></td>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Birthdate :{{date('F d, Y', strtotime($dtl->{"Birthdate"}))}}</b></td>
         </tr>
             
         </tr>

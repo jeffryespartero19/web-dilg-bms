@@ -1020,6 +1020,9 @@ Route::group(['middleware' => 'auth'], function () {
   // Export to Excel
   Route::get('ordinance/export', 'borisController@export')->name('ordinance.export');
   Route::get('inhabitants/export', 'bipsController@inhabitants_export')->name('inhabitants.export');
+
+  Route::get('/get_documenttype', 'BCPISController@get_documenttype')->name('get_documenttype');
+  Route::get('/get_purposedocument', 'BCPISController@get_purposedocument')->name('get_purposedocument');
 });
 
 
@@ -1041,3 +1044,10 @@ Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
 Route::post('/del_rec', 'DeleterController@del_rec')->name('del_rec');
 
 Route::get('/search_barangay_main', 'Public_LandingController@search_barangay_main');
+Route::get('businesspermit_export', 'BCPISController@businesspermit_export')->name('businesspermit_export');
+Route::get('documentinformation_export', 'BCPISController@documentinformation_export')->name('documentinformation_export');
+Route::get('brgybusiness_export', 'BCPISController@brgybusiness_export')->name('brgybusiness_export');
+Route::get('disty_export', 'BDRISALController@disty_export')->name('disty_export');
+Route::get('emerevac_export', 'BDRISALController@emerevac_export')->name('emerevac_export');
+Route::get('allofund_export', 'BDRISALController@allofund_export')->name('allofund_export');
+

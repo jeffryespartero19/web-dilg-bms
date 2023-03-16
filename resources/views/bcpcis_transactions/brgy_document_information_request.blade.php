@@ -51,9 +51,12 @@
                                     <div>
                                         <input type="text" class="form-control" id="Document_ID" name="Document_ID" hidden>
                                         <div class="row">
+                                            <h6 style="color: red" for="Note">Note: Select the Document Type and Purpose of Document you want to request </h6>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Document_Type_ID">Document Type</label>
-                                                <select class="form-control" id="Document_Type_ID" name="Document_Type_ID" >
+                                                <label for="Document_Type_ID">Document Type<label style="color: red">*</label></label>
+                                                <select class="form-control fancyformat" id="Document_Type_ID" name="Document_Type_ID" >
                                                     <option value=''  selected>Select Option</option>
                                                         @foreach($document_type as $bt1)
                                                         <option value="{{ $bt1->Document_Type_ID }}" @isset($for_modal) @if($data['Document_Type_ID'] == $bt1->Document_Type_ID) selected @endif @endisset>{{ $bt1->Document_Type_Name }}</option>
@@ -61,8 +64,8 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Purpose_of_Document_ID">Purpose of Document</label>
-                                                <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
+                                                <label for="Purpose_of_Document_ID">Purpose of Document<label style="color: red">*</label></label>
+                                                <select class="form-control fancyformat1" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
                                                     <option value='' disabled selected>Select Option</option>
                                                         @foreach($purpose as $bt1)
                                                         <option value="{{ $bt1->Purpose_of_Document_ID }}"@isset($for_modal) @if($data['Purpose_of_Document_ID'] == $bt1->Purpose_of_Document_ID) selected @endif @endisset>{{ $bt1->Purpose_of_Document }}</option>
@@ -90,6 +93,9 @@
                                                 <input type="datetime-local" class="form-control" id="Requested_Date_and_Time" name="Requested_Date_and_Time" required>
                                             </div>
                                         </div>
+                                        <input type="text" class="form-control" id="VDocument_Type" name="VDocument_Type" hidden>
+                                        <input type="text" class="form-control" id="VPurpose_Document" name="VPurpose_Document" hidden>
+                                        
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
@@ -140,11 +146,26 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-lg-12" style="padding:0 10px">
-                                        <label for="Ticket_Number">Requested Date and Time: @isset($for_modal) {{date('d-m-Y h:i:s A', strtotime($Requested_Date_and_Time))}} @endisset</label>
+                                        <label for="Name">Name: @isset($for_modal) {{$Name}} @endisset</label>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="form-group col-lg-12" style="padding:0 10px">
+                                        <label for="Document Type">Document Type: @isset($for_modal) {{$Document_Type_Name}} @endisset</label>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label for="Requested_Date_and_Time">Note : Please take a picture/screenshot of your ticket number and your appointment date/time</label>
+                                    <div class="form-group col-lg-12" style="padding:0 10px">
+                                        <label for="Document Type">Purpose of Document: @isset($for_modal) {{$Purpose_Document_Name}} @endisset</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12" style="padding:0 10px">
+                                        <label for="Requested_Date_and_Time">Requested Date and Time: @isset($for_modal) {{date('d-m-Y h:i:s A', strtotime($Requested_Date_and_Time))}} @endisset</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="Note">Note : Please take a picture/screenshot of your ticket number and your appointment date/time</label>
                                 </div>
                             </div>
                         </div>
@@ -163,6 +184,55 @@
             $('#createTicket').fadeOut();
         });
     });
+
+    $(document).on("focusout",'.fancyformat', function(e) {
+            var disVal=$(this).val();
+            // var num2 = parseFloat(disVal).toLocaleString();
+            // var num3 =  parseFloat(disVal);
+            
+            // $(this).val(num2);
+            // $(this).next().val(num3);
+            $.ajax({
+            url: "/get_documenttype",
+            type: 'GET',
+            data: {
+                id: disVal
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VDocument_Type').val(data['theEntry'][0]['Document_Type_Name']);
+                
+            }
+        });
+           
+        });
+
+        $(document).on("focusout",'.fancyformat1', function(e) {
+            var disVal=$(this).val();
+            // var num2 = parseFloat(disVal).toLocaleString();
+            // var num3 =  parseFloat(disVal);
+            
+            // $(this).val(num2);
+            // $(this).next().val(num3);
+            $.ajax({
+            url: "/get_purposedocument",
+            type: 'GET',
+            data: {
+                id: disVal
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VPurpose_Document').val(data['theEntry'][0]['Purpose_of_Document']);
+                
+            }
+        });
+           
+        });
+
 </script>
 @isset($for_modal)
     @if($for_modal==1)
