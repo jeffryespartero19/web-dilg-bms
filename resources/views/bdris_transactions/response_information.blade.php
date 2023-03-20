@@ -230,7 +230,7 @@
 
                                                 </ul>
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                                    <input type="file" accept="image/*" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
                                                     <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                                                 </div>
                                             </div>

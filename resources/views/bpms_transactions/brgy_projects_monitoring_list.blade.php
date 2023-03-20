@@ -90,7 +90,8 @@
                                 <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Project') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
                                 <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Project') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div> -->
                                 @endif
-                                <div><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
                         <br>
@@ -192,6 +193,54 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('projectmonitoring_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Number" name="chk_Project_Number">
+                                <label for="chk_Project_Number">Project Number</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Name" name="chk_Project_Name">
+                                <label for="chk_Project_Name">Project Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Total_Project_Cost" name="chk_Total_Project_Cost">
+                                <label for="chk_Total_Project_Cost">Project Cost</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Exact_Location" name="chk_Exact_Location">
+                                <label for="chk_Exact_Location">Exact Location</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Actual_Project_Start" name="chk_Actual_Project_Start">
+                                <label for="chk_Actual_Project_Start">Actual Project Start</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Contractor_Name" name="chk_Contractor_Name">
+                                <label for="chk_Contractor_Name">Contractor Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Type_Name" name="chk_Project_Type_Name">
+                                <label for="chk_Project_Type_Name">Project Type</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Status_Name" name="chk_Project_Status_Name">
+                                <label for="chk_Project_Status_Name">Project Status</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
                 </div>
             </form>
         </div>
@@ -401,7 +450,9 @@ $.ajax({
 });
 });
 
-   
+$(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
+    });
 </script>
 
 

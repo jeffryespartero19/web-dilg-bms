@@ -247,7 +247,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('disaster_supplies_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
-                <!-- &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_dissupp_filter" style="width: 100px;">Export</button></div> -->
+                &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_dissupp_filter" style="width: 100px;">Export</button></div>
                 &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_dissupp_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
@@ -303,6 +303,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_team_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_emerteam_filter" style="width: 100px;">Export</button></div>
                 &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_emerteam_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
@@ -352,6 +353,7 @@
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_equipment_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
+                &nbsp;&nbsp;&nbsp;<div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_emerequip_filter" style="width: 100px;">Export</button></div>
                 &nbsp;&nbsp;&nbsp;<div><button data-toggle="modal" class="btn btn-info" data-target="#download_emerequip_filter" style="width: 100px;">Download</button></div>
             </div>
             <br>
@@ -838,14 +840,14 @@
     </div>
 </div>
 
-<!-- <div class="modal fade" id="print_dissupp_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="print_dissupp_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
-            <form id="print_report" method="GET" action="{{ route('allofund_export') }}" autocomplete="off" enctype="multipart/form-data">
+            <form id="print_report" method="GET" action="{{ route('dissupp_export') }}" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="modal-body">
@@ -855,10 +857,18 @@
                                 <label for="SelectAll">Select All</label><br>
                             </div>  
                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                <input type="checkbox" class="ChkBOX1" id="chk_Allocated_Fund_Name" name="chk_Allocated_Fund_Name">
-                                <label for="chk_Allocated_Fund_Name">Allocated Fund</label><br>
-                                <input type="checkbox" class="ChkBOX1" id="chk_Amount" name="chk_Amount">
-                                <label for="chk_Amount">Amount</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Disaster_Supplies_Name" name="chk_Disaster_Supplies_Name">
+                                <label for="chk_Disaster_Supplies_Name">Disaster Supplies Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Disaster_Supplies_Quantity" name="chk_Disaster_Supplies_Quantity">
+                                <label for="chk_Disaster_Supplies_Quantity">Disaster Supplies Quantity</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Location" name="chk_Location">
+                                <label for="chk_Location">Location</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Remarks" name="chk_Remarks">
+                                <label for="chk_Remarks">Remrks</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Disaster_Name" name="chk_Disaster_Name">
+                                <label for="chk_Disaster_Name">Disaster Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="Brgy Offiicial" name="Brgy Offiicial">
+                                <label for="Brgy Offiicial">Brgy Official</label><br>
                                 <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
                                 <label for="chk_Active">Active</label><br>
                             </div>
@@ -873,7 +883,7 @@
             </form>
         </div>
     </div>
-</div> -->
+</div>
 
 <div class="modal fade" id="download_emerteam_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
@@ -909,6 +919,43 @@
     </div>
 </div>
 
+<div class="modal fade" id="print_emerteam_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('emerteam_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Emergency_Team_Name" name="chk_Emergency_Team_Name">
+                                <label for="chk_Emergency_Team_Name">Emergency Team</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Emergency_Team_Hotline" name="chk_Emergency_Team_Hotline">
+                                <label for="chk_Emergency_Team_Hotline">Hotline</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="download_emerequip_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -937,6 +984,43 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="print_emerequip_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('emerequip_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Emergency_Equipment_Name" name="chk_Emergency_Equipment_Name">
+                                <label for="chk_Emergency_Equipment_Name">Emergency Eqipment</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Location" name="chk_Location">
+                                <label for="chk_Location">Location</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Active" name="chk_Active">
+                                <label for="chk_Active">Active</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
                 </div>
             </form>
         </div>
