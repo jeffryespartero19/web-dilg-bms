@@ -1052,4 +1052,8 @@ Route::get('brgybusiness_export', 'BCPISController@brgybusiness_export')->name('
 Route::get('disty_export', 'BDRISALController@disty_export')->name('disty_export');
 Route::get('emerevac_export', 'BDRISALController@emerevac_export')->name('emerevac_export');
 Route::get('allofund_export', 'BDRISALController@allofund_export')->name('allofund_export');
-
+Route::get('dissupp_export', 'BDRISALController@dissupp_export')->name('dissupp_export');
+Route::get('emerteam_export', 'BDRISALController@emerteam_export')->name('emerteam_export');
+Route::get('emerequip_export', 'BDRISALController@emerequip_export')->name('emerequip_export');
+Route::get('contractor_export', 'BPMSController@contractor_export')->name('contractor_export');
+Route::get('projectmonitoring_export', 'BPMSController@projectmonitoring_export')->name('projectmonitoring_export');

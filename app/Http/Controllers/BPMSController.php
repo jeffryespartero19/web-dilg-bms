@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\File;
 use PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ContractorExportView;
+use App\Exports\ProjectMonitoringExportView;
 
 class BPMSController extends Controller
 {
@@ -905,6 +908,35 @@ class BPMSController extends Controller
         return ['results' => $accomplishment];
     }
 
+    public function contractor_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Contractor_Name = isset($data['chk_Contractor_Name']) ? 1 : 0;
+        $chk_Contact_Person = isset($data['chk_Contact_Person']) ? 1 : 0;
+        $chk_Contact_No = isset($data['chk_Contact_No']) ? 1 : 0;
+        $chk_Contractor_Address = isset($data['chk_Contractor_Address']) ? 1 : 0;
+        $chk_Contractor_TIN = isset($data['chk_Contractor_TIN']) ? 1 : 0;
+        $chk_Remarks = isset($data['chk_Remarks']) ? 1 : 0;
+
+        return Excel::download(new ContractorExportView($chk_Contractor_Name,$chk_Contact_Person,$chk_Contact_No,$chk_Contractor_Address,$chk_Contractor_TIN,$chk_Remarks,), 'contractor.xlsx');
+    }
+
+    public function projectmonitoring_export(Request $request)
+    {
+        $data = request()->all();
+
+        $chk_Project_Number = isset($data['chk_Project_Number']) ? 1 : 0;
+        $chk_Project_Name = isset($data['chk_Project_Name']) ? 1 : 0;
+        $chk_Total_Project_Cost = isset($data['chk_Total_Project_Cost']) ? 1 : 0;
+        $chk_Exact_Location = isset($data['chk_Exact_Location']) ? 1 : 0;
+        $chk_Actual_Project_Start = isset($data['chk_Actual_Project_Start']) ? 1 : 0;
+        $chk_Contractor_Name = isset($data['chk_Contractor_Name']) ? 1 : 0;
+        $chk_Project_Type_Name = isset($data['chk_Project_Type_Name']) ? 1 : 0;
+        $chk_Project_Status_Name = isset($data['chk_Project_Status_Name']) ? 1 : 0;
+
+        return Excel::download(new ProjectMonitoringExportView($chk_Project_Number,$chk_Project_Name,$chk_Total_Project_Cost,$chk_Exact_Location,$chk_Actual_Project_Start,$chk_Contractor_Name,$chk_Project_Type_Name,$chk_Project_Status_Name,), 'projectmonitoring.xlsx');
+    }
     // public function delete_milestone_attachments(Request $request)
     // {
     //     $id = $_GET['id'];

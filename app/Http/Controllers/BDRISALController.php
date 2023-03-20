@@ -13,6 +13,9 @@ use App\Exports\DisasterTypeExportView;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EmergencyEvacuationSiteExportView;
 use App\Exports\AllocatedFundExportView;
+use App\Exports\DisasterSuppliesExportView;
+use App\Exports\EmergencyTeamExportView;
+use App\Exports\EmergencyEquipmentExportView;
 
 class BDRISALController extends Controller
 {
@@ -4103,5 +4106,42 @@ class BDRISALController extends Controller
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
         return Excel::download(new AllocatedFundExportView($chk_Active,$chk_Allocated_Fund_Name,$chk_Amount,), 'allocatedfund.xlsx');
+    }
+
+    public function dissupp_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Disaster_Supplies_Name = isset($data['chk_Disaster_Supplies_Name']) ? 1 : 0;
+        $chk_Disaster_Supplies_Quantity = isset($data['chk_Disaster_Supplies_Quantity']) ? 1 : 0;
+        $chk_Location = isset($data['chk_Location']) ? 1 : 0;
+        $chk_Remarks = isset($data['chk_Remarks']) ? 1 : 0;
+        $chk_Disaster_Name = isset($data['chk_Disaster_Name']) ? 1 : 0;
+        $chk_Resident_Name = isset($data['chk_Resident_Name']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new DisasterSuppliesExportView($chk_Active,$chk_Disaster_Supplies_Name,$chk_Disaster_Supplies_Quantity,$chk_Location,$chk_Remarks,$chk_Disaster_Name,$chk_Resident_Name,), 'emergencyteam.xlsx');
+    }
+
+    public function emerteam_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Emergency_Team_Name = isset($data['chk_Emergency_Team_Name']) ? 1 : 0;
+        $chk_Emergency_Team_Hotline = isset($data['chk_Emergency_Team_Hotline']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new EmergencyTeamExportView($chk_Active,$chk_Emergency_Team_Name,$chk_Emergency_Team_Hotline,), 'emergencyteam.xlsx');
+    }
+
+    public function emerequip_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Emergency_Equipment_Name = isset($data['chk_Emergency_Equipment_Name']) ? 1 : 0;
+        $chk_Location = isset($data['chk_Location']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new EmergencyEquipmentExportView($chk_Active,$chk_Emergency_Equipment_Name,$chk_Location,), 'emergencyequipment.xlsx');
     }
 }
