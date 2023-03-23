@@ -126,7 +126,7 @@ class BCPISController extends Controller
         return $pdf->download($daFileNeym);
     }
 
-    //Brgy Document Information List 
+    //Brgy Document Information List aldren
     public function brgy_document_information_list(Request $request)
     {
         $currDATE = Carbon::now();
@@ -138,18 +138,19 @@ class BCPISController extends Controller
         ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
         ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
         ->leftjoin('maintenance_bcpcis_purpose_of_document as g', 'a.Purpose_of_Document_ID', '=', 'g.Purpose_of_Document_ID')
-        ->leftjoin('maintenance_bcpcis_document_type as h', 'a.Document_Type_ID', '=', 'h.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as h', 'a.Document_Type_ID', '=', 'h.Document_Type_ID') 
         ->leftjoin('bips_brgy_inhabitants_information as i', 'a.Resident_ID', '=', 'i.Resident_ID')
+        ->leftjoin('bcpcis_brgy_payment_collected as j', 'j.Document_ID', '=', 'a.Document_ID')
             ->select(
                 'a.Document_ID',
                 'a.Transaction_No',
                 'a.Request_Date',
-                'a.Released',
+                DB::raw('(CASE WHEN a.Released = false THEN "No" ELSE "Yes" END) AS Released'),
                 'a.Remarks',
                 'a.Purpose_of_Document_ID',
                 'a.Salutation_Name',
                 'a.Picture',
-                'a.CTC_No',
+                'j.CTC_No',
                 'a.Issued_On',
                 'a.Issued_At',
                 'a.Document_Type_ID',
@@ -531,7 +532,7 @@ class BCPISController extends Controller
                     'a.Business_Owner',
                     'a.Business_Address',
                     'a.Mobile_No',
-                    'a.Active',
+                    
                     'a.Region_ID',
                     'a.Province_ID',
                     'a.Barangay_ID',
@@ -543,6 +544,7 @@ class BCPISController extends Controller
                     'e.Barangay_Name',
                     'd.City_Municipality_Name',    
                     'f.Business_Type',
+                    DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
     
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -732,7 +734,7 @@ class BCPISController extends Controller
         return (compact('theEntry'));
     }
     
-    //aldren
+   
     public function businesspermit_downloadPDF(Request $request)
     {   
         // $id = $_GET['id'];
@@ -820,6 +822,7 @@ class BCPISController extends Controller
                 DB::raw('(CASE WHEN a.Owned_or_Rented = false THEN "Rented" ELSE "Owned" END) AS Owned_or_Rented'),
 
             )
+            
             ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
             ->paginate(20, ['*'], 'db_entries');
 
@@ -2474,5 +2477,399 @@ class BCPISController extends Controller
             ->where('a.Purpose_of_Document_ID', $id)->get();
 
         return (compact('theEntry'));
+    }
+
+    public function search_brgybusinesspermit_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+        $data = DB::table('bcpcis_brgy_business_permits as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_barangay_business as f', 'a.Business_ID', '=', 'f.Business_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'a.Resident_ID', '=', 'g.Resident_ID')
+            ->select(
+                'a.Barangay_Permits_ID',
+                'a.Business_ID',
+                'a.Resident_ID',
+                'a.Transaction_No',
+                'a.Barangay_Business_Permit_Expiration_Date',
+                'a.CTC_No',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'f.Business_Name',
+                DB::raw('CONCAT(g.First_Name, " ",LEFT(g.Middle_Name,1),". ",g.Last_Name) AS Resident_Name'),
+                DB::raw('(CASE WHEN a.New_or_Renewal = false THEN "Renewal" ELSE "New" END) AS New_or_Renewal'),
+                DB::raw('(CASE WHEN a.Owned_or_Rented = false THEN "Rented" ELSE "Owned" END) AS Owned_or_Rented'),
+
+            );
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+        $param6 = $request->get('param6');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('a.Transaction_No', $param1);
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('f.Business_Name', $param2);
+        }
+        if ($param3 != null && $param3 != "") {
+            $data->where(function ($query) use ($param3) {
+                $query->where('g.Last_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('g.First_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('g.Middle_Name', 'LIKE', '%' . $param3 . '%');
+            });
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.New_or_Renewal', $param4);
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Owned_or_Rented', $param5);
+        }
+        if ($param6 != null && $param6 != "") {
+            $data->where('a.Barangay_Business_Permit_Expiration_Date', $param6);
+        }
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+        $db_entries = $data->orderby('a.Transaction_No', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bcpcis_transactions.brgy_business_permit_data', compact('db_entries'))->render();
+    }
+
+    public function search_brgydocument_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bcpcis_brgy_document_information as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as g', 'a.Purpose_of_Document_ID', '=', 'g.Purpose_of_Document_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as h', 'a.Document_Type_ID', '=', 'h.Document_Type_ID') 
+        ->leftjoin('bips_brgy_inhabitants_information as i', 'a.Resident_ID', '=', 'i.Resident_ID')
+        ->leftjoin('bcpcis_brgy_payment_collected as j', 'j.Document_ID', '=', 'a.Document_ID')
+            ->select(
+                'a.Document_ID',
+                'a.Transaction_No',
+                'a.Request_Date',
+                DB::raw('(CASE WHEN a.Released = false THEN "No" ELSE "Yes" END) AS Released'),
+                'a.Remarks',
+                'a.Purpose_of_Document_ID',
+                'a.Salutation_Name',
+                'a.Picture',
+                'j.CTC_No',
+                'a.Issued_On',
+                'a.Issued_At',
+                'a.Document_Type_ID',
+                'a.Resident_ID',
+                'a.SecondResident_Name',
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'a.Request_Status_ID',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'g.Purpose_of_Document',  
+                'h.Document_Type_Name',
+                DB::raw('CONCAT(i.First_Name, " ",LEFT(i.Middle_Name,1),". ",i.Last_Name) AS Resident_Name'),
+
+            )
+            ->where('a.Request_Status_ID', 3);
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+        $param6 = $request->get('param6');
+        $param7 = $request->get('param7');
+        $param8 = $request->get('param8');
+        $param9 = $request->get('param9');
+        $param10 = $request->get('param10');
+        $param11 = $request->get('param11');
+        $param12 = $request->get('param12');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('a.Transaction_No', $param1);
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where('a.Request_Date', $param2);
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Released', $param3);
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Remarks', $param4);
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Salutation_Name', $param5);
+        }
+        if ($param6 != null && $param6 != "" && $param6 != "null") {
+            $data->where('j.CTC_No', $param6);
+        }
+        if ($param7 != null && $param7 != "") {
+            $data->where('a.Issued_On', $param7);
+        }
+        if ($param8 != null && $param8 != "" && $param8 != "null") {
+            $data->where('a.Issued_At', $param8);
+        }
+        if ($param9 != null && $param9 != "") {
+            $data->where(function ($query) use ($param9) {
+                $query->where('i.Last_Name', 'LIKE', '%' . $param9 . '%')
+                    ->orWhere('i.First_Name', 'LIKE', '%' . $param9 . '%')
+                    ->orWhere('i.Middle_Name', 'LIKE', '%' . $param9 . '%');
+            });
+        }
+        if ($param10 != null && $param10 != "" && $param10 != "null") {
+            $data->where('a.SecondResident_Name', $param10);
+        }
+        if ($param11 != null && $param11 != "" && $param11 != "null") {
+            $data->where('a.Document_Type_ID', $param11);
+        }
+        if ($param12 != null && $param12 != "" && $param12 != "null") {
+            $data->where('a.Purpose_of_Document_ID', $param12);
+        }
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        $db_entries = $data->orderby('a.Transaction_No', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bcpcis_transactions.brgy_document_information_data', compact('db_entries'))->render();
+    }
+
+
+    public function search_barangaybusiness_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+        $data = DB::table('maintenance_bcpcis_barangay_business as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('maintenance_bcpcis_business_type as f', 'a.Business_Type_ID', '=', 'f.Business_Type_ID')
+            ->select(
+                'a.Business_ID',
+                'a.Business_Name',
+                'a.Business_Type_ID',
+                'a.Business_Tin',
+                'a.Business_Owner',
+                'a.Business_Address',
+                'a.Mobile_No',
+                
+                'a.Region_ID',
+                'a.Province_ID',
+                'a.Barangay_ID',
+                'a.City_Municipality_ID',
+                'a.Encoder_ID',
+                'a.Date_Stamp',
+                'b.Region_Name',
+                'c.Province_Name',
+                'e.Barangay_Name',
+                'd.City_Municipality_Name',    
+                'f.Business_Type',
+                DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
+
+            );
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+        $param6 = $request->get('param6');
+        $param7 = $request->get('param7');
+
+        // if ($param1 != null && $param1 != "" && $param1 != "null") {
+        //     $data->where('a.Business_Name', $param1);
+        // }
+        if ($param1 != null && $param1 != "") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('a.Business_Name', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('a.Business_Type_ID', $param2);
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Business_Tin', $param3);
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Business_Owner', $param4);
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Business_Address', $param5);
+        }
+        if ($param6 != null && $param6 != "" && $param6 != "null") {
+            $data->where('a.Mobile_No', $param6);
+        }
+        if ($param7 != null && $param7 != "" && $param7 != "null") {
+            $data->where('a.Active', $param7);
+        }
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+        $db_entries = $data->orderby('a.Business_ID', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bcpcis_transactions.barangay_business_data', compact('db_entries'))->render();
+    }
+
+    public function search_documentrequestpending_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bcpcis_brgy_document_information as a') 
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as c', 'a.Resident_ID', '=', 'c.Resident_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as e', 'a.Purpose_of_Document_ID', '=', 'e.Purpose_of_Document_ID')
+        ->select(
+            'a.Document_ID',
+            'b.Queue_Ticket_Number',
+            'b.Requested_Date_and_Time',
+            DB::raw('CONCAT(c.First_Name, " ",LEFT(c.Middle_Name,1),". ",c.Last_Name) AS Resident_Name'),
+            'd.Document_Type_Name',
+            'e.Purpose_of_Document',
+            'a.Document_Type_ID',
+            'a.Purpose_of_Document_ID'
+           
+        )
+        ->where('a.Request_Status_ID', 0);
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Queue_Ticket_Number', $param1);
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where('b.Requested_Date_and_Time', $param2);
+        }
+        if ($param3 != null && $param3 != "") {
+            $data->where(function ($query) use ($param3) {
+                $query->where('c.Last_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('c.First_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('c.Middle_Name', 'LIKE', '%' . $param3 . '%');
+            });
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Document_Type_ID', $param4);
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Purpose_of_Document_ID', $param5);
+        }
+        
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        $db_entries = $data->orderby('b.Queue_Ticket_Number', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bcpcis_transactions.document_request_pending_data', compact('db_entries'))->render();
+    }
+
+
+    public function search_documentrequestapproved_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bcpcis_brgy_document_information as a') 
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as c', 'a.Resident_ID', '=', 'c.Resident_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as e', 'a.Purpose_of_Document_ID', '=', 'e.Purpose_of_Document_ID')
+        ->select(
+            'a.Document_ID',
+            'b.Queue_Ticket_Number',
+            'b.Requested_Date_and_Time',
+            DB::raw('CONCAT(c.First_Name, " ",LEFT(c.Middle_Name,1),". ",c.Last_Name) AS Resident_Name'),
+            'd.Document_Type_Name',
+            'e.Purpose_of_Document',
+            'a.Document_Type_ID',
+            'a.Purpose_of_Document_ID'
+           
+        )
+        ->where('a.Request_Status_ID', 1);
+        $param6 = $request->get('param6');
+        // $param2 = $request->get('param2');
+        // $param3 = $request->get('param3');
+        // $param4 = $request->get('param4');
+        // $param5 = $request->get('param5');
+
+        if ($param6 != null && $param6 != "" && $param6 != "null") {
+            $data->where('b.Queue_Ticket_Number', $param6);
+        }
+        // if ($param2 != null && $param2 != "") {
+        //     $data->where('b.Requested_Date_and_Time', $param2);
+        // }
+        // if ($param3 != null && $param3 != "") {
+        //     $data->where(function ($query) use ($param3) {
+        //         $query->where('c.Last_Name', 'LIKE', '%' . $param3 . '%')
+        //             ->orWhere('c.First_Name', 'LIKE', '%' . $param3 . '%')
+        //             ->orWhere('c.Middle_Name', 'LIKE', '%' . $param3 . '%');
+        //     });
+        // }
+        // if ($param4 != null && $param4 != "" && $param4 != "null") {
+        //     $data->where('a.Document_Type_ID', $param4);
+        // }
+        // if ($param5 != null && $param5 != "" && $param5 != "null") {
+        //     $data->where('a.Purpose_of_Document_ID', $param5);
+        // }
+        
+        // if (Auth::user()->User_Type_ID == 3) {
+        //     $data->where('a.Province_ID', Auth::user()->Province_ID);
+        // } elseif (Auth::user()->User_Type_ID == 1) {
+        //     $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        // }
+        $db_entries = $data->orderby('b.Queue_Ticket_Number', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bcpcis_transactions.document_request_approved_data', compact('db_entries'))->render();
     }
 }

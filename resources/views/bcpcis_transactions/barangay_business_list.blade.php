@@ -95,44 +95,47 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            
-                                            <th >Business Name</th>
-                                            <th >Business Type</th>
-                                            <th >Business Tin</th>
-                                            <th >Business Owner</th>
-                                            <th >Business Address</th>
-                                            <th >Mobile No</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-                                            
-                                            <td class="sm_data_col txtCtr" >{{$x->Business_Name}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Business_Type}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Business_Tin}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Business_Owner}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Business_Address}}</td>  
-                                            <td class="sm_data_col txtCtr" >{{$x->Mobile_No}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                            @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-info" href="{{ url('barangay_business_details/'.$x->Business_ID) }}">Edit</a>
-                                                <!-- <a class="btn btn-primary" href="{{ url('view_barangay_business_details/'.$x->Business_ID) }}">View</a> -->
-                                                <button class="view_brgybusiness btn btn-primary" value="{{$x->Business_ID}}" data-toggle="modal" data-target="#viewBrgyBusiness">View</button>
-                                                <button class="delete_business btn btn-danger" value="{{$x->Business_ID}}">Delete</button>
-                                            @endif
-                                            @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <button class="view_brgybusiness btn btn-primary" value="{{$x->Business_ID}}" data-toggle="modal" data-target="#viewBrgyBusiness">View</button>
-                                            @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                
+                                                <th >Business Name</th>
+                                                <th >Business Type</th>
+                                                <th >Business Tin</th>
+                                                <th >Business Owner</th>
+                                                <th >Business Address</th>
+                                                <th >Mobile No</th>
+                                                <th >is Active?</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 300px;" type="text"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter2" id="Business_Type_ID" name="Business_Type_ID" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter5" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="text"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter7" style="min-width: 150px;">
+                                                        <option value='' selected>Select Option</option>
+                                                        <option value=1>Yes</option>
+                                                        <option value=0>No</option>
+                                                    </select>
+                                                </td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bcpcis_transactions.barangay_business_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -154,33 +157,50 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy Business Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Brgy Business Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Business Name: </strong><span id="VBusiness_Name"></span><br>
-                            <strong>Business_Type: </strong><span id="VBusiness_Type"></span><br>
-                            <strong>Business Tin: </strong><span id="VBusiness_Tin"></span><br>
-                            <strong>Business Owner: </strong><span id="VBusiness_Owner"></span><br>
-                            <strong>Business Address: </strong><span id="VBusiness_Address"></span><br>
-                            <strong>Mobile No: </strong><span id="VMobile_No"></span><br>
-                            <strong>is Active?: </strong><span id="VActive"></span><br>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Business Name: </strong></td>
+                        <td><span id="VBusiness_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Business Type: </strong></td>
+                        <td><span id="VBusiness_Type"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Business Tin: </strong></td>
+                        <td><span id="VBusiness_Tin"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Business Owner: </strong></td>
+                        <td><span id="VBusiness_Owner"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Business Address: </strong></td>
+                        <td><span id="VBusiness_Address"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Mobile No: </strong></td>
+                        <td><span id="VMobile_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Active?: </strong></td>
+                        <td><span id="VActive"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="download_filter" tabindex="-1" role="dialog" aria-labelledby="Create_BrgyBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
@@ -278,6 +298,14 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        $("#Business_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_businesstype',
+                dataType: "json",
+            }
+        });
 
     });
     $(document).on("change", "#R_ID", function() {
@@ -480,6 +508,31 @@ $.ajax({
     $(document).on('click', '#SelectAll', function(e) {
         $('.ChkBOX1').prop('checked', this.checked);
     });
+
+    $(".searchFilter").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var param7 = $('.searchFilter7').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_barangaybusiness_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7,
+            // url: "/search_barangaybusiness_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

@@ -1023,6 +1023,11 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/get_documenttype', 'BCPISController@get_documenttype')->name('get_documenttype');
   Route::get('/get_purposedocument', 'BCPISController@get_purposedocument')->name('get_purposedocument');
+  Route::get('/search_brgybusinesspermit_fields', 'BCPISController@search_brgybusinesspermit_fields');
+  Route::get('/search_brgydocument_fields', 'BCPISController@search_brgydocument_fields');
+  Route::get('/search_barangaybusiness_fields', 'BCPISController@search_barangaybusiness_fields');
+  Route::get('/search_documentrequestpending_fields', 'BCPISController@search_documentrequestpending_fields');
+  Route::get('/search_documentrequestapproved_fields', 'BCPISController@search_documentrequestapproved_fields');
 });
 
 
