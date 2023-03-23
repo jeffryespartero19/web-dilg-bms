@@ -45,37 +45,41 @@
                         <h3 class="card-title">Pending</h3>
                     </div>
                     <div class="card-body">
-                        <div class="tableX_row col-md-12 up_marg5">
-                            <div class="table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th hidden>Document_ID</th>
-                                            <th>Queue Ticket Number</th>
-                                            <th>Requested Date and Time</th>
-                                            <th>Resident Name</th>
-                                            <th>Document Type Name</th>
-                                            <th>Purpose of Document</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Document_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Queue_Ticket_Number}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Requested_Date_and_Time}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Document_Type_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Purpose_of_Document}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <a class="btn btn-success" href="{{ url('document_request_details/'.$x->Document_ID) }}">Approve</a>
-                                                <button class="disapprove_inhabitants  btn btn-danger" value="{{$x->Document_ID}}">Disapprove</button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                        <div class="col-md-12 table-responsive">
+                            <div>
+                                <div class="table-responsive">
+                                    <table id="example11" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Queue Ticket Number</th>
+                                                <th>Requested Date and Time</th>
+                                                <th>Resident Name</th>
+                                                <th>Document Type Name</th>
+                                                <th>Purpose of Document</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 400px;" type="text"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter4" id="Document_Type_ID" name="Document_Type_ID" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter5" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bcpcis_transactions.document_request_pending_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                             <hr>
                         </div>
@@ -216,6 +220,59 @@
         $('#example').DataTable();
         $('#example2').DataTable();
         $('#example3').DataTable();
+
+
+        $("#Document_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
+        });
+
+        $("#Document_Type_ID1").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_ID1").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
+        });
+    });
+
+    $(document).ready(function() {
+
+
+        $("#Document_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
+        });
     });
 
     // Approve Inhabitants
@@ -245,6 +302,33 @@
         $('.certification_menu').addClass('active');
         $('.certification_main').addClass('menu-open');
     });
+
+    $(".searchFilter").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var page = $('#hidden_page').val();
+
+
+        $.ajax({
+            url: "/search_documentrequestpending_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5,
+            // url: "/search_documentrequestpending_fields?page=" + page + "&param1=" + param1 ,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+
+    }
+
+   
 </script>
 
 <style>

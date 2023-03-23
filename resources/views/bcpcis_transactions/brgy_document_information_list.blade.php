@@ -98,56 +98,58 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Transaction No</th>
-                                            <th>Request Date</th>
-                                            <th>Released</th>
-                                            <th>Remarks</th>
-                                            <th>Salutation Name</th>
-                                            <th>CTC No</th>
-                                            <th>Issued On</th>
-                                            <th>Issued At</th>
-                                            <th>Resident Name</th>
-                                            <th>SecondResident Name</th>
-                                            <th>Purpose of Document</th>
-                                            <th>Document Type Name</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Transaction_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Request_Date}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Released}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Salutation_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->CTC_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Issued_On}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Issued_At}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->SecondResident_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Purpose_of_Document}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Document_Type_Name}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-info" href="{{ url('brgy_document_information_details/'.$x->Document_ID) }}">Edit</a>
-                                                <button class="view_brgydocument btn btn-primary" value="{{$x->Document_ID}}" data-toggle="modal" data-target="#viewBrgyDocument">View</button>
-                                                <!-- <a class="btn btn-primary" href="{{ url('view_brgy_document_information_details/'.$x->Document_ID) }}">View</a> -->
-                                                <button class="delete_document btn btn-danger" value="{{$x->Document_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <button class="view_brgydocument btn btn-primary" value="{{$x->Document_ID}}" data-toggle="modal" data-target="#viewBrgyDocument">View</button>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table class="example11 table table-striped table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                <th>Transaction No</th>
+                                                <th>Request Date</th>
+                                                <th>Released</th>
+                                                <th>Remarks</th>
+                                                <th>Salutation Name</th>
+                                                <th>CTC No</th>
+                                                <th>Issued On</th>
+                                                <th>Issued At</th>
+                                                <th>Resident Name</th>
+                                                <th>SecondResident Name</th>
+                                                <th>Document Type Name</th>
+                                                <th>Purpose of Document</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="date"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter3" style="min-width: 150px;" >
+                                                        <option value='' selected>Select Option</option>
+                                                        <option value=1>Yes</option>
+                                                        <option value=0>No</option>
+                                                    </select>
+                                                </td>
+                                                <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter5" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter7" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter8" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter9" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter10" style="min-width: 200px;" type="text"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter11" id="Document_Type_ID" name="Document_Type_ID" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter12" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bcpcis_transactions.brgy_document_information_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -164,45 +166,103 @@
 </section>
 <!-- /.content -->
 
+
+
 <div class="modal fade" id="viewBrgyDocument" tabindex="-1" role="dialog" aria-labelledby="viewBrgyDocument" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy Document Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Brgy Document Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Transaction No: </strong><span id="VTransaction_No"></span><br>
-                            <strong>Brgy Cert No: </strong><span id="VBrgy_Cert_No"></span><br>
-                            <strong>Document Type Name : </strong><span id="VDocument_Type_Name"></span><br>
-                            <strong>Purpose of Document : </strong><span id="VPurpose_of_Document"></span><br>
-                            <strong>Resident Name : </strong><span id="VResident_Name"></span><br>
-                            <strong>Request Date : </strong><span id="VRequest_Date"></span><br>
-                            <strong>Remarks : </strong><span id="VRemarks"></span><br>
-                            <strong>Salutation Name : </strong><span id="VSalutation_Name"></span><br>
-                            <strong>SecondResident Name : </strong><span id="VSecondResident_Name"></span><br>
-                            <strong>is Released? : </strong><span id="VReleased"></span><br>
-                            <strong>Issued On : </strong><span id="VIssued_On"></span><br>
-                            <strong>Issued At : </strong><span id="VIssued_At"></span><br>
-                            <strong>OR Date : </strong><span id="VOR_Date"></span><br>
-                            <strong>OR No : </strong><span id="VOR_No"></span><br>
-                            <strong>Cash Tendered : </strong><span id="VCash_Tendered"></span><br>
-                            <strong>CTC No : </strong><span id="VCTC_No"></span><br>
-                            <strong>CTC Details : </strong><span id="VCTC_Details"></span><br>
-                            <strong>CTC Date Issued : </strong><span id="VCTC_Date_Issued"></span><br>
-                            <strong>CTC Amount : </strong><span id="VCTC_Amount"></span><br>
-                            <strong>Place Issued : </strong><span id="VPlace_Issued"></span><br>
+                <!-- <h4 id="VName"> </h4> -->
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Transaction No: </strong></td>
+                        <td><span id="VTransaction_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Brgy Cert No: </strong></td>
+                        <td><span id="VBrgy_Cert_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Document Type: </strong></td>
+                        <td><span id="VDocument_Type_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Purpose of Document: </strong></td>
+                        <td><span id="VPurpose_of_Document"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Resident Name: </strong></td>
+                        <td><span id="VResident_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Request Date: </strong></td>
+                        <td><span id="VRequest_Date"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Remarks: </strong></td>
+                        <td><span id="VRemarks"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Salutation Name: </strong></td>
+                        <td><span id="VSalutation_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>SecondResident Name: </strong></td>
+                        <td><span id="VSecondResident_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Released?: </strong></td>
+                        <td><span id="VReleased"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Issued On: </strong></td>
+                        <td><span id="VIssued_On"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Issued At: </strong></td>
+                        <td><span id="VIssued_At"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>OR Date: </strong></td>
+                        <td><span id="VOR_Date"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>OR No: </strong></td>
+                        <td><span id="VOR_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Cash Tendered: </strong></td>
+                        <td><span id="VCash_Tendered"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>CTC No: </strong></td>
+                        <td><span id="VCTC_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>CTC Details: </strong></td>
+                        <td><span id="VCTC_Details"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>CTC Date Issued: </strong></td>
+                        <td><span id="VCTC_Date_Issued"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>CTC Amount: </strong></td>
+                        <td><span id="VCTC_Amount"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Place Issued: </strong></td>
+                        <td><span id="VPlace_Issued"></span></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -339,6 +399,22 @@ $(document).on('click', '.modal-close', function(e) {
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        $("#Document_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
+        });
 
     });
 
@@ -565,6 +641,36 @@ $(document).on('click', '.modal-close', function(e) {
     $(document).on('click', '#SelectAll', function(e) {
         $('.ChkBOX1').prop('checked', this.checked);
     });
+
+    $(".searchFilter").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var param7 = $('.searchFilter7').val();
+        var param8 = $('.searchFilter8').val();
+        var param9 = $('.searchFilter9').val();
+        var param10 = $('.searchFilter10').val();
+        var param11 = $('.searchFilter11').val();
+        var param12 = $('.searchFilter12').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_brgydocument_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12,
+            // url: "/search_brgydocument_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12, 
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>
