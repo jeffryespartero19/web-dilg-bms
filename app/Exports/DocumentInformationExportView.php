@@ -10,9 +10,9 @@ use Carbon\Carbon;
 
 class DocumentInformationExportView implements FromView
 {
-    protected $chk_Cash_Tendered,$chk_OR_No,$chk_SecondResident_Name,$chk_Document_Type_Name,$chk_Brgy_Cert_No,$chk_Issued_At,$chk_Issued_On,$chk_Salutation_Name,$chk_Purpose_of_Document,$chk_Remarks,$chk_Released,$chk_Resident_Name,$chk_Request_Date,$chk_Transaction_No;
+    protected $chk_Cash_Tendered,$chk_OR_No,$chk_SecondResident_Name,$chk_Document_Type_Name,$chk_Brgy_Cert_No,$chk_Issued_On,$chk_Salutation_Name,$chk_Purpose_of_Document,$chk_Remarks,$chk_Released,$chk_Resident_Name,$chk_Request_Date,$chk_Transaction_No;
 
-    function __construct($chk_Cash_Tendered,$chk_OR_No,$chk_SecondResident_Name,$chk_Document_Type_Name,$chk_Brgy_Cert_No,$chk_Issued_At,$chk_Issued_On,$chk_Salutation_Name,$chk_Purpose_of_Document,$chk_Remarks,$chk_Released,$chk_Resident_Name,$chk_Request_Date,$chk_Transaction_No)
+    function __construct($chk_Cash_Tendered,$chk_OR_No,$chk_SecondResident_Name,$chk_Document_Type_Name,$chk_Brgy_Cert_No,$chk_Issued_On,$chk_Salutation_Name,$chk_Purpose_of_Document,$chk_Remarks,$chk_Released,$chk_Resident_Name,$chk_Request_Date,$chk_Transaction_No)
     {
         $this->chk_Transaction_No = $chk_Transaction_No;
         $this->chk_Request_Date = $chk_Request_Date;
@@ -22,7 +22,7 @@ class DocumentInformationExportView implements FromView
         $this->chk_Purpose_of_Document = $chk_Purpose_of_Document;
         $this->chk_Salutation_Name = $chk_Salutation_Name;
         $this->chk_Issued_On = $chk_Issued_On;
-        $this->chk_Issued_At = $chk_Issued_At;
+        // $this->chk_Issued_At = $chk_Issued_At;
         $this->chk_Brgy_Cert_No = $chk_Brgy_Cert_No;
         $this->chk_Document_Type_Name = $chk_Document_Type_Name;
         $this->chk_SecondResident_Name = $chk_SecondResident_Name;
@@ -43,7 +43,7 @@ class DocumentInformationExportView implements FromView
         $chk_Purpose_of_Document = $this->chk_Purpose_of_Document;
         $chk_Salutation_Name = $this->chk_Salutation_Name;
         $chk_Issued_On = $this->chk_Issued_On;
-        $chk_Issued_At = $this->chk_Issued_At;
+        // $chk_Issued_At = $this->chk_Issued_At;
         $chk_Brgy_Cert_No = $this->chk_Brgy_Cert_No;
         $chk_Document_Type_Name = $this->chk_Document_Type_Name;
         $chk_SecondResident_Name = $this->chk_SecondResident_Name;
@@ -85,7 +85,6 @@ class DocumentInformationExportView implements FromView
             'chk_Purpose_of_Document',
             'chk_Salutation_Name',
             'chk_Issued_On',
-            'chk_Issued_At',
             'chk_Brgy_Cert_No',
             'chk_Document_Type_Name',
             'chk_SecondResident_Name',

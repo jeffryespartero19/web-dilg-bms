@@ -748,8 +748,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('brgy_document_information_details_request')}}" class="nav-link uICert1">
-                                Document Request</p>
+                            <a href="{{route('document_request_list')}}" class="nav-link uICert1">
+                                Document Request List</p>
                             </a>
                         </li>
                     </ul>

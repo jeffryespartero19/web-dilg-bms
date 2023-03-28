@@ -8,7 +8,7 @@
         <td class="sm_data_col txtCtr">{{$x->Salutation_Name}}</td>
         <td class="sm_data_col txtCtr">{{$x->CTC_No}}</td>
         <td class="sm_data_col txtCtr">{{$x->Issued_On}}</td>
-        <td class="sm_data_col txtCtr">{{$x->Issued_At}}</td>
+        <td class="sm_data_col txtCtr" hidden>{{$x->Issued_At}}</td>
         <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
         <td class="sm_data_col txtCtr">{{$x->SecondResident_Name}}</td>
         <td class="sm_data_col txtCtr">{{$x->Document_Type_Name}}</td>

@@ -85,7 +85,7 @@
                                                 <select class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID">
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($brgy_officials_and_staff as $bt1)
-                                                    <option value="{{ $bt1->Resident_ID }}" {{ $bt1->Resident_ID  == $disaster_supplies[0]->Resident_ID  ? "selected" : "" }}>{{ $bt1->Last_Name }} {{ $bt1->First_Name }}, {{ $bt1->Middle_Name }}</option>
+                                                    <option value="{{ $bt1->Resident_ID }}" {{ $bt1->Resident_ID  == $disaster_supplies[0]->Brgy_Officials_and_Staff_ID  ? "selected" : "" }}>{{ $bt1->Last_Name }} {{ $bt1->First_Name }}, {{ $bt1->Middle_Name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
