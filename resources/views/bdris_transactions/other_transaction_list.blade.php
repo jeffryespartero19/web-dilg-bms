@@ -95,43 +95,57 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-
-                            <th>Disaster Type</th>
-                            <th>Emergency Evacuation Site</th>
-                            <th>Allocated Fund</th>
-                            <th>Emergency Equipment</th>
-                            <th>Emergency Team</th>
-                            <th>Active</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($db_entries as $x)
-                        <tr>
-
-                            <td class="sm_data_col txtCtr">{{$x->Disaster_Type}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Emergency_Evacuation_Site_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Allocated_Fund_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Emergency_Equipment_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                            <td class="sm_data_col txtCtr">
-                                <a class="btn btn-info" href="{{ url('disaster_type_details/'.$x->Disaster_Type_ID) }}">Edit</a>
-                                <!-- <a class="btn btn-primary" href="{{ url('view_disaster_type_details/'.$x->Disaster_Type_ID) }}">View</a> -->
-                                <button class="view_disastertype btn btn-primary" value="{{$x->Disaster_Type_ID}}" data-toggle="modal" data-target="#viewDisasterType">View</button>
-                                <button class="delete_disaster btn btn-danger" value="{{$x->Disaster_Type_ID}}">Delete</button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div>
+                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Disaster Type</th>
+                                <th>Emergency Evacuation Site</th>
+                                <th>Allocated Fund</th>
+                                <th>Emergency Equipment</th>
+                                <th>Emergency Team</th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <td><input class="form-control distyFilter distyFilter1" style="min-width: 200px;" type="text"></td>
+                                <td>
+                                    <select class="form-control distyFilter distyFilter2" id="Emergency_Evacuation_Site_ID" name="Emergency_Evacuation_Site_ID" style="min-width: 300px;">
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control distyFilter distyFilter3" id="Allocated_Fund_ID" name="Allocated_Fund_ID" style="min-width: 300px;">
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control distyFilter distyFilter4" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" style="min-width: 300px;">
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control distyFilter distyFilter5" id="Emergency_Team_ID" name="Emergency_Team_ID" style="min-width: 300px;">
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control distyFilter distyFilter6" style="min-width: 100px;" >
+                                        <option value='' selected>Select Option</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
+                                    </select>
+                                </td>
+                                <td style="min-width: 200px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="distyListData"> 
+                            @include('bdris_transactions.disaster_type_data')
+                        </tbody>
+                    </table>
+                    {!! $db_entries->links() !!}
+                    <input type="hidden" name="distyhidden_page" id="distyhidden_page" value="1">
+                </div>
             </div>
-
         </div>
     </div>
+    <!-- aldren1 -->
     @endif
     <!-- /.card-body -->
     <div class="card">
@@ -149,43 +163,41 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="example2" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-
-                            <th>Emergency Evacuation Site Name </th>
-                            <th>Address </th>
-                            <th>Capacity </th>
-                            <th>Active</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($db_entries2 as $x)
-                        <tr>
-
-                            <td class="sm_data_col txtCtr">{{$x->Emergency_Evacuation_Site_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Address}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Capacity}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                            <td class="sm_data_col txtCtr">
-                                @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-info" href="{{ url('emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">Edit</a>
-                                <button class="view_emerevacsite btn btn-primary" value="{{$x->Emergency_Evacuation_Site_ID}}" data-toggle="modal" data-target="#viewEmerEvacSite">View</button>
-                                <!-- <a class="btn btn-primary" href="{{ url('view_emergency_evacuation_site_details/'.$x->Emergency_Evacuation_Site_ID) }}">View</a> -->
-                                <button class="delete_emereva btn btn-danger" value="{{$x->Emergency_Evacuation_Site_ID}}">Delete</button>
-                                @endif
-                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <button class="view_emerevacsite btn btn-primary" value="{{$x->Emergency_Evacuation_Site_ID}}" data-toggle="modal" data-target="#viewEmerEvacSite">View</button>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div>
+                    <table id="example12" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Emergency Evacuation Site Name </th>
+                                <th>Address </th>
+                                <th>Capacity </th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <td><input class="form-control emerevacFilter emerevacFilter1" style="min-width: 300px;" type="text"></td>
+                                <td><input class="form-control emerevacFilter emerevacFilter2" style="min-width: 350px;" type="text"></td>
+                                <td><input class="form-control emerevacFilter emerevacFilter3" style="min-width: 200px;" type="number"></td>
+                                <td>
+                                    <select class="form-control emerevacFilter emerevacFilter4" style="min-width: 100px;" >
+                                        <option value='' selected>Select Option</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
+                                    </select>
+                                </td>
+                                <td style="min-width: 200px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="emerevacListData"> 
+                            @include('bdris_transactions.emergency_evacuation_site_data')
+                        </tbody>
+                    </table>
+                    {!! $db_entries2->links() !!}
+                    <input type="hidden" name="emerevachidden_page" id="emerevachidden_page" value="1">
+                </div>
             </div>
         </div>
     </div>
+    <!-- aldren2 -->
     <div class="card">
         <div class="card-header" style="background-color:#9d02df; color:white">
             <h3 class="card-title">Allocated Fund List</h3>
@@ -202,41 +214,39 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="example3" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-
-                            <th>Allocated Fund Name </th>
-                            <th>Amount </th>
-                            <th>Active</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($db_entries3 as $x)
-                        <tr>
-
-                            <td class="sm_data_col txtCtr">{{$x->Allocated_Fund_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Amount}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                            <td class="sm_data_col txtCtr">
-                                @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-info" href="{{ url('allocated_fund_details/'.$x->Allocated_Fund_ID) }}">Edit</a>
-                                <button class="view_allofund btn btn-primary" value="{{$x->Allocated_Fund_ID}}" data-toggle="modal" data-target="#viewAlloFund">View</button>
-                                <!-- <a class="btn btn-primary" href="{{ url('view_allocated_fund_details/'.$x->Allocated_Fund_ID) }}">View</a> -->
-                                <button class="delete_allocated btn btn-danger" value="{{$x->Allocated_Fund_ID}}">Delete</button>
-                                @endif
-                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <button class="view_allofund btn btn-primary" value="{{$x->Allocated_Fund_ID}}" data-toggle="modal" data-target="#viewAlloFund">View</button>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div>
+                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Allocated Fund Name </th>
+                                <th>Amount </th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <td><input class="form-control allofundFilter allofundFilter1" style="min-width: 300px;" type="text"></td>
+                                <td><input class="form-control allofundFilter allofundFilter2" style="min-width: 350px;" type="text"></td>
+                                <td>
+                                    <select class="form-control allofundFilter allofundFilter3" style="min-width: 100px;" >
+                                        <option value='' selected>Select Option</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
+                                    </select>
+                                </td>
+                                <td style="min-width: 200px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="allofundListData"> 
+                            @include('bdris_transactions.allocated_fund_data')
+                        </tbody>
+                    </table>
+                    {!! $db_entries3->links() !!}
+                    <input type="hidden" name="allofundhidden_page" id="allofundhidden_page" value="1">
+                </div>
             </div>
         </div>
     </div>
+    <!-- aldren3 -->
     <div class="card">
         <div class="card-header" style="background-color:#074ff4; color:white">
             <h3 class="card-title">Disaster Supplies List</h3>
@@ -252,54 +262,55 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="example4" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-
-                            <th>Disaster Name </th>
-                            <th>Disaster Supplies Name </th>
-                            <th>Disaster Supplies Quantity </th>
-                            <th>Location </th>
-                            <th>Remarks </th>
-                            <th>Active</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($db_entries4 as $x)
-                        <tr>
-
-                            <td class="sm_data_col txtCtr">{{$x->Disaster_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Disaster_Supplies_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Disaster_Supplies_Quantity}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Location}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                            <td class="sm_data_col txtCtr">
-                                @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-info" href="{{ url('disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">Edit</a>
-                                <button class="view_dissupp btn btn-primary" value="{{$x->Disaster_Supplies_ID}}" data-toggle="modal" data-target="#viewDisSupp">View</button>
-                                <!-- <a class="btn btn-primary" href="{{ url('view_disaster_supplies_details/'.$x->Disaster_Supplies_ID) }}">View</a> -->
-                                <button class="delete_disastersupp btn btn-danger" value="{{$x->Disaster_Supplies_ID}}">Delete</button>
-                                @endif
-                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <button class="view_dissupp btn btn-primary" value="{{$x->Disaster_Supplies_ID}}" data-toggle="modal" data-target="#viewDisSupp">View</button>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div>
+                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Disaster Response </th>
+                                <th>Disaster Supplies </th>
+                                <th>Disaster Supplies Quantity </th>
+                                <th>Location </th>
+                                <th>Remarks </th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select class="form-control dissuppFilter dissuppFilter1" id="Disaster_Response_ID" name="Disaster_Response_ID" style="min-width: 300px;">
+                                    </select>
+                                </td>
+                                <td><input class="form-control dissuppFilter dissuppFilter2" style="min-width: 300px;" type="text"></td>
+                                <td><input class="form-control dissuppFilter dissuppFilter3" style="min-width: 350px;" type="number"></td>
+                                <td><input class="form-control dissuppFilter dissuppFilter4" style="min-width: 350px;" type="text"></td>
+                                <td><input class="form-control dissuppFilter dissuppFilter5" style="min-width: 350px;" type="text"></td>
+                                <td>
+                                    <select class="form-control dissuppFilter dissuppFilter6" style="min-width: 100px;" >
+                                        <option value='' selected>Select Option</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
+                                    </select>
+                                </td>
+                                <td style="min-width: 200px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="dissuppListData"> 
+                            @include('bdris_transactions.disaster_supplies_data')
+                        </tbody>
+                    </table>
+                    {!! $db_entries4->links() !!}
+                    <input type="hidden" name="dissupphidden_page" id="dissupphidden_page" value="1">
+                </div>
             </div>
         </div>
     </div>
+     <!-- aldren4 -->
     <div class="card">
         <div class="card-header" style="background-color:#af2b31; color:white">
             <h3 class="card-title">Emergency Team List</h3>
         </div>
         <div class="card-body">
             <div class="flexer">
-                <div class="eighty_split">{{$db_entries4->appends(['db_entries5' => $db_entries4->currentPage()])->links()}}</div>
+                <div class="eighty_split">{{$db_entries4->appends(['db_entries5' => $db_entries5->currentPage()])->links()}}</div>
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_team_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
@@ -308,7 +319,7 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="example5" class="table table-striped table-bordered" style="width:100%">
+                <table id="example11" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
 
@@ -316,40 +327,37 @@
                             <th>Emergency Team Hotline </th>
                             <th>Active</th>
                             <th>Actions</th>
+                            <tr>
+                                <td><input class="form-control emerteamFilter emerteamFilter1" style="min-width: 300px;" type="text"></td>
+                                <td><input class="form-control emerteamFilter emerteamFilter2" style="min-width: 350px;" type="text"></td>
+                                <td>
+                                    <select class="form-control emerteamFilter emerteamFilter3" style="min-width: 100px;" >
+                                        <option value='' selected>Select Option</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
+                                    </select>
+                                </td>
+                                <td style="min-width: 200px;"></td>
+                            </tr>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($db_entries5 as $x)
-                        <tr>
-
-                            <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Emergency_Team_Hotline}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                            <td class="sm_data_col txtCtr">
-                                @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-info" href="{{ url('emergency_team_details/'.$x->Emergency_Team_ID) }}">Edit</a>
-                                <button class="view_emerteam btn btn-primary" value="{{$x->Emergency_Team_ID}}" data-toggle="modal" data-target="#viewEmerTeam">View</button>
-                                <!-- <a class="btn btn-primary" href="{{ url('view_emergency_team_details/'.$x->Emergency_Team_ID) }}">View</a> -->
-                                <button class="delete_emerteam btn btn-danger" value="{{$x->Emergency_Team_ID}}">Delete</button>
-                                @endif
-                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <button class="view_emerteam btn btn-primary" value="{{$x->Emergency_Team_ID}}" data-toggle="modal" data-target="#viewEmerTeam">View</button>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
+                    <tbody id="emerteamListData"> 
+                        @include('bdris_transactions.emergency_team_data')
                     </tbody>
                 </table>
+                {!! $db_entries5->links() !!}
+                <input type="hidden" name="emerteamhidden_page" id="emerteamhidden_page" value="1">
             </div>
         </div>
     </div>
+     <!-- aldren5 -->
     <div class="card">
         <div class="card-header" style="background-color:#435f57; color:white">
             <h3 class="card-title">Emergency Equipment List</h3>
         </div>
         <div class="card-body">
             <div class="flexer">
-                <div class="eighty_split">{{$db_entries4->appends(['db_entries6' => $db_entries4->currentPage()])->links()}}</div>
+                <div class="eighty_split">{{$db_entries4->appends(['db_entries6' => $db_entries6->currentPage()])->links()}}</div>
                 @if (Auth::user()->User_Type_ID == 1)
                 <div class="twenty_split txtRight"><a href="{{ url('emergency_equipment_details/0') }}" class="btn btn-success" style="width: 100px;">New</a></div>
                 @endif
@@ -358,38 +366,35 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="example6" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-
-                            <th>Emergency Equipment Name </th>
-                            <th>Location </th>
-                            <th>Active</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($db_entries6 as $x)
-                        <tr>
-
-                            <td class="sm_data_col txtCtr">{{$x->Emergency_Equipment_Name}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Location}}</td>
-                            <td class="sm_data_col txtCtr">{{$x->Active}}</td>
-                            <td class="sm_data_col txtCtr">
-                                @if (Auth::user()->User_Type_ID == 1)
-                                <a class="btn btn-info" href="{{ url('emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">Edit</a>
-                                <button class="view_emerequip btn btn-primary" value="{{$x->Emergency_Equipment_ID}}" data-toggle="modal" data-target="#viewEmerEquip">View</button>
-                                <!-- <a class="btn btn-primary" href="{{ url('view_emergency_equipment_details/'.$x->Emergency_Equipment_ID) }}">View</a> -->
-                                <button class="delete_emerequip btn btn-danger" value="{{$x->Emergency_Equipment_ID}}">Delete</button>
-                                @endif
-                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                <button class="view_emerequip btn btn-primary" value="{{$x->Emergency_Equipment_ID}}" data-toggle="modal" data-target="#viewEmerEquip">View</button>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div>
+                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Emergency Equipment Name </th>
+                                <th>Location </th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <td><input class="form-control emerequipFilter emerequipFilter1" style="min-width: 300px;" type="text"></td>
+                                <td><input class="form-control emerequipFilter emerequipFilter2" style="min-width: 350px;" type="text"></td>
+                                <td>
+                                    <select class="form-control emerequipFilter emerequipFilter3" style="min-width: 100px;" >
+                                        <option value='' selected>Select Option</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
+                                    </select>
+                                </td>
+                                <td style="min-width: 200px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="emerequipListData"> 
+                            @include('bdris_transactions.emergency_equip_data')
+                        </tbody>
+                    </table>
+                    {!! $db_entries6->links() !!}
+                    <input type="hidden" name="emerequiphidden_page" id="emerequiphidden_page" value="1">
+                </div>
             </div>
             <hr>
             <br>
@@ -398,60 +403,82 @@
 </div>
 
 
-
 <div class="modal fade" id="viewDisasterType" tabindex="-1" role="dialog" aria-labelledby="viewDisasterType" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Disaster Type Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Disaster Type Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Disaster Type: </strong><span id="VDisaster_Type"></span><br>
-                            <strong>Emergency Evacuation Site Name: </strong><span id="VEmergency_Evacuation_Site_Name"></span><br>
-                            <strong>Allocated Fund Name: </strong><span id="VAllocated_Fund_Name"></span><br>
-                            <strong>Emergency Team Name: </strong><span id="VEmergency_Team_Name"></span><br>
-                            <strong>Emergency Equipment Name: </strong><span id="VEmergency_Equipment_Name"></span><br>
-                            <strong>is Active?: </strong><span id="VActive"></span><br>
-                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Disaster Type: </strong></td>
+                        <td><span id="VDisaster_Type"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Emergency Evacuation Site: </strong></td>
+                        <td><span id="VEmergency_Evacuation_Site_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Allocated Fund: </strong></td>
+                        <td><span id="VAllocated_Fund_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Emergency Team: </strong></td>
+                        <td><span id="VEmergency_Team_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Emergency Equipment: </strong></td>
+                        <td><span id="VEmergency_Equipment_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Active?: </strong></td>
+                        <td><span id="VActive"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
 </div>
 
+
 <div class="modal fade" id="viewEmerEvacSite" tabindex="-1" role="dialog" aria-labelledby="viewEmerEvacSite" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Emergency Evacuation Site Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Emergency Evacuation Site Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Emergency Evacuation Site Name: </strong><span id="V2Emergency_Evacuation_Site_Name"></span><br>
-                            <strong>Address: </strong><span id="VAddress"></span><br>
-                            <strong>Capacity: </strong><span id="VCapacity"></span><br>
-                            <strong>is Active?: </strong><span id="V2Active"></span><br>
-                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Emergency Evacuation Site: </strong></td>
+                        <td><span id="V2Emergency_Evacuation_Site_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Address: </strong></td>
+                        <td><span id="VAddress"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Capacity: </strong></td>
+                        <td><span id="VCapacity"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Active?: </strong></td>
+                        <td><span id="V2Active"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
@@ -461,24 +488,30 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Allocated Fund Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Allocated Fund Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Allocated Fund Name: </strong><span id="V2Allocated_Fund_Name"></span><br>
-                            <strong>Amount: </strong><span id="VAmount"></span><br>
-                            <strong>is Active?: </strong><span id="V3Active"></span><br>
-                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Allocated Fund: </strong></td>
+                        <td><span id="V2Allocated_Fund_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Amount: </strong></td>
+                        <td><span id="VAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Active?: </strong></td>
+                        <td><span id="V3Active"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
@@ -488,28 +521,46 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Disaster Supplies Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Disaster Supplies Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Disaster Supplies Name: </strong><span id="VDisaster_Supplies_Name"></span><br>
-                            <strong>Disaster Supplies Quantity: </strong><span id="VDisaster_Supplies_Quantity"></span><br>
-                            <strong>Location: </strong><span id="VLocation"></span><br>
-                            <strong>Remarks: </strong><span id="VRemarks"></span><br>
-                            <strong>Disaster Name: </strong><span id="V3Disaster_Name"></span><br>
-                            <strong>Brgy Official Name: </strong><span id="V3Resident_Name"></span><br>
-                            <strong>is Active?: </strong><span id="V4Active"></span><br>
-                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Disaster Supplies: </strong></td>
+                        <td><span id="VDisaster_Supplies_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Disaster Supplies Quantity: </strong></td>
+                        <td><span id="VDisaster_Supplies_Quantity"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Location: </strong></td>
+                        <td><span id="VLocation"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Remarks: </strong></td>
+                        <td><span id="VRemarks"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Disaster Name: </strong></td>
+                        <td><span id="V3Disaster_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Brgy Official: </strong></td>
+                        <td><span id="V3Resident_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Active?: </strong></td>
+                        <td><span id="V4Active"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
@@ -519,23 +570,30 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Emergency Team Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Emergency Team Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Emergency Team Name: </strong><span id="V2Emergency_Team_Name"></span><br>
-                            <strong>Emergency Team Hotline: </strong><span id="VEmergency_Team_Hotline"></span><br>
-                            <strong>is Active?: </strong><span id="V5Active"></span><br>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Emergency Team: </strong></td>
+                        <td><span id="V2Emergency_Team_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Emergency Team Hotline: </strong></td>
+                        <td><span id="VEmergency_Team_Hotline"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Active?: </strong></td>
+                        <td><span id="V5Active"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
@@ -545,23 +603,30 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Emergency Equip Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Emergency Equipment Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Emergency Equipment Name: </strong><span id="V3Emergency_Equipment_Name"></span><br>
-                            <strong>Location: </strong><span id="V2Location"></span><br>
-                            <strong>is Active?: </strong><span id="V6Active"></span><br>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Emergency Equipment: </strong></td>
+                        <td><span id="V3Emergency_Equipment_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Location: </strong></td>
+                        <td><span id="V2Location"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>is Active?: </strong></td>
+                        <td><span id="V6Active"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
@@ -1043,6 +1108,52 @@
 
     });
 
+    $(document).ready(function() {
+    
+
+
+        $("#Emergency_Evacuation_Site_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emereva',
+                dataType: "json",
+            }
+        });
+
+        $("#Allocated_Fund_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_allocated',
+                dataType: "json",
+            }
+        });
+
+        $("#Emergency_Equipment_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emerequip',
+                dataType: "json",
+            }
+        });
+
+        $("#Emergency_Team_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_emerteam',
+                dataType: "json",
+            }
+        });
+
+        $("#Disaster_Response_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disasterresponse',
+                dataType: "json",
+            }
+        });
+
+    });
+
     $(document).on("change", "#R_ID", function() {
 
         var Region_ID = $(this).val();
@@ -1514,7 +1625,7 @@
         $('#viewEmerTeam').trigger("reset");
         $('#viewEmerEquip').trigger("reset");
     });
-//aldren
+
     $(document).on('click', ('.view_disastertype'), function(e) {
 
         var disID = $(this).val();
@@ -1651,6 +1762,147 @@
     $(document).on('click', '#SelectAll', function(e) {
         $('.ChkBOX1').prop('checked', this.checked);
     });
+
+    $(".distyFilter").change(function() {
+        Searchdisty();
+    });
+
+    function Searchdisty() {
+        // alert('test');
+        var distyparam1 = $('.distyFilter1').val();
+        var distyparam2 = $('.distyFilter2').val();
+        var distyparam3 = $('.distyFilter3').val();
+        var distyparam4 = $('.distyFilter4').val();
+        var distyparam5 = $('.distyFilter5').val();
+        var distyparam6 = $('.distyFilter6').val();
+        var page = $('#distyhidden_page').val();
+
+        $.ajax({
+            url: "/search_disty_fields?page=" + page + "&distyparam1=" + distyparam1 + "&distyparam2=" + distyparam2 + "&distyparam3=" + distyparam3 + "&distyparam4=" + distyparam4 + "&distyparam5=" + distyparam5 + "&distyparam6=" + distyparam6,
+            success: function(data) {
+                $('#distyListData').html('');
+                $('#distyListData').html(data);
+            }
+        });
+    }
+
+    $(".emerevacFilter").change(function() {
+        Searchemerevac();
+        
+    });
+
+    function Searchemerevac() {
+        // alert('test');
+       
+        var emerevacparam1 = $('.emerevacFilter1').val();
+        var emerevacparam2 = $('.emerevacFilter2').val();
+        var emerevacparam3 = $('.emerevacFilter3').val();
+        var emerevacparam4 = $('.emerevacFilter4').val();
+        var page = $('#emerevachidden_page').val();
+
+        $.ajax({
+            url: "/search_emerevac_fields?page=" + page + "&emerevacparam1=" + emerevacparam1 + "&emerevacparam2=" + emerevacparam2 + "&emerevacparam3=" + emerevacparam3 + "&emerevacparam4=" + emerevacparam4 ,
+            success: function(data) {
+                $('#emerevacListData').html('');
+                $('#emerevacListData').html(data);
+            }
+        });
+    }
+
+    $(".allofundFilter").change(function() {
+        Searchallofund();
+        // alert('test');
+        
+    });
+
+    function Searchallofund() {
+        // alert('test');
+       
+        var allofundparam1 = $('.allofundFilter1').val();
+        var allofundparam2 = $('.allofundFilter2').val();
+        var allofundparam3 = $('.allofundFilter3').val();
+        var page = $('#allofundhidden_page').val();
+
+        $.ajax({
+            url: "/search_allofund_fields?page=" + page + "&allofundparam1=" + allofundparam1 + "&allofundparam2=" + allofundparam2 + "&allofundparam3=" + allofundparam3,
+            success: function(data) {
+                $('#allofundListData').html('');
+                $('#allofundListData').html(data);
+            }
+        });
+    }
+
+    $(".dissuppFilter").change(function() {
+        Searchdissupp();
+        // alert('test');
+        
+    });
+
+    function Searchdissupp() {
+        // alert('test');
+       
+        var dissuppparam1 = $('.dissuppFilter1').val();
+        var dissuppparam2 = $('.dissuppFilter2').val();
+        var dissuppparam3 = $('.dissuppFilter3').val();
+        var dissuppparam4 = $('.dissuppFilter4').val();
+        var dissuppparam5 = $('.dissuppFilter5').val();
+        var dissuppparam6 = $('.dissuppFilter6').val();
+        var page = $('#dissupphidden_page').val();
+
+        $.ajax({
+            url: "/search_dissupp_fields?page=" + page + "&dissuppparam1=" + dissuppparam1 + "&dissuppparam2=" + dissuppparam2 + "&dissuppparam3=" + dissuppparam3 + "&dissuppparam4=" + dissuppparam4 + "&dissuppparam5=" + dissuppparam5 + "&dissuppparam6=" + dissuppparam6,
+            success: function(data) {
+                $('#dissuppListData').html('');
+                $('#dissuppListData').html(data);
+            }
+        });
+    }
+
+    $(".emerteamFilter").change(function() {
+        Searchemerteam();
+        // alert('test');
+        
+    });
+
+    function Searchemerteam() {
+        // alert('test');
+       
+        var emerteamparam1 = $('.emerteamFilter1').val();
+        var emerteamparam2 = $('.emerteamFilter2').val();
+        var emerteamparam3 = $('.emerteamFilter3').val();
+        var page = $('#emerteamhidden_page').val();
+
+        $.ajax({
+            url: "/search_emerteam_fields?page=" + page + "&emerteamparam1=" + emerteamparam1 + "&emerteamparam2=" + emerteamparam2 + "&emerteamparam3=" + emerteamparam3,
+            success: function(data) {
+                $('#emerteamListData').html('');
+                $('#emerteamListData').html(data);
+            }
+        });
+    }
+
+    $(".emerequipFilter").change(function() {
+        Searchemerequip();
+        // alert('test');
+        
+    });
+
+    function Searchemerequip() {
+        // alert('test');
+       
+        var emerequipparam1 = $('.emerequipFilter1').val();
+        var emerequipparam2 = $('.emerequipFilter2').val();
+        var emerequipparam3 = $('.emerequipFilter3').val();
+        var page = $('#emerequiphidden_page').val();
+
+        $.ajax({
+            url: "/search_emerequip_fields?page=" + page + "&emerequipparam1=" + emerequipparam1 + "&emerequipparam2=" + emerequipparam2 + "&emerequipparam3=" + emerequipparam3,
+            success: function(data) {
+                $('#emerequipListData').html('');
+                $('#emerequipListData').html(data);
+            }
+        });
+    }
 </script>
 
 

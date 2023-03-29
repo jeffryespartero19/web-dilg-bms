@@ -117,20 +117,21 @@
                                                 <label for="Issued_On">Issued On</label>
                                                 <input type="datetime-local" class="form-control" id="Issued_On" name="Issued_On" required>
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <!-- <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Issued_At">Issued At</label>
                                                 <input type="text" class="form-control" id="Issued_At" name="Issued_At" >
-                                            </div>
+                                            </div> -->
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_Date">OR Date</label>
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date"  required>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
                                                 <input type="text" class="form-control" id="OR_No" name="OR_No" >
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Cash_Tendered">Cash Tendered</label>
                                                 <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" >
@@ -143,12 +144,13 @@
                                                 <label for="CTC_Date_Issued">CTC Date Issued</label>
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required >
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_No"  >
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                           
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Amount">CTC Amount</label>
                                                 <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" >

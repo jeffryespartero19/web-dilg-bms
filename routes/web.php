@@ -1027,7 +1027,16 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/search_brgydocument_fields', 'BCPISController@search_brgydocument_fields');
   Route::get('/search_barangaybusiness_fields', 'BCPISController@search_barangaybusiness_fields');
   Route::get('/search_documentrequestpending_fields', 'BCPISController@search_documentrequestpending_fields');
-  Route::get('/search_documentrequestapproved_fields', 'BCPISController@search_documentrequestapproved_fields');
+  Route::get('/search_disty_fields', 'BDRISALController@search_disty_fields');
+  Route::get('/search_emerevac_fields', 'BDRISALController@search_emerevac_fields');
+  Route::get('/search_allofund_fields', 'BDRISALController@search_allofund_fields');
+  Route::get('/search_dissupp_fields', 'BDRISALController@search_dissupp_fields');
+  Route::get('/search_emerteam_fields', 'BDRISALController@search_emerteam_fields');
+  Route::get('/search_emerequip_fields', 'BDRISALController@search_emerequip_fields');
+  Route::get('/document_request_list', 'BCPISController@document_request_list')->name('document_request_list');
+  Route::get('/search_documentrequest_fields', 'BCPISController@search_documentrequest_fields');
+  Route::get('/document_request_edit/{id}', 'BCPISController@document_request_edit');
+  Route::post('/create_brgy_document_information_request_update', 'BCPISController@create_brgy_document_information_request_update')->name('create_brgy_document_information_request_update');
 });
 
 

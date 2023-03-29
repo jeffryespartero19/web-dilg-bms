@@ -109,7 +109,7 @@
                                                 <th>Salutation Name</th>
                                                 <th>CTC No</th>
                                                 <th>Issued On</th>
-                                                <th>Issued At</th>
+                                                <!-- <th hidden>Issued At</th> -->
                                                 <th>Resident Name</th>
                                                 <th>SecondResident Name</th>
                                                 <th>Document Type Name</th>
@@ -130,15 +130,15 @@
                                                 <td><input class="form-control searchFilter searchFilter5" style="min-width: 200px;" type="text"></td>
                                                 <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="text"></td>
                                                 <td><input class="form-control searchFilter searchFilter7" style="min-width: 200px;" type="date"></td>
+                                                <!-- <td><input class="form-control searchFilter searchFilter8" style="min-width: 200px;" type="text" hidden></td> -->
                                                 <td><input class="form-control searchFilter searchFilter8" style="min-width: 200px;" type="text"></td>
                                                 <td><input class="form-control searchFilter searchFilter9" style="min-width: 200px;" type="text"></td>
-                                                <td><input class="form-control searchFilter searchFilter10" style="min-width: 200px;" type="text"></td>
                                                 <td>
-                                                    <select class="form-control searchFilter searchFilter11" id="Document_Type_ID" name="Document_Type_ID" style="min-width: 300px;">
+                                                    <select class="form-control searchFilter searchFilter10" id="Document_Type_ID" name="Document_Type_ID" style="min-width: 300px;">
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control searchFilter searchFilter12" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID" style="min-width: 300px;">
+                                                    <select class="form-control searchFilter searchFilter11" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID" style="min-width: 300px;">
                                                     </select>
                                                 </td>
                                             </tr>
@@ -226,10 +226,10 @@
                         <td style="width:30%"><strong>Issued On: </strong></td>
                         <td><span id="VIssued_On"></span></td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td style="width:30%"><strong>Issued At: </strong></td>
                         <td><span id="VIssued_At"></span></td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td style="width:30%"><strong>OR Date: </strong></td>
                         <td><span id="VOR_Date"></span></td>
@@ -300,8 +300,8 @@
                                 <label for="chk_Salutation_Name">Salutation Name</label><br>
                                 <input type="checkbox" id="chk_Issued_On" name="chk_Issued_On">
                                 <label for="chk_Issued_On">Issued On</label><br>
-                                <input type="checkbox" id="chk_Issued_At" name="chk_Issued_At">
-                                <label for="chk_Issued_At">Issued At</label><br>
+                                <!-- <input type="checkbox" id="chk_Issued_At" name="chk_Issued_At">
+                                <label for="chk_Issued_At">Issued At</label><br> -->
                                 <input type="checkbox" id="chk_Brgy_Cert_No" name="chk_Brgy_Cert_No">
                                 <label for="chk_Brgy_Cert_No">Brgy Cert No</label><br>
                                 <input type="checkbox" id="chk_Document_Type_Name" name="chk_Document_Type_Name">
@@ -361,8 +361,8 @@
                             <div class="form-group col-lg-6" style="padding:0 10px">
                                 <input type="checkbox" class="ChkBOX1" id="chk_Issued_On" name="chk_Issued_On">
                                 <label for="chk_Issued_On">Issued On</label><br>
-                                <input type="checkbox" class="ChkBOX1" id="chk_Issued_At" name="chk_Issued_At">
-                                <label for="chk_Issued_At">Issued At</label><br>
+                                <!-- <input type="checkbox" class="ChkBOX1" id="chk_Issued_At" name="chk_Issued_At">
+                                <label for="chk_Issued_At">Issued At</label><br> -->
                                 <input type="checkbox" class="ChkBOX1" id="chk_Brgy_Cert_No" name="chk_Brgy_Cert_No">
                                 <label for="chk_Brgy_Cert_No">Cert No.</label><br>
                                 <input type="checkbox" class="ChkBOX1" id="chk_Document_Type_Name" name="chk_Document_Type_Name">
@@ -624,7 +624,7 @@ $(document).on('click', '.modal-close', function(e) {
                 $('#VSecondResident_Name').html(data['theEntry'][0]['SecondResident_Name']);
                 $('#VReleased').html(data['theEntry'][0]['Released']);
                 $('#VIssued_On').html(data['theEntry'][0]['Issued_On']);
-                $('#VIssued_At').html(data['theEntry'][0]['Issued_At']);
+                // $('#VIssued_At').html(data['theEntry'][0]['Issued_At']);
                 $('#VOR_Date').html(data['theEntry'][0]['OR_Date']);
                 $('#VOR_No').html(data['theEntry'][0]['OR_No']);
                 $('#VCash_Tendered').html(data['theEntry'][0]['Cash_Tendered']);
@@ -659,11 +659,10 @@ $(document).on('click', '.modal-close', function(e) {
         var param9 = $('.searchFilter9').val();
         var param10 = $('.searchFilter10').val();
         var param11 = $('.searchFilter11').val();
-        var param12 = $('.searchFilter12').val();
         var page = $('#hidden_page').val();
 
         $.ajax({
-            url: "/search_brgydocument_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12,
+            url: "/search_brgydocument_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11,
             // url: "/search_brgydocument_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12, 
             success: function(data) {
                 $('#ListData').html('');

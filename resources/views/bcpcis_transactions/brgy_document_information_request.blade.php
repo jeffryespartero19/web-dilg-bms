@@ -14,6 +14,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right"> 
                         <li class="breadcrumb-item"><a href="{{route('home')}}">DILG_BMS</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('document_request_list')}}">Document Request List</a></li>
                         <li class="breadcrumb-item active">Document Request</li>
                     </ol>
                 </div>
@@ -89,8 +90,13 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Requested_Date_and_Time">Requested Date and Time</label>
-                                                <input type="datetime-local" class="form-control" id="Requested_Date_and_Time" name="Requested_Date_and_Time" required>
+                                                <label for="Requested_Date_and_Time">Requesting Date and Time to Pickup</label>
+                                                <!-- <input id="Requested_Date_and_Time" name="Requested_Date_and_Time" type="text" /> -->
+                                                <input type="datetime-local" step="any" min="{{$min}}" class="form-control" id="Requested_Date_and_Time" name="Requested_Date_and_Time"  required>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Date_Stamp">Created Date</label>
+                                                <input type="date" class="form-control" id="Date_Stamp" name="Date_Stamp" disabled>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" id="VDocument_Type" name="VDocument_Type" hidden>
@@ -177,13 +183,22 @@
     </div>
 
 <script>
+
+
+
      $(document).ready(function(){
+        document.getElementById('Date_Stamp').valueAsDate = new Date();
+
         $(document).on('click',('.createTicket_Close'),function(e) {
             //alert('here');
             $('#createTicket').addClass('backX');
             $('#createTicket').fadeOut();
+            window.location.replace('document_request_list');
         });
+
+       
     });
+
 
     $(document).on("focusout",'.fancyformat', function(e) {
             var disVal=$(this).val();
@@ -208,6 +223,13 @@
         });
            
         });
+
+        // $(document).on("focusout",'.fancydate', function(e) {
+        //     var disVal=$(this).val();
+          
+        //    var newDate = new Date(disVal.toDateString());
+        //    alert(newDate);
+        // });
 
         $(document).on("focusout",'.fancyformat1', function(e) {
             var disVal=$(this).val();
