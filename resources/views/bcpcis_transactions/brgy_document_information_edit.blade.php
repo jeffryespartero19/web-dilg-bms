@@ -59,7 +59,7 @@
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Transaction_No">Transaction No</label>
-                                                <input type="text" class="form-control" id="Transaction_No" name="Transaction_No" value="{{$document[0]->Transaction_No}}">
+                                                <input type="text" class="form-control" id="Transaction_No" name="Transaction_No" value="{{$document[0]->Transaction_No}}" disabled>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Document_Type_ID">Document Type</label>

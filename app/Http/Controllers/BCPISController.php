@@ -305,11 +305,42 @@ class BCPISController extends Controller
         
     }
 
-    // Save Brgy Document Information
+    // Save Brgy Document Information aldrenbuban
     public function create_brgy_document_information(Request $request)
     {
         $currDATE = Carbon::now();
         $data = $data = request()->all();
+        $month=Carbon::now()->format('m');
+        $day=Carbon::now()->format('d');
+        $year=Carbon::now()->format('Y');
+        $today= $currDATE->toDateString();
+
+        $File_No = DB::table('bcpcis_brgy_document_information as a')
+            ->select(
+                DB::raw('MAX(a.File_No) AS File_No')
+                )
+            ->where([['a.Barangay_ID', Auth::user()->Barangay_ID],[DB::raw('CAST(a.Date_Stamp as date)'), $today]])->get();
+            
+            // ->where(DB::raw('CAST(a.Date_Stamp as date)'), $today)->get();
+        $File_No_Static = $File_No[0]->File_No + 1;
+        $File_No_Add = $File_No[0]->File_No + 1;
+
+        $stringLength = strlen($File_No_Add);
+
+        if ($stringLength ==1){
+            $File_No_Final='0'. '' .'0'. '' .'0'. '' . $File_No_Add;
+        };
+        if ($stringLength ==2){
+            $File_No_Final='0'. '' .'0'. '' . $File_No_Add;
+        };
+        if ($stringLength ==3){
+            $File_No_Final='0'. '' . $File_No_Add;
+        };
+        if ($stringLength ==4){
+            $File_No_Final=$File_No_Add;
+        };
+
+
 
         if ($data['Document_Type_ID'] == 1){
             $validated = $request->validate([
@@ -325,7 +356,9 @@ class BCPISController extends Controller
         if ($data['Document_ID'] == null || $data['Document_ID'] == 0) {
             $Document_ID = DB::table('bcpcis_brgy_document_information')->insertGetId(
                 array(
-                    'Transaction_No'        => $data['Transaction_No'],
+                    'Transaction_No'        => $month. '' .$day. '' .$year. '-' .$File_No_Final,
+                    // 'Transaction_No'        => $File_No[0]->File_No,
+                    'File_No'               => $File_No_Static,
                     'Request_Date'          => $data['Request_Date'],
                     'Remarks'               => $data['Remarks'],
                     'Released'              => (int)$data['Released'],
@@ -379,7 +412,7 @@ class BCPISController extends Controller
         } else {
             DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
                 array(
-                    'Transaction_No'        => $data['Transaction_No'],
+                    // 'Transaction_No'        => $data['Transaction_No'],
                     'Request_Date'          => $data['Request_Date'],
                     'Remarks'               => $data['Remarks'],
                     'Released'              => (int)$data['Released'],
@@ -1570,7 +1603,6 @@ class BCPISController extends Controller
                     DB::raw('CONCAT(UPPER(b.First_Name), " ",LEFT(UPPER(b.Middle_Name),1) ,". ",UPPER(b.Last_Name)) AS Chairman_Name')
                 )
             ->where([['a.Barangay_ID', Auth::user()->Barangay_ID],['a.Barangay_Position_ID', 3],['a.Active', true]])
-
             ->paginate(20, ['*'], 'details2');
 
         $pdf = PDF::loadView('bcpcis_transactions.DocResidencyPDF', compact('details','details2'));
@@ -1618,7 +1650,16 @@ class BCPISController extends Controller
             ->where('a.Document_ID', $data['Document_IDx'])
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bcpcis_transactions.DocIndigencyPDF', compact('details'));
+            $details2 = DB::table('bips_brgy_officials_and_staff as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
+                ->select(
+                    DB::raw('CONCAT(UPPER(b.First_Name), " ",LEFT(UPPER(b.Middle_Name),1) ,". ",UPPER(b.Last_Name)) AS Chairman_Name')
+                )
+            ->where([['a.Barangay_ID', Auth::user()->Barangay_ID],['a.Barangay_Position_ID', 3],['a.Active', true]])
+            ->paginate(20, ['*'], 'details2');
+
+        $pdf = PDF::loadView('bcpcis_transactions.DocIndigencyPDF', compact('details','details2'));
         }
 
 
@@ -1669,7 +1710,16 @@ class BCPISController extends Controller
             ->where('a.Document_ID', $data['Document_IDx'])
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bcpcis_transactions.DocTravelPDF', compact('details'));
+            $details2 = DB::table('bips_brgy_officials_and_staff as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
+                ->select(
+                    DB::raw('CONCAT(UPPER(b.First_Name), " ",LEFT(UPPER(b.Middle_Name),1) ,". ",UPPER(b.Last_Name)) AS Chairman_Name')
+                )
+            ->where([['a.Barangay_ID', Auth::user()->Barangay_ID],['a.Barangay_Position_ID', 3],['a.Active', true]])
+            ->paginate(20, ['*'], 'details2');
+
+        $pdf = PDF::loadView('bcpcis_transactions.DocTravelPDF', compact('details','details2'));
         }
        
 
@@ -1720,7 +1770,16 @@ class BCPISController extends Controller
             ->where('a.Document_ID', $data['Document_IDx'])
             ->paginate(20, ['*'], 'details');
 
-        $pdf = PDF::loadView('bcpcis_transactions.DocTravelPDF', compact('details'));
+            $details2 = DB::table('bips_brgy_officials_and_staff as a')
+            ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+            ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
+                ->select(
+                    DB::raw('CONCAT(UPPER(b.First_Name), " ",LEFT(UPPER(b.Middle_Name),1) ,". ",UPPER(b.Last_Name)) AS Chairman_Name')
+                )
+            ->where([['a.Barangay_ID', Auth::user()->Barangay_ID],['a.Barangay_Position_ID', 3],['a.Active', true]])
+            ->paginate(20, ['*'], 'details2');
+
+        $pdf = PDF::loadView('bcpcis_transactions.DocTravelPDF', compact('details','details2'));
         }
 
         return $pdf->stream();
@@ -1969,11 +2028,40 @@ class BCPISController extends Controller
         return redirect()->back()->with('message', 'Document Request is ' . $message);
     }
 
-    // Approve Document Request Update
+    // Approve Document Request Update aldrenbuban
     public function update_document_request_approve_information(Request $request)
     {
         $currDATE = Carbon::now();
         $data = $data = request()->all();
+        $month=Carbon::now()->format('m');
+        $day=Carbon::now()->format('d');
+        $year=Carbon::now()->format('Y');
+        $today= $currDATE->toDateString();
+
+        $File_No = DB::table('bcpcis_brgy_document_information as a')
+            ->select(
+                DB::raw('MAX(a.File_No) AS File_No')
+                )
+            ->where([['a.Barangay_ID', Auth::user()->Barangay_ID],[DB::raw('CAST(a.Date_Stamp as date)'), $today]])->get();
+            
+            // ->where(DB::raw('CAST(a.Date_Stamp as date)'), $today)->get();
+        $File_No_Static = $File_No[0]->File_No + 1;
+        $File_No_Add = $File_No[0]->File_No + 1;
+
+        $stringLength = strlen($File_No_Add);
+
+        if ($stringLength ==1){
+            $File_No_Final='0'. '' .'0'. '' .'0'. '' . $File_No_Add;
+        };
+        if ($stringLength ==2){
+            $File_No_Final='0'. '' .'0'. '' . $File_No_Add;
+        };
+        if ($stringLength ==3){
+            $File_No_Final='0'. '' . $File_No_Add;
+        };
+        if ($stringLength ==4){
+            $File_No_Final=$File_No_Add;
+        };
 
         if ($data['Document_Type_ID'] == 1){
             $validated = $request->validate([
@@ -1988,7 +2076,8 @@ class BCPISController extends Controller
 
         DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
             array(
-                'Transaction_No'        => $data['Transaction_No'],
+                'Transaction_No'        => $month. '' .$day. '' .$year. '-' .$File_No_Final,
+                'File_No'               => $File_No_Static,
                 'Request_Date'          => $data['Request_Date'],
                 'Remarks'               => $data['Remarks'],
                 'Released'              => (int)$data['Released'],
@@ -2084,7 +2173,7 @@ class BCPISController extends Controller
 
         DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
             array(
-                'Transaction_No'        => $data['Transaction_No'],
+                // 'Transaction_No'        => $data['Transaction_No'],
                 'Request_Date'          => $data['Request_Date'],
                 'Remarks'               => $data['Remarks'],
                 'Released'              => (int)$data['Released'],
@@ -2912,7 +3001,7 @@ class BCPISController extends Controller
     {
         $currDATE = Carbon::now();
 
-        if ($id == 0) {
+        
         $document = DB::table('bcpcis_brgy_document_information as a')
          ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
          ->select(
@@ -2936,10 +3025,10 @@ class BCPISController extends Controller
                  'document',
                  'claim',
                  'purpose',
-                 'document_type',
+                 'document_type'
              ));
          
-            }
+            
     }
 
     public function document_request_edit($id)
