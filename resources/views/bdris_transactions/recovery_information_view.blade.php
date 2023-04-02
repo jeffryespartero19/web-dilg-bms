@@ -48,7 +48,7 @@
                 <input type="text" class="form-control" id="Disaster_Recovery_ID" name="Disaster_Recovery_ID" value="{{$recovery[0]->Disaster_Recovery_ID}}" hidden>
                 <div class="row">
 
-                    <div class="form-group col-lg-8" style="padding:0 10px">
+                    <div class="form-group col-lg-8" style="padding:0 12px">
                         <label for="Disaster_Response_ID">Disaster Response</label>
                         <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
                             <option value='' disabled selected>Select Option</option>
@@ -60,15 +60,8 @@
                     <div class="form-group col-lg-12" style="padding:0 10px">
                         <label for="fileattach">File Attachments</label>
                         <ul class="list-group list-group-flush" id="recovery_information_files">
-                            @foreach($attachment as $fa)
-                            <li class="list-group-item">{{$fa->File_Name}}<a href="../files/uploads/recovery_information/{{$fa->File_Name}}" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn att_del" value="{{$fa->Attachment_ID }}" style="color: red; margin-left:2px;">Delete</button></li>
-                            @endforeach
-                            <br>
-                            <div class="input-group my-3">
-                                <div class="custom-file">
-                                    <input type="file" name="fileattach[]" id="fileattach" multiple onchange="javascript:updateList()" />
-                                </div>
-                            </div>
+
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -76,7 +69,7 @@
             <div class="row">
                 <div class="form-group col-lg-12" style="padding:0 10px" id="AffectedDetails">
                     <h3>Affected Household and Infrastructure</h3>
-                    <a onclick="addrow();" style="float: right; cursor:pointer">+ Add</a>
+                    <!-- <a onclick="addrow();" style="float: right; cursor:pointer">+ Add</a> -->
                     <table id="AffectedTBL" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -87,7 +80,7 @@
                                 <th>Address</th>
                                 <th>Estimated Damage Value</th>
                                 <th>Remarks</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody class="AffectedBody">
@@ -123,9 +116,9 @@
                                 <td class="sm_data_col txtCtr">
                                     <input type="text" class="form-control" name="Remarks[]" value="{{$affected[0]->Remarks}}" style="width: 300px;">
                                 </td>
-                                <td style="text-align: center; width:10%">
+                                <!-- <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger AffectedRemove">Remove</button>
-                                </td>
+                                </td> -->
                             </tr>
                             @endforeach
                             @else
@@ -159,9 +152,9 @@
                                 <td class="sm_data_col txtCtr">
                                     <input type="text" class="form-control" name="Remarks[]" value="{{$affected[0]->Remarks}}" style="width: 300px;">
                                 </td>
-                                <td style="text-align: center; width:10%">
+                                <!-- <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger AffectedRemove">Remove</button>
-                                </td>
+                                </td> -->
                             </tr>
                             @endif
                         </tbody>
@@ -170,7 +163,7 @@
                 <hr>
                 <div class="form-group col-lg-12" style="padding:0 10px" id="RecoveryDetails">
                     <h3>Recovery Damage Loss</h3>
-                    <a onclick="addrow2();" style="float: right; cursor:pointer">+ Add</a>
+                    <!-- <a onclick="addrow2();" style="float: right; cursor:pointer">+ Add</a> -->
                     <table id="RecoveryTBL" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -179,7 +172,7 @@
                                 <th>Poultry Loss Estimated Value</th>
                                 <th>Fisheries Loss Estimated Value</th>
                                 <th>Crops Loss Estimated Value</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody class="RecoveryBody">
@@ -203,9 +196,9 @@
                                     <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Crops_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
                                     <input type="number" step="0.01" class="form-control fancyformat" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
-                                <td style="text-align: center; width:10%">
+                                <!-- <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger RecoveryRemove">Remove</button>
-                                </td>
+                                </td> -->
                             </tr>
                             @endforeach
                             @else
@@ -227,9 +220,9 @@
                                     <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$cd->Crops_Loss_Estimated_Value, 2, '.', ',')}}" style="width: 250px;">
                                     <input type="number" step="0.01" class="form-control fancyformat" name="Crops_Loss_Estimated_Value[]" value="{{$cd->Crops_Loss_Estimated_Value}}" style="width: 250px;" hidden>
                                 </td>
-                                <td style="text-align: center; width:10%">
+                                <!-- <td style="text-align: center; width:10%">
                                     <button type="button" class="btn btn-danger RecoveryRemove">Remove</button>
-                                </td>
+                                </td> -->
                             </tr>
                             @endif
                         </tbody>
@@ -240,7 +233,7 @@
 
                 <div class="form-group col-lg-12" style="padding:0 10px;">
                     <h3>Casualties and Injured</h3>
-                    <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                    <!-- <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a> -->
                     <br>
                     <div style="overflow-x:auto;" id="CasualtiesDetails">
 
@@ -253,7 +246,7 @@
                                     <th>Resident Status</th>
                                     <th>Address</th>
                                     <th>Birthdate</th>
-                                    <th>Actions</th>
+                                    <!-- <th>Actions</th> -->
                                 </tr>
                             </thead>
                             <tbody class="HSBody">
@@ -297,9 +290,9 @@
                                     <td>
                                         <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]" value="{{$id->Non_Resident_Birthdate}}">
                                     </td>
-                                    <td style="text-align: center;">
+                                    <!-- <td style="text-align: center;">
                                         <button type="button" class="btn btn-danger HRRemove">Remove</button>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 @endforeach
                                 @else
@@ -334,9 +327,9 @@
                                     <td>
                                         <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
                                     </td>
-                                    <td style="text-align: center;">
+                                    <!-- <td style="text-align: center;">
                                         <button type="button" class="btn btn-danger HRRemove">Remove</button>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 @endif
                             </tbody>
@@ -347,7 +340,7 @@
 
                 <div class="form-group col-lg-12" style="padding:0 10px;">
                     <h3>Missing</h3>
-                    <a onclick="addResident2();" style="float: right; cursor:pointer">+ Add</a>
+                    <!-- <a onclick="addResident2();" style="float: right; cursor:pointer">+ Add</a> -->
                     <br>
                     <div style="overflow-x:auto;" id="MissingDetails">
 
@@ -361,7 +354,7 @@
                                     <th>Birthdate</th>
                                     <th>Individual Found</th>
                                     <th>Date Found</th>
-                                    <th>Actions</th>
+                                    <!-- <th>Actions</th> -->
                                 </tr>
                             </thead>
                             <tbody class="HS2Body">
@@ -407,9 +400,9 @@
                                     <td>
                                         <input type="date" class="form-control" style="width: 200px;" name="Date_Found[]" value="{{$id->Date_Found}}">
                                     </td>
-                                    <td style="text-align: center;">
+                                    <!-- <td style="text-align: center;">
                                         <button type="button" class="btn btn-danger HR2Remove">Remove</button>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 @endforeach
                                 @else
@@ -445,9 +438,9 @@
                                     <td>
                                         <input type="date" class="form-control" style="width: 200px;" name="Date_Found[]">
                                     </td>
-                                    <td style="text-align: center;">
+                                    <!-- <td style="text-align: center;">
                                         <button type="button" class="btn btn-danger HR2Remove">Remove</button>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 @endif
                             </tbody>
@@ -464,7 +457,8 @@
             <div class="col-lg-12" style="margin-bottom: 100px;">
                 <center>
                     <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button>
+                    <!-- <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button> -->
+                    <a class="btn btn-info" href="{{route('recovery_information_list')}}" id="btnback">Back</a>
                 </center>
             </div>
 
@@ -483,7 +477,7 @@
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
 
-       
+        $("#btnback").prop("disabled", false);
     });
 
     function addResident2() {
@@ -573,7 +567,9 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
-        var disID = $(this).val();
+        // var disID = $(this).val();
+        var disID = "{{$recovery[0]->Disaster_Recovery_ID}}";
+        // alert(disID);
         $.ajax({
             url: "/get_recovery_information_attachments",
             type: 'GET',
@@ -585,12 +581,16 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
+                // $('#disaster_related_activities_files1').empty();
+                // $i = 0;
                 data.forEach(element => {
-                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/recovery_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                    // $i = $i + 1;
+                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="/files/uploads/recovery_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
                     $('#recovery_information_files').append(file);
                 });
             }
         });
+      
     });
 
     $(document).on('click', '.modal-close', function(e) {
@@ -953,6 +953,37 @@
         height: 32px !important;
         padding: 3px 3px;
         font: 13px;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 

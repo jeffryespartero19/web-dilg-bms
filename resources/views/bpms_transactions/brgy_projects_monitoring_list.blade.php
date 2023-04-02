@@ -97,47 +97,48 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Project Number</th>
-                                            <th>Project Name</th>
-                                            <th>Total Project Cost</th>
-                                            <th>Exact Location</th>
-                                            <th>Actual Project Start</th>
-                                            <th>Contractor Name</th>
-                                            <th>Project Type</th>
-                                            <th>Project Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Number}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Total_Project_Cost}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Exact_Location}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Actual_Project_Start}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Contractor_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Type_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Status_Name}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-info" href="{{ url('brgy_project_monitoring_details/'.$x->Brgy_Projects_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details_viewing/'.$x->Brgy_Projects_ID) }}">View</a>
-                                                <button class="delete_projects btn btn-danger" value="{{$x->Brgy_Projects_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details_viewing/'.$x->Brgy_Projects_ID) }}">View</a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Project Number</th>
+                                                <th>Project Name</th>
+                                                <th>Total Project Cost</th>
+                                                <th>Exact Location</th>
+                                                <th>Actual Project Start</th>
+                                                <th>Contractor Name</th>
+                                                <th>Project Type</th>
+                                                <th>Project Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 300px;" type="number"></td>
+                                                <td><input class="form-control searchFilter searchFilter4" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter5" style="min-width: 300px;" type="date"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter6" id="Contractor_ID" name="Contractor_ID" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter7" id="Project_Type_ID" name="Project_Type_ID" style="min-width: 200px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter8" id="Project_Status_ID" name="Project_Status_ID" style="min-width: 200px;">
+                                                    </select>
+                                                </td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bpms_transactions.brgy_projects_monitoring_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -261,6 +262,30 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        $("#Contractor_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_contractor',
+                dataType: "json",
+            }
+        });
+        
+        $("#Project_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_projecttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Project_Status_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_projectstatus',
+                dataType: "json",
+            }
+        });
 
     });
 
@@ -453,6 +478,35 @@ $.ajax({
 $(document).on('click', '#SelectAll', function(e) {
         $('.ChkBOX1').prop('checked', this.checked);
     });
+
+    $(".searchFilter").change(function() {
+        Search();
+        // alert('test');
+        
+    });
+
+    function Search() {
+        // alert('test');
+       
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var param7 = $('.searchFilter7').val();
+        var param8 = $('.searchFilter8').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_projects_monitoring_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2 + "& param3=" + param3 + "& param4=" + param4 + "& param5=" + param5 + "& param6=" + param6 + "& param7=" + param7 + "& param8=" + param8,
+            // url: "/search_projects_monitoring_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 
