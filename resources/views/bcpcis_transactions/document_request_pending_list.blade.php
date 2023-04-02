@@ -107,34 +107,39 @@
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="table-responsive">
-                                <table id="example2" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th hidden>Document_ID</th>
-                                            <th>Queue Ticket Number</th>
-                                            <th>Requested Date and Time</th>
-                                            <th>Resident Name</th>
-                                            <th>Document Type Name</th>
-                                            <th>Purpose of Document</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries2 as $x)
-                                        <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Document_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Queue_Ticket_Number}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Requested_Date_and_Time}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Document_Type_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Purpose_of_Document}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <a class="btn btn-success" href="{{ url('document_request_approved_details/'.$x->Document_ID) }}">Edit</a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Queue Ticket Number</th>
+                                                <th>Requested Date and Time</th>
+                                                <th>Resident Name</th>
+                                                <th>Document Type Name</th>
+                                                <th>Purpose of Document</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchApproved searchApproved1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchApproved searchApproved2" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchApproved searchApproved3" style="min-width: 400px;" type="text"></td>
+                                                <td>
+                                                    <select class="form-control searchApproved searchApproved4" id="Document_Type_IDA" name="Document_Type_IDA" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchApproved searchApproved5" id="Purpose_of_Document_IDA" name="Purpose_of_Document_IDA" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListDataApproved"> 
+                                            @include('bcpcis_transactions.document_request_approved_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries2->links() !!}
+                                    <input type="hidden" name="hidden_pageApproved" id="hidden_pageApproved" value="1">
+                                </div>
                             </div>
                             <hr>
                         </div>
@@ -162,32 +167,39 @@
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="table-responsive">
-                                <table id="example3" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th hidden>Document_ID</th>
-                                            <th>Queue Ticket Number</th>
-                                            <th>Requested Date and Time</th>
-                                            <th>Resident Name</th>
-                                            <th>Document Type Name</th>
-                                            <th>Purpose of Document</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries3 as $x)
-                                        <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Document_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Queue_Ticket_Number}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Requested_Date_and_Time}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Document_Type_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Purpose_of_Document}}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Queue Ticket Number</th>
+                                                <th>Requested Date and Time</th>
+                                                <th>Resident Name</th>
+                                                <th>Document Type Name</th>
+                                                <th>Purpose of Document</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchDisApproved searchDisApproved1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchDisApproved searchDisApproved2" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchDisApproved searchDisApproved3" style="min-width: 400px;" type="text"></td>
+                                                <td>
+                                                    <select class="form-control searchDisApproved searchDisApproved4" id="Document_Type_IDD" name="Document_Type_IDD" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchDisApproved searchDisApproved5" id="Purpose_of_Document_IDD" name="Purpose_of_Document_IDD" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListDataDisApproved"> 
+                                            @include('bcpcis_transactions.document_request_disapproved_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries3->links() !!}
+                                    <input type="hidden" name="hidden_pageDisApproved" id="hidden_pageDisApproved" value="1">
+                                </div>    
                             </div>
-
                             <div hidden>
                                 <form id="Approved_Inhabitant" method="POST" action="{{ route('approve_disapprove_document_request_pending') }}" autocomplete="off" enctype="multipart/form-data">@csrf
                                     <input type="number" class="form-control" id="Document_ID" name="Document_ID">
@@ -238,7 +250,7 @@
             }
         });
 
-        $("#Document_Type_ID1").select2({
+        $("#Document_Type_IDA").select2({
             minimumInputLength: 2,
             ajax: {
                 url: '/search_documenttype',
@@ -246,7 +258,23 @@
             }
         });
 
-        $("#Purpose_of_Document_ID1").select2({
+        $("#Purpose_of_Document_IDD").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
+        });
+
+        $("#Document_Type_IDD").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_IDA").select2({
             minimumInputLength: 2,
             ajax: {
                 url: '/search_documentpurpose',
@@ -328,6 +356,55 @@
 
     }
 
+    $(".searchApproved").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchApproved1').val();
+        var param2 = $('.searchApproved2').val();
+        var param3 = $('.searchApproved3').val();
+        var param4 = $('.searchApproved4').val();
+        var param5 = $('.searchApproved5').val();
+        var page = $('#hidden_pageApproved').val();
+
+
+        $.ajax({
+            url: "/search_documentrequestapproved_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5,
+            // url: "/search_documentrequestpending_fields?page=" + page + "&param1=" + param1 ,
+            success: function(data) {
+                $('#ListDataApproved').html('');
+                $('#ListDataApproved').html(data);
+            }
+        });
+
+    }
+
+    $(".searchDisApproved").change(function() {
+        SearchData3();
+    });
+
+    function SearchData3() {
+        // alert('test');
+        var param1 = $('.searchDisApproved1').val();
+        var param2 = $('.searchDisApproved2').val();
+        var param3 = $('.searchDisApproved3').val();
+        var param4 = $('.searchDisApproved4').val();
+        var param5 = $('.searchDisApproved5').val();
+        var page = $('#hidden_pageDisApproved').val();
+
+
+        $.ajax({
+            url: "/search_documentrequestdisapproved_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5,
+            // url: "/search_documentrequestpending_fields?page=" + page + "&param1=" + param1 ,
+            success: function(data) {
+                $('#ListDataDisApproved').html('');
+                $('#ListDataDisApproved').html(data);
+            }
+        });
+
+    }
    
 </script>
 

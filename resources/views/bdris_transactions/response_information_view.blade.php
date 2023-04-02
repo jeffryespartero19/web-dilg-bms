@@ -52,26 +52,39 @@
                                     <div>
                                         <input type="text" class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID" value="{{$response[0]->Disaster_Response_ID}}" hidden>
                                         <div class="row">
-                                            <div class="col-6">
-                                                <strong>Disaster Name: </strong><span id="VDisaster_Name"></span><br>
-                                                <!-- <strong>Damaged Location: </strong><span id="VDamaged_Location"></span><br> -->
-                                                <strong>Disaster Date Start: </strong><span id="VDisaster_Date_Start"></span><br>
-                                                <strong>Disaster Date End: </strong><span id="VDisaster_Date_End"></span><br>
-                                                <!-- <strong>GPS Coordinates: </strong><span id="VGPS_Coordinates"></span><br>
-                                                <strong>Risk Assesment: </strong><span id="VRisk_Assesment"></span><br>
-                                                <strong>Action Taken: </strong><span id="VAction_Taken"></span><br> -->
-                                                <strong>Disaster Type: </strong><span id="VDisaster_Type"></span><br>
-                                                <strong>Alert Level: </strong><span id="VAlert_Level"></span><br>
-                                                <strong>Summary: </strong><span id="VSummary"></span><br>
-                                                <!-- buban -->
-                                                <br>
-                                                <br>
-                                                <br>
-                                            </div>
+                                            <table class="table table-striped table-bordered" style="width:100%">
+                                                <tr>
+                                                    <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:30%"><strong>Disaster Name: </strong></td>
+                                                    <td><span id="VDisaster_Name"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:30%"><strong>Disaster Date Start: </strong></td>
+                                                    <td><span id="VDisaster_Date_Start"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:30%"><strong>Disaster Date End: </strong></td>
+                                                    <td><span id="VDisaster_Date_End"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:30%"><strong>Disaster Type: </strong></td>
+                                                    <td><span id="VDisaster_Type"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:30%"><strong>Alert Level: </strong></td>
+                                                    <td><span id="VAlert_Level"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:30%"><strong>Summary: </strong></td>
+                                                    <td><span id="VSummary"></span></td>
+                                                </tr>
+                                            </table>
                                            
                                             <div class="form-group col-lg-12" style="padding:0 10px;">
                                                 <h3>Evacuee Information</h3>
-                                                <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a>
+                                                <!-- <a onclick="addResident();" style="float: right; cursor:pointer">+ Add</a> -->
                                                 <br>
                                                 <div class="table-responsive" id="CasualtiesDetails">
 
@@ -83,7 +96,7 @@
                                                                 <th>Resident Status</th>
                                                                 <th>Address</th>
                                                                 <th>Birthdate</th>
-                                                                <th>Actions</th>
+                                                                <!-- <th>Actions</th> -->
                                                             </tr>
                                                         </thead>
                                                         <tbody class="HSBody">
@@ -92,7 +105,7 @@
                                                             <tr class="HRDetails">
                                                                 <td hidden></td>
                                                                 <td>
-                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 350px;">
+                                                                    <select class="form-control js-example-basic-single Resident_Select2 mySelect2" name="Resident_ID[]" style="width: 450px;">
                                                                         <option value='' disabled selected>Select Option</option>
                                                                         @if($id->Resident_ID == 0)
                                                                         <option value="{{ $id->Non_Resident_Name }}" selected>{{ $id->Non_Resident_Name }}</option>
@@ -107,21 +120,21 @@
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <select class="form-control" style="width: 200px; pointer-events:none" name="Residency_Status[]">
+                                                                    <select class="form-control" style="width: 250px; pointer-events:none" name="Residency_Status[]">
                                                                         <option value='' disabled selected>Select Option</option>
                                                                         <option value=0 {{ 0 == $id->Residency_Status  ? "selected" : "" }}>Non-Resident</option>
                                                                         <option value=1 {{ 1 == $id->Residency_Status  ? "selected" : "" }}>Resident</option>
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]" value="{{$id->Non_Resident_Address}}">
+                                                                    <input type="text" class="form-control" style="width: 550px;" name="Non_Resident_Address[]" value="{{$id->Non_Resident_Address}}">
                                                                 </td>
                                                                 <td>
                                                                     <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]" value="{{$id->Non_Resident_Birthdate}}">
                                                                 </td>
-                                                                <td style="text-align: center;">
+                                                                <!-- <td style="text-align: center;">
                                                                     <button type="button" class="btn btn-danger HRRemove">Remove</button>
-                                                                </td>
+                                                                </td> -->
                                                             </tr>
                                                             @endforeach
                                                             @else
@@ -164,7 +177,7 @@
                                         <center>
                                             <!-- <button type="button" class="btn btn-danger modal-close" style="width: 200px;" data-dismiss="modal">Close</button> -->
                                             <!-- <button type="submit" class="btn btn-primary" style="width: 200px;">Save</button> -->
-                                            <a class="btn btn-info" href="{{route('brgy_projects_monitoring_list')}}" id="btnback">Back</a>
+                                            <a class="btn btn-info" href="{{route('response_information_list')}}" id="btnback">Back</a>
                                         </center>
                                     </div>
                                 </form>

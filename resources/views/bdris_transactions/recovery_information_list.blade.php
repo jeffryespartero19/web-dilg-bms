@@ -93,33 +93,32 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Disaster Name</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Disaster_Name}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-info" href="{{ url('recovery_information_details/'.$x->Disaster_Recovery_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('view_recovery_information_details/'.$x->Disaster_Recovery_ID) }}">View</a>
-                                                <button class="delete_recovery btn btn-danger" value="{{$x->Disaster_Recovery_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('recovery_information_details/'.$x->Disaster_Recovery_ID) }}">View</a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Disaster Name</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter1" id="Disaster_Response_ID" name="Disaster_Response_ID" style="min-width: 400px;">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                        @foreach($disaster_response as $bt1)
+                                                        <option value="{{ $bt1->Disaster_Response_ID }}">{{ $bt1->Disaster_Name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bdris_transactions.recovery_information_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,9 +142,23 @@
 @section('scripts')
 
 <script>
+
+    $(document).ready(function() {
+
+        $("#Disaster_Response_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disasterresponse',
+                dataType: "json",
+            }
+        });
+
+    })
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        
     });
 
     $(document).on('click', '.modal-close', function(e) {
@@ -278,6 +291,7 @@
 
     // Side Bar Active
     $(document).ready(function() {
+        
         $('.recoveryInfo').addClass('active');
         $('.disaster_menu').addClass('active');
         $('.disaster_main').addClass('menu-open');
@@ -320,6 +334,27 @@
             }
         });
     });
+
+    $(".searchFilter").change(function() {
+        Search();
+        // alert('test');
+        
+    });
+
+    function Search() {
+        // alert('test');
+       
+        var param1 = $('.searchFilter1').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_recovery_information_fields?page=" + page + "& param1=" + param1,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

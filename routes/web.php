@@ -1037,6 +1037,13 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/search_documentrequest_fields', 'BCPISController@search_documentrequest_fields');
   Route::get('/document_request_edit/{id}', 'BCPISController@document_request_edit');
   Route::post('/create_brgy_document_information_request_update', 'BCPISController@create_brgy_document_information_request_update')->name('create_brgy_document_information_request_update');
+  Route::get('/search_documentrequestapproved_fields', 'BCPISController@search_documentrequestapproved_fields');
+  Route::get('/search_documentrequestdisapproved_fields', 'BCPISController@search_documentrequestdisapproved_fields');
+  Route::get('/search_disaster_related_activities_fields', 'BDRISALController@search_disaster_related_activities_fields');
+  Route::get('/search_response_information_fields', 'BDRISALController@search_response_information_fields');
+  Route::get('/search_recovery_information_fields', 'BDRISALController@search_recovery_information_fields');
+  Route::get('/search_contractor_fields', 'BPMSController@search_contractor_fields');
+  Route::get('/search_projects_monitoring_fields', 'BPMSController@search_projects_monitoring_fields');
 });
 
 

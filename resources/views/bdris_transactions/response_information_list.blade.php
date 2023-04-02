@@ -94,51 +94,45 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Disaster Name</th>
-                                            <th>Disaster Type</th>
-                                            <th>Alert Level</th>
-                                            <!-- <th>Damaged Location</th> -->
-                                            <th>Disaster Date Start</th>
-                                            <th>Disaster Date End</th>
-                                            <th>Summary</th>
-                                            <!-- <th>GPS Coordinates</th>
-                                            <th>Risk Assesment</th>
-                                            <th>Action Taken</th> -->
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Disaster_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Disaster_Type}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Alert_Level}}</td>
-                                            <!-- <td class="sm_data_col txtCtr">{{$x->Damaged_Location}}</td> -->
-                                            <td class="sm_data_col txtCtr">{{$x->Disaster_Date_Start}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Disaster_Date_End}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Summary}}</td>
-                                            <!-- <td class="sm_data_col txtCtr">{{$x->GPS_Coordinates}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Risk_Assesment}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Action_Taken}}</td> -->
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-info" href="{{ url('response_information_details/'.$x->Disaster_Response_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('view_response_information_details/'.$x->Disaster_Response_ID) }}">View</a>
-                                                <button class="delete_response btn btn-danger" value="{{$x->Disaster_Response_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('response_information_details/'.$x->Disaster_Response_ID) }}">View</a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Disaster Name</th>
+                                                <th>Disaster Type</th>
+                                                <th>Alert Level</th>
+                                                <th>Disaster Date Start</th>
+                                                <th>Disaster Date End</th>
+                                                <th>Summary</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter2" id="Disaster_Type_ID" name="Disaster_Type_ID" style="min-width: 350px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter3" id="Alert_Level_ID" name="Alert_Level_ID" style="min-width: 300px;">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                        @foreach($alert_level as $bt1)
+                                                        <option value="{{ $bt1->Alert_Level_ID }}">{{ $bt1->Alert_Level }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter5" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="text"></td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bdris_transactions.response_information_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,6 +159,13 @@
     $(document).ready(function() {
         $('#example').DataTable();
 
+        $("#Disaster_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_disastertype',
+                dataType: "json",
+            }
+        });
     });
 
     $(document).on("change", "#R_ID", function() {
@@ -344,6 +345,32 @@
             }
         });
     });
+
+    $(".searchFilter").change(function() {
+        Search();
+        // alert('test');
+        
+    });
+
+    function Search() {
+        // alert('test');
+       
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_response_information_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2 + "& param3=" + param3 + "& param4=" + param4 + "& param5=" + param5 + "& param6=" + param6,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 @endsection

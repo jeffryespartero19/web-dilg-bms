@@ -937,6 +937,147 @@ class BPMSController extends Controller
 
         return Excel::download(new ProjectMonitoringExportView($chk_Project_Number,$chk_Project_Name,$chk_Total_Project_Cost,$chk_Exact_Location,$chk_Actual_Project_Start,$chk_Contractor_Name,$chk_Project_Type_Name,$chk_Project_Status_Name,), 'projectmonitoring.xlsx');
     }
+
+    public function search_contractor_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bpms_contractor');
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+        $param6 = $request->get('param6');
+
+        if ($param1 != null && $param1 != "") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('Contractor_Name', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where(function ($query) use ($param2) {
+                $query->where('Contact_Person', 'LIKE', '%' . $param2 . '%');
+            });
+        }
+        if ($param3 != null && $param3 != "") {
+            $data->where(function ($query) use ($param3) {
+                $query->where('Contact_No', 'LIKE', '%' . $param3 . '%');
+            });
+        }
+        if ($param4 != null && $param4 != "") {
+            $data->where(function ($query) use ($param4) {
+                $query->where('Contractor_Address', 'LIKE', '%' . $param4 . '%');
+            });
+        }
+        if ($param5 != null && $param5 != "") {
+            $data->where(function ($query) use ($param5) {
+                $query->where('Contractor_TIN', 'LIKE', '%' . $param5 . '%');
+            });
+        }
+        if ($param6 != null && $param6 != "") {
+            $data->where(function ($query) use ($param6) {
+                $query->where('Remarks', 'LIKE', '%' . $param6 . '%');
+            });
+        }
+       
+       
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries = $data->orderby('Contractor_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bpms_transactions.contractor_data', compact('db_entries'))->render();
+    }
+
+    public function search_projects_monitoring_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data= DB::table('bpms_brgy_projects_monitoring as a')
+        ->leftjoin('bpms_contractor as b', 'a.Contractor_ID', '=', 'b.Contractor_ID')
+        ->leftjoin('maintenance_bpms_project_type as c', 'a.Project_Type_ID', '=', 'c.Project_Type_ID')
+        ->leftjoin('maintenance_bpms_project_status as d', 'a.Project_Status_ID', '=', 'd.Project_Status_ID')
+        ->select(
+            'a.Brgy_Projects_ID',
+            'a.Project_Number',
+            'a.Project_Name',
+            'a.Total_Project_Cost',
+            'a.Exact_Location',
+            'a.Actual_Project_Start',
+            'a.Contractor_ID',
+            'a.Project_Type_ID',
+            'a.Project_Status_ID',
+            'b.Contractor_Name',
+            'c.Project_Type_Name',
+            'd.Project_Status_Name',
+
+        );
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+        $param6 = $request->get('param6');
+        $param7 = $request->get('param7');
+        $param8 = $request->get('param8');
+
+        if ($param1 != null && $param1 != "") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('a.Project_Number', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where(function ($query) use ($param2) {
+                $query->where('a.Project_Name', 'LIKE', '%' . $param2 . '%');
+            });
+        }
+        if ($param3 != null && $param3 != "") {
+            $data->where(function ($query) use ($param3) {
+                $query->where('a.Total_Project_Cost', 'LIKE', '%' . $param3 . '%');
+            });
+        }
+        if ($param4 != null && $param4 != "") {
+            $data->where(function ($query) use ($param4) {
+                $query->where('a.Exact_Location', 'LIKE', '%' . $param4 . '%');
+            });
+        }
+        if ($param5 != null && $param5 != "") {
+            $data->where( DB::raw('CAST(a.Actual_Project_Start as date)'), $param5);
+        }
+        if ($param6 != null && $param6 != "" && $param6 != "null") {
+            $data->where('a.Contractor_ID', $param6);
+        }
+        if ($param7 != null && $param7 != "" && $param7 != "null") {
+            $data->where('a.Project_Type_ID', $param7);
+        }
+        if ($param8 != null && $param8 != "" && $param8 != "null") {
+            $data->where('a.Project_Status_ID', $param8);
+        }
+        // if (Auth::user()->User_Type_ID == 3) {
+        //     $data->where('a.Province_ID', Auth::user()->Province_ID);
+        // } elseif (Auth::user()->User_Type_ID == 1) {
+        //     $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        // }
+        $db_entries = $data->orderby('a.Brgy_Projects_ID', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bpms_transactions.brgy_projects_monitoring_data', compact('db_entries'))->render();
+    }    
     // public function delete_milestone_attachments(Request $request)
     // {
     //     $id = $_GET['id'];

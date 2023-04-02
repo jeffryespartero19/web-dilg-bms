@@ -3079,4 +3079,127 @@ class BCPISController extends Controller
         return redirect()->back()->with('message', 'Information Updated');
      }
 
+
+     public function search_documentrequestapproved_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bcpcis_brgy_document_information as a') 
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as c', 'a.Resident_ID', '=', 'c.Resident_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as e', 'a.Purpose_of_Document_ID', '=', 'e.Purpose_of_Document_ID')
+        ->select(
+            'a.Document_ID',
+            'b.Queue_Ticket_Number',
+            'b.Requested_Date_and_Time',
+            DB::raw('CONCAT(c.First_Name, " ",LEFT(c.Middle_Name,1),". ",c.Last_Name) AS Resident_Name'),
+            'd.Document_Type_Name',
+            'e.Purpose_of_Document',
+            'a.Document_Type_ID',
+            'a.Purpose_of_Document_ID'
+           
+        )
+        ->where('a.Request_Status_ID', 1);
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Queue_Ticket_Number', $param1);
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where('b.Requested_Date_and_Time', $param2);
+        }
+        if ($param3 != null && $param3 != "") {
+            $data->where(function ($query) use ($param3) {
+                $query->where('c.Last_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('c.First_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('c.Middle_Name', 'LIKE', '%' . $param3 . '%');
+            });
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Document_Type_ID', $param4);
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Purpose_of_Document_ID', $param5);
+        }
+        
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        $db_entries2 = $data->orderby('b.Queue_Ticket_Number', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bcpcis_transactions.document_request_approved_data', compact('db_entries2'))->render();
+    }
+
+    public function search_documentrequestdisapproved_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bcpcis_brgy_document_information as a') 
+        ->leftjoin('bcpcis_brgy_document_claim_schedule as b', 'a.Document_ID', '=', 'b.Document_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as c', 'a.Resident_ID', '=', 'c.Resident_ID')
+        ->leftjoin('maintenance_bcpcis_document_type as d', 'a.Document_Type_ID', '=', 'd.Document_Type_ID')
+        ->leftjoin('maintenance_bcpcis_purpose_of_document as e', 'a.Purpose_of_Document_ID', '=', 'e.Purpose_of_Document_ID')
+        ->select(
+            'a.Document_ID',
+            'b.Queue_Ticket_Number',
+            'b.Requested_Date_and_Time',
+            DB::raw('CONCAT(c.First_Name, " ",LEFT(c.Middle_Name,1),". ",c.Last_Name) AS Resident_Name'),
+            'd.Document_Type_Name',
+            'e.Purpose_of_Document',
+            'a.Document_Type_ID',
+            'a.Purpose_of_Document_ID'
+           
+        )
+        ->where('a.Request_Status_ID', 2);
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Queue_Ticket_Number', $param1);
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where('b.Requested_Date_and_Time', $param2);
+        }
+        if ($param3 != null && $param3 != "") {
+            $data->where(function ($query) use ($param3) {
+                $query->where('c.Last_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('c.First_Name', 'LIKE', '%' . $param3 . '%')
+                    ->orWhere('c.Middle_Name', 'LIKE', '%' . $param3 . '%');
+            });
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Document_Type_ID', $param4);
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Purpose_of_Document_ID', $param5);
+        }
+        
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        $db_entries3 = $data->orderby('b.Queue_Ticket_Number', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bcpcis_transactions.document_request_disapproved_data', compact('db_entries3'))->render();
+    }
+
 }
