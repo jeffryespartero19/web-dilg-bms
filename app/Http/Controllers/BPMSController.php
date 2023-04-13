@@ -294,6 +294,7 @@ class BPMSController extends Controller
             )
             ->where('a.Brgy_Projects_ID', $id)
             ->get();
+           // dd($milestone);
             return view('bpms_transactions.brgy_projects_monitoring_edit', compact(
                 'currDATE',
                 'project',
@@ -415,7 +416,14 @@ class BPMSController extends Controller
     public function create_brgy_projects_monitoring(Request $request)
     {
         $currDATE = Carbon::now();
-        $data = $data = request()->all();
+        $data = request()->all();
+        $Contractor_ID='';
+        if($request->has('Contractor_ID')){
+            $Contractor_ID=$data['Contractor_ID'];
+        }else{
+            $Contractor_ID=0;
+        }
+
 
         if ($data['Brgy_Projects_ID'] == null || $data['Brgy_Projects_ID'] == 0) {
             $Brgy_Projects_ID = DB::table('bpms_brgy_projects_monitoring')->insertGetId(
@@ -432,7 +440,8 @@ class BPMSController extends Controller
                     'Number_of_Beneficiaries'   => $data['Number_of_Beneficiaries'],
                     'Actual_Project_Start'      => $data['Actual_Project_Start'],
                     'Project_Completion_Date'   => $data['Project_Completion_Date'],
-                    'Contractor_ID'             => $data['Contractor_ID'],
+                    // 'Contractor_ID'             => $data['Contractor_ID'],
+                    'Contractor_ID'             => $Contractor_ID,
                     'Project_Type_ID'           => $data['Project_Type_ID'],
                     'Project_Status_ID'         => $data['Project_Status_ID'],
                     'Barangay_ID'               => Auth::user()->Barangay_ID,
@@ -495,7 +504,7 @@ class BPMSController extends Controller
                     'Number_of_Beneficiaries'   => $data['Number_of_Beneficiaries'],
                     'Actual_Project_Start'      => $data['Actual_Project_Start'],
                     'Project_Completion_Date'   => $data['Project_Completion_Date'],
-                    'Contractor_ID'             => $data['Contractor_ID'],
+                    'Contractor_ID'             => $Contractor_ID,
                     'Project_Type_ID'           => $data['Project_Type_ID'],
                     'Project_Status_ID'         => $data['Project_Status_ID'],
                     'Barangay_ID'               => Auth::user()->Barangay_ID,

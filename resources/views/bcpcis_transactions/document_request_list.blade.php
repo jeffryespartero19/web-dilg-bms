@@ -63,6 +63,7 @@
                                                 <th>Other Resident Name</th>
                                                 <th>Requesting Date and Time</th>
                                                 <th>Created Date</th>
+                                                <th>Request Status</th>
                                                 <th>Actions</th> 
                                             </tr>
                                             <tr>
@@ -80,6 +81,7 @@
                                                 <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="text"></td>
                                                 <td><input class="form-control searchFilter searchFilter7" style="min-width: 200px;" type="datetime-local"></td>
                                                 <td><input class="form-control searchFilter searchFilter8" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter9" style="min-width: 200px;" type="text"></td>
                                                 <td style="min-width: 200px;"></td>
                                             </tr>
                                         </thead>
@@ -248,10 +250,11 @@
         var param6 = $('.searchFilter6').val();
         var param7 = $('.searchFilter7').val();
         var param8 = $('.searchFilter8').val();
+        var param9 = $('.searchFilter9').val();
         var page = $('#hidden_page').val();
 
         $.ajax({
-            url: "/search_documentrequest_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8,
+            url: "/search_documentrequest_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9,
             success: function(data) {
                 $('#ListData').html('');
                 $('#ListData').html(data);

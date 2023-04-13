@@ -4179,8 +4179,11 @@ class BDRISALController extends Controller
         $distyparam5 = $request->get('distyparam5');
         $distyparam6 = $request->get('distyparam6');
 
-        if ($distyparam1 != null && $distyparam1 != "" && $distyparam1 != "null") {
-            $data->where('a.Disaster_Type', $distyparam1);
+        
+        if ($distyparam1 != null && $distyparam1 != "") {
+            $data->where(function ($query) use ($distyparam1) {
+                $query->where('a.Disaster_Type', 'LIKE', '%' . $distyparam1 . '%');
+            });
         }
         if ($distyparam2 != null && $distyparam2 != "" && $distyparam2 != "null") {
             $data->where('a.Emergency_Evacuation_Site_ID', $distyparam2);
@@ -4243,11 +4246,15 @@ class BDRISALController extends Controller
                 $query->where('a.Emergency_Evacuation_Site_Name', 'LIKE', '%' . $emerevacparam1 . '%');
             });
         }
-        if ($emerevacparam2 != null && $emerevacparam2 != "" && $emerevacparam2 != "null") {
-            $data->where('a.Address', $emerevacparam2);
+        if ($emerevacparam2 != null && $emerevacparam2 != "") {
+            $data->where(function ($query) use ($emerevacparam2) {
+                $query->where('a.Address', 'LIKE', '%' . $emerevacparam2 . '%');
+            });
         }
-        if ($emerevacparam3 != null && $emerevacparam3 != "" && $emerevacparam3 != "null") {
-            $data->where('a.Capacity', $emerevacparam3);
+        if ($emerevacparam3 != null && $emerevacparam3 != "") {
+            $data->where(function ($query) use ($emerevacparam3) {
+                $query->where('a.Capacity', 'LIKE', '%' . $emerevacparam3 . '%');
+            });
         }
         if ($emerevacparam4 != null && $emerevacparam4 != "" && $emerevacparam4 != "null") {
             $data->where('a.Active', $emerevacparam4);
@@ -4302,8 +4309,10 @@ class BDRISALController extends Controller
                 $query->where('a.Allocated_Fund_Name', 'LIKE', '%' . $allofundparam1 . '%');
             });
         }
-        if ($allofundparam2 != null && $allofundparam2 != "" && $allofundparam2 != "null") {
-            $data->where('a.Amount', $allofundparam2);
+        if ($allofundparam2 != null && $allofundparam2 != "") {
+            $data->where(function ($query) use ($allofundparam2) {
+                $query->where('a.Amount', 'LIKE', '%' . $allofundparam2 . '%');
+            });
         }
         if ($allofundparam3!= null && $allofundparam3 != "" && $allofundparam3 != "null") {
             $data->where('a.Active', $allofundparam3);
@@ -4374,17 +4383,25 @@ class BDRISALController extends Controller
         if ($dissuppparam1 != null && $dissuppparam1 != "" && $dissuppparam1 != "null") {
             $data->where('a.Disaster_Response_ID', $dissuppparam1);
         }
-        if ($dissuppparam2 != null && $dissuppparam2 != "" && $dissuppparam2 != "null") {
-            $data->where('a.Disaster_Supplies_Name', $dissuppparam2);
+        if ($dissuppparam2 != null && $dissuppparam2 != "") {
+            $data->where(function ($query) use ($dissuppparam2) {
+                $query->where('a.Disaster_Supplies_Name', 'LIKE', '%' . $dissuppparam2 . '%');
+            });
         }
-        if ($dissuppparam3 != null && $dissuppparam3 != "" && $dissuppparam3 != "null") {
-            $data->where('a.Disaster_Supplies_Quantity', $dissuppparam3);
+        if ($dissuppparam3 != null && $dissuppparam3 != "") {
+            $data->where(function ($query) use ($dissuppparam3) {
+                $query->where('a.Disaster_Supplies_Quantity', 'LIKE', '%' . $dissuppparam3 . '%');
+            });
         }
-        if ($dissuppparam4 != null && $dissuppparam4 != "" && $dissuppparam4 != "null") {
-            $data->where('a.Location', $dissuppparam4);
+        if ($dissuppparam4 != null && $dissuppparam4 != "") {
+            $data->where(function ($query) use ($dissuppparam4) {
+                $query->where('a.Location', 'LIKE', '%' . $dissuppparam4 . '%');
+            });
         }
-        if ($dissuppparam5 != null && $dissuppparam5 != "" && $dissuppparam5 != "null") {
-            $data->where('a.Remarks', $dissuppparam5);
+        if ($dissuppparam5 != null && $dissuppparam5 != "") {
+            $data->where(function ($query) use ($dissuppparam5) {
+                $query->where('a.Remarks', 'LIKE', '%' . $dissuppparam5 . '%');
+            });
         }
         if ($dissuppparam6 != null && $dissuppparam6 != "" && $dissuppparam6 != "null") {
             $data->where('a.Active', $dissuppparam6);
@@ -4439,8 +4456,10 @@ class BDRISALController extends Controller
                 $query->where('a.Emergency_Team_Name', 'LIKE', '%' . $emerteamparam1 . '%');
             });
         }
-        if ($emerteamparam2 != null && $emerteamparam2 != "" && $emerteamparam2 != "null") {
-            $data->where('a.Emergency_Team_Hotline', $emerteamparam2);
+        if ($emerteamparam2 != null && $emerteamparam2 != "") {
+            $data->where(function ($query) use ($emerteamparam2) {
+                $query->where('a.Emergency_Team_Hotline', 'LIKE', '%' . $emerteamparam2 . '%');
+            });
         }
         if ($emerteamparam3!= null && $emerteamparam3 != "" && $emerteamparam3 != "null") {
             $data->where('a.Active', $emerteamparam3);
@@ -4495,8 +4514,10 @@ class BDRISALController extends Controller
                 $query->where('a.Emergency_Equipment_Name', 'LIKE', '%' . $emerequipparam1 . '%');
             });
         }
-        if ($emerequipparam2 != null && $emerequipparam2 != "" && $emerequipparam2 != "null") {
-            $data->where('a.Location', $emerequipparam2);
+        if ($emerequipparam2 != null && $emerequipparam2 != "") {
+            $data->where(function ($query) use ($emerequipparam2) {
+                $query->where('a.Location', 'LIKE', '%' . $emerequipparam2 . '%');
+            });
         }
         if ($emerequipparam3!= null && $emerequipparam3 != "" && $emerequipparam3 != "null") {
             $data->where('a.Active', $emerequipparam3);
