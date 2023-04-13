@@ -8,6 +8,7 @@
     <td class="sm_data_col txtCtr">{{$x->SecondResident_Name}}</td>
     <td class="sm_data_col txtCtr">{{$x->Requested_Date_and_Time}}</td>
     <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
+    <td class="sm_data_col txtCtr">{{$x->Request_Status}}</td>
     <td class="sm_data_col txtCtr">
         <a class="btn btn-info" href="{{ url('document_request_edit/'.$x->Document_ID) }}">Edit</a>
     </td>

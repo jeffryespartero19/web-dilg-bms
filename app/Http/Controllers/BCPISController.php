@@ -2596,12 +2596,22 @@ class BCPISController extends Controller
         $param5 = $request->get('param5');
         $param6 = $request->get('param6');
 
-        if ($param1 != null && $param1 != "" && $param1 != "null") {
-            $data->where('a.Transaction_No', $param1);
+        // if ($param1 != null && $param1 != "" && $param1 != "null") {
+        //     $data->where('a.Transaction_No', $param1);
+        // }
+        if ($param1 != null && $param1 != "") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('a.Transaction_No', 'LIKE', '%' . $param1 . '%');
+            });
         }
-        if ($param2 != null && $param2 != "" && $param2 != "null") {
-            $data->where('f.Business_Name', $param2);
+        if ($param2 != null && $param2 != "") {
+            $data->where(function ($query) use ($param2) {
+                $query->where('f.Business_Name', 'LIKE', '%' . $param2 . '%');
+            });
         }
+        // if ($param2 != null && $param2 != "" && $param2 != "null") {
+        //     $data->where('f.Business_Name', $param2);
+        // }
         if ($param3 != null && $param3 != "") {
             $data->where(function ($query) use ($param3) {
                 $query->where('g.Last_Name', 'LIKE', '%' . $param3 . '%')
@@ -2689,9 +2699,11 @@ class BCPISController extends Controller
         $param9 = $request->get('param9');
         $param10 = $request->get('param10');
         $param11 = $request->get('param11');
-
-        if ($param1 != null && $param1 != "" && $param1 != "null") {
-            $data->where('a.Transaction_No', $param1);
+            
+        if ($param1 != null && $param1 != "") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('a.Transaction_No', 'LIKE', '%' . $param1 . '%');
+            });
         }
         if ($param2 != null && $param2 != "") {
             $data->where('a.Request_Date', $param2);
@@ -2699,21 +2711,24 @@ class BCPISController extends Controller
         if ($param3 != null && $param3 != "" && $param3 != "null") {
             $data->where('a.Released', $param3);
         }
-        if ($param4 != null && $param4 != "" && $param4 != "null") {
-            $data->where('a.Remarks', $param4);
+        if ($param4 != null && $param4 != "") {
+            $data->where(function ($query) use ($param4) {
+                $query->where('a.Remarks', 'LIKE', '%' . $param4 . '%');
+            });
         }
-        if ($param5 != null && $param5 != "" && $param5 != "null") {
-            $data->where('a.Salutation_Name', $param5);
+        if ($param5 != null && $param5 != "") {
+            $data->where(function ($query) use ($param5) {
+                $query->where('a.Salutation_Name', 'LIKE', '%' . $param5 . '%');
+            });
         }
-        if ($param6 != null && $param6 != "" && $param6 != "null") {
-            $data->where('j.CTC_No', $param6);
+        if ($param6 != null && $param6 != "") {
+            $data->where(function ($query) use ($param6) {
+                $query->where('j.CTC_No', 'LIKE', '%' . $param6 . '%');
+            });
         }
         if ($param7 != null && $param7 != "") {
             $data->where('a.Issued_On', $param7);
         }
-        // if ($param8 != null && $param8 != "" && $param8 != "null") {
-        //     $data->where('a.Issued_At', $param8);
-        // }
         if ($param8 != null && $param8 != "") {
             $data->where(function ($query) use ($param8) {
                 $query->where('i.Last_Name', 'LIKE', '%' . $param8 . '%')
@@ -2721,8 +2736,10 @@ class BCPISController extends Controller
                     ->orWhere('i.Middle_Name', 'LIKE', '%' . $param8 . '%');
             });
         }
-        if ($param9 != null && $param9 != "" && $param9 != "null") {
-            $data->where('a.SecondResident_Name', $param9);
+        if ($param9 != null && $param9 != "") {
+            $data->where(function ($query) use ($param9) {
+                $query->where('a.SecondResident_Name', 'LIKE', '%' . $param9 . '%');
+            });
         }
         if ($param10 != null && $param10 != "" && $param10 != "null") {
             $data->where('a.Document_Type_ID', $param10);
@@ -2796,17 +2813,25 @@ class BCPISController extends Controller
         if ($param2 != null && $param2 != "" && $param2 != "null") {
             $data->where('a.Business_Type_ID', $param2);
         }
-        if ($param3 != null && $param3 != "" && $param3 != "null") {
-            $data->where('a.Business_Tin', $param3);
+        if ($param3 != null && $param3 != "") {
+            $data->where(function ($query) use ($param3) {
+                $query->where('a.Business_Tin', 'LIKE', '%' . $param3 . '%');
+            });
         }
-        if ($param4 != null && $param4 != "" && $param4 != "null") {
-            $data->where('a.Business_Owner', $param4);
+        if ($param4 != null && $param4 != "") {
+            $data->where(function ($query) use ($param4) {
+                $query->where('a.Business_Owner', 'LIKE', '%' . $param4 . '%');
+            });
         }
-        if ($param5 != null && $param5 != "" && $param5 != "null") {
-            $data->where('a.Business_Address', $param5);
+        if ($param5 != null && $param5 != "") {
+            $data->where(function ($query) use ($param5) {
+                $query->where('a.Business_Address', 'LIKE', '%' . $param5 . '%');
+            });
         }
-        if ($param6 != null && $param6 != "" && $param6 != "null") {
-            $data->where('a.Mobile_No', $param6);
+        if ($param6 != null && $param6 != "") {
+            $data->where(function ($query) use ($param6) {
+                $query->where('a.Mobile_No', 'LIKE', '%' . $param6 . '%');
+            });
         }
         if ($param7 != null && $param7 != "" && $param7 != "null") {
             $data->where('a.Active', $param7);
@@ -2912,8 +2937,9 @@ class BCPISController extends Controller
                 'c.Purpose_of_Document',  
                 'd.Document_Type_Name', 
                 DB::raw('CAST(a.Date_Stamp as date) AS Date_Stamp'),
+                DB::raw('(CASE WHEN a.Request_Status_ID = 0 THEN "Pending" WHEN a.Request_Status_ID = 1 THEN "Approved" ELSE "Disapproved" END) AS Request_Status')
             )
-            ->where([['a.Request_Status_ID', 0],['a.Resident_ID', Auth::user()->Resident_ID]])
+            ->where([['a.Request_Status_ID','<>', 3],['a.Resident_ID', Auth::user()->Resident_ID]])
             ->paginate(20, ['*'], 'db_entries');
 
 
@@ -2953,8 +2979,9 @@ class BCPISController extends Controller
                 'c.Purpose_of_Document',  
                 'd.Document_Type_Name', 
                 DB::raw('CAST(a.Date_Stamp as date) AS Date_Stamp'),
+                DB::raw('(CASE WHEN a.Request_Status_ID = 0 THEN "Pending" WHEN a.Request_Status_ID = 1 THEN "Approved" ELSE "Disapproved" END) AS Request_Status')
             )
-            ->where([['a.Request_Status_ID', 0],['a.Resident_ID', Auth::user()->Resident_ID]]);
+            ->where([['a.Request_Status_ID','<>', 3],['a.Resident_ID', Auth::user()->Resident_ID]]);
         $param1 = $request->get('param1');
         $param2 = $request->get('param2');
         $param3 = $request->get('param3');
@@ -2963,6 +2990,7 @@ class BCPISController extends Controller
         $param6 = $request->get('param6');
         $param7 = $request->get('param7');
         $param8 = $request->get('param8');
+        $param9 = $request->get('param9');
 
         if ($param1 != null && $param1 != "" && $param1 != "null") {
             $data->where('b.Queue_Ticket_Number', $param1);
@@ -2987,6 +3015,9 @@ class BCPISController extends Controller
         }
         if ($param8 != null && $param8 != "") {
             $data->where( DB::raw('CAST(a.Date_Stamp as date)'), $param8);
+        }
+        if ($param9 != null && $param9 != "" && $param9 != "null") {
+            $data->where(DB::raw('(CASE WHEN a.Request_Status_ID = 0 THEN "Pending" WHEN a.Request_Status_ID = 1 THEN "Approved" ELSE "Disapproved" END)'), $param9);
         }
         
     
