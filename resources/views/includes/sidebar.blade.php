@@ -8,6 +8,11 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="info">
+                <a href="#" class="d-block">Alexander Pierce</a>
+            </div>
+        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -290,7 +295,7 @@
                                 <p>Equipment Borrow Request</p>
                             </a>
                             {{-- <a href="{{route('bins_supply_issuance')}}" class="nav-link SuppliesIssuance">
-                                <p>Supplies Issuance</p>
+                            <p>Supplies Issuance</p>
                             </a> --}}
                         </li>
                     </ul>

@@ -75,7 +75,7 @@
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th hidden>Resident_ID</th>
@@ -85,23 +85,21 @@
                                             <th>Name Suffix</th>
                                             <th>Actions</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <button class="approve_inhabitants btn btn-success" value="{{$x->Resident_ID}}">Approve</button>
-                                                <button class="disapprove_inhabitants  btn btn-danger" value="{{$x->Resident_ID}}">Disapprove</button>
-                                            </td>
+                                            <td hidden></td>
+                                            <td><input class="form-control searchFilter1 searchFilter11" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter1 searchFilter12" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter1 searchFilter13" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter1 searchFilter14" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData_1">
+                                        @include('bips_transactions.inhabitants_incoming_list_pending_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries->links() !!}
+                                <input type="hidden" name="hidden_page_1" id="hidden_page_1" value="1">
                             </div>
                             <hr>
                         </div>
@@ -129,7 +127,7 @@
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="table-responsive">
-                                <table id="example2" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th hidden>Resident_ID</th>
@@ -138,20 +136,20 @@
                                             <th>Middle Name</th>
                                             <th>Name Suffix</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries2 as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
-
+                                            <td hidden></td>
+                                            <td><input class="form-control searchFilter2 searchFilter21" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter2 searchFilter22" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter2 searchFilter23" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter2 searchFilter24" style="min-width: 200px;" type="text" placeholder="search"></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData_2">
+                                        @include('bips_transactions.inhabitants_incoming_list_approved_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries2->links() !!}
+                                <input type="hidden" name="hidden_page_2" id="hidden_page_2" value="1">
                             </div>
                             <hr>
                         </div>
@@ -179,7 +177,7 @@
                     <div class="card-body">
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="table-responsive">
-                                <table id="example3" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th hidden>Resident_ID</th>
@@ -188,20 +186,20 @@
                                             <th>Middle Name</th>
                                             <th>Name Suffix</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries3 as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
-
+                                            <td hidden></td>
+                                            <td><input class="form-control searchFilter3 searchFilter31" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter3 searchFilter32" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter3 searchFilter33" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter3 searchFilter34" style="min-width: 200px;" type="text" placeholder="search"></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData_3">
+                                        @include('bips_transactions.inhabitants_incoming_list_disapproved_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries3->links() !!}
+                                <input type="hidden" name="hidden_page_3" id="hidden_page_3" value="1">
                             </div>
 
                             <div hidden>
@@ -328,6 +326,69 @@
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
     });
+
+    $(".searchFilter1").change(function() {
+        SearchData1();
+    });
+
+    function SearchData1() {
+        // alert('test');
+        var param1 = $('.searchFilter11').val();
+        var param2 = $('.searchFilter12').val();
+        var param3 = $('.searchFilter13').val();
+        var param4 = $('.searchFilter14').val();
+        var page = $('#hidden_page_1').val();
+
+        $.ajax({
+            url: "/search_inhabitants_incoming_pending_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData_1').html('');
+                $('#ListData_1').html(data);
+            }
+        });
+    }
+
+    $(".searchFilter2").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter21').val();
+        var param2 = $('.searchFilter22').val();
+        var param3 = $('.searchFilter23').val();
+        var param4 = $('.searchFilter24').val();
+        var page = $('#hidden_page_2').val();
+
+        $.ajax({
+            url: "/search_inhabitants_incoming_approved_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData_2').html('');
+                $('#ListData_2').html(data);
+            }
+        });
+    }
+
+    $(".searchFilter3").change(function() {
+        SearchData3();
+    });
+
+    function SearchData3() {
+        // alert('test');
+        var param1 = $('.searchFilter31').val();
+        var param2 = $('.searchFilter32').val();
+        var param3 = $('.searchFilter33').val();
+        var param4 = $('.searchFilter34').val();
+        var page = $('#hidden_page_3').val();
+
+        $.ajax({
+            url: "/search_inhabitants_incoming_disapproved_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData_3').html('');
+                $('#ListData_3').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

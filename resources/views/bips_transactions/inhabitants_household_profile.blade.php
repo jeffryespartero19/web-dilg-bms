@@ -87,7 +87,7 @@
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <table class="table table-striped table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Household Name</th>
@@ -97,24 +97,42 @@
                                                 <th>Family Type</th>
                                                 <th>Actions</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($db_entries as $x)
                                             <tr>
-                                                <td class="sm_data_col txtCtr">{{$x->Household_Name}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Household_Monthly_Income}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Tenure_of_Lot}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Housing_Unit}}</td>
-                                                <td class="sm_data_col txtCtr">{{$x->Family_Type_Name}}</td>
-                                                <td class="sm_data_col txtCtr" style="display: flex;">
-                                                    <button class="view_info btn btn-primary" value="{{$x->Household_Profile_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                    <a class="btn btn-info" href="{{ url('inhabitants_household_details/'.$x->Household_Profile_ID) }}">Edit</a>&nbsp;
-                                                    <button class="delete_household btn btn-danger" value="{{$x->Household_Profile_ID}}">Delete</button>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="number"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter3" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        @foreach($tenure_of_lot as $tol)
+                                                        <option value="{{ $tol->Tenure_of_Lot_ID }}">{{ $tol->Tenure_of_Lot }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter4" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        @foreach($housing_unit as $hu)
+                                                        <option value="{{ $hu->Housing_Unit_ID }}">{{ $hu->Housing_Unit }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter5" style="min-width: 200px;">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        @foreach($family_type as $ft)
+                                                        <option value="{{ $ft->Family_Type_ID }}">{{ $ft->Family_Type_Name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td></td>
                                             </tr>
-                                            @endforeach
+                                        </thead>
+                                        <tbody id="ListData">   
+                                            @include('bips_transactions.inhabitants_household_profile_data')
                                         </tbody>
                                     </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                                 </div>
 
                             </div>
@@ -473,6 +491,28 @@
 
 
     });
+
+    $(".searchFilter").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_household_profile_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

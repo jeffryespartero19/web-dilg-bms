@@ -68,7 +68,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Application_Status', 1)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
-                ->paginate(2);
+                ->paginate(20);
         } elseif (Auth::user()->User_Type_ID == 1) {
 
             $db_entries = DB::table('bips_brgy_inhabitants_information as a')
@@ -131,7 +131,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Application_Status', 1)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-                ->paginate(2);
+                ->paginate(20);
         }
 
         $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
@@ -815,7 +815,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Status_ID', 0)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
             $db_entries2 = DB::table('Inhabitants_Transfer as a')
                 ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
                 ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
@@ -832,7 +832,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Status_ID', 1)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
             $db_entries3 = DB::table('Inhabitants_Transfer as a')
                 ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
                 ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
@@ -849,7 +849,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Status_ID', 2)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
         } elseif (Auth::user()->User_Type_ID == 1) {
             $db_entries = DB::table('Inhabitants_Transfer as a')
                 ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
@@ -867,7 +867,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Status_ID', 0)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
             $db_entries2 = DB::table('Inhabitants_Transfer as a')
                 ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
                 ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
@@ -884,7 +884,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Status_ID', 1)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
             $db_entries3 = DB::table('Inhabitants_Transfer as a')
                 ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
                 ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
@@ -901,7 +901,7 @@ class bipsController extends Controller
                 )
                 ->where('a.Status_ID', 2)
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
         }
         $city1 = DB::table('maintenance_city_municipality')
             ->where('Province_ID', Auth::user()->Province_ID)
@@ -984,7 +984,7 @@ class bipsController extends Controller
                     'd.Housing_Unit',
                 )
                 ->where('e.Province_ID', Auth::user()->Province_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
         } elseif (Auth::user()->User_Type_ID == 1) {
             $db_entries = DB::table('bips_household_profile as a')
                 ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
@@ -999,7 +999,7 @@ class bipsController extends Controller
                     'd.Housing_Unit',
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
-                ->paginate(20, ['*'], 'db_entries');
+                ->paginate(20);
         }
         $city1 = DB::table('maintenance_city_municipality')
             ->where('Province_ID', Auth::user()->Province_ID)
@@ -2431,6 +2431,7 @@ class bipsController extends Controller
         $param11 = $request->get('param11');
         $param12 = $request->get('param12');
         $param13 = $request->get('param13');
+        $param31 = $request->get('param31');
 
 
         if ($param1 != null && $param1 != "") {
@@ -2444,9 +2445,15 @@ class bipsController extends Controller
             $data->where('a.Birthdate', $param2);
         }
         if ($param3 != null && $param3 != "") {
-            $data->where(function ($query) use ($param3) {
-                $query->whereRaw('TIMESTAMPDIFF(YEAR, a.Birthdate, CURDATE()) = ' . $param3 . '');
-            });
+            if ($param31 != null && $param31 != "") {
+                $data->where(function ($query) use ($param3, $param31) {
+                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, a.Birthdate, CURDATE())'), array($param3, $param31));
+                });
+            } else {
+                $data->where(function ($query) use ($param3) {
+                    $query->whereRaw('TIMESTAMPDIFF(YEAR, a.Birthdate, CURDATE()) = ' . $param3 . '');
+                });
+            }
         }
         if ($param4 != null && $param4 != "" && $param4 != "null") {
             $data->where('a.Sex', $param4);
@@ -2488,5 +2495,622 @@ class bipsController extends Controller
         // dd($db_entries);
 
         return view('bips_transactions.inhabitants_information_data', compact('db_entries'))->render();
+    }
+
+    public function search_household_profile_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bips_household_profile as a')
+                ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+                ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+                ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Household_Profile_ID',
+                    'a.Household_Name',
+                    'a.Household_Monthly_Income',
+                    'b.Family_Type_Name',
+                    'c.Tenure_of_Lot',
+                    'd.Housing_Unit',
+                )
+                ->where('e.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+
+            $data = DB::table('bips_household_profile as a')
+                ->leftjoin('maintenance_bips_family_type as b', 'a.Family_Type_ID', '=', 'b.Family_Type_ID')
+                ->leftjoin('maintenance_bips_tenure_of_lot as c', 'a.Tenure_of_Lot_ID', '=', 'c.Tenure_of_Lot_ID')
+                ->leftjoin('maintenance_bips_housing_unit as d', 'a.Housing_Unit_ID', '=', 'd.Housing_Unit_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Household_Profile_ID',
+                    'a.Household_Name',
+                    'a.Household_Monthly_Income',
+                    'b.Family_Type_Name',
+                    'c.Tenure_of_Lot',
+                    'd.Housing_Unit',
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+
+
+        if ($param1 != null && $param1 != "") {
+            $data->where('a.Household_Name', 'LIKE', '%' . $param1 . '%');
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where('a.Household_Monthly_Income', $param2);
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Tenure_of_Lot_ID', $param3);
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Housing_Unit_ID', $param4);
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Family_Type_ID', $param5);
+        }
+
+        $db_entries = $data->orderby('a.Household_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.inhabitants_household_profile_data', compact('db_entries'))->render();
+    }
+
+    public function search_deceased_profile_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bips_deceased_profile as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_deceased_type as c', 'a.Deceased_Type_ID', '=', 'c.Deceased_Type_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Deceased_Type_ID',
+                    'c.Deceased_Type',
+                    'a.Cause_of_Death',
+                    'a.Date_of_Death',
+                )
+                ->where('e.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('bips_deceased_profile as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_deceased_type as c', 'a.Deceased_Type_ID', '=', 'c.Deceased_Type_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Deceased_Type_ID',
+                    'c.Deceased_Type',
+                    'a.Cause_of_Death',
+                    'a.Date_of_Death',
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where(
+                function ($query) use ($param1) {
+                    return $query
+                        ->where('b.Last_Name', 'LIKE', '%' . $param1 . '%')
+                        ->orWhere('b.First_Name', 'LIKE', '%' . $param1 . '%')
+                        ->orWhere('b.Middle_Name', 'LIKE', '%' . $param1 . '%');
+                }
+            );
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('a.Deceased_Type_ID', $param2);
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Cause_of_Death', 'LIKE', '%' . $param3 . '%');
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Date_of_Death', $param4);
+        }
+
+        $db_entries = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.deceased_profile_list_data', compact('db_entries'))->render();
+    }
+
+    public function search_inhabitant_transfer_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+                ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->leftjoin('maintenance_barangay as g', 'a.Main_Barangay_ID', '=', 'g.Barangay_ID')
+                ->select(
+                    'a.Inhabitants_Transfer_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Region_ID',
+                    'c.Region_Name',
+                    'a.Province_ID',
+                    'd.Province_Name',
+                    'a.City_Municipality_ID',
+                    'e.City_Municipality_Name',
+                    'a.Barangay_ID',
+                    'f.Barangay_Name',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('g.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+                ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+                ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Inhabitants_Transfer_ID',
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Region_ID',
+                    'c.Region_Name',
+                    'a.Province_ID',
+                    'd.Province_Name',
+                    'a.City_Municipality_ID',
+                    'e.City_Municipality_Name',
+                    'a.Barangay_ID',
+                    'f.Barangay_Name',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('a.Main_Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where(
+                function ($query) use ($param1) {
+                    return $query
+                        ->where('b.Last_Name', 'LIKE', '%' . $param1 . '%')
+                        ->orWhere('b.First_Name', 'LIKE', '%' . $param1 . '%')
+                        ->orWhere('b.Middle_Name', 'LIKE', '%' . $param1 . '%');
+                }
+            );
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('c.Region_Name', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('d.Province_Name', 'LIKE', '%' . $param3 . '%');
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('e.City_Municipality_Name', 'LIKE', '%' . $param4 . '%');
+        }
+        if ($param5 != null && $param5 != "" && $param5 != "null") {
+            $data->where('f.Barangay_Name', 'LIKE', '%' . $param5 . '%');
+        }
+
+        $db_entries = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.inhabitants_transfer_list_data', compact('db_entries'))->render();
+    }
+
+    public function search_inhabitants_incoming_pending_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 0)
+                ->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 0)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Last_Name', 'LIKE', '%' . $param1 . '%');
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('b.First_Name', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('b.Middle_Name', 'LIKE', '%' . $param3 . '%');
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('c.Name_Suffix', 'LIKE', '%' . $param4 . '%');
+        }
+
+        $db_entries = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.inhabitants_incoming_list_pending_data', compact('db_entries'))->render();
+    }
+
+    public function search_inhabitants_incoming_approved_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 1)
+                ->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Last_Name', 'LIKE', '%' . $param1 . '%');
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('b.First_Name', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('b.Middle_Name', 'LIKE', '%' . $param3 . '%');
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('c.Name_Suffix', 'LIKE', '%' . $param4 . '%');
+        }
+
+        $db_entries2 = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.inhabitants_incoming_list_approved_data', compact('db_entries2'))->render();
+    }
+
+    public function search_inhabitants_incoming_disapproved_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 2)
+                ->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('Inhabitants_Transfer as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'b.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Region_ID',
+                    'a.Province_ID',
+                    'a.City_Municipality_ID',
+                    'a.Barangay_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'c.Name_Suffix'
+                )
+                ->where('a.Status_ID', 2)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Last_Name', 'LIKE', '%' . $param1 . '%');
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('b.First_Name', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('b.Middle_Name', 'LIKE', '%' . $param3 . '%');
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('c.Name_Suffix', 'LIKE', '%' . $param4 . '%');
+        }
+
+        $db_entries3 = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.inhabitants_incoming_list_disapproved_data', compact('db_entries3'))->render();
+    }
+
+    public function search_inhabitants_application_list_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        $data = DB::table('bips_brgy_inhabitants_information as a')
+            ->leftjoin('maintenance_region as c', 'a.Region_ID', '=', 'c.Region_ID')
+            ->leftjoin('maintenance_province as d', 'a.Province_ID', '=', 'd.Province_ID')
+            ->leftjoin('maintenance_city_municipality as e', 'a.City_Municipality_ID', '=', 'e.City_Municipality_ID')
+            ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+            ->leftjoin('maintenance_bips_name_suffix as g', 'a.Name_Suffix_ID', '=', 'g.Name_Suffix_ID')
+            ->select(
+                'a.Resident_ID',
+                'a.Last_Name',
+                'a.First_Name',
+                'a.Middle_Name',
+                'a.Region_ID',
+                'c.Region_Name',
+                'a.Province_ID',
+                'd.Province_Name',
+                'a.City_Municipality_ID',
+                'e.City_Municipality_Name',
+                'a.Barangay_ID',
+                'f.Barangay_Name',
+                'g.Name_Suffix'
+            )
+            ->where('a.Application_Status', 0);
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('a.Last_Name', 'LIKE', '%' . $param1 . '%');
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('a.First_Name', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Middle_Name', 'LIKE', '%' . $param3 . '%');
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('g.Name_Suffix', 'LIKE', '%' . $param4 . '%');
+        }
+
+        $db_entries = $data->orderby('a.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.application_list_data', compact('db_entries'))->render();
+    }
+
+    public function search_inhabitants_brgy_official_list_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bips_brgy_officials_and_staff as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Barangay_Position_ID',
+                    'c.Brgy_Position',
+                    'a.Brgy_Officials_and_Staff_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                    'a.monthly_income',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('e.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('bips_brgy_officials_and_staff as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_bips_brgy_position as c', 'a.Barangay_Position_ID', '=', 'c.Brgy_Position_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Barangay_Position_ID',
+                    'c.Brgy_Position',
+                    'a.Brgy_Officials_and_Staff_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                    'a.monthly_income',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('b.Last_Name', 'LIKE', '%' . $param1 . '%')
+                    ->orWhere('b.First_Name', 'LIKE', '%' . $param1 . '%')
+                    ->orWhere('b.Middle_Name', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('c.Brgy_Position', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Term_From', $param3);
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where('a.Term_To', $param4);
+        }
+
+        $db_entries = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.brgy_official_list_data', compact('db_entries'))->render();
+    }
+
+    public function search_inhabitants_brgy_purok_leaders_list_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bips_brgy_purok_leader as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Brgy_Purok_Leader_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                )
+                ->where('b.Application_Status', 1)
+                ->where('e.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('bips_brgy_purok_leader as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'a.Brgy_Purok_Leader_ID',
+                    'a.Term_From',
+                    'a.Term_To',
+                )
+                // ->where('b.Application_Status', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('b.Last_Name', 'LIKE', '%' . $param1 . '%')
+                    ->orWhere('b.First_Name', 'LIKE', '%' . $param1 . '%')
+                    ->orWhere('b.Middle_Name', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('a.Term_From', $param2);
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Term_To', $param3);
+        }
+
+        $db_entries = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bips_transactions.brgy_purok_leaders_list_data', compact('db_entries'))->render();
     }
 }

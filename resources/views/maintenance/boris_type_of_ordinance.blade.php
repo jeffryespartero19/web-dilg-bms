@@ -62,7 +62,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_type_of_ordinance" value="{{$x->Type_of_Ordinance_or_Resolution_ID}}" data-toggle="modal" data-target="#updateType_of_Ordinance">Edit</button>
+                                                <button class="edit_type_of_ordinance btn-info" value="{{$x->Type_of_Ordinance_or_Resolution_ID}}" data-toggle="modal" data-target="#updateType_of_Ordinance">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

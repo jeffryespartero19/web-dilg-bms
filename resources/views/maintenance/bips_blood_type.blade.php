@@ -73,7 +73,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_blood_type" value="{{$x->Blood_Type_ID}}" data-toggle="modal" data-target="#updateBlood_Type">Edit</button>
+                                                <button class="edit_blood_type btn btn-info" value="{{$x->Blood_Type_ID}}" data-toggle="modal" data-target="#updateBlood_Type">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

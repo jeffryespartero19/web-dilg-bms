@@ -79,8 +79,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->name}}</td>
                                             <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_XYZ" value="{{$x->Expenditure_Type_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
-                                                <button class="delRec" value="{{$x->Expenditure_Type_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
+                                                <button class="edit_XYZ btn btn-info" value="{{$x->Expenditure_Type_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec btn btn-danger" value="{{$x->Expenditure_Type_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach

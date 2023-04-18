@@ -122,6 +122,7 @@
                                             <th>Title</th>
                                             <th>Date of Approval</th>
                                             <th>Date of Effectivity</th>
+                                            <th>Date Created</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
