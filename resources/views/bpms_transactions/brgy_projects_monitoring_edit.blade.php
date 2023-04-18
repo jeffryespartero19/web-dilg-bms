@@ -55,42 +55,53 @@
                                         <div class="row">
                                             <strong hidden>Project Number: </strong><span id="VProject_Number" name="VProject_Number" hidden></span><br>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Project_Number">Project Number</label>
+                                                <label for="Project_Number">Project Number<label style="color: red">*</label></label>
                                                 <input type="text" class="form-control valpronum" id="Project_Number" name="Project_Number" value="{{$project[0]->Project_Number}}">
                                             </div>
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Project_Name">Project Name</label>
+                                                <label for="Project_Name">Project Name<label style="color: red">*</label></label>
                                                 <input type="text" class="form-control" id="Project_Name" name="Project_Name" value="{{$project[0]->Project_Name}}">
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                            <div class="form-group col-lg-8" style="padding:0 10px">
                                                 <label for="Description">Description</label>
                                                 <input type="text" class="form-control" id="Description" name="Description" value="{{$project[0]->Description}}">
+                                            </div>
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Contractor_ID">Contractor</label>
+                                                <select class="form-control" id="Contractor_ID" name="Contractor_ID">
+                                                    <option value='' disabled selected>Select Option</option>
+                                                    @foreach($contractor as $bt1)
+                                                    <option value="{{ $bt1->Contractor_ID }}" {{ $bt1->Contractor_ID  == $project[0]->Contractor_ID  ? "selected" : "" }}>{{ $bt1->Contractor_Name }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Estimated_Start_Date">Estimated Start Date</label>
+                                                <label for="Estimated_Start_Date">Estimated Start Date<label style="color: red">*</label></label>
                                                 <input type="date" class="form-control" id="Estimated_Start_Date" name="Estimated_Start_Date" value="{{$project[0]->Estimated_Start_Date}}" required>
+                                                <input type="text" class="form-control" id="Start_Date_Words" value="{{$project[0]->Estimated_Start_Date}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Estimated_End_Date">Estimated End Date</label>
+                                                <label for="Estimated_End_Date">Estimated End Date<label style="color: red">*</label></label>
                                                 <input type="date" class="form-control" id="Estimated_End_Date" name="Estimated_End_Date" value="{{$project[0]->Estimated_End_Date}}" required>
+                                                <input type="text" class="form-control" id="End_Date_Words" value="{{$project[0]->Estimated_End_Date}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Total_Project_Cost">Total Project Cost</label>
+                                                <label for="Total_Project_Cost">Total Project Cost<label style="color: red">*</label></label>
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat1" value="{{number_format((float)$project[0]->Total_Project_Cost, 2, '.', ',')}}">
                                                 <input type="number" step="0.01" class="form-control fancyformat1" id="Total_Project_Cost" name="Total_Project_Cost" value="{{$project[0]->Total_Project_Cost}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Funding_Year">Funding Year</label>
+                                                <label for="Funding_Year">Funding Year<label style="color: red">*</label></label>
                                                 <input type="text" class="form-control" id="Funding_Year" name="Funding_Year" value="{{$project[0]->Funding_Year}}">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Exact_Location">Exact Location</label>
+                                                <label for="Exact_Location">Exact Location<label style="color: red">*</label></label>
                                                 <input type="text" class="form-control" id="Exact_Location" name="Exact_Location" value="{{$project[0]->Exact_Location}}">
                                             </div>
                                         </div>
@@ -106,23 +117,18 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Actual_Project_Start">Actual Project Start</label>
                                                 <input type="date" class="form-control" id="Actual_Project_Start" name="Actual_Project_Start" value="{{$project[0]->Actual_Project_Start}}" required>
+                                                <input type="text" class="form-control" id="Actual_Project_Start_Words" value="{{$project[0]->Actual_Project_Start}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Project_Completion_Date">Actual Project Completion Date</label>
                                                 <input type="date" class="form-control" id="Project_Completion_Date" name="Project_Completion_Date"  value="{{$project[0]->Project_Completion_Date}}" required>
+                                                <input type="text" class="form-control" id="Project_Completion_Date_Words" value="{{$project[0]->Project_Completion_Date}}" hidden>
                                             </div>
                                         </div>
                                         <div class="row">
+                                            
                                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Contractor_ID">Contractor</label>
-                                                <select class="form-control" id="Contractor_ID" name="Contractor_ID">
-                                                    @foreach($contractor as $bt1)
-                                                    <option value="{{ $bt1->Contractor_ID }}" {{ $bt1->Contractor_ID  == $project[0]->Contractor_ID  ? "selected" : "" }}>{{ $bt1->Contractor_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Project_Type_ID">Project Type</label>
+                                                <label for="Project_Type_ID">Project Type<label style="color: red">*</label></label>
                                                 <select class="form-control" id="Project_Type_ID" name="Project_Type_ID">
                                                     @foreach($project_type as $bt1)
                                                     <option value="{{ $bt1->Project_Type_ID }}" {{ $bt1->Project_Type_ID  == $project[0]->Project_Type_ID  ? "selected" : "" }}>{{ $bt1->Project_Type_Name }}</option>
@@ -130,7 +136,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-4" style="padding:0 10px">
-                                                <label for="Project_Status_ID">Project Status</label>
+                                                <label for="Project_Status_ID">Project Status<label style="color: red">*</label></label>
                                                 <select class="form-control" id="Project_Status_ID" name="Project_Status_ID">    
                                                     @foreach($project_status as $bt1)
                                                     <option value="{{ $bt1->Project_Status_ID }}" {{ $bt1->Project_Status_ID  == $project[0]->Project_Status_ID  ? "selected" : "" }}>{{ $bt1->Project_Status_Name }}</option>
@@ -147,22 +153,21 @@
                                                     <table id="MilestonesTBL" class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                
-                                                                <th>Accomplishment Status</th>
-                                                                <th>Milestone Title</th>
+                                                                <th>Accomplishment Status<label style="color: red">*</label></th>
+                                                                <th>Milestone Title<label style="color: red">*</label></th>
                                                                 <th>Milestone Description</th>
-                                                                <th>Milestone Date</th>
-                                                                <th>Milestone Status</th>
-                                                                <th>Milestone Percentage</th>
-                                                                <th>Obligation Amount</th>
-                                                                <th>Disbursement Amount</th>
+                                                                <th>Milestone Date<label style="color: red">*</label></th>
+                                                                <th>Milestone Status<label style="color: red">*</label></th>
+                                                                <th>Milestone Percentage<label style="color: red">*</label></th>
+                                                                <th>Obligation Amount<label style="color: red">*</label></th>
+                                                                <th>Disbursement Amount<label style="color: red">*</label></th>
                                                                 <th>Male Employed</th>
                                                                 <th>Female Employed</th>
                                                                 <th>Actions</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody class="HSBody">
-                                                        @if($milestone->count() > 0)
+                                                        @if(!$milestone->isEmpty())
                                                         @foreach ($milestone as $cd)
                                                         <tr class="HRDetails">
                                                             <!-- <td>
@@ -183,7 +188,7 @@
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Description[]" value="{{$cd->Milestone_Description}}">
                                                             </td>
                                                             <td>
-                                                                <input type="date" class="form-control" style="width: 200px;" name="Milestone_Date[]" value="{{$cd->Milestone_Date}}">
+                                                                <input type="date" class="form-control this_MDate" style="width: 200px;" name="Milestone_Date[]" value="{{$cd->Milestone_Date}}" min="" max="">
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Status[]" value="{{$cd->Milestone_Status}}">
@@ -227,7 +232,7 @@
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Description[]">
                                                             </td>
                                                             <td>
-                                                                <input type="date" class="form-control" style="width: 200px;" name="Milestone_Date[]">
+                                                                <input type="date" class="form-control this_MDate" style="width: 200px;" name="Milestone_Date[]" min="" max="">
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Status[]">
@@ -236,11 +241,11 @@
                                                                 <input type="number" min="0" max="100" class="form-control fancyformat" style="width: 200px;" name="Milestone_Percentage[]">
                                                             </td>
                                                             <td>
-                                                                <input type="text" onkeypress="validate(event)" class="form-control fancyformat1" style="width: 200px;" value="{{number_format((float)$cd->Obligation_Amount, 2, '.', ',')}}">
+                                                                <input type="text" onkeypress="validate(event)" class="form-control fancyformat1" style="width: 200px;" value="">
                                                                 <input type="number" step="0.01" class="form-control fancyformat1" style="width: 200px;" name="Obligation_Amount[]" hidden>
                                                             </td>
                                                             <td>
-                                                                <input type="text" onkeypress="validate(event)" class="form-control fancyformat1" style="width: 200px;" value="{{number_format((float)$cd->Disbursement_Amount, 2, '.', ',')}}">
+                                                                <input type="text" onkeypress="validate(event)" class="form-control fancyformat1" style="width: 200px;" value="">
                                                                 <input type="number" step="0.01" class="form-control fancyformat1" style="width: 200px;" name="Disbursement_Amount[]" hidden>
                                                             </td>
                                                             <td>
@@ -305,7 +310,7 @@
                             </ul>
                             <div class="custom-file">
                                 @csrf
-                                <input type="text" class="form-control" id="Milestone_Status_ID" name="Milestone_Status_ID" value="{{$cd->Milestone_Status_ID}}" hidden>
+                                <input type="text" class="form-control" id="Milestone_Status_ID" name="Milestone_Status_ID" value="@if(isset($cd->Milestone_Status_ID)){{$cd->Milestone_Status_ID}}@endif" hidden>
                                 <input type="file" class="custom-file-input" accept="image/*" id="fileattach" name="fileattach[]" multiple>
                                 <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                             </div>
@@ -342,7 +347,7 @@
         $('#example').DataTable();
 
         // $('.select2').select2();
-         //Select2 Lazy Loading Business Type
+        //  Select2 Lazy Loading Business Type
          $("#Contractor_ID").select2({
             minimumInputLength: 2,
             ajax: {
@@ -351,21 +356,21 @@
             }
         });
         
-        $("#Project_Type_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_projecttype',
-                dataType: "json",
-            }
-        });
+        // $("#Project_Type_ID").select2({
+        //     minimumInputLength: 2,
+        //     ajax: {
+        //         url: '/search_projecttype',
+        //         dataType: "json",
+        //     }
+        // });
 
-        $("#Project_Status_ID").select2({
-            minimumInputLength: 2,
-            ajax: {
-                url: '/search_projectstatus',
-                dataType: "json",
-            }
-        });
+        // $("#Project_Status_ID").select2({
+        //     minimumInputLength: 2,
+        //     ajax: {
+        //         url: '/search_projectstatus',
+        //         dataType: "json",
+        //     }
+        // });
 
         $("#Accomplishment_Status_ID").select2({
             minimumInputLength: 2,
@@ -374,6 +379,39 @@
                 dataType: "json",
             }
         });
+
+        var disvals=$('#Estimated_Start_Date').val();
+        var disvalss=$('#Estimated_End_Date').val();
+        var disvalsss=$('#Actual_Project_Start').val();
+        var disvalssss=$('#Project_Completion_Date').val();
+       
+        
+        $('#Estimated_Start_Date').attr('hidden', 'true');
+        var now1 = new Date(disvals).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#Start_Date_Words').val(now1);
+        $('#Start_Date_Words').removeAttr('hidden');
+
+        $('#Estimated_End_Date').attr('hidden', 'true');
+        var now2 = new Date(disvalss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#End_Date_Words').val(now2);
+        $('#End_Date_Words').removeAttr('hidden');
+
+       
+        $('#Actual_Project_Start').attr('hidden', 'true');
+        var now3 = new Date(disvalsss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#Actual_Project_Start_Words').val(now3);
+        $('#Actual_Project_Start_Words').removeAttr('hidden');
+
+        $('#Project_Completion_Date').attr('hidden', 'true');
+        var now4 = new Date(disvalssss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#Project_Completion_Date_Words').val(now4);
+        $('#Project_Completion_Date_Words').removeAttr('hidden');
+       
+        $('.this_MDate').removeAttr('min');
+        $('.this_MDate').attr('min', disvals);
+
+        $('.this_MDate').removeAttr('max');
+        $('.this_MDate').attr('max', disvalss);
     });
 
     function addMilestones() {
@@ -585,6 +623,7 @@
             $(this).next().val(num3);
             //alert(num2);
         });
+
      
     function validate(evt) {
         var theEvent = evt || window.event;
@@ -596,6 +635,79 @@
             if(theEvent.preventDefault) theEvent.preventDefault();
         }
     }
+
+    $(document).on('change',('#Estimated_Start_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $('.this_MDate').removeAttr('min');
+        $('.this_MDate').attr('min', disVal);
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Start_Date_Words').val(now);
+        $('#Start_Date_Words').removeAttr('hidden');
+
+    });
+    $(document).on('change',('#Estimated_End_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $('.this_MDate').removeAttr('max');
+        $('.this_MDate').attr('max', disVal);
+    });
+
+    $(document).on('click',('#Start_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Estimated_Start_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#Estimated_End_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#End_Date_Words').val(now);
+        $('#End_Date_Words').removeAttr('hidden');
+
+    });
+    $(document).on('click',('#End_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Estimated_End_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#Actual_Project_Start'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Actual_Project_Start_Words').val(now);
+        $('#Actual_Project_Start_Words').removeAttr('hidden');
+
+    });
+    $(document).on('click',('#Actual_Project_Start_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Actual_Project_Start').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#Project_Completion_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Project_Completion_Date_Words').val(now);
+        $('#Project_Completion_Date_Words').removeAttr('hidden');
+
+    });
+    $(document).on('click',('#Project_Completion_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Project_Completion_Date').removeAttr('hidden');
+    });
 </script>
 <style>
     table {

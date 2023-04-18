@@ -95,42 +95,33 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Activity Name </th>
-                                            <th>Purpose </th>
-                                            <th>Date Start </th>
-                                            <th>Date End </th>
-                                            <th>Number of Participants </th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Activity_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Purpose}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_Start}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_End}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Number_of_Participants}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <button class="edit_disaster_related_activities btn btn-info" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#createDisaster_Related_Activities">Edit</button>
-                                                <button class="view_disrelact btn btn-primary" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#viewDisRelAct">View</button>
-                                                <!-- <button class="edit_disaster_related_activities btn btn-primary" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#viewDisaster_Related_Activities">View</button> -->
-                                                <button class="delete_disasterrelated btn btn-danger" value="{{$x->Disaster_Related_Activities_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <button class="view_disrelact btn btn-primary" value="{{$x->Disaster_Related_Activities_ID}}" data-toggle="modal" data-target="#viewDisRelAct">View</button>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Activity Name </th>
+                                                <th>Purpose </th>
+                                                <th>Date Start </th>
+                                                <th>Date End </th>
+                                                <th>Number of Participants </th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="date"></td>
+                                                <td><input class="form-control searchFilter searchFilter5" style="min-width: 200px;" type="number"></td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bdris_transactions.disaster_related_activities_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -202,7 +193,7 @@
 
                                 </ul>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                                    <input type="file" accept="image/*" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
                                     <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                                 </div>
                             </div>
@@ -220,37 +211,48 @@
 
 
 
-
-
 <div class="modal fade" id="viewDisRelAct" tabindex="-1" role="dialog" aria-labelledby="viewDisRelAct" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Disaster Related Activities Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Disaster Related Activities Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Activity Name: </strong><span id="VActivity_Name"></span><br>
-                            <strong>Purpose: </strong><span id="VPurpose"></span><br>
-                            <strong>Date Start: </strong><span id="VDate_Start"></span><br>
-                            <strong>Date End: </strong><span id="VDate_End"></span><br>
-                            <strong>Number of Participants: </strong><span id="VNumber_of_Participants"></span><br>
-                            <strong>Brgy Official Name: </strong><span id="VBrgy_Official_Name"></span><br>
-                        </div>
-                    </div>
-                </div>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Purpose: </strong></td>
+                        <td><span id="VPurpose"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Date Start: </strong></td>
+                        <td><span id="VDate_Start"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Date End: </strong></td>
+                        <td><span id="VNumber_of_Participants"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Brgy Official: </strong></td>
+                        <td><span id="VBrgy_Official_Name"></span></td>
+                    </tr>
+                </table>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+            <br>
+            <div class="form-group col-lg-12" style="padding:0 10px">
+                <label for="fileattach">File Attachments</label>
+                <ul class="list-group list-group-flush" id="disaster_related_activities_files1">
+
+                </ul>
             </div>
         </div>
     </div>
 </div>
-
 
 
 
@@ -268,6 +270,7 @@
     $(document).on('click', '.modal-close', function(e) {
         $('#newDisaster_Related_Activities').trigger("reset");
         $('#disaster_related_activities_files').empty();
+        $('#disaster_related_activities_files1').empty();
     });
 
     // Populate Province
@@ -371,6 +374,7 @@
 
     // Edit Button Display Modal
     $(document).on('click', ('.edit_disaster_related_activities'), function(e) {
+        // alert('awdawdwd');
         $('#Modal_Title').text('Edit Disaster Related Activities');
         var disID = $(this).val();
         $.ajax({
@@ -421,6 +425,56 @@
                 data.forEach(element => {
                     var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/disaster_related_activities/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn ord_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
                     $('#disaster_related_activities_files').append(file);
+                });
+            }
+        });
+    });
+
+// aldren
+    $(document).on('click', ('.viewing_disrelact'), function(e) {
+        // alert('awdawdwd');
+        var disID = $(this).val();
+
+        $.ajax({
+            url: "/get_disaster_related_activities_view",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                $('#VActivity_Name').html(data['theEntry'][0]['Activity_Name']);
+                $('#VPurpose').html(data['theEntry'][0]['Purpose']);
+                $('#VDate_Start').html(data['theEntry'][0]['Date_Start']);
+                $('#VDate_End').html(data['theEntry'][0]['Date_End']);
+                $('#VNumber_of_Participants').html(data['theEntry'][0]['Number_of_Participants']);
+                $('#VBrgy_Official_Name').html(data['theEntry'][0]['Brgy_Official_Name']);
+            
+            
+            }
+        });
+
+
+        
+        $.ajax({
+            url: "/get_disaster_related_activities_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // $('#disaster_related_activities_files1').empty();
+                // $i = 0;
+                data.forEach(element => {
+                    // $i = $i + 1;
+                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="./files/uploads/disaster_related_activities/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                    $('#disaster_related_activities_files1').append(file);
                 });
             }
         });
@@ -701,6 +755,36 @@
         });
 
     });
+
+    $(".searchFilter").change(function() {
+        Search();
+        // alert('test');
+        
+    });
+
+    function Search() {
+        // alert('test');
+       
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        // var param2 = $('.searchFilter2').val();
+        // var param3 = $('.searchFilter3').val();
+        // var param4 = $('.searchFilter4').val();
+        // var param5 = $('.searchpFilter5').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_disaster_related_activities_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2 + "& param3=" + param3 + "& param4=" + param4 + "& param5=" + param5,
+            // url: "/search_disaster_related_activities_fields?page=" + page + "& param1=" + param1 + "&param2=" + param2 + "& param3=" + param3 + "& param4=" + param4 + "& param5=" + param5,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

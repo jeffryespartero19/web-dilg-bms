@@ -89,49 +89,42 @@
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success" data-target="#createContractor">New</button></div>
                                 <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('viewContractorPDF') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div> -->
                                 @endif
-                                <div><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Contractor Name</th>
-                                            <th>Contact Person</th>
-                                            <th>Contact No</th>
-                                            <th>Contractor Address</th>
-                                            <th>Contractor Tin</th>
-                                            <th>Remarks</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Contractor_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Contact_Person}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Contact_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Contractor_Address}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Contractor_TIN}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Remarks}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <button class="edit_contractor btn btn-info" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#updateContractor">Edit</button>
-                                                <button class="view_contractor btn btn-primary" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
-                                                <button class="delete_contractor btn btn-danger" value="{{$x->Contractor_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <button class="view_contractor" value="{{$x->Contractor_ID}}" data-toggle="modal" data-target="#viewContractor">View</button>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Contractor Name</th>
+                                                <th>Contact Person</th>
+                                                <th>Contact No</th>
+                                                <th>Contractor Address</th>
+                                                <th>Contractor Tin</th>
+                                                <th>Remarks</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter4" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter5" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter6" style="min-width: 300px;" type="text"></td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bpms_transactions.contractor_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -280,15 +273,36 @@
             <div class="modal-body">
                 <div class="modal-body">
                     <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Contractor Name: </strong><span id="VContractor_Name"></span><br>
-                            <strong>Contact Person: </strong><span id="VContact_Person"></span><br>
-                            <strong>Contact No: </strong><span id="VContact_No"></span><br>
-                            <strong>Contractor Address: </strong><span id="VContractor_Address"></span><br>
-                            <strong>Contractor TIN: </strong><span id="VContractor_TIN"></span><br>
-                            <strong>Remarks: </strong><span id="VRemarks"></span><br>
-                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
+                        <div class="col-12">
+                            <table class="table table-striped table-bordered" style="width:100%">
+                                <tr>
+                                    <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%"><strong>Contractor Name: </strong></td>
+                                    <td style="width:50%"><span id="VContractor_Name"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%"><strong>Contact Person: </strong></td>
+                                    <td style="width:50%"><span id="VContact_Person"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%"><strong>Contact No: </strong></td>
+                                    <td style="width:50%"><span id="VContact_No"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%"><strong>Contractor Address: </strong></td>
+                                    <td style="width:50%"><span id="VContractor_Address"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%"><strong>Contractor TIN: </strong></td>
+                                    <td style="width:50%"><span id="VContractor_TIN"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%"><strong>Remarks: </strong></td>
+                                    <td style="width:50%"><span id="VRemarks"></span></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -342,6 +356,48 @@
 </div>
 
 
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('contractor_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Contractor_Name" name="chk_Contractor_Name">
+                                <label for="chk_Contractor_Name">Contractor</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Contact_Person" name="chk_Contact_Person">
+                                <label for="chk_Contact_Person">Contact Person</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Contact_No" name="chk_Contact_No">
+                                <label for="chk_Contact_No">Contact No</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Contractor_Address" name="chk_Contractor_Address">
+                                <label for="chk_Contractor_Address">Contractor Address</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Contractor_TIN" name="chk_Contractor_TIN">
+                                <label for="chk_Contractor_TIN">Contractor TIN</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Remarks" name="chk_Remarks">
+                                <label for="chk_Remarks">Remarks</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 @endsection
@@ -607,6 +663,37 @@
         });
 
     });
+
+    $(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
+    });
+
+    $(".searchFilter").change(function() {
+        Search();
+        // alert('test');
+        
+    });
+
+    function Search() {
+        // alert('test');
+       
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_contractor_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2 + "& param3=" + param3 + "& param4=" + param4 + "& param5=" + param5 + "& param6=" + param6,
+            // url: "/search_contractor_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2 + "& param3=" + param3 + "& param4=" + param4 + "& param5=" + param5 + "& param6=" + param6,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

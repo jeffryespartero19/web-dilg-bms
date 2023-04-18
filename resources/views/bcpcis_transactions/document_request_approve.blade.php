@@ -54,10 +54,10 @@
                                         <input type="text" class="form-control" id="Document_ID" name="Document_ID" value="{{$document[0]->Document_ID}}" hidden>
                                         <input type="text" class="form-control" id="Resident_ID" name="Resident_ID" value="{{$document[0]->Resident_ID}}" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <!-- <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Transaction_No">Transaction No</label>
                                                 <input type="text" class="form-control" id="Transaction_No" name="Transaction_No">
-                                            </div>
+                                            </div> -->
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Document_Type_ID">Document Type</label>
                                                 <select class="form-control" id="Document_Type_ID" name="Document_Type_ID">
@@ -71,19 +71,21 @@
                                                 <label for="Resident">Resident</label>
                                                 <input type="text" class="form-control" id="Resident" name="Resident" value="{{$document[0]->Resident_Name}}" disabled>
                                             </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Brgy_Cert_No">Barangay Cert. No.</label>
+                                                <input type="text" class="form-control" id="Brgy_Cert_No" name="Brgy_Cert_No">
+                                            </div> 
                                             <div class="form-group col-lg-1" style="padding:0 10px">
                                                 <label for="Released">Released</label>
                                                 <select class="form-control" style="width: 200px;" name="Released" id="Released">
                                                     <option value=1>Yes</option>
                                                     <option value=0>No</option>
                                                 </select>
-                                            </div>  
+                                            </div> 
+                                            
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Brgy_Cert_No">Barangay Cert. No.</label>
-                                                <input type="text" class="form-control" id="Brgy_Cert_No" name="Brgy_Cert_No">
-                                            </div>
+                                            
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Purpose_of_Document_ID">Purpose of Document</label>
                                                 <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
@@ -101,6 +103,10 @@
                                                 <label for="Salutation_Name">Salutation Name</label>
                                                 <input type="text" class="form-control" id="Salutation_Name" name="Salutation_Name" value="{{$document[0]->Salutation_Name}}">
                                             </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="SecondResident_Name">Other Resident Name</label>
+                                                <input type="text" class="form-control" id="SecondResident_Name" name="SecondResident_Name" value="{{$document[0]->SecondResident_Name}}">
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
@@ -109,24 +115,19 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="SecondResident_Name">Other Resident Name</label>
-                                                <input type="text" class="form-control" id="SecondResident_Name" name="SecondResident_Name" value="{{$document[0]->SecondResident_Name}}">
-                                            </div>
+                                            
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Issued_On">Issued On</label>
                                                 <input type="datetime-local" class="form-control" id="Issued_On" name="Issued_On" required>
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <!-- <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Issued_At">Issued At</label>
                                                 <input type="text" class="form-control" id="Issued_At" name="Issued_At" >
-                                            </div>
+                                            </div> -->
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_Date">OR Date</label>
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date"  required>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
                                                 <input type="text" class="form-control" id="OR_No" name="OR_No" >
@@ -135,6 +136,10 @@
                                                 <label for="Cash_Tendered">Cash Tendered</label>
                                                 <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" >
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            
+                                            
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Details">CTC Details</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_Details" >
@@ -143,8 +148,6 @@
                                                 <label for="CTC_Date_Issued">CTC Date Issued</label>
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required >
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_No"  >
@@ -153,7 +156,11 @@
                                                 <label for="CTC_Amount">CTC Amount</label>
                                                 <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" >
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                        </div>
+                                        <div class="row">
+                                           
+                                            
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Place_Issued">Place Issued</label>
                                                 <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" >
                                             </div>
