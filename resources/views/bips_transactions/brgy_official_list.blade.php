@@ -81,7 +81,7 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -90,23 +90,20 @@
                                             <th>Term To</th>
                                             <th>Actions</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Brgy_Position}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Term_From}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Term_To}}</td>
-                                            <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_info  btn btn-primary" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>&nbsp;
-                                                <button class="edit_brgy_official btn btn-info" value="{{$x->Brgy_Officials_and_Staff_ID}}" data-toggle="modal" data-target="#updateBrgy_Official">Edit</button>&nbsp;
-                                                <button class="delete_brgy_official btn btn-danger" value="{{$x->Brgy_Officials_and_Staff_ID}}">Delete</button>
-                                            </td>
+                                            <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="number" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="number" placeholder="search"></td>
+                                            <td></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData">
+                                        @include('bips_transactions.brgy_official_list_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries->links() !!}
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                         </div>
                     </div>
@@ -482,6 +479,27 @@
             }
         });
     });
+
+    $(".searchFilter").change(function() {
+        SearchData();
+    });
+
+    function SearchData() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_inhabitants_brgy_official_list_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 

@@ -81,7 +81,7 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -90,23 +90,27 @@
                                             <th>Date of Death</th>
                                             <th>Actions</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}} {{$x->First_Name}}, {{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Deceased_Type}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Cause_of_Death}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Date_of_Death}}</td>
-                                            <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_info btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                <button class="edit_deceased_profile btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#updateDeceased_Profile">Edit</button>&nbsp;
-                                                <button class="delete_deceased_profile btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
+                                            <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                            <td>
+                                                <select class="form-control searchFilter searchFilter2" style="min-width: 200px;">
+                                                    <option value="" disabled selected>Select Option</option>
+                                                    @foreach($deceased_type as $dc)
+                                                    <option value="{{ $dc->Deceased_Type_ID }}">{{ $dc->Deceased_Type }}</option>
+                                                    @endforeach
+                                                </select>
                                             </td>
+                                            <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="text"></td>
+                                            <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="date"></td>
+                                            <td></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData">
+                                        @include('bips_transactions.deceased_profile_list_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries->links() !!}
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                         </div>
                     </div>
@@ -491,6 +495,27 @@
 
 
     });
+
+    $(".searchFilter").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_deceased_profile_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 

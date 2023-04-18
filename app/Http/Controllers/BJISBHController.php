@@ -1045,4 +1045,243 @@ class BJISBHController extends Controller
 
         return (compact('theEntry'));
     }
+
+    public function search_blotter_list_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bjisbh_blotter as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('maintenance_bjisbh_blotter_status as f', 'a.Blotter_Status_ID', '=', 'f.Blotter_Status_ID')
+                ->select(
+                    'a.Blotter_ID',
+                    'a.Blotter_Number',
+                    'a.Blotter_Status_ID',
+                    'a.Incident_Date_Time',
+                    'a.Address',
+                    'a.Complaint_Details',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'e.Barangay_Name',
+                    'd.City_Municipality_Name',
+                    'c.Province_Name',
+                    'b.Region_Name',
+                    'f.Blotter_Status_Name'
+                )
+                ->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('bjisbh_blotter as a')
+                ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+                ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+                ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->leftjoin('maintenance_bjisbh_blotter_status as f', 'a.Blotter_Status_ID', '=', 'f.Blotter_Status_ID')
+                ->select(
+                    'a.Blotter_ID',
+                    'a.Blotter_Number',
+                    'a.Blotter_Status_ID',
+                    'a.Incident_Date_Time',
+                    'a.Address',
+                    'a.Complaint_Details',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'e.Barangay_Name',
+                    'd.City_Municipality_Name',
+                    'c.Province_Name',
+                    'b.Region_Name',
+                    'f.Blotter_Status_Name'
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('a.Blotter_Number', 'LIKE', '%' . $param1 . '%');
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('f.Blotter_Status_Name', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where(DB::raw("(DATE_FORMAT(a.Incident_Date_Time,'%Y-%m-%d'))"), '=', $param3);
+        }
+
+        $db_entries = $data->orderby('a.Blotter_Number', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bjisbh_transactions.blotter_list_data', compact('db_entries'))->render();
+    }
+
+    public function search_summon_list_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bjisbh_summons as a')
+                ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+                ->select(
+                    'b.Blotter_Number',
+                    'b.Blotter_ID',
+                    'a.Summons_ID'
+                )
+                ->where('b.Province_ID', Auth::user()->Province_ID)
+                ->groupBy('b.Blotter_Number', 'b.Blotter_ID');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('bjisbh_summons as a')
+                ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+                ->select(
+                    'b.Blotter_Number',
+                    'b.Blotter_ID',
+                    'a.Summons_ID'
+                )
+                ->where('b.Barangay_ID', Auth::user()->Barangay_ID)
+                ->groupBy('b.Blotter_Number', 'b.Blotter_ID');
+        }
+
+        $param1 = $request->get('param1');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Blotter_Number', 'LIKE', '%' . $param1 . '%');
+        }
+
+        $db_entries = $data->orderby('b.Blotter_Number', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bjisbh_transactions.summon_list_data', compact('db_entries'))->render();
+    }
+
+    public function search_proceeding_list_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bjisbh_proceedings as a')
+                ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+                ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+                ->select(
+                    'b.Blotter_Number',
+                    'b.Blotter_ID',
+                )
+                ->where('e.Province_ID', Auth::user()->Province_ID)
+                ->groupBy('b.Blotter_Number', 'b.Blotter_ID');
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('bjisbh_proceedings as a')
+                ->leftjoin('bjisbh_blotter as b', 'a.Blotter_ID', '=', 'b.Blotter_ID')
+                ->select(
+                    'b.Blotter_Number',
+                    'b.Blotter_ID'
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->groupBy('b.Blotter_Number', 'b.Blotter_ID');
+        }
+
+        $param1 = $request->get('param1');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('b.Blotter_Number', 'LIKE', '%' . $param1 . '%');
+        }
+
+        $db_entries = $data->orderby('b.Blotter_Number', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bjisbh_transactions.proceeding_list_data', compact('db_entries'))->render();
+    }
+
+    public function search_ordinance_violator_list_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data = DB::table('bjisbh_ordinance_violators as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('boris_brgy_ordinances_and_resolutions_information as c', 'a.Ordinance_ID', '=', 'c.Ordinance_Resolution_ID')
+                ->leftjoin('maintenance_bjisbh_types_of_penalties as d', 'a.Types_of_Penalties_ID', '=', 'd.Types_of_Penalties_ID')
+                ->leftjoin('maintenance_bjisbh_violation_status as e', 'a.Violation_Status_ID', '=', 'e.Violation_Status_ID')
+                ->leftjoin('maintenance_barangay as f', 'a.Barangay_ID', '=', 'f.Barangay_ID')
+                ->select(
+                    'a.Ordinance_Violators_ID',
+                    'a.Vilotation_Date',
+                    'c.Ordinance_Resolution_Title',
+                    'c.Ordinance_Resolution_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'd.Types_of_Penalties_ID',
+                    'd.Type_of_Penalties',
+                    'e.Violation_Status_ID',
+                    'e.Violation_Status',
+                )
+                ->where('f.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data = DB::table('bjisbh_ordinance_violators as a')
+                ->leftjoin('bips_brgy_inhabitants_information as b', 'a.Resident_ID', '=', 'b.Resident_ID')
+                ->leftjoin('boris_brgy_ordinances_and_resolutions_information as c', 'a.Ordinance_ID', '=', 'c.Ordinance_Resolution_ID')
+                ->leftjoin('maintenance_bjisbh_types_of_penalties as d', 'a.Types_of_Penalties_ID', '=', 'd.Types_of_Penalties_ID')
+                ->leftjoin('maintenance_bjisbh_violation_status as e', 'a.Violation_Status_ID', '=', 'e.Violation_Status_ID')
+                ->select(
+                    'a.Ordinance_Violators_ID',
+                    'a.Vilotation_Date',
+                    'c.Ordinance_Resolution_Title',
+                    'c.Ordinance_Resolution_ID',
+                    'b.Last_Name',
+                    'b.First_Name',
+                    'b.Middle_Name',
+                    'd.Types_of_Penalties_ID',
+                    'd.Type_of_Penalties',
+                    'e.Violation_Status_ID',
+                    'e.Violation_Status',
+                )
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('b.Last_Name', 'LIKE', '%' . $param1 . '%')
+                    ->orWhere('b.First_Name', 'LIKE', '%' . $param1 . '%')
+                    ->orWhere('b.Middle_Name', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('d.Type_of_Penalties', 'LIKE', '%' . $param2 . '%');
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('e.Violation_Status', 'LIKE', '%' . $param3 . '%');
+        }
+        if ($param4 != null && $param4 != "" && $param4 != "null") {
+            $data->where(DB::raw("(DATE_FORMAT(a.Vilotation_Date,'%Y-%m-%d'))"), '=', $param4);
+        }
+
+        $db_entries = $data->orderby('b.Last_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bjisbh_transactions.ordinance_violator_list_data', compact('db_entries'))->render();
+    }
 }

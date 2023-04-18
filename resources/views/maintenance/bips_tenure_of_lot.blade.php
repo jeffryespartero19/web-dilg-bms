@@ -58,7 +58,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_tenure_of_lot" value="{{$x->Tenure_of_Lot_ID}}" data-toggle="modal" data-target="#updateTenure_of_Lot">Edit</button>
+                                                <button class="edit_tenure_of_lot btn btn-info" value="{{$x->Tenure_of_Lot_ID}}" data-toggle="modal" data-target="#updateTenure_of_Lot">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

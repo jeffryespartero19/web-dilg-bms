@@ -101,8 +101,8 @@
                                             <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_XYZ" value="{{$x->Type_of_Fee_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
-                                                <button class="delRec" value="{{$x->Type_of_Fee_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
+                                                <button class="edit_XYZ btn btn-info" value="{{$x->Type_of_Fee_ID}}" data-toggle="modal" data-target="#updateXYZ">Edit</button>
+                                                <button class="delRec btn btn-danger" value="{{$x->Type_of_Fee_ID}}" data-toggle="modal" data-target="#deleteFile">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach

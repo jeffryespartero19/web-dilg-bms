@@ -53,7 +53,7 @@
                                 <!-- <div class="twenty_split txtRight"><button data-toggle="modal" class="btn btn-success" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div> -->
                             </div>
                             <div class="table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th hidden>Resident_ID</th>
@@ -63,24 +63,21 @@
                                             <th>Name Suffix</th>
                                             <th>Actions</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr" hidden>{{$x->Resident_ID}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Last_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->First_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Name_Suffix}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                <!-- <button class="approve_inhabitants btn btn-success" value="{{$x->Resident_ID}}">Approve</button>
-                                                <button class="disapprove_inhabitants  btn btn-danger" value="{{$x->Resident_ID}}">Disapprove</button> -->
-                                                <button class="view_info btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">View</button>
-                                            </td>
+                                            <td hidden></td>
+                                            <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData">
+                                        @include('bips_transactions.application_list_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries->links() !!}
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                             <hr>
 
@@ -238,9 +235,9 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success approve_inhabitants btn-modal" value="{{$x->Resident_ID}}">Approve</button>
-                    <button type="button" class="btn btn-danger btn-modal" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#disapproveApplication">Disapprove</button>
-                    <!-- <button type="button" class="btn btn-danger disapprove_inhabitants btn-modal" value="{{$x->Resident_ID}}">Disapprove</button> -->
+                    <button type="button" class="btn btn-success approve_inhabitants btn-modal">Approve</button>
+                    <button type="button" class="btn btn-danger btn-modal" data-toggle="modal" data-target="#disapproveApplication">Disapprove</button>
+                    <!-- <button type="button" class="btn btn-danger disapprove_inhabitants btn-modal">Disapprove</button> -->
                     <button type="button" class="btn btn-default modal-close btn-modal" data-dismiss="modal">Close</button>
                 </div>
             </form>
@@ -269,7 +266,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success disapprove_inhabitants btn-modal" value="{{$x->Resident_ID}}">Submit</button>
+                    <button type="button" class="btn btn-success disapprove_inhabitants btn-modal">Submit</button>
                 </div>
             </form>
         </div>
@@ -390,7 +387,7 @@
                 } else {
                     $('#4Ps_Beneficiary').html('No');
                 }
-                
+
                 if (data['theEntry'][0]['Resident_Status'] == 1) {
                     $('#Resident_Status').html('Yes');
                 } else {
@@ -423,6 +420,27 @@
         $('.inhabitants_menu').addClass('active');
         $('.inhabitants_main').addClass('menu-open');
     });
+
+    $(".searchFilter").change(function() {
+        SearchData();
+    });
+
+    function SearchData() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_inhabitants_application_list_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

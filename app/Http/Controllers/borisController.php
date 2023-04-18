@@ -31,7 +31,8 @@ class borisController extends Controller
                     DB::raw('DATE_FORMAT(a.Date_of_Effectivity,  "%M %d,%Y") as Date_of_Effectivity'),
                     'a.Ordinance_Resolution_Title',
                     'a.Status_of_Ordinance_or_Resolution_ID',
-                    'b.Name_of_Status'
+                    'b.Name_of_Status',
+                    'a.Date_Stamp'
                 )
                 ->where('a.Ordinance_or_Resolution', 0)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
@@ -47,7 +48,8 @@ class borisController extends Controller
                     DB::raw('DATE_FORMAT(a.Date_of_Effectivity, "%M %d,%Y") as Date_of_Effectivity'),
                     'a.Ordinance_Resolution_Title',
                     'a.Status_of_Ordinance_or_Resolution_ID',
-                    'b.Name_of_Status'
+                    'b.Name_of_Status',
+                    DB::raw('DATE_FORMAT(a.Date_Stamp, "%M %d,%Y") as Date_Stamp'),
 
                 )
                 ->where('a.Ordinance_or_Resolution', 0)

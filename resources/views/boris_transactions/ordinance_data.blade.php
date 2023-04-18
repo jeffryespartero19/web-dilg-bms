@@ -5,6 +5,7 @@
     <td class="sm_data_col txtCtr">{{$x->Ordinance_Resolution_Title}}</td>
     <td class="sm_data_col txtCtr">{{$x->Date_of_Approval}}</td>
     <td class="sm_data_col txtCtr">{{$x->Date_of_Effectivity}}</td>
+    <td class="sm_data_col txtCtr">{{$x->Date_Stamp}}</td>
     <td class="sm_data_col txtCtr">{{$x->Name_of_Status}}</td>
     <td class="sm_data_col txtCtr" style="display: flex;">
         <button class="view_ordinance btn btn-primary" value="{{$x->Ordinance_Resolution_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;

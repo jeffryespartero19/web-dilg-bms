@@ -122,6 +122,7 @@
                                             <th>Title</th>
                                             <th>Date of Approval</th>
                                             <th>Date of Effectivity</th>
+                                            <th>Date Created</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -312,7 +313,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Download</button>
                 </div>
             </form>
         </div>
