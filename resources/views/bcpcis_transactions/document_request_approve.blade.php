@@ -96,8 +96,9 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Request_Date">Request_Date</label>
+                                                <label for="Request_Date">Request Date</label>
                                                 <input type="date" class="form-control" id="Request_Date" name="Request_Date" value="{{$document[0]->Request_Date}}" required>
+                                                <input type="text" class="form-control" id="Request_Date_Words" value="{{$document[0]->Request_Date}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Salutation_Name">Salutation Name</label>
@@ -119,6 +120,7 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Issued_On">Issued On</label>
                                                 <input type="datetime-local" class="form-control" id="Issued_On" name="Issued_On" required>
+                                                <input type="text" class="form-control" id="Issued_On_Words" hidden>
                                             </div>
                                             <!-- <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Issued_At">Issued At</label>
@@ -127,6 +129,7 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_Date">OR Date</label>
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date"  required>
+                                                <input type="text" class="form-control" id="OR_Date_Words" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
@@ -147,6 +150,7 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Date_Issued">CTC Date Issued</label>
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required >
+                                                <input type="text" class="form-control" id="CTC_Date_Issued_Words" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
@@ -211,6 +215,13 @@
         $(".Resident_Select2").select2({
             tags: true
         });
+
+        var disvals=$('#Request_Date').val();
+
+        $('#Request_Date').attr('hidden', 'true');
+        var now1 = new Date(disvals).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#Request_Date_Words').val(now1);
+        $('#Request_Date_Words').removeAttr('hidden');
     });
 
 
@@ -233,6 +244,73 @@
         $('.documentRequest').addClass('active');
         $('.certification_menu').addClass('active');
         $('.certification_main').addClass('menu-open');
+    });
+
+
+    $(document).on('change',('#OR_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#OR_Date_Words').val(now);
+        $('#OR_Date_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#OR_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#OR_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#Request_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Request_Date_Words').val(now);
+        $('#Request_Date_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Request_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Request_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#CTC_Date_Issued'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#CTC_Date_Issued_Words').val(now);
+        $('#CTC_Date_Issued_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#CTC_Date_Issued_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#CTC_Date_Issued').removeAttr('hidden');
+    });
+
+    $(document).on('change',('#Issued_On'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
+
+        $('#Issued_On_Words').val(now);
+        $('#Issued_On_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Issued_On_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Issued_On').removeAttr('hidden');
     });
 </script>
 

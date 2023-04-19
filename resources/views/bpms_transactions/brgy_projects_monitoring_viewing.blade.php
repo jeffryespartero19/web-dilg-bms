@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Barangay Projects Monitoring</h1>
+                    <h1>View Barangay Projects Monitoring</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -180,7 +180,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="HSBody">
-                                                        @if($milestone->count() > 0)
+                                                        @if(!$milestone->isEmpty())
                                                         @foreach ($milestone as $cd)
                                                         <tr class="HRDetails">
                                                             <!-- <td>
@@ -201,7 +201,7 @@
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Description[]" value="{{$cd->Milestone_Description}}" readonly>
                                                             </td>
                                                             <td>
-                                                                <input type="date" class="form-control" style="width: 200px;" name="Milestone_Date[]" value="{{$cd->Milestone_Date}}">
+                                                                <input type="date" class="form-control this_MDate" style="width: 200px;" name="Milestone_Date[]" value="{{$cd->Milestone_Date}}" min="" max="">
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Status[]" value="{{$cd->Milestone_Status}}">
@@ -233,7 +233,7 @@
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Status_ID[]"  hidden>
                                                             </td> -->
                                                             <td>
-                                                                <select class="form-control myselect select2 Accomplishment_Status_ID" style="width: 350px;" id="Accomplishment_Status_ID" name="Accomplishment_Status_ID[]" >
+                                                                <select class="form-control myselect select2 Accomplishment_Status_ID" style="width: 350px;" id="Accomplishment_Status_ID" name="Accomplishment_Status_ID[]" readonly>
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -243,7 +243,7 @@
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Description[]" readonly>
                                                             </td>
                                                             <td>
-                                                                <input type="date" class="form-control" style="width: 200px;" name="Milestone_Date[]" >
+                                                                <input type="date" class="form-control this_MDate" style="width: 200px;" name="Milestone_Date[]" min="" max="">
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control" style="width: 200px;" name="Milestone_Status[]" >
@@ -319,7 +319,7 @@
                             </ul>
                             <div class="custom-file">
                                 @csrf
-                                <input type="text" class="form-control" id="Milestone_Status_ID" name="Milestone_Status_ID" value="{{$cd->Milestone_Status_ID}}">
+                                <input type="text" class="form-control" id="Milestone_Status_ID" name="Milestone_Status_ID" value="@if(isset($cd->Milestone_Status_ID)){{$cd->Milestone_Status_ID}}@endif">
                                 <input type="file" class="custom-file-input" accept="image/*" id="fileattach" name="fileattach[]" multiple>
                                 <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                             </div>
@@ -381,9 +381,21 @@
                 $('#VProject_Completion_Date').html(data['theEntry'][0]['Project_Completion_Date']);
                 $('#VContractor_Name').html(data['theEntry'][0]['Contractor_Name']);
                 $('#VProject_Type_Name').html(data['theEntry'][0]['Project_Type_Name']);
+                var proj = data['theEntry'][0]['Project_Number'];
+                
                 
             }
         });
+        
+        var disvals=$('#Estimated_Start_Date').val();
+        var disvalss=$('#Estimated_End_Date').val();
+
+        // alert(disvalss);
+        $('.this_MDate').removeAttr('min');
+        $('.this_MDate').attr('min', disvals);
+
+        $('.this_MDate').removeAttr('max');
+        $('.this_MDate').attr('max', disvalss);
     });
 
     function addMilestones() {

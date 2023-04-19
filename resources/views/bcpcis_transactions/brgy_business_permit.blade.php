@@ -88,10 +88,12 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Barangay_Business_Permit_Expiration_Date">Expiration Date</label>
                                                 <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" required>
+                                                <input type="text" class="form-control" id="Barangay_Business_Permit_Expiration_Date_Words" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_Date">OR Date</label>
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date" required>
+                                                <input type="text" class="form-control" id="OR_Date_Words" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
@@ -111,6 +113,7 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Date_Issued">CTC Date Issued</label>
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required>
+                                                <input type="text" class="form-control" id="CTC_Date_Issued_Words" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
@@ -318,6 +321,56 @@
             if(theEvent.preventDefault) theEvent.preventDefault();
         }
     }
+
+    $(document).on('change',('#Barangay_Business_Permit_Expiration_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Barangay_Business_Permit_Expiration_Date_Words').val(now);
+        $('#Barangay_Business_Permit_Expiration_Date_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Barangay_Business_Permit_Expiration_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Barangay_Business_Permit_Expiration_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#OR_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#OR_Date_Words').val(now);
+        $('#OR_Date_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#OR_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#OR_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#CTC_Date_Issued'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#CTC_Date_Issued_Words').val(now);
+        $('#CTC_Date_Issued_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#CTC_Date_Issued_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#CTC_Date_Issued').removeAttr('hidden');
+    });
 </script>
 
 <style>
