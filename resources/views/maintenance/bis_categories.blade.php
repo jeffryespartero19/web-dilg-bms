@@ -75,7 +75,7 @@
                                             <td class="sm_data_col txtCtr">{{$x->Encoder_ID}}</td>
                                             <td class="md_data_col txtCtr">{{$x->Date_Stamp}}</td>
                                             <td class="sm_data_col txtCtr">
-                                                <button class="edit_categories" value="{{$x->Categories_ID}}" data-toggle="modal" data-target="#updateCategories">Edit</button>
+                                                <button class="edit_categories btn btn-info" value="{{$x->Categories_ID}}" data-toggle="modal" data-target="#updateCategories">Edit</button>
                                             </td>
                                         </tr>
                                         @endforeach

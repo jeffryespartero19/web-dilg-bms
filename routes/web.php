@@ -1011,6 +1011,20 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/search_resolutions', 'borisController@fetch_data_resolution');
   Route::get('/search_inhabitants_list', 'bipsController@fetch_inhabitants_data');
   Route::get('/search_inhabitants_fields', 'bipsController@search_inhabitants_fields');
+  Route::get('/search_household_profile_fields', 'bipsController@search_household_profile_fields');
+  Route::get('/search_deceased_profile_fields', 'bipsController@search_deceased_profile_fields');
+  Route::get('/search_inhabitant_transfer_fields', 'bipsController@search_inhabitant_transfer_fields');
+  Route::get('/search_inhabitants_incoming_pending_fields', 'bipsController@search_inhabitants_incoming_pending_fields');
+  Route::get('/search_inhabitants_incoming_approved_fields', 'bipsController@search_inhabitants_incoming_approved_fields');
+  Route::get('/search_inhabitants_incoming_disapproved_fields', 'bipsController@search_inhabitants_incoming_disapproved_fields');
+  Route::get('/search_inhabitants_application_list_fields', 'bipsController@search_inhabitants_application_list_fields');
+  Route::get('/search_inhabitants_brgy_official_list_fields', 'bipsController@search_inhabitants_brgy_official_list_fields');
+  Route::get('/search_inhabitants_brgy_purok_leaders_list_fields', 'bipsController@search_inhabitants_brgy_purok_leaders_list_fields');
+
+  Route::get('/search_blotter_list_fields', 'BJISBHController@search_blotter_list_fields');
+  Route::get('/search_summon_list_fields', 'BJISBHController@search_summon_list_fields');
+  Route::get('/search_proceeding_list_fields', 'BJISBHController@search_proceeding_list_fields');
+  Route::get('/search_ordinance_violator_list_fields', 'BJISBHController@search_ordinance_violator_list_fields');
 
   // Get Deceased Profile
   Route::get('/get_deceased_info', 'bipsController@get_deceased_info')->name('get_deceased_info');
@@ -1064,9 +1078,7 @@ Route::get('/list_brgy', 'DropDownsController@list_brgy')->name('list_brgy');
 //For Deletions
 Route::post('/del_rec', 'DeleterController@del_rec')->name('del_rec');
 
-
-
-Route::get('ordinance/export', 'borisController@export')->name('ordinance.export');
+Route::get('/search_barangay_main', 'Public_LandingController@search_barangay_main');
 Route::get('businesspermit_export', 'BCPISController@businesspermit_export')->name('businesspermit_export');
 Route::get('documentinformation_export', 'BCPISController@documentinformation_export')->name('documentinformation_export');
 Route::get('brgybusiness_export', 'BCPISController@brgybusiness_export')->name('brgybusiness_export');

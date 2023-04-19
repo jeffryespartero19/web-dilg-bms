@@ -9,13 +9,24 @@ use DB;
 
 class Public_LandingController extends Controller
 {
-    
+
     public function index()
     {
         $currDATE = Carbon::now();
-        $regionX = DB::table('maintenance_region')->where('Active', 1)->get();
+        $db_entries = DB::table('maintenance_barangay as a')
+            ->leftjoin('maintenance_city_municipality as b', 'a.City_Municipality_ID', '=', 'b.City_Municipality_ID')
+            ->leftjoin('maintenance_province as c', 'b.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_region as d', 'c.Region_ID', '=', 'd.Region_ID')
+            ->select(
+                'a.Barangay_ID',
+                'a.Barangay_Name',
+                'b.City_Municipality_Name',
+                'c.Province_Name',
+                'd.Region_Name',
+            )
+            ->paginate(20);
 
-        return view('main_page', compact('currDATE', 'regionX'));
+        return view('main_page', compact('currDATE', 'db_entries'));
     }
 
     public function main(Request $request)
@@ -92,5 +103,39 @@ class Public_LandingController extends Controller
             'thisAnnType',
             'thisAnnStatus'
         ));
+    }
+
+    public function search_barangay_main(Request $request)
+    {
+
+        // dd($param1);
+        $data = DB::table('maintenance_barangay as a')
+            ->leftjoin('maintenance_city_municipality as b', 'a.City_Municipality_ID', '=', 'b.City_Municipality_ID')
+            ->leftjoin('maintenance_province as c', 'b.Province_ID', '=', 'c.Province_ID')
+            ->leftjoin('maintenance_region as d', 'c.Region_ID', '=', 'd.Region_ID')
+            ->select(
+                'a.Barangay_ID',
+                'a.Barangay_Name',
+                'b.City_Municipality_Name',
+                'c.Province_Name',
+                'd.Region_Name',
+            );
+
+        // $param1 = $request->get('param1');
+        if ($request->get('param1') != null && $request->get('param1') != "") {
+            $data->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('a.Barangay_Name', 'LIKE', '%' . $request->get('param1') . '%')
+                        ->orWhere('b.City_Municipality_Name', 'LIKE', '%' . $request->get('param1') . '%')
+                        ->orWhere('c.Province_Name', 'LIKE', '%' . $request->get('param1') . '%')
+                        ->orWhere('d.Region_Name', 'LIKE', '%' . $request->get('param1') . '%');
+                }
+            );  
+        }
+
+        $db_entries = $data->orderby('a.Barangay_Name', 'asc')->paginate(20);
+
+        return view('main_page_data', compact('db_entries'))->render();
     }
 }

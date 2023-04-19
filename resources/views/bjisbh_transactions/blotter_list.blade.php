@@ -84,7 +84,7 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Blotter Number</th>
@@ -92,22 +92,19 @@
                                             <th>Incident Date/Time</th>
                                             <th>Actions</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col txtCtr">{{$x->Blotter_Number}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Blotter_Status_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Incident_Date_Time}}</td>
-                                            <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <button class="view_info btn btn-primary" value="{{$x->Blotter_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-                                                <a class="btn btn-success" href="{{ url('blotter_details/'.$x->Blotter_ID) }}">Edit</a>&nbsp;
-                                                <button class="delete_blotter btn btn-danger" value="{{$x->Blotter_ID}}">Delete</button>
-                                            </td>
+                                            <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="date" placeholder="search"></td>
+                                            <td></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData">
+                                        @include('bjisbh_transactions.blotter_list_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries->links() !!}
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                         </div>
                     </div>
@@ -581,6 +578,27 @@
         });
 
     });
+
+    $(".searchFilter").change(function() {
+        SearchData();
+    });
+
+    function SearchData() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_blotter_list_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>
