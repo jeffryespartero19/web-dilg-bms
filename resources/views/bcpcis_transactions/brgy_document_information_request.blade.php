@@ -93,10 +93,15 @@
                                                 <label for="Requested_Date_and_Time">Requesting Date and Time to Pickup</label>
                                                 <!-- <input id="Requested_Date_and_Time" name="Requested_Date_and_Time" type="text" /> -->
                                                 <input type="datetime-local" step="any" min="{{$min}}" class="form-control" id="Requested_Date_and_Time" name="Requested_Date_and_Time"  required>
+                                                <input type="text" class="form-control" id="Requested_Date_and_Time_Words" hidden>
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <!-- <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Date_Stamp">Created Date</label>
                                                 <input type="date" class="form-control" id="Date_Stamp" name="Date_Stamp" disabled>
+                                            </div> -->
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Date_Stamp_Words">Created Date</label>
+                                                <input type="text" class="form-control" id="Date_Stamp_Words" name="Date_Stamp_Words" disabled>
                                             </div>
                                         </div>
                                         <input type="text" class="form-control" id="VDocument_Type" name="VDocument_Type" hidden>
@@ -187,7 +192,9 @@
 
 
      $(document).ready(function(){
-        document.getElementById('Date_Stamp').valueAsDate = new Date();
+        // document.getElementById('Date_Stamp').valueAsDate = new Date();
+        var now = new Date().toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#Date_Stamp_Words').val(now);
 
         $(document).on('click',('.createTicket_Close'),function(e) {
             //alert('here');
@@ -254,6 +261,22 @@
         });
            
         });
+
+        $(document).on('change',('#Requested_Date_and_Time'),function(e) {
+        var disVal = $(this).val();
+        
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
+
+        $('#Requested_Date_and_Time_Words').val(now);
+        $('#Requested_Date_and_Time_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Requested_Date_and_Time_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Requested_Date_and_Time').removeAttr('hidden');
+    });
 
 </script>
 @isset($for_modal)
