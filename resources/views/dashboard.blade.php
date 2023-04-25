@@ -137,7 +137,7 @@
                                 <td>1. <a href="{{route('application_list')}}">Accept Inhabitants</a></td>
                             </tr>
                             <tr>
-                                <td>2. <a href="{{route('inhabitants_information_list')}}">Issue Certification</a></td>
+                                <td>2. <a href="{{route('document_request_pending_list')}}">Issue Certification</a></td>
                             </tr>
                             <tr>
                                 <td>3. <a href="{{route('inhabitants_information_list')}}">Add Inhabitants</a></td>
