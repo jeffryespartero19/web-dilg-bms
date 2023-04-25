@@ -3113,4 +3113,306 @@ class bipsController extends Controller
 
         return view('bips_transactions.brgy_purok_leaders_list_data', compact('db_entries'))->render();
     }
+
+    //Inhabitants Information List
+    public function inhabitants_information_list_male(Request $request)
+    {
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+                ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Name_Prefix_ID',
+                    'a.Last_Name',
+                    'a.First_Name',
+                    'a.Middle_Name',
+                    'a.Name_Suffix_ID',
+                    'a.Birthplace',
+                    'a.Weight',
+                    'a.Height',
+                    'a.Civil_Status_ID',
+                    'a.Birthdate',
+                    'a.Country_ID',
+                    'a.Religion_ID',
+                    'a.Blood_Type_ID',
+                    'a.Sex',
+                    'a.Mobile_No',
+                    'a.Telephone_No',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Street',
+                    'a.Salary',
+                    'a.Email_Address',
+                    'a.PhilSys_Card_No',
+                    'a.Solo_Parent',
+                    'a.OFW',
+                    'a.Indigent',
+                    'a.4Ps_Beneficiary as Beneficiary',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Name_Prefix',
+                    'c.Name_Suffix',
+                    'd.Civil_Status'
+                )
+                ->where('a.Application_Status', 1)
+                ->where('a.Sex', 1)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+
+            $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+                ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+                ->leftjoin('maintenance_region as e', 'a.Region_ID', '=', 'e.Region_ID')
+                ->leftjoin('maintenance_province as f', 'a.Province_ID', '=', 'f.Province_ID')
+                ->leftjoin('maintenance_city_municipality as g', 'a.City_Municipality_ID', '=', 'g.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as h', 'a.Barangay_ID', '=', 'h.Barangay_ID')
+                ->leftjoin('maintenance_bips_religion as i', 'a.Religion_ID', '=', 'i.Religion_ID')
+                ->leftjoin('maintenance_bips_blood_type as j', 'a.Blood_Type_ID', '=', 'j.Blood_Type_ID')
+                ->leftjoin('bips_resident_profile as k', 'a.Resident_ID', '=', 'k.Resident_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Name_Prefix_ID',
+                    'a.Last_Name',
+                    'a.First_Name',
+                    'a.Middle_Name',
+                    'a.Name_Suffix_ID',
+                    'a.Birthplace',
+                    'a.Weight',
+                    'a.Height',
+                    'a.Civil_Status_ID',
+                    'a.Birthdate',
+                    'a.Country_ID',
+                    'a.Religion_ID',
+                    'a.Blood_Type_ID',
+                    'a.Sex',
+                    'a.Mobile_No',
+                    'a.Telephone_No',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Street',
+                    'a.Salary',
+                    'a.Email_Address',
+                    'a.PhilSys_Card_No',
+                    'a.Solo_Parent',
+                    'a.OFW',
+                    'a.Indigent',
+                    'a.4Ps_Beneficiary as Beneficiary',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Name_Prefix',
+                    'c.Name_Suffix',
+                    'd.Civil_Status',
+                    'a.House_No',
+                    'h.Barangay_Name',
+                    'g.City_Municipality_Name',
+                    'f.Province_Name',
+                    'e.Region_Name',
+                    'i.Religion',
+                    'j.Blood_Type',
+                    'k.Resident_Status',
+                    'k.Voter_Status',
+                    'k.Election_Year_Last_Voted',
+                    'k.Resident_Voter',
+                )
+                ->where('a.Application_Status', 1)
+                ->where('a.Sex', 1)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20);
+        }
+
+        $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
+        $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
+        $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
+        $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
+        $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->where('Region_ID', Auth::user()->Region_ID)->get();
+        $province = DB::table('maintenance_province')->where('Active', 1)->where('Province_ID', Auth::user()->Province_ID)->get();
+        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+        $country = DB::table('maintenance_country')->where('Active', 1)->get();
+        $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
+        $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
+
+        return view('bips_transactions.inhabitants_information_list', compact(
+            'db_entries',
+            'currDATE',
+            'religion',
+            'blood_type',
+            'civil_status',
+            'name_prefix',
+            'suffix',
+            'region',
+            'province',
+            'city',
+            'barangay',
+            'country',
+            'academic_level',
+            'employment_type',
+            'city1'
+        ));
+    }
+
+    //Inhabitants Information List
+    public function inhabitants_information_list_female(Request $request)
+    {
+        $currDATE = Carbon::now();
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+                ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Name_Prefix_ID',
+                    'a.Last_Name',
+                    'a.First_Name',
+                    'a.Middle_Name',
+                    'a.Name_Suffix_ID',
+                    'a.Birthplace',
+                    'a.Weight',
+                    'a.Height',
+                    'a.Civil_Status_ID',
+                    'a.Birthdate',
+                    'a.Country_ID',
+                    'a.Religion_ID',
+                    'a.Blood_Type_ID',
+                    'a.Sex',
+                    'a.Mobile_No',
+                    'a.Telephone_No',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Street',
+                    'a.Salary',
+                    'a.Email_Address',
+                    'a.PhilSys_Card_No',
+                    'a.Solo_Parent',
+                    'a.OFW',
+                    'a.Indigent',
+                    'a.4Ps_Beneficiary as Beneficiary',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Name_Prefix',
+                    'c.Name_Suffix',
+                    'd.Civil_Status'
+                )
+                ->where('a.Application_Status', 1)
+                ->where('a.Sex', 2)
+                ->where('a.Province_ID', Auth::user()->Province_ID)
+                ->paginate(20);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+
+            $db_entries = DB::table('bips_brgy_inhabitants_information as a')
+                ->leftjoin('maintenance_bips_name_prefix as b', 'a.Name_Prefix_ID', '=', 'b.Name_Prefix_ID')
+                ->leftjoin('maintenance_bips_name_suffix as c', 'a.Name_Suffix_ID', '=', 'c.Name_Suffix_ID')
+                ->leftjoin('maintenance_bips_civil_status as d', 'a.Civil_Status_ID', '=', 'd.Civil_Status_ID')
+                ->leftjoin('maintenance_region as e', 'a.Region_ID', '=', 'e.Region_ID')
+                ->leftjoin('maintenance_province as f', 'a.Province_ID', '=', 'f.Province_ID')
+                ->leftjoin('maintenance_city_municipality as g', 'a.City_Municipality_ID', '=', 'g.City_Municipality_ID')
+                ->leftjoin('maintenance_barangay as h', 'a.Barangay_ID', '=', 'h.Barangay_ID')
+                ->leftjoin('maintenance_bips_religion as i', 'a.Religion_ID', '=', 'i.Religion_ID')
+                ->leftjoin('maintenance_bips_blood_type as j', 'a.Blood_Type_ID', '=', 'j.Blood_Type_ID')
+                ->leftjoin('bips_resident_profile as k', 'a.Resident_ID', '=', 'k.Resident_ID')
+                ->select(
+                    'a.Resident_ID',
+                    'a.Name_Prefix_ID',
+                    'a.Last_Name',
+                    'a.First_Name',
+                    'a.Middle_Name',
+                    'a.Name_Suffix_ID',
+                    'a.Birthplace',
+                    'a.Weight',
+                    'a.Height',
+                    'a.Civil_Status_ID',
+                    'a.Birthdate',
+                    'a.Country_ID',
+                    'a.Religion_ID',
+                    'a.Blood_Type_ID',
+                    'a.Sex',
+                    'a.Mobile_No',
+                    'a.Telephone_No',
+                    'a.Barangay_ID',
+                    'a.City_Municipality_ID',
+                    'a.Province_ID',
+                    'a.Region_ID',
+                    'a.Street',
+                    'a.Salary',
+                    'a.Email_Address',
+                    'a.PhilSys_Card_No',
+                    'a.Solo_Parent',
+                    'a.OFW',
+                    'a.Indigent',
+                    'a.4Ps_Beneficiary as Beneficiary',
+                    'a.Encoder_ID',
+                    'a.Date_Stamp',
+                    'b.Name_Prefix',
+                    'c.Name_Suffix',
+                    'd.Civil_Status',
+                    'a.House_No',
+                    'h.Barangay_Name',
+                    'g.City_Municipality_Name',
+                    'f.Province_Name',
+                    'e.Region_Name',
+                    'i.Religion',
+                    'j.Blood_Type',
+                    'k.Resident_Status',
+                    'k.Voter_Status',
+                    'k.Election_Year_Last_Voted',
+                    'k.Resident_Voter',
+                )
+                ->where('a.Application_Status', 1)
+                ->where('a.Sex', 2)
+                ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
+                ->paginate(20);
+        }
+
+        $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
+        $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
+        $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
+        $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
+        $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+        $region = DB::table('maintenance_region')->where('Active', 1)->where('Region_ID', Auth::user()->Region_ID)->get();
+        $province = DB::table('maintenance_province')->where('Active', 1)->where('Province_ID', Auth::user()->Province_ID)->get();
+        $city = DB::table('maintenance_city_municipality')->where('Active', 1)->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)->get();
+        $barangay = DB::table('maintenance_barangay')->where('Active', 1)->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+        $country = DB::table('maintenance_country')->where('Active', 1)->get();
+        $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
+        $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+        $city1 = DB::table('maintenance_city_municipality')
+            ->where('Province_ID', Auth::user()->Province_ID)
+            ->get();
+
+        return view('bips_transactions.inhabitants_information_list', compact(
+            'db_entries',
+            'currDATE',
+            'religion',
+            'blood_type',
+            'civil_status',
+            'name_prefix',
+            'suffix',
+            'region',
+            'province',
+            'city',
+            'barangay',
+            'country',
+            'academic_level',
+            'employment_type',
+            'city1'
+        ));
+    }
 }

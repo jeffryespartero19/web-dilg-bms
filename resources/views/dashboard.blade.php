@@ -39,8 +39,8 @@
                     </div>
                     <div class="icon">
                         <i class="ion ion-ios-people"></i>
-
                     </div>
+                    <a href="{{route('inhabitants_information_list')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -55,7 +55,7 @@
                     <div class="icon">
                         <i class="ion ion-male"></i>
                     </div>
-
+                    <a href="{{route('inhabitants_information_list_male')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -70,157 +70,111 @@
                     <div class="icon">
                         <i class="ion ion-female"></i>
                     </div>
-
+                    <a href="{{route('inhabitants_information_list_female')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-2 col-6">
-                <!-- small box -->
-                <div class="small-box bg-teal">
-                    <div class="inner">
-                        <h3>{{$senior}}</h3>
 
-                        <p>Senior Citizen</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-ios-glasses-outline"></i>
-                    </div>
-
+            <div class="col-lg-3" style="padding: 10px;">
+                <div class="bg-default card" style="height: 500px;">
+                    <table class="table">
+                        <tr>
+                            <td>Senior</td>
+                            <td style="text-align: right;">{{$senior}}</td>
+                        </tr>
+                        <tr>
+                            <td>Adult</td>
+                            <td style="text-align: right;">{{$adult}}</td>
+                        </tr>
+                        <tr>
+                            <td>Teen</td>
+                            <td style="text-align: right;">{{$teen}}</td>
+                        </tr>
+                        <tr>
+                            <td>Children</td>
+                            <td style="text-align: right;">{{$children}}</td>
+                        </tr>
+                        <tr>
+                            <td>Infant/Toddlers</td>
+                            <td style="text-align: right;">{{$infant}}</td>
+                        </tr>
+                        <tr>
+                            <td>4P's Member</td>
+                            <td style="text-align: right;">{{$d4ps}}</td>
+                        </tr>
+                        <tr>
+                            <td>Solo Parent</td>
+                            <td style="text-align: right;">{{$solo_parent}}</td>
+                        </tr>
+                        <tr>
+                            <td>Indigent</td>
+                            <td style="text-align: right;">{{$indigent}}</td>
+                        </tr>
+                        <tr>
+                            <td>Resident Voter</td>
+                            <td style="text-align: right;">{{$resident_voter}}</td>
+                        </tr>
+                        <tr>
+                            <td>OFW</td>
+                            <td style="text-align: right;">{{$ofw}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-2 col-6">
-                <!-- small box -->
-                <div class="small-box bg-orange">
-                    <div class="inner">
-                        <h3>{{$d4ps}}</h3>
-
-                        <p>4Ps Member</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-social-dropbox"></i>
-                    </div>
-
+            <div class="col-lg-3" style="padding: 10px;">
+                <div class="bg-default card" style="height: 500px;">
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-2 col-6">
-                <!-- small box -->
-                <div class="small-box bg-lightblue">
-                    <div class="inner">
-                        <h3>{{$solo_parent}}</h3>
+            <div class="col-lg-3" style="padding: 10px;">
+                <div class="bg-default card" style="height: 500px;">
+                    <table class="table">
+                        <thead>
+                            <th>
+                                Quick Links
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1. <a href="{{route('application_list')}}">Accept Inhabitants</a></td>
+                            </tr>
+                            <tr>
+                                <td>2. <a href="{{route('inhabitants_information_list')}}">Issue Certification</a></td>
+                            </tr>
+                            <tr>
+                                <td>3. <a href="{{route('inhabitants_information_list')}}">Add Inhabitants</a></td>
+                            </tr>
+                        </tbody>
 
-                        <p>Solo Parent</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person"></i>
-                    </div>
-
+                    </table>
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-2 col-6">
-                <!-- small box -->
-                <div class="small-box bg-gray">
-                    <div class="inner">
-                        <h3>{{$indigent}}</h3>
+            <div class="col-lg-3" style="padding: 10px;">
+                <div class="bg-default card" style="height: 500px;">
+                    <table class="table">
+                        <thead>
+                            <th>
+                                Justice
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Barangay Case/Blotter</td>
+                                <td style="text-align: right;">{{$blotter}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Resolve</td>
+                                <td style="text-align: right;">2</td>
+                            </tr>
+                            <tr>
+                                <td>Total CFA</td>
+                                <td style="text-align: right;">3</td>
+                            </tr>
+                        </tbody>
 
-                        <p>Indigent</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-
+                    </table>
                 </div>
             </div>
+
             <!-- ./col -->
-            <div class="col-lg-2 col-6">
-                <!-- small box -->
-                <div class="small-box bg-olive">
-                    <div class="inner">
-                        <h3>{{$resident_voter}}</h3>
-
-                        <p>Resident Voter</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-ios-home"></i>
-                    </div>
-
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-2 col-6">
-                <!-- small box -->
-                <div class="small-box bg-purple">
-                    <div class="inner">
-                        <h3>{{$ofw}}</h3>
-
-                        <p>OFW</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-earth"></i>
-                    </div>
-
-                </div>
-            </div>
-            <!-- ./col -->
-            <!-- 
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <h3>Barangay Officials</h3>
-                    </div>
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-striped table-valign-middle">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Term Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        Some Product
-                                    </td>
-                                    <td>$13 USD</td>
-                                    <td>
-                                        12,000 Sold
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Another Product
-                                    </td>
-                                    <td>$29 USD</td>
-                                    <td>
-                                        123,234 Sold
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Amazing Product
-                                    </td>
-                                    <td>$1,230 USD</td>
-                                    <td>
-                                        198 Sold
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Perfect Item
-                                    </td>
-                                    <td>$199 USD</td>
-                                    <td>
-                                        87 Sold
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
     <!-- /.container-fluid -->
