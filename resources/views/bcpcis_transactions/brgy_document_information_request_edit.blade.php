@@ -92,10 +92,12 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Requested_Date_and_Time">Requesting Date and Time to Pickup</label>
                                                 <input type="datetime-local" class="form-control" id="Requested_Date_and_Time" name="Requested_Date_and_Time" value="{{$claim[0]->Requested_Date_and_Time}}">
+                                                <input type="text" class="form-control" id="Requested_Date_and_Time_Words" value="{{$claim[0]->Requested_Date_and_Time}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Date_Stamp">Created Date</label>
                                                 <input type="datetime-local" class="form-control" id="Date_Stamp" name="Date_Stamp" value="{{$document[0]->Date_Stamp}}" disabled>
+                                                <input type="text" class="form-control" id="Date_Stamp_Words" value="{{$document[0]->Date_Stamp}}" hidden disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -148,20 +150,39 @@
         
         $('.js-example-basic-single').select2();
 
+        var disVal = $('#Requested_Date_and_Time').val();
+        var disVals = $('#Date_Stamp').val();
+        
+        $('#Requested_Date_and_Time').attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
+        $('#Requested_Date_and_Time_Words').val(now);
+        $('#Requested_Date_and_Time_Words').removeAttr('hidden');
 
+
+        $('#Date_Stamp').attr('hidden', 'true');
+        var now1 = new Date(disVals).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
+        $('#Date_Stamp_Words').val(now1);
+        $('#Date_Stamp_Words').removeAttr('hidden');
+
+    
     
     });
 
 
-   
+    $(document).on('change',('#Requested_Date_and_Time'),function(e) {
+        var disVal = $(this).val();
+        
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
 
-    
+        $('#Requested_Date_and_Time_Words').val(now);
+        $('#Requested_Date_and_Time_Words').removeAttr('hidden');
 
-     // Side Bar Active
-     $(document).ready(function() {
-        // $('.businessPermit').addClass('active');
-        // $('.certification_menu').addClass('active');
-        // $('.certification_main').addClass('menu-open');
+    });
+
+    $(document).on('click',('#Requested_Date_and_Time_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Requested_Date_and_Time').removeAttr('hidden');
     });
 
 </script>

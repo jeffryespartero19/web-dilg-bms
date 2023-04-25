@@ -94,16 +94,17 @@
                                                     <option value=1 {{ 1 == $permit[0]->Owned_or_Rented  ? "selected" : "" }}>Owned</option>
                                                 </select>
                                             </div>
- 
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Barangay_Business_Permit_Expiration_Date">Expiration Date</label>
                                                 <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" value="{{$permit[0]->Barangay_Business_Permit_Expiration_Date}}" required>
+                                                <input type="text" class="form-control" id="Barangay_Business_Permit_Expiration_Date_Words" value="{{$permit[0]->Barangay_Business_Permit_Expiration_Date}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_Date">OR Date</label>
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date" value="{{$payment_docu[0]->OR_Date}}" required>
+                                                <input type="text" class="form-control" id="OR_Date_Words" value="{{$payment_docu[0]->OR_Date}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
@@ -123,6 +124,7 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Date_Issued">CTC Date Issued</label>
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required value="{{$payment_docu[0]->CTC_Date_Issued}}">
+                                                <input type="text" class="form-control" id="CTC_Date_Issued_Words" value="{{$payment_docu[0]->CTC_Date_Issued}}" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
@@ -220,6 +222,25 @@
                 dataType: "json",
             }
         });
+
+        var disvals=$('#Barangay_Business_Permit_Expiration_Date').val();
+        var disvalss=$('#OR_Date').val();
+        var disvalsss=$('#CTC_Date_Issued').val();
+
+        $('#Barangay_Business_Permit_Expiration_Date').attr('hidden', 'true');
+        var now1 = new Date(disvals).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#Barangay_Business_Permit_Expiration_Date_Words').val(now1);
+        $('#Barangay_Business_Permit_Expiration_Date_Words').removeAttr('hidden');
+
+        $('#OR_Date').attr('hidden', 'true');
+        var now2 = new Date(disvalss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#OR_Date_Words').val(now2);
+        $('#OR_Date_Words').removeAttr('hidden');
+
+        $('#CTC_Date_Issued').attr('hidden', 'true');
+        var now3 = new Date(disvalsss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        $('#CTC_Date_Issued_Words').val(now3);
+        $('#CTC_Date_Issued_Words').removeAttr('hidden');
     });
 
 
@@ -356,6 +377,56 @@
             if(theEvent.preventDefault) theEvent.preventDefault();
         }
     }
+
+    $(document).on('change',('#Barangay_Business_Permit_Expiration_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Barangay_Business_Permit_Expiration_Date_Words').val(now);
+        $('#Barangay_Business_Permit_Expiration_Date_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Barangay_Business_Permit_Expiration_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Barangay_Business_Permit_Expiration_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#OR_Date'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#OR_Date_Words').val(now);
+        $('#OR_Date_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#OR_Date_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#OR_Date').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#CTC_Date_Issued'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#CTC_Date_Issued_Words').val(now);
+        $('#CTC_Date_Issued_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#CTC_Date_Issued_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#CTC_Date_Issued').removeAttr('hidden');
+    });
 </script>
 
 <style>
