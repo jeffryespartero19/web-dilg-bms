@@ -27,6 +27,9 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
+        @if (Auth::user()->User_Type_ID == 2)
+
+        @else
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-4 col-6">
@@ -173,9 +176,9 @@
                     </table>
                 </div>
             </div>
-
             <!-- ./col -->
         </div>
+        @endif
     </div>
     <!-- /.container-fluid -->
 </section>
