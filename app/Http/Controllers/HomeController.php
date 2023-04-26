@@ -163,6 +163,21 @@ class HomeController extends Controller
             $blotter = DB::table('bjisbh_blotter')
                 ->where('Barangay_ID', Auth::user()->Barangay_ID)
                 ->get()->count();
+        } else {
+            $inhabitants = 0;
+            $male = 0;
+            $female = 0;
+            $senior = 0;
+            $d4ps = 0;
+            $solo_parent = 0;
+            $ofw = 0;
+            $indigent = 0;
+            $resident_voter = 0;
+            $adult = 0;
+            $teen = 0;
+            $children = 0;
+            $infant = 0;
+            $blotter = 0;
         }
 
         return view('dashboard', compact(
