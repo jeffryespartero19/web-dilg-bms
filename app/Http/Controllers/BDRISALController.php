@@ -1990,7 +1990,7 @@ class BDRISALController extends Controller
                     'Date_Start'                        => $data['Date_Start'],
                     'Date_End'                          => $data['Date_End'],
                     'Number_of_Participants'            => $data['Number_of_Participants'],
-
+                    'Brgy_Officials_and_Staff_ID'            => $data['Brgy_Officials_and_Staff_ID'],
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -2028,7 +2028,7 @@ class BDRISALController extends Controller
                     'Date_Start'                        => $data['Date_Start'],
                     'Date_End'                          => $data['Date_End'],
                     'Number_of_Participants'            => $data['Number_of_Participants'],
-
+                    'Brgy_Officials_and_Staff_ID'            => $data['Brgy_Officials_and_Staff_ID'],
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -2079,6 +2079,7 @@ class BDRISALController extends Controller
                 'a.Date_Start',
                 'a.Date_End',
                 'a.Number_of_Participants',
+                'a.Brgy_Officials_and_Staff_ID',
                 'a.Region_ID',
                 'b.Region_Name',
                 'a.Province_ID',
