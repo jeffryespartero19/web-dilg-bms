@@ -78,10 +78,12 @@
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Disaster_Date_Start">Disaster Date Start</label>
                                                 <input type="datetime-local" class="form-control" id="Disaster_Date_Start" name="Disaster_Date_Start" required>
+                                                <input type="text" class="form-control" id="Disaster_Date_Start_Words" hidden>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Disaster_Date_End">Disaster Date End</label>
                                                 <input type="datetime-local" class="form-control" id="Disaster_Date_End" name="Disaster_Date_End" required>
+                                                <input type="text" class="form-control" id="Disaster_Date_End_Words" hidden>
                                             </div>
                                             <!-- <div class="form-group col-lg-9" style="padding:0 10px">
                                                 <label for="Damaged_Location">Damaged Location</label>
@@ -636,6 +638,40 @@
         $('.responseInfo').addClass('active');
         $('.disaster_menu').addClass('active');
         $('.disaster_main').addClass('menu-open');
+    });
+
+
+    $(document).on('change',('#Disaster_Date_Start'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
+
+        $('#Disaster_Date_Start_Words').val(now);
+        $('#Disaster_Date_Start_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Disaster_Date_Start_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Disaster_Date_Start').removeAttr('hidden');
+    });
+
+
+    $(document).on('change',('#Disaster_Date_End'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
+
+        $('#Disaster_Date_End_Words').val(now);
+        $('#Disaster_Date_End_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Disaster_Date_End_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Disaster_Date_End').removeAttr('hidden');
     });
 </script>
 

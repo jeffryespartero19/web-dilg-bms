@@ -81,6 +81,16 @@
                                                     <td><span id="VSummary"></span></td>
                                                 </tr>
                                             </table>
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="fileattach">File Attachments</label>
+                                                <ul class="list-group list-group-flush" id="recovery_information_files">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                            
+                                            <br>
+                                            
                                            
                                             <div class="form-group col-lg-12" style="padding:0 10px;">
                                                 <h3>Evacuee Information</h3>
@@ -172,6 +182,8 @@
                                             </div>
                                         </div>
 
+                                        
+
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>
@@ -239,6 +251,29 @@
                 
             }
         });
+
+       
+        $.ajax({
+            url: "/get_response_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                // $('#disaster_related_activities_files1').empty();
+                // $i = 0;
+                data.forEach(element => {
+                    // $i = $i + 1;
+                    var file = '<li class="list-group-item">' + element['File_Name'] + '<a href="/files/uploads/response_information/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a></li>';
+                    $('#recovery_information_files').append(file);
+                });
+            }
+        });
+        
 
     });
     // Show File Name
@@ -484,6 +519,37 @@
     table {
         display: block;
         overflow-x: scroll;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 

@@ -167,10 +167,12 @@
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Date_Start">Date Start</label>
                                 <input type="date" class="form-control" id="Date_Start" name="Date_Start" required>
+                                <input type="text" class="form-control" id="Date_Start_Words" hidden>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Date_End">Date End</label>
                                 <input type="date" class="form-control" id="Date_End" name="Date_End" required>
+                                <input type="text" class="form-control" id="Date_End_Words" hidden>
                             </div>
                             <div class="form-group col-lg-3" style="padding:0 10px">
                                 <label for="Number_of_Participants">Number of Participants</label>
@@ -224,6 +226,10 @@
                 <table class="table table-striped table-bordered" style="width:100%">
                     <tr>
                         <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Activity Name: </strong></td>
+                        <td><span id="VActivity_Name"></span></td>
                     </tr>
                     <tr>
                         <td style="width:30%"><strong>Purpose: </strong></td>
@@ -393,8 +399,9 @@
                 $('#Date_Start').val(data['theEntry'][0]['Date_Start']);
                 $('#Date_End').val(data['theEntry'][0]['Date_End']);
                 $('#Number_of_Participants').val(data['theEntry'][0]['Number_of_Participants']);
+                $('#Brgy_Officials_and_Staff_ID').val(data['theEntry'][0]['Brgy_Officials_and_Staff_ID']);
                 $('#Region_ID').val(data['theEntry'][0]['Region_ID']);
-
+                
 
                 $('#Disaster_Related_Activities_ID1').val(data['theEntry'][0]['Disaster_Related_Activities_ID']);
                 $('#Activity_Name1').val(data['theEntry'][0]['Activity_Name']);
@@ -404,9 +411,18 @@
                 $('#Number_of_Participants1').val(data['theEntry'][0]['Number_of_Participants']);
                 $('#Region_ID1').val(data['theEntry'][0]['Region_ID']);
 
-                
+                var disvals=$('#Date_Start').val();
+                var disvalss=$('#Date_End').val();
 
+                $('#Date_Start').attr('hidden', 'true');
+                var now1 = new Date(disvals).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+                $('#Date_Start_Words').val(now1);
+                $('#Date_Start_Words').removeAttr('hidden');
 
+                $('#Date_End').attr('hidden', 'true');
+                var now2 = new Date(disvalss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+                $('#Date_End_Words').val(now2);
+                $('#Date_End_Words').removeAttr('hidden');
 
             }
         });
@@ -428,6 +444,8 @@
                 });
             }
         });
+
+        
     });
 
 // aldren
@@ -480,7 +498,7 @@
         });
     });
 
-
+    
     $(document).on('click', '.modal-close', function(e) {
         $('#newBrgy_Projects_Monitoring').trigger("reset");
         $('#Barangay_ID').empty();
@@ -500,6 +518,9 @@
         // $('#Modal_Title').text('Create Disaster Related Activities');
         $('#disaster_related_activities_files').empty();
     });
+
+    
+   
 
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
@@ -785,6 +806,39 @@
             }
         });
     }
+
+
+    $(document).on('change',('#Date_Start'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Date_Start_Words').val(now);
+        $('#Date_Start_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Date_Start_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Date_Start').removeAttr('hidden');
+    });
+
+    $(document).on('change',('#Date_End'),function(e) {
+        var disVal = $(this).val();
+
+        $(this).attr('hidden', 'true');
+        var now = new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+
+        $('#Date_End_Words').val(now);
+        $('#Date_End_Words').removeAttr('hidden');
+
+    });
+
+    $(document).on('click',('#Date_End_Words'),function(e) {
+        $(this).attr('hidden', 'true');
+        $('#Date_End').removeAttr('hidden');
+    });
 </script>
 
 <style>
