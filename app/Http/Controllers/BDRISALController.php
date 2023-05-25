@@ -13,6 +13,9 @@ use App\Exports\DisasterTypeExportView;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EmergencyEvacuationSiteExportView;
 use App\Exports\AllocatedFundExportView;
+use App\Exports\DisasterSuppliesExportView;
+use App\Exports\EmergencyTeamExportView;
+use App\Exports\EmergencyEquipmentExportView;
 
 class BDRISALController extends Controller
 {
@@ -501,10 +504,11 @@ class BDRISALController extends Controller
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
                 ->paginate(20, ['*'], 'db_entries');
-
+            $alert_level = DB::table('maintenance_bdris_alert_level')->paginate(20, ['*'], 'alert_level');
             return view('bdris_transactions.response_information_list', compact(
                 'db_entries',
-                'currDATE'
+                'currDATE',
+                'alert_level'
 
             ));
         } elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
@@ -1201,10 +1205,11 @@ class BDRISALController extends Controller
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
                 ->paginate(20, ['*'], 'db_entries');
 
-
+            $disaster_response= DB::table('bdris_response_information')->paginate(20, ['*'], 'disaster_response');
             return view('bdris_transactions.recovery_information_list', compact(
                 'db_entries',
                 'currDATE',
+                'disaster_response'
 
             ));
         } elseif (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4) {
@@ -2671,7 +2676,7 @@ class BDRISALController extends Controller
                     'e.Emergency_Team_Name',
                     'a.Emergency_Equipment_ID',
                     'd.Emergency_Equipment_Name',
-                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                    DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
                 )
                 ->paginate(20, ['*'], 'db_entries');
@@ -2696,7 +2701,7 @@ class BDRISALController extends Controller
                     'e.Barangay_Name',
                     'a.City_Municipality_ID',
                     'd.City_Municipality_Name',
-                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                    DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2721,7 +2726,7 @@ class BDRISALController extends Controller
                     'e.Barangay_Name',
                     'a.City_Municipality_ID',
                     'd.City_Municipality_Name',
-                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                    DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2756,7 +2761,7 @@ class BDRISALController extends Controller
                     'g.First_Name',
                     'g.Middle_Name',
                     'h.Disaster_Name',
-                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                    DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2781,7 +2786,7 @@ class BDRISALController extends Controller
                     'e.Barangay_Name',
                     'a.City_Municipality_ID',
                     'd.City_Municipality_Name',
-                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                    DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -2806,7 +2811,7 @@ class BDRISALController extends Controller
                     'e.Barangay_Name',
                     'a.City_Municipality_ID',
                     'd.City_Municipality_Name',
-                    DB::raw('(CASE WHEN a.Active = false THEN "False" ELSE "True" END) AS Active'),
+                    DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
 
                 )
                 ->where('a.Barangay_ID', Auth::user()->Barangay_ID)
@@ -3495,7 +3500,7 @@ class BDRISALController extends Controller
                     'Disaster_Supplies_Quantity'        => $data['Disaster_Supplies_Quantity'],
                     'Location'                          => $data['Location'],
                     'Remarks'                           => $data['Remarks'],
-
+                    'Brgy_Officials_and_Staff_ID'       => $data['Brgy_Officials_and_Staff_ID'],
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -3515,7 +3520,7 @@ class BDRISALController extends Controller
                     'Disaster_Supplies_Quantity'        => $data['Disaster_Supplies_Quantity'],
                     'Location'                          => $data['Location'],
                     'Remarks'                           => $data['Remarks'],
-
+                    'Brgy_Officials_and_Staff_ID'       => $data['Brgy_Officials_and_Staff_ID'],
                     'Barangay_ID'                       => Auth::user()->Barangay_ID,
                     'City_Municipality_ID'              => Auth::user()->City_Municipality_ID,
                     'Province_ID'                       => Auth::user()->Province_ID,
@@ -4103,5 +4108,640 @@ class BDRISALController extends Controller
         $chk_Active = isset($data['chk_Active']) ? 1 : 0;
 
         return Excel::download(new AllocatedFundExportView($chk_Active,$chk_Allocated_Fund_Name,$chk_Amount,), 'allocatedfund.xlsx');
+    }
+
+    public function dissupp_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Disaster_Supplies_Name = isset($data['chk_Disaster_Supplies_Name']) ? 1 : 0;
+        $chk_Disaster_Supplies_Quantity = isset($data['chk_Disaster_Supplies_Quantity']) ? 1 : 0;
+        $chk_Location = isset($data['chk_Location']) ? 1 : 0;
+        $chk_Remarks = isset($data['chk_Remarks']) ? 1 : 0;
+        $chk_Disaster_Name = isset($data['chk_Disaster_Name']) ? 1 : 0;
+        $chk_Resident_Name = isset($data['chk_Resident_Name']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new DisasterSuppliesExportView($chk_Active,$chk_Disaster_Supplies_Name,$chk_Disaster_Supplies_Quantity,$chk_Location,$chk_Remarks,$chk_Disaster_Name,$chk_Resident_Name,), 'emergencyteam.xlsx');
+    }
+
+    public function emerteam_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Emergency_Team_Name = isset($data['chk_Emergency_Team_Name']) ? 1 : 0;
+        $chk_Emergency_Team_Hotline = isset($data['chk_Emergency_Team_Hotline']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new EmergencyTeamExportView($chk_Active,$chk_Emergency_Team_Name,$chk_Emergency_Team_Hotline,), 'emergencyteam.xlsx');
+    }
+
+    public function emerequip_export(Request $request)
+    {
+        $data = request()->all();
+        
+        $chk_Emergency_Equipment_Name = isset($data['chk_Emergency_Equipment_Name']) ? 1 : 0;
+        $chk_Location = isset($data['chk_Location']) ? 1 : 0;
+        $chk_Active = isset($data['chk_Active']) ? 1 : 0;
+
+        return Excel::download(new EmergencyEquipmentExportView($chk_Active,$chk_Emergency_Equipment_Name,$chk_Location,), 'emergencyequipment.xlsx');
+    }
+
+    public function search_disty_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('maintenance_bdris_disaster_type as a')
+        ->leftjoin('bdris_emergency_evacuation_site as b', 'a.Emergency_Evacuation_Site_ID', '=', 'b.Emergency_Evacuation_Site_ID')
+        ->leftjoin('bdris_allocated_fund_source as c', 'a.Allocated_Fund_ID', '=', 'c.Allocated_Fund_ID')
+        ->leftjoin('bdris_emergency_equipment as d', 'a.Emergency_Equipment_ID', '=', 'd.Emergency_Equipment_ID')
+        ->leftjoin('bdris_emergency_team as e', 'a.Emergency_Team_ID', '=', 'e.Emergency_Team_ID')
+        ->select(
+            'a.Disaster_Type_ID',
+            'a.Disaster_Type',
+            'a.Emergency_Evacuation_Site_ID',
+            'b.Emergency_Evacuation_Site_Name',
+            'a.Allocated_Fund_ID',
+            'c.Allocated_Fund_Name',
+            'a.Emergency_Team_ID',
+            'e.Emergency_Team_Name',
+            'a.Emergency_Equipment_ID',
+            'd.Emergency_Equipment_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
+
+        );
+        $distyparam1 = $request->get('distyparam1');
+        $distyparam2 = $request->get('distyparam2');
+        $distyparam3 = $request->get('distyparam3');
+        $distyparam4 = $request->get('distyparam4');
+        $distyparam5 = $request->get('distyparam5');
+        $distyparam6 = $request->get('distyparam6');
+
+        
+        if ($distyparam1 != null && $distyparam1 != "") {
+            $data->where(function ($query) use ($distyparam1) {
+                $query->where('a.Disaster_Type', 'LIKE', '%' . $distyparam1 . '%');
+            });
+        }
+        if ($distyparam2 != null && $distyparam2 != "" && $distyparam2 != "null") {
+            $data->where('a.Emergency_Evacuation_Site_ID', $distyparam2);
+        }
+        if ($distyparam3 != null && $distyparam3 != "" && $distyparam3 != "null") {
+            $data->where('a.Allocated_Fund_ID', $distyparam3);
+        }
+        if ($distyparam4 != null && $distyparam4 != "" && $distyparam4 != "null") {
+            $data->where('a.Emergency_Equipment_ID', $distyparam4);
+        }
+        if ($distyparam5 != null && $distyparam5 != "" && $distyparam5 != "null") {
+            $data->where('a.Emergency_Team_ID', $distyparam5);
+        }
+        if ($distyparam6 != null && $distyparam6 != "" && $distyparam6 != "null") {
+            $data->where('a.Active', $distyparam6);
+        }
+        
+       
+        $db_entries = $data->orderby('a.Disaster_Type', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.disaster_type_data', compact('db_entries'))->render();
+    }
+
+    public function search_emerevac_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_emergency_evacuation_site as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+            'a.Emergency_Evacuation_Site_ID',
+            'a.Emergency_Evacuation_Site_Name',
+            'a.Address',
+            'a.Capacity',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
+
+        );
+        $emerevacparam1 = $request->get('emerevacparam1');
+        $emerevacparam2 = $request->get('emerevacparam2');
+        $emerevacparam3 = $request->get('emerevacparam3');
+        $emerevacparam4 = $request->get('emerevacparam4');
+
+        if ($emerevacparam1 != null && $emerevacparam1 != "") {
+            $data->where(function ($query) use ($emerevacparam1) {
+                $query->where('a.Emergency_Evacuation_Site_Name', 'LIKE', '%' . $emerevacparam1 . '%');
+            });
+        }
+        if ($emerevacparam2 != null && $emerevacparam2 != "") {
+            $data->where(function ($query) use ($emerevacparam2) {
+                $query->where('a.Address', 'LIKE', '%' . $emerevacparam2 . '%');
+            });
+        }
+        if ($emerevacparam3 != null && $emerevacparam3 != "") {
+            $data->where(function ($query) use ($emerevacparam3) {
+                $query->where('a.Capacity', 'LIKE', '%' . $emerevacparam3 . '%');
+            });
+        }
+        if ($emerevacparam4 != null && $emerevacparam4 != "" && $emerevacparam4 != "null") {
+            $data->where('a.Active', $emerevacparam4);
+        }
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries2 = $data->orderby('a.Emergency_Evacuation_Site_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.emergency_evacuation_site_data', compact('db_entries2'))->render();
+    }
+
+    public function search_allofund_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_allocated_fund_source as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+            'a.Allocated_Fund_ID',
+            'a.Allocated_Fund_Name',
+            'a.Amount',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
+
+        );
+        $allofundparam1 = $request->get('allofundparam1');
+        $allofundparam2 = $request->get('allofundparam2');
+        $allofundparam3 = $request->get('allofundparam3');
+
+        if ($allofundparam1 != null && $allofundparam1 != "") {
+            $data->where(function ($query) use ($allofundparam1) {
+                $query->where('a.Allocated_Fund_Name', 'LIKE', '%' . $allofundparam1 . '%');
+            });
+        }
+        if ($allofundparam2 != null && $allofundparam2 != "") {
+            $data->where(function ($query) use ($allofundparam2) {
+                $query->where('a.Amount', 'LIKE', '%' . $allofundparam2 . '%');
+            });
+        }
+        if ($allofundparam3!= null && $allofundparam3 != "" && $allofundparam3 != "null") {
+            $data->where('a.Active', $allofundparam3);
+        }
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries3 = $data->orderby('a.Allocated_Fund_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.allocated_fund_data', compact('db_entries3'))->render();
+    }
+
+    public function search_dissupp_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_disaster_supplies as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+        ->leftjoin('bdris_response_information as h', 'h.Disaster_Response_ID', '=', 'a.Disaster_Response_ID')
+        ->select(
+            'a.Disaster_Supplies_ID',
+            'a.Disaster_Response_ID',
+            'a.Disaster_Supplies_Name',
+            'a.Disaster_Supplies_Quantity',
+            'a.Location',
+            'a.Remarks',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',
+            'g.Last_Name',
+            'g.First_Name',
+            'g.Middle_Name',
+            'h.Disaster_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
+
+        );
+        $dissuppparam1 = $request->get('dissuppparam1');
+        $dissuppparam2 = $request->get('dissuppparam2');
+        $dissuppparam3 = $request->get('dissuppparam3');
+        $dissuppparam4 = $request->get('dissuppparam4');
+        $dissuppparam5 = $request->get('dissuppparam5');
+        $dissuppparam6 = $request->get('dissuppparam6');
+
+        // if ($dissuppparam1 != null && $dissuppparam1 != "") {
+        //     $data->where(function ($query) use ($dissuppparam1) {
+        //         $query->where('a.Emergency_Evacuation_Site_Name', 'LIKE', '%' . $dissuppparam1 . '%');
+        //     });
+        // }
+        if ($dissuppparam1 != null && $dissuppparam1 != "" && $dissuppparam1 != "null") {
+            $data->where('a.Disaster_Response_ID', $dissuppparam1);
+        }
+        if ($dissuppparam2 != null && $dissuppparam2 != "") {
+            $data->where(function ($query) use ($dissuppparam2) {
+                $query->where('a.Disaster_Supplies_Name', 'LIKE', '%' . $dissuppparam2 . '%');
+            });
+        }
+        if ($dissuppparam3 != null && $dissuppparam3 != "") {
+            $data->where(function ($query) use ($dissuppparam3) {
+                $query->where('a.Disaster_Supplies_Quantity', 'LIKE', '%' . $dissuppparam3 . '%');
+            });
+        }
+        if ($dissuppparam4 != null && $dissuppparam4 != "") {
+            $data->where(function ($query) use ($dissuppparam4) {
+                $query->where('a.Location', 'LIKE', '%' . $dissuppparam4 . '%');
+            });
+        }
+        if ($dissuppparam5 != null && $dissuppparam5 != "") {
+            $data->where(function ($query) use ($dissuppparam5) {
+                $query->where('a.Remarks', 'LIKE', '%' . $dissuppparam5 . '%');
+            });
+        }
+        if ($dissuppparam6 != null && $dissuppparam6 != "" && $dissuppparam6 != "null") {
+            $data->where('a.Active', $dissuppparam6);
+        }
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries4 = $data->orderby('a.Disaster_Supplies_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.disaster_supplies_data', compact('db_entries4'))->render();
+    }
+
+    public function search_emerteam_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_emergency_team as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+            'a.Emergency_Team_ID',
+            'a.Emergency_Team_Name',
+            'a.Emergency_Team_Hotline',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
+
+        );
+        $emerteamparam1 = $request->get('emerteamparam1');
+        $emerteamparam2 = $request->get('emerteamparam2');
+        $emerteamparam3 = $request->get('emerteamparam3');
+
+        if ($emerteamparam1 != null && $emerteamparam1 != "") {
+            $data->where(function ($query) use ($emerteamparam1) {
+                $query->where('a.Emergency_Team_Name', 'LIKE', '%' . $emerteamparam1 . '%');
+            });
+        }
+        if ($emerteamparam2 != null && $emerteamparam2 != "") {
+            $data->where(function ($query) use ($emerteamparam2) {
+                $query->where('a.Emergency_Team_Hotline', 'LIKE', '%' . $emerteamparam2 . '%');
+            });
+        }
+        if ($emerteamparam3!= null && $emerteamparam3 != "" && $emerteamparam3 != "null") {
+            $data->where('a.Active', $emerteamparam3);
+        }
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries5 = $data->orderby('a.Emergency_Team_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.emergency_team_data', compact('db_entries5'))->render();
+    }
+
+    public function search_emerequip_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_emergency_equipment as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->select(
+            'a.Emergency_Equipment_ID',
+            'a.Emergency_Equipment_Name',
+            'a.Location',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',
+            DB::raw('(CASE WHEN a.Active = false THEN "No" ELSE "Yes" END) AS Active'),
+
+        );
+        $emerequipparam1 = $request->get('emerequipparam1');
+        $emerequipparam2 = $request->get('emerequipparam2');
+        $emerequipparam3 = $request->get('emerequipparam3');
+
+        if ($emerequipparam1 != null && $emerequipparam1 != "") {
+            $data->where(function ($query) use ($emerequipparam1) {
+                $query->where('a.Emergency_Equipment_Name', 'LIKE', '%' . $emerequipparam1 . '%');
+            });
+        }
+        if ($emerequipparam2 != null && $emerequipparam2 != "") {
+            $data->where(function ($query) use ($emerequipparam2) {
+                $query->where('a.Location', 'LIKE', '%' . $emerequipparam2 . '%');
+            });
+        }
+        if ($emerequipparam3!= null && $emerequipparam3 != "" && $emerequipparam3 != "null") {
+            $data->where('a.Active', $emerequipparam3);
+        }
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries6 = $data->orderby('a.Emergency_Equipment_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.emergency_equip_data', compact('db_entries6'))->render();
+    }
+
+    public function search_disaster_related_activities_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_disaster_related_activities as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('bips_brgy_officials_and_staff as f', 'a.Brgy_Officials_and_Staff_ID', '=', 'f.Brgy_Officials_and_Staff_ID')
+        ->leftjoin('bips_brgy_inhabitants_information as g', 'g.Resident_ID', '=', 'f.Resident_ID')
+        ->select(
+            'a.Disaster_Related_Activities_ID',
+            'a.Activity_Name',
+            'a.Purpose',
+            'a.Date_Start',
+            'a.Date_End',
+            'a.Number_of_Participants',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',
+            'g.Last_Name',
+            'g.First_Name',
+            'g.Middle_Name',
+
+        );
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+
+        if ($param1 != null && $param1 != "") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('a.Activity_Name', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "") {
+            $data->where(function ($query) use ($param2) {
+                $query->where('a.Purpose', 'LIKE', '%' . $param2 . '%');
+            });
+        }
+        if ($param3 != null && $param3 != "") {
+            $data->where('a.Date_Start', $param3);
+        }
+        if ($param4 != null && $param4 != "") {
+            $data->where('a.Date_End', $param4);
+        }
+        
+        if ($param5!= null && $param5 != "" && $param5 != "null") {
+            $data->where('a.Number_of_Participants', $param5);
+        }
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries = $data->orderby('a.Activity_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.disaster_related_activities_data', compact('db_entries'))->render();
+    }
+
+    public function search_response_information_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_response_information as a')
+        ->leftjoin('maintenance_bdris_disaster_type as b', 'a.Disaster_Type_ID', '=', 'b.Disaster_Type_ID')
+        ->leftjoin('maintenance_bdris_alert_level as c', 'a.Alert_Level_ID', '=', 'c.Alert_Level_ID')
+        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+        ->leftjoin('maintenance_province as e', 'a.Province_ID', '=', 'e.Province_ID')
+        ->leftjoin('maintenance_city_municipality as f', 'a.City_Municipality_ID', '=', 'f.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as g', 'a.Barangay_ID', '=', 'g.Barangay_ID')
+        ->select(
+            'a.Disaster_Response_ID',
+            'a.Disaster_Name',
+            'a.Disaster_Type_ID',
+            'a.Alert_Level_ID',
+            'a.Damaged_Location',
+            'a.Disaster_Date_Start',
+            'a.Disaster_Date_End',
+            'a.GPS_Coordinates',
+            'a.Risk_Assesment',
+            'a.Action_Taken',
+            'a.Summary',
+            'a.Barangay_ID',
+            'a.City_Municipality_ID',
+            'a.Province_ID',
+            'a.Region_ID',
+            'b.Disaster_Type',
+            'c.Alert_Level',
+            'd.Region_Name',
+            'e.Province_Name',
+            'f.City_Municipality_Name',
+            'g.Barangay_Name',
+
+        );
+        $param1 = $request->get('param1');
+        $param2 = $request->get('param2');
+        $param3 = $request->get('param3');
+        $param4 = $request->get('param4');
+        $param5 = $request->get('param5');
+        $param6 = $request->get('param6');
+
+        if ($param1 != null && $param1 != "") {
+            $data->where(function ($query) use ($param1) {
+                $query->where('a.Disaster_Name', 'LIKE', '%' . $param1 . '%');
+            });
+        }
+        if ($param2 != null && $param2 != "" && $param2 != "null") {
+            $data->where('a.Disaster_Type_ID', $param2);
+        }
+        if ($param3 != null && $param3 != "" && $param3 != "null") {
+            $data->where('a.Alert_Level_ID', $param3);
+        }
+        if ($param4 != null && $param4 != "") {
+            $data->where( DB::raw('CAST(a.Disaster_Date_Start as date)'), $param4);
+        }
+        if ($param5 != null && $param5 != "") {
+            $data->where( DB::raw('CAST(a.Disaster_Date_End as date)'), $param5);
+        }
+        if ($param6 != null && $param6 != "") {
+            $data->where(function ($query) use ($param6) {
+                $query->where('a.Summary', 'LIKE', '%' . $param6 . '%');
+            });
+        }
+        // if ($param4 != null && $param4 != "") {
+        //     $data->where('a.Disaster_Date_Start', $param4);
+        // }
+        // if ($param5 != null && $param5 != "") {
+        //     $data->where('a.Disaster_Date_End', $param5);
+        // }
+       
+
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries = $data->orderby('a.Disaster_Name', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.response_information_data', compact('db_entries'))->render();
+    }
+
+    public function search_recovery_information_fields(Request $request)
+    {
+        // dd(request()->all());
+        $currDATE = Carbon::now();
+
+        
+        $data = DB::table('bdris_recovery_information as a')
+        ->leftjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_city_municipality as d', 'a.City_Municipality_ID', '=', 'd.City_Municipality_ID')
+        ->leftjoin('maintenance_barangay as e', 'a.Barangay_ID', '=', 'e.Barangay_ID')
+        ->leftjoin('bdris_response_information as f', 'a.Disaster_Response_ID', '=', 'f.Disaster_Response_ID')
+        ->select(
+            'a.Disaster_Recovery_ID',
+            'a.Disaster_Response_ID',
+            'a.Region_ID',
+            'b.Region_Name',
+            'a.Province_ID',
+            'c.Province_Name',
+            'a.Barangay_ID',
+            'e.Barangay_Name',
+            'a.City_Municipality_ID',
+            'd.City_Municipality_Name',
+            'f.Disaster_Name',
+        );
+        $param1 = $request->get('param1');
+
+        if ($param1 != null && $param1 != "" && $param1 != "null") {
+            $data->where('a.Disaster_Response_ID', $param1);
+        }
+
+        
+        if (Auth::user()->User_Type_ID == 3) {
+            $data->where('a.Province_ID', Auth::user()->Province_ID);
+        } elseif (Auth::user()->User_Type_ID == 1) {
+            $data->where('a.Barangay_ID', Auth::user()->Barangay_ID);
+        }
+        
+       
+        $db_entries = $data->orderby('a.Disaster_Response_ID', 'desc')->paginate(20);
+
+        // dd($db_entries);
+
+        return view('bdris_transactions.recovery_information_data', compact('db_entries'))->render();
     }
 }

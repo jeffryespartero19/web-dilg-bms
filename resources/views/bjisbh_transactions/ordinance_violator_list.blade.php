@@ -84,7 +84,7 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -93,23 +93,20 @@
                                             <th>Date/Time</th>
                                             <th>Actions</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
                                         <tr>
-                                            <td class="sm_data_col">{{$x->Last_Name}}, {{$x->First_Name}} {{$x->Middle_Name}}</td>
-                                            <td class="sm_data_col">{{$x->Type_of_Penalties}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Violation_Status}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Vilotation_Date}}</td>
-                                            <td class="sm_data_col txtCtr" style="display: flex;">
-                                                <a class="btn btn-primary" href="{{ url('ordinance_violator_details_view/'.$x->Ordinance_Violators_ID) }}">View</a>&nbsp;
-                                                <a class="btn btn-success" href="{{ url('ordinance_violator_details/'.$x->Ordinance_Violators_ID) }}">Edit</a>&nbsp;
-                                                <button class="delete_ordinance_violator btn btn-danger" value="{{$x->Ordinance_Violators_ID}}">Delete</button>
-                                            </td>
+                                            <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            <td><input class="form-control searchFilter searchFilter4" style="min-width: 200px;" type="date" placeholder="search"></td>
+                                            <td></td>
                                         </tr>
-                                        @endforeach
+                                    </thead>
+                                    <tbody id="ListData">
+                                        @include('bjisbh_transactions.ordinance_violator_list_data')
                                     </tbody>
                                 </table>
+                                {!! $db_entries->links() !!}
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                             </div>
                         </div>
                     </div>
@@ -252,6 +249,27 @@
             }
         });
     });
+
+    $(".searchFilter").change(function() {
+        SearchData();
+    });
+
+    function SearchData() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_ordinance_violator_list_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 <style>

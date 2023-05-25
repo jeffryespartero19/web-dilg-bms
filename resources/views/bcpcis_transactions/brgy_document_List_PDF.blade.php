@@ -47,7 +47,6 @@
                 <th @if($chk_Remarks==0) class="hidden" @endif style="border:1px solid black;">Remarks</th>
                 <th @if($chk_Salutation_Name==0) class="hidden" @endif style="border:1px solid black;">Salutation Name</th>
                 <th @if($chk_Issued_On==0) class="hidden" @endif style="border:1px solid black;">Issued On</th>
-                <th @if($chk_Issued_At==0) class="hidden" @endif style="border:1px solid black;">Issued At</th>
                 <th @if($chk_SecondResident_Name==0) class="hidden" @endif style="border:1px solid black;">SecondResident Name</th>
                 <th @if($chk_OR_No==0) class="hidden" @endif style="border:1px solid black;">OR No</th>
                 <th @if($chk_Cash_Tendered==0) class="hidden" @endif style="border:1px solid black;">Cash Tendered</th>
@@ -66,7 +65,6 @@
                 <td @if($chk_Remarks==0) class="hidden" @else class="sm_data_col" @endif>{{$x->Remarks}}</td>
                 <td @if($chk_Salutation_Name==0) class="hidden" @else class="sm_data_col" @endif>{{$x->Salutation_Name}}</td>
                 <td @if($chk_Issued_On==0) class="hidden" @else class="sm_data_col" @endif>{{$x->Issued_On}}</td>
-                <td @if($chk_Issued_At==0) class="hidden" @else class="sm_data_col" @endif>{{$x->Issued_At}}</td>
                 <td @if($chk_SecondResident_Name==0) class="hidden" @else class="sm_data_col" @endif>{{$x->SecondResident_Name}}</td>
                 <td @if($chk_OR_No==0) class="hidden" @else class="sm_data_col" @endif>{{$x->OR_No}}</td>
                 <td @if($chk_Cash_Tendered==0) class="hidden" @else class="sm_data_col" @endif>{{$x->Cash_Tendered}}</td>

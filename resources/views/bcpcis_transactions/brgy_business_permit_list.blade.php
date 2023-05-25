@@ -98,44 +98,50 @@
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            
-                                            <th>Transaction No</th>
-                                            <th>Business Name</th>
-                                            <th>Resident Name</th>
-                                            <th>New or Renewal</th>
-                                            <th>Owned or Rented</th>
-                                            <th>Expiration Date</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-                                            
-                                            <td class="sm_data_col txtCtr">{{$x->Transaction_No}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Business_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Resident_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->New_or_Renewal}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Owned_or_Rented}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Barangay_Business_Permit_Expiration_Date}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-info" href="{{ url('brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">Edit</a>
-                                                <!-- <a class="btn btn-primary" href="{{ url('view_brgy_business_permit_details/'.$x->Barangay_Permits_ID) }}">View</a> -->
-                                                <button class="view_businesspermit btn btn-primary" value="{{$x->Barangay_Permits_ID}}" data-toggle="modal" data-target="#viewBusinessPermit">View</button>
-                                                <button class="delete_businesspermit btn btn-danger" value="{{$x->Barangay_Permits_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <button class="view_businesspermit btn btn-primary" value="{{$x->Barangay_Permits_ID}}" data-toggle="modal" data-target="#viewBusinessPermit">View</button>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table class="example11 table table-striped table-bordered" style="table-layout:fixed;">
+                                        <thead>
+                                            <tr>
+                                                <th>Transaction No</th>
+                                                <th>Business Name</th>
+                                                <th>Resident Name</th>
+                                                <th>New or Renewal</th>
+                                                <th>Owned or Rented</th>
+                                                <th>Expiration Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 300px;" type="text"></td>
+                                                <!-- <td>
+                                                    <select class="form-control searchFilter searchFilter3" id="Resident_ID" name="Resident_ID" style="min-width: 350px;">
+                                                    </select>
+                                                </td> -->
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter4" style="min-width: 150px;">
+                                                    <option value='' selected>Select Option</option>
+                                                    <option value=1>New</option>
+                                                    <option value=0>Renewal</option>
+                                                </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter5" style="min-width: 150px;" >
+                                                        <option value='' selected>Select Option</option>
+                                                        <option value=1>Owned</option>
+                                                        <option value=0>Rented</option>
+                                                    </select>
+                                                </td>
+                                                <td><input class="form-control searchFilter searchFilter6" style="min-width: 200px;" type="date"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bcpcis_transactions.brgy_business_permit_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,33 +159,56 @@
 <!-- /.content -->
 
 
+
+
 <div class="modal fade" id="viewBusinessPermit" tabindex="-1" role="dialog" aria-labelledby="viewBusinessPermit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title flexer justifier" id="Modal_Title">Brgy Business Permit Information</h4>
+                <h4 class="modal-title flexer justifier" id="VName">Brgy Business Permit Information</h4>
                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-body">
-                    <div class="row">
-                        
-                        <div class="col-6">
-                            <strong>Transaction_No: </strong><span id="VTransaction_No"></span><br>
-                            <strong>Business_Name: </strong><span id="VBusiness_Name"></span><br>
-                            <strong>Resident_Name: </strong><span id="VResident_Name"></span><br>
-                            <strong>Occupation: </strong><span id="VOccupation"></span><br>
-                            <strong>CTC No: </strong><span id="VCTC_No"></span><br>
-                            <strong>New or Renewal: </strong><span id="VNew_or_Renewal"></span><br>
-                            <strong>Owned or Rented: </strong><span id="VOwned_or_Rented"></span><br>
-                            <strong>Barangay Business Permit Expiration Date: </strong><span id="VBarangay_Business_Permit_Expiration_Date"></span><br>
-                            <!-- <h1>Contractor Name: </h1><h1 id="VContractor_Name"></h1> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
+                <!-- <h4 id="VName"> </h4> -->
+
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size:large">Details</td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Transaction_No: </strong></td>
+                        <td><span id="VTransaction_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Business Name: </strong></td>
+                        <td><span id="VBusiness_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Resident Name: </strong></td>
+                        <td><span id="VResident_Name"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Occupation: </strong></td>
+                        <td><span id="VOccupation"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>CTC No: </strong></td>
+                        <td><span id="VCTC_No"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>New or Renewal: </strong></td>
+                        <td><span id="VNew_or_Renewal"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Owned or Rented: </strong></td>
+                        <td><span id="VOwned_or_Rented"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%"><strong>Business Permit Expiration Date: </strong></td>
+                        <td><span id="VBarangay_Business_Permit_Expiration_Date"></span></td>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
@@ -290,6 +319,20 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        $('.js-example-basic-single').select2();
+
+        $(".Resident_Select2").select2({
+            tags: true
+        });
+
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_businessresident',
+                dataType: "json",
+            }
+        });
 
     });
 
@@ -497,6 +540,55 @@ $(document).on("change", "#P_ID", function() {
     $(document).on('click', '#SelectAll', function(e) {
         $('.ChkBOX1').prop('checked', this.checked);
     });
+
+    $(document).ready(function() {
+
+        $('.js-example-basic-single').select2();
+
+        // $(".Resident_Select2").select2({
+        //     tags: true
+        // });
+
+        $("#Resident_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_businessresident',
+                dataType: "json",
+            }
+        });
+
+    });
+
+    $(".searchFilter").change(function() {
+        SearchData2();
+    });
+
+    function SearchData2() {
+        // alert('test');
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_brgybusinesspermit_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
+
+<style>
+    .example11 {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+</style>
 
 @endsection

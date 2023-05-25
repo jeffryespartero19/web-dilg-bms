@@ -90,53 +90,55 @@
                                 <!-- <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('view_Project') }}" target="_blank" class="btn btn-warning" style="width: 100px;">Print</a></div>
                                 <div class="txtRight" style="margin-left: 5px;"><a href="{{ url('print_Project') }}" target="_blank" class="btn btn-info" style="width: 100px;">Download</a></div> -->
                                 @endif
-                                <div><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-warning" data-target="#print_filter" style="width: 100px;">Export</button></div>
+                                <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-info" data-target="#download_filter" style="width: 100px;">Download</button></div>
                             </div>
                         </div>
                         <br>
                         <div class="tableX_row col-md-12 up_marg5">
                             <div class="col-md-12 table-responsive">
-                                <table id="example" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Project Number</th>
-                                            <th>Project Name</th>
-                                            <th>Total Project Cost</th>
-                                            <th>Exact Location</th>
-                                            <th>Actual Project Start</th>
-                                            <th>Contractor Name</th>
-                                            <th>Project Type</th>
-                                            <th>Project Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($db_entries as $x)
-                                        <tr>
-
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Number}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Total_Project_Cost}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Exact_Location}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Actual_Project_Start}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Contractor_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Type_Name}}</td>
-                                            <td class="sm_data_col txtCtr">{{$x->Project_Status_Name}}</td>
-                                            <td class="sm_data_col txtCtr">
-                                                @if (Auth::user()->User_Type_ID == 1)
-                                                <a class="btn btn-info" href="{{ url('brgy_project_monitoring_details/'.$x->Brgy_Projects_ID) }}">Edit</a>
-                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details_viewing/'.$x->Brgy_Projects_ID) }}">View</a>
-                                                <button class="delete_projects btn btn-danger" value="{{$x->Brgy_Projects_ID}}">Delete</button>
-                                                @endif
-                                                @if (Auth::user()->User_Type_ID == 3 || Auth::user()->User_Type_ID == 4)
-                                                <a class="btn btn-primary" href="{{ url('brgy_project_monitoring_details_viewing/'.$x->Brgy_Projects_ID) }}">View</a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Project Number</th>
+                                                <th>Project Name</th>
+                                                <th>Total Project Cost</th>
+                                                <th>Exact Location</th>
+                                                <th>Actual Project Start</th>
+                                                <th>Contractor Name</th>
+                                                <th>Project Type</th>
+                                                <th>Project Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 300px;" type="number"></td>
+                                                <td><input class="form-control searchFilter searchFilter4" style="min-width: 300px;" type="text"></td>
+                                                <td><input class="form-control searchFilter searchFilter5" style="min-width: 300px;" type="date"></td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter6" id="Contractor_ID" name="Contractor_ID" style="min-width: 300px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter7" id="Project_Type_ID" name="Project_Type_ID" style="min-width: 200px;">
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control searchFilter searchFilter8" id="Project_Status_ID" name="Project_Status_ID" style="min-width: 200px;">
+                                                    </select>
+                                                </td>
+                                                <td style="min-width: 200px;"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData"> 
+                                            @include('bpms_transactions.brgy_projects_monitoring_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,6 +201,54 @@
 </div>
 
 
+<div class="modal fade" id="print_filter" tabindex="-1" role="dialog" aria-labelledby="Create_Inhabitant" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title flexer justifier" id="Modal_Title">Filter</h4>
+                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="print_report" method="GET" action="{{ route('projectmonitoring_export') }}" autocomplete="off" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="checkbox" id="SelectAll" name="SelectAll">
+                                <label for="SelectAll">Select All</label><br>
+                            </div>  
+                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Number" name="chk_Project_Number">
+                                <label for="chk_Project_Number">Project Number</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Name" name="chk_Project_Name">
+                                <label for="chk_Project_Name">Project Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Total_Project_Cost" name="chk_Total_Project_Cost">
+                                <label for="chk_Total_Project_Cost">Project Cost</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Exact_Location" name="chk_Exact_Location">
+                                <label for="chk_Exact_Location">Exact Location</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Actual_Project_Start" name="chk_Actual_Project_Start">
+                                <label for="chk_Actual_Project_Start">Actual Project Start</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Contractor_Name" name="chk_Contractor_Name">
+                                <label for="chk_Contractor_Name">Contractor Name</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Type_Name" name="chk_Project_Type_Name">
+                                <label for="chk_Project_Type_Name">Project Type</label><br>
+                                <input type="checkbox" class="ChkBOX1" id="chk_Project_Status_Name" name="chk_Project_Status_Name">
+                                <label for="chk_Project_Status_Name">Project Status</label><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -212,6 +262,30 @@
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
+
+        $("#Contractor_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_contractor',
+                dataType: "json",
+            }
+        });
+        
+        $("#Project_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_projecttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Project_Status_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_projectstatus',
+                dataType: "json",
+            }
+        });
 
     });
 
@@ -401,7 +475,38 @@ $.ajax({
 });
 });
 
-   
+$(document).on('click', '#SelectAll', function(e) {
+        $('.ChkBOX1').prop('checked', this.checked);
+    });
+
+    $(".searchFilter").change(function() {
+        Search();
+        // alert('test');
+        
+    });
+
+    function Search() {
+        // alert('test');
+       
+        var param1 = $('.searchFilter1').val();
+        var param2 = $('.searchFilter2').val();
+        var param3 = $('.searchFilter3').val();
+        var param4 = $('.searchFilter4').val();
+        var param5 = $('.searchFilter5').val();
+        var param6 = $('.searchFilter6').val();
+        var param7 = $('.searchFilter7').val();
+        var param8 = $('.searchFilter8').val();
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_projects_monitoring_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2 + "& param3=" + param3 + "& param4=" + param4 + "& param5=" + param5 + "& param6=" + param6 + "& param7=" + param7 + "& param8=" + param8,
+            // url: "/search_projects_monitoring_fields?page=" + page + "& param1=" + param1 + "& param2=" + param2,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    }
 </script>
 
 

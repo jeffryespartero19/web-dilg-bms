@@ -1011,6 +1011,20 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/search_resolutions', 'borisController@fetch_data_resolution');
   Route::get('/search_inhabitants_list', 'bipsController@fetch_inhabitants_data');
   Route::get('/search_inhabitants_fields', 'bipsController@search_inhabitants_fields');
+  Route::get('/search_household_profile_fields', 'bipsController@search_household_profile_fields');
+  Route::get('/search_deceased_profile_fields', 'bipsController@search_deceased_profile_fields');
+  Route::get('/search_inhabitant_transfer_fields', 'bipsController@search_inhabitant_transfer_fields');
+  Route::get('/search_inhabitants_incoming_pending_fields', 'bipsController@search_inhabitants_incoming_pending_fields');
+  Route::get('/search_inhabitants_incoming_approved_fields', 'bipsController@search_inhabitants_incoming_approved_fields');
+  Route::get('/search_inhabitants_incoming_disapproved_fields', 'bipsController@search_inhabitants_incoming_disapproved_fields');
+  Route::get('/search_inhabitants_application_list_fields', 'bipsController@search_inhabitants_application_list_fields');
+  Route::get('/search_inhabitants_brgy_official_list_fields', 'bipsController@search_inhabitants_brgy_official_list_fields');
+  Route::get('/search_inhabitants_brgy_purok_leaders_list_fields', 'bipsController@search_inhabitants_brgy_purok_leaders_list_fields');
+
+  Route::get('/search_blotter_list_fields', 'BJISBHController@search_blotter_list_fields');
+  Route::get('/search_summon_list_fields', 'BJISBHController@search_summon_list_fields');
+  Route::get('/search_proceeding_list_fields', 'BJISBHController@search_proceeding_list_fields');
+  Route::get('/search_ordinance_violator_list_fields', 'BJISBHController@search_ordinance_violator_list_fields');
 
   // Get Deceased Profile
   Route::get('/get_deceased_info', 'bipsController@get_deceased_info')->name('get_deceased_info');
@@ -1023,6 +1037,31 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/get_documenttype', 'BCPISController@get_documenttype')->name('get_documenttype');
   Route::get('/get_purposedocument', 'BCPISController@get_purposedocument')->name('get_purposedocument');
+  Route::get('/search_brgybusinesspermit_fields', 'BCPISController@search_brgybusinesspermit_fields');
+  Route::get('/search_brgydocument_fields', 'BCPISController@search_brgydocument_fields');
+  Route::get('/search_barangaybusiness_fields', 'BCPISController@search_barangaybusiness_fields');
+  Route::get('/search_documentrequestpending_fields', 'BCPISController@search_documentrequestpending_fields');
+  Route::get('/search_disty_fields', 'BDRISALController@search_disty_fields');
+  Route::get('/search_emerevac_fields', 'BDRISALController@search_emerevac_fields');
+  Route::get('/search_allofund_fields', 'BDRISALController@search_allofund_fields');
+  Route::get('/search_dissupp_fields', 'BDRISALController@search_dissupp_fields');
+  Route::get('/search_emerteam_fields', 'BDRISALController@search_emerteam_fields');
+  Route::get('/search_emerequip_fields', 'BDRISALController@search_emerequip_fields');
+  Route::get('/document_request_list', 'BCPISController@document_request_list')->name('document_request_list');
+  Route::get('/search_documentrequest_fields', 'BCPISController@search_documentrequest_fields');
+  Route::get('/document_request_edit/{id}', 'BCPISController@document_request_edit');
+  Route::post('/create_brgy_document_information_request_update', 'BCPISController@create_brgy_document_information_request_update')->name('create_brgy_document_information_request_update');
+  Route::get('/search_documentrequestapproved_fields', 'BCPISController@search_documentrequestapproved_fields');
+  Route::get('/search_documentrequestdisapproved_fields', 'BCPISController@search_documentrequestdisapproved_fields');
+  Route::get('/search_disaster_related_activities_fields', 'BDRISALController@search_disaster_related_activities_fields');
+  Route::get('/search_response_information_fields', 'BDRISALController@search_response_information_fields');
+  Route::get('/search_recovery_information_fields', 'BDRISALController@search_recovery_information_fields');
+  Route::get('/search_contractor_fields', 'BPMSController@search_contractor_fields');
+  Route::get('/search_projects_monitoring_fields', 'BPMSController@search_projects_monitoring_fields');
+
+
+  Route::get('/inhabitants_information_list_male', 'bipsController@inhabitants_information_list_male')->name('inhabitants_information_list_male');
+  Route::get('/inhabitants_information_list_female', 'bipsController@inhabitants_information_list_female')->name('inhabitants_information_list_female');
 });
 
 
@@ -1050,4 +1089,8 @@ Route::get('brgybusiness_export', 'BCPISController@brgybusiness_export')->name('
 Route::get('disty_export', 'BDRISALController@disty_export')->name('disty_export');
 Route::get('emerevac_export', 'BDRISALController@emerevac_export')->name('emerevac_export');
 Route::get('allofund_export', 'BDRISALController@allofund_export')->name('allofund_export');
-
+Route::get('dissupp_export', 'BDRISALController@dissupp_export')->name('dissupp_export');
+Route::get('emerteam_export', 'BDRISALController@emerteam_export')->name('emerteam_export');
+Route::get('emerequip_export', 'BDRISALController@emerequip_export')->name('emerequip_export');
+Route::get('contractor_export', 'BPMSController@contractor_export')->name('contractor_export');
+Route::get('projectmonitoring_export', 'BPMSController@projectmonitoring_export')->name('projectmonitoring_export');

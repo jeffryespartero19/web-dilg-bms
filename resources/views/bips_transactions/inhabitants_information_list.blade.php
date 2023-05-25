@@ -109,7 +109,10 @@
                                             <tr>
                                                 <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
                                                 <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="date"></td>
-                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 200px;" type="number"></td>
+                                                <td>
+                                                    <input class="form-control searchFilter searchFilter3" style="min-width: 100px;" type="number" placeholder="From">
+                                                    <input class="form-control searchFilter searchFilter31" style="min-width: 100px;" type="number" placeholder="To">
+                                                </td>
                                                 <td>
                                                     <select class="form-control searchFilter searchFilter4" style="min-width: 200px;">
                                                         <option value="" disabled selected>Select Option</option>
@@ -1811,6 +1814,7 @@
         var param1 = $('.searchFilter1').val();
         var param2 = $('.searchFilter2').val();
         var param3 = $('.searchFilter3').val();
+        var param31 = $('.searchFilter31').val();
         var param4 = $('.searchFilter4').val();
         var param5 = $('.searchFilter5').val();
         var param6 = $('.searchFilter6').val();
@@ -1824,7 +1828,7 @@
         var page = $('#hidden_page').val();
 
         $.ajax({
-            url: "/search_inhabitants_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12 + "&param13=" + param13,
+            url: "/search_inhabitants_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12 + "&param13=" + param13 + "&param31=" + param31,
             success: function(data) {
                 $('#ListData').html('');
                 $('#ListData').html(data);

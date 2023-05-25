@@ -53,7 +53,7 @@
                         <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
                             <option value='' disabled selected>Select Option</option>
                             @foreach($response_information as $bt1)
-                            <option value="{{ $bt1->Disaster_Response_ID }}" {{ $bt1->Disaster_Response_ID  == $response_information[0]->Disaster_Response_ID  ? "selected" : "" }}>{{ $bt1->Disaster_Name }}</option>
+                            <option value="{{ $bt1->Disaster_Response_ID }}" {{ $bt1->Disaster_Response_ID  == $recovery[0]->Disaster_Response_ID  ? "selected" : "" }}>{{ $bt1->Disaster_Name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -64,7 +64,7 @@
 
                         </ul>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
+                            <input type="file" accept="image/*" class="custom-file-input" id="fileattach" name="fileattach[]" multiple>
                             <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
                         </div>
                     </div>
