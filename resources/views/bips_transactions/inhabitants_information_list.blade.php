@@ -76,6 +76,7 @@
                     <div class="card-body">
                         <div style="text-align: right;">
                             <div class="btn-group">
+                                <div style="padding: 2px;"><button class="btn btn-default searchReset" style="width: 100px;">Reset</button></div>
                                 @if (Auth::user()->User_Type_ID == 1)
                                 <div style="padding: 2px;"><button data-toggle="modal" class="btn btn-success create_new" data-target="#createInhabitants_Info" style="width: 100px;">New</button></div>
                                 @endif
@@ -596,7 +597,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default modal-close" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Download</button>
+                    <button type="submit" class="btn btn-primary postThis_Inhabitant_Info">Save</button>
                 </div>
             </form>
 
@@ -1606,7 +1607,7 @@
                     $SS = ' ';
                 }
                 $('#VAddress').html($HS + $SS + data['theEntry'][0]['Barangay_Name'] + ', ' + data['theEntry'][0]['City_Municipality_Name'] + ', ' + data['theEntry'][0]['Province_Name']);
-                $('#VBirthdate').html(data['theEntry'][0]['Birthdate']);
+                $('#VBirthdate').html(data['theEntry'][0]['Birthdate2']);
                 $('#VBirthplace').html(data['theEntry'][0]['Birthplace']);
                 $('#VAge').html(data['theEntry'][0]['Religion_ID']);
                 $('#VCivilStatus').html(data['theEntry'][0]['Civil_Status']);
@@ -1667,7 +1668,7 @@
                 } else {
                     $('#VResident_Voter').html('No');
                 }
-                $('#VElection_Year_Last_Voted').html(data['theEntry'][0]['Election_Year_Last_Voted']);
+                $('#VElection_Year_Last_Voted').html(data['theEntry'][0]['Election_Year_Last_Voted2']);
                 $('#VPhilHealth').html(data['theEntry'][0]['PhilHealth']);
                 $('#VGSIS').html(data['theEntry'][0]['GSIS']);
                 $('#VSSS').html(data['theEntry'][0]['SSS']);
@@ -1691,8 +1692,8 @@
                     var option = '<tr class="EducData">' +
                         '<td style="min-width: 200px;">' + element['Academic_Level'] + '</td>' +
                         '<td style="min-width: 200px;">' + element['School_Name'] + '</td>' +
-                        '<td style="min-width: 200px;">' + element['School_Year_Start'] + '</td>' +
-                        '<td style="min-width: 200px;">' + element['School_Year_End'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Year_Start2'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['School_Year_End2'] + '</td>' +
                         '<td style="min-width: 200px;">' + element['Course'] + '</td>' +
                         '<td>' + element['Year_Graduated'] + '</td>' +
                         '</tr>';
@@ -1720,8 +1721,8 @@
                         '<td style="min-width: 200px;">' + element['Employer_Name'] + '</td>' +
                         '<td style="min-width: 200px;">' + element['Employer_Address'] + '</td>' +
                         '<td style="min-width: 200px;">' + element['Position'] + '</td>' +
-                        '<td style="min-width: 200px;">' + element['Start_Date'] + '</td>' +
-                        '<td style="min-width: 200px;">' + element['End_Date'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['Start_Date2'] + '</td>' +
+                        '<td style="min-width: 200px;">' + element['End_Date2'] + '</td>' +
                         '<td style="min-width: 200px;">' + element['Monthly_Salary'] + '</td>' +
                         '<td style="min-width: 200px;">' + element['Brief_Description'] + '</td>' +
                         '</tr>';
@@ -1800,6 +1801,7 @@
     //     });
     // }
 
+
     $(".searchFilter").change(function() {
         SearchData2();
     });
@@ -1829,6 +1831,31 @@
             }
         });
     }
+
+    $(".searchReset").click(function() {
+        var param1 = '';
+        var param2 = '';
+        var param3 = '';
+        var param4 = '';
+        var param5 = '';
+        var param6 = '';
+        var param7 = '';
+        var param8 = '';
+        var param9 = '';
+        var param10 = '';
+        var param11 = '';
+        var param12 = '';
+        var param13 = '';
+        var page = $('#hidden_page').val();
+
+        $.ajax({
+            url: "/search_inhabitants_fields?page=" + page + "&param1=" + param1 + "&param2=" + param2 + "&param3=" + param3 + "&param4=" + param4 + "&param5=" + param5 + "&param6=" + param6 + "&param7=" + param7 + "&param8=" + param8 + "&param9=" + param9 + "&param10=" + param10 + "&param11=" + param11 + "&param12=" + param12 + "&param13=" + param13,
+            success: function(data) {
+                $('#ListData').html('');
+                $('#ListData').html(data);
+            }
+        });
+    });
 </script>
 
 <style>

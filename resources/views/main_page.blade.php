@@ -82,25 +82,12 @@
 
                 </div>
                 <div class="container">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Barangay Name</th>
-                                    <th>City/Municipality</th>
-                                    <th>Province</th>
-                                    <th>Region</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="BRGY_list">
-                                @include('main_page_data')
-                            </tbody>
-                        </table>
-
-                        <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                    <div class="BRGY_list">
+                        @include('main_page_data')
                     </div>
+                    {!! $db_entries->links() !!}
                 </div>
+
             </div>
             <!-- /.content -->
         </div>

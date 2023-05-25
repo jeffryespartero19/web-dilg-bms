@@ -64,7 +64,8 @@ class bipsController extends Controller
                     'a.Date_Stamp',
                     'b.Name_Prefix',
                     'c.Name_Suffix',
-                    'd.Civil_Status'
+                    'd.Civil_Status',
+                    DB::raw('DATE_FORMAT(a.Birthdate, "%M %d, %Y") as Birthdate2'),
                 )
                 ->where('a.Application_Status', 1)
                 ->where('a.Province_ID', Auth::user()->Province_ID)
@@ -476,7 +477,9 @@ class bipsController extends Controller
                 'h.Blood_Type',
                 'i.Civil_Status',
                 'j.Name_Suffix',
-                DB::raw('floor(DATEDIFF(CURDATE(),a.Birthdate) /365) as Age')
+                DB::raw('floor(DATEDIFF(CURDATE(),a.Birthdate) /365) as Age'),
+                DB::raw('DATE_FORMAT(a.Birthdate, "%M %d, %Y") as Birthdate2'),
+                DB::raw('DATE_FORMAT(e.Election_Year_Last_Voted, "%M %d, %Y") as Election_Year_Last_Voted2')
             )
             ->where('a.Resident_ID', $id)->get();
         return (compact('theEntry'));
@@ -495,7 +498,10 @@ class bipsController extends Controller
                 'a.School_Year_End',
                 'a.Course',
                 'a.Year_Graduated',
-                'b.Academic_Level'
+                'b.Academic_Level',
+                DB::raw('DATE_FORMAT(a.School_Year_Start, "%M %d, %Y") as School_Year_Start2'),
+                DB::raw('DATE_FORMAT(a.School_Year_End, "%M %d, %Y") as School_Year_End2'),
+                DB::raw('DATE_FORMAT(a.Year_Graduated, "%M %d, %Y") as Year_Graduated2'),
             )
             ->where('Resident_ID', $id)
             ->get();
@@ -520,7 +526,9 @@ class bipsController extends Controller
                 'a.End_Date',
                 'a.Monthly_Salary',
                 'a.Brief_Description',
-                'b.Employment_Type'
+                'b.Employment_Type',
+                DB::raw('DATE_FORMAT(a.Start_Date, "%M %d, %Y") as Start_Date2'),
+                DB::raw('DATE_FORMAT(a.End_Date, "%M %d, %Y") as End_Date2'),
             )
             ->where('Resident_ID', $id)->get();
 
