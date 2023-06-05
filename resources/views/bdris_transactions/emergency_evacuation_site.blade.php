@@ -52,19 +52,13 @@
                                     <div>
                                         <input type="text" class="form-control" id="Emergency_Evacuation_Site_ID" name="Emergency_Evacuation_Site_ID" hidden>
                                         <div class="row">
-                                        <div class="form-group col-lg-8" style="padding:0 10px">
+                                        <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Emergency_Evacuation_Site_Name">Emergency Evacuation Site Name</label>
                                                 <input type="text" class="form-control" id="Emergency_Evacuation_Site_Name" name="Emergency_Evacuation_Site_Name">
                                             </div>
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Capacity">Capacity</label>
                                                 <input type="number" class="form-control" id="Capacity" name="Capacity">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-9" style="padding:0 10px">
-                                                <label for="Address">Address</label>
-                                                <input type="text" class="form-control" id="Address" name="Address">
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <span><b>Active:</b></span><br>
@@ -74,6 +68,13 @@
                                                     <option value=0>No</option>
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="Address">Address</label>
+                                                <input type="text" class="form-control" id="Address" name="Address">
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">

@@ -111,12 +111,12 @@
                                                 <input type="text" class="form-control" id="Salutation_Name" name="Salutation_Name" value="{{$document[0]->Salutation_Name}}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Remarks">Remarks</label>
                                                 <input type="text" class="form-control" id="Remarks" name="Remarks" value="{{$document[0]->Remarks}}">
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="SecondResident_Name">Other Resident Name</label>
@@ -164,14 +164,20 @@
                                         </div>
                                         <div class="row">
                                             
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-2" style="padding:0 10px">
                                                 <label for="CTC_Amount">CTC Amount</label>
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$payment_docu[0]->CTC_Amount, 2, '.', ',')}}">
                                                 <input type="number" step="0.01" class="form-control fancyformat" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}" hidden>
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-5" style="padding:0 10px">
+                                                <label for="Remarks">Remarks</label>
+                                                <input type="text" class="form-control" id="Remarks1" name="Remarks1" value="{{$document[0]->Remarks}}" hidden>
+                                                <textarea class="form-control" id="Remarks" name="Remarks" value="{{old('Remarks')}}"></textarea>
+                                            </div>
+                                            <div class="form-group col-lg-5" style="padding:0 10px">
                                                 <label for="Place_Issued">Place Issued</label>
-                                                <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}">
+                                                <input type="text" class="form-control" id="Place_Issued1" name="Place_Issued1" value="{{$payment_docu[0]->Place_Issued}}" hidden>
+                                                <textarea class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -273,6 +279,11 @@
         var now4 = new Date(disvalssss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
         $('#Issued_On_Words').val(now4);
         $('#Issued_On_Words').removeAttr('hidden');
+
+        var PlaceIssued = $('#Place_Issued1').val()
+        $('#Place_Issued').val(PlaceIssued);
+        var Remarks = $('#Remarks1').val()
+        $('#Remarks').val(Remarks);
 
     });
 

@@ -56,14 +56,12 @@
                                                 <label for="Allocated_Fund_Name">Allocated Fund Name</label>
                                                 <input type="text" class="form-control" id="Allocated_Fund_Name" name="Allocated_Fund_Name" value="{{$allocated_fund[0]->Allocated_Fund_Name}}">
                                             </div>
-                                            <div class="form-group col-lg-7" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Amount">Amount</label>
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$allocated_fund[0]->Amount, 2, '.', ',')}}">
                                                 <input type="number" step="0.01" class="form-control fancyformat" id="Amount" name="Amount" value="{{$allocated_fund[0]->Amount}}" hidden>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-2" style="padding:0 10px">
                                                 <span><b>Active:</b></span><br>
                                                 <select class="modal_input1 form-control" name="Active" id="Active">
                                                     <option hidden selected>Is Active?</option>

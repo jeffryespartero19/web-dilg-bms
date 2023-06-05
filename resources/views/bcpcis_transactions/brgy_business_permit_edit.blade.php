@@ -56,7 +56,7 @@
                                     <div>
                                         <input type="text" class="form-control" id="Barangay_Permits_ID" name="Barangay_Permits_ID" value="{{$permit[0]->Barangay_Permits_ID}}" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Business_ID">Business</label>
                                                 <select class="form-control" id="Business_ID" name="Business_ID">
                                                     <option value='' disabled selected>Select Option</option>
@@ -65,11 +65,11 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Transaction_No">Transaction No</label>
                                                 <input type="text" class="form-control" id="Transaction_No" name="Transaction_No" value="{{$permit[0]->Transaction_No}}">
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Resident_ID">Resident</label>
                                                 <select class="form-control" id="Resident_ID" name="Resident_ID">
                                                     <option value='' disabled selected>Select Option</option>
@@ -78,6 +78,8 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="New_or_Renewal">New or Renewal</label>
                                                 <select class="form-control" name="New_or_Renewal" id="New_or_Renewal">
@@ -94,8 +96,6 @@
                                                     <option value=1 {{ 1 == $permit[0]->Owned_or_Rented  ? "selected" : "" }}>Owned</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Barangay_Business_Permit_Expiration_Date">Expiration Date</label>
                                                 <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" value="{{$permit[0]->Barangay_Business_Permit_Expiration_Date}}" required>
@@ -106,6 +106,8 @@
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date" value="{{$payment_docu[0]->OR_Date}}" required>
                                                 <input type="text" class="form-control" id="OR_Date_Words" value="{{$payment_docu[0]->OR_Date}}" hidden>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
                                                 <input type="text" class="form-control" id="OR_No" name="OR_No" value="{{$payment_docu[0]->OR_No}}">
@@ -115,8 +117,6 @@
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$payment_docu[0]->Cash_Tendered, 2, '.', ',')}}">
                                                 <input type="number" step="0.01" class="form-control fancyformat" id="Cash_Tendered" name="Cash_Tendered" value="{{$payment_docu[0]->Cash_Tendered}}" hidden>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Details">CTC Details</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_Details" value="{{$payment_docu[0]->CTC_Details}}">
@@ -126,6 +126,8 @@
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required value="{{$payment_docu[0]->CTC_Date_Issued}}">
                                                 <input type="text" class="form-control" id="CTC_Date_Issued_Words" value="{{$payment_docu[0]->CTC_Date_Issued}}" hidden>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_No"  value="{{$payment_docu[0]->CTC_No}}">
@@ -135,16 +137,18 @@
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$payment_docu[0]->CTC_Amount, 2, '.', ',')}}">
                                                 <input type="number" step="0.01" class="form-control fancyformat" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}" hidden>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Place_Issued">Place Issued</label>
-                                                <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}">
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Occupation">Occupation</label>
                                                 <input type="text" class="form-control" id="Occupation" name="Occupation" value="{{$permit[0]->Occupation}}">
                                             </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Place_Issued">Place Issued</label>
+                                                <input type="text" class="form-control" id="Place_Issued1" name="Place_Issued1" value="{{$payment_docu[0]->Place_Issued}}" hidden>
+                                                <textarea class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
@@ -241,6 +245,10 @@
         var now3 = new Date(disvalsss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
         $('#CTC_Date_Issued_Words').val(now3);
         $('#CTC_Date_Issued_Words').removeAttr('hidden');
+
+        var PlaceIssued = $('#Place_Issued1').val()
+        $('#Place_Issued').val(PlaceIssued);
+        
     });
 
 

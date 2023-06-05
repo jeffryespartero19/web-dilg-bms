@@ -1062,6 +1062,8 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/inhabitants_information_list_male', 'bipsController@inhabitants_information_list_male')->name('inhabitants_information_list_male');
   Route::get('/inhabitants_information_list_female', 'bipsController@inhabitants_information_list_female')->name('inhabitants_information_list_female');
+
+  Route::get('/search_brgyofficial', 'BDRISALController@search_brgyofficial')->name('search_brgyofficial');
 });
 
 

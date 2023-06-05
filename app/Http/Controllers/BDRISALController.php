@@ -3950,7 +3950,13 @@ class BDRISALController extends Controller
     public function search_emereva(Request $request)
     {
         $purpose = DB::table('bdris_emergency_evacuation_site')
-            ->where('Active', 1)
+        ->where([['Active', 1],['Barangay_ID', Auth::user()->Barangay_ID]])
+        ->where(
+            function ($query) use ($request) {
+                return $query
+                    ->where('Emergency_Evacuation_Site_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+            }
+        )
             ->get(['Emergency_Evacuation_Site_ID as id', 'Emergency_Evacuation_Site_Name as text']);
 
         return ['results' => $purpose];
@@ -3959,7 +3965,13 @@ class BDRISALController extends Controller
     public function search_allocated(Request $request)
     {
         $purpose = DB::table('bdris_allocated_fund_source')
-            ->where('Active', 1)
+        ->where([['Active', 1],['Barangay_ID', Auth::user()->Barangay_ID]])
+        ->where(
+            function ($query) use ($request) {
+                return $query
+                    ->where('Allocated_Fund_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+            }
+        )
             ->get(['Allocated_Fund_ID as id', 'Allocated_Fund_Name as text']);
 
         return ['results' => $purpose];
@@ -3968,7 +3980,13 @@ class BDRISALController extends Controller
     public function search_emerequip(Request $request)
     {
         $purpose = DB::table('bdris_emergency_equipment')
-            ->where('Active', 1)
+        ->where([['Active', 1],['Barangay_ID', Auth::user()->Barangay_ID]])
+        ->where(
+            function ($query) use ($request) {
+                return $query
+                    ->where('Emergency_Equipment_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+            }
+        )
             ->get(['Emergency_Equipment_ID as id', 'Emergency_Equipment_Name as text']);
 
         return ['results' => $purpose];
@@ -3977,7 +3995,13 @@ class BDRISALController extends Controller
     public function search_emerteam(Request $request)
     {
         $purpose = DB::table('bdris_emergency_team')
-            ->where('Active', 1)
+        ->where([['Active', 1],['Barangay_ID', Auth::user()->Barangay_ID]])
+        ->where(
+            function ($query) use ($request) {
+                return $query
+                    ->where('Emergency_Team_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+            }
+        )
             ->get(['Emergency_Team_ID as id', 'Emergency_Team_Name as text']);
 
         return ['results' => $purpose];
@@ -4000,11 +4024,17 @@ class BDRISALController extends Controller
 
         return ['results' => $alertlevel];
     }
-
+    
     public function search_disasterresponse(Request $request)
     {
         $disaster = DB::table('bdris_response_information')
-            // ->where('Active', 1)
+            ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Disaster_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
             ->get(['Disaster_Response_ID as id', 'Disaster_Name as text']);
 
         return ['results' => $disaster];
@@ -4014,6 +4044,12 @@ class BDRISALController extends Controller
     {
         $household = DB::table('bips_household_profile')
             ->where('Barangay_ID', Auth::user()->Barangay_ID)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Household_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
             ->get(['Household_Profile_ID as id', 'Household_Name as text']);
 
         return ['results' => $household];
@@ -4745,4 +4781,41 @@ class BDRISALController extends Controller
 
         return view('bdris_transactions.recovery_information_data', compact('db_entries'))->render();
     }
+//aldren
+    public function search_brgyofficial(Request $request)
+    {
+        $brgy_officials_and_staff = DB::table('bips_brgy_officials_and_staff as aa')
+        ->leftjoin('bips_brgy_inhabitants_information as bb', 'aa.Resident_ID', '=', 'bb.Resident_ID')
+            ->select(DB::raw('CONCAT(bb.Last_Name, ", ", bb.First_Name, " ", bb.Middle_Name) AS text'), 'bb.Resident_ID as id',)
+            ->where([['aa.Active', 1],['aa.Barangay_ID', Auth::user()->Barangay_ID]])
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('bb.Last_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('bb.First_Name', 'LIKE', '%' . $request->input('term', '') . '%')
+                        ->orWhere('bb.Middle_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
+            ->get();
+
+        // dd($inhabitants);
+
+        return ['results' => $brgy_officials_and_staff];
+    }
+
+
+    // public function search_household(Request $request)
+    // {
+    //     $disaster = DB::table('bdris_response_information')
+    //         ->where('Barangay_ID', Auth::user()->Barangay_ID)
+    //         ->where(
+    //             function ($query) use ($request) {
+    //                 return $query
+    //                     ->where('Disaster_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+    //             }
+    //         )
+    //         ->get(['Disaster_Response_ID as id', 'Disaster_Name as text']);
+
+    //     return ['results' => $disaster];
+    // }
 }
