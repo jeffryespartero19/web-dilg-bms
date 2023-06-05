@@ -350,6 +350,7 @@
 <script>
      $(document).ready(function() {
         $('#example').DataTable();
+
     });
 
     //Select2
@@ -379,6 +380,14 @@
             minimumInputLength: 2,
             ajax: {
                 url: '/search_inhabitants',
+                dataType: "json",
+            }
+        });
+
+        $("#Household_Profile_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_household',
                 dataType: "json",
             }
         });

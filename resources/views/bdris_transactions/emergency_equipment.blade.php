@@ -52,11 +52,15 @@
                                     <div>
                                         <input type="text" class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-9" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Emergency_Equipment_Name">Emergency Equipment Name</label>
                                                 <input type="text" class="form-control" id="Emergency_Equipment_Name" name="Emergency_Equipment_Name">
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Location">Location</label>
+                                                <textarea class="form-control" id="Location" name="Location"></textarea>
+                                            </div>
+                                            <div class="form-group col-lg-2" style="padding:0 10px">
                                                 <span><b>Active:</b></span><br>
                                                 <select class="modal_input1 form-control" name="Active" id="Active">
                                                     <option hidden selected>Is Active?</option>
@@ -65,12 +69,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Location">Location</label>
-                                                <input type="text" class="form-control" id="Location" name="Location">
-                                            </div>
-                                        </div>
+                                       
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>

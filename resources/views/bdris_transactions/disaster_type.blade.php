@@ -53,31 +53,31 @@
                                     <div>
                                         <input type="text" class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Disaster_Type">Disaster Type</label>
                                                 <input type="text" class="form-control" id="Disaster_Type" name="Disaster_Type">
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Emergency_Evacuation_Site_ID">Emergency Evacuation Site</label>
                                                 <select class="form-control" id="Emergency_Evacuation_Site_ID" name="Emergency_Evacuation_Site_ID">
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Allocated_Fund_ID">Allocated Fund</label>
                                                 <select class="form-control" id="Allocated_Fund_ID" name="Allocated_Fund_ID">
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Emergency_Equipment_ID">Emergency Equipment</label>
                                                 <select class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID">
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Emergency_Team_ID">Emergency Team</label>
                                                 <select class="form-control" id="Emergency_Team_ID" name="Emergency_Team_ID">
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <span><b>Active:</b></span><br>
                                                 <select class="form-control modal_input1" name="Active" id="Active">
                                                     <option hidden selected>Is Active?</option>

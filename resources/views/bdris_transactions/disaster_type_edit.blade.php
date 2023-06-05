@@ -49,56 +49,58 @@
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_disaster_type') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="row">
-                                        <input type="text" class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID" value="{{$disaster_type[0]->Disaster_Type_ID}}" hidden>
+                                    <div>
                                         <div class="row">
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Disaster_Type">Disaster Type</label>
-                                                <input type="text" class="form-control" id="Disaster_Type" name="Disaster_Type" value="{{$disaster_type[0]->Disaster_Type}}">
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Emergency_Evacuation_Site_ID">Emergency Evacuation Site</label>
-                                                <select class="form-control" id="Emergency_Evacuation_Site_ID" name="Emergency_Evacuation_Site_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($emergency_evacuation_site as $bt1)
-                                                    <option value="{{ $bt1->Emergency_Evacuation_Site_ID }}" {{ $bt1->Emergency_Evacuation_Site_ID  == $disaster_type[0]->Emergency_Evacuation_Site_ID  ? "selected" : "" }}>{{ $bt1->Emergency_Evacuation_Site_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Allocated_Fund_ID">Allocated Fund</label>
-                                                <select class="form-control" id="Allocated_Fund_ID" name="Allocated_Fund_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($allocated_fund as $bt1)
-                                                    <option value="{{ $bt1->Allocated_Fund_ID }}" {{ $bt1->Allocated_Fund_ID  == $disaster_type[0]->Allocated_Fund_ID  ? "selected" : "" }}>{{ $bt1->Allocated_Fund_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Emergency_Equipment_ID">Emergency Equipment</label>
-                                                <select class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($emergency_equipment as $bt1)
-                                                    <option value="{{ $bt1->Emergency_Equipment_ID }}" {{ $bt1->Emergency_Equipment_ID  == $disaster_type[0]->Emergency_Equipment_ID  ? "selected" : "" }}>{{ $bt1->Emergency_Equipment_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Emergency_Team_ID">Emergency Team</label>
-                                                <select class="form-control" id="Emergency_Team_ID" name="Emergency_Team_ID">
-                                                    <option value='' disabled selected>Select Option</option>
-                                                    @foreach($emergency_team as $bt1)
-                                                    <option value="{{ $bt1->Emergency_Team_ID }}" {{ $bt1->Emergency_Team_ID  == $disaster_type[0]->Emergency_Team_ID  ? "selected" : "" }}>{{ $bt1->Emergency_Team_Name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <span><b>Active:</b></span><br>
-                                                <select class="form-control modal_input1" name="Active" id="Active">
-                                                    <option hidden selected>Is Active?</option>
-                                                    <option value=0 {{ 0 == $disaster_type[0]->Active  ? "selected" : "" }}>No</option>
-                                                    <option value=1 {{ 1 == $disaster_type[0]->Active  ? "selected" : "" }}>Yes</option>
-                                                </select>
+                                            <input type="text" class="form-control" id="Disaster_Type_ID" name="Disaster_Type_ID" value="{{$disaster_type[0]->Disaster_Type_ID}}" hidden>
+                                            <div class="row">
+                                                <div class="form-group col-lg-4" style="padding:0 10px">
+                                                    <label for="Disaster_Type">Disaster Type</label>
+                                                    <input type="text" class="form-control" id="Disaster_Type" name="Disaster_Type" value="{{$disaster_type[0]->Disaster_Type}}">
+                                                </div>
+                                                <div class="form-group col-lg-4" style="padding:0 10px">
+                                                    <label for="Emergency_Evacuation_Site_ID">Emergency Evacuation Site</label>
+                                                    <select class="form-control" id="Emergency_Evacuation_Site_ID" name="Emergency_Evacuation_Site_ID">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                        @foreach($emergency_evacuation_site as $bt1)
+                                                        <option value="{{ $bt1->Emergency_Evacuation_Site_ID }}" {{ $bt1->Emergency_Evacuation_Site_ID  == $disaster_type[0]->Emergency_Evacuation_Site_ID  ? "selected" : "" }}>{{ $bt1->Emergency_Evacuation_Site_Name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-lg-4" style="padding:0 10px">
+                                                    <label for="Allocated_Fund_ID">Allocated Fund</label>
+                                                    <select class="form-control" id="Allocated_Fund_ID" name="Allocated_Fund_ID">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                        @foreach($allocated_fund as $bt1)
+                                                        <option value="{{ $bt1->Allocated_Fund_ID }}" {{ $bt1->Allocated_Fund_ID  == $disaster_type[0]->Allocated_Fund_ID  ? "selected" : "" }}>{{ $bt1->Allocated_Fund_Name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-lg-4" style="padding:0 10px">
+                                                    <label for="Emergency_Equipment_ID">Emergency Equipment</label>
+                                                    <select class="form-control" id="Emergency_Equipment_ID" name="Emergency_Equipment_ID">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                        @foreach($emergency_equipment as $bt1)
+                                                        <option value="{{ $bt1->Emergency_Equipment_ID }}" {{ $bt1->Emergency_Equipment_ID  == $disaster_type[0]->Emergency_Equipment_ID  ? "selected" : "" }}>{{ $bt1->Emergency_Equipment_Name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-lg-4" style="padding:0 10px">
+                                                    <label for="Emergency_Team_ID">Emergency Team</label>
+                                                    <select class="form-control" id="Emergency_Team_ID" name="Emergency_Team_ID">
+                                                        <option value='' disabled selected>Select Option</option>
+                                                        @foreach($emergency_team as $bt1)
+                                                        <option value="{{ $bt1->Emergency_Team_ID }}" {{ $bt1->Emergency_Team_ID  == $disaster_type[0]->Emergency_Team_ID  ? "selected" : "" }}>{{ $bt1->Emergency_Team_Name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-lg-4" style="padding:0 10px">
+                                                    <span><b>Active:</b></span><br>
+                                                    <select class="form-control modal_input1" name="Active" id="Active">
+                                                        <option hidden selected>Is Active?</option>
+                                                        <option value=0 {{ 0 == $disaster_type[0]->Active  ? "selected" : "" }}>No</option>
+                                                        <option value=1 {{ 1 == $disaster_type[0]->Active  ? "selected" : "" }}>Yes</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

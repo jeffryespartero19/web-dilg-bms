@@ -104,12 +104,12 @@
                                                 <input type="text" class="form-control" id="Salutation_Name" name="Salutation_Name" value="{{$document[0]->Salutation_Name}}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Remarks">Remarks</label>
                                                 <input type="text" class="form-control" id="Remarks" name="Remarks" value="{{$document[0]->Remarks}}">
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="SecondResident_Name">Other Resident Name</label>
@@ -159,8 +159,14 @@
                                                 <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}">
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Remarks">Remarks</label>
+                                                <input type="text" class="form-control" id="Remarks1" name="Remarks1" value="{{$document[0]->Remarks}}" hidden>
+                                                <textarea class="form-control" id="Remarks" name="Remarks" value="{{$document[0]->Remarks}}"></textarea>
+                                            </div>
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Place_Issued">Place Issued</label>
-                                                <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}">
+                                                <input type="text" class="form-control" id="Place_Issued1" name="Place_Issued1" value="{{$payment_docu[0]->Place_Issued}}" hidden>
+                                                <textarea class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -210,6 +216,22 @@
             tags: true
         });
 
+        $("#Document_Type_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documenttype',
+                dataType: "json",
+            }
+        });
+
+        $("#Purpose_of_Document_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_documentpurpose',
+                dataType: "json",
+            }
+        });
+
         var disvals=$('#Request_Date').val();
         var disvalss=$('#OR_Date').val();
         var disvalsss=$('#CTC_Date_Issued').val();
@@ -234,6 +256,11 @@
         var now4 = new Date(disvalssss).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric",hour:"numeric",minute:"numeric"});
         $('#Issued_On_Words').val(now4);
         $('#Issued_On_Words').removeAttr('hidden');
+
+        var PlaceIssued = $('#Place_Issued1').val()
+        $('#Place_Issued').val(PlaceIssued);
+        var Remarks = $('#Remarks1').val()
+        $('#Remarks').val(Remarks);
     });
 
 
