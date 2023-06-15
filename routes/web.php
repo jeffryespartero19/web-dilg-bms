@@ -1064,6 +1064,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/inhabitants_information_list_female', 'bipsController@inhabitants_information_list_female')->name('inhabitants_information_list_female');
 
   Route::get('/search_brgyofficial', 'BDRISALController@search_brgyofficial')->name('search_brgyofficial');
+  Route::get('/get_inhabitants_voting_status_proof_attachments', 'InhabitantApplicationController@get_inhabitants_voting_status_proof_attachments')->name('get_inhabitants_voting_status_proof_attachments');
+  Route::get('/delete_inhabitants_voting_status_proof_attachments', 'InhabitantApplicationController@delete_inhabitants_voting_status_proof_attachments')->name('delete_inhabitants_voting_status_proof_attachments');
+  Route::get('/inhabitants_details/{id}', 'bipsController@inhabitants_details');
 });
 
 

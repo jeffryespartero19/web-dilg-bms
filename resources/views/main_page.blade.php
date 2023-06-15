@@ -61,7 +61,7 @@
             <div class="content" style="height: 150px;">
                 <div class="container">
                     <div class="row " style="padding-top: 20px;">
-                        <img src="{{ asset('/dist/img/logo-dilg-new.png') }}">
+                        <img src="{{ asset('/dist/img/logo-dilg-new.png') }}" class="pageLogo">
                     </div>
                 </div>
             </div>
@@ -246,5 +246,18 @@
     @enderror
 
 </body>
+<style>
+    @media (max-width: 779px) {
+    .pageLogo {
+       width : 325px;
+    }
+}
+
+    @media (min-width: 780px) {
+    .pageLogo {
+       width: 700px;
+    }
+}
+</style>
 
 </html>

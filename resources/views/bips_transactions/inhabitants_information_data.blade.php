@@ -21,7 +21,7 @@
     <td class="sm_data_col txtCtr">@if ($x->OFW==1) Yes @else No @endif</td>
     <td class="sm_data_col txtCtr" style="display: flex;">
         <button class="view_inhabitants btn btn-primary" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#ViewInfo">View</button>&nbsp;
-        <button class="edit_inhabitants btn btn-info" value="{{$x->Resident_ID}}" data-toggle="modal" data-target="#createInhabitants_Info">Edit</button>&nbsp;
+        <a class="btn btn-info" href="{{ url('inhabitants_details/'.$x->Resident_ID) }}">Edit</a>
         <button class="delete_inhabitants btn btn-danger" value="{{$x->Resident_ID}}">Delete</button>
     </td>
 </tr>

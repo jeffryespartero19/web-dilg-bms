@@ -250,6 +250,7 @@
                         <input type="text" class="form-control" id="PagIbig" name="PagIbig">
                     </div>
                 </div>
+                
                 <!-- <hr>
                 <h3>Educational Information</h3>
                 <button type="button" class="btn btn-info" style="width: 100px;" id="btnAddEduc">Add</button>
@@ -809,6 +810,7 @@
         display: inline-block;
         overflow-x: scroll;
     }
+
 </style>
 
 @endsection

@@ -2,6 +2,9 @@
 
 @section('content')
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
 <div class="page_title_row col-md-12">
     <section class="content-header">
@@ -67,173 +70,171 @@
                 </div>
             </div>
             @endif
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" style="background-color:#e7ad52; color:white">
-                        <h3 class="card-title">Pending</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="tableX_row col-md-12 up_marg5">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th hidden>Resident_ID</th>
-                                            <th>Last Name</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Name Suffix</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                        <tr>
-                                            <td hidden></td>
-                                            <td><input class="form-control searchFilter1 searchFilter11" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter1 searchFilter12" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter1 searchFilter13" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter1 searchFilter14" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ListData_1">
-                                        @include('bips_transactions.inhabitants_incoming_list_pending_data')
-                                    </tbody>
-                                </table>
-                                {!! $db_entries->links() !!}
-                                <input type="hidden" name="hidden_page_1" id="hidden_page_1" value="1">
+        </div>
+    </div>
+</section>
+            <div class="tab">
+                <button class="tablinks" onclick="openCity(event, 'Pending')" >Pending</button>
+                <button class="tablinks" onclick="openCity(event, 'Approved')">Approved</button>
+                <button class="tablinks" onclick="openCity(event, 'Disapproved')">Disapproved</button>
+            </div>
+
+            <div id="Pending" class="tabcontent row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#e7ad52; color:white">
+                            <h3 class="card-title">Pending</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tableX_row col-md-12 up_marg5">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th hidden>Resident_ID</th>
+                                                <th>Last Name</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Name Suffix</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <td hidden></td>
+                                                <td><input class="form-control searchFilter1 searchFilter11" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter1 searchFilter12" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter1 searchFilter13" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter1 searchFilter14" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData_1">
+                                            @include('bips_transactions.inhabitants_incoming_list_pending_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries->links() !!}
+                                    <input type="hidden" name="hidden_page_1" id="hidden_page_1" value="1">
+                                </div>
+                                <hr>
                             </div>
-                            <hr>
                         </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
-
             </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" style="background-color:#198754; color:white">
-                        <h3 class="card-title">Approved</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="tableX_row col-md-12 up_marg5">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th hidden>Resident_ID</th>
-                                            <th>Last Name</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Name Suffix</th>
-                                        </tr>
-                                        <tr>
-                                            <td hidden></td>
-                                            <td><input class="form-control searchFilter2 searchFilter21" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter2 searchFilter22" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter2 searchFilter23" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter2 searchFilter24" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ListData_2">
-                                        @include('bips_transactions.inhabitants_incoming_list_approved_data')
-                                    </tbody>
-                                </table>
-                                {!! $db_entries2->links() !!}
-                                <input type="hidden" name="hidden_page_2" id="hidden_page_2" value="1">
+
+            <div id="Approved" class="tabcontent row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#198754; color:white">
+                            <h3 class="card-title">Approved</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tableX_row col-md-12 up_marg5">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th hidden>Resident_ID</th>
+                                                <th>Last Name</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Name Suffix</th>
+                                            </tr>
+                                            <tr>
+                                                <td hidden></td>
+                                                <td><input class="form-control searchFilter2 searchFilter21" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter2 searchFilter22" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter2 searchFilter23" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter2 searchFilter24" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData_2">
+                                            @include('bips_transactions.inhabitants_incoming_list_approved_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries2->links() !!}
+                                    <input type="hidden" name="hidden_page_2" id="hidden_page_2" value="1">
+                                </div>
+                                <hr>
                             </div>
-                            <hr>
                         </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
-
             </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" style="background-color:#ed5170; color:white">
-                        <h3 class="card-title">Disapproved</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="tableX_row col-md-12 up_marg5">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th hidden>Resident_ID</th>
-                                            <th>Last Name</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Name Suffix</th>
-                                        </tr>
-                                        <tr>
-                                            <td hidden></td>
-                                            <td><input class="form-control searchFilter3 searchFilter31" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter3 searchFilter32" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter3 searchFilter33" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                            <td><input class="form-control searchFilter3 searchFilter34" style="min-width: 200px;" type="text" placeholder="search"></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ListData_3">
-                                        @include('bips_transactions.inhabitants_incoming_list_disapproved_data')
-                                    </tbody>
-                                </table>
-                                {!! $db_entries3->links() !!}
-                                <input type="hidden" name="hidden_page_3" id="hidden_page_3" value="1">
-                            </div>
 
-                            <div hidden>
-                                <form id="Approved_Inhabitant" method="POST" action="{{ route('approve_disapprove_inhabitants') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-                                    <input type="number" class="form-control" id="Resident_ID" name="Resident_ID">
-                                    <input type="number" class="form-control" id="Status_ID" name="Status_ID">
-                                </form>
-                            </div>
+            <div id="Disapproved" class="tabcontent row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#ed5170; color:white">
+                            <h3 class="card-title">Disapproved</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tableX_row col-md-12 up_marg5">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th hidden>Resident_ID</th>
+                                                <th>Last Name</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Name Suffix</th>
+                                            </tr>
+                                            <tr>
+                                                <td hidden></td>
+                                                <td><input class="form-control searchFilter3 searchFilter31" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter3 searchFilter32" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter3 searchFilter33" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                                <td><input class="form-control searchFilter3 searchFilter34" style="min-width: 200px;" type="text" placeholder="search"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ListData_3">
+                                            @include('bips_transactions.inhabitants_incoming_list_disapproved_data')
+                                        </tbody>
+                                    </table>
+                                    {!! $db_entries3->links() !!}
+                                    <input type="hidden" name="hidden_page_3" id="hidden_page_3" value="1">
+                                </div>
 
+                                <div hidden>
+                                    <form id="Approved_Inhabitant" method="POST" action="{{ route('approve_disapprove_inhabitants') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                                        <input type="number" class="form-control" id="Resident_ID" name="Resident_ID">
+                                        <input type="number" class="form-control" id="Status_ID" name="Status_ID">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
-
             </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+
+
+
+
 
 @endsection
 
 @section('scripts')
 
 <script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
         $('#example2').DataTable();
         $('#example3').DataTable();
+        openCity('click','Pending');
     });
 
     // Approve Inhabitants
@@ -396,6 +397,42 @@
         display: inline-block;
         overflow-x: scroll;
     } */
+    /* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
 </style>
 
 @endsection

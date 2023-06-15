@@ -2,6 +2,9 @@
 
 @section('content')
 <link href="{{ asset('/css/maintenance.css') }}" rel="stylesheet">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
 <div class="page_title_row col-md-12">
     <section class="content-header">
@@ -35,203 +38,193 @@
     {{ session()->get('message') }}
 </div>
 @endif
+
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'Pending')" >Pending</button>
+        <button class="tablinks" onclick="openCity(event, 'Approved')">Approved</button>
+        <button class="tablinks" onclick="openCity(event, 'Disapproved')">Disapproved</button>
+    </div>
 <!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" style="background-color:#e7ad52; color:white">
-                        <h3 class="card-title">Pending</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="col-md-12 table-responsive">
-                            <div>
+
+            <div id="Approved" class="tabcontent row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#198754; color:white">
+                            <h3 class="card-title">Approved</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tableX_row col-md-12 up_marg5">
                                 <div class="table-responsive">
-                                    <table id="example11" class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Queue Ticket Number</th>
-                                                <th>Requested Date and Time</th>
-                                                <th>Resident Name</th>
-                                                <th>Document Type Name</th>
-                                                <th>Purpose of Document</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
-                                                <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="date"></td>
-                                                <td><input class="form-control searchFilter searchFilter3" style="min-width: 400px;" type="text"></td>
-                                                <td>
-                                                    <select class="form-control searchFilter searchFilter4" id="Document_Type_ID" name="Document_Type_ID" style="min-width: 300px;">
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control searchFilter searchFilter5" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID" style="min-width: 300px;">
-                                                    </select>
-                                                </td>
-                                                <td style="min-width: 200px;"></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="ListData"> 
-                                            @include('bcpcis_transactions.document_request_pending_data')
-                                        </tbody>
-                                    </table>
-                                    {!! $db_entries->links() !!}
-                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                    <div>
+                                        <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Queue Ticket Number</th>
+                                                    <th>Requested Date and Time</th>
+                                                    <th>Resident Name</th>
+                                                    <th>Document Type Name</th>
+                                                    <th>Purpose of Document</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input class="form-control searchApproved searchApproved1" style="min-width: 200px;" type="text"></td>
+                                                    <td><input class="form-control searchApproved searchApproved2" style="min-width: 200px;" type="date"></td>
+                                                    <td><input class="form-control searchApproved searchApproved3" style="min-width: 400px;" type="text"></td>
+                                                    <td>
+                                                        <select class="form-control searchApproved searchApproved4" id="Document_Type_IDA" name="Document_Type_IDA" style="min-width: 300px;">
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control searchApproved searchApproved5" id="Purpose_of_Document_IDA" name="Purpose_of_Document_IDA" style="min-width: 300px;">
+                                                        </select>
+                                                    </td>
+                                                    <td style="min-width: 200px;"></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ListDataApproved"> 
+                                                @include('bcpcis_transactions.document_request_approved_data')
+                                            </tbody>
+                                        </table>
+                                        {!! $db_entries2->links() !!}
+                                        <input type="hidden" name="hidden_pageApproved" id="hidden_pageApproved" value="1">
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Disapproved" class="tabcontent row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#ed5170; color:white">
+                            <h3 class="card-title">Disapproved</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tableX_row col-md-12 up_marg5">
+                                <div class="table-responsive">
+                                    <div>
+                                        <table id="example11" class="table table-striped table-bordered" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Queue Ticket Number</th>
+                                                    <th>Requested Date and Time</th>
+                                                    <th>Resident Name</th>
+                                                    <th>Document Type Name</th>
+                                                    <th>Purpose of Document</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input class="form-control searchDisApproved searchDisApproved1" style="min-width: 200px;" type="text"></td>
+                                                    <td><input class="form-control searchDisApproved searchDisApproved2" style="min-width: 200px;" type="date"></td>
+                                                    <td><input class="form-control searchDisApproved searchDisApproved3" style="min-width: 400px;" type="text"></td>
+                                                    <td>
+                                                        <select class="form-control searchDisApproved searchDisApproved4" id="Document_Type_IDD" name="Document_Type_IDD" style="min-width: 300px;">
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control searchDisApproved searchDisApproved5" id="Purpose_of_Document_IDD" name="Purpose_of_Document_IDD" style="min-width: 300px;">
+                                                        </select>
+                                                    </td>
+                                                    <td style="min-width: 200px;"></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ListDataDisApproved"> 
+                                                @include('bcpcis_transactions.document_request_disapproved_data')
+                                            </tbody>
+                                        </table>
+                                        {!! $db_entries3->links() !!}
+                                        <input type="hidden" name="hidden_pageDisApproved" id="hidden_pageDisApproved" value="1">
+                                    </div>    
+                                </div>
+                                <div hidden>
+                                    <form id="Approved_Inhabitant" method="POST" action="{{ route('approve_disapprove_document_request_pending') }}" autocomplete="off" enctype="multipart/form-data">@csrf
+                                        <input type="number" class="form-control" id="Document_ID" name="Document_ID">
+                                        <input type="number" class="form-control" id="Request_Status_ID" name="Request_Status_ID">
+                                    </form>
                                 </div>
                             </div>
-                            <hr>
                         </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
-
             </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" style="background-color:#198754; color:white">
-                        <h3 class="card-title">Approved</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="tableX_row col-md-12 up_marg5">
-                            <div class="table-responsive">
-                                <div>
-                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Queue Ticket Number</th>
-                                                <th>Requested Date and Time</th>
-                                                <th>Resident Name</th>
-                                                <th>Document Type Name</th>
-                                                <th>Purpose of Document</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="form-control searchApproved searchApproved1" style="min-width: 200px;" type="text"></td>
-                                                <td><input class="form-control searchApproved searchApproved2" style="min-width: 200px;" type="date"></td>
-                                                <td><input class="form-control searchApproved searchApproved3" style="min-width: 400px;" type="text"></td>
-                                                <td>
-                                                    <select class="form-control searchApproved searchApproved4" id="Document_Type_IDA" name="Document_Type_IDA" style="min-width: 300px;">
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control searchApproved searchApproved5" id="Purpose_of_Document_IDA" name="Purpose_of_Document_IDA" style="min-width: 300px;">
-                                                    </select>
-                                                </td>
-                                                <td style="min-width: 200px;"></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="ListDataApproved"> 
-                                            @include('bcpcis_transactions.document_request_approved_data')
-                                        </tbody>
-                                    </table>
-                                    {!! $db_entries2->links() !!}
-                                    <input type="hidden" name="hidden_pageApproved" id="hidden_pageApproved" value="1">
-                                </div>
+
+
+            <div id="Pending" class="tabcontent row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#e7ad52; color:white">
+                            <h3 class="card-title">Pending</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12 table-responsive">
+                                
+                                    <div >
+                                        <table id="example11" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Queue Ticket Number</th>
+                                                    <th>Requested Date and Time</th>
+                                                    <th>Resident Name</th>
+                                                    <th>Document Type Name</th>
+                                                    <th>Purpose of Document</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input class="form-control searchFilter searchFilter1" style="min-width: 200px;" type="text"></td>
+                                                    <td><input class="form-control searchFilter searchFilter2" style="min-width: 200px;" type="date"></td>
+                                                    <td><input class="form-control searchFilter searchFilter3" style="min-width: 400px;" type="text"></td>
+                                                    <td>
+                                                        <select class="form-control searchFilter searchFilter4" id="Document_Type_ID" name="Document_Type_ID" style="min-width: 300px;">
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control searchFilter searchFilter5" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID" style="min-width: 300px;">
+                                                        </select>
+                                                    </td>
+                                                    <td style="min-width: 200px;"></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ListData"> 
+                                                @include('bcpcis_transactions.document_request_pending_data')
+                                            </tbody>
+                                        </table>
+                                        {!! $db_entries->links() !!}
+                                        <input type="hidden" name="hidden_page" id="hidden_page" value="1">
+                                    </div>
+                                
+                                <hr>
                             </div>
-                            <hr>
                         </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
-
             </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header" style="background-color:#ed5170; color:white">
-                        <h3 class="card-title">Disapproved</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="tableX_row col-md-12 up_marg5">
-                            <div class="table-responsive">
-                                <div>
-                                    <table id="example11" class="table table-striped table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Queue Ticket Number</th>
-                                                <th>Requested Date and Time</th>
-                                                <th>Resident Name</th>
-                                                <th>Document Type Name</th>
-                                                <th>Purpose of Document</th>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="form-control searchDisApproved searchDisApproved1" style="min-width: 200px;" type="text"></td>
-                                                <td><input class="form-control searchDisApproved searchDisApproved2" style="min-width: 200px;" type="date"></td>
-                                                <td><input class="form-control searchDisApproved searchDisApproved3" style="min-width: 400px;" type="text"></td>
-                                                <td>
-                                                    <select class="form-control searchDisApproved searchDisApproved4" id="Document_Type_IDD" name="Document_Type_IDD" style="min-width: 300px;">
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control searchDisApproved searchDisApproved5" id="Purpose_of_Document_IDD" name="Purpose_of_Document_IDD" style="min-width: 300px;">
-                                                    </select>
-                                                </td>
-                                                <td style="min-width: 200px;"></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="ListDataDisApproved"> 
-                                            @include('bcpcis_transactions.document_request_disapproved_data')
-                                        </tbody>
-                                    </table>
-                                    {!! $db_entries3->links() !!}
-                                    <input type="hidden" name="hidden_pageDisApproved" id="hidden_pageDisApproved" value="1">
-                                </div>    
-                            </div>
-                            <div hidden>
-                                <form id="Approved_Inhabitant" method="POST" action="{{ route('approve_disapprove_document_request_pending') }}" autocomplete="off" enctype="multipart/form-data">@csrf
-                                    <input type="number" class="form-control" id="Document_ID" name="Document_ID">
-                                    <input type="number" class="form-control" id="Request_Status_ID" name="Request_Status_ID">
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- /.content -->
 
 @endsection
 
 @section('scripts')
 
 <script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
     // Data Table
     $(document).ready(function() {
         $('#example').DataTable();
         $('#example2').DataTable();
         $('#example3').DataTable();
+        openCity('click','Pending');
 
 
         $("#Document_Type_ID").select2({
@@ -413,6 +406,41 @@
         display: inline-block;
         overflow-x: scroll;
     } */
+    .tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
 </style>
 
 @endsection

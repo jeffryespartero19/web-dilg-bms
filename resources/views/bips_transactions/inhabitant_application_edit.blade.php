@@ -272,6 +272,18 @@
                                                 <input type="text" class="form-control" id="PagIbig" name="PagIbig" value="{{$db_entries[0]->PagIbig}}" disabled>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="fileattach">File Attachments</label>
+                                                <ul class="list-group list-group-flush" id="inhabitants_files">
+
+                                                </ul>
+                                                <div class="custom-file">
+                                                    <input type="file" accept="image/*" class="custom-file-input" id="fileattach" name="fileattach[]" >
+                                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- <hr>
                 <h3>Educational Information</h3>
                 <button type="button" class="btn btn-info" style="width: 100px;" id="btnAddEduc">Add</button>
@@ -422,6 +434,14 @@
     // });
 
     // Populate Province
+        // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+        var files = Array.from(this.files)
+        var fileName = files.map(f => {
+            return f.name
+        }).join(", ")
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
     $(document).on("change", "#Region_ID", function() {
         // alert('test');
         var Region_ID = $(this).val();
@@ -810,6 +830,40 @@
             }
 
         });
+
+
+        var disID = $('#Resident_ID').val();
+        var User_Type_ID = $('#User_Type_ID').val();
+        $.ajax({
+            url: "/get_inhabitants_voting_status_proof_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $i = 0;
+                if (User_Type_ID == 1) {
+
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="/files/uploads/inhabitants_voting_status_proof/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn res_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#inhabitants_files').append(file);
+
+                    });
+                } else {
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="/files/uploads/inhabitants_voting_status_proof/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn res_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#inhabitants_files').append(file);
+                    });
+                }
+
+            }
+        });
     });
 
     // Clone Education TR
@@ -841,12 +895,80 @@
     $("#Employment").on("click", ".removeRow", function() {
         $(this).closest("tr").remove();
     });
+
+    $(document).on('click', ('.res_del'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_inhabitants_voting_status_proof_attachments",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+
+    });
 </script>
 
 <style>
     table {
         display: inline-block;
         overflow-x: scroll;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 
