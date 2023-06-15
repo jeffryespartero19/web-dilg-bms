@@ -1067,6 +1067,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_inhabitants_voting_status_proof_attachments', 'InhabitantApplicationController@get_inhabitants_voting_status_proof_attachments')->name('get_inhabitants_voting_status_proof_attachments');
   Route::get('/delete_inhabitants_voting_status_proof_attachments', 'InhabitantApplicationController@delete_inhabitants_voting_status_proof_attachments')->name('delete_inhabitants_voting_status_proof_attachments');
   Route::get('/inhabitants_details/{id}', 'bipsController@inhabitants_details');
+
 });
 
 
