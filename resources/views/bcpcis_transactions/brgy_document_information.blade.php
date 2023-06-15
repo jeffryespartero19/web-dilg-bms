@@ -99,12 +99,9 @@
                                                 <input type="text" class="form-control" id="SecondResident_Name" name="SecondResident_Name" value="{{old('SecondResident_Name')}}">
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
-                                                <label for="Remarks">Remarks</label>
-                                                <input type="text" class="form-control" id="Remarks" name="Remarks" value="{{old('Remarks')}}">
-                                            </div>
-                                        </div>
+                                        <!-- <div class="row">
+                                            
+                                        </div> -->
                                         <div class="row">
                                             
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -155,9 +152,16 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Place_Issued">Place Issued</label>
-                                                <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}">
+                                                <label for="Remarks">Remarks</label>
+                                                <!-- <input type="text" class="form-control" id="Remarks" name="Remarks" value="{{old('Remarks')}}"> -->
+                                                <textarea class="form-control" id="Remarks" name="Remarks" value="{{old('Remarks')}}"></textarea>
                                             </div>
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                                <label for="Place_Issued">Place Issued</label>
+                                                <!-- <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}"> -->
+                                                <textarea class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}"></textarea>
+                                            </div>
+                                            
                                             <!-- <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Date_Stamp">Created Date</label>
                                                 <input type="date" class="form-control" id="Date_Stamp" name="Date_Stamp" hidden>

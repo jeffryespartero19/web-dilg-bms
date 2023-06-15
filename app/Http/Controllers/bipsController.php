@@ -19,8 +19,86 @@ use App\Exports\InhabitantsExportView;
 class bipsController extends Controller
 {
     //BIPS TRANSACTIONS
+    //inhabitants list
+    public function inhabitants_details($id)
+    {
+        $currDATE = Carbon::now();
 
-    //Inhabitants Information List
+        if ($id == 0) {
+            $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
+            $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
+            $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
+            $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
+            $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->where('Region_ID', Auth::user()->Region_ID)->get();
+            $province = DB::table('maintenance_province')->where('Active', 1)->where('Province_ID', Auth::user()->Province_ID)->get();
+            $city = DB::table('maintenance_city_municipality')->where('Active', 1)->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('Active', 1)->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+            $country = DB::table('maintenance_country')->where('Active', 1)->get();
+            $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
+            $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+            return view('bips_transactions.inhabitants_information', compact(
+                'currDATE',
+                'religion',
+                'blood_type',
+                'civil_status',
+                'name_prefix',
+                'suffix',
+                'region',
+                'province',
+                'city',
+                'barangay',
+                'country',
+                'academic_level',
+                'employment_type',
+            ));
+        } else {
+            $inhabitants = DB::table('bips_brgy_inhabitants_information')->where('Resident_ID', $id)->get();
+            $name_prefix = DB::table('maintenance_bips_name_prefix')->where('Active', 1)->get();
+            $suffix = DB::table('maintenance_bips_name_suffix')->where('Active', 1)->get();
+            $religion = DB::table('maintenance_bips_religion')->where('Active', 1)->get();
+            $region = DB::table('maintenance_region')->where('Active', 1)->where('Region_ID', Auth::user()->Region_ID)->get();
+            $province = DB::table('maintenance_province')->where('Active', 1)->where('Province_ID', Auth::user()->Province_ID)->get();
+            $city = DB::table('maintenance_city_municipality')->where('Active', 1)->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)->get();
+            $barangay = DB::table('maintenance_barangay')->where('Active', 1)->where('Barangay_ID', Auth::user()->Barangay_ID)->get();
+            $country = DB::table('maintenance_country')->where('Active', 1)->get();
+            $civil_status = DB::table('maintenance_bips_civil_status')->where('Active', 1)->get();
+            $blood_type = DB::table('maintenance_bips_blood_type')->where('Active', 1)->get();
+            $academic_level = DB::table('maintenance_bips_academic_level')->where('Active', 1)->get();
+            $employment_type = DB::table('maintenance_bips_employment_type')->where('Active', 1)->get();
+            $res_sta = DB::table('bips_resident_profile')->where('Resident_ID', $id)->get();
+            $in_benificiary = DB::table('bips_brgy_inhabitants_information')
+            ->select(
+                DB::raw('4Ps_Beneficiary AS Beneficiary'),
+            )    
+            ->where('Resident_ID',  $id)
+            ->paginate(20, ['*'], 'in_benificiary');
+            $education = DB::table('bips_education')->where('Resident_ID', $id)->get();
+            $employment = DB::table('bips_employment_history')->where('Resident_ID', $id)->get();
+            return view('bips_transactions.inhabitants_information_edit', compact(
+                'currDATE',
+                'inhabitants',
+                'religion',
+                'blood_type',
+                'civil_status',
+                'name_prefix',
+                'suffix',
+                'region',
+                'province',
+                'city',
+                'barangay',
+                'country',
+                'academic_level',
+                'employment_type',
+                'res_sta',
+                'in_benificiary',
+                'education',
+                'employment'
+            ));
+        }
+    }
+
+    //Inhabitants Information List  aldren
     public function inhabitants_information_list(Request $request)
     {
         $currDATE = Carbon::now();
@@ -214,6 +292,7 @@ class bipsController extends Controller
                     'GSIS' => $data['GSIS'],
                     'SSS' => $data['SSS'],
                     'PagIbig' => $data['PagIbig'],
+                    'Tin_No' => $data['Tin'],
                     'Application_Status' => 1,
                 )
             );
@@ -330,6 +409,7 @@ class bipsController extends Controller
                     'GSIS' => $data['GSIS'],
                     'SSS' => $data['SSS'],
                     'PagIbig' => $data['PagIbig'],
+                    'Tin_No' => $data['Tin'],
                 )
             );
 
@@ -346,6 +426,7 @@ class bipsController extends Controller
             DB::table('bips_resident_profile')->updateOrInsert(['Resident_ID' => $data['Resident_ID']], $resident);
 
             DB::table('bips_education')->where('Resident_ID', $data['Resident_ID'])->delete();
+            // DB::table('bips_inhabitants_file_attachment')->where('Resident_ID', $data['Resident_ID'])->delete();
 
             if (isset($data['Academic_Level_ID'])) {
                 $education = [];
@@ -407,6 +488,30 @@ class bipsController extends Controller
                     }
                 }
             }
+
+            if ($request->hasfile('fileattach')) {
+                foreach ($request->file('fileattach') as $file) {
+    
+                    $filename = $file->getClientOriginalName();
+                    $fileType = $file->getClientOriginalExtension();
+                    $fileSize = $file->getSize();
+                    // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                    $filePath = public_path() . '/files/uploads/inhabitants_voting_status_proof/';
+                    $file->move($filePath, $filename);
+    
+                    $file_data = array(
+                        'Resident_ID' => $data['Resident_ID'],
+                        'File_Name' => $filename,
+                        'File_Location' => $filePath,
+                        'File_Type' => $fileType,
+                        'File_Size' => $fileSize,
+                        'Encoder_ID'       => Auth::user()->id,
+                        'Date_Stamp'       => Carbon::now()
+                    );
+                    DB::table('bips_inhabitants_file_attachment')->insert($file_data);
+                }
+            }
+    
         }
 
         return redirect()->back()->with('alert', 'New Entry Created');
@@ -470,6 +575,7 @@ class bipsController extends Controller
                 'a.House_No',
                 'a.PhilHealth',
                 'a.GSIS',
+                'a.Tin_No',
                 'a.SSS',
                 'a.PagIbig',
                 'g.Religion',

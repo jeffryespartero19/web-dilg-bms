@@ -79,6 +79,7 @@
                                                 <label for="Disaster_Date_Start">Disaster Date Start</label>
                                                 <input type="datetime-local" class="form-control" id="Disaster_Date_Start" name="Disaster_Date_Start" required>
                                                 <input type="text" class="form-control" id="Disaster_Date_Start_Words" hidden>
+                                                <!-- buban -->
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Disaster_Date_End">Disaster Date End</label>
@@ -221,6 +222,7 @@
                                                     </table>
                                                 </div>
                                             </div> -->
+                                            <br>
                                             <div class="form-group col-lg-12" style="padding:0 10px">
                                                 <label for="Summary">Summary</label>
                                                 <input type="text" class="form-control" id="Summary" name="Summary">
@@ -284,8 +286,10 @@
                                                                 <td>
                                                                     <input type="text" class="form-control" style="width: 350px;" name="Non_Resident_Address[]">
                                                                 </td>
-                                                                <td>
-                                                                    <input type="date" class="form-control" style="width: 200px;" name="Non_Resident_Birthdate[]">
+                                                                <!-- aldren -->
+                                                                <td> 
+                                                                    <input type="date" class="form-control fancyword" style="width: 200px;" name="Non_Resident_Birthdate[]">
+                                                                    <input type="text" class="form-control fancyword" id="Non_Resident_Birthdate_Words[]" hidden>
                                                                 </td>
                                                                 <td style="text-align: center;">
                                                                     <button type="button" class="btn btn-danger HRRemove">Remove</button>
@@ -360,6 +364,7 @@
 @section('scripts')
 
 <script>
+
     // Data Table
     // Data Table
     $(document).ready(function() {

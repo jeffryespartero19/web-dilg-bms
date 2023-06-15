@@ -52,7 +52,7 @@
                                     <div>
                                         <input type="text" class="form-control" id="Emergency_Team_ID" name="Emergency_Team_ID" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-7" style="padding:0 10px">
+                                            <div class="form-group col-lg-5" style="padding:0 10px">
                                                 <label for="Emergency_Team_Name">Emergency Team Name</label>
                                                 <input type="text" class="form-control" id="Emergency_Team_Name" name="Emergency_Team_Name">
                                             </div>
@@ -61,7 +61,7 @@
                                                 <input type="text" class="form-control" id="Emergency_Team_Hotline" name="Emergency_Team_Hotline">
                                             </div>
                                             
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-2" style="padding:0 10px">
                                                 <label for="Active">Active</label>
                                                 <select class="modal_input1 form-control" name="Active" id="Active">
                                                     <option hidden selected>Is Active?</option>

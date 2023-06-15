@@ -49,33 +49,37 @@
                             <div class="col-md-12">
                                 <form id="newBrgy_Document_Information" method="POST" action="{{ route('create_disaster_supplies') }}" autocomplete="off" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="row">
+                                    <div>
                                         <input type="text" class="form-control" id="Disaster_Supplies_ID" name="Disaster_Supplies_ID" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Disaster_Response_ID">Disaster Response</label>
                                                 <select class="form-control" id="Disaster_Response_ID" name="Disaster_Response_ID">
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Disaster_Supplies_Name">Disaster Supplies Name</label>
                                                 <input type="text" class="form-control" id="Disaster_Supplies_Name" name="Disaster_Supplies_Name">
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Disaster_Supplies_Quantity">Disaster Supplies Quantity</label>
                                                 <input type="number" class="form-control" id="Disaster_Supplies_Quantity" name="Disaster_Supplies_Quantity">
                                             </div>
-                                            <div class="form-group col-lg-9" style="padding:0 10px">
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Location">Location</label>
-                                                <input type="text" class="form-control" id="Location" name="Location">
+                                                <!-- <input type="text" class="form-control" id="Location" name="Location"> -->
+                                                <textarea class="form-control" id="Location" name="Location"></textarea>
                                             </div>
-
-                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                            <div class="form-group col-lg-6" style="padding:0 10px">
                                                 <label for="Remarks">Remarks</label>
-                                                <input type="text" class="form-control" id="Remarks" name="Remarks">
+                                                <!-- <input type="text" class="form-control" id="Remarks" name="Remarks"> -->
+                                                <textarea class="form-control" id="Remarks" name="Remarks"></textarea>
                                             </div>
-
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                        </div>
+                                        <div class="row">
+                                            <!-- <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Brgy_Officials_and_Staff_ID">Brgy Official Name</label>
                                                 <select class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID">
                                                     <option value='' disabled selected>Select Option</option>
@@ -83,9 +87,14 @@
                                                     <option value="{{ $bt1->Resident_ID }}">{{ $bt1->Last_Name }} {{ $bt1->First_Name }}, {{ $bt1->Middle_Name }}</option>
                                                     @endforeach
                                                 </select>
+                                            </div> -->
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Brgy_Officials_and_Staff_ID">Brgy Official Name</label>
+                                                <select class="form-control" id="Brgy_Officials_and_Staff_ID" name="Brgy_Officials_and_Staff_ID">
+                                                </select>
                                             </div>
 
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                            <div class="form-group col-lg-2" style="padding:0 10px">
                                                 <label for="Barangay_ID">Active:</label>
                                                 <select class="form-control" name="Active" id="Active">
                                                     <option hidden selected>Is Active?</option>
@@ -144,6 +153,14 @@
             minimumInputLength: 2,
             ajax: {
                 url: '/search_disasterresponse',
+                dataType: "json",
+            }
+        });
+
+        $("#Brgy_Officials_and_Staff_ID").select2({
+            minimumInputLength: 2,
+            ajax: {
+                url: '/search_brgyofficial',
                 dataType: "json",
             }
         });

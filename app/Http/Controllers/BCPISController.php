@@ -305,7 +305,7 @@ class BCPISController extends Controller
         
     }
 
-    // Save Brgy Document Information aldrenbuban
+    // Save Brgy Document Information 
     public function create_brgy_document_information(Request $request)
     {
         $currDATE = Carbon::now();
@@ -2028,7 +2028,7 @@ class BCPISController extends Controller
         return redirect()->back()->with('message', 'Document Request is ' . $message);
     }
 
-    // Approve Document Request Update aldrenbuban
+    // Approve Document Request Update 
     public function update_document_request_approve_information(Request $request)
     {
         $currDATE = Carbon::now();
@@ -2401,17 +2401,29 @@ class BCPISController extends Controller
     {
         $business_type = DB::table('maintenance_bcpcis_business_type')
             ->where('Active', 1)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Business_Type', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
             ->get(['Business_Type_ID as id', 'Business_Type as text']);
 
         return ['results' => $business_type];
     }
-
+    // aldren
     public function search_business(Request $request)
     {
         $business = DB::table('maintenance_bcpcis_barangay_business')
-            ->where('Active', 1)
-            ->get(['Business_ID as id', 'Business_Name as text']);
-
+        ->where([['Active', 1],['Barangay_ID', Auth::user()->Barangay_ID]])
+        ->where(
+            function ($query) use ($request) {
+                return $query
+                    ->where('Business_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+            }
+        )
+        ->get(['Business_ID as id', 'Business_Name as text']);
+        
         return ['results' => $business];
     }
 
@@ -2459,7 +2471,14 @@ class BCPISController extends Controller
     {
         $document = DB::table('maintenance_bcpcis_document_type')
             ->where('Active', 1)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Document_Type_Name', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
             ->get(['Document_Type_ID as id', 'Document_Type_Name as text']);
+            
 
         return ['results' => $document];
     }
@@ -2468,6 +2487,12 @@ class BCPISController extends Controller
     {
         $purpose = DB::table('maintenance_bcpcis_purpose_of_document')
             ->where('Active', 1)
+            ->where(
+                function ($query) use ($request) {
+                    return $query
+                        ->where('Purpose_of_Document', 'LIKE', '%' . $request->input('term', '') . '%');
+                }
+            )
             ->get(['Purpose_of_Document_ID as id', 'Purpose_of_Document as text']);
 
         return ['results' => $purpose];

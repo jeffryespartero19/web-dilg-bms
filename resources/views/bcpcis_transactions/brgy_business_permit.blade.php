@@ -52,20 +52,22 @@
                                     <div>
                                         <input type="text" class="form-control" id="Barangay_Permits_ID" name="Barangay_Permits_ID" hidden>
                                         <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Business_ID">Business</label>
                                                 <select class="form-control" id="Business_ID" name="Business_ID">
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Transaction_No">Transaction No</label>
                                                 <input type="text" class="form-control" id="Transaction_No" name="Transaction_No">
                                             </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
                                                 <label for="Resident_ID">Resident</label>
                                                 <select class="form-control" id="Resident_ID" name="Resident_ID">
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="New_or_Renewal">New or Renewal</label>
                                                 <select class="form-control" name="New_or_Renewal" id="New_or_Renewal">
@@ -82,9 +84,6 @@
                                                     <option value=0>Rented</option>
                                                 </select>
                                             </div>
-
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Barangay_Business_Permit_Expiration_Date">Expiration Date</label>
                                                 <input type="date" class="form-control" id="Barangay_Business_Permit_Expiration_Date" name="Barangay_Business_Permit_Expiration_Date" required>
@@ -95,17 +94,18 @@
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date" required>
                                                 <input type="text" class="form-control" id="OR_Date_Words" hidden>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
                                                 <input type="text" class="form-control" id="OR_No" name="OR_No" value="{{old('OR_No')}}">
+                                                
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Cash_Tendered">Cash Tendered</label>
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat">
                                                 <input type="number" step="0.01" class="form-control fancyformat" id="Cash_Tendered" name="Cash_Tendered" value="{{old('Cash_Tendered')}}" hidden>
                                             </div>
-                                        </div> 
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Details">CTC Details</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_Details" value="{{old('CTC_Details')}}">
@@ -115,6 +115,8 @@
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required>
                                                 <input type="text" class="form-control" id="CTC_Date_Issued_Words" hidden>
                                             </div>
+                                        </div> 
+                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_No" value="{{old('CTC_No')}}">
@@ -124,17 +126,19 @@
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat">
                                                 <input type="number" step="0.01" class="form-control fancyformat" id="CTC_Amount" name="CTC_Amount" value="{{old('CTC_Amount')}}" hidden>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
-                                                <label for="Place_Issued">Place Issued</label>
-                                                <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}">
-                                            </div>
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Occupation">Occupation</label>
                                                 <input type="text" class="form-control" id="Occupation" name="Occupation" value="{{old('Occupation')}}">
                                             </div>
-                                        </div> 
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                                <label for="Place_Issued">Place Issued</label>
+                                                <!-- <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}"> -->
+                                                <textarea class="form-control" id="Place_Issued" name="Place_Issued" value="{{old('Place_Issued')}}"></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row">
+                                            
+                                        </div>  -->
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
                                         <center>

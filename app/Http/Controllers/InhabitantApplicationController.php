@@ -254,8 +254,54 @@ class InhabitantApplicationController extends Controller
             )
         );
 
+        if ($request->hasfile('fileattach')) {
+            foreach ($request->file('fileattach') as $file) {
+
+                $filename = $file->getClientOriginalName();
+                $fileType = $file->getClientOriginalExtension();
+                $fileSize = $file->getSize();
+                // $filename = pathinfo($fileinfo, PATHINFO_FILENAME);
+                $filePath = public_path() . '/files/uploads/inhabitants_voting_status_proof/';
+                $file->move($filePath, $filename);
+
+                $file_data = array(
+                    'Resident_ID' => $data['Resident_ID'],
+                    'File_Name' => $filename,
+                    'File_Location' => $filePath,
+                    'File_Type' => $fileType,
+                    'File_Size' => $fileSize,
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now()
+                );
+                DB::table('bips_inhabitants_file_attachment')->insert($file_data);
+            }
+        }
+
         $days_sched = DB::table('bips_processing_sched')->where('Barangay_ID', $data['Barangay_ID2'])->get();
 
         return redirect()->back()->with('message', 'Record Updated');
+    }
+
+    public function get_inhabitants_voting_status_proof_attachments(Request $request)
+    {
+
+        $id = $_GET['id'];
+        $Reponse_Attach = DB::table('bips_inhabitants_file_attachment')
+            ->where('Resident_ID', $id)
+            ->get();
+        return json_encode($Reponse_Attach);
+    }
+
+    public function delete_inhabitants_voting_status_proof_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        // $fileinfo = DB::table('bips_inhabitants_file_attachment')->where('Attachment_ID', $id)->get();
+        // if (File::exists('./files/uploads/inhabitants_voting_status_proof/' . $fileinfo[0]->File_Name)) {
+        //     unlink(public_path('./files/uploads/inhabitants_voting_status_proof/' . $fileinfo[0]->File_Name));
+        // }
+        DB::table('bips_inhabitants_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
     }
 }

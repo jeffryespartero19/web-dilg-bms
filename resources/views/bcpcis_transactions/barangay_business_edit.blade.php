@@ -72,19 +72,18 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-lg-5" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Business_Owner">Business Owner</label>
                                                 <input type="text" class="form-control" id="Business_Owner" name="Business_Owner" value="{{$business[0]->Business_Owner}}">
                                             </div>
-                                            <div class="form-group col-lg-7" style="padding:0 10px">
-                                                <label for="Business_Address">Business Address</label>
-                                                <input type="text" class="form-control" id="Business_Address" name="Business_Address" value="{{$business[0]->Business_Address}}">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Mobile_No">Mobile No</label>
                                                 <input type="text" class="form-control" id="Mobile_No" name="Mobile_No" value="{{$business[0]->Mobile_No}}">
+                                            </div>
+                                            <div class="form-group col-lg-4" style="padding:0 10px">
+                                                <label for="Business_Address">Business Address</label>
+                                                <input type="text" class="form-control" id="Business_Address1" name="Business_Address1" value="{{$business[0]->Business_Address}}" hidden>
+                                                <textarea class="form-control" id="Business_Address" name="Business_Address" value="{{$business[0]->Business_Address}}"></textarea>
                                             </div>
                                             <div class="form-group col-lg-2" style="padding:0 10px">
                                                 <label for="Active">Active</label>
@@ -94,6 +93,10 @@
                                                     <option value=1 {{ 1 == $business[0]->Active  ? "selected" : "" }}>Yes</option>
                                                 </select>
                                             </div>  
+                                        </div>
+                                        <div class="row">
+                                            
+                                            
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom: 100px;">
@@ -141,7 +144,8 @@
             }
         });
 
-        
+        var BusinessAddress = $('#Business_Address1').val()
+        $('#Business_Address').val(BusinessAddress);
     });
 
     

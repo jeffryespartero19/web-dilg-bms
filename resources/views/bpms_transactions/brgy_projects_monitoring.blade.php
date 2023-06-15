@@ -191,6 +191,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <input type="date" class="form-control this_MDate" style="width: 200px;" name="Milestone_Date[]" min="" max="">
+                                                                    <!-- <input type="text" class="form-control this_MDate" style="width: 200px;" id="Milestone_Date_Words" name="Milestone_Date_Words" hidden> -->
                                                                 </td>
                                                                 <td>
                                                                     <input type="text" class="form-control" style="width: 200px;" name="Milestone_Status[]">
@@ -421,6 +422,24 @@
             //alert(num2);
         });
 
+        // $(document).on("focusout",'.this_MDate', function(e) {
+        //     var disVal=$(this).val(); 
+        //     $(this).attr('hidden', 'true');
+        //     var num2= new Date(disVal).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
+        //     $('#Milestone_Date_Words').val(num2);
+
+        //     $('#Milestone_Date_Words').removeAttr('hidden');
+        //     // alert($('#Milestone_Date_Words').val());
+           
+        // });
+
+        // $(document).on('click',('#Milestone_Date_Words'),function(e) {   
+        //     $(this).attr('hidden', 'true');
+        //     $('#Milestone_Date').removeAttr('hidden');
+        // });
+
+       
+
         function validate(evt) {
         var theEvent = evt || window.event;
         var key = theEvent.keyCode || theEvent.which;
@@ -431,6 +450,8 @@
             if(theEvent.preventDefault) theEvent.preventDefault();
         }
     }
+
+   
 
     $(document).on('change',('#Estimated_Start_Date'),function(e) {
         var disVal = $(this).val();
