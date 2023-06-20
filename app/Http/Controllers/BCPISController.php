@@ -2069,7 +2069,7 @@ class BCPISController extends Controller
                 'Cash_Tendered' => 'required',
                 'CTC_No' => 'required',
                 'CTC_Amount' => 'required',
-                'Place_Issued' => 'required',
+                // 'Place_Issued' => 'required',
                 
             ]);
         }
@@ -2122,10 +2122,53 @@ class BCPISController extends Controller
             )
         );
 
+        if ($request->hasfile('fileattach')) {
+            foreach ($request->file('fileattach') as $file) {
+                $filename = $file->getClientOriginalName();
+                $fileType = $file->getClientOriginalExtension();
+                $fileSize = $file->getSize();
+                $filePath = public_path() . '/files/uploads/brgy_documents_request/';
+                $file->move($filePath, $filename);
+
+                $file_data = array(
+                    'Document_ID' => $data['Document_ID'],
+                    'File_Name' => $filename,
+                    'File_Location' => $filePath,
+                    'File_Type' => $fileType,
+                    'File_Size' => $fileSize,
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now()
+                );
+                DB::table('bcpcis_brgy_document_file_attachment')->insert($file_data);
+            }
+        }
+
 
         return redirect()->to('document_request_approved_details/' . $data['Document_ID'])->with('message', 'The Document resquest has been saved and approved');
     }
 
+    public function get_brgy_document_request_attachments(Request $request)
+    {
+
+        $id = $_GET['id'];
+        $Reponse_Attach = DB::table('bcpcis_brgy_document_file_attachment')
+            ->where('Document_ID', $id)
+            ->get();
+        return json_encode($Reponse_Attach);
+    }
+
+    public function delete_brgy_document_request_attachments(Request $request)
+    {
+        $id = $_GET['id'];
+
+        $fileinfo = DB::table('bcpcis_brgy_document_file_attachment')->where('Attachment_ID', $id)->get();
+        if (File::exists('./files/uploads/brgy_documents_request/' . $fileinfo[0]->File_Name)) {
+            unlink(public_path('./files/uploads/brgy_documents_request/' . $fileinfo[0]->File_Name));
+        }
+        DB::table('bcpcis_brgy_document_file_attachment')->where('Attachment_ID', $id)->delete();
+
+        return response()->json(array('success' => true));
+    }
 
     //Document request Approved details
     public function document_request_approved_details($id)
@@ -2171,6 +2214,8 @@ class BCPISController extends Controller
             ]);
         }
 
+        DB::table('bcpcis_brgy_document_file_attachment')->where('Document_ID', $data['Document_ID'])->delete();
+
         DB::table('bcpcis_brgy_document_information')->where('Document_ID', $data['Document_ID'])->update(
             array(
                 // 'Transaction_No'        => $data['Transaction_No'],
@@ -2215,6 +2260,28 @@ class BCPISController extends Controller
             )
 
         );
+
+        
+        if ($request->hasfile('fileattach')) {
+            foreach ($request->file('fileattach') as $file) {
+                $filename = $file->getClientOriginalName();
+                $fileType = $file->getClientOriginalExtension();
+                $fileSize = $file->getSize();
+                $filePath = public_path() . '/files/uploads/brgy_documents_request/';
+                $file->move($filePath, $filename);
+
+                $file_data = array(
+                    'Document_ID' => $data['Document_ID'],
+                    'File_Name' => $filename,
+                    'File_Location' => $filePath,
+                    'File_Type' => $fileType,
+                    'File_Size' => $fileSize,
+                    'Encoder_ID'       => Auth::user()->id,
+                    'Date_Stamp'       => Carbon::now()
+                );
+                DB::table('bcpcis_brgy_document_file_attachment')->insert($file_data);
+            }
+        }
 
         
      

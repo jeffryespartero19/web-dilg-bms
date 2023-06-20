@@ -59,7 +59,7 @@
                                                 <input type="text" class="form-control" id="Transaction_No" name="Transaction_No">
                                             </div> -->
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Document_Type_ID">Document Type</label>
+                                                <label class="required" for="Document_Type_ID">Document Type</label>
                                                 <select class="form-control" id="Document_Type_ID" name="Document_Type_ID">
                                                     <option value=''  selected>Select Option</option>
                                                         @foreach($document_type as $bt1)
@@ -68,7 +68,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Resident">Resident</label>
+                                                <label class="required" for="Resident">Resident</label>
                                                 <input type="text" class="form-control" id="Resident" name="Resident" value="{{$document[0]->Resident_Name}}" disabled>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
@@ -162,9 +162,21 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="fileattach">File Attachments</label>
+                                                <ul class="list-group list-group-flush" id="document_files">
+
+                                                </ul>
+                                                <div class="custom-file">
+                                                    <input type="file" accept="image/*" class="custom-file-input" id="fileattach" name="fileattach[]">
+                                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                            
                                             
-                                            <div class="form-group col-lg-6" style="padding:0 10px">
+                                            <div class="form-group col-lg-6" style="padding:0 10px" hidden>
                                                 <label for="Place_Issued">Place Issued</label>
                                                 <input type="text" class="form-control" id="Place_Issued" name="Place_Issued" >
                                             </div>
@@ -222,6 +234,9 @@
         var now1 = new Date(disvals).toLocaleDateString('en-us', { year:"numeric", month:"long",day: "numeric"});
         $('#Request_Date_Words').val(now1);
         $('#Request_Date_Words').removeAttr('hidden');
+
+        var dis = $('#Document_ID').val();
+        alert(dis);
     });
 
 
@@ -312,6 +327,16 @@
         $(this).attr('hidden', 'true');
         $('#Issued_On').removeAttr('hidden');
     });
+
+    $(".custom-file-input").on("change", function() {
+        var files = Array.from(this.files)
+        var fileName = files.map(f => {
+            return f.name
+        }).join(", ")
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
+    
 </script>
 
 <style>
@@ -324,6 +349,37 @@
         height: 32px !important;
         padding: 3px 3px;
         font: 13px;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 

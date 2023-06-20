@@ -1068,6 +1068,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/delete_inhabitants_voting_status_proof_attachments', 'InhabitantApplicationController@delete_inhabitants_voting_status_proof_attachments')->name('delete_inhabitants_voting_status_proof_attachments');
   Route::get('/inhabitants_details/{id}', 'bipsController@inhabitants_details');
 
+  Route::get('/get_brgy_document_request_attachments', 'BCPISController@get_brgy_document_request_attachments')->name('get_brgy_document_request_attachments');
+  Route::get('/delete_brgy_document_request_attachments', 'BCPISController@delete_brgy_document_request_attachments')->name('delete_brgy_document_request_attachments');
+
 });
 
 
