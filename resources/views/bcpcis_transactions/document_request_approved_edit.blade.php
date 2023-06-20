@@ -60,8 +60,8 @@
                                                 <input type="text" class="form-control" id="Transaction_No" name="Transaction_No" value="{{$document[0]->Transaction_No}}" disabled>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Document_Type_ID">Document Type</label>
-                                                <select class="form-control" id="Document_Type_ID" name="Document_Type_ID">
+                                                <label class="required" for="Document_Type_ID">Document Type</label>
+                                                <select class="form-control" id="Document_Type_ID" name="Document_Type_ID" required> 
                                                     <option value=''  selected>Select Option</option>
                                                         @foreach($document_type as $bt1)
                                                         <option value="{{ $bt1->Document_Type_ID }}" {{ $bt1->Document_Type_ID  == $document[0]->Document_Type_ID  ? "selected" : "" }}>{{ $bt1->Document_Type_Name }}</option>
@@ -69,7 +69,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Resident">Resident</label>
+                                                <label class="required" for="Resident">Resident</label>
                                                 <input type="text" class="form-control" id="Resident" name="Resident" value="{{$document[0]->Resident_Name}}" disabled>
                                             </div>
                                             <div class="form-group col-lg-1" style="padding:0 10px">
@@ -82,20 +82,20 @@
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Brgy_Cert_No">Barangay Cert. No.</label>
-                                                <input type="text" class="form-control" id="Brgy_Cert_No" name="Brgy_Cert_No" value="{{$document[0]->Brgy_Cert_No}}">
+                                                <label class="required" for="Brgy_Cert_No">Barangay Cert. No.</label>
+                                                <input type="text" class="form-control" id="Brgy_Cert_No" name="Brgy_Cert_No" value="{{$document[0]->Brgy_Cert_No}}" required>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Purpose_of_Document_ID">Purpose of Document</label>
-                                                <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID">
+                                                <label class="required" for="Purpose_of_Document_ID">Purpose of Document</label>
+                                                <select class="form-control" id="Purpose_of_Document_ID" name="Purpose_of_Document_ID" required>
                                                     <option value='' disabled selected>Select Option</option>
                                                     @foreach($purpose as $bt1)
                                                     <option value="{{ $bt1->Purpose_of_Document_ID }}" {{ $bt1->Purpose_of_Document_ID  == $document[0]->Purpose_of_Document_ID  ? "selected" : "" }}>{{ $bt1->Purpose_of_Document }}</option>
                                                     @endforeach  
                                                 </select>
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Request_Date">Request_Date</label>
+                                            <div  class="form-group col-lg-3" style="padding:0 10px">
+                                                <label class="required" for="Request_Date">Request_Date</label>
                                                 <input type="date" class="form-control" id="Request_Date" name="Request_Date" value="{{$document[0]->Request_Date}}" required>
                                                 <input type="text" class="form-control" id="Request_Date_Words" value="{{$document[0]->Request_Date}}" hidden>
                                             </div>
@@ -120,7 +120,7 @@
                                                 <input type="datetime-local" class="form-control" id="Issued_On" name="Issued_On" value="{{$document[0]->Issued_On}}"required>
                                                 <input type="text" class="form-control" id="Issued_On_Words" value="{{$document[0]->Issued_On}}" hidden>
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px" hidden>
                                                 <label for="Issued_At">Issued At</label>
                                                 <input type="text" class="form-control" id="Issued_At" name="Issued_At" value="{{$document[0]->Issued_At}}">
                                             </div>
@@ -129,15 +129,16 @@
                                                 <input type="date" class="form-control" id="OR_Date" name="OR_Date" value="{{$payment_docu[0]->OR_Date}}" required>
                                                 <input type="text" class="form-control" id="OR_Date_Words" value="{{$payment_docu[0]->OR_Date}}" hidden>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="OR_No">OR No</label>
                                                 <input type="text" class="form-control" id="OR_No" name="OR_No" value="{{$payment_docu[0]->OR_No}}">
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="Cash_Tendered">Cash Tendered</label>
-                                                <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" value="{{$payment_docu[0]->Cash_Tendered}}">
+                                                <label class="required" for="Cash_Tendered">Cash Tendered</label>
+                                                <input type="number" min="1" step="any" class="form-control" id="Cash_Tendered" name="Cash_Tendered" value="{{$payment_docu[0]->Cash_Tendered}}" required>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_Details">CTC Details</label>
@@ -148,25 +149,37 @@
                                                 <input type="date" class="form-control" id="CTC_Date_Issued" name="CTC_Date_Issued" required value="{{$payment_docu[0]->CTC_Date_Issued}}">
                                                 <input type="text" class="form-control" id="CTC_Date_Issued_Words" value="{{$payment_docu[0]->CTC_Date_Issued}}" hidden>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="CTC_No">CTC No</label>
                                                 <input type="text" class="form-control" id="CTC_No" name="CTC_No"  value="{{$payment_docu[0]->CTC_No}}">
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
-                                                <label for="CTC_Amount">CTC Amount</label>
-                                                <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}">
+                                                <label class="required" for="CTC_Amount">CTC Amount</label>
+                                                <input type="number" min="1" step="any" class="form-control" id="CTC_Amount" name="CTC_Amount" value="{{$payment_docu[0]->CTC_Amount}}" required>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Remarks">Remarks</label>
                                                 <input type="text" class="form-control" id="Remarks1" name="Remarks1" value="{{$document[0]->Remarks}}" hidden>
                                                 <textarea class="form-control" id="Remarks" name="Remarks" value="{{$document[0]->Remarks}}"></textarea>
                                             </div>
-                                            <div class="form-group col-lg-3" style="padding:0 10px">
+                                            <div class="form-group col-lg-3" style="padding:0 10px" hidden>
                                                 <label for="Place_Issued">Place Issued</label>
                                                 <input type="text" class="form-control" id="Place_Issued1" name="Place_Issued1" value="{{$payment_docu[0]->Place_Issued}}" hidden>
                                                 <textarea class="form-control" id="Place_Issued" name="Place_Issued" value="{{$payment_docu[0]->Place_Issued}}"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-12" style="padding:0 10px">
+                                                <label for="fileattach">File Attachments</label>
+                                                <ul class="list-group list-group-flush" id="document_files">
+
+                                                </ul>
+                                                <div class="custom-file">
+                                                    <input type="file" accept="image/*" class="custom-file-input" id="fileattach" name="fileattach[]">
+                                                    <label class="custom-file-label btn btn-info" for="fileattach">Choose file</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -261,7 +274,42 @@
         $('#Place_Issued').val(PlaceIssued);
         var Remarks = $('#Remarks1').val()
         $('#Remarks').val(Remarks);
+
+
+        var disID = $('#Document_ID').val();
+        var User_Type_ID = $('#User_Type_ID').val();
+        $.ajax({
+            url: "/get_brgy_document_request_attachments",
+            type: 'GET',
+            data: {
+                id: disID
+            },
+            fail: function() {
+                alert('request failed');
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                $i = 0;
+                if (User_Type_ID == 1) {
+
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="/files/uploads/brgy_documents_request/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn res_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#document_files').append(file);
+
+                    });
+                } else {
+                    data.forEach(element => {
+                        $i = $i + 1;
+                        var file = '<li class="list-group-item">' + $i + '. ' + element['File_Name'] + ' (' + (element['File_Size'] / 1000000).toFixed(2) + ' MB)<a href="/files/uploads/brgy_documents_request/' + element['File_Name'] + '" target="_blank" style="color: blue; margin-left:10px; margin-right:10px;">View</a>|<button type="button" class="btn res_del" value="' + element['Attachment_ID'] + '" style="color: red; margin-left:2px;">Delete</button></li>';
+                        $('#document_files').append(file);
+                    });
+                }
+
+            }
+        });
     });
+
 
 
     // Populate Province
@@ -448,6 +496,51 @@
         $(this).attr('hidden', 'true');
         $('#Issued_On').removeAttr('hidden');
     });
+
+    $(".custom-file-input").on("change", function() {
+        var files = Array.from(this.files)
+        var fileName = files.map(f => {
+            return f.name
+        }).join(", ")
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
+    $(document).on('click', ('.res_del'), function(e) {
+        var disID = $(this).val();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/delete_brgy_document_request_attachments",
+                    type: 'GET',
+                    data: {
+                        id: disID
+                    },
+                    fail: function() {
+                        alert('request failed');
+                    },
+                    success: function(data) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+
+    });
 </script>
 
 <style>
@@ -460,6 +553,37 @@
         height: 32px !important;
         padding: 3px 3px;
         font: 13px;
+    }
+
+    .inputfile-box {
+        position: relative;
+    }
+
+    .inputfile {
+        display: none;
+    }
+
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-box {
+        display: inline-block;
+        width: 100%;
+        border: 1px solid;
+        padding: 5px 0px 5px 5px;
+        box-sizing: border-box;
+        height: calc(2rem - 2px);
+    }
+
+    .file-button {
+        background: red;
+        padding: 5px;
+        position: absolute;
+        border: 1px solid;
+        top: 0px;
+        right: 0px;
     }
 </style>
 

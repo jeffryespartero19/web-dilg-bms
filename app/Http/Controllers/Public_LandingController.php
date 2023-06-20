@@ -107,19 +107,44 @@ class Public_LandingController extends Controller
 
     public function search_barangay_main(Request $request)
     {
+        //ORIGINAL
+        // $data = DB::table('maintenance_barangay as a')
+        // ->leftjoin('maintenance_city_municipality as b', 'a.City_Municipality_ID', '=', 'b.City_Municipality_ID')
+        // ->leftjoin('maintenance_province as c', 'b.Province_ID', '=', 'c.Province_ID')
+        // ->leftjoin('maintenance_region as d', 'c.Region_ID', '=', 'd.Region_ID')
+        // ->select(
+        //     'a.Barangay_ID',
+        //     'a.Barangay_Name',
+        //     'b.City_Municipality_Name',
+        //     'c.Province_Name',
+        //     'd.Region_Name',
+        // );
+        //ORIGINAL
 
         // dd($param1);
-        $data = DB::table('maintenance_barangay as a')
-            ->leftjoin('maintenance_city_municipality as b', 'a.City_Municipality_ID', '=', 'b.City_Municipality_ID')
-            ->leftjoin('maintenance_province as c', 'b.Province_ID', '=', 'c.Province_ID')
-            ->leftjoin('maintenance_region as d', 'c.Region_ID', '=', 'd.Region_ID')
-            ->select(
-                'a.Barangay_ID',
-                'a.Barangay_Name',
-                'b.City_Municipality_Name',
-                'c.Province_Name',
-                'd.Region_Name',
-            );
+        // $data = DB::table('maintenance_barangay as a')
+        // ->innerjoin('maintenance_region as b', 'a.Region_ID', '=', 'b.Region_ID')
+        // ->innerjoin('maintenance_province as c', 'c.Province_ID', '=', 'a.Province_ID')
+        // ->innerjoin('maintenance_city_municipality as d', 'd.City_Municipality_ID', '=', 'a.City_Municipality_ID')
+        //     ->select(
+        //         'a.Barangay_ID',
+        //         'a.Barangay_Name',
+        //         'd.City_Municipality_Name',
+        //         'c.Province_Name',
+        //         'b.Region_Name',
+        //     );
+         $data = DB::table('maintenance_barangay as a')
+        ->leftjoin('maintenance_city_municipality as b', 'a.City_Municipality_ID', '=', 'b.City_Municipality_ID')
+        ->leftjoin('maintenance_province as c', 'a.Province_ID', '=', 'c.Province_ID')
+        ->leftjoin('maintenance_region as d', 'a.Region_ID', '=', 'd.Region_ID')
+        ->select(
+            'a.Barangay_ID',
+            'a.Barangay_Name',
+            'b.City_Municipality_Name',
+            'c.Province_Name',
+            'd.Region_Name',
+            'd.Region_ID',
+        );
 
         // $param1 = $request->get('param1');
         if ($request->get('param1') != null && $request->get('param1') != "") {
@@ -134,7 +159,10 @@ class Public_LandingController extends Controller
             );  
         }
 
-        $db_entries = $data->orderby('a.Barangay_Name', 'asc')->paginate(20);
+        //ORIGINAL
+        // $db_entries = $data->orderby('a.Barangay_Name', 'asc')->paginate(20);
+        //ORIGINAL
+        $db_entries = $data->orderby('d.Region_ID', 'asc')->orderby('c.Province_Name', 'asc')->orderby('b.City_Municipality_Name', 'asc')->orderby('a.Barangay_Name', 'asc')->paginate(20);
 
         return view('main_page_data', compact('db_entries'))->render();
     }
