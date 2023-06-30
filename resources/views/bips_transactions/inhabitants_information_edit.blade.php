@@ -53,6 +53,7 @@
                                         <h3>Name</h3>
                                         <input type="text" class="form-control" id="Resident_ID" name="Resident_ID"  value="{{$inhabitants[0]->Resident_ID}}" hidden>
                                         <input type="text" class="form-control" id="Application_Status" name="Application_Status" value="1" hidden>
+                                        <input type="text" class="form-control" id="Resident_Statuses_id" name="Resident_Statuses_id"  value="{{$res_pro[0]->Resident_Status}}" hidden>
                                         <div class="row">
                                             <div class="form-group col-lg-1.5" style="padding:0 10px">
                                                 <label for="exampleInputEmail1">Prefix</label>
@@ -213,7 +214,7 @@
                                                 <label for="exampleInputEmail1">Landline Number</label>
                                                 <input type="text" class="form-control" id="Telephone_No" name="Telephone_No" value="{{$inhabitants[0]->Telephone_No}}">
                                             </div>
-                                            <!-- aldren -->
+                                            
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Salary">Monthly Income</label>
                                                 <input type="text"  onkeypress="validate(event)" class="form-control fancyformat" value="{{number_format((float)$inhabitants[0]->Salary, 2, '.', ',')}}">
@@ -231,36 +232,37 @@
                                             </div>
                                         </div>
                                         <hr>
+                                        <!-- aldren -->
                                         <h3>Resident Information</h3>
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Resident_Status">Resident Status</label>
-                                                <select class="form-control" id="Resident_Status" name="Resident_Status">
+                                                <select class="form-control" name="Resident_Status" id="Resident_Status">
                                                     <option value='' selected>Select Option</option>
-                                                    <option value=1 {{ 0 == $res_sta[0]->Resident_Status  ? "selected" : "" }}>Yes</option>
-                                                    <option value=0 {{ 0 == $res_sta[0]->Resident_Status  ? "selected" : "" }}>No</option>
+                                                    <option value=0 {{ 0 == $res_pro[0]->Resident_Status  ? "selected" : "" }}>Yes</option>
+                                                    <option value=1 {{ 1 == $res_pro[0]->Resident_Status  ? "selected" : "" }}>No</option>
                                                 </select>
-                                            </div>
+                                            </div> 
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Voter_Status">Voter Status</label>
-                                                <select class="form-control" id="Voter_Status" name="Voter_Status">
+                                                <select class="form-control" name="Voter_Status" id="Voter_Status">
                                                     <option value='' selected>Select Option</option>
-                                                    <option value=1 {{ 0 == $res_sta[0]->Voter_Status  ? "selected" : "" }}>Yes</option>
-                                                    <option value=0 {{ 0 == $res_sta[0]->Voter_Status  ? "selected" : "" }}>No</option>
+                                                    <option value=0 {{ 0 == $res_pro[0]->Voter_Status  ? "selected" : "" }}>Yes</option>
+                                                    <option value=1 {{ 1 == $res_pro[0]->Voter_Status  ? "selected" : "" }}>No</option>
                                                 </select>
-                                            </div>
+                                            </div> 
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Election_Year_Last_Voted">Election Year Last Voted</label>
-                                                <input type="date" class="form-control" id="Election_Year_Last_Voted" name="Election_Year_Last_Voted" value="{{$res_sta[0]->Election_Year_Last_Voted}}">
+                                                <input type="date" class="form-control" id="Election_Year_Last_Voted" name="Election_Year_Last_Voted" value="{{$res_pro[0]->Election_Year_Last_Voted}}">
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label for="Resident_Voter">Resident Voter</label>
-                                                <select class="form-control" id="Resident_Voter" name="Resident_Voter">
+                                                <select class="form-control" name="Resident_Voter" id="Resident_Voter">
                                                     <option value='' selected>Select Option</option>
-                                                    <option value=1 {{ 0 == $res_sta[0]->Resident_Voter  ? "selected" : "" }}>Yes</option>
-                                                    <option value=0 {{ 0 == $res_sta[0]->Resident_Voter  ? "selected" : "" }}>No</option>
+                                                    <option value=0 {{ 0 == $res_pro[0]->Resident_Voter  ? "selected" : "" }}>Yes</option>
+                                                    <option value=1 {{ 1 == $res_pro[0]->Resident_Voter  ? "selected" : "" }}>No</option>
                                                 </select>
-                                            </div>
+                                            </div> 
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-12" style="padding:0 10px">
@@ -552,9 +554,12 @@
 @section('scripts')
 
 <script>
-    $(document).ready(function() {
-
-    });
+    // $(document).ready(function() {
+        
+    //     var IDs = $('#Resident_Statuses_id').val();
+    //     alert(IDs);
+    //     var e = document.getElementById("#Resident_Status").value;
+    // });
 
     // Data Table
     $(document).ready(function() {

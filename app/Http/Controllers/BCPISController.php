@@ -2209,7 +2209,6 @@ class BCPISController extends Controller
                 'Cash_Tendered' => 'required',
                 'CTC_No' => 'required',
                 'CTC_Amount' => 'required',
-                'Place_Issued' => 'required',
                 
             ]);
         }

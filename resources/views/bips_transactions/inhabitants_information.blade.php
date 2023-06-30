@@ -90,24 +90,24 @@
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Country</label>
-                                                <select class="form-control" id="Country_ID" name="Country_ID" required>
+                                                <select class="form-control" id="Country_ID" name="Country_ID" required disabled>
                                                     <!-- <option value='' selected>Select Option</option> -->
                                                     @foreach($country as $countrys)
-                                                    <option value="{{ $countrys->Country_ID }}" selected>{{ $countrys->Country }}</option>
+                                                    <option value="{{ $countrys->Country_ID }}" selected>{{ $countrys->Country }}</option >
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Region</label>
-                                                <select class="form-control" id="Region_ID" name="Region_ID" required>
+                                                <select class="form-control" id="Region_ID" name="Region_ID" required disabled>
                                                     @foreach($region as $region)
-                                                    <option value="{{ $region->Region_ID }}" selected>{{ $region->Region_Name }}</option>
+                                                    <option value="{{ $region->Region_ID }}" selected>{{ $region->Region_Name }}</option >
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label class="required" for="exampleInputEmail1">Province</label>
-                                                <select class="form-control" id="Province_ID" name="Province_ID" required>
+                                                <select class="form-control" id="Province_ID" name="Province_ID" required disabled>
                                                     @foreach($province as $province)
                                                     <option value="{{ $province->Province_ID }}" selected>{{ $province->Province_Name }}</option>
                                                     @endforeach
@@ -115,7 +115,7 @@
                                             </div>
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label class="required" for="City_Municipality_ID">City/Municipality</label>
-                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required>
+                                                <select class="form-control" id="City_Municipality_ID" name="City_Municipality_ID" required disabled>
                                                     @foreach($city as $city)
                                                     <option value="{{ $city->City_Municipality_ID }}" selected>{{ $city->City_Municipality_Name }}</option>
                                                     @endforeach
@@ -125,7 +125,7 @@
                                         <div class="row">
                                             <div class="form-group col-lg-3" style="padding:0 10px">
                                                 <label class="required" for="Barangay_ID">Barangay</label>
-                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required>
+                                                <select class="form-control" id="Barangay_ID" name="Barangay_ID" required disabled>
                                                     @foreach($barangay as $barangay)
                                                     <option value="{{ $barangay->Barangay_ID }}" selected>{{ $barangay->Barangay_Name }}</option>
                                                     @endforeach
