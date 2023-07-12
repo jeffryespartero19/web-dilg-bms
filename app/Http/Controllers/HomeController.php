@@ -90,6 +90,20 @@ class HomeController extends Controller
             $blotter = DB::table('bjisbh_blotter')
                 ->where('Province_ID', Auth::user()->Province_ID)
                 ->get()->count();
+                $region = DB::table('maintenance_region')
+                ->where('Region_ID', Auth::user()->Region_ID)
+                ->get();
+                $province = DB::table('maintenance_province')
+                ->where('Province_ID', Auth::user()->Province_ID)
+                ->get();
+                $city = DB::table('maintenance_city_municipality')
+                ->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)
+                ->get();
+                $brgy = DB::table('maintenance_barangay')
+                ->where('Barangay_ID', Auth::user()->Barangay_ID)
+                ->get();
+            
+            
         } elseif (Auth::user()->User_Type_ID == 1) {
             $inhabitants = DB::table('bips_brgy_inhabitants_information')
                 ->where('Barangay_ID', Auth::user()->Barangay_ID)
@@ -163,6 +177,20 @@ class HomeController extends Controller
             $blotter = DB::table('bjisbh_blotter')
                 ->where('Barangay_ID', Auth::user()->Barangay_ID)
                 ->get()->count();
+                $region = DB::table('maintenance_region')
+                ->where('Region_ID', Auth::user()->Region_ID)
+                ->get();
+                $province = DB::table('maintenance_province')
+                ->where('Province_ID', Auth::user()->Province_ID)
+                ->get();
+                $city = DB::table('maintenance_city_municipality')
+                ->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)
+                ->get();
+                $brgy = DB::table('maintenance_barangay')
+                ->where('Barangay_ID', Auth::user()->Barangay_ID)
+                ->get();
+            
+            
         } else {
             $inhabitants = 0;
             $male = 0;
@@ -178,6 +206,23 @@ class HomeController extends Controller
             $children = 0;
             $infant = 0;
             $blotter = 0;
+            $region = DB::table('maintenance_region')
+                ->where('Region_ID', Auth::user()->Region_ID)
+                ->get();
+                $province = DB::table('maintenance_province')
+                ->where('Province_ID', Auth::user()->Province_ID)
+                ->get();
+                $city = DB::table('maintenance_city_municipality')
+                ->where('City_Municipality_ID', Auth::user()->City_Municipality_ID)
+                ->get();
+                $brgy = DB::table('maintenance_barangay')
+                ->where('Barangay_ID', Auth::user()->Barangay_ID)
+                ->get();
+            // $region = '';
+            // $province = '';
+            // $city = '';
+            // $brgy = '';
+           
         }
 
         return view('dashboard', compact(
@@ -194,7 +239,13 @@ class HomeController extends Controller
             'teen',
             'children',
             'infant',
-            'blotter'
+            'blotter',
+            'region',
+            'province',
+            'city',
+            'brgy'
+            
+
         ));
     }
 

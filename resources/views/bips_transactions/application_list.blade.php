@@ -295,7 +295,7 @@
     // Approve Inhabitants
     $(document).on('click', ('.approve_inhabitants'), function(e) {
         var disID = $(this).val();
-        $('#Resident_ID').val(disID);
+        // $('#Resident_ID').val(disID);
         $('#Status_ID').val(1);
 
         $('#Approved_Inhabitant').submit();
@@ -305,7 +305,7 @@
     // Disapprove Inhabitants
     $(document).on('click', ('.disapprove_inhabitants'), function(e) {
         var disID = $(this).val();
-        $('#Resident_ID').val(disID);
+        // $('#Resident_ID').val(disID);
         $('#Status_ID').val(2);
         $('#disapprove_remarks').val($('#remarks').val());
 
@@ -316,6 +316,8 @@
     $(document).on('click', ('.view_info'), function(e) {
 
         var disID = $(this).val();
+        $('#Resident_ID').val(disID);
+        // alert()
         // $('#Modal_Title').text('Edit Inhabitant Information');
         $.ajax({
             url: "/get_inhabitants_info",

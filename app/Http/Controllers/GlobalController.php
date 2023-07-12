@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class GlobalController extends Controller
 {
+ 
     // Get Province
     public function getProvince($Region_ID)
     {
