@@ -1071,6 +1071,36 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/get_brgy_document_request_attachments', 'BCPISController@get_brgy_document_request_attachments')->name('get_brgy_document_request_attachments');
   Route::get('/delete_brgy_document_request_attachments', 'BCPISController@delete_brgy_document_request_attachments')->name('delete_brgy_document_request_attachments');
 
+  Route::get('/termstatus_maint', 'maintenanceController@termstatus_maint')->name('termstatus_maint');
+  Route::post('/create_termstatus_maint', 'maintenanceController@create_termstatus_maint')->name('create_termstatus_maint');
+  Route::get('/get_termstatus_maint', 'maintenanceController@get_termstatus_maint')->name('get_termstatus_maint');
+  Route::post('/update_termstatus_maint', 'maintenanceController@update_termstatus_maint')->name('update_termstatus_maint');
+
+  Route::get('/country_maint', 'maintenanceController@country_maint')->name('country_maint');
+  Route::post('/create_country_maint', 'maintenanceController@create_country_maint')->name('create_country_maint');
+  Route::get('/get_country_maint', 'maintenanceController@get_country_maint')->name('get_country_maint');
+  Route::post('/update_country_maint', 'maintenanceController@update_country_maint')->name('update_country_maint');
+
+  Route::get('/region_maint', 'maintenanceController@region_maint')->name('region_maint');
+  Route::post('/create_region_maint', 'maintenanceController@create_region_maint')->name('create_region_maint');
+  Route::get('/get_region_maint', 'maintenanceController@get_region_maint')->name('get_region_maint');
+  Route::post('/update_region_maint', 'maintenanceController@update_region_maint')->name('update_region_maint');
+
+  Route::get('/province_maint', 'maintenanceController@province_maint')->name('province_maint');
+  Route::post('/create_province_maint', 'maintenanceController@create_province_maint')->name('create_province_maint');
+  Route::get('/get_province_maint', 'maintenanceController@get_province_maint')->name('get_province_maint');
+  Route::post('/update_province_maint', 'maintenanceController@update_province_maint')->name('update_province_maint');
+
+  Route::get('/city_maint', 'maintenanceController@city_maint')->name('city_maint');
+  Route::post('/create_city_maint', 'maintenanceController@create_city_maint')->name('create_city_maint');
+  Route::get('/get_city_maint', 'maintenanceController@get_city_maint')->name('get_city_maint');
+  Route::post('/update_city_maint', 'maintenanceController@update_city_maint')->name('update_city_maint');
+
+  Route::get('/barangay_maint', 'maintenanceController@barangay_maint')->name('barangay_maint');
+  Route::post('/create_barangay_maint', 'maintenanceController@create_barangay_maint')->name('create_barangay_maint');
+  Route::get('/get_barangay_maint', 'maintenanceController@get_barangay_maint')->name('get_barangay_maint');
+  Route::post('/update_barangay_maint', 'maintenanceController@update_barangay_maint')->name('update_barangay_maint');
+
 });
 
 

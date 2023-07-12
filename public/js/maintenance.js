@@ -1370,6 +1370,35 @@ $(document).on('click', '.updateThis_Frequency', function(e) {
     $('#updateBRGY_Frequency').submit();
 });
 
+//Term Status
+$(document).on('click', ('.edit_termstatus'), function(e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_termstatus_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function() {
+            alert('request failed');
+        },
+        success: function(data) {
+            $('#this_term_status_idX').val(data['theEntry'][0]['Term_Status_ID']);
+            $('#this_term_statusX').val(data['theEntry'][0]['Term_Status']);
+
+            $('#this_term_status_active').empty();
+            $('#this_term_status_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_term_status_active').append('Yes');
+            } else {
+                $('#this_term_status_active').append('No');
+            }
+
+        }
+    });
+
+
+});
+
 // Categories
 //post buttons
 $(document).on('click', '.postThis_Categories', function(e) {
@@ -1438,5 +1467,210 @@ $(document).on('click', ('.edit_brgy_position'), function(e) {
         }
     });
 
-
+    
+    
 });
+
+//Country
+$(document).on('click', ('.edit_country'), function(e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_country_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function() {
+            alert('request failed');
+        },
+        success: function(data) {
+            $('#this_country_idX').val(data['theEntry'][0]['Country_ID']);
+            $('#this_countryX').val(data['theEntry'][0]['Country']);
+            $('#this_country_code_noX').val(data['theEntry'][0]['Country_Code_No']);
+
+            $('#this_country_active').empty();
+            $('#this_country_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_country_active').append('Yes');
+            } else {
+                $('#this_country_active').append('No');
+            }
+
+        }
+    });
+});
+
+//Region
+$(document).on('click', ('.edit_region'), function(e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_region_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function() {
+            alert('request failed');
+        },
+        success: function(data) {
+            $('#this_region_idX').val(data['theEntry'][0]['Region_ID']);
+            $('#this_psgc_codeX').val(data['theEntry'][0]['PSGC_code']);
+            $('#this_regionX').val(data['theEntry'][0]['Region_Name']);
+            $('#this_abbreviationX').val(data['theEntry'][0]['Abbreviation']);
+           
+
+            $('#this_region_active').empty();
+            $('#this_region_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_region_active').append('Yes');
+            } else {
+                $('#this_region_active').append('No');
+            }
+
+        }
+    });
+});
+
+//Province
+$(document).on('click', ('.edit_province'), function(e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_province_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function() {
+            alert('request failed');
+        },
+        success: function(data) {
+
+            $('#this_province_idX').val(data['theEntry'][0]['Province_ID']);
+
+            $('#this_region_idX').empty();
+            $('#this_region_idX').val(data['theEntry'][0]['Region_ID']);
+            $('#this_region_idX').text(data['theEntry'][0]['Region_Name']);
+
+
+            $('#this_psgc_codeX').val(data['theEntry'][0]['PSGC_code']);
+            $('#this_provinceX').val(data['theEntry'][0]['Province_Name']);
+           
+
+            $('#this_province_active').empty();
+            $('#this_province_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_province_active').append('Yes');
+            } else {
+                $('#this_province_active').append('No');
+            }
+
+            $.each(data['region2'], function(index, value) {
+                $('#region_update_select').append('<option value="' + data["region2"][index]["Region_ID"] + '">'+'('+data["region2"][index]["Region_Name"]+')'+'</option>');
+            });
+
+        }
+    });
+});
+
+//CITY
+
+$(document).on('click', ('.edit_city'), function(e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_city_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function() {
+            alert('request failed');
+        },
+        success: function(data) {
+
+            $('#this_city_municipality_idX').val(data['theEntry'][0]['City_Municipality_ID']);
+
+            $('#this_region_idX').empty();
+            $('#this_region_idX').val(data['theEntry'][0]['Region_ID']);
+            $('#this_region_idX').text(data['theEntry'][0]['Region_Name']);
+
+
+            $('#this_psgc_codeX').val(data['theEntry'][0]['PSGC_code']);
+            $('#this_zip_codeX').val(data['theEntry'][0]['Zip_Code']);
+            $('#this_lgu_typeX').val(data['theEntry'][0]['LGU_Type']);
+            $('#this_districtX').val(data['theEntry'][0]['District']);
+            $('#this_city_municipality_nameX').val(data['theEntry'][0]['City_Municipality_Name']);
+           
+
+            $('#this_city_active').empty();
+            $('#this_city_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_city_active').append('Yes');
+            } else {
+                $('#this_city_active').append('No');
+            }
+
+            $.each(data['region2'], function(index, value) {
+                $('#region_update_select').append('<option value="' + data["region2"][index]["Region_ID"] + '">'+'('+data["region2"][index]["Region_Name"]+')'+'</option>');
+            });
+
+            
+            $('#this_province_idX').empty();
+            $('#this_province_idX').val(data['theEntry'][0]['Province_ID']);
+            $('#this_province_idX').text(data['theEntry'][0]['Province_Name']);
+
+          
+            
+
+
+        }
+    });
+});
+
+
+//Barangay
+$(document).on('click', ('.edit_barangay'), function(e) {
+
+    var disID = $(this).val();
+    $.ajax({
+        url: "/get_barangay_maint",
+        type: 'GET',
+        data: { id: disID },
+        fail: function() {
+            alert('request failed');
+        },
+        success: function(data) {
+
+            $('#this_barangay_idX').val(data['theEntry'][0]['Barangay_ID']);
+
+            $('#this_region_idX').empty();
+            $('#this_region_idX').val(data['theEntry'][0]['Region_ID']);
+            $('#this_region_idX').text(data['theEntry'][0]['Region_Name']);
+
+
+           
+            $('#this_barangay_nameX').val(data['theEntry'][0]['Barangay_Name']);
+            $('#this_barangay_active').empty();
+            $('#this_barangay_active').val(data['theEntry'][0]['Active']);
+            if (data['theEntry'][0]['Active'] == 1) {
+                $('#this_barangay_active').append('Yes');
+            } else {
+                $('#this_barangay_active').append('No');
+            }
+
+            $.each(data['region2'], function(index, value) {
+                $('#region_update_select').append('<option value="' + data["region2"][index]["Region_ID"] + '">'+'('+data["region2"][index]["Region_Name"]+')'+'</option>');
+            });
+
+            
+            $('#this_province_idX').empty();
+            $('#this_province_idX').val(data['theEntry'][0]['Province_ID']);
+            $('#this_province_idX').text(data['theEntry'][0]['Province_Name']);
+
+            $('#this_city_municipality_idX').empty();
+            $('#this_city_municipality_idX').val(data['theEntry'][0]['City_Municipality_ID']);
+            $('#this_city_municipality_idX').text(data['theEntry'][0]['City_Municipality_Name']);
+
+          
+            
+
+
+        }
+    });
+});
+

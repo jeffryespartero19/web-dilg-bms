@@ -536,8 +536,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item psgc_main">
+                    <a href="#" class="nav-link psgc_menu">
                         <img src="{{ asset('css/logos/psgc.png') }}" style="opacity: .8;" height="28" width="28">
                         <p>
                             PSGC
@@ -546,19 +546,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{route('barangay_maint')}}" class="nav-link psgc5">
                                 Barangay</p>
                             </a>
-                            <a href="" class="nav-link">
+                            <a href="{{route('city_maint')}}" class="nav-link psgc4">
                                 City Municipality</p>
                             </a>
-                            <a href="" class="nav-link">
+                            <a href="{{route('province_maint')}}" class="nav-link psgc3">
                                 Province</p>
                             </a>
-                            <a href="" class="nav-link">
+                            <a href="{{route('region_maint')}}" class="nav-link psgc2">
                                 Region</p>
                             </a>
-                            <a href="" class="nav-link">
+                            <a href="{{route('country_maint')}}" class="nav-link psgc1">
                                 Country</p>
                             </a>
                         </li>
@@ -617,7 +617,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{route('termstatus_maint')}}" class="nav-link mBis3">
                                 Term Status</p>
                             </a>
                             <a href="{{route('categories_maint')}}" class="nav-link mBis1">

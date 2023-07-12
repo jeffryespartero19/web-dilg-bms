@@ -1418,7 +1418,7 @@ class bipsController extends Controller
                     'Login_Status' => 1
                 )
             );
-            Mail::to($user[0]->Email_Address)->send(new ApprovedEmailNotif());
+            // Mail::to($user[0]->Email_Address)->send(new ApprovedEmailNotif());
         } else {
             $message = 'Disapprove';
 
@@ -1429,7 +1429,7 @@ class bipsController extends Controller
                 )
             );
 
-            Mail::to($user[0]->Email_Address)->send(new DisapprovedEmailNotif());
+            // Mail::to($user[0]->Email_Address)->send(new DisapprovedEmailNotif());
         }
 
 

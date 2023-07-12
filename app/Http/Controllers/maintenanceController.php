@@ -1983,4 +1983,391 @@ class maintenanceController extends Controller
 
         return redirect()->back()->with('alert', 'Updated Entry');
     }
+
+    // //Term Status
+    public function termstatus_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_bips_term_status')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.bis_termstatus', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_termstatus_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_bips_term_status')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Term_Status'  => $data['Term_StatusX'],
+                'Active'           => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+    public function get_termstatus_maint(Request $request)
+    {
+       $id=$_GET['id'];
+        //$id=1;
+
+        $theEntry=DB::table('maintenance_bips_term_status')->where('Term_Status_ID',$id)->get();
+
+        return(compact('theEntry'));
+    }
+
+    public function update_termstatus_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        DB::table('maintenance_bips_term_status')->where('Term_Status_ID', $data['Term_Status_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Term_Status'  => $data['Term_StatusX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Country
+
+    public function country_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_country')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.psgc_country', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_country_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_country')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Country'  => $data['CountryX'],
+                'Country_Code_No'  => $data['Country_Code_NoX'],
+                'Active'           => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+
+    public function get_country_maint(Request $request)
+    {
+       $id=$_GET['id'];
+        //$id=1;
+
+        $theEntry=DB::table('maintenance_country')->where('Country_ID',$id)->get();
+
+        return(compact('theEntry'));
+    }
+
+    public function update_country_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        // dd($data);
+
+        DB::table('maintenance_country')->where('Country_ID', $data['Country_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Country'  => $data['CountryX2'],
+                'Country_Code_No'  => $data['Country_Code_NoX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Region
+    public function region_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_region')->paginate(20, ['*'], 'db_entries');
+
+        return view('maintenance.psgc_region', compact('db_entries', 'currDATE'));
+    }
+
+    public function create_region_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_region')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'PSGC_code'  => $data['PSGC_CodeX'],
+                'Region_Name'  => $data['RegionX'],
+                'Abbreviation'  => $data['AbbreviationX'],
+                'Active'           => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+
+    public function get_region_maint(Request $request)
+    {
+       $id=$_GET['id'];
+        //$id=1;
+
+        $theEntry=DB::table('maintenance_region')->where('Region_ID',$id)->get();
+
+        return(compact('theEntry'));
+    }
+
+    public function update_region_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        // dd($data);
+
+        DB::table('maintenance_region')->where('Region_ID', $data['Region_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'PSGC_code'  => $data['PSGC_CodeX2'],
+                'Region_Name'  => $data['RegionX2'],
+                'Abbreviation'  => $data['AbbreviationX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //Province
+    public function province_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_province')->paginate(10000, ['*'], 'db_entries');
+        $region = DB::table('maintenance_region')->get();
+        
+       // dd($region);
+
+        return view('maintenance.psgc_province', compact('db_entries', 'currDATE', 'region'));
+    }
+
+    public function create_province_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_province')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'PSGC_code'  => $data['PSGC_CodeX'],
+                'Province_Name'  => $data['ProvinceX'],
+                'Region_ID'  => $data['Region_IDX'],
+                'Active'           => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+
+    public function get_province_maint(Request $request)
+    {
+       $id=$_GET['id'];
+        //$id=1;
+
+        // $theEntry=DB::table('maintenance_province')->where('Province_ID',$id)->get();
+        $theEntry = DB::table('maintenance_province')
+                ->join('maintenance_region', 'maintenance_region.Region_ID', '=', 'maintenance_province.Region_ID')
+                ->where('Province_ID', $id)->get();
+        $region2 = DB::table('maintenance_region')->get();
+        // dd($theEntry);
+        return(compact('theEntry','region2'));
+    }
+
+    public function update_province_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        //  dd($data);
+
+        DB::table('maintenance_province')->where('Province_ID', $data['Province_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'PSGC_code'  => $data['PSGC_CodeX2'],
+                'Province_Name'  => $data['ProvinceX2'],
+                'Region_ID'  => $data['Region_IDX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
+    //City 
+    public function city_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_city_municipality')->paginate(10000, ['*'], 'db_entries');
+        $region = DB::table('maintenance_region')->get();
+        $province = DB::table('maintenance_province')->get();
+        
+       // dd($region);
+
+        return view('maintenance.psgc_city', compact('db_entries', 'currDATE', 'region', 'province'));
+    }
+
+    public function create_city_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_city_municipality')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Region_ID'  => $data['Region_IDX'],
+                'Province_ID'  => $data['Province_IDX'],
+                'PSGC_code'  => $data['PSGC_CodeX'],
+                'City_Municipality_Name'  => $data['City_MunicipalityX'],
+                'Zip_Code'  => $data['Zip_CodeX'],
+                'LGU_Type'  => $data['LGU_TypeX'],
+                'District'  => $data['DistrictX'],
+                'Active'           => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+
+    public function get_city_maint(Request $request)
+    {
+       $id=$_GET['id'];
+        //$id=1;
+
+        // $theEntry=DB::table('maintenance_city_municipality')->where('City_Municipality_ID',$id)->get();
+        $theEntry = DB::table('maintenance_city_municipality')
+                ->join('maintenance_region', 'maintenance_region.Region_ID', '=', 'maintenance_city_municipality.Region_ID')
+                ->join('maintenance_province', 'maintenance_province.Province_ID', '=', 'maintenance_city_municipality.Province_ID')
+                ->where('City_Municipality_ID', $id)->get();
+        $region2 = DB::table('maintenance_region')->get();
+        
+        // dd($theEntry);
+        return(compact('theEntry','region2'));
+    }
+
+    public function update_city_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        //  dd($data);
+
+        DB::table('maintenance_city_municipality')->where('City_Municipality_ID', $data['City_Municipality_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Region_ID'  => $data['Region_IDX2'],
+                'Province_ID'  => $data['Province_IDX2'],
+                'PSGC_code'  => $data['PSGC_CodeX2'],
+                'City_Municipality_Name'  => $data['City_MunicipalityX2'],
+                'Zip_Code'  => $data['Zip_CodeX2'],
+                'LGU_Type'  => $data['LGU_TypeX2'],
+                'District'  => $data['DistrictX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+    
+
+    //Barangay
+    public function barangay_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $db_entries = DB::table('maintenance_barangay')
+        // ->orderby('Barangay_ID', 'desc')->paginate(20, ['*'], 'db_entries');
+        ->paginate(1000, ['*'], 'db_entries');
+        $region = DB::table('maintenance_region')->get();
+        
+       // dd($region);
+
+        return view('maintenance.psgc_barangay', compact('db_entries', 'currDATE', 'region'));
+    }
+
+    public function create_barangay_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = request()->all();
+
+        DB::table('maintenance_barangay')->insert(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Region_ID'  => $data['Region_IDX'],
+                'Province_ID'  => $data['Province_IDX'],
+                'City_Municipality_ID'  => $data['City_Municipality_IDX'],
+                'Barangay_Name'  => $data['BarangayX'],
+                'Active'           => (int)$data['ActiveX']
+            )
+        );
+
+        return redirect()->back()->with('alert','New Entry Created');
+    }
+
+    public function get_barangay_maint(Request $request)
+    {
+       $id=$_GET['id'];
+        //$id=1;
+
+        // $theEntry=DB::table('maintenance_barangay')->where('Barangay_ID',$id)->get();
+        $theEntry = DB::table('maintenance_barangay')
+                ->join('maintenance_region', 'maintenance_region.Region_ID', '=', 'maintenance_barangay.Region_ID')
+                ->join('maintenance_province', 'maintenance_province.Province_ID', '=', 'maintenance_barangay.Province_ID')
+                ->join('maintenance_city_municipality', 'maintenance_city_municipality.City_Municipality_ID', '=', 'maintenance_barangay.City_Municipality_ID')
+                ->where('Barangay_ID', $id)->get();
+        $region2 = DB::table('maintenance_region')->get();
+        
+        // dd($theEntry);
+        return(compact('theEntry','region2'));
+    }
+
+    public function update_barangay_maint(Request $request)
+    {
+        $currDATE = Carbon::now();
+        $data = $data = request()->all();
+
+        //  dd($data);
+
+        DB::table('maintenance_barangay')->where('Barangay_ID', $data['Barangay_idX'])->update(
+            array(
+                'Encoder_ID'       => Auth::user()->id,
+                'Date_Stamp'       => Carbon::now(),
+                'Region_ID'  => $data['Region_IDX2'],
+                'Province_ID'  => $data['Province_IDX2'],
+                'City_Municipality_ID'  => $data['City_Municipality_IDX2'],
+                'Barangay_Name'  => $data['BarangayX2'],
+                'Active'               => (int)$data['ActiveX2']
+            )
+        );
+
+        return redirect()->back()->with('alert', 'Updated Entry');
+    }
+
 }
